@@ -222,12 +222,17 @@ declined, and each will be proposed again by someone who has not read this.
 
 Repositories:
 
-| Repo | Plane | Path |
-|---|---|---|
-| Cortex | 3 | `D:\Cortex` |
-| OpenVault | 2 | `D:\OpenVault` |
-| DMS | 4 | `D:\DMS` |
-| AirGPT | 4 | `D:\AirGPT` |
-| Pointer | 4 | `D:\Netie Clicks` |
-| Netie-KB | meta | `D:\Netie-KB` |
-| Netie (this) | meta | `D:\Netie` |
+| Repo | Plane | Path | Remote |
+|---|---|---|---|
+| Cortex | 3 | `D:\Cortex` | `Netie-AI/Cortex` |
+| OpenVault | 2 | `D:\OpenVault` | `Netie-AI/OpenVault` |
+| DMS | 4 | `D:\DMS` | `Netie-AI/dms` |
+| Space | 4 | `D:\Space` | `Netie-AI/Space` |
+| AirGPT | 4 | `D:\AirGPT` | `jian-hong/AirGPT` |
+| Pointer | 4 | `D:\Pointer` | `Netie-AI/Pointer` |
+| Netie-KB | meta | `D:\Netie-KB` | `Netie-AI/Netie-KB` |
+| Netie (this) | meta | `D:\Netie` | `Netie-AI/Netie` |
+
+Two things to correct when convenient: **AirGPT is the only repo not under the `Netie-AI`
+org**, and Pointer moved from `jian-hong/NetieClicks` on 2026-08-02 (old remote kept
+locally as `old-netieclicks`, not deleted).
