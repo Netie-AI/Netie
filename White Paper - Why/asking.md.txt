@@ -1,0 +1,7 @@
+Why does the world need Netie?
+
+What is each of them (separately)
+
+How does the combination of Vault, Netie Cortex, and Pointer solve a unique problem that existing tech cannot?
+
+What is the overarching philosophy behind using OmniRoute blabla?
