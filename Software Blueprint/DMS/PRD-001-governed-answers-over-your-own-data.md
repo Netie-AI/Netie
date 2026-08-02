@@ -1,4 +1,4 @@
-# PRD-001 - Governed answers over your own spreadsheets and databases
+﻿# PRD-001 - Governed answers over your own spreadsheets and databases
 
 **Product:** DMS / Spaces
 **Owner:** founder
@@ -202,9 +202,9 @@ the right epic instead of becoming a duplicate.
 
 | # | Date | Raised in | Feedback | Routed to | Outcome |
 |---|------|-----------|----------|-----------|---------|
-| F1 | 2026-08-03 | founder override | C7 (EPIC-006) must be ticketed and scheduled into an immediate wave despite prior deferral; paraphrases alone still cannot settle it, so acceptance must require a held-out real-user question set OR an adversarial corpus not written by the team. | EPIC-006 | founder override; ticket pending |
-| F2 | 2026-08-03 | founder override | claim_n 47->310 (EPIC-010) must be scheduled as a founder-attended ticket (TTY-gated), not left as "not an epic". | EPIC-010 | founder override; ticket pending |
-| F3 | 2026-08-03 | founder override | DMS CORTEX_CONTRACT_TOKEN now set at repo level because org secrets cannot reach private repos on current plan; checkout of Cortex for wheel build is required until Cortex#5 dual-module identity / published wheel is fixed. | EPIC-002 | founder override; ticket pending |
+| F1 | 2026-08-03 | founder override | C7 (EPIC-006) must be ticketed and scheduled into an immediate wave despite prior deferral; paraphrases alone still cannot settle it, so acceptance must require a held-out real-user question set OR an adversarial corpus not written by the team. | EPIC-006 / Cortex#17 | ticketed; supersedes Cortex#12 |
+| F2 | 2026-08-03 | founder override | claim_n 47->310 (EPIC-010) must be scheduled as a founder-attended ticket (TTY-gated), not left as "not an epic". | EPIC-010 / Cortex#18 | ticketed; supersedes Cortex#13 |
+| F3 | 2026-08-03 | founder override | DMS CORTEX_CONTRACT_TOKEN now set at repo level because org secrets cannot reach private repos on current plan; checkout of Cortex for wheel build is required until Cortex#5 dual-module identity / published wheel is fixed. | EPIC-002 / Cortex#16 | DMS secret set; dms#3 closed; dms#7 mypy remains |
 
 ---
 
@@ -215,3 +215,4 @@ properly - the external section is the part we cannot yet fully support.
 
 **Nothing in the press release may appear in any external asset until it traces to a
 passing gate.** Today, the quote and the drillthrough claim would both be premature.
+

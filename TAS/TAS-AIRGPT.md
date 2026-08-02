@@ -179,8 +179,9 @@ uvicorn control_plane.app:app --host 0.0.0.0 --port 8787
 
 Health: `http://127.0.0.1:8765/api/probe`, `http://127.0.0.1:8765/api/health`.
 
-Measured 2026-08-03: **371 tests collected**; full suite not re-run to completion in this
-measurement (prior long run still in progress). Subset verification: **68 passed** on
-passcode + memory safety modules.
+Measured 2026-08-03: **370 passed, 1 failed** in 459.86s (`371` collected,
+`--ignore=tests/playwright`). Single failure:
+`tests/test_rag_foundation.py::RagFoundationTests::test_corrective_loop_caps` -
+expected `rounds == 1`, got `2`.
 
 No `lint-imports` or mypy gate at repo root - verification is pytest-centric.
