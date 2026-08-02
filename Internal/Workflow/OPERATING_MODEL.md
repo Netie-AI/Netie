@@ -67,9 +67,14 @@ human types a test count into a file, it is wrong by Thursday.
 
 Proposed, not yet executed - needs your yes because it deletes and moves tracked files.
 
+> **Correction 2026-08-02.** An adversarial check found three defects in the table below,
+> two of them in entries I had called safe. They are corrected in place. The general
+> lesson: **"no production callers" is not "no callers"**, and **"tracked, therefore
+> recoverable" must be verified with `git ls-files`, not assumed.**
+
 | Action | Files |
 |---|---|
-| **Delete** | `key.md` (0 bytes since May) |
+| ~~**Delete** `key.md`~~ **Do not delete** | `key.md` is **not tracked** - `git ls-files --error-unmatch key.md` fails. It is gitignored at `.gitignore:37` and is a **named secrets slot**: `scripts/secrets_scan.py:47` hardcodes `FORBIDDEN_TRACKED = {"env.local", "key.md"}`, and `.sops.yaml:5` plus `PORTABLE_README.md:49` document it as the local secrets file. Deleting an untracked file is not recoverable from git. It is 0 bytes today so nothing is lost today, but the safety rationale was false. Leave it. |
 | **Move to `docs/bin/handoffs/`** | `CONTEXT.md`, `CLAUDE_HANDOFF.md`, `CURSOR_HANDOFF.md` |
 | **Fold into MAP, then archive** | `ARCHITECTURE.md` (its honest built-vs-partial table is good; the branch table must become generated) |
 | **Merge** | `PORTABLE_README.md` -> `docs/SETUP_NEW_MACHINE.md`; `docs/DEMO.md` -> README quick start (its first command `cd C:\Users\user\RUMA\Cortex` points at a machine that no longer exists) |
@@ -269,9 +274,21 @@ isolation.
 ### The recommendation
 
 **Do not build WASM.** It is the wrong tool: your workloads are Python and Node with
-native dependencies, which is precisely what WASI does badly. Delete
-`wasm_isolate.py` rather than finishing it - the doc that names the real path already
-exists and names host `tool_runner` plus container packaging.
+native dependencies, which is precisely what WASI does badly.
+
+> **Correction 2026-08-02.** I previously said to *delete* `wasm_isolate.py`. That was
+> wrong and would have broken the build. It has zero **production** callers - correct -
+> but three test modules import it: `tests/test_execution/test_wasm_isolate.py:5`,
+> `tests/security/test_adversarial_prompts.py:10`, and `tests/security/test_wasm_honesty.py:12`.
+> The last one calls `inspect.getsource(wasm_isolate)` at `:26-28` - it asserts on the
+> module's own source text, so deleting the file fails three modules at **import** time.
+>
+> Correct sequence: delete the three test modules first (`test_wasm_honesty.py:41` is an
+> unconditional `@pytest.mark.skip` labelled SCAFFOLD, which is a failing test under
+> R-0002 anyway), then the module. Keep `PARKING_LOT.md` P2 as the record of why.
+>
+> The general rule this cost me: **grep for importers across the whole tree, not just
+> production paths, before calling anything dead.**
 
 **Do this instead, in order:**
 
@@ -401,7 +418,7 @@ the Space boundary actually holding.*
 | 5 | Close the manifest bypass on `/dms/query` | 1-2 days |
 | 6 | Space ACL: decide company-scoped vs Space-scoped, seed the tables, switch `live_ask` off `demo_acl()` | 2-3 days |
 | 7 | Run the gold-verification waves - yours, not an agent's | 1.5 days |
-| 8 | Execute the kill list: `activeflow/`, `D:\AirGPT\CortexOS` (1.3 GB mirror pointing at a dead drive), `wasm_isolate.py`, the dead `query_skill` layer, the duplicate `demo/dms-ui`, `tests/test_dms/` | 2-3 days |
+| 8 | Execute the kill list - **with a link sweep first**. Moving or deleting the named basenames touches **37 files** that reference them, including `scripts/handoff.py`, `README.md`, `STATUS.md`, `PARKING_LOT.md`, `docs/ACTIVE.md` and `docs/README.md`. Any move without the sweep leaves dangling pointers in the very map that is supposed to orient a cold session. Order: sweep links, then `activeflow/`, `D:\AirGPT\CortexOS`, the dead `query_skill` layer, the duplicate `demo/dms-ui`, `tests/test_dms/`, then the wasm test modules, then `wasm_isolate.py`. Not `key.md`. | 2-3 days |
 
 **Not in the next four weeks:** the H0-H6 depth plan, gen-cFSM, OSR wiring, JEPA, the
 Palantir-parity programme, and the C7 decision. C7 in particular cannot be decided
