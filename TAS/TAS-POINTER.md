@@ -2,11 +2,17 @@
 
 **Plane:** 4 (application / computer control) · **Repo:** `Netie-AI/Pointer` · `D:\Pointer`
 **Measured:** 2026-08-03. Tests run locally; HTTP surfaces are outbound clients only
-(no server in this repo).
+(no server in this repo). `npm test` sums **147 passed** across 17 unit suites.
+
+**Tier 4 map:** purpose · plane · surface · dependencies · stores · trust · shipped vs
+scaffold · verify
 
 ---
 
 ## 1. What it is
+
+**One line:** Windows Electron buddy - region capture, governed plan, human-confirmed
+clicks/types - hands and eyes for the estate, not a second orchestrator.
 
 A Windows Electron desktop buddy: Ctrl+` arms a session, drag a rectangle for region
 capture, ask or act on what is on screen with bubbles + subtitles hidden from screen
@@ -122,7 +128,7 @@ Pointer does not depend on AirGPT or DMS directly.
 - Recipes, skills expansion, enquire panel, vault template fill, privacy veil
 - Personal brain encrypt + fleet telemetry queue with consent defaults ON
 - Conversation save to markdown; folder/Space hooks for Explorer integration
-- **128 unit tests passed** across 17 suites via `npm test` on 2026-08-03
+- **147 unit tests passed** across 17 suites via `npm test` on 2026-08-03
 - Acceptance pack: `npm run test:acceptance` (optional strict HUD/CU flags)
 
 **Scaffold / partial / PLANNED:**
@@ -141,7 +147,7 @@ Pointer does not depend on AirGPT or DMS directly.
 
 ## 8. Structure problems
 
-1. **No CI workflow** in repo - 128+ tests exist but nothing runs them on push.
+1. **No CI workflow** in repo - 147 unit tests exist but nothing runs them on push.
 2. **Rename incomplete** - Pointer repo / package vs NetieClicks AppData confuses cross-repo docs.
 3. **Hard dependency on two live peers** - without Cortex + OpenVault the app fails closed
    (correct) but reads as broken AI to users.
@@ -173,7 +179,7 @@ npm start
 
 Dry-run (no real clicks): `$env:NETIE_CLICK_DRY_RUN=1; npm start`
 
-Measured 2026-08-03: **`npm test` -> 128 passed, 0 failed** across bundled unit suites.
+Measured 2026-08-03: **`npm test` -> 147 passed, 0 failed** across bundled unit suites.
 
 Health checks when stack is up: `http://127.0.0.1:8010/health`, OpenVault `:5000/api/healthz`,
 `POST /dms/secure` with steward key.

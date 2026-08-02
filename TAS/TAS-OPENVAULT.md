@@ -4,9 +4,15 @@
 **Measured:** 2026-08-03. OpenAPI path count obtained by **importing the app**, not by
 reading route tables.
 
+**Tier 4 map:** purpose · plane · surface · dependencies · stores · trust · shipped vs
+scaffold · verify
+
 ---
 
 ## 1. What it is
+
+**One line:** single custody and routing plane - encrypted vault, FreeRoute proxy,
+leave-machine gate, local mesh, FreeBuild ship/deploy.
 
 The single custody and routing plane: encrypted key vault, password/card secrets,
 FreeRoute model proxy (`/v1/chat/completions`), leave-machine and deploy gate, local

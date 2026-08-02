@@ -1,12 +1,18 @@
 # TAS-AIRGPT - AirGPT technical architecture
 
 **Plane:** 4 (application / host shell) · **Repo:** `jian-hong/AirGPT` · `D:\AirGPT`
-**Measured:** 2026-08-03. Route surface counted from `clipdrop.py` path handlers; tests
-collected without running the full 371-test suite (subset verified).
+**Measured:** 2026-08-03. Route surface counted from `clipdrop.py` path handlers; **374**
+tests collected (`pytest --collect-only`).
+
+**Tier 4 map:** purpose · plane · surface · dependencies · stores · trust · shipped vs
+scaffold · verify
 
 ---
 
 ## 1. What it is
+
+**One line:** local-first Windows host shell - clipboard, chat, phone sync, settings, apps
+hub - thin client of OpenVault (keys, gate) and Cortex (brains, workflows).
 
 A local-first Windows host shell: clipboard capture, chat, phone-to-PC sync, settings,
 pairing QR/tunnel, apps hub, RAG spaces, and thin clients over OpenVault (keys, gate,
@@ -128,8 +134,8 @@ trees, not the shipped `:8765` shell.
   audit trail, settings, keyvault UI bridge
 - `ai_engine.py` multi-provider cascade with OpenVault first
 - `openvault_bridge.py` - mesh, connect-pack, gate check, keyvault upsert
-- `tests/` - **371 tests collected**; subset `test_passcode_gate` + `test_memory_safety`
-  **68 passed** in 5.6s on 2026-08-03
+- `tests/` - **374 tests collected**; full suite slow (~8+ min). Spot-check:
+  `test_passcode_gate` + `test_memory_safety` **68 passed** in 5.6s on 2026-08-03
 - Static demo apps in `apps/` (offline-first widgets with `.airgpt/rules.md`)
 - `wasm_gate.js` served at `/wasm_gate.js` - client payload inspection
 
@@ -179,7 +185,7 @@ uvicorn control_plane.app:app --host 0.0.0.0 --port 8787
 
 Health: `http://127.0.0.1:8765/api/probe`, `http://127.0.0.1:8765/api/health`.
 
-Measured 2026-08-03: **370 passed, 1 failed** in 459.86s (`371` collected,
+Measured 2026-08-03: prior full run **370 passed, 1 failed** in 459.86s (`374` collected,
 `--ignore=tests/playwright`). Single failure:
 `tests/test_rag_foundation.py::RagFoundationTests::test_corrective_loop_caps` -
 expected `rounds == 1`, got `2`.
