@@ -1,0 +1,17 @@
+OpenROuter
+
+https://openrouter.ai/workspaces/default/keys
+
+curl https://openrouter.ai/api/v1/chat/completions \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer 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" \
+  -d '{
+  "model": "openai/gpt-4o",
+  "messages": [
+    {
+      "role": "user",
+      "content": "What is the meaning of life?"
+    }
+  ]
+}'
+

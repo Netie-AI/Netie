@@ -1,0 +1,430 @@
+
+
+Provider APIs
+APIs run by the companies that train or fine-tune the models themselves.
+
+
+Bytez 
+Base Url: https://bytez.com/api/key
+
+
+Aion Labs 🇮🇱
+Permanent free tier, no credit card required. 15 RPM, 20K tokens/day. Specialized for roleplay and storytelling.
+
+Base URL: https://api.aionlabs.ai/v1
+
+Model Name	Context	Max Output	Modality	Rate Limit
+Aion 2.5	128K	32K	Text (roleplay)	15 RPM, 20K TPD
+Aion 2.0	128K	32K	Text (roleplay)	15 RPM, 20K TPD
+Aion-RP 1.0 (8B)	32K	32K	Text (roleplay)	15 RPM, 20K TPD
+Aion 3.0	128K	32K	Text (roleplay, reasoning)	15 RPM, 20K TPD
+Aion 3.0 Mini	128K	32K	Text (roleplay, reasoning)	15 RPM, 20K TPD
+Cohere 🇨🇦
+Free "Trial" API key, no credit card. 1,000 API calls/month. Non-commercial use only.
+
+Base URL: https://api.cohere.com/v2
+
+Model Name	Context	Max Output	Modality	Rate Limit
+Command A+ (218B)	436K	64K	Text + Image	20 RPM
+Command A (111B)	288K	8K	Text	20 RPM
+Command R+	128K	4K	Text	20 RPM
+Command R	128K	4K	Text	20 RPM
+Command R7B	128K	4K	Text	20 RPM
+Command A Reasoning	288K	~4K	Text (reasoning)	20 RPM
+Command A Translate	~9K	~4K	Text	20 RPM
+Command A Vision	128K	~4K	Text + Image	20 RPM
+Command R7B Arabic	128K	~4K	Text	20 RPM
+Aya Expanse 32B	128K	~4K	Text	20 RPM
+Aya Vision 32B	16K	~4K	Text + Image	20 RPM
+Google Gemini 🇺🇸
+Free tier unavailable in EU/UK/Switzerland. Free-tier prompts may be used by Google to improve products. 1
+
+Base URL: https://generativelanguage.googleapis.com/v1beta
+
+Model Name	Context	Max Output	Modality	Rate Limit
+Gemini 3.6 Flash	1M	65K	Text + Image + Audio + Video	15 RPM, 1,500 RPD
+Gemini 3.5 Flash	1M	65K	Text + Image + Audio + Video	15 RPM, 1,500 RPD
+Gemini 3.5 Flash-Lite	1M	65K	Text + Image + Audio + Video	30 RPM, 1,500 RPD
+Gemini 3.1 Flash-Lite	1M	65K	Text + Image + Audio + Video	30 RPM, 1,500 RPD
+Gemini 2.5 Flash	1M	65K	Text + Image + Audio + Video	15 RPM, 1,500 RPD
+Gemini 2.5 Flash-Lite	1M	65K	Text + Image + Audio + Video	30 RPM, 1,500 RPD
+Gemini 2.5 Pro	1M	65K	Text + Image + Audio + Video	5 RPM, 50 RPD
+Mistral AI 🇫🇷
+Free "Experiment" plan, no credit card. ~1B tokens/month. Prompts may be used to improve models.
+
+Base URL: https://api.mistral.ai/v1
+
+Model Name	Context	Max Output	Modality	Rate Limit
+Mistral Medium 3.5 (128B)	256K	256K	Text + Image + Code	~1 RPS, 500K TPM
+Mistral Small 4	256K	256K	Text + Image + Code	~1 RPS, 500K TPM
+Mistral Large 3	256K	256K	Text	~1 RPS, 500K TPM
+Ministral 8B	256K	256K	Text	~1 RPS, 500K TPM
+Codestral	256K	256K	Code	~1 RPS, 500K TPM
+Ministral 3B	128K	128K	Text	~1 RPS, 500K TPM
+Ministral 14B	256K	256K	Text	~1 RPS, 500K TPM
+Z AI (Zhipu AI) 🇨🇳
+Permanent free models, no credit card required.
+
+Base URL: https://open.bigmodel.cn/api/paas/v4
+
+Model Name	Context	Max Output	Modality	Rate Limit
+GLM-4.7-Flash	200K	128K	Text (reasoning)	1 concurrent request
+GLM-4.5-Flash	128K	~96K	Text (reasoning)	1 concurrent request
+GLM-4.6V-Flash	128K	~4K	Text + Image	1 concurrent request
+Inference providers
+Third-party platforms that host open-weight models from various sources.
+
+Cerebras 🇺🇸
+Free tier with payment method required. Ultra-fast inference. 1M tokens/day cap. 64K context on free tier.
+
+Base URL: https://api.cerebras.ai/v1
+
+Model Name	Context	Max Output	Modality	Rate Limit
+gpt-oss-120b	131K (65K on free)	32K (free) / 40K (paid)	Text	5 RPM, 30K TPM, 1M TPD
+zai-glm-4.7 (deprecated Aug 2026)	131K (64K on free)	40K	Text	5 RPM, 30K TPM, 1M TPD
+gemma-4-31b	131K (65K on free)	32K (free) / 40K (paid)	Text + Image	15 RPM, 30K TPM, 1M TPD
+Cloudflare Workers AI 🇺🇸
+10,000 Neurons/day free. 50+ models available on free tier.
+
+Base URL: https://api.cloudflare.com/client/v4/accounts/{account_id}/ai/run
+
+Model Name	Context	Max Output	Modality	Rate Limit
+@cf/meta/llama-3.3-70b-instruct-fp8-fast	131K	Shared w/ context	Text	10K neurons/day (shared)
+@cf/meta/llama-4-scout-17b-16e-instruct	Up to 10M	Shared w/ context	Multimodal	10K neurons/day (shared)
+@cf/openai/gpt-oss-120b	128K	Shared w/ context	Text	10K neurons/day (shared)
+@cf/moonshotai/kimi-k2.7-code	262K	Shared w/ context	Text (code)	10K neurons/day (shared)
+@cf/google/gemma-4-26b-a4b-it	256K	Shared w/ context	Text	10K neurons/day (shared)
+@cf/zhipuai/glm-4.7-flash	131K	Shared w/ context	Text	10K neurons/day (shared)
+@cf/mistralai/mistral-small-3.1-24b-instruct	128K	Shared w/ context	Text	10K neurons/day (shared)
+@cf/deepseek-ai/deepseek-r1-distill-qwen-32b	32K	Shared w/ context	Text (reasoning)	10K neurons/day (shared)
++ 42 more models	Varies	Varies	Text, Image, Audio, Embeddings	10K neurons/day (shared)
+GitHub Models 🇺🇸
+Free prototyping for all GitHub users. 45+ models. Per-request limits (8K in / 4K out).
+
+Base URL: https://models.github.ai/inference
+
+Model Name	Context	Max Output	Modality	Rate Limit
+gpt-5	200K	32K	Text	10 RPM, 50 RPD
+gpt-4.1	1M	32K	Text	10 RPM, 50 RPD
+gpt-4.1-mini	1M	32K	Text	15 RPM, 150 RPD
+gpt-4o	128K	16K	Text + Vision	10 RPM, 50 RPD
+o4-mini	200K	100K	Text (reasoning)	10 RPM, 50 RPD
+Llama-4-Scout-17B-16E-Instruct	512K	~4K	Text + Vision	15 RPM, 150 RPD
+Llama-4-Maverick-17B-128E-Instruct-FP8	256K	~4K	Text + Vision	10 RPM, 50 RPD
+Llama-3.3-70B-Instruct	131K	~4K	Text	15 RPM, 150 RPD
+DeepSeek-R1	64K	8K	Text (reasoning)	15 RPM, 150 RPD
+Mistral-Small-3.1	128K	~4K	Text + Vision	15 RPM, 150 RPD
++ 35 more models	Varies	Varies	Text / Image	Varies by tier
+Groq 🇺🇸
+Free tier, no credit card. Ultra-fast LPU inference. 2
+
+Base URL: https://api.groq.com/openai/v1
+
+Model Name	Context	Max Output	Modality	Rate Limit
+llama-3.3-70b-versatile	131K	32K	Text	30 RPM, 1,000 RPD
+llama-3.1-8b-instant	131K	131K	Text	30 RPM, 14,400 RPD
+openai/gpt-oss-120b	131K	65K	Text	30 RPM, 1,000 RPD
+openai/gpt-oss-20b	131K	65K	Text	30 RPM, 1,000 RPD
+groq/compound	131K	8K	Text	30 RPM, 250 RPD
+groq/compound-mini	131K	8K	Text	30 RPM, 250 RPD
+qwen/qwen3.6-27b	131K	16K	Text	30 RPM, 1,000 RPD
+Hugging Face 🇺🇸
+$0.10/month in Inference Provider credits for free users (subject to change). Routes to Fireworks, Together, Hyperbolic, Nebius, Novita, DeepInfra and others. Thousands of models.
+
+Base URL: https://router.huggingface.co/v1
+
+Model Name	Context	Max Output	Modality	Rate Limit
+Meta-Llama-3.1-8B-Instruct	128K	~4K	Text	Credit-metered
+gemma-3-4b-it	131K	~4K	Text	Credit-metered
+phi-4	16K	~4K	Text	Credit-metered
+Qwen2.5-Coder-7B-Instruct	131K	~4K	Text	Credit-metered
+Qwen2.5-7B-Instruct	131K	~4K	Text	Credit-metered
++ thousands of community models	Varies	Varies	Text, Image, Audio, Embeddings	100K credits/month free
+Kilo Code 🇺🇸
+Free models with no credit card required. kilo-auto/free auto-router dynamically routes to models in the free pool. 3
+
+Base URL: https://api.kilo.ai/api/gateway
+
+Model Name	Context	Max Output	Modality	Rate Limit
+nvidia/nemotron-3-ultra-550b-a55b:free	1M	65K	Text	~200 req/hr
+stepfun/step-3.7-flash:free	262K	262K	Text	~200 req/hr
+nvidia/nemotron-3-super-120b-a12b:free	262K	262K	Text	~200 req/hr
+nvidia/nemotron-3-nano-omni-30b-a3b-reasoning:free	256K	65K	Text (reasoning)	~200 req/hr
+inclusionai/ling-3.0-flash:free	262K	32K	Text	~200 req/hr
+poolside/laguna-s-2.1:free	262K	32K	Text (code)	~200 req/hr
+poolside/laguna-xs-2.1:free	262K	32K	Text (code)	~200 req/hr
+cohere/north-mini-code:free	256K	64K	Text (code)	~200 req/hr
+openrouter/free	Varies	Varies	Text	~200 req/hr
+LLM7.io 🇬🇧
+Zero-friction API gateway. No registration needed for basic access. 30+ models. GDPR-compliant.
+
+Base URL: https://api.llm7.io/v1
+
+Model Name	Context	Max Output	Modality	Rate Limit
+deepseek-r1-0528	—	—	Text (reasoning)	30 RPM (120 with token)
+deepseek-v3-0324	—	—	Text	30 RPM (120 with token)
+gemini-2.5-flash-lite	—	—	Text + Vision	30 RPM (120 with token)
+gpt-4o-mini	—	—	Text + Vision	30 RPM (120 with token)
+mistral-small-3.1-24b	32K	—	Text	30 RPM (120 with token)
+qwen2.5-coder-32b	—	—	Text (code)	30 RPM (120 with token)
++ ~24 more models	Varies	Varies	Text	30 RPM (120 with token)
+ModelScope 🇨🇳
+Free API-Inference for registered users. Requires Alibaba Cloud account binding + real-name verification. 4
+
+Base URL: https://api-inference.modelscope.cn/v1
+
+Model Name	Context	Max Output	Modality	Rate Limit
+Qwen/Qwen3.5-35B-A3B	—	—	Text	2,000 RPD total; <=500 RPD/model (dynamic)
+Qwen/Qwen3.5-27B	—	—	Text	2,000 RPD total; <=500 RPD/model (dynamic)
++ API-Inference-enabled models	Varies	Varies	LLM, MLLM	Dynamic quotas + dynamic concurrency
+NVIDIA NIM 🇺🇸
+Free with NVIDIA Developer Program membership. 100+ models. Rate-limited (no daily token cap).
+
+Base URL: https://integrate.api.nvidia.com/v1
+
+Model Name	Context	Max Output	Modality	Rate Limit
+deepseek-ai/deepseek-v4-flash	1M	~64K	Text	~40 RPM
+nvidia/nemotron-3-super-120b-a12b	262K	262K	Text	~40 RPM
+nvidia/nemotron-3-nano-30b-a3b	128K	32K	Text	~40 RPM
+nvidia/llama-3.1-nemotron-ultra-253b-v1	128K	4K	Text	~40 RPM
+meta/llama-3.3-70b-instruct	128K	4K	Text	~40 RPM
+mistralai/mistral-nemotron	128K	8K	Text	~40 RPM
+google/gemma-4-31b-it	128K	8K	Text	~40 RPM
+mistralai/mistral-large-2-instruct	128K	4K	Text	~40 RPM
+minimaxai/minimax-m3	1M	~64K	Text	~40 RPM
+mistralai/mistral-medium-3.5-128b	262K	262K	Text	~40 RPM
+nvidia/nemotron-3-ultra-550b-a55b	262K	262K	Text	~40 RPM
+openai/gpt-oss-120b	131K	131K	Text	~40 RPM
+openai/gpt-oss-20b	131K	131K	Text	~40 RPM
+deepseek-ai/deepseek-v4-pro	128K	~64K	Text	~40 RPM
++ 85 more models	Varies	Varies	Text, Image, Video, Speech, Embeddings	~40 RPM
+Ollama Cloud 🇺🇸
+Free tier with qualitative usage limits. 400+ models from Ollama library. Not OpenAI SDK-compatible; uses Ollama API. 5
+
+Base URL: https://api.ollama.com
+
+Model Name	Context	Max Output	Modality	Rate Limit
+deepseek-v4-pro	128K	Model-dependent	Text	Session/weekly limits (unpublished)
+deepseek-v4-flash	1M	Model-dependent	Text	Session/weekly limits (unpublished)
+minimax-m3	1M	Model-dependent	Text	Session/weekly limits (unpublished)
+kimi-k3	128K	Model-dependent	Text	Session/weekly limits (unpublished)
+gpt-oss:120b	128K	Model-dependent	Text	Session/weekly limits (unpublished)
+gpt-oss:20b	131K	Model-dependent	Text	Session/weekly limits (unpublished)
+nemotron-3-ultra	262K	Model-dependent	Text	Session/weekly limits (unpublished)
+mistral-large-3:675b	128K	Model-dependent	Text	Session/weekly limits (unpublished)
+qwen3.5:397b	131K	Model-dependent	Text	Session/weekly limits (unpublished)
++ 10 more cloud models	Varies	Varies	Text	Session/weekly limits (unpublished)
+OpenRouter 🇺🇸
+~22 free models (marked with :free suffix). OpenAI SDK-compatible. 6
+
+Base URL: https://openrouter.ai/api/v1
+
+Model Name	Context	Max Output	Modality	Rate Limit
+nvidia/nemotron-3-super-120b-a12b:free	262K	262K	Text	20 RPM, 50 RPD
+openai/gpt-oss-20b:free	131K	32K	Text	20 RPM, 50 RPD
+cohere/north-mini-code:free	256K	64K	Text (code)	20 RPM, 50 RPD
+google/gemma-4-26b-a4b-it:free	262K	32K	Text + Image	20 RPM, 50 RPD
+google/gemma-4-31b-it:free	262K	32K	Text + Image	20 RPM, 50 RPD
+inclusionai/ling-3.0-flash:free	262K	32K	Text	20 RPM, 50 RPD
+nvidia/nemotron-3-nano-30b-a3b:free	256K	—	Text	20 RPM, 50 RPD
+nvidia/nemotron-nano-9b-v2:free	128K	—	Text	20 RPM, 50 RPD
+nvidia/nemotron-nano-12b-v2-vl:free	128K	128K	Text + Image	20 RPM, 50 RPD
+poolside/laguna-s-2.1:free	262K	32K	Text (code)	20 RPM, 50 RPD
+poolside/laguna-xs-2.1:free	262K	32K	Text (code)	20 RPM, 50 RPD
++ ~12 more free models	Varies	Varies	Text / Image	20 RPM, 50 RPD
+OVHcloud AI Endpoints 🇫🇷
+Free anonymous tier (no API key, no signup): 2 RPM per IP per model. 20+ open-weight models hosted in EU. OpenAI SDK-compatible. 7
+
+Base URL: https://oai.endpoints.kepler.ai.cloud.ovh.net/v1
+
+Model Name	Context	Max Output	Modality	Rate Limit
+Qwen3.5-397B-A17B	131K	~32K	Text	2 RPM (anonymous)
+gpt-oss-120b	128K	~32K	Text	2 RPM (anonymous)
+gpt-oss-20b	128K	~8K	Text	2 RPM (anonymous)
+Meta-Llama-3_3-70B-Instruct	131K	~4K	Text	2 RPM (anonymous)
+Qwen3.6-27B	131K	~32K	Text	2 RPM (anonymous)
+Qwen3.5-9B	131K	~8K	Text	2 RPM (anonymous)
+Qwen3-32B	131K	~32K	Text	2 RPM (anonymous)
+Qwen3-Coder-30B-A3B-Instruct	262K	~32K	Text (code)	2 RPM (anonymous)
+Qwen2.5-VL-72B-Instruct	128K	~8K	Text + Vision	2 RPM (anonymous)
+Mistral-Small-3.2-24B-Instruct	128K	~4K	Text	2 RPM (anonymous)
+Mistral-Nemo-Instruct-2407	128K	~4K	Text	2 RPM (anonymous)
+Mistral-7B-Instruct-v0.3	32K	~4K	Text	2 RPM (anonymous)
+SambaNova 🇺🇸
+Free tier, no credit card. Ultra-fast RDU inference. 20 RPM, 200K tokens/day. 8
+
+Base URL: https://api.sambanova.ai/v1
+
+Model Name	Context	Max Output	Modality	Rate Limit
+DeepSeek-V3.1	128K	~8K	Text	20 RPM, 20 RPD, 200K TPD
+DeepSeek-V3.2 (Preview)	128K	~8K	Text	20 RPM, 20 RPD, 200K TPD
+Meta-Llama-3.3-70B-Instruct	128K	~3K	Text	20 RPM, 20 RPD, 200K TPD
+gpt-oss-120b	128K	~128K	Text	20 RPM, 20 RPD, 200K TPD
+MiniMax-M2.7	128K	~192K	Text	20 RPM, 20 RPD, 200K TPD
+gemma-4-31B-it (Preview)	128K	~128K	Text + Image + Video	20 RPM, 20 RPD, 200K TPD
+SiliconFlow 🇨🇳
+Permanently free models, no credit card required. 200+ paid models also available.
+
+Base URL: https://api.siliconflow.cn/v1
+
+Model Name	Context	Max Output	Modality	Rate Limit
+Qwen/Qwen3-8B	131K	131K	Text	30 RPM, 60K TPM
+deepseek-ai/DeepSeek-R1-Distill-Qwen-7B	131K	Configurable	Text (reasoning)	30 RPM, 60K TPM
+Glossary
+Abbreviation	Meaning
+RPM	Requests per minute
+RPD	Requests per day
+TPM	Tokens per minute
+TPD	Tokens per day
+RPS	Requests per second
+Contributing
+
+ollamafreeapi
+Public
+Go to file
+t
+T
+Name		
+mfoud444
+mfoud444
+Merge pull request #11 from ether-btc/fix/server-selection-health-and…
+e624ef0
+ · 
+4 months ago
+.github/workflows
+Initial commit
+last year
+docs
+Bump version to 2
+last year
+etc
+Release v0.1.4: Verified model endpoints
+5 months ago
+ollamafreeapi
+fix: performance-weighted server selection + critical error handling
+4 months ago
+scripts
+Bump version to 2
+last year
+.gitignore
+Bump version to 2
+last year
+README.md
+Release v0.1.4: Verified model endpoints
+5 months ago
+pyproject.toml
+Γ£¿ Release v0.1.4: Verified model endpoints, automated PyPI pipeline…
+5 months ago
+server.py
+Create FastAPI server for OllamaFree API
+4 months ago
+setup.py
+Γ£¿ Release v0.1.4: Verified model endpoints, automated PyPI pipeline…
+5 months ago
+Repository files navigation
+README
+OllamaFreeAPI
+PyPI Version Python Versions License Free API
+
+Unlock AI Innovation for Free
+Access the world's best open language models in one place!
+
+OllamaFreeAPI provides free access to leading open-source LLMs including:
+
+🦙 LLaMA (Meta)
+🌪️ Mistral (Mistral AI)
+🔍 DeepSeek (DeepSeek)
+🦄 Qwen (Alibaba Cloud)
+No payments. No credit cards. Just pure AI power at your fingertips.
+
+# Install or upgrade to the latest version
+pip install ollamafreeapi --upgrade
+📚 Documentation
+API Reference - Complete API documentation
+Usage Examples - Practical code examples
+Model Catalog - Available models and their capabilities
+Why Choose OllamaFreeAPI?
+Feature	Others	OllamaFreeAPI
+Free Access	❌ Limited trials	✅ Always free
+Model Variety	3-5 models	Verified endpoints only
+Reliability	Highly variable	Validated active models
+Ease of Use	Complex setup	Zero-config
+Community Support	Paid only	Free & active
+📊 Project Statistics
+Here are some key statistics about the current state of OllamaFreeAPI:
+
+Active Models: 16 (Ready to use and tested)
+Model Families: 3 (gemma, llama, qwen)
+Endpoints: 6 highly reliable server nodes
+🚀 Quick Start
+Streaming Example
+from ollamafreeapi import OllamaFreeAPI
+
+client = OllamaFreeAPI()
+
+# Stream responses in real-time
+for chunk in client.stream_chat('What is quantum computing?', model='llama3.2:3b'):
+    print(chunk, end='', flush=True)
+Non-Streaming Example
+from ollamafreeapi import OllamaFreeAPI
+
+client = OllamaFreeAPI()
+
+# Get instant responses
+response = client.chat(
+    model="gpt-oss:20b",
+    prompt="Explain neural networks like I'm five",
+    temperature=0.7
+)
+print(response)
+🌟 Featured Models
+Popular Foundation Models
+llama3.2:3b - Meta's efficient 3.2B parameter model
+deepseek-r1:latest - Strong reasoning capabilities built on Qwen
+gpt-oss:20b - Powerful Gemma-based 20B completion model
+mistral:latest - High-performance baseline Mistral model
+Specialized Models
+mistral-nemo:custom - 12.2B open weights language model
+bakllava:latest - Vision and language model
+smollm2:135m - Extremely lightweight assistant
+🌍 Global Infrastructure
+Our free API is powered by distributed community nodes:
+
+Fast response times
+Automatic load balancing and server selection
+Real-time availability checks
+📄 API Reference
+Core Methods
+# List available models
+api.list_models()  
+
+# Get model details
+api.get_model_info("mistral:latest")  
+
+# Generate text
+api.chat(model="llama3.2:3b", prompt="Your message")
+
+# Stream responses
+for chunk in api.stream_chat(prompt="Hello!", model="llama3:latest"):
+    print(chunk, end='')
+Advanced Features
+# Check server locations
+api.get_model_servers("deepseek-r1:latest")
+
+# Generate raw API request
+api.generate_api_request(model="llama3.2:3b", prompt="Hello")
+
+# Get random model parameters (useful for LangChain integration)
+api.get_llm_params()
+🤝 Contributing
+We welcome contributions! Please see our Contributing Guide for details.
+
+📄 License
+Open-source MIT license - View License
+
+🔗 Links
+Documentation
+Examples
+GitHub Issues
+
+

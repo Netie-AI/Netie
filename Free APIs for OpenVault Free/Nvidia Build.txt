@@ -1,0 +1,242 @@
+Nvidia Build
+
+https://build.nvidia.com/
+https://build.nvidia.com/
+
+29 models
+Refine models
+
+Sort By
+Most Recent
+
+nvidia
+NVIDIA
+Free Endpoint
+riva-translate-4b-instruct-v2
+Translation model in 37 languages with few-shots example prompts capability.
+nvidia nim
++2
+4d
+nvidia
+NVIDIA
+Free Endpoint
+ising-calibration-1.5-31b
+NVIDIA-Ising-Calibration-1.5 is a dense multimodal vision-language model built on Gemma 4 31B. It analyzes quantum computing calibration experiment plots and generates structured technical text.
+Quantum Computing
++3
+8d
+nvidia
+NVIDIA
+Downloadable
+Video Super Resolution NIM
+Upscale encoded or ST 2110 video to higher resolutions with NVIDIA Video Super Resolution.
+broadcast
++4
+9d
+nvidia
+NVIDIA
+Free Endpoint
+nemotron-3-embed-1b
+1B embedding model for semantic search, retrieval, and RAG applications.
+Nemotron Retriever
++4
+15d
+Thinkingmachines
+Downloadable
+Free Endpoint
+inkling
+Inkling is a multimodal (text + image) reasoning model from Thinking Machines — a Mamba-hybrid, 256-expert Mixture-of-Experts architecture with tool use and switchable reasoning.
+text-to-text
++3
+16d
+poolside
+Poolside
+Free Endpoint
+laguna-xs-2.1
+Efficient 33B MoE for local, long-horizon agentic coding and terminal tasks
+Agentic AI
++3
+16d
+z-ai
+Z.ai
+Downloadable
+Free Endpoint
+glm-5.2
+GLM-5.2 is a flagship LLM for agentic workflows, coding, and long-horizon reasoning tasks.
+Agentic AI
++3
+8M
+28d
+nvidia
+NVIDIA
+Downloadable
+qwen-image-edit-nvpcb-ovsl2sl
+An image edit model specialized for Omniverse synthetic to photographic solder-light style captured at NVIDIA PCB inspection stations
+Synthetic Data Generation
++2
+28d
+nvidia
+NVIDIA
+Downloadable
+nemotron-ocr-v2
+Nemotron OCR v2 is a state-of-the-art multilingual text recognition model designed for robust end-to-end optical character recognition (OCR) on complex real-world images.
+Table Extraction
++4
+338K
+1mo
+minimaxai
+Minimaxai
+Free Endpoint
+minimax-m3
+MiniMax M3 Preview is a multimodal MoE vision-language model with strong reasoning, coding, and tool-calling capabilities.
+coding
++2
+10M
+1mo
+google
+Google
+Downloadable
+Free Endpoint
+diffusiongemma-26b-a4b-it
+Diffusion-based 26B parameter LLM enabling parallel token generation for real-time text apps
+diffusion-llm
++2
+4M
+1mo
+nvidia
+NVIDIA
+Downloadable
+Free Endpoint
+nemotron-3-ultra-550b-a55b
+Open, efficient hybrid Mamba-Transformer MoE with 1M context, excelling in agentic reasoning, coding, planning, tool calling, and more
+Agent
++4
+52M
+1mo
+Resemble.AI
+Downloadable
+chatterbox-multilingual-tts
+Natural and expressive voices in 23 languages. For voice agents and brand ambassadors.
+TTS
++4
+22K
+1mo
+nvidia
+NVIDIA
+Downloadable
+Free Endpoint
+nemotron-3.5-content-safety
+Multilingual, multimodal model for detecting unsafe and toxic content.
+llm safety
++3
+2M
+1mo
+nvidia
+NVIDIA
+Downloadable
+Free Endpoint
+cosmos3-nano
+Generates physics-aware videos from text prompts or an image prompt for physical AI development.
+autonomous vehicles
++5
+2K
+2mo
+nvidia
+NVIDIA
+Downloadable
+Free Endpoint
+cosmos3-nano-reasoner
+Vision language model that excels in understanding the physical world using structured reasoning on videos or images.
+video understanding
++8
+2K
+2mo
+stepfun-ai
+Stepfun-ai
+Downloadable
+Free Endpoint
+step-3.7-flash
+A sparse MoE multimodal reasoning model good for enterprise, agentic and coding tasks.
+Coding
++2
+7M
+2mo
+moonshotai
+Moonshotai
+Downloadable
+Free Endpoint
+kimi-k2.6
+1T multimodal MoE for long-horizon coding, agentic tool use, and image/video understanding.
+Multimodal
++3
+16M
+3mo
+qwen
+Qwen
+Downloadable
+qwen-image
+Qwen-Image is a text-to-image foundation model with advanced multilingual text rendering.
+Text-to-Image
++1
+3mo
+qwen
+Qwen
+Downloadable
+qwen-image-edit
+Qwen-Image-Edit is an image editing model with multilingual text editing and strong subject consistency.
+Text-to-Image
++1
+3mo
+mistralai
+Mistral AI
+Downloadable
+Free Endpoint
+mistral-medium-3.5-128b
+A high performing model for text generation, coding and agentic use cases
+coding
++3
+5M
+3mo
+nvidia
+NVIDIA
+Downloadable
+Free Endpoint
+nemotron-3-nano-omni-30b-a3b-reasoning
+Nemotron 3 Nano Omni is an omni-modal reasoning model that understands images, video, speech, text.
+Image-to-Text
++4
+8M
+3mo
+deepseek-ai
+DeepSeek AI
+Downloadable
+Free Endpoint
+deepseek-v4-flash
+DeepSeek V4 Flash is a 284B MoE model with 1M-token context optimized for fast coding and agents.
+coding
++3
+17M
+3mo
+deepseek-ai
+DeepSeek AI
+Downloadable
+Free Endpoint
+deepseek-v4-pro
+DeepSeek V4 scales to 1M-token context windows with efficient MoE architecture for coding tasks.
+Moe
++3
+7M
+3mo
+Items per page
+24
+
+
+
+1
+2
+3
+4
+5
+6
+
+

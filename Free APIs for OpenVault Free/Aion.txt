@@ -1,0 +1,233 @@
+Aion
+
+Rate Limits
+Request and token limits for the Aion Labs API, organized by account tier.
+
+Tier Requirements
+Tiers are based on lifetime credit top-ups. Once reached, a tier is never reduced.
+
+Tier	Requirement
+Free	Default on signup
+1	Any credit top-up
+2	$100 in lifetime top-ups
+3	$250 in lifetime top-ups
+4	$500 in lifetime top-ups
+5	$1,000 in lifetime top-ups
+Request Limits
+Tier	Requests Per Minute
+Free	15
+1	50
+2	100
+3	200
+4	500
+5	1000
+Token Limits
+Tier	Tokens Per Minute	Daily Token Limit
+Free	20,000	20,000
+1	1,000,000	Unlimited
+2	2,000,000	Unlimited
+3	5,000,000	Unlimited
+4	10,000,000	Unlimited
+5	20,000,000	Unlimited
+
+Models
+Available models in the Aion Labs API, with per-token pricing. Click a row to see model details.
+
+Available Models
+Model	Context	Input / 1M	Cached / 1M	Output / 1M	
+AionLabs: Aion 2.0
+aion-labs/aion-2.0
+128K	$0.80	$0.20	$1.60	
+AionLabs: Aion 2.5
+aion-labs/aion-2.5
+128K	$1.00	$0.35	$3.00	
+AionLabs: Aion 3.0
+aion-labs/aion-3.0
+128K	$3.00	$0.75	$6.00	
+AionLabs: Aion 3.0 Mini
+aion-labs/aion-3.0-mini
+128K	$0.70	$0.18	$1.40	
+AionLabs: Aion-RP 1.0 (8B)
+aion-labs/aion-rp-llama-3.1-8b
+32K	$0.80	—	$1.60	
+AionLabs: Aion 1.0 (Mini)
+aion-labs/aion-1.0-mini
+Expired	128K	$0.70	—	$1.40	
+AionLabs: Aion 1.0
+aion-labs/aion-1.0
+Expired	128K	$4.00	—	$8.00	
+Discovering Models
+Query the models endpoint to list currently available models. No API key required:
+
+curl https://api.aionlabs.ai/v1/models	
+
+API Reference
+Complete reference for the Aion Labs REST API. All endpoints are under https://api.aionlabs.ai/v1/ and are compatible with the OpenAI client libraries.
+
+Authentication
+All endpoints except GET /v1/models require an API key.
+
+Authorization: Bearer YOUR_API_KEY
+Copy
+The Api-Key YOUR_API_KEY header prefix is also accepted. Keys are issued and revoked in the dashboard.
+
+Errors
+All errors share the same envelope:
+
+{
+  "error": {
+    "message": "Human-readable description",
+    "type": "<error_type>"
+  }
+}
+Copy
+Status	Type	Cause
+400	invalid_request_error	Unknown model or malformed request
+429	rate_limit_error	Usage limit exceeded for your account
+502	server_error	Temporary server-side error — retry the request
+GET
+/v1/models
+Returns the catalog of available models. No authentication required.
+
+Response
+{
+  "models": [
+    {
+      "id": "aion-labs/aion-2.0",
+      "name": "AionLabs: Aion 2.0",
+      "description": "...",
+      "date": "2025-12-21",
+      "context_length": 131072,
+      "max_completion_tokens": 32768,
+      "is_moderated": false,
+      "architecture": { "modality": "text->text" },
+      "pricing": {
+        "prompt": "0.0000008",
+        "completion": "0.0000016",
+        "input_cache_read": "0.0000002"
+      }
+    }
+  ]
+}
+Copy
+Pricing fields are per-token. input_cache_read is only present on models with cache pricing.
+
+POST
+/v1/chat/completions
+OpenAI-compatible chat completions. Supports streaming and tool calls.
+
+Request body
+Parameter	Type	Required	Description
+model	string	Yes	Model ID. See Models.
+messages	array	Yes	Conversation history. See message object below.
+temperature	float	No	Sampling temperature.
+max_tokens	integer	No	Maximum completion tokens (≥ 1).
+stop	string[]	No	Stop sequences.
+stream	boolean	No	Stream response as SSE. Default: false.
+tools	array	No	Tool definitions in OpenAI format.
+reasoning_effort Aion 2.0	string	No	Controls reasoning depth. One of none, low, medium, high. Default: medium. Only supported on aion-2.0.
+reasoning_split	boolean	No	Split <think> reasoning into a separate reasoning field. Defaults on for reasoning models.
+metadata	object	No	Arbitrary key-value pairs attached to the request.
+Message object
+Field	Type	Required	Description
+role	string	Yes	system, user, assistant, or tool
+content	string or parts	No	Message text, or a list of {"type", "text"} content parts.
+tool_calls	array	No	Tool calls returned by the model.
+tool_call_id	string	No	ID of the tool call being answered (role tool messages).
+Response (non-streaming)
+{
+  "id": "chatcmpl_abc123",
+  "object": "chat.completion",
+  "created": 1700000000,
+  "model": "aion-labs/aion-2.0",
+  "choices": [
+    {
+      "index": 0,
+      "message": {
+        "role": "assistant",
+        "content": "Hello! How can I help?"
+      },
+      "finish_reason": "stop"
+    }
+  ],
+  "usage": {
+    "prompt_tokens": 12,
+    "completion_tokens": 8,
+    "total_tokens": 20,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    }
+  }
+}
+Copy
+When reasoning_split is active, the message gains a reasoning field and content contains only the response text:
+
+{
+  "message": {
+    "role": "assistant",
+    "reasoning": "Let me think through this...",
+    "content": "The answer is 42."
+  }
+}
+Copy
+Response (streaming)
+When stream: true, the endpoint returns text/event-stream. Each event is a JSON delta, terminated by data: [DONE]:
+
+data: {"id":"chatcmpl_abc123","object":"chat.completion.chunk","choices":[{"index":0,"delta":{"role":"assistant","content":"Hello"},"finish_reason":null}]}
+
+data: {"id":"chatcmpl_abc123","object":"chat.completion.chunk","choices":[{"index":0,"delta":{"content":" world"},"finish_reason":null}]}
+
+data: [DONE]
+Copy
+POST
+/v1/responses
+Alternative completion endpoint modelled on the OpenAI Responses API shape. Accepts the same model set and supports streaming.
+
+Request body
+Parameter	Type	Required	Description
+model	string	Yes	Model ID.
+input	string or array	One of	Prompt string, or a list of {"role", "content"} message objects. Mutually exclusive with messages.
+messages	array	One of	Chat history in the same format as /v1/chat/completions. Mutually exclusive with input.
+temperature	float	No	Sampling temperature.
+max_output_tokens	integer	No	Maximum completion tokens (≥ 1).
+stream	boolean	No	Stream as SSE. Default: false.
+reasoning_effort Aion 2.0	string	No	Controls reasoning depth. One of none, low, medium, high. Default: medium. Only supported on aion-2.0.
+reasoning_split	boolean	No	Split reasoning into a separate content item.
+metadata	object	No	Arbitrary metadata.
+When using input as a list, each item's content may be a string or a list of {"type": "input_text", "text": "..."} parts.
+
+Response (non-streaming)
+{
+  "id": "resp_abc123",
+  "object": "response",
+  "created_at": 1700000000,
+  "model": "aion-labs/aion-2.0",
+  "status": "completed",
+  "output": [
+    {
+      "id": "msg_xyz",
+      "type": "message",
+      "status": "completed",
+      "role": "assistant",
+      "content": [
+        { "type": "output_text", "text": "Hello! How can I help?" }
+      ]
+    }
+  ],
+  "usage": {
+    "input_tokens": 12,
+    "output_tokens": 8,
+    "total_tokens": 20,
+    "input_tokens_details": {
+      "cached_tokens": 0
+    }
+  }
+}
+Copy
+When reasoning_split is active, a reasoning item is prepended to content:
+
+"content": [
+  { "type": "reasoning", "text": "Let me think through this..." },
+  { "type": "output_text", "text": "The answer is 42." }
+]
+

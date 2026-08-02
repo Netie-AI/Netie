@@ -1,0 +1,9 @@
+Internal Use
+What is the folder structure of the Netie codebase?
+
+How do developer clone and develop
+
+External
+How does user run Pointer on their local machine?
+
+What are the exact request and response payloads for the Pointer backend API?

@@ -1,0 +1,78 @@
+Ollama
+https://ollama.com/settings/keys
+
+
+Usage
+Keys
+Billing
+Profile
+Quickstart
+Download
+Download Ollama to run models on your local machine or in the cloud.
+
+irm https://ollama.com/install.ps1 | iex
+
+Or
+download manually
+Get started
+Start coding, chatting, and automating by launching the Ollama terminal UI.
+
+ollama
+
+Navigate with ↑/↓, press enter to launch, → to change model, and esc to quit.
+
+The menu provides quick access to run a model, launch tools, and more.
+
+or launch directly
+OpenClaw
+Coding
+Chat
+ollama launch openclaw
+
+See documentation →
+Cloud API access
+Create an API key to easily access powerful models via the Ollama API, no setup required. Build apps or integrate with your favorite tools.
+
+Create API key
+Cloud usage
+free
+Cloud models and capabilities such as web search contribute to session and weekly limits. Upgrade for higher limits.
+
+Session usage
+0% used
+Resets in 4 hours.
+Weekly usage
+0% used
+Resets in 1 day.
+Notify me when I'm close to hitting my usage lim
+
+
+Overview
+
+Copy page
+Use Ollama from coding agents, personal assistants, and editors.
+Run ollama launch to see the latest integrations you can run from the terminal.
+​
+Code in the terminal
+
+Claude Code
+Terminal coding agent with tools, vision, web search, and long context.
+
+OpenCode
+Open-source coding agent that edits, runs, and iterates on code.
+​
+Connect an assistant
+Assistants with memory, skills, and messaging app access.
+
+OpenClaw
+Personal assistant for messaging apps and everyday tasks.
+
+Hermes Agent
+Open-source agent with self-improving skills, memory, and messaging.
+​
+Work in your editor
+Use Ollama models inside your editor.
+
+VS Code
+Use Ollama models in VS Code Chat.
+

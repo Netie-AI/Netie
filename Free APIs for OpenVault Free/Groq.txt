@@ -1,0 +1,1027 @@
+Groq
+https://console.groq.com/keys
+
+Configure your API key as an environment variable. This approach streamlines your API usage by eliminating the need to include your API key in each request. Moreover, it enhances security by minimizing the risk of inadvertently including your API key in your codebase.
+
+In your terminal of choice:
+shell
+
+export GROQ_API_KEY=<your-api-key-here>
+Requesting your first chat completion
+curl
+JavaScript
+Python
+JSON
+Install the Groq Python library:
+shell
+
+pip install groq
+Performing a Chat Completion:
+Python
+
+import os
+
+from groq import Groq
+
+client = Groq(
+    api_key=os.environ.get("GROQ_API_KEY"),
+)
+
+chat_completion = client.chat.completions.create(
+    messages=[
+        {
+            "role": "user",
+            "content": "Explain the importance of fast language models",
+        }
+    ],
+    model="llama-3.3-70b-versatile",
+)
+
+print(chat_completion.choices[0].message.content)
+Using third-party libraries and SDKs
+Vercel AI SDK
+LiteLLM
+LangChain
+Using AI SDK:
+AI SDK is a Javascript-based open-source library that simplifies building large language model (LLM) applications. Documentation for how to use Groq on the AI SDK can be found here.
+
+
+First, install the ai package and the Groq provider @ai-sdk/groq:
+
+
+shell
+
+pnpm add ai @ai-sdk/groq
+
+Then, you can use the Groq provider to generate text. By default, the provider will look for GROQ_API_KEY as the API key.
+
+
+JavaScript
+
+import { groq } from '@ai-sdk/groq';
+import { generateText } from 'ai';
+
+const { text } = await generateText({
+  model: groq('llama-3.3-70b-versatile'),
+  prompt: 'Write a vegetarian lasagna recipe for 4 people.',
+});
+Now that you have successfully received a chat completion, you can try out the other endpoints in the API.
+
+Next Steps
+Check out the Playground to try out the Groq API in your browser
+Join our GroqCloud developer community
+Add a how-to on your project to the Groq API Cookbook
+Was this page helpful?
+
+Yes
+
+No
+
+Suggest Edi
+
+CORE FEATURES
+
+Text Generation
+
+Speech to Text
+
+Text to Speech
+
+OCR and Image
+Recognition
+
+Reasoning
+
+Content Moderation
+
+Structured Outputs
+
+Prompt Caching
+
+---
+description: Learn why tools are essential for building powerful AI agents and how they enable LLMs to take action in the real world.
+title: Tool Use Overview - GroqDocs
+image: https://console.groq.com/og_cloudv5.jpg
+---
+
+# Tool Use
+
+Applications using LLMs become much more powerful when the model can interact with external resources, such as APIs, databases, and the web, to gather dynamic data or to perform actions. **Tool use** (or function calling) is what transforms a language model from a conversational interface into an autonomous agent capable of taking action, accessing real-time information, and solving complex multi-step problems.
+
+This doc starts with a high-level overview of tool use and then dives into the details of how tool use works. If you're already familiar with tool use, you can skip to the [How to Use Tools on the Groq API](#how-to-use-tools-on-the-groq-api) section.
+
+## [How Tool Use Works](#how-tool-use-works)
+
+There are a few important pieces in the tool calling process:
+
+1. A request is made to the model with tool definitions
+2. The model returns tool call requests
+3. The tool is executed and results are returned to the model
+4. The model evaluates the results and continues or completes
+
+Let's break down each step in more detail.
+
+### [1\. Initial Request with Tool Definitions](#1-initial-request-with-tool-definitions)
+
+To use tools, the model must be provided with tool definitions. These tool definitions are in JSON schema format and are passed to the model via the `tools` parameter in the API request.
+
+JSON
+
+```
+// Sample request body with tool definitions and messages
+{
+  "tools": [
+    {
+      "type": "function",
+      "function": {
+        "name": "get_weather",
+        "description": "Get current weather for a location",
+        "parameters": {
+          // JSON Schema object
+          "type": "object",
+          "properties": {
+            "location": {
+              "type": "string",
+              "description": "City and state, e.g. San Francisco, CA"
+            },
+            "unit": {
+              "type": "string",
+              "enum": ["celsius", "fahrenheit"]
+            }
+          },
+          "required": ["location"]
+        }
+      }
+    }
+  ],
+  "messages": [
+    {
+      "role": "system",
+      "content": "You are a weather assistant. Respond to the user question and use tools if needed to answer the query."
+    },
+    {
+      "role": "user",
+      "content": "What's the weather in San Francisco?" 
+    }
+  ],
+}
+```
+
+**Key fields:**
+
+* `name`: Function identifier
+* `description`: Helps the model decide when to use this tool
+* `parameters`: Function parameters defined as a JSON Schema object. Refer to [JSON Schema](https://json-schema.org/learn/getting-started-step-by-step#introduction-to-json-schema) for schema documentation.
+
+### [2\. Model Returns Tool Call Requests](#2-model-returns-tool-call-requests)
+
+When the model decides to use a tool, it returns structured tool calls in the response. The model returns a `tool_calls` array with the following fields:
+
+JSON
+
+```
+{
+  "role": "assistant",
+  "tool_calls": [{
+    "id": "call_abc123",
+    "type": "function",
+    "function": {
+      "name": "get_weather",
+      "arguments": "{\"location\": \"San Francisco, CA\", \"unit\": \"fahrenheit\"}"
+    }
+  }]
+}
+```
+
+**Key fields:**
+
+* `id`: Unique identifier you'll reference when returning results
+* `function.name`: Which tool to execute
+* `function.arguments`: JSON string of arguments (needs parsing)
+
+### [3\. Tool Execution and Results](#3-tool-execution-and-results)
+
+Application code will then execute the tool and create a new message with the results. This new message is appended to the conversation and sent back to the model.
+
+JSON
+
+```
+{
+  "role": "tool",
+  # must match the `id` from the assistant's `tool_calls`
+  "tool_call_id": "call_abc123",
+  "name": "get_weather",
+  "content": "{\"temperature\": 72, \"condition\": \"sunny\", \"unit\": \"fahrenheit\"}"
+}
+```
+
+**Key connections:**
+
+* The `tool` message's `tool_call_id` must match the `id` from the assistant's `tool_calls`
+* `content` can be any string value. Different tools may return different types of data.
+* The updated messages array is then sent back to the model for the next step
+
+### [4\. Model Evaluates Results and Decides Next Steps](#4-model-evaluates-results-and-decides-next-steps)
+
+The model is then provided with the updated messages array:
+
+JSON
+
+```
+[
+  {
+    "role": "user",
+    "content": "What's the weather in San Francisco?"
+  },
+  {
+    "role": "assistant",
+    "tool_calls": [{
+      "id": "call_abc123",
+      "type": "function",
+      "function": {
+        "name": "get_weather",
+        "arguments": "{\"location\": \"San Francisco, CA\", \"unit\": \"fahrenheit\"}"
+      }
+    }]
+  },
+  {
+    "role": "tool",
+    "tool_call_id": "call_abc123",
+    "name": "get_weather",
+    "content": "{\"temperature\": 72, \"condition\": \"sunny\", \"unit\": \"fahrenheit\"}"
+  }
+]
+```
+
+The model then analyzes the tool results and either:
+
+* Returns a final answer (no more `tool_calls`)
+* Returns more tool call requests (loop continues)
+
+JSON
+
+```
+{
+  "role": "assistant",
+  "content": "The weather in San Francisco is sunny and 72 degrees Fahrenheit."
+}
+```
+
+This tool-calling sequence is normally implemented in your application code, but Groq suports a number of ways to call tools server-side which allow your application code to remain simple while still allowing you to use tools.
+
+## [Supported Models](#supported-models)
+
+All models hosted on Groq support tool use, and in general, we recommend the latest models for improved tool use capabilities:
+
+| Model ID                     | Local & Remote Tool Use Support? | Parallel Tool Use Support? | JSON Mode Support? | Built-In Tools Support? |
+| ---------------------------- | -------------------------------- | -------------------------- | ------------------ | ----------------------- |
+| openai/gpt-oss-20b           | Yes ✅                            | No ❌                       | Yes ✅              | Yes ✅                   |
+| openai/gpt-oss-120b          | Yes ✅                            | No ❌                       | Yes ✅              | Yes ✅                   |
+| openai/gpt-oss-safeguard-20b | Yes ✅                            | No ❌                       | Yes ✅              | No ❌                    |
+| qwen/qwen3.6-27b             | Yes ✅                            | Yes ✅                      | Yes ✅              | No ❌                    |
+| minimaxai/minimax-m2.7       | Yes ✅                            | Yes ✅                      | Yes ✅              | No ❌                    |
+| llama-3.3-70b-versatile      | Yes ✅                            | Yes ✅                      | Yes ✅              | No ❌                    |
+| llama-3.1-8b-instant         | Yes ✅                            | Yes ✅                      | Yes ✅              | No ❌                    |
+| groq/compound                | No ❌                             | N/A                        | Yes ✅              | Yes ✅                   |
+| groq/compound-mini           | No ❌                             | N/A                        | Yes ✅              | Yes ✅                   |
+
+## [How to Use Tools on the Groq API](#how-to-use-tools-on-the-groq-api)
+
+Groq supports three distinct patterns for tool use, each suited for different use cases: Groq built-in tools, remote tool calling via MCP servers, and local tool calling.
+
+### [1\. Groq Built-In Tools](#1-groq-builtin-tools)
+
+Groq maintains a set of pre-built tools like web search, code execution, and website visiting that execute entirely on Groq's infrastructure. These tools require minimal configuration and no tool orchestration on your end. With one API call, you get a capable, real-time AI agent. All tool calls happen in a single API call – when provided configured to have access to built-in tools, the model autonomously calls built-in tools and handles the entire agentic loop internally.
+
+**Ideal for:**
+
+* Drop-in developer experience with zero setup
+* Applications requiring the lowest possible latency
+* Web search and browsing capabilities
+* Safe code execution environments
+* Single-call agentic responses
+
+**Supported models:**
+
+* `groq/compound` and `groq/compound-mini`
+* `openai/gpt-oss-20b` and `openai/gpt-oss-120b`
+  
+[Groq Built-In Tools GuideFor more details, this guide covers how to use Groq's server-side tools for instant agentic capabilities](https://console.groq.com/docs/tool-use/built-in-tools) 
+
+### [2\. Remote Tool Calling with MCP](#2-remote-tool-calling-with-mcp)
+
+The [Model Context Protocol (MCP)](https://modelcontextprotocol.io/) is an open standard that allows models to connect to and execute external tools. Each MCP server hosts a set of tools, providing endpoints to fetch their definitions and execute them without requiring the end user to implement the underlying tool logic.
+
+Groq supports MCP tool discovery and execution server-side via remote tool calling. Similar to built-in tools, this allows you to use third-party tools with minimal configuration and no tool orchestration on your end. To use remote tools, you provide an MCP server configuration, which includes the MCP server URL and authentication headers. Groq's servers will connect to the MCP server, discover the available tools, pass them to the model, and execute any tools that are called server-side — all in a single API call.
+
+**Ideal for:**
+
+* Standardized integrations (GitHub, databases, external APIs)
+* Tools maintained by third parties
+* Sharing tools across multiple applications
+* Accessing tools without hosting infrastructure
+  
+[Remote Tools and MCP GuideFor more details, this guide covers how to use MCP servers for third-party tool integrations](https://console.groq.com/docs/tool-use/remote-mcp) 
+
+### [3\. Local Tool Calling (Function Calling)](#3-local-tool-calling-function-calling)
+
+If you want the most control over tool execution logic, you can implement local tool calling. To do this, you manually write a set of functions and corresonding tool definitions. The tool definitions are provided to the model at inference time, and the model returns structured tool call requests (example provided above; a JSON object specifying which function to call and what arguments to use). Your application code then executes the function that corresponds to the tool call request locally and sends the results back to the model for the final response.
+
+These functions can connect to external resources such as databases, APIs, and external services, but they are "local" in the sense that they are executed on the same machine as the application code. You can also connect to MCP servers locally to execute tools. This requires implementing code to discover tools from the MCP server, provide them to the model at inference time, routing any tool calls back to the MCP server for execution, and finally returning the results back to the model for the final response.
+
+**Ideal for:**
+
+* Custom business logic
+* Internal APIs and databases
+* Proprietary workflows
+* Fine-grained control over security and execution
+  
+[Local Tool Calling GuideLearn how to implement custom tools that execute in your application code](https://console.groq.com/docs/tool-use/local-tool-calling) 
+
+### [Comparison](#comparison)
+
+| Pattern        | You Provide                       | Execution Location | Orchestration   | API Calls                   |
+| -------------- | --------------------------------- | ------------------ | --------------- | --------------------------- |
+| **Built-In**   | List of enabled built-in tools    | Groq servers       | Groq manages    | Single call                 |
+| **Remote MCP** | MCP server URL + auth             | MCP server         | Groq manages    | Single call                 |
+| **Local**      | Tool definitions + implementation | Your code          | You manage loop | Multiple (2+ per iteration) |
+
+### [Parallel Tool Use](#parallel-tool-use)
+
+Many models support **parallel tool use**, where multiple tools can be called simultaneously in a single request. This is crucial for efficient agentic systems:
+
+**Without parallel tool use:**
+
+curl
+
+```
+Query: "What's the weather in NYC and LA?"
+Call 1: get_weather(location="NYC")      → Wait for result
+Call 2: get_weather(location="LA")       → Wait for result
+Final response
+```
+
+**With parallel tool use:**
+
+curl
+
+```
+Query: "What's the weather in NYC and LA?"
+Call 1: [get_weather(location="NYC"), get_weather(location="LA")]
+Both execute simultaneously → Final response
+```
+
+Parallel tool use dramatically reduces latency for queries that require multiple tool calls.
+
+### [Why Groq's Speed Matters](#why-groqs-speed-matters)
+
+Because agentic workflows involve multiple inference calls, using Groq's fast inference can significantly improve the user experience of an agentic application:
+
+* **Single tool call workflow**: 2 inference calls instead of 1 (first call to determine if a tool call is needed, second call to send the tool call results back to the model)
+* **Multi-tool workflow**: 3-5+ inference calls
+* **Complex agent loops**: 10+ inference calls
+
+With traditional inference speeds of 10-30 tokens/second, multi-tool workflows can feel painfully slow. Groq's inference speed of **300-1,000+ tokens/second** makes these agentic experiences feel **instantaneous**.
+
+## [What's Next?](#whats-next)
+
+Now that you understand the fundamentals of tool use and agentic systems, explore the specific patterns for using tools on the Groq API:
+
+[Groq Built-In ToolsUse web search, code execution, and more without setup](https://console.groq.com/docs/tool-use/built-in-tools)[Remote Tools and MCPConnect to MCP servers for standardized tool integrations](https://console.groq.com/docs/tool-use/remote-mcp)[Local Tool CallingDefine and execute custom tools in your application code](https://console.groq.com/docs/tool-use/local-tool-calling)[Compound SystemsPurpose-built agentic systems with built-in tools and orchestration](https://console.groq.com/docs/compound)
+
+---
+description: Learn how to use Groq&#x27;s compound AI systems for real-time web search, code execution, and advanced AI workflows.
+title: Overview - GroqDocs
+image: https://console.groq.com/og_cloudv5.jpg
+---
+
+# Compound
+
+While LLMs excel at generating text, Groq's Compound systems take the next step. Compound is an advanced AI system that is designed to solve problems by taking action and intelligently uses external tools, such as web search and code execution, alongside the powerful [GPT-OSS 120B](https://console.groq.com/docs/model/openai/gpt-oss-120b), [Llama 4 Scout](https://console.groq.com/docs/model/meta-llama/llama-4-scout-17b-16e-instruct), and [Llama 3.3 70B](https://console.groq.com/docs/model/llama-3.3-70b-versatile) models. This allows it access to real-time information and interaction with external environments, providing more accurate, up-to-date, and capable responses than an LLM alone.
+
+Groq's compound AI system should not be used by customers for processing protected health information as it is not a HIPAA Covered Cloud Service under Groq's Business Associate Addendum at this time. This system is also not available currently for use with regional / sovereign endpoints.
+
+## [Available Compound Systems](#available-compound-systems)
+
+There are two compound systems available:
+
+* [groq/compound](https://console.groq.com/docs/compound/systems/compound): supports multiple tool calls per request. This system is great for use cases that require multiple web searches or code executions per request.
+* [groq/compound-mini](https://console.groq.com/docs/compound/systems/compound-mini): supports a single tool call per request. This system is great for use cases that require a single web search or code execution per request. `groq/compound-mini` has an average of 3x lower latency than `groq/compound`.
+
+Both systems support the following tools:
+
+* [Web Search](https://console.groq.com/docs/web-search)
+* [Visit Website](https://console.groq.com/docs/visit-website)
+* [Code Execution](https://console.groq.com/docs/code-execution)
+* [Wolfram Alpha](https://console.groq.com/docs/wolfram-alpha)
+  
+Custom [user-provided tools](https://console.groq.com/docs/tool-use) are not supported at this time.
+
+## [Quickstart](#quickstart)
+
+To use compound systems, change the `model` parameter to either `groq/compound` or `groq/compound-mini`:
+
+Python
+
+```
+from groq import Groq
+
+client = Groq()
+
+completion = client.chat.completions.create(
+    messages=[
+        {
+            "role": "user",
+            "content": "What is the current weather in Tokyo?",
+        }
+    ],
+    # Change model to compound to use built-in tools
+    model="groq/compound",
+)
+
+print(completion.choices[0].message.content)
+# Print all tool calls
+# print(completion.choices[0].message.executed_tools)
+```
+
+```
+import Groq from "groq-sdk";
+
+const groq = new Groq();
+
+export async function main() {
+  const completion = await groq.chat.completions.create({
+    messages: [
+      {
+        role: "user",
+        content: "What is the current weather in Tokyo?",
+      },
+    ],
+    // Change model to compound to use built-in tools
+    model: "groq/compound",
+  });
+
+  console.log(completion.choices[0]?.message?.content || "");
+  // Print all tool calls
+  // console.log(completion.choices[0]?.message?.executed_tools || "");
+}
+
+main();
+```
+
+```
+curl https://api.groq.com/openai/v1/chat/completions -s \
+    -H "Content-Type: application/json" \
+    -H "Authorization: Bearer $GROQ_API_KEY" \
+    -d '{
+    "model": "groq/compound",
+    "messages": [{
+        "role": "user",
+        "content": "What is the current weather in Tokyo?"
+    }]
+}'
+```
+
+And that's it!
+
+  
+When the API is called, it will intelligently decide when to use search or code execution to best answer the user's query. These tool calls are performed on the server side, so no additional setup is required on your part to use built-in tools.
+
+  
+In the above example, the API will use its build in web search tool to find the current weather in Tokyo. If you didn't use compound systems, you might have needed to add your own custom tools to make API requests to a weather service, then perform multiple API calls to Groq to get a final result. Instead, with compound systems, you can get a final result with a single API call.
+
+## [Executed Tools](#executed-tools)
+
+To view the tools (search or code execution) used automatically by the compound system, check the `executed_tools` field in the response:
+
+Python
+
+```
+import os
+from groq import Groq
+
+client = Groq(api_key=os.environ.get("GROQ_API_KEY"))
+
+response = client.chat.completions.create(
+    model="groq/compound",
+    messages=[
+        {"role": "user", "content": "What did Groq release last week?"}
+    ]
+)
+# Log the tools that were used to generate the response
+print(response.choices[0].message.executed_tools)
+```
+
+```
+import Groq from 'groq-sdk';
+
+const groq = new Groq();
+
+async function main() {
+  const response = await groq.chat.completions.create({
+    model: 'groq/compound',
+    messages: [
+      {
+        role: 'user',
+        content: 'What did Groq release last week?'
+      }
+    ]
+  })
+  // Log the tools that were used to generate the response
+  console.log(response.choices[0].message.executed_tools)
+}
+main();
+```
+
+```
+curl https://api.groq.com/openai/v1/chat/completions -s \
+    -H "Content-Type: application/json" \
+    -H "Authorization: Bearer $GROQ_API_KEY" \
+    -d '{
+    "model": "groq/compound",
+    "messages": [{
+        "role": "user",
+        "content": "What did Groq release last week?"
+    }]
+}'
+```
+
+## [Model Usage Details](#model-usage-details)
+
+The `usage_breakdown` field in responses provides detailed information about all the underlying models used during the compound system's execution.
+
+JSON
+
+```
+"usage_breakdown": {
+  "models": [
+    {
+      "model": "llama-3.3-70b-versatile",
+      "usage": {
+        "queue_time": 0.017298032,
+        "prompt_tokens": 226,
+        "prompt_time": 0.023959775,
+        "completion_tokens": 16,
+        "completion_time": 0.061639794,
+        "total_tokens": 242,
+        "total_time": 0.085599569
+      }
+    },
+    {
+      "model": "openai/gpt-oss-120b",
+      "usage": {
+        "queue_time": 0.019125835,
+        "prompt_tokens": 903,
+        "prompt_time": 0.033082052,
+        "completion_tokens": 873,
+        "completion_time": 1.776467372,
+        "total_tokens": 1776,
+        "total_time": 1.809549424
+      }
+    }
+  ]
+}
+```
+
+## [System Versioning](#system-versioning)
+
+Compound systems support versioning through the `Groq-Model-Version` header. In most cases, you won't need to change anything since you'll automatically be on the latest stable version. To view the latest changes to the compound systems, see the [Compound Changelog](https://console.groq.com/docs/changelog/compound).
+
+### [Available Systems and Versions](#available-systems-and-versions)
+
+| System                                                     | Default Version(no header) | Latest Version(Groq-Model-Version: latest) | Previous Versions |
+| ---------------------------------------------------------- | -------------------------- | ------------------------------------------ | ----------------- |
+| [groq/compound](https://console.groq.com/docs/compound/systems/compound)           | 2025-08-16 (stable)        | 2025-08-16 (latest)                        | 2025-07-23        |
+| [groq/compound-mini](https://console.groq.com/docs/compound/systems/compound-mini) | 2025-08-16 (stable)        | 2025-08-16 (latest)                        | 2025-07-23        |
+
+### [Version Details](#version-details)
+
+* **Default (no header)**: Uses version `2025-08-16`, the most recent stable version that has been fully tested and deployed
+* **Latest** (`Groq-Model-Version: latest`): Uses version `2025-08-16`, the prerelease version with the newest features before they're rolled out to everyone
+  
+To use a specific version, pass the version in the `Groq-Model-Version` header:
+
+Python
+
+```
+curl -X POST "https://api.groq.com/openai/v1/chat/completions" \
+  -H "Authorization: Bearer $GROQ_API_KEY" \
+  -H "Content-Type: application/json" \
+  -H "Groq-Model-Version: latest" \
+  -d '{
+    "model": "groq/compound",
+    "messages": [{"role": "user", "content": "What is the weather today?"}]
+  }'
+```
+
+```
+from groq import Groq
+
+client = Groq(
+    default_headers={
+        "Groq-Model-Version": "latest"
+    }
+)
+
+chat_completion = client.chat.completions.create(
+    messages=[
+        {
+            "role": "user",
+            "content": "What is the weather today?",
+        }
+    ],
+    model="groq/compound",
+)
+
+print(chat_completion.choices[0].message.content)
+```
+
+```
+import { Groq } from "groq-sdk";
+
+const groq = new Groq({
+  defaultHeaders: {
+    "Groq-Model-Version": "latest"
+  }
+});
+
+const chatCompletion = await groq.chat.completions.create({
+  messages: [
+    {
+      role: "user",
+      content: "What is the weather today?",
+    },
+  ],
+  model: "groq/compound",
+});
+
+console.log(chatCompletion.choices[0].message.content);
+```
+
+## [What's Next?](#whats-next)
+
+Now that you understand the basics of compound systems, explore these topics:
+
+* **[Systems](https://console.groq.com/docs/compound/systems)** \- Learn about the two compound systems and when to use each one
+* **[Built-in Tools](https://console.groq.com/docs/compound/built-in-tools)** \- Learn about the built-in tools available in Groq's Compound systems
+* **[Search Settings](https://console.groq.com/docs/web-search#search-settings)** \- Customize web search behavior with domain filtering
+* **[Use Cases](https://console.groq.com/docs/compound/use-cases)** \- Explore practical applications and detailed examples
+
+---
+description: Learn the essential building blocks of effective prompting, including roles, instructions, context, input and output formats to get reliable results from large language models.
+title: Prompt Basics - GroqDocs
+image: https://console.groq.com/og_cloudv5.jpg
+---
+
+# Prompt Basics
+
+Prompting is the methodology through which we communicate instructions, parameters, and expectations to large language models. Consider a prompt as a detailed specification document provided to the model: the more precise and comprehensive the specifications, the higher the quality of the output. This guide establishes the fundamental principles for crafting effective prompts for open-source instruction-tuned models, including Llama, Deepseek, and Gemma.
+
+## [Why Prompts Matter](#why-prompts-matter)
+
+Large language models require clear direction to produce optimal results. Without precise instructions, they may produce inconsistent outputs. Well-structured prompts provide several benefits:
+
+* **Reduce development time** by minimizing iterations needed for acceptable results.
+* **Enhance output consistency** to ensure responses meet validation requirements without modification.
+* **Optimize resource usage** by maintaining efficient context window utilization.
+
+## [Prompt Building Blocks](#prompt-building-blocks)
+
+Most high-quality prompts contain five elements: **role, instructions, context, input, expected output**.
+
+| Element             | What it does                                          |
+| ------------------- | ----------------------------------------------------- |
+| **Role**            | Sets persona or expertise ("You are a data analyst…") |
+| **Instructions**    | Bullet-proof list of required actions                 |
+| **Context**         | Background knowledge or reference material            |
+| **Input**           | The data or question to transform                     |
+| **Expected Output** | Schema or miniature example to lock formatting        |
+
+### [Real-world use case](#realworld-use-case)
+
+Here's a real-world example demonstrating how these prompt building blocks work together to extract structured data from an email. Each element plays a crucial role in ensuring accurate, consistent output:
+
+1. **System** \- fixes the model's role so it doesn't add greetings or extra formatting.
+2. **Instructions** \- lists the exact keys; pairing this with [JSON mode](https://console.groq.com/docs/structured-outputs#json-object-mode) or [tool use](https://console.groq.com/docs/tool-use) further guarantees parseable output.
+3. **Context** \- gives domain hints ("Deliver to", postcode format) that raise extraction accuracy without extra examples.
+4. **Input** \- the raw e-mail; keep original line breaks so the model can latch onto visual cues.
+5. **Example Output** \- a miniature few-shot sample that locks the reply shape to one JSON object.
+
+curl
+
+```
+### System
+You are a data-extraction bot. Return **ONLY** valid JSON.
+
+### Instructions
+Return only JSON with keys:
+- name (string)
+- street (string)
+- city (string)
+- postcode (string)
+
+### Context
+"Ship-to" or "Deliver to" often precedes the address.
+Postcodes may include letters (e.g., SW1A 1AA).
+
+### Input
+Subject: Shipping Request - Order #12345
+
+Hi Shipping Team,
+
+Please process the following delivery for Order #12345:
+
+Deliver to:
+Jane Smith
+123 Oak Avenue
+Manchester
+M1 1AA
+
+Items:
+- 2x Widget Pro (SKU: WP-001)
+- 1x Widget Case (SKU: WC-100)
+
+Thanks,
+Sales Team
+
+### Example Output
+{"name":"John Doe","street":"456 Pine Street","city":"San Francisco","postcode":"94105"}
+```
+
+## [Role Channels](#role-channels)
+
+Most chat-style APIs expose **three channels**:
+
+| Channel   | Typical Use                                                                                                          |
+| --------- | -------------------------------------------------------------------------------------------------------------------- |
+| system    | High-level persona & non-negotiable rules ("You are a helpful financial assistant.").                                |
+| user      | The actual request or data, such as a user's message in a chat.                                                      |
+| assistant | The model's response. In multi-turn conversations, the assistant role can be used to track the conversation history. |
+
+  
+The following example demonstrates how to implement a customer service chatbot using role channels. Role channels provide a structured way for the model to maintain context and generate contextually appropriate responses throughout the conversation.
+
+PythonJavaScript
+
+Python
+
+```
+from groq import Groq
+
+client = Groq()
+
+system_prompt = """
+You are a helpful IT support chatbot for 'Tech Solutions'.
+Your role is to assist employees with common IT issues, provide guidance on using company software, and help troubleshoot basic technical problems.
+Respond clearly and patiently. If an issue is complex, explain that you will create a support ticket for a human technician.
+Keep responses brief and ask a maximum of one question at a time.
+"""
+
+chat_completion = client.chat.completions.create(
+    messages=[
+        {
+            "role": "system",
+            "content": system_prompt,
+        },
+        {
+            "role": "user",
+            "content": "My monitor isn't turning on.",
+        },
+        {
+            "role": "assistant",
+            "content": "Let's try to troubleshoot. Is the monitor properly plugged into a power source?",
+        },
+        {
+            "role": "user",
+            "content": "Yes, it's plugged in."
+        }
+    ],
+    model="llama-3.3-70b-versatile",
+)
+
+print(chat_completion.choices[0].message.content)
+```
+
+Output
+
+Is the power button on the monitor being pressed, and are any lights or indicators on the monitor turning on when you press it?
+
+## [Prompt Priming](#prompt-priming)
+
+Prompt priming is the practice of giving the model an **initial block of instructions or context** that influences every downstream token the model generates. Think of it as "setting the temperature of the conversation room" before anyone walks in. This usually lives in the **system** message; in single-shot prompts it's the first paragraph you write. Unlike one- or few-shot demos, priming does not need examples; the power comes from describing roles ("You are a medical billing expert"), constraints ("never reveal PII"), or seed knowledge ("assume the user's database is Postgres 16").
+
+### [Why it Works](#why-it-works)
+
+Large language models generate text by conditioning on **all previous tokens**, weighting earlier tokens more heavily than later ones. By positioning high-leverage tokens (role, style, rules) first, priming biases the probability distribution over next tokens toward answers that respect that frame.
+
+### [Example (Primed Chat)](#example-primed-chat)
+
+curl
+
+```
+### System (Priming)
+You are ComplianceLlama, an expert in U.S. financial-services regulation.
+Always cite the relevant CFR section and warn when user requests violate §1010.620.
+
+### User
+"Can my fintech app skip KYC if all transfers are under $500?"
+
+### Assistant
+```
+
+Output
+
+"Transfers below $1,000 still trigger the customer-identification program requirements in **31 CFR §1022.220**. Skipping KYC would violate FinCEN rules…"
+
+### [When to Use](#when-to-use)
+
+| Situation                                                          | Why priming helps                                                                                     |
+| ------------------------------------------------------------------ | ----------------------------------------------------------------------------------------------------- |
+| **Stable persona or voice** across many turns                      | Guarantees the model keeps the same tone (e.g., "seasoned litigator") without repeating instructions. |
+| **Policy & safety guardrails**                                     | Embeds non-negotiable rules such as "do not reveal trade secrets."                                    |
+| **Injecting domain knowledge** (e.g., product catalog, API schema) | Saves tokens vs. repeating specs each turn; the model treats the primed facts as ground truth.        |
+| **Special formatting or citation requirements**                    | Place markdown/JSON/XML templates in the primer so every answer starts correct.                       |
+| **Consistent style transfer** (pirate talk, Shakespearean English) | Role-play seeds ensure creative outputs stay on-brand.                                                |
+| **Zero-shot tasks that need extra context**                        | A brief primer often outperforms verbose instructions alone.                                          |
+
+### [Tips](#tips)
+
+* **Keep it concise:** 300-600 tokens is usually enough; longer primers steal context window from the user.
+* **Separate roles:** Use dedicated _system_, _user_, and _assistant_ roles so the model understands hierarchy.
+* **Test for drift:** Over many turns, the model can "forget" earlier tokens: re-send the primer or summarize it periodically.
+* **Watch for over-constraining:** Heavy persona priming can hurt factual accuracy on analytical tasks; disable or slim down when precision matters.
+* **Combine with examples:** For structured outputs, prime the schema then add one-shot examples to lock formatting.
+
+## [Core Principles](#core-principles)
+
+1. **Lead with the must-do.** Put critical instructions first; the model weighs early tokens more heavily.
+2. **Show, don't tell.** A one-line schema or table example beats a paragraph of prose.
+3. **State limits explicitly.** Use "Return **only** JSON" or "less than 75 words" to eliminate chatter.
+4. **Use plain verbs.** "Summarize in one bullet per metric" is clearer than "analyze."
+5. **Chunk long inputs.** Delimit data with \`\`\` or <<< … >>> so the model sees clear boundaries.
+
+## [Context Budgeting](#context-budgeting)
+
+While many models can handle up to **128K** tokens (or more), using a longer system prompt still costs latency and money. While you might be able to fit a lot of information in the model's context window, it could increase latency and reduce the model's accuracy. As a best practice, only include what is needed for the model to generate the desired response in the context.
+
+## [Quick Prompting Wins](#quick-prompting-wins)
+
+Try these **10-second tweaks** before adding examples or complex logic:
+
+| Quick Fix                                                   | Outcome                                        |
+| ----------------------------------------------------------- | ---------------------------------------------- |
+| Add a one-line persona (_"You are a veteran copy editor."_) | Sharper, domain-aware tone                     |
+| Show a mini output sample (one-row table / tiny JSON)       | Increased formatting accuracy                  |
+| Use numbered steps in instructions                          | Reduces answers with extended rambling         |
+| Add "no extra prose" at the end                             | Stops model from adding greetings or apologies |
+
+## [Common Mistakes to Avoid](#common-mistakes-to-avoid)
+
+Review these recommended practices and solutions to avoid common prompting issues.
+
+| Common Mistake                      | Result                        | Solution                                             |
+| ----------------------------------- | ----------------------------- | ---------------------------------------------------- |
+| **Hidden ask** buried mid-paragraph | Model ignores it              | Move all instructions to top bullet list             |
+| **Over-stuffed context**            | Truncated or slow responses   | Summarize, remove old examples                       |
+| **Ambiguous verbs** (_"analyze"_)   | Vague output                  | Be explicit (_"Summarize in one bullet per metric"_) |
+| **Partial JSON keys** in sample     | Model Hallucinates extra keys | Show the **full** schema: even if brief              |
+
+## [Parameter Tuning](#parameter-tuning)
+
+Optimize model outputs by configuring key parameters like temperature and top-p. These settings control the balance between deterministic and creative responses, with recommended values based on your specific use case.
+
+| Parameter       | What it does                                                                         | Safe ranges | Typical use                                            |
+| --------------- | ------------------------------------------------------------------------------------ | ----------- | ------------------------------------------------------ |
+| **Temperature** | Global randomness (higher = more creative)                                           | 0 - 1.0     | 0 - 0.3 facts, 0.7 - 0.9 creative                      |
+| **Top-p**       | Keeps only the top p cumulative probability mass - use this or temperature, not both | 0.5 - 1.0   | 0.9 facts, 1.0 creative                                |
+| **Top-k**       | Limits to the k highest-probability tokens                                           | 20 - 100    | Rarely needed; try k = 40 for deterministic extraction |
+
+### [Quick presets](#quick-presets)
+
+The following are recommended values to set temperature or top-p to (but not both) for various use cases:
+
+| Scenario               | Temp | Top-p | Comments                     |
+| ---------------------- | ---- | ----- | ---------------------------- |
+| Factual Q&A            | 0.2  | 0.9   | Keeps dates & numbers stable |
+| Data extraction (JSON) | 0.0  | 0.9   | Deterministic keys/values    |
+| Creative copywriting   | 0.8  | 1.0   | Vivid language, fresh ideas  |
+| Brainstorming list     | 0.7  | 0.95  | Variety without nonsense     |
+| Long-form code         | 0.3  | 0.85  | Fewer hallucinated APIs      |
+
+---
+
+## [Controlling Length & Cost](#controlling-length--cost)
+
+The following are recommended settings for controlling token usage and costs with length limits, stop sequences, and deterministic outputs.
+
+| Setting                 | Purpose                                          | Tip                                              |
+| ----------------------- | ------------------------------------------------ | ------------------------------------------------ |
+| max\_completion\_tokens | Hard cap on completion size                      | Set 10-20 % above ideal answer length            |
+| Stop sequences          | Early stop when model hits token(s)              | Use "###" or another delimiter                   |
+| System length hints     | "less than 75 words" or "return only table rows" | Model respects explicit numbers                  |
+| seed                    | Controls randomness deterministically            | Use same seed for consistent outputs across runs |
+
+  
+**Real-world example:**
+
+> Invoice summarizer returns _exactly_ three bullets by stating "Provide **three** bullets, each less than 12 words" and using `max_completion_tokens=60`.
+
+### [Stop Sequences](#stop-sequences)
+
+The `stop` parameter allows you to define sequences where the model will stop generating tokens. This is particularly useful for:
+
+* Creating structured outputs with clear boundaries
+* Preventing the model from continuing beyond a certain point
+* Implementing custom dialogue patterns
+
+PythonJavaScript
+
+Python
+
+```
+# Using a custom stop sequence for structured, concise output.
+# The model is instructed to produce '###' at the end of the desired content.
+# The API will stop generation when '###' is encountered and will NOT include '###' in the response.
+
+from groq import Groq
+
+client = Groq()
+chat_completion = client.chat.completions.create(
+    messages=[
+        {
+            "role": "user",
+            "content": "Provide a 2-sentence summary of the concept of 'artificial general intelligence'. End your summary with '###'."
+        }
+        # Model's goal before stop sequence removal might be:
+        # "Artificial general intelligence (AGI) refers to a type of AI that possesses the ability to understand, learn, and apply knowledge across a wide range of tasks at a level comparable to that of a human being. This contrasts with narrow AI, which is designed for specific tasks. ###"
+    ],
+    model="llama-3.1-8b-instant",
+    stop=["###"],
+    max_tokens=100 # Ensure enough tokens for the summary + stop sequence
+)
+
+print(chat_completion.choices[0].message.content)
+```
+
+Output
+
+Artificial general intelligence (AGI) refers to a type of AI that possesses the ability to understand, learn, and apply knowledge across a wide range of tasks at a level comparable to that of a human being. This contrasts with narrow AI, which is designed for specific tasks.
+
+  
+When defining stop sequences:
+
+* Include instructions in your prompt to tell the model to produce the stop sequence in the response
+* Use unique patterns unlikely to appear in normal text, such as `###END###` or `</response>`
+* For code generation, use language-specific endings like `}` or `;`
+
+### [Deterministic Outputs with Seed](#deterministic-outputs-with-seed)
+
+The `seed` parameter enables deterministic generation, making outputs consistent across multiple runs with the same parameters. This is valuable for:
+
+* Reproducible results in research or testing
+* Consistent user experiences in production
+* A/B testing different prompts with controlled randomness
+
+PythonJavaScript
+
+Python
+
+```
+from groq import Groq
+
+client = Groq()
+chat_completion = client.chat.completions.create(
+    messages=[
+      { "role": "system", "content": "You are a creative storyteller." },
+      { "role": "user", "content": "Write a brief opening line to a mystery novel." }
+    ],
+    model="llama-3.1-8b-instant",
+    temperature=0.8,  # Some creativity allowed
+    seed=700,  # Deterministic seed
+    max_tokens=100
+)
+
+print(chat_completion.choices[0].message.content)
+```
+
+Output
+
+"It was the night the clock tower's chimes fell silent, and Detective Jameson received a mysterious letter with a single, chilling phrase: 'The truth lies in Ravenswood.'"
+
+  
+Important notes about `seed`:
+
+* Determinism is best-effort and is not guaranteed across model versions
+* Check the `system_fingerprint` in responses to track backend changes
+* Combining `seed` with a lower temperature (0.0 - 0.3) may improve determinism
+* Useful for debugging and improving prompts iteratively
+
+## [Guardrails & Safety](#guardrails--safety)
+
+Good prompts set the rules; dedicated guardrail models enforce them. [Meta's **Llama Guard 4**](https://console.groq.com/docs/content-moderation) is designed to sit in front of: or behind: your main model, classifying prompts or outputs for safety violations (hate, self-harm, private data). Integrating a moderation step can cut violation rates without changing your core prompt structure.
+
+When stakes are high (finance, health, compliance), pair **clear instructions** ("never reveal PII") with an automated filter that rejects or sanitizes unsafe content before it reaches the user.
+
+## [Next Steps](#next-steps)
+
+Ready to level up? Explore dedicated [**prompt patterns**](https://console.groq.com/docs/prompting/patterns) like zero-shot, one-shot, few-shot, chain-of-thought, and more to match the pattern to your task complexity. From there, iterate and refine to improve your prompts.

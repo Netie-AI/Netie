@@ -1,0 +1,32 @@
+Ideallly OpenVault needs to become Kilo.AI
+oC
+
+Your Profile
+
+Organizations
+
+Wdl Usage
+
+KiloClaw
+
+Cloud
+
+Cloud Agent
+
+Sessions
+
+Webhooks / Triggers
+
+Code Reviewer
+
+Security Agent
+
+Deploy
+
+
+
+
+
+https://www.youtube.com/watch?v=5QzLx2Tw3u0
+
+https://kilo.ai/docs/deploy-secure/deploy

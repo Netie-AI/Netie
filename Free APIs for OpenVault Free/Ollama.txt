@@ -1,0 +1,241 @@
+https://ollama.com/settings/keys
+
+> ## Documentation Index
+> Fetch the complete documentation index at: https://docs.ollama.com/llms.txt
+> Use this file to discover all available pages before exploring further.
+
+# Usage
+
+Ollama's API responses include metrics that can be used for measuring performance and model usage:
+
+* `total_duration`: How long the response took to generate
+* `load_duration`: How long the model took to load
+* `prompt_eval_count`: How many input tokens were processed
+* `prompt_eval_duration`: How long it took to evaluate the prompt
+* `eval_count`: How many output tokens were processes
+* `eval_duration`: How long it took to generate the output tokens
+
+All timing values are measured in nanoseconds.
+
+## Example response
+
+For endpoints that return usage metrics, the response body will include the usage fields. For example, a non-streaming call to `/api/generate` may return the following response:
+
+```json theme={"system"}
+{
+  "model": "gemma4",
+  "created_at": "2025-10-17T23:14:07.414671Z",
+  "response": "Hello! How can I help you today?",
+  "done": true,
+  "done_reason": "stop",
+  "total_duration": 174560334,
+  "load_duration": 101397084,
+  "prompt_eval_count": 11,
+  "prompt_eval_duration": 13074791,
+  "eval_count": 18,
+  "eval_duration": 52479709
+}
+```
+
+For endpoints that return **streaming responses**, usage fields are included as part of the final chunk, where `done` is `true`.
+
+Endpoints
+​
+/v1/chat/completions
+​
+Supported features
+ Chat completions
+ Streaming
+ JSON mode
+ Reproducible outputs
+ Vision
+ Tools
+ Reasoning/thinking control (for thinking models)
+ Logprobs
+​
+Supported request fields
+ model
+ messages
+ Text content
+ Image content
+ Base64 encoded image
+ Image URL
+ Array of content parts
+ frequency_penalty
+ presence_penalty
+ response_format
+ seed
+ stop
+ stream
+ stream_options
+ include_usage
+ temperature
+ top_p
+ max_tokens
+ tools
+ reasoning_effort ("high", "medium", "low", "max", "none")
+ reasoning
+ effort ("high", "medium", "low", "max", "none")
+ tool_choice
+ logit_bias
+ user
+ n
+​
+/v1/completions
+​
+Supported features
+ Completions
+ Streaming
+ JSON mode
+ Reproducible outputs
+ Logprobs
+​
+Supported request fields
+ model
+ prompt
+ frequency_penalty
+ presence_penalty
+ seed
+ stop
+ stream
+ stream_options
+ include_usage
+ temperature
+ top_p
+ max_tokens
+ suffix
+ best_of
+ echo
+ logit_bias
+ user
+ n
+​
+Notes
+prompt currently only accepts a string
+​
+/v1/models
+​
+Notes
+created corresponds to when the model was last modified
+owned_by corresponds to the ollama username, defaulting to "library"
+​
+/v1/models/{model}
+​
+Notes
+created corresponds to when the model was last modified
+owned_by corresponds to the ollama username, defaulting to "library"
+​
+/v1/embeddings
+​
+Supported request fields
+ model
+ input
+ string
+ array of strings
+ array of tokens
+ array of token arrays
+ encoding format
+ dimensions
+ user
+​
+/v1/responses
+Note: Added in Ollama v0.13.3
+Ollama supports the OpenAI Responses API. Only the non-stateful flavor is supported (i.e., there is no previous_response_id or conversation support).
+​
+Supported features
+ Streaming
+ Tools (function calling)
+ Reasoning summaries (for thinking models)
+ Stateful requests
+​
+Supported request fields
+ model
+ input
+ instructions
+ tools
+ stream
+ temperature
+ top_p
+ max_output_tokens
+ previous_response_id (stateful v1/responses not supported)
+ conversation (stateful v1/responses not supported)
+ truncation
+​
+Models
+Before using a model, pull it locally ollama pull:
+ollama pull llama3.2
+​
+Default model names
+For tooling that relies on default OpenAI model names such as gpt-3.5-turbo, use ollama cp to copy an existing model name to a temporary name:
+ollama cp llama3.2 gpt-3.5-turbo
+Afterwards, this new model name can be specified the model field:
+curl http://localhost:11434/v1/chat/completions \
+    -H "Content-Type: application/json" \
+    -d '{
+        "model": "gpt-3.5-turbo",
+        "messages": [
+            {
+                "role": "user",
+                "content": "Hello!"
+            }
+        ]
+    }'
+​
+Setting the context size
+The OpenAI API does not have a way of setting the context size for a model. If you need to change the context size, create a Modelfile which looks like:
+FROM <some model>
+PARAMETER num_ctx <context size>
+Use the ollama create mymodel command to create a new model with the updated context size. Call the API with the updated model name:
+curl http://localhost:11434/v1/chat/completions \
+    -H "Content-Type: application/json" \
+    -d '{
+        "model": "mymodel",
+        "messages": [
+            {
+                "role": "user",
+                "content": "Hello!"
+            }
+        ]
+    }'
+
+> ## Documentation Index
+> Fetch the complete documentation index at: https://docs.ollama.com/llms.txt
+> Use this file to discover all available pages before exploring further.
+
+# Streaming
+
+Certain API endpoints stream responses by default, such as `/api/generate`. These responses are provided in the newline-delimited JSON format (i.e. the `application/x-ndjson` content type). For example:
+
+```json theme={"system"}
+{"model":"gemma4","created_at":"2025-10-26T17:15:24.097767Z","response":"That","done":false}
+{"model":"gemma4","created_at":"2025-10-26T17:15:24.109172Z","response":"'","done":false}
+{"model":"gemma4","created_at":"2025-10-26T17:15:24.121485Z","response":"s","done":false}
+{"model":"gemma4","created_at":"2025-10-26T17:15:24.132802Z","response":" a","done":false}
+{"model":"gemma4","created_at":"2025-10-26T17:15:24.143931Z","response":" fantastic","done":false}
+{"model":"gemma4","created_at":"2025-10-26T17:15:24.155176Z","response":" question","done":false}
+{"model":"gemma4","created_at":"2025-10-26T17:15:24.166576Z","response":"!","done":true, "done_reason": "stop"}
+```
+
+## Disabling streaming
+
+Streaming can be disabled by providing `{"stream": false}` in the request body for any endpoint that support streaming. This will cause responses to be returned in the `application/json` format instead:
+
+```json theme={"system"}
+{"model":"gemma4","created_at":"2025-10-26T17:15:24.166576Z","response":"That's a fantastic question!","done":true}
+```
+
+## When to use streaming vs non-streaming
+
+**Streaming (default)**:
+
+* Real-time response generation
+* Lower perceived latency
+* Better for long generations
+
+**Non-streaming**:
+
+* Simpler to process
+* Better for short responses, or structured outputs
+* Easier to handle in some applications
+
+
