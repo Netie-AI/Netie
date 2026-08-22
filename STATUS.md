@@ -1,16 +1,17 @@
 # STATUS
 
-Updated: 2026-08-22 21:25 MYT. Success = live Stripe charge, then a payout.
+Updated: 2026-08-22 21:30 MYT. Success = live Stripe charge, then a payout.
 
 ## Now (measured)
 
 - Stripe: available MYR 0, customers 0, charges 0, PaymentIntents 0.
 - Same open Checkout `cs_live_a1DK...` RM 300, unpaid, no PI. Not income.
 - No buyer replies. Known bounces unchanged (Robex, PT, DHU, QEDT sales@, WM info@, Silverjack).
-- True Easy `trueeasy@hotmail.com`: first mail + public-facts draft sent (`1a029909c45c43ef`).
+- IKA Automation `sales@ikaa.com.my`: first mail + public-facts draft sent (`1a02993485c1752c`).
   Email is a live homepage mailto. Services menu still says Coming Soon.
-  About already lists CY-series PET stretch blowing plus moulds and related equipment.
-  Draft: https://litter.catbox.moe/cb6fpx.html
+  Homepage already lists motion control, motors/drives, controls, robotics, Nachi models.
+  Draft fills ikaa.my only, not ikaa.com.my.
+  Draft: https://litter.catbox.moe/pdpj1f.html
 - Public pay page: https://litter.catbox.moe/d8n858.html
 
 ## Next
@@ -20,7 +21,7 @@ Updated: 2026-08-22 21:25 MYT. Success = live Stripe charge, then a payout.
 2. Upload `Ic.pdf` to Stripe. Enable FPX in Dashboard.
 3. Renew Spaceship hosting: https://www.spaceship.com/launchpad/
 4. Agent next: find one unused Coming Soon / empty-services page with email
-   on live HTML.
+   on live HTML and Services in the nav.
    Skip ginakhoo@megahmach.com. Skip Newton as Coming Soon (populated).
    Skip NCR. Skip jsstorage@yahoo.com. Skip PT. Skip CF. Skip NCT. Skip Amici.
    Skip DHU. Skip robex info@ (550). Skip Mrs Marine as Coming Soon.
@@ -30,5 +31,7 @@ Updated: 2026-08-22 21:25 MYT. Success = live Stripe charge, then a payout.
    Skip Gayheng / IPL / NBH / EKG / Axiatop / Yong Sheng / Indigo as Coming Soon
    (populated or mixed).
    Skip www.pksb.my as Coming Soon (Bluevy parking). Skip pksb55@pksb.my (mailed).
-   Skip Sigma Tech servicesbycat (Service nav already goes to products).
-   Skip Wearezist as Coming Soon (populated). Skip trueeasy@hotmail.com (mailed).
+   Skip Sigma Tech / Plast Engineering servicesbycat (no Services nav item).
+   Skip Wearezist / I Pneulic / TAICHONG / MNE as Coming Soon (populated).
+   Skip HLY / Young Jou servicesbycat (no Services nav).
+   Skip trueeasy@hotmail.com. Skip support@ikaa.com.my (same firm as sales@).
