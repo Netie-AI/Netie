@@ -241,6 +241,8 @@ class PayPageTests(unittest.TestCase):
         self.assertIn("BUGCROWD.md", html)
         self.assertIn("1P3E2rf1NSnNUrf454YB6dL5P34ObNv3PmICVu1yb59Y", html)
         self.assertIn("AGENTIC_HACK.md", html)
+        self.assertIn("hackathon/README.md", html)
+        self.assertIn("gemini_planner.py", html)
         self.assertNotIn("100K+", html)
         self.assertNotIn("030627070887", html)
 

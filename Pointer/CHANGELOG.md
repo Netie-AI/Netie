@@ -4,6 +4,7 @@ Append-only. Newest first.
 
 ## 2026-08-22
 
+- verify.sh now live-probes the hackathon planner HTTP on an ephemeral loopback port. Without GEMINI_API_KEY it must be HTTP 503 + `missing_gemini_key`. `/pay` points at `hackathon/README.md`.
 - Hackathon scaffold: `pointer/gemini_planner.py` (google-genai, fail-closed without `GEMINI_API_KEY`, refuses `shell`) plus `hackathon/` Cloud Run wrapper. Still not a submitted Devpost entry. P-017.
 - Public pay copy refreshed on litterbox `k99m4f.html` (~72h from 12:52 UTC) so it includes Agentic + Bugcrowd + payouts + r/forhire. QR still `5hdpx8.png`. P-013 still open.
 - All Things Agentic hackathon pack: `docs/AGENTIC_HACK.md` plus Drive `1P3E2rf1NSnNUrf454YB6dL5P34ObNv3PmICVu1yb59Y`. Deadline 31 Aug 2026 17:00 PDT. Pointer-as-is is not a valid Gemini/ADK/GCP entry. P-017.

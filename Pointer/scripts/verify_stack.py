@@ -154,6 +154,49 @@ def live_intent() -> dict:
     }
 
 
+def hackathon_live() -> dict:
+    import threading
+    import urllib.error
+    import urllib.request
+    from http.server import ThreadingHTTPServer
+
+    from hackathon.app import Handler
+    from pointer.gemini_planner import gemini_configured
+
+    httpd = ThreadingHTTPServer(("127.0.0.1", 0), Handler)
+    port = httpd.server_address[1]
+    thread = threading.Thread(target=httpd.serve_forever, daemon=True)
+    thread.start()
+    url = f"http://127.0.0.1:{port}/health"
+    out: dict = {"url": url}
+    try:
+        try:
+            with urllib.request.urlopen(url, timeout=2) as resp:
+                raw = resp.read()
+                code = resp.status
+        except urllib.error.HTTPError as exc:
+            raw = exc.read()
+            code = exc.code
+        body = json.loads(raw.decode("utf-8"))
+        out["http"] = code
+        out["body"] = body
+        if gemini_configured():
+            out["ok"] = code == 200 and body.get("ok") is True
+        else:
+            out["ok"] = (
+                code == 503
+                and body.get("ok") is False
+                and "missing_gemini_key" in (body.get("degraded") or [])
+            )
+    except (urllib.error.URLError, TimeoutError, OSError, ValueError, json.JSONDecodeError) as exc:
+        out["ok"] = False
+        out["error"] = str(exc)
+    finally:
+        httpd.shutdown()
+        httpd.server_close()
+    return out
+
+
 def main() -> int:
     from pointer.fallback import report
 
@@ -168,6 +211,7 @@ def main() -> int:
             live_error = f"{type(exc).__name__}: {exc}"
     daemon = daemon_health()
     intent = live_intent() if daemon.get("ok") else {"ok": False, "skipped": True, "reason": "daemon down"}
+    hack = hackathon_live()
     payload = {
         "unit_tests": {
             "run": unit.testsRun,
@@ -179,6 +223,7 @@ def main() -> int:
         "live_error": live_error,
         "daemon": daemon,
         "live_intent": intent,
+        "hackathon_live": hack,
         "fallback": report(),
         "git": subprocess.check_output(["git", "rev-parse", "--short", "HEAD"], cwd=ROOT.parent, text=True).strip(),
     }
@@ -196,6 +241,8 @@ def main() -> int:
     if daemon.get("ok") and not daemon.get("qr_ok"):
         return 1
     if daemon.get("ok") and not daemon.get("root_ok"):
+        return 1
+    if not hack.get("ok"):
         return 1
     return 0
 
