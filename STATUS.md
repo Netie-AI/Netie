@@ -1,15 +1,16 @@
 # STATUS
 
-Updated: 2026-08-22 20:37 MYT. Success = live Stripe charge, then a payout.
+Updated: 2026-08-22 20:38 MYT. Success = live Stripe charge, then a payout.
 
 ## Now (measured)
 
 - Stripe: available MYR 0, customers 0, charges 0, PaymentIntents 0.
 - Same open Checkout `cs_live_a1DK...` RM 300, unpaid, no PI. Not income.
-- Energy Option: sent, no bounce yet.
-- LES Industrial `les.automation@gmail.com`: first mail + public-facts draft sent (`1a0297750caaf77c`).
-  Email is on live homepage and contact HTML. Service menu page still says Coming Soon.
-  Draft: https://litter.catbox.moe/jhltni.html
+- LES: sent, no bounce yet.
+- NCR Resources skipped: live site is populated (shredding, recycle, e-waste). Not Coming Soon.
+- JS Storage `sales@johorack.com.my`: first mail + public-facts draft sent (`1a02978b1a65a292`).
+  Email is on live homepage. Services page still says Not added yet.
+  Draft: https://litter.catbox.moe/mmsck4.html
 - Public pay page: https://litter.catbox.moe/d8n858.html
 
 ## Next
@@ -18,8 +19,7 @@ Updated: 2026-08-22 20:37 MYT. Success = live Stripe charge, then a payout.
    https://docs.google.com/document/d/1riREBp22fMTZBaYxoyUGyMQgI1yYISNe3-cyqlNCVCc/edit
 2. Upload `Ic.pdf` to Stripe. Enable FPX in Dashboard.
 3. Renew Spaceship hosting: https://www.spaceship.com/launchpad/
-4. Agent next: NCR Resources listing says site is coming online soon
-   (https://www.ncrresources.com). Last seen NEWPAGES email:
-   enquiry.ncrresources@gmail.com. Re-verify on live HTML before mailing.
-   Skip PT. Skip CF. Skip NCT. Skip Amici. Skip DHU. Skip robex info@ (550).
+4. Agent next: find one unused Coming Soon / empty-services page with email
+   on live HTML. Do not mail jsstorage@yahoo.com (same firm, already mailed).
+   Skip NCR. Skip PT. Skip CF. Skip NCT. Skip Amici. Skip DHU. Skip robex info@ (550).
    Skip Mrs Marine as Coming Soon (services page is populated).
