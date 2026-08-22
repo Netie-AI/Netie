@@ -1,0 +1,6 @@
+.pointer-state/
+__pycache__/
+*.pyc
+.pytest_cache/
+*.png
+pair.token

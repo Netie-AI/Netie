@@ -236,3 +236,8 @@ Repositories:
 Two things to correct when convenient: **AirGPT is the only repo not under the `Netie-AI`
 org**, and Pointer moved from `jian-hong/NetieClicks` on 2026-08-02 (old remote kept
 locally as `old-netieclicks`, not deleted).
+
+This cloud GitHub token cannot clone `Netie-AI/Pointer` (404) even though Gmail shows
+that private repo receiving PRs. Until the token can see it, the fail-closed bootstrap
+in this repo at `Pointer/` is the laptop-control client that agents can actually run.
+It is not a second orchestrator.
