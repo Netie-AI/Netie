@@ -1,16 +1,17 @@
 # STATUS
 
-Updated: 2026-08-22 21:12 MYT. Success = live Stripe charge, then a payout.
+Updated: 2026-08-22 21:20 MYT. Success = live Stripe charge, then a payout.
 
 ## Now (measured)
 
 - Stripe: available MYR 0, customers 0, charges 0, PaymentIntents 0.
 - Same open Checkout `cs_live_a1DK...` RM 300, unpaid, no PI. Not income.
-- Tech Impro: sent, no bounce yet.
-- ZK Instruments `sales@zkinstruments.com`: first mail + public-facts draft sent (`1a0298c977f8c3c6`).
-  Email is on live homepage header and NEWPAGES (same SSM 822124-X).
-  Services menu still says Coming Soon; homepage already lists three service words.
-  Draft: https://litter.catbox.moe/fegzhg.html
+- No buyer replies. Known bounces unchanged (Robex, PT, DHU, QEDT sales@, WM info@, Silverjack).
+- Progresif Kukuh `pksb55@pksb.my`: first mail + public-facts draft sent (`1a0298eed8bc0564`).
+  Email is on NEWPAGES mobile contact (same SSM 667713-D as n.my).
+  n.my Services is Coming Soon; homepage already lists insulation / refractory / acoustic / ceiling.
+  www.pksb.my is a Bluevy parking page. Draft fills n.my only, not the parked host.
+  Draft: https://litter.catbox.moe/jwjlyf.html
 - Public pay page: https://litter.catbox.moe/d8n858.html
 
 ## Next
@@ -29,5 +30,4 @@ Updated: 2026-08-22 21:12 MYT. Success = live Stripe charge, then a payout.
    Skip Fit Systems. Skip Dreshler. Skip Tech Impro. Skip ZK Instruments.
    Skip Gayheng / IPL / NBH / EKG / Axiatop / Yong Sheng / Indigo as Coming Soon
    (populated or mixed).
-   Skip www.pksb.my as Coming Soon (Bluevy parking page, not their catalog).
-   Progresif Kukuh n.my services is Coming Soon; verify mailto on live HTML first.
+   Skip www.pksb.my as Coming Soon (Bluevy parking). Skip pksb55@pksb.my (mailed).
