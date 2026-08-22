@@ -222,7 +222,17 @@ class PayPageTests(unittest.TestCase):
         self.assertIn("https://app.outlier.ai/", html)
         self.assertIn("pointer-rm300.png", html)
         self.assertIn("https://drive.google.com/file/d/12HUn5z1C62HwMp144kB_-wvnBom4XIke/view", html)
+        self.assertIn("FIVERR_GIG.md", html)
         self.assertNotIn("100K+", html)
+
+    def test_fiverr_pack_forbids_false_traction(self) -> None:
+        pack = (Path(__file__).resolve().parents[1] / "docs" / "FIVERR_GIG.md").read_text(
+            encoding="utf-8"
+        )
+        self.assertIn("USD 70", pack)
+        self.assertIn("Do not also collect Stripe", pack)
+        self.assertIn("100K downloads", pack)
+        self.assertIn("false vs Stripe", pack)
 
 
 class PayRouteTests(unittest.TestCase):

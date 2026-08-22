@@ -4,6 +4,7 @@ Append-only. Newest first.
 
 ## 2026-08-22
 
+- Fiverr paste pack `docs/FIVERR_GIG.md` (USD 70 Pointer install). Google sign-in to Fiverr measured; no gig URL yet. Forbids 100K-download claims.
 - Drive QR `12HUn5z1C62HwMp144kB_-wvnBom4XIke` (bytes match local PNG). install_windows.ps1 copies card+QR to Desktop.
 - Restored `_html` after QR `_png` replace-bug (GET /pay and GET / were empty replies). Vercel `ruma-houser` flags netie.ai/www as misconfigured while apex still LiteSpeed.
 - Pointer RM 300 QR at `GET /pay/pointer-rm300.png` (`plink_1U7DHhFV5wcFod2f1pf2kUEs` still active). Drive pay sheet still owner-only.

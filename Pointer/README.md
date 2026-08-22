@@ -51,3 +51,7 @@ Open `pay/index.html` or, with the daemon up, http://127.0.0.1:7420/pay
 ## Cradle CIP Spark
 
 `docs/CRADLE_SPARK.md`. Founder submits on GMS. Do not paste unverified traction.
+
+## Fiverr
+
+`docs/FIVERR_GIG.md`. Founder publishes. Pay on Fiverr for that gig.

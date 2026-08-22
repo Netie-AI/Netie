@@ -4,14 +4,14 @@
 
 ## Now
 
-1. Verify measured: 18 tests OK, live mouse 220,180, `/health`+`/pay` (`pay_bytes` 3401)+QR PNG 712+`GET /`, gated sandbox write. Git `f84cd43`. `Netie-AI/Pointer` still 404. Stripe charges 0.
-2. Phone QR (hash-checked vs local PNG): https://drive.google.com/file/d/12HUn5z1C62HwMp144kB_-wvnBom4XIke/view  Still owner-only. Drive pay sheet still owner-only.
-3. `install_windows.ps1` copies `POINTER_CARD.txt` (no tokens) and `POINTER_RM300.png` to the Windows Desktop. Vercel `ruma-houser` still flags netie.ai/www; do not flip apex DNS. OpenClaw/Hermes not installed here.
+1. Verify measured: 18 tests OK, live mouse 220,180, `/health`+`/pay`+QR+`GET /`, gated sandbox write. Git `44ab1d4` then Fiverr pack commit. `Netie-AI/Pointer` still 404. Stripe charges 0.
+2. Gmail: Google sign-in to Fiverr 11:30 UTC (no gig URL yet). Outlier ToS only. No Slingshot confirmation. Drive QR still owner-only.
+3. OpenClaw/Hermes not installed here. Vercel ruma-houser still flags netie.ai/www; do not flip apex DNS.
 
 ## Next
 
-- Founder: open that Drive PNG on the phone and send to one person who already asked. Run `.\scripts\install_windows.ps1` on the Windows laptop (Desktop should get the card + QR).
-- Vercel domains: fix or remove netie.ai/www on ruma-houser. Optional `pay.netie.ai`. Outlier ID in that tab.
+- Founder: publish `Pointer/docs/FIVERR_GIG.md` on Fiverr (USD 70, pay on Fiverr, no Stripe double-charge). Send Drive QR https://drive.google.com/file/d/12HUn5z1C62HwMp144kB_-wvnBom4XIke/view to one person who already asked.
+- Laptop: `.\scripts\install_windows.ps1` (Desktop card + QR). Do not set POINTER_ALLOW_REMOTE=1.
 - Stripe identity + business-model form. Do not re-mail Easyway/Hengxing today.
 
 ## Later
