@@ -1,6 +1,6 @@
 # STATUS
 
-Updated: 2026-08-22 22:20 MYT. Success = live Stripe charge, then a payout.
+Updated: 2026-08-22 22:25 MYT. Success = live Stripe charge, then a payout.
 
 ## Now (measured)
 
@@ -8,10 +8,10 @@ Updated: 2026-08-22 22:20 MYT. Success = live Stripe charge, then a payout.
 - Two open Checkouts, both RM 300 One Number, unpaid, no PI. Not income.
   Older `cs_live_a1DK...`. Newer `cs_live_a1TO...` (card, GrabPay, Link).
 - No buyer replies. Known bounces unchanged (Robex, PT, DHU, QEDT sales@, WM info@, Silverjack).
-- VES Industrial `info@vesvac.com`: first mail + public-facts draft sent.
-  Email is on the live homepage mailto. Service is in the nav.
-  Service page is empty (not Coming Soon text). Homepage already lists vacuum pump service.
-  Draft: https://litter.catbox.moe/5na1li.html
+- Willy Manufacturing `willy@willmfg.com.my`: first mail + public-facts draft sent
+  (`1a0299f02bbf98a4`). Email is on the live homepage mailto. Services is in the nav.
+  Services page still says Coming Soon. Homepage already lists office storage / compact systems.
+  Draft: https://litter.catbox.moe/kpo1mj.html
 - Public pay page: https://litter.catbox.moe/d8n858.html
 
 ## Next
@@ -39,3 +39,6 @@ Updated: 2026-08-22 22:20 MYT. Success = live Stripe charge, then a payout.
    Skip sales@ikaa.com.my. Skip sales@jss.com.my. Skip sales.qmg@gmail.com.
    Skip acmeupholstery8996@gmail.com (same firm as 5168). Skip 5168 (mailed).
    Skip info@vesvac.com (mailed).
+   Skip willymfgsb@gmail.com (same firm as willmfg). Skip willy@willmfg.com.my (mailed).
+   Skip Top Creative Steel until a mailto is on live HTML (contact Email heading empty).
+   Skip steelux /services as Coming Soon unless Services is in the homepage nav.
