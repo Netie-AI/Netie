@@ -63,6 +63,8 @@ File analytics + presentation (RM 1,500): source map, findings, missing-data not
 Company-file search with citations and process map / decision prototype: quoted after a non-sensitive brief.
 Public proof is the captioned Constructor, AIM, ASA, and Cassandra interface gallery on `netie.ai/hire/`, plus the downloadable synthetic source trace at `netie.ai/hire/trace/`.
 
+For an interested file-analysis buyer, use `docs/file-analysis-scope-template.md` before sending checkout. It requires a named decision question, named agreed files, written exclusions, and an agreed handoff for any sensitive material.
+
 `docs/number-trace-deliverable.md` is the local-file source-trace template. It is not a separate headline product or public price list.
 
 ## What we do not claim

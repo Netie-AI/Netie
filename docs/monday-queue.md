@@ -124,6 +124,8 @@ One detail I should have included: the scope, exclusions, price, and files neede
 
 For InterOcean and BH Armada only, add this one link after the first sentence: `Synthetic local example: https://netie.ai/hire/trace/`. Do not add another link to Pen Express's follow-up because it already received the proof link.
 
+If a buyer expresses interest, use `docs/file-analysis-scope-template.md` before sending the RM 1,500 checkout link. Do not promise a delivery date or ask for sensitive files until the decision question, included files, exclusions, and handoff method are agreed.
+
 ### Hold (do not mail the same morning as A-C)
 
 - Intergrated Freighters Penang: enquiry@ifsb-pen.com.my from https://www.intergratedfreighters.com.my/contact.htm (Cloudflare-obfuscated; decoded). MAS Cargo Agent Building, Penang International Airport. Do not also mail enquiry@ifsb-kul.com.my the same day.
