@@ -1,19 +1,18 @@
 # STATUS
 
-Updated: 2026-08-22 21:35 MYT. Success = live Stripe charge, then a payout.
+Updated: 2026-08-22 21:33 MYT. Success = live Stripe charge, then a payout.
 
 ## Now (measured)
 
 - Stripe: available MYR 0, customers 0, charges 0, PaymentIntents 0.
 - Two open Checkouts, both RM 300 One Number, unpaid, no PI. Not income.
   Older `cs_live_a1DK...`. Newer `cs_live_a1TO...` (card, GrabPay, Link).
-- No buyer replies. EDB Perkasa send has no bounce yet.
-- EA Global `inquiry@eaglobal.my`: first mail + public-facts draft sent
-  (`1a029aa4b92f2b78`). Email is on live homepage JSON + contact vCard
-  (`EMAIL=inquiry@eaglobal.my`) and NEWPAGES same SSM 1113097-P.
-  Services is in the nav. Services page still says Coming Soon.
-  Homepage already names Installation / Maintenance / Consultation.
-  Draft: https://litter.catbox.moe/3ypdnh.html
+- No buyer replies. EA Global send has no bounce yet.
+- Wuan Teahouse / Q J Asia `qjtearoom@gmail.com`: first mail + public-facts draft sent
+  (`1a029ac035aa11d8`). Email is on the live contact mailto.
+  Classes is in the nav (`/services/`). That page still says Coming Soon.
+  Homepage already names tea, tea sets, and tea art classes.
+  Draft: https://litter.catbox.moe/558nue.html
 - Known bounces: Robex, PT, DHU, QEDT sales@, WM info@, Silverjack, willmfg.com.my.
 - Public pay page: https://litter.catbox.moe/d8n858.html
 
@@ -50,6 +49,8 @@ Updated: 2026-08-22 21:35 MYT. Success = live Stripe charge, then a payout.
    Skip general@metafert.com.my (mailed). Do not guess info@metafert.com.my.
    Skip sales@edbperkasa.com (mailed).
    Skip inquiry@eaglobal.my (mailed). Do not also mail a second EA Global inbox.
+   Skip qjtearoom@gmail.com (mailed).
+   Skip Gongga Food /services as Coming Soon (no Services item in homepage nav).
    Skip NATTEST /services as Coming Soon (nav OUR SERVICES goes to /ourproducts/).
    Skip Ridgemonde /services as Coming Soon (no Services item in homepage nav).
    Skip Top Creative Steel until a mailto is on live HTML (contact Email heading empty).
