@@ -7,8 +7,10 @@ Pay:
 
 Stripe live. Invoice on. Card, GrabPay, or Link. Not a subscription.
 FPX is off until enabled in Stripe Dashboard. payouts_enabled=true as of 22 Aug 2026. Business model form still past due.
-Public pay page (~72h from 22 Aug 22:36 MYT): https://litter.catbox.moe/otu3iz.html
+Public pay page (durable): https://telegra.ph/Netie-Number-Trace-08-22
+72h HTML copy: https://litter.catbox.moe/otu3iz.html
 Older copy still up: https://litter.catbox.moe/vs14br.html
+Do not use telegra.ph/Netie-pay-08-22 (Pointer page).
 Source: `docs/pay.html`. Not a Coming Soon pitch.
 Fiverr paste: https://docs.google.com/document/d/1z2pWHqJPqmAHBwqyM1G7IUrNVQlaLB8PTtfC4j94B8E/edit
 WhatsApp one-liner: `docs/whatsapp-paste.txt`.

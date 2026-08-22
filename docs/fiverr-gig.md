@@ -28,6 +28,7 @@ Packages
 - Standard, RM 1,500 equivalent: 5 numbers, 90 minutes
 
 Pay on Stripe (card, GrabPay, or Link):
+https://telegra.ph/Netie-Number-Trace-08-22
 https://litter.catbox.moe/otu3iz.html
 One number: https://buy.stripe.com/fZu3cvdlkb8D4bG5qQ9ws04
 Five numbers: https://buy.stripe.com/dRm8wP3KKfoT9w0g5u9ws03
