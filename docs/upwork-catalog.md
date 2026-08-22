@@ -21,7 +21,7 @@ I am Jian Hong Oo, Application Engineer at Jumpwin. I build hand-coded product l
 
 You send copy, logo, and any live URL. I return HTML files plus one revision if a published line is wrong.
 
-Public work: https://netie.ai/hire/ (real screenshot gallery), https://netie-ai.github.io/constructor/ (browser process canvas), and https://github.com/Netie-AI (public code and tooling).
+Public work: https://netie.ai/hire/ (real screenshot gallery), https://netie.ai/hire/trace/ (synthetic local source trace you can download and re-run), https://netie-ai.github.io/constructor/ (browser process canvas), and https://github.com/Netie-AI (public code and tooling).
 
 The Constructor canvas is a browser sketch, AIM is a file-intake interface, and ASA is an unreleased pre-order landing page. They show published interface work, not customer case studies.
 

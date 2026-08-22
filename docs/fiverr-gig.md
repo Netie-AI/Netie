@@ -23,6 +23,7 @@ What you get
 
 Public interfaces you can inspect before you buy
 - https://netie.ai/hire/ - real screenshot gallery and the same page craft offered here
+- https://netie.ai/hire/trace/ - synthetic workbook plus local source trace; download it, run it, and see both a traced figure and an honest refusal
 - https://netie-ai.github.io/constructor/ - browser-based process canvas; it does not call a production backend
 - https://netie.ai/aim/ - file-intake interface sample, not a public retrieval backend
 - https://netie.ai/asa/ - landing page with a form and checkout interaction for an unreleased pre-order

@@ -3,13 +3,12 @@
 Canonical public hire page:
 - https://netie.ai/hire/
 - Source: `docs/pay.html`
-- Measured 23 Aug 2026 04:35 MYT: HTTP 200, title `Hire Jian Hong Oo in Penang | AI systems, analysis and websites`, four screenshot assets load from `/hire/assets/`, and the existing suite homepage / app routes remain intact.
+- Measured 23 Aug 2026 05:20 MYT: HTTP 200, title `Hire Jian Hong Oo in Penang | AI systems, analysis and websites`, four screenshot assets load from `/hire/assets/`, the source-trace CTA loads, and the existing suite homepage / app routes remain intact.
 
 Offer and checkout links:
 - Internal operations system, RM 20,000 after a written scope: https://buy.stripe.com/6oU28rdlk4KffUo06w9ws09 (`prod_V7ZigLN74TMIC7` / `price_1U7KYnFV5wcFod2fn9hDMBek`). Send this only after the buyer accepts the scope.
 - One-page business website, RM 500: https://buy.stripe.com/3cIcN54OO6SnaA4g5u9ws07
 - File analysis + presentation, RM 1,500: https://buy.stripe.com/dRm8wP3KKfoT9w0g5u9ws03
-- One figure map exists as a side SKU, not a headline: https://buy.stripe.com/fZu3cvdlkb8D4bG5qQ9ws04
 - Company-file search with citations and process map / decision prototype: written quote after a non-sensitive brief.
 
 Stripe is live. Invoice is on. Card, GrabPay, or Link are available. This is not a subscription. FPX remains off until enabled in Stripe Dashboard. `payouts_enabled=true` as of 22 Aug 2026; business-model form remains past due.
@@ -19,6 +18,7 @@ Public proof, with honest labels:
 - AIM: file-intake interface sample. It is not a public retrieval backend.
 - ASA: landing page with form and checkout interaction for an unreleased pre-order.
 - Cassandra: illustrative market interface; archive is not wired.
+- Source trace: a synthetic workbook plus local Python script that resolves one same-sheet `SUM(range)` formula, lists inputs, recomputes the cached value, and refuses a typed figure. Live: https://netie.ai/hire/trace/
 - Do not market these as customer case studies, performance benchmarks, security certifications, or revenue proof.
 
 Public mirrors:
@@ -35,7 +35,7 @@ Temporary Litter copies are stale and must not be shared. The Litter upload endp
 Wayback save of Telegraph returned 302 to https://web.archive.org/web/20260822165726/https://telegra.ph/Netie-Number-Trace-08-22 (snapshot GET 403/429 from this IP). Telegraph itself is the screenshot-led hire copy above.
 Do not use telegra.ph/Netie-pay-08-22 (Pointer page).
 Write.as anonymous post was blocked (`contentisblocked`). Do not share it.
-Source: `docs/pay.html`. Not a Coming Soon pitch.
+Source: `docs/pay.html` and `docs/trace/`. Not a Coming Soon pitch.
 Fiverr paste (Telegraph URLs): https://docs.google.com/document/d/1HyKS-wsE3M57VaJ7Eo0pbOF94e3qOv6Mybk-GkyknDM/edit
 Older Fiverr paste (litterbox vs14br): https://docs.google.com/document/d/1z2pWHqJPqmAHBwqyM1G7IUrNVQlaLB8PTtfC4j94B8E/edit
 Upwork catalog paste (on-platform USD 70, no Stripe on Upwork): `docs/upwork-catalog.md`
@@ -50,11 +50,11 @@ WhatsApp one-liner: `docs/whatsapp-paste.txt`.
 
 Internal operations system (RM 20,000 after scope): scoped schema, APIs, admin, and team screens for one defined workflow.
 Website (RM 500): one responsive HTML page from approved published facts. One revision.
-File analytics + presentation (RM 1,500): source map, findings, missing-data notes, and a short deck from agreed files.
+File analytics + presentation (RM 1,500): source map, findings, missing-data notes, and a short deck from agreed files. The public source-trace sample is a reproducible example of one per-figure evidence block, not an audit.
 Company-file search with citations and process map / decision prototype: quoted after a non-sensitive brief.
-Public proof is the captioned Constructor, AIM, ASA, and Cassandra interface gallery on `netie.ai/hire/`.
+Public proof is the captioned Constructor, AIM, ASA, and Cassandra interface gallery on `netie.ai/hire/`, plus the downloadable synthetic source trace at `netie.ai/hire/trace/`.
 
-Old Number Trace writeup still exists for the RM 300/1,500 figure-map SKUs: `docs/number-trace-deliverable.md`. Not the headline.
+`docs/number-trace-deliverable.md` is the local-file source-trace template. It is not a separate headline product or public price list.
 
 ## What we do not claim
 
