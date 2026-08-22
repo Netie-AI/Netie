@@ -1,2 +1,7 @@
-day,mon,tue,wed,thu,fri,total
-cartons,2100,2400,1980,2600,3400,12480
+"Synthetic weekly outbound report","","","","","",""
+"Synthetic sample only - no client data.","","","","","",""
+"Week","Shipment type","Monday cartons","Tuesday cartons","Wednesday cartons","Three-day total","Trace note"
+"WK32","Cartons outbound","2100","2400","1980","6480","Shared SUM formula"
+"WK32","Pallets outbound","120","150","130","400","Shared SUM formula"
+"WK32","Returns received","18","22","20","60","Shared SUM formula"
+"WK32","Manual adjusted total","","","","6700","Typed value; tool must refuse"

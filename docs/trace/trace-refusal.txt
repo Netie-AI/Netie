@@ -1,0 +1,12 @@
+NETIE SOURCE TRACE
+File name: sample-outbound.xlsx
+Sheet: WK32
+Figure asked: WK32!F7
+Value (raw; display format not applied): 6700
+Formula: typed, no formula
+Inputs:
+- not available
+Recomputed from inputs: not applicable
+Verdict: Cannot be traced
+Reason: Selected cell has no formula.
+I only used the local file you selected.

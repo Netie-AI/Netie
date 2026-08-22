@@ -1,0 +1,13 @@
+NETIE SOURCE TRACE
+File name: sample-outbound.xlsx
+Sheet: WK32
+Figure asked: WK32!F4
+Value (raw; display format not applied): 6480
+Formula: =SUM(C4:E4)
+Inputs:
+- WK32!C4 = 2100
+- WK32!D4 = 2400
+- WK32!E4 = 1980
+Recomputed from inputs: 6480 (matches cached value)
+Verdict: Traced
+I only used the local file you selected.
