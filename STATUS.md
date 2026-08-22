@@ -1,6 +1,6 @@
 # STATUS
 
-Updated: 2026-08-22 19:27 MYT. Success = live Stripe charge, then a payout.
+Updated: 2026-08-22 19:32 MYT. Success = live Stripe charge, then a payout.
 
 ## Now (measured)
 
@@ -8,8 +8,9 @@ Updated: 2026-08-22 19:27 MYT. Success = live Stripe charge, then a payout.
 - payouts_enabled=false. Upload Drive `Ic.pdf` in Dashboard plus the business-model form.
 - Spaceship Web Hosting Essential expired 2026-07-21. crash.netie.ai is still a LiteSpeed listing.
 - Public pay page (inline QRs, expires ~72h): https://litter.catbox.moe/pohaj0.html
-- Outbound 22 Aug: Hengxing, Easyway, Centrolink, then WPC `enquiry@wpclogistics.com.my`. Transways held for Mon 24 Aug 09:00 MYT.
-- Loop: 2h until Monday office hours. No WhatsApp API on this cloud agent.
+- Posted-task outreach: HN Jun 2026 Vue3 UI ask -> `fnmnlmusic@gmail.com`. WM bounce retry -> `reel@wm.com.my` (info@ was 550).
+- Skipped: CAPTCHA farms, homework mills, review fraud, bot-banned task sites. August HN thread had zero SEEKING FREELANCER posts.
+- Transways held for Mon 24 Aug 09:00 MYT. No WhatsApp API on this cloud agent.
 
 ## Next
 
