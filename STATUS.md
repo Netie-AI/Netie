@@ -1,17 +1,16 @@
 # STATUS
 
-Updated: 2026-08-22 21:30 MYT. Success = live Stripe charge, then a payout.
+Updated: 2026-08-22 21:38 MYT. Success = live Stripe charge, then a payout.
 
 ## Now (measured)
 
 - Stripe: available MYR 0, customers 0, charges 0, PaymentIntents 0.
 - Same open Checkout `cs_live_a1DK...` RM 300, unpaid, no PI. Not income.
 - No buyer replies. Known bounces unchanged (Robex, PT, DHU, QEDT sales@, WM info@, Silverjack).
-- IKA Automation `sales@ikaa.com.my`: first mail + public-facts draft sent (`1a02993485c1752c`).
-  Email is a live homepage mailto. Services menu still says Coming Soon.
-  Homepage already lists motion control, motors/drives, controls, robotics, Nachi models.
-  Draft fills ikaa.my only, not ikaa.com.my.
-  Draft: https://litter.catbox.moe/pdpj1f.html
+- JSS Digital `sales@jss.com.my`: first mail + public-facts draft sent (`1a02996e1bd7b3e4`).
+  Email is a live contact-page mailto. Services menu still says Coming Soon.
+  About already lists Dahua / Bluguard / survey / install / maintenance.
+  Draft: https://litter.catbox.moe/1r80m2.html
 - Public pay page: https://litter.catbox.moe/d8n858.html
 
 ## Next
@@ -31,7 +30,9 @@ Updated: 2026-08-22 21:30 MYT. Success = live Stripe charge, then a payout.
    Skip Gayheng / IPL / NBH / EKG / Axiatop / Yong Sheng / Indigo as Coming Soon
    (populated or mixed).
    Skip www.pksb.my as Coming Soon (Bluevy parking). Skip pksb55@pksb.my (mailed).
-   Skip Sigma Tech / Plast Engineering servicesbycat (no Services nav item).
-   Skip Wearezist / I Pneulic / TAICHONG / MNE as Coming Soon (populated).
+   Skip Sigma Tech / Plast / Oshiba / Founder / Nucera servicesbycat (no Services nav).
+   Skip Wearezist / I Pneulic / TAICHONG / MNE / WCSR / Unex / Weechem / Plassein /
+   Metalmach / CSW / Meng Fatt / CMS as Coming Soon (populated).
    Skip HLY / Young Jou servicesbycat (no Services nav).
    Skip trueeasy@hotmail.com. Skip support@ikaa.com.my (same firm as sales@).
+   Skip sales@ikaa.com.my. Skip sales@jss.com.my (mailed).
