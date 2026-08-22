@@ -28,3 +28,10 @@ Tone: `.cursor/skills/outreach-tone/SKILL.md`
 - Reroute (one inbox): pen@mpconsol.com.my (`1a029df49f8376e2`)
 - Do not mail export1/export2/import/acc/joyce at mpconsol the same day.
 - Do not mail again unless they reply.
+
+## 5. Forward Logistics -- SENT 22 Aug 2026 22:32 MYT
+
+- To: sales@forwardlogs.com
+- Thread: `1a029e327b88cbdb`
+- Site form: phone field rejected input. Do not mail export1/export2 the same day.
+- Do not mail again unless they reply.
