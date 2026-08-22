@@ -44,6 +44,7 @@ Gmail drafts were created 23 Aug 05:25 MYT and are not sent:
 - Pen Express: draft `r4883945163701155217`, thread `1a02b5d6f585f332`
 - InterOcean Penang: draft `r-8192599428649523972`, thread `1a02b5d71cbddc92`
 - BH Armada: draft `r-8439203117394069842`, thread `1a02b5d7160bc074`
+- One-time send-check subscription: `netie-monday-outreach-2026-08-24-0900-myt` at 09:00 MYT. It must stop if a draft is missing, a reply or send conflict exists, or any prospect fact contradicts this queue.
 
 ### A. Pen Express -- NOT SENT
 
