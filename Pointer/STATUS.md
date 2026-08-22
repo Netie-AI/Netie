@@ -4,7 +4,7 @@
 
 ## Now
 
-1. Verify this tick: 14 units + 3 pair-card tests, live mouse, `/health`+`/pay`+`GET /`, gated sandbox write (`degraded: local_act_without_cortex`). `Netie-AI/Pointer` still GitHub 404.
+1. Verify measured: 17 tests OK, live mouse to 400,300, `/health`+`/pay`+`GET /` (`root_ok`), gated sandbox write (`degraded: local_act_without_cortex`). Git `f289552`. `Netie-AI/Pointer` still 404.
 2. Stripe live `acct_1RMx9FFV5wcFod2f`: charges 0, MYR 0 available / 0 pending. `charges_enabled=true`, `payouts_enabled=false` (`individual.verification.document` + business-model form past due).
 3. No Slingshot confirmation mail. No inbound from Easyway/Hengxing. Outlier ToS accepted 11:15 (founder browser only; this agent has no IC). OpenClaw/Hermes not installed here.
 
