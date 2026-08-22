@@ -1,17 +1,21 @@
 # STATUS
 
-Updated: 2026-08-22 22:25 MYT. Success = live Stripe charge, then a payout.
+Updated: 2026-08-22 22:28 MYT. Success = live Stripe charge, then a payout.
 
 ## Now (measured)
 
 - Stripe: available MYR 0, customers 0, charges 0, PaymentIntents 0.
 - Two open Checkouts, both RM 300 One Number, unpaid, no PI. Not income.
   Older `cs_live_a1DK...`. Newer `cs_live_a1TO...` (card, GrabPay, Link).
-- No buyer replies. Known bounces unchanged (Robex, PT, DHU, QEDT sales@, WM info@, Silverjack).
-- Willy Manufacturing `willy@willmfg.com.my`: first mail + public-facts draft sent
-  (`1a0299f02bbf98a4`). Email is on the live homepage mailto. Services is in the nav.
-  Services page still says Coming Soon. Homepage already lists office storage / compact systems.
+- No buyer replies.
+- New bounce: `willy@willmfg.com.my` NXDOMAIN (`willmfg.com.my` not found).
+  Retried live Gmail mailto `willymfgsb@gmail.com` (`1a029a01f2416060`).
   Draft: https://litter.catbox.moe/kpo1mj.html
+- Tantex Rubber `info@tantexrubberworks.com`: first mail + public-facts draft sent
+  (`1a029a01ed435674`). Email is on the live homepage mailto. Services is in the nav.
+  Services page still says Coming Soon. Homepage already lists roller / fender / lining.
+  Draft: https://litter.catbox.moe/ou02c3.html
+- Known bounces: Robex, PT, DHU, QEDT sales@, WM info@, Silverjack, willmfg.com.my.
 - Public pay page: https://litter.catbox.moe/d8n858.html
 
 ## Next
@@ -39,6 +43,8 @@ Updated: 2026-08-22 22:25 MYT. Success = live Stripe charge, then a payout.
    Skip sales@ikaa.com.my. Skip sales@jss.com.my. Skip sales.qmg@gmail.com.
    Skip acmeupholstery8996@gmail.com (same firm as 5168). Skip 5168 (mailed).
    Skip info@vesvac.com (mailed).
-   Skip willymfgsb@gmail.com (same firm as willmfg). Skip willy@willmfg.com.my (mailed).
+   Skip willy@willmfg.com.my (NXDOMAIN). Skip willymfgsb@gmail.com (retried).
+   Skip enquiry@ / partners@ / sales@ tantex (same firm as info@). Skip info@ (mailed).
    Skip Top Creative Steel until a mailto is on live HTML (contact Email heading empty).
    Skip steelux /services as Coming Soon unless Services is in the homepage nav.
+   GWG `gwgmanufacturing@gmail.com` already passes Coming Soon + nav + live mailto.
