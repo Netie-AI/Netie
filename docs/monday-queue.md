@@ -103,3 +103,14 @@ oojianhongg@gmail.com
 ### Hold (do not mail the same morning as A-C)
 
 - Intergrated Freighters Penang: enquiry@ifsb-pen.com.my from https://www.intergratedfreighters.com.my/contact.htm (Cloudflare-obfuscated; decoded). MAS Cargo Agent Building, Penang International Airport. Do not also mail enquiry@ifsb-kul.com.my the same day.
+
+## Published job applies (not 3PL)
+
+### Democrance -- SENT 23 Aug 2026 02:47 MYT
+
+- To: together@democrance.com
+- Source: Ask HN Who is hiring August 2026, item 49165651
+- Thread: `1a02accb12946ce6`
+- Honest: junior/mid Python, not Django-at-scale. Jumpwin is current employer.
+- Do not mail again unless they reply.
+
