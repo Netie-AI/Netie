@@ -1,15 +1,15 @@
 # STATUS
 
-Updated: 2026-08-22 20:52 MYT. Success = live Stripe charge, then a payout.
+Updated: 2026-08-22 20:55 MYT. Success = live Stripe charge, then a payout.
 
 ## Now (measured)
 
 - Stripe: available MYR 0, customers 0, charges 0, PaymentIntents 0.
 - Same open Checkout `cs_live_a1DK...` RM 300, unpaid, no PI. Not income.
-- Juta Textile: sent, no bounce yet.
-- JTC Industrial Solutions `sales@jtcis.com.my`: first mail + public-facts draft sent (`1a02982ad9749a4d`).
-  Email is on live homepage, services, and contact HTML. Services page still says Coming Soon.
-  Draft: https://litter.catbox.moe/15wmxb.html
+- JTC: sent, no bounce yet.
+- Inner Elite Plastics `sales@ieplastics.com.my`: first mail + public-facts draft sent (`1a0298464b7157a6`).
+  Email is on live homepage header. Services page still says Coming Soon.
+  Draft: https://litter.catbox.moe/l6rgfu.html
 - Public pay page: https://litter.catbox.moe/d8n858.html
 
 ## Next
@@ -23,4 +23,5 @@ Updated: 2026-08-22 20:52 MYT. Success = live Stripe charge, then a payout.
    Skip ginakhoo@megahmach.com. Skip Newton as Coming Soon (populated).
    Skip NCR. Skip jsstorage@yahoo.com. Skip PT. Skip CF. Skip NCT. Skip Amici.
    Skip DHU. Skip robex info@ (550). Skip Mrs Marine as Coming Soon.
-   Skip Juta. Skip JTC sales@. Skip Yuan Jen Dealers-only unless a different honest problem.
+   Skip Juta. Skip JTC sales@. Skip Yuan Jen Dealers-only.
+   Skip ieplastics@yahoo.com (same firm as sales@).
