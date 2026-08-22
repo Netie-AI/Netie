@@ -226,6 +226,7 @@ class PayPageTests(unittest.TestCase):
         self.assertIn("https://docs.google.com/document/d/1CIfusgZvh8yXwucboi1iYpdMhgFHEyFlWEqjY4U_fIs/edit", html)
         self.assertIn("https://docs.google.com/document/d/1n5htCeuadHZsU7udormJGiAh-EmigBj3izXWR4NUMD4/edit", html)
         self.assertIn("HACKERONE.md", html)
+        self.assertIn("https://litter.catbox.moe/u399xy.html", html)
         self.assertNotIn("100K+", html)
 
     def test_hackerone_pack_forbids_exploits(self) -> None:

@@ -4,6 +4,7 @@ Append-only. Newest first.
 
 ## 2026-08-22
 
+- Public pay copy on litterbox `u399xy.html` + QR `5hdpx8.png` (~72h from 12:17 UTC). Drive QR still owner-only. P-013 durable host still open.
 - HackerOne signup pack `docs/HACKERONE.md` + Drive `1n5htCeuadHZsU7udormJGiAh-EmigBj3izXWR4NUMD4`. Directory measured public bounties (Vercel Sandbox, Agoda Public, Anthropic). No H1 username yet. Agent still will not write exploits/PoCs.
 - Pointer Fiverr phone-paste Drive doc `1CIfusgZvh8yXwucboi1iYpdMhgFHEyFlWEqjY4U_fIs` (USD 70). Wired on `/pay`. Still not a live gig URL. Stripe charges remain 0.
 - `python -m pointer prove` writes `.pointer-state/PROVE.json` (no tokens). install_windows.ps1 copies it to Desktop as POINTER_PROVE.json. Linux prove ok on this VM; Windows still unproven.
