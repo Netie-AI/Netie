@@ -34,7 +34,8 @@ def live_mouse() -> dict:
 
     ex = Executor(display=os.environ.get("DISPLAY"), screenshot_dir=ROOT / ".pointer-state" / "shots")
     before = ex.mouse_location()
-    target_x, target_y = 220, 180
+    target_x = 220 if before.get("x") != 220 else 400
+    target_y = 180 if before.get("y") != 180 else 300
     moved = ex.move(target_x, target_y)
     after = ex.mouse_location()
     shot = None

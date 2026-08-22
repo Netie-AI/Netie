@@ -7,7 +7,8 @@ What exists in this bootstrap and where.
 | `pointer/protocol.py` | Frozen request/response payloads (`pointer.intent/v1`) |
 | `pointer/gate.py` | Kill switch, Cortex requirement, approval, pair token |
 | `pointer/ledger.py` | Hash-chained jsonl |
-| `pointer/executor.py` | Linux xdotool/ffmpeg; Windows mouse via ctypes |
+| `pointer/executor.py` | Linux xdotool/ffmpeg; Windows mouse + SendInput + PowerShell screenshot |
+| `pointer/windows_input.py` | Windows SendInput + PowerShell screenshot (unit-tested off-Windows) |
 | `pointer/engine.py` | Perceive/act/prove; sandbox file IO |
 | `pointer/server.py` | `127.0.0.1:7420` HTTP |
 | `pointer/fallback.py` | OpenClaw/Hermes/Ollama presence report |

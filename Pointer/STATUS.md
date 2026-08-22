@@ -4,20 +4,18 @@
 
 ## Now
 
-1. Product repo `Netie-AI/Pointer` exists and is active (Gmail: PR #26, #27 on 2026-08-22) but this cloud token cannot clone it (GitHub 404). Bootstrap daemon lives here so laptop control can be tested.
-2. Daemon + gate + ledger + live xdotool/ffmpeg path implemented under `Pointer/`. HTTP e2e on :17420: human act refused without Cortex, local-test move hit 300,240, kill switch refused the next intent. OpenClaw/Hermes are **not** installed on this VM (NETIE.md: no third orchestrator; this VM is not the founder laptop).
-3. This cloud agent cannot reach `D:\Pointer`. Full laptop control needs the founder to run `python -m pointer serve` on the laptop and keep the pair token local.
+1. Product repo `Netie-AI/Pointer` still 404 to this token. Bootstrap daemon is up on `127.0.0.1:7420` (`GET /health` 200). Cortex unreachable. OpenClaw/Hermes still missing; not installed here.
+2. Windows type/hotkey/screenshot now coded (`pointer/windows_input.py`) and unit-tested (12 tests). Live Linux mouse 220,180 -> 400,300 after fixing `--sync` hang when already at target. This VM is not the founder laptop, so Windows SendInput is unproven on real hardware.
+3. Stripe live `acct_1RMx9FFV5wcFod2f`: available MYR 0, pending MYR 0, charges listed 0. Sibling Number Trace SKUs remain the buyable path. Do not recreate them.
 
 ## Next
 
-- Run `Pointer/scripts/verify.sh` and keep it green.
-- On the Windows laptop: `Pointer/scripts/install_windows.ps1`. Paste pair token only if a cloud agent must perceive; remote act still needs approval.
-- Sibling agent `bc-cd25a959-997d-4e8f-8127-06bfd5537ed8` owns Stripe/Number Trace. Do not recreate those products. Money evidence is still MYR 0.
+- Founder: `cd D:\Netie\Pointer; python -m pointer serve` then `python -m pointer pair --show` (tokens stay on the laptop).
+- Payouts: upload `Ic.pdf` in Stripe Dashboard. Charges can land; Bank Islam cannot receive until identity clears.
+- Competitions: Slingshot 2026 and IPHatch Asia 2026 are closed. Startup SG Tech needs a Singapore Pte Ltd with >=30% SC/PR shareholding - no such entity is in evidence.
 
 ## Later
 
-- Clone product Pointer when the token can see `Netie-AI/Pointer` and delete this bootstrap or make it a thin client of that API.
-- Windows type/hotkey/screenshot (ctypes path is mouse-only).
-- OCR verify (`expect_contains` currently fail-closed).
-- Slingshot 2026 applications closed 2026-07-27; finals 2026-10-27..29. No Slingshot confirmation mail found.
-- Authorized bug bounty only. No exploit PoCs in this repo. $1M/month is not in evidence.
+- Clone product Pointer when the token can see `Netie-AI/Pointer` and replace this bootstrap with a contract test against that API.
+- OCR `verify.expect_contains` (currently fail-closed).
+- Authorized bug bounty only after Stripe `payouts_enabled=true`. $1M/month is not in evidence.

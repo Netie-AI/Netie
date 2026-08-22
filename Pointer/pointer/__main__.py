@@ -8,6 +8,8 @@ import sys
 
 from . import fallback, server
 from .executor import Executor, ExecutorError
+from .pair import PairStore
+from .server import _state_dir
 
 
 def main(argv: list[str] | None = None) -> int:
@@ -20,6 +22,8 @@ def main(argv: list[str] | None = None) -> int:
     live = sub.add_parser("live-click", help="move the mouse to prove control")
     live.add_argument("--x", type=int, default=200)
     live.add_argument("--y", type=int, default=200)
+    pair = sub.add_parser("pair", help="print pair file path; --show dumps tokens locally")
+    pair.add_argument("--show", action="store_true", help="print tokens to stdout (laptop only)")
     args = ap.parse_args(argv)
 
     if args.cmd == "serve":
@@ -50,6 +54,20 @@ def main(argv: list[str] | None = None) -> int:
         )
         ok = after.get("x") == args.x and after.get("y") == args.y
         return 0 if ok else 1
+    if args.cmd == "pair":
+        path = _state_dir() / "pair.json"
+        store = PairStore(path)
+        tokens = store.load()
+        payload = {
+            "pair_file": str(path),
+            "has_pair_token": bool(tokens.get("pair_token")),
+            "has_approval_token": bool(tokens.get("approval_token")),
+        }
+        if args.show:
+            payload["pair_token"] = tokens["pair_token"]
+            payload["approval_token"] = tokens["approval_token"]
+        print(json.dumps(payload, indent=2))
+        return 0
     return 2
 
 

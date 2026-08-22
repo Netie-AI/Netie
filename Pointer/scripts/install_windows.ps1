@@ -34,6 +34,9 @@ foreach ($b in @("ollama", "openclaw", "hermes")) {
     if ($cmd) { Write-Host "HIT $b -> $($cmd.Source)" } else { Write-Host "MISS $b" }
 }
 
+Write-Host "5. Pair tokens (laptop only, do not commit, do not paste into chat unless pairing a cloud agent)"
+Write-Host "   python -m pointer pair --show"
+
 if ($FallbackAssistants) {
     Write-Host "Fallback requested. NETIE.md: these are assistants, not Cortex."
     if (Get-Command ollama -ErrorAction SilentlyContinue) {

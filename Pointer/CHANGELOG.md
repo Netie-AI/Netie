@@ -4,6 +4,8 @@ Append-only. Newest first.
 
 ## 2026-08-22
 
+- Windows type/hotkey/screenshot wired through `windows_input.py` (SendInput + CopyFromScreen). Unit-tested on Linux; hardware proof still requires the founder laptop.
+- Daemon started on this VM at `127.0.0.1:7420`. Stripe live balance remains MYR 0 / 0 charges.
 - Bootstrap Pointer daemon in this meta repo: localhost HTTP API, fail-closed gate, hash-chained ledger, Linux live mouse/screenshot via xdotool+ffmpeg.
 - Recorded that product `Netie-AI/Pointer` is private and unreachable to this cloud token, while Gmail shows PRs #26 and #27 landing the same day.
 - OpenClaw/Hermes checked: not installed here; not installed on this VM on purpose.

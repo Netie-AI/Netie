@@ -62,7 +62,7 @@ Non-loopback bind is refused unless `POINTER_ALLOW_REMOTE=1`.
 | OS | Mouse | Type | Screenshot |
 |---|---|---|---|
 | Linux | `xdotool` (measured working on this VM) | `xdotool type` | `ffmpeg -f x11grab` (measured PNG) |
-| Windows | `ctypes.windll.user32` SetCursorPos / mouse_event | not wired | not wired |
+| Windows | `ctypes.windll.user32` SetCursorPos / mouse_event | `SendInput` unicode + VK hotkeys (`pointer/windows_input.py`, unit-tested) | PowerShell `CopyFromScreen` |
 
 Display on this VM: `:1`, `1920x1200`.
 

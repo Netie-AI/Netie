@@ -162,5 +162,47 @@ class SandboxEngineTests(unittest.TestCase):
             self.assertFalse((state / "escape.txt").exists())
 
 
+class WindowsInputTests(unittest.TestCase):
+    def test_unicode_and_hotkey_events(self) -> None:
+        from pointer import windows_input as w
+
+        pairs = w.unicode_keydown_up("A")
+        self.assertEqual(pairs[0][1] & w.KEYEVENTF_UNICODE, w.KEYEVENTF_UNICODE)
+        self.assertEqual(pairs[1][1] & w.KEYEVENTF_KEYUP, w.KEYEVENTF_KEYUP)
+        hk = w.hotkey_press_release(["ctrl", "s"])
+        self.assertEqual(hk[0][0], 0x11)
+        self.assertEqual(hk[1][0], ord("S"))
+        self.assertEqual(hk[-1][0], 0x11)
+        self.assertEqual(hk[-1][1], w.KEYEVENTF_KEYUP)
+
+    def test_move_skips_sync_when_already_there(self) -> None:
+        from pointer.executor import Executor
+        import tempfile
+        from pathlib import Path
+
+        class Fake(Executor):
+            def mouse_location(self):
+                return {"x": 10, "y": 20, "screen": 0}
+
+        with tempfile.TemporaryDirectory() as td:
+            ex = Fake(display=":1", screenshot_dir=Path(td))
+            out = ex.move(10, 20)
+        self.assertEqual(out["actual"]["x"], 10)
+
+    def test_screenshot_script_quotes_path(self) -> None:
+        from pointer import windows_input as w
+
+        script = w.screenshot_powershell(r"C:\Users\x\shot.png")
+        self.assertIn("CopyFromScreen", script)
+        self.assertIn(r"C:\Users\x\shot.png", script)
+        self.assertNotIn("windows screenshot is not wired", script)
+
+    def test_refuses_unknown_hotkey(self) -> None:
+        from pointer import windows_input as w
+
+        with self.assertRaises(ValueError):
+            w.vk_code("not-a-key")
+
+
 if __name__ == "__main__":
     unittest.main()

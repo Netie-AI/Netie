@@ -11,6 +11,8 @@ import time
 from pathlib import Path
 from typing import Any
 
+from . import windows_input
+
 
 class ExecutorError(RuntimeError):
     pass
@@ -62,16 +64,28 @@ class Executor:
             if ctypes.windll.user32.SetCursorPos(int(x), int(y)) == 0:
                 raise ExecutorError("SetCursorPos failed")
         else:
+            loc = self.mouse_location()
+            if loc.get("x") == int(x) and loc.get("y") == int(y):
+                return {"requested": {"x": int(x), "y": int(y)}, "actual": loc}
             try:
                 subprocess.run(
                     ["xdotool", "mousemove", "--sync", str(int(x)), str(int(y))],
                     check=True,
                     capture_output=True,
                     text=True,
+                    timeout=2.0,
+                    env=self._env(),
+                )
+            except subprocess.TimeoutExpired:
+                subprocess.run(
+                    ["xdotool", "mousemove", str(int(x)), str(int(y))],
+                    check=True,
+                    capture_output=True,
+                    text=True,
                     timeout=5.0,
                     env=self._env(),
                 )
-            except (OSError, subprocess.CalledProcessError, subprocess.TimeoutExpired) as exc:
+            except (OSError, subprocess.CalledProcessError) as exc:
                 raise ExecutorError(f"xdotool mousemove failed: {exc}") from exc
         loc = self.mouse_location()
         return {"requested": {"x": int(x), "y": int(y)}, "actual": loc}
@@ -106,7 +120,13 @@ class Executor:
         if not text:
             raise ExecutorError("empty type")
         if sys.platform == "win32":
-            raise ExecutorError("windows type is not wired yet")
+            events: list[tuple[int, int]] = []
+            for ch in text:
+                events.extend(windows_input.unicode_keydown_up(ch))
+            sent = windows_input.send_events(events)
+            if sent != len(events):
+                raise ExecutorError(f"SendInput typed {sent}/{len(events)} events")
+            return {"chars": len(text), "events": sent, "backend": "sendinput"}
         try:
             subprocess.run(
                 ["xdotool", "type", "--clearmodifiers", "--", text],
@@ -124,7 +144,14 @@ class Executor:
         if not keys:
             raise ExecutorError("empty hotkey")
         if sys.platform == "win32":
-            raise ExecutorError("windows hotkey is not wired yet")
+            try:
+                events = windows_input.hotkey_press_release(keys)
+            except ValueError as exc:
+                raise ExecutorError(str(exc)) from exc
+            sent = windows_input.send_events(events)
+            if sent != len(events):
+                raise ExecutorError(f"SendInput hotkey {sent}/{len(events)} events")
+            return {"keys": keys, "events": sent, "backend": "sendinput"}
         combo = "+".join(keys)
         try:
             subprocess.run(
@@ -166,7 +193,28 @@ class Executor:
         dest = self.screenshot_dir / name
         dest.parent.mkdir(parents=True, exist_ok=True)
         if sys.platform == "win32":
-            raise ExecutorError("windows screenshot is not wired yet")
+            script = windows_input.screenshot_powershell(str(dest.resolve()))
+            try:
+                subprocess.run(
+                    [
+                        "powershell",
+                        "-NoProfile",
+                        "-NonInteractive",
+                        "-ExecutionPolicy",
+                        "Bypass",
+                        "-Command",
+                        script,
+                    ],
+                    check=True,
+                    capture_output=True,
+                    text=True,
+                    timeout=20.0,
+                )
+            except (OSError, subprocess.CalledProcessError, subprocess.TimeoutExpired) as exc:
+                raise ExecutorError(f"powershell screenshot failed: {exc}") from exc
+            if not dest.exists() or dest.stat().st_size < 100:
+                raise ExecutorError("screenshot was empty")
+            return dest
         if not shutil.which("ffmpeg"):
             raise ExecutorError("ffmpeg missing")
         w, h = self.display_size()
