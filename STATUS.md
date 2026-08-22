@@ -1,6 +1,6 @@
 # STATUS
 
-Updated: 2026-08-23 05:27 MYT. Success = live Stripe charge, then a payout.
+Updated: 2026-08-23 05:28 MYT. Success = live Stripe charge, then a payout.
 
 ## Now (measured)
 
@@ -15,6 +15,7 @@ Updated: 2026-08-23 05:27 MYT. Success = live Stripe charge, then a payout.
 - Deployment 23 Aug 05:20 MYT: Spaceship File Manager uploaded `/hire/index.html` and the six-file `/hire/trace/` artifact. Root `/` and `/aim/` still returned HTTP 200. BrewPage, Surge, Telegraph, and all three Rentry mirrors were synchronized with the source-trace link.
 - Monday 24 Aug queue was rewritten against freshly checked prospect pages. Three Gmail drafts for Pen Express, InterOcean Penang, and BH Armada were created but not sent; their draft/thread IDs are in `docs/monday-queue.md`. Gmail `ListDrafts` returned all three with the `DRAFT` label. Direct thread read-back is denied by the current Gmail scope. Do not send before 09:00 MYT Monday.
 - A one-time subscription `netie-monday-outreach-2026-08-24-0900-myt` is queued for Monday 24 Aug 09:00 MYT. It must re-check draft status and conflicting replies before sending only the three approved first touches, then check Stripe once for the new MYT day.
+- Removed the stale two-hour `loop-earn-usd` timer because it still referenced retired RM 300 copy and outdated mirror rules. The guarded Monday subscription is now the only active revenue timer.
 - Laptop Drive 22 Aug docs were still Number Trace. New Drive doc: https://docs.google.com/document/d/1siVTp9MYgB3jatoUecjkfakQ86tkWkt06ZxMoiJwx1k/edit
 - Spaceship Hosting Manager login worked after Gmail recovery (username netiejh). Hosting Essential still expired; File Manager still uploaded /hire/. Password for that login lives only in this VM tmp, not in git.
 
