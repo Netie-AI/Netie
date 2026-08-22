@@ -3,4 +3,5 @@ __pycache__/
 *.pyc
 .pytest_cache/
 *.png
+!pay/*.png
 pair.token

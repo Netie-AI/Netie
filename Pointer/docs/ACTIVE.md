@@ -16,7 +16,7 @@ What exists in this bootstrap and where.
 | `scripts/verify.sh` | Unit tests + live mouse |
 | `scripts/install_windows.ps1` | Laptop start + live-click + pair card |
 | `tests/test_pointer.py` | Gate, ledger, sandbox, Windows input, pay-page URLs |
-| `pay/index.html` | Durable pay page: live Stripe + Drive sheet + Outlier/HackerOne/Bugcrowd |
+| `pay/index.html` | Durable pay page: live Stripe + Drive sheet + Pointer RM 300 QR |
 | `docs/CRADLE_SPARK.md` | Founder-only CIP Spark submit pack; traction honesty |
 
 Default listen: `http://127.0.0.1:7420`

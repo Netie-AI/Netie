@@ -28,6 +28,10 @@ def pay_page_path() -> Path:
     return Path(__file__).resolve().parents[1] / "pay" / "index.html"
 
 
+def pay_qr_path() -> Path:
+    return Path(__file__).resolve().parents[1] / "pay" / "pointer-rm300.png"
+
+
 def laptop_root_html() -> bytes:
     items = "".join(f"<li>{step}</li>" for step in laptop_next_steps())
     page = f"""<!DOCTYPE html>
@@ -64,9 +68,9 @@ class PointerHandler(BaseHTTPRequestHandler):
         self.end_headers()
         self.wfile.write(raw)
 
-    def _html(self, code: int, body: bytes) -> None:
+    def _png(self, code: int, body: bytes) -> None:
         self.send_response(code)
-        self.send_header("Content-Type", "text/html; charset=utf-8")
+        self.send_header("Content-Type", "image/png")
         self.send_header("Content-Length", str(len(body)))
         self.end_headers()
         self.wfile.write(body)
@@ -113,6 +117,13 @@ class PointerHandler(BaseHTTPRequestHandler):
                 self._json(500, {"ok": False, "reason": "pay page missing"})
                 return
             self._html(200, page.read_bytes())
+            return
+        if path == "/pay/pointer-rm300.png":
+            qr = pay_qr_path()
+            if not qr.is_file():
+                self._json(404, {"ok": False, "reason": "qr missing"})
+                return
+            self._png(200, qr.read_bytes())
             return
         self._json(404, {"ok": False, "reason": "not found"})
 

@@ -4,13 +4,13 @@
 
 ## Now
 
-1. Verify measured: 17 tests OK, live mouse to 400,300, `/health`+`/pay` (`pay_bytes` 3057)+`GET /` (`root_ok`), gated sandbox write (`degraded: local_act_without_cortex`). Git `d7bcb46`. `Netie-AI/Pointer` still 404.
-2. Stripe live: charges 0, MYR 0 / 0 pending. `payouts_enabled=false`. crash.netie.ai still LiteSpeed autoindex.
-3. No Slingshot confirmation (deck still claims 100K downloads; false vs Stripe). Drive pay sheet: https://docs.google.com/document/d/1h7H6thuUqyD71MlDyQd0Vbey5ucO30JGM1sSZ_mN4nI/edit . OpenClaw/Hermes not installed here.
+1. Verify this tick (pre-QR restart): 17 tests OK, live mouse to 220,180, `/health`+`/pay`+`GET /`, gated sandbox write. Git `661e115`. `Netie-AI/Pointer` still 404.
+2. Stripe: charges 0, MYR 0. Pointer link `plink_1U7DHhFV5wcFod2f1pf2kUEs` still `active=true`. Drive pay sheet still owner-only (no anyone-with-link). crash.netie.ai still autoindex.
+3. QR PNG for that live link is in `pay/pointer-rm300.png` and `GET /pay/pointer-rm300.png`. OpenClaw/Hermes not installed here. No Slingshot confirmation.
 
 ## Next
 
-- Founder: set that Drive doc to "anyone with the link", then send Pointer install https://buy.stripe.com/dRmaEXchg7Wr7nS8D29ws08 to one person who already asked. Finish Outlier ID in the Outlier tab. Optional: HackerOne https://hackerone.com/opportunities/all (in-scope only; they pay you).
+- Founder: screenshot http://127.0.0.1:7420/pay/pointer-rm300.png and send to one person who already asked. Set Drive doc anyone-with-link. Finish Outlier ID. Optional HackerOne in-scope only.
 - Laptop: `.\scripts\install_windows.ps1` then http://127.0.0.1:7420/ . Do not set POINTER_ALLOW_REMOTE=1.
 - Stripe Dashboard identity + business-model form. Do not re-mail Easyway/Hengxing today.
 

@@ -37,6 +37,7 @@ OpenClaw and Hermes are not part of this process.
 | GET | `/` | none (laptop next steps, no tokens) |
 | GET | `/health`, `/healthz` | none |
 | GET | `/pay` | none (live Stripe HTML) |
+| GET | `/pay/pointer-rm300.png` | none (QR of Pointer RM 300 link) |
 | GET | `/v1/status` | none (loopback; `pair_ready` boolean, no tokens) |
 | POST | `/v1/intent` | pair token if `source=remote-paired` |
 | POST | `/v1/kill` | none (loopback kill is intentional) |

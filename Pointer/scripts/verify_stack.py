@@ -59,8 +59,9 @@ def daemon_health() -> dict:
 
     url = os.environ.get("POINTER_URL", "http://127.0.0.1:7420") + "/health"
     pay_url = os.environ.get("POINTER_URL", "http://127.0.0.1:7420") + "/pay"
+    qr_url = os.environ.get("POINTER_URL", "http://127.0.0.1:7420") + "/pay/pointer-rm300.png"
     root_url = os.environ.get("POINTER_URL", "http://127.0.0.1:7420") + "/"
-    out: dict = {"url": url, "pay_url": pay_url, "root_url": root_url}
+    out: dict = {"url": url, "pay_url": pay_url, "qr_url": qr_url, "root_url": root_url}
     try:
         with urllib.request.urlopen(url, timeout=2) as resp:
             body = json.loads(resp.read().decode("utf-8"))
@@ -73,11 +74,19 @@ def daemon_health() -> dict:
     try:
         with urllib.request.urlopen(pay_url, timeout=2) as resp:
             html = resp.read().decode("utf-8", errors="replace")
-            out["pay_ok"] = resp.status == 200 and "buy.stripe.com" in html
+            out["pay_ok"] = resp.status == 200 and "buy.stripe.com" in html and "pointer-rm300.png" in html
             out["pay_bytes"] = len(html)
     except (urllib.error.URLError, TimeoutError, OSError, ValueError) as exc:
         out["pay_ok"] = False
         out["pay_error"] = str(exc)
+    try:
+        with urllib.request.urlopen(qr_url, timeout=2) as resp:
+            raw = resp.read()
+            out["qr_ok"] = resp.status == 200 and raw.startswith(b"\x89PNG")
+            out["qr_bytes"] = len(raw)
+    except (urllib.error.URLError, TimeoutError, OSError, ValueError) as exc:
+        out["qr_ok"] = False
+        out["qr_error"] = str(exc)
     try:
         with urllib.request.urlopen(root_url, timeout=2) as resp:
             root = resp.read().decode("utf-8", errors="replace")
@@ -183,6 +192,8 @@ def main() -> int:
     if daemon.get("ok") and not intent.get("ok"):
         return 1
     if daemon.get("ok") and not daemon.get("pay_ok"):
+        return 1
+    if daemon.get("ok") and not daemon.get("qr_ok"):
         return 1
     if daemon.get("ok") and not daemon.get("root_ok"):
         return 1

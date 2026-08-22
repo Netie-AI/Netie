@@ -220,17 +220,21 @@ class PayPageTests(unittest.TestCase):
         self.assertIn("https://docs.google.com/document/d/1h7H6thuUqyD71MlDyQd0Vbey5ucO30JGM1sSZ_mN4nI/edit", html)
         self.assertIn("https://hackerone.com/opportunities/all", html)
         self.assertIn("https://app.outlier.ai/", html)
+        self.assertIn("pointer-rm300.png", html)
         self.assertNotIn("100K+", html)
 
 
 class PayRouteTests(unittest.TestCase):
     def test_pay_page_path_is_the_html_file(self) -> None:
-        from pointer.server import pay_page_path
+        from pointer.server import pay_page_path, pay_qr_path
 
         p = pay_page_path()
         self.assertTrue(p.is_file())
         self.assertEqual(p.name, "index.html")
         self.assertIn("buy.stripe.com", p.read_text(encoding="utf-8"))
+        qr = pay_qr_path()
+        self.assertTrue(qr.is_file())
+        self.assertTrue(qr.read_bytes().startswith(b"\x89PNG"))
 
 
 class PairCardTests(unittest.TestCase):
