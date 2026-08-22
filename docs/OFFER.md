@@ -7,7 +7,8 @@ Pay:
 
 Stripe live. Invoice on. Card, GrabPay, or Link. Not a subscription.
 FPX is off until the founder enables it in Stripe Dashboard. Payouts are off until identity is verified. MyKad is already in Drive as `Ic.pdf`; upload that in Dashboard.
-Public pay page (~72h): https://litter.catbox.moe/d8n858.html
+Public pay page (~72h): https://litter.catbox.moe/vs14br.html
+Source: `docs/pay.html`. Not a Coming Soon pitch.
 
 ## What the buyer gets
 
