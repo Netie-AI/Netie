@@ -56,6 +56,15 @@ if ($LASTEXITCODE -ne 0) {
     Write-Host "live-click failed; still writing pair card. This is P-002 unproven."
 }
 python -m pointer pair --card
+$desktop = [Environment]::GetFolderPath("Desktop")
+if ($desktop) {
+    Copy-Item (Join-Path $bootstrap ".pointer-state\PAIR_CARD.txt") (Join-Path $desktop "POINTER_CARD.txt") -Force
+    $qr = Join-Path $bootstrap "pay\pointer-rm300.png"
+    if (Test-Path $qr) {
+        Copy-Item $qr (Join-Path $desktop "POINTER_RM300.png") -Force
+    }
+    Write-Host "desktop copies: POINTER_CARD.txt (no tokens) and POINTER_RM300.png if present"
+}
 Write-Host "card: $bootstrap\.pointer-state\PAIR_CARD.txt (gitignored). Do not email tokens."
 Write-Host "open http://127.0.0.1:7420/ for the same 5 steps"
 

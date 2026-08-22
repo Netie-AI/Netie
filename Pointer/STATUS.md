@@ -4,14 +4,14 @@
 
 ## Now
 
-1. Verify measured: 18 tests OK, live mouse, `/health`+`/pay` (`pay_ok`)+QR PNG 712 bytes+`GET /` (`root_ok`), gated sandbox write. Git `784effa`. `Netie-AI/Pointer` still 404.
-2. Stripe: charges 0. Pointer `plink_1U7DHhFV5wcFod2f1pf2kUEs` was active last tick. Drive pay sheet still owner-only.
-3. Vercel mail 06:51: project `ruma-houser` flags `netie.ai` and `www.netie.ai` as misconfigured. Apex `https://netie.ai/` still LiteSpeed 200 (HTML 73625 bytes, last-modified 2026-04-03). Do not point the apex at Vercel without a cutover plan. OpenClaw/Hermes not installed here.
+1. Verify last run: 18 tests OK, live mouse 220,180, `/health`+`/pay`+QR PNG 712+`GET /`, gated sandbox write. Git `4460822` then this tick's Desktop+Drive QR commit. `Netie-AI/Pointer` still 404. Stripe charges 0.
+2. Phone QR (hash-checked vs local PNG): https://drive.google.com/file/d/12HUn5z1C62HwMp144kB_-wvnBom4XIke/view  Still owner-only. Drive pay sheet still owner-only.
+3. `install_windows.ps1` copies `POINTER_CARD.txt` (no tokens) and `POINTER_RM300.png` to the Windows Desktop. Vercel `ruma-houser` still flags netie.ai/www; do not flip apex DNS. OpenClaw/Hermes not installed here.
 
 ## Next
 
-- Founder: Vercel dashboard https://vercel.com/jian-hongs-projects/ruma-houser/settings/domains -- either fix those two names or remove them. Do not steal the live LiteSpeed homepage. Optional: host `Pointer/pay/` on a new host like `pay.netie.ai`.
-- Screenshot http://127.0.0.1:7420/pay/pointer-rm300.png to one person who already asked. Outlier ID in that tab. Laptop: `.\scripts\install_windows.ps1`.
+- Founder: open that Drive PNG on the phone and send to one person who already asked. Run `.\scripts\install_windows.ps1` on the Windows laptop (Desktop should get the card + QR).
+- Vercel domains: fix or remove netie.ai/www on ruma-houser. Optional `pay.netie.ai`. Outlier ID in that tab.
 - Stripe identity + business-model form. Do not re-mail Easyway/Hengxing today.
 
 ## Later

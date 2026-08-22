@@ -221,6 +221,7 @@ class PayPageTests(unittest.TestCase):
         self.assertIn("https://hackerone.com/opportunities/all", html)
         self.assertIn("https://app.outlier.ai/", html)
         self.assertIn("pointer-rm300.png", html)
+        self.assertIn("https://drive.google.com/file/d/12HUn5z1C62HwMp144kB_-wvnBom4XIke/view", html)
         self.assertNotIn("100K+", html)
 
 

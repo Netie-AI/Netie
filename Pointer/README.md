@@ -33,8 +33,8 @@ $env:PYTHONPATH = (Get-Location)
 ```
 
 That script starts `python -m pointer serve` on loopback if needed, runs
-`live-click`, and writes `.pointer-state/PAIR_CARD.txt` (gitignored, no tokens
-in the window). Then open http://127.0.0.1:7420/ for the same 5 steps.
+`live-click`, writes `.pointer-state/PAIR_CARD.txt`, and copies
+`POINTER_CARD.txt` plus `POINTER_RM300.png` to the Desktop.
 
 `live-click` screenshots go to `.pointer-state/shots`, not `/tmp`.
 Do not set `POINTER_ALLOW_REMOTE=1`. Do not email pair tokens.
