@@ -1,16 +1,15 @@
 # STATUS
 
-Updated: 2026-08-22 20:38 MYT. Success = live Stripe charge, then a payout.
+Updated: 2026-08-22 20:40 MYT. Success = live Stripe charge, then a payout.
 
 ## Now (measured)
 
 - Stripe: available MYR 0, customers 0, charges 0, PaymentIntents 0.
 - Same open Checkout `cs_live_a1DK...` RM 300, unpaid, no PI. Not income.
-- LES: sent, no bounce yet.
-- NCR Resources skipped: live site is populated (shredding, recycle, e-waste). Not Coming Soon.
-- JS Storage `sales@johorack.com.my`: first mail + public-facts draft sent (`1a02978b1a65a292`).
-  Email is on live homepage. Services page still says Not added yet.
-  Draft: https://litter.catbox.moe/mmsck4.html
+- JS Storage: sent, no bounce yet.
+- Sin Ban Lee `steve_kflee@yahoo.com`: first mail + public-facts draft sent (`1a0297aae690ec21`).
+  Email is on NEWPAGES (same SSM 001657897-T) and product pages. Services page still says Coming Soon.
+  Draft: https://litter.catbox.moe/gnr2ap.html
 - Public pay page: https://litter.catbox.moe/d8n858.html
 
 ## Next
@@ -19,7 +18,8 @@ Updated: 2026-08-22 20:38 MYT. Success = live Stripe charge, then a payout.
    https://docs.google.com/document/d/1riREBp22fMTZBaYxoyUGyMQgI1yYISNe3-cyqlNCVCc/edit
 2. Upload `Ic.pdf` to Stripe. Enable FPX in Dashboard.
 3. Renew Spaceship hosting: https://www.spaceship.com/launchpad/
-4. Agent next: find one unused Coming Soon / empty-services page with email
-   on live HTML. Do not mail jsstorage@yahoo.com (same firm, already mailed).
-   Skip NCR. Skip PT. Skip CF. Skip NCT. Skip Amici. Skip DHU. Skip robex info@ (550).
-   Skip Mrs Marine as Coming Soon (services page is populated).
+4. Agent next: Stream Communication services page still says Coming Soon
+   (http://www.streamcomm.com.my/index.php?ws=servicesbycat).
+   Verify email on live HTML before mailing.
+   Skip NCR. Skip jsstorage@yahoo.com. Skip PT. Skip CF. Skip NCT. Skip Amici.
+   Skip DHU. Skip robex info@ (550). Skip Mrs Marine as Coming Soon.
