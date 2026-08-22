@@ -18,6 +18,7 @@ One Number (RM 300): 1 figure, 20 minutes, written trace or "cannot be traced".
 Number Trace (RM 1,500): 5 figures, 90 minutes, same rule.
 Writeup form: `docs/number-trace-deliverable.md`
 Drive copy: https://docs.google.com/document/d/1lkg9yMkNnHIfQEvCVW7pM7aDl4hPG41D5k7G3tiCKoc/edit
+Helper: `python scripts/trace_number.py FILE CELL`
 
 They send the Excel/CSV those numbers came from. No live-database plug-in. No cameras. No staff tracking. No software licence.
 

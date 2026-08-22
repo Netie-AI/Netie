@@ -2,6 +2,14 @@
 
 Fill this after pay. Clock starts when the file arrives. One number: 20 minutes. Five numbers: copy the block five times, 90 minutes.
 
+Helper (reads the file only):
+
+```
+python scripts/trace_number.py FILE CELL
+```
+
+Example: `python scripts/trace_number.py docs/fixtures/sample-outbound.xlsx WK32!F14`
+
 Return as email body or a .txt. Do not guess. If the figure has no formula and no matching rows, write cannot be traced.
 
 ---
