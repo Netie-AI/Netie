@@ -7,7 +7,8 @@ Pay:
 
 Stripe live. Invoice on. Card, GrabPay, or Link. Not a subscription.
 FPX is off until enabled in Stripe Dashboard. payouts_enabled=true as of 22 Aug 2026. Business model form still past due.
-Public pay page (durable): https://telegra.ph/Netie-Number-Trace-08-22
+Public pay page (durable, Number Trace): https://telegra.ph/Netie-Number-Trace-08-22
+Public hire page (durable, AI landing headline, measured 23 Aug 02:22 MYT HTTP 200, 3 Stripe hrefs + Twine): https://telegra.ph/Netie-AI-landing-page-08-22
 Rendered HTML from public GitLab is blocked from this IP as of 23 Aug 02:20 MYT (githack 302 to GitLab sign_in; gitlab.com/jianhongpg/number-trace 403/sign_in; Chrome Cloudflare human check). Do not use those URLs until they measure 200 again.
 Public GitLab snippet 6040859 same sign_in wall.
 Markdown copies: https://rentry.co/mst6o543 and https://rentry.co/gk39ee85 (new 23 Aug 02:19 MYT, 3 Stripe hrefs, noindex).
