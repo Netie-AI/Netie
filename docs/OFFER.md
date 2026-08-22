@@ -1,15 +1,18 @@
 # Offer: Netie Number Trace
 
-Pay: https://buy.stripe.com/dRm8wP3KKfoT9w0g5u9ws03
-Price: RM 1,500 once. Stripe live. Invoice on. Card, GrabPay, or Link. Not a subscription.
-FPX is off until the founder enables it in Stripe Dashboard. Payouts are off until identity is verified.
+Pay:
+- One number, RM 300, 20 minutes: https://buy.stripe.com/fZu3cvdlkb8D4bG5qQ9ws04
+- Five numbers, RM 1,500, 90 minutes: https://buy.stripe.com/dRm8wP3KKfoT9w0g5u9ws03
+
+Stripe live. Invoice on. Card, GrabPay, or Link. Not a subscription.
+FPX is off until the founder enables it in Stripe Dashboard. Payouts are off until identity is verified. MyKad is already in Drive as `Ic.pdf`; upload that in Dashboard.
 
 ## What the buyer gets
 
-1. They send 5 numbers from a monthly ops/warehouse/finance report, plus the Excel/CSV/SQL extract those numbers supposedly came from.
-2. 90-minute session. Each number is traced to a cell, a query, or a gap.
-3. Written map: number -> source, or "cannot be traced" with what is missing.
-4. No live-database plug-in. No cameras. No staff tracking. No software licence.
+One Number (RM 300): 1 figure, 20 minutes, written trace or "cannot be traced".
+Number Trace (RM 1,500): 5 figures, 90 minutes, same rule.
+
+They send the Excel/CSV those numbers came from. No live-database plug-in. No cameras. No staff tracking. No software licence.
 
 ## What we do not claim
 
