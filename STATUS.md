@@ -7,7 +7,7 @@ Updated: 2026-08-22 21:40 MYT. Success = live Stripe charge, then a payout.
 - last_stripe_check: 2026-08-22 (MYT). Next allowed: 2026-08-23. Not polled this turn.
 - No buyer replies. Website form `SHAHEED badeer` is spam. Ignore.
 - Saturday: no outbound mail. Tone skill holds.
-- Monday queue ready: `docs/monday-queue.md` (Transways, human tone).
+- Monday queue ready: `docs/monday-queue.md` (Transways, then Image Logistics).
 - Fulfilment form ready: `docs/number-trace-deliverable.md`
 - WhatsApp one-liner rewritten: `docs/whatsapp-paste.txt`
 - Public page: https://litter.catbox.moe/vs14br.html
