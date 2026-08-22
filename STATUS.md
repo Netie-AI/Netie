@@ -1,12 +1,12 @@
 # STATUS
 
-Updated: 2026-08-22 19:38 MYT. Success = live Stripe charge, then a payout.
+Updated: 2026-08-22 19:41 MYT. Success = live Stripe charge, then a payout.
 
 ## Now (measured)
 
-- Stripe re-check: available MYR 0, customers 0, charges 0. No buyer replies.
+- Stripe re-check: available MYR 0, customers 0, charges 0, Checkout 0, PaymentIntents 0. No buyer replies.
 - Public pay page: https://litter.catbox.moe/d8n858.html
-- New: PCSS `sales@pcss.com.my` -- homepage Live countdown still says 12 July 2024. Offered RM 500 events page.
+- New: MOL Logistics Penang `MLGMY.PENALL@molgroup.com` -- Bayan Lepas office listed on molseao.com. Offered RM 300 One Number.
 
 ## Next
 
