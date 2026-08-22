@@ -1,13 +1,13 @@
 # STATUS
 
-Updated: 2026-08-23 00:35 MYT. Success = live Stripe charge, then a payout.
+Updated: 2026-08-23 00:42 MYT. Success = live Stripe charge, then a payout.
 
 ## Now (measured)
 
 - last_stripe_check: 2026-08-23 00:17 MYT. Did not poll again this MYT day. Still MYR 0 / 0 charges. Next Stripe read: 2026-08-24.
 - Durable Number Trace page: https://telegra.ph/Netie-Number-Trace-08-22. 72h HTML: https://litter.catbox.moe/otu3iz.html.
-- Twine: https://www.twine.net/jianhong (200, Available to hire, Medium). API 1785534: Microsoft Excel experience 71, Freelance Gig 0, languages English + Malay. Avatar still placeholder (crop Save did not stick). Inbox empty. Sunday: no first-mail. Kept 2h timer.
-- Gmail: no Hengxing/Easyway/Centrolink/Transways replies. No Truelancer.
+- Twine: https://www.twine.net/jianhong (200, Medium). Project live: https://www.twine.net/jianhong/c215tb0/number-trace-on-excel (200). Description has RM 300 / RM 1,500, no signin trap (Twine rewrites external URLs to /signin; do not paste Telegraph there). Excel experience 71. Inbox empty. Sunday: no first-mail.
+- Gmail: no 3PL or Truelancer replies.
 
 ## Next
 
