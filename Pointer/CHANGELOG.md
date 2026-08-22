@@ -4,6 +4,7 @@ Append-only. Newest first.
 
 ## 2026-08-22
 
+- Stripe payouts phone pack: `docs/STRIPE_PAYOUTS.md` plus Drive `175ocCJoFFaXbbKkHKNyvw0w6AkwEiaix1D527Qf-8Oo`. Linked from `/pay`. Dashboard-only; NRIC stays out of git. P-014.
 - Windows prove: SetProcessDpiAwareness so SetCursorPos matches GetCursorPos; `ok` requires screenshot >=100 bytes; targets clamped to screen size. Linux prove still ok=true.
 - Laptop phone pack Drive `1by_5VEBbQpD86So-q6K8F2T2MpcHWNkd4BKb4UlARI0` (5 steps, no tokens, branch zip + py -3). Still no POINTER_PROVE.json.
 - install_windows.ps1 accepts `python` or `py -3`. `pair --card` writes token-free POINTER_NEXT.txt for Desktop. Product Pointer PRs #26/#27 in Gmail still have no cloneable payloads.
