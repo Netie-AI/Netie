@@ -4,7 +4,7 @@
 
 ## Now
 
-1. Verify measured 2026-08-22 12:20 UTC: 21 tests OK, live mouse, `/health`+`/pay`+QR 712B+`GET /`, gated sandbox write. Git `302dc62`. `Netie-AI/Pointer` still 404. Stripe charges 0 / MYR 0.
+1. Verify measured 2026-08-22 12:22 UTC: 22 tests OK, live mouse, `/health`+`/pay`+QR 712B+`GET /`, gated sandbox write. Git `302dc62`. `Netie-AI/Pointer` still 404. Stripe charges 0 / MYR 0.
 2. Litterbox pay still 200: `u399xy.html` / `5hdpx8.png` (~72h). Fiverr: no gig URL. H1: no username. Cradle GMS: Drive `16kmarL_ZW48KYA0uvQW51-JvwnB7yyKB9ZabmTNoSoA`. No Slingshot. No `POINTER_PROVE.json`.
 3. OpenClaw/Hermes not installed here. Do not flip netie.ai apex DNS.
 
