@@ -40,39 +40,7 @@ if ($LASTEXITCODE -ne 0) {
     throw "Python --version failed"
 }
 
-Write-Host "3. Daemon on 127.0.0.1:7420"
-$up = $false
-try {
-    $r = Invoke-WebRequest -UseBasicParsing http://127.0.0.1:7420/health -TimeoutSec 2
-    if ($r.StatusCode -eq 200) { $up = $true }
-} catch {
-    $up = $false
-}
-if ($up) {
-    Write-Host "daemon already up"
-} else {
-    Write-Host "starting python -m pointer serve (loopback only)"
-    $serveArgs = @($Py.Prefix + @("-m", "pointer", "serve"))
-    Start-Process -FilePath $Py.File -WorkingDirectory $bootstrap -ArgumentList $serveArgs
-    for ($i = 0; $i -lt 20; $i++) {
-        Start-Sleep -Milliseconds 400
-        try {
-            $r = Invoke-WebRequest -UseBasicParsing http://127.0.0.1:7420/health -TimeoutSec 2
-            if ($r.StatusCode -eq 200) { $up = $true; break }
-        } catch {
-            $up = $false
-        }
-    }
-}
-if (-not $up) {
-    throw "daemon did not become healthy on http://127.0.0.1:7420/health"
-}
-
-Write-Host "3b. Mesh probes (TAS Cortex :8010 vs OpenVault mesh Cortex :8000). No silent remap."
-& $Py.File @($Py.Prefix + @("-m", "pointer", "mesh"))
-Write-Host "If Cortex is the OpenVault mesh on :8000, set CORTEX_URL=http://127.0.0.1:8000 then restart serve. TAS default is :8010."
-
-Write-Host "4. Prove hardware then write pair card (no tokens in this window)"
+Write-Host "3. Prove hardware first (does not need :7420). Then pair card (no tokens in this window)."
 & $Py.File @($Py.Prefix + @("-m", "pointer", "prove"))
 if ($LASTEXITCODE -ne 0) {
     Write-Host "prove failed; still writing pair card. This is P-002 unproven."
@@ -103,9 +71,41 @@ if ($desktop) {
     }
 }
 Write-Host "card: $bootstrap\.pointer-state\PAIR_CARD.txt (gitignored). Do not email tokens."
-Write-Host "opening http://127.0.0.1:7420/ (steps) and /pay (Stripe) in the default browser"
-Start-Process "http://127.0.0.1:7420/"
-Start-Process "http://127.0.0.1:7420/pay"
+
+Write-Host "4. Daemon on 127.0.0.1:7420 (non-fatal if down; prove already ran)"
+$up = $false
+try {
+    $r = Invoke-WebRequest -UseBasicParsing http://127.0.0.1:7420/health -TimeoutSec 2
+    if ($r.StatusCode -eq 200) { $up = $true }
+} catch {
+    $up = $false
+}
+if ($up) {
+    Write-Host "daemon already up"
+} else {
+    Write-Host "starting python -m pointer serve (loopback only)"
+    $serveArgs = @($Py.Prefix + @("-m", "pointer", "serve"))
+    Start-Process -FilePath $Py.File -WorkingDirectory $bootstrap -ArgumentList $serveArgs
+    for ($i = 0; $i -lt 20; $i++) {
+        Start-Sleep -Milliseconds 400
+        try {
+            $r = Invoke-WebRequest -UseBasicParsing http://127.0.0.1:7420/health -TimeoutSec 2
+            if ($r.StatusCode -eq 200) { $up = $true; break }
+        } catch {
+            $up = $false
+        }
+    }
+}
+if (-not $up) {
+    Write-Host "WARN: daemon did not become healthy on http://127.0.0.1:7420/health. Desktop POINTER_PROVE.json was still written if prove ran. Upload that file."
+} else {
+    Write-Host "4b. Mesh probes (TAS Cortex :8010 vs OpenVault mesh Cortex :8000). No silent remap."
+    & $Py.File @($Py.Prefix + @("-m", "pointer", "mesh"))
+    Write-Host "If Cortex is the OpenVault mesh on :8000, set CORTEX_URL=http://127.0.0.1:8000 then restart serve. TAS default is :8010."
+    Write-Host "opening http://127.0.0.1:7420/ (steps) and /pay (Stripe) in the default browser"
+    Start-Process "http://127.0.0.1:7420/"
+    Start-Process "http://127.0.0.1:7420/pay"
+}
 Write-Host "Cash paths (do not auto-open during install): powershell -File scripts/open_revenue.ps1"
 
 Write-Host "5. OpenClaw / Hermes / Ollama (informational; not Cortex)"

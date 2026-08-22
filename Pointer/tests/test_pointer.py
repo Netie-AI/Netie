@@ -411,6 +411,10 @@ class PairCardTests(unittest.TestCase):
         self.assertIn("mesh", src)
         self.assertIn("drive.google.com/drive/my-drive", src)
         self.assertIn("open_revenue.ps1", src)
+        self.assertIn("Prove hardware first", src)
+        self.assertNotIn('throw "daemon did not become healthy', src)
+        self.assertIn("WARN: daemon did not become healthy", src)
+        self.assertLess(src.index('"prove"'), src.index("starting python -m pointer serve"))
 
     def test_open_revenue_script_has_five_cash_paths(self) -> None:
         src = (Path(__file__).resolve().parents[1] / "scripts" / "open_revenue.ps1").read_text(

@@ -80,7 +80,10 @@ def main(argv: list[str] | None = None) -> int:
         target_x, target_y = min(220, w - 1), min(180, h - 1)
         if before.get("x") == target_x and before.get("y") == target_y:
             target_x, target_y = min(400, w - 1), min(300, h - 1)
-        moved = ex.move(target_x, target_y)
+        try:
+            moved = ex.move(target_x, target_y)
+        except ExecutorError as exc:
+            moved = {"requested": {"x": target_x, "y": target_y}, "error": str(exc)}
         after = ex.mouse_location()
         shot = None
         shot_error = None
