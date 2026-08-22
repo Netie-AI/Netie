@@ -1,15 +1,15 @@
 # STATUS
 
-Updated: 2026-08-22 21:00 MYT. Success = live Stripe charge, then a payout.
+Updated: 2026-08-22 21:03 MYT. Success = live Stripe charge, then a payout.
 
 ## Now (measured)
 
 - Stripe: available MYR 0, customers 0, charges 0, PaymentIntents 0.
 - Same open Checkout `cs_live_a1DK...` RM 300, unpaid, no PI. Not income.
-- MD Pack: sent, no bounce yet.
-- Tay Kwang Hin `taykwanghin@gmail.com`: first mail + public-facts draft sent (`1a02986bc37bf206`).
-  Email is on live homepage, services, and contact HTML. Services page still says Coming Soon.
-  Draft: https://litter.catbox.moe/hp3tah.html
+- Tay Kwang Hin: sent, no bounce yet.
+- Fit Systems `sales@fitsystems.com.my`: first mail + public-facts draft sent (`1a0298843eb956a4`).
+  Email is on live contact HTML. Services page still says Coming Soon.
+  Draft: https://litter.catbox.moe/sxyw9u.html
 - Public pay page: https://litter.catbox.moe/d8n858.html
 
 ## Next
@@ -25,3 +25,4 @@ Updated: 2026-08-22 21:00 MYT. Success = live Stripe charge, then a payout.
    Skip DHU. Skip robex info@ (550). Skip Mrs Marine as Coming Soon.
    Skip Juta. Skip JTC sales@. Skip Yuan Jen Dealers-only.
    Skip ieplastics@yahoo.com (same firm as sales@). Skip MD Pack. Skip Tay Kwang Hin.
+   Skip Fit Systems. Skip Gayheng / IPL / NBH / EKG as Coming Soon (populated or mixed).
