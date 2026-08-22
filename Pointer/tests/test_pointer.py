@@ -299,6 +299,18 @@ class PairCardTests(unittest.TestCase):
             self.assertIn(tokens["pair_token"], shown)
             hidden = write_card(state, show_tokens=False).read_text(encoding="utf-8")
             self.assertNotIn(tokens["pair_token"], hidden)
+            nxt = (state / "POINTER_NEXT.txt").read_text(encoding="utf-8")
+            self.assertIn("POINTER_PROVE.json", nxt)
+            self.assertNotIn(tokens["pair_token"], nxt)
+            self.assertNotIn("approval_token:", nxt)
+
+    def test_install_script_accepts_py_launcher(self) -> None:
+        src = (Path(__file__).resolve().parents[1] / "scripts" / "install_windows.ps1").read_text(
+            encoding="utf-8"
+        )
+        self.assertIn("Get-Command py", src)
+        self.assertIn("POINTER_NEXT.txt", src)
+        self.assertIn("POINTER_PROVE.json", src)
 
     def test_live_click_uses_state_shots(self) -> None:
         src = (Path(__file__).resolve().parents[1] / "pointer" / "__main__.py").read_text(

@@ -11,7 +11,7 @@ def laptop_next_steps() -> list[str]:
     return [
         "On the Windows laptop, not the cloud VM: copy Pointer/ then run powershell -File scripts/install_windows.ps1",
         "Keep python -m pointer serve on 127.0.0.1:7420. Do not set POINTER_ALLOW_REMOTE=1.",
-        "Prove hardware: python -m pointer prove  (writes .pointer-state/PROVE.json, no tokens)",
+        "Prove hardware: python -m pointer prove (writes .pointer-state/PROVE.json, no tokens). Then Drive-upload or email Desktop POINTER_PROVE.json only",
         "Hold tokens on that machine: python -m pointer pair --card. Use pair --show only locally. Do not email tokens.",
         "This cloud VM cannot click D:\\Pointer. Paste tokens only into a Cursor chat on the laptop, then python -m pointer pair --rotate-approval.",
     ]
@@ -44,6 +44,24 @@ def write_card(state_dir: Path, *, show_tokens: bool = False) -> Path:
         path.chmod(0o600)
     except OSError:
         pass
+    write_next(state_dir)
+    return path
+
+
+def write_next(state_dir: Path) -> Path:
+    """Token-free next-steps file for the Desktop. Safe to email."""
+    state_dir.mkdir(parents=True, exist_ok=True)
+    lines = [
+        "POINTER NEXT",
+        "No tokens in this file. Safe to email or Drive-upload.",
+        "",
+        *[f"{i}. {step}" for i, step in enumerate(laptop_next_steps(), start=1)],
+        "",
+        "After prove: Desktop POINTER_PROVE.json -- Drive-upload or email that file. Not PAIR_CARD.txt if you used pair --show.",
+        "Do not set POINTER_ALLOW_REMOTE=1. This cloud VM cannot click D:\\Pointer until you paste tokens in a laptop Cursor chat.",
+    ]
+    path = state_dir / "POINTER_NEXT.txt"
+    path.write_text("\n".join(lines) + "\n", encoding="utf-8")
     return path
 
 

@@ -12,16 +12,33 @@ Set-Location $bootstrap
 $env:PYTHONPATH = $bootstrap
 $env:POINTER_BIND = "127.0.0.1"
 
+function Get-PointerPython {
+    $python = Get-Command python -ErrorAction SilentlyContinue
+    if ($python) {
+        return @{ File = $python.Source; Prefix = @() }
+    }
+    $py = Get-Command py -ErrorAction SilentlyContinue
+    if ($py) {
+        return @{ File = $py.Source; Prefix = @("-3") }
+    }
+    throw "Python not found. Install CPython from https://www.python.org/downloads/windows/ then re-run."
+}
+
 Write-Host "1. Looking for product Pointer at D:\Pointer"
 $product = "D:\Pointer"
 if (Test-Path $product) {
-    Write-Host "HIT $product"
+    Write-Host "HIT $product (informational). This script still runs the Netie bootstrap at $bootstrap unless you cloned product Pointer here."
 } else {
     Write-Host "MISS $product - using Netie bootstrap at $bootstrap"
 }
 
 Write-Host "2. Python"
-python --version
+$Py = Get-PointerPython
+$pyArgs = @($Py.Prefix)
+& $Py.File @pyArgs --version
+if ($LASTEXITCODE -ne 0) {
+    throw "Python --version failed"
+}
 
 Write-Host "3. Daemon on 127.0.0.1:7420"
 $up = $false
@@ -35,7 +52,8 @@ if ($up) {
     Write-Host "daemon already up"
 } else {
     Write-Host "starting python -m pointer serve (loopback only)"
-    Start-Process -FilePath "python" -WorkingDirectory $bootstrap -ArgumentList "-m","pointer","serve"
+    $serveArgs = @($Py.Prefix + @("-m", "pointer", "serve"))
+    Start-Process -FilePath $Py.File -WorkingDirectory $bootstrap -ArgumentList $serveArgs
     for ($i = 0; $i -lt 20; $i++) {
         Start-Sleep -Milliseconds 400
         try {
@@ -51,14 +69,18 @@ if (-not $up) {
 }
 
 Write-Host "4. Prove hardware then write pair card (no tokens in this window)"
-python -m pointer prove
+& $Py.File @($Py.Prefix + @("-m", "pointer", "prove"))
 if ($LASTEXITCODE -ne 0) {
     Write-Host "prove failed; still writing pair card. This is P-002 unproven."
 }
-python -m pointer pair --card
+& $Py.File @($Py.Prefix + @("-m", "pointer", "pair", "--card"))
 $desktop = [Environment]::GetFolderPath("Desktop")
 if ($desktop) {
     Copy-Item (Join-Path $bootstrap ".pointer-state\PAIR_CARD.txt") (Join-Path $desktop "POINTER_CARD.txt") -Force
+    $next = Join-Path $bootstrap ".pointer-state\POINTER_NEXT.txt"
+    if (Test-Path $next) {
+        Copy-Item $next (Join-Path $desktop "POINTER_NEXT.txt") -Force
+    }
     $prove = Join-Path $bootstrap ".pointer-state\PROVE.json"
     if (Test-Path $prove) {
         Copy-Item $prove (Join-Path $desktop "POINTER_PROVE.json") -Force
@@ -67,7 +89,8 @@ if ($desktop) {
     if (Test-Path $qr) {
         Copy-Item $qr (Join-Path $desktop "POINTER_RM300.png") -Force
     }
-    Write-Host "desktop copies: POINTER_CARD.txt (no tokens), POINTER_PROVE.json, POINTER_RM300.png if present"
+    Write-Host "desktop copies: POINTER_CARD.txt (no tokens), POINTER_NEXT.txt, POINTER_PROVE.json, POINTER_RM300.png if present"
+    Write-Host "email or Drive-upload POINTER_PROVE.json only. Do not email tokens."
 }
 Write-Host "card: $bootstrap\.pointer-state\PAIR_CARD.txt (gitignored). Do not email tokens."
 Write-Host "open http://127.0.0.1:7420/ for the same 5 steps"
