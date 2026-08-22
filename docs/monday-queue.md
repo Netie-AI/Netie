@@ -114,3 +114,19 @@ oojianhongg@gmail.com
 - Honest: junior/mid Python, not Django-at-scale. Jumpwin is current employer.
 - Do not mail again unless they reply.
 
+### Interview Resources -- SENT 23 Aug 2026 02:50 MYT
+
+- To: hiring@interviewresources.app
+- Source: Ask HN Who is hiring August 2026, item 49207409 (Full Stack AI Engineer, REMOTE)
+- Thread: `1a02acf3f9f64841`
+- Honest: GitHub + Constructor; expected salary USD 48,000; Jumpwin current employer.
+- Do not mail again unless they reply.
+
+### Atria -- SENT 23 Aug 2026 02:54 MYT
+
+- To: hackernewshiring@atria.org
+- Source: Ask HN Who is hiring August 2026, item 49160086 (Product Engineer across levels; Express/React/GCP)
+- Thread: `1a02ad230a525f36`
+- Honest: Product Engineer, not Staff Agentic AI. React/JS + Python RAG. No production Express/GCP/Terraform. Malaysian, Penang. Workable listing may be US-remote; HN said almost anywhere.
+- Do not mail again unless they reply.
+
