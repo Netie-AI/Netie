@@ -10,9 +10,13 @@ FPX is off until enabled in Stripe Dashboard. payouts_enabled=true as of 22 Aug 
 Public pay page (durable): https://telegra.ph/Netie-Number-Trace-08-22
 72h HTML copy: https://litter.catbox.moe/otu3iz.html
 Older copy still up: https://litter.catbox.moe/vs14br.html
+Wayback save requested 22 Aug 22:45 MYT: https://web.archive.org/web/20260822144553/https://telegra.ph/Netie-Number-Trace-08-22 (snapshot GET was 429; Telegraph itself still 200 with 3 Stripe hrefs).
 Do not use telegra.ph/Netie-pay-08-22 (Pointer page).
+Write.as anonymous post was blocked (`contentisblocked`). Do not share it.
 Source: `docs/pay.html`. Not a Coming Soon pitch.
-Fiverr paste: https://docs.google.com/document/d/1z2pWHqJPqmAHBwqyM1G7IUrNVQlaLB8PTtfC4j94B8E/edit
+Fiverr paste (Telegraph URLs): https://docs.google.com/document/d/1HyKS-wsE3M57VaJ7Eo0pbOF94e3qOv6Mybk-GkyknDM/edit
+Older Fiverr paste (litterbox vs14br): https://docs.google.com/document/d/1z2pWHqJPqmAHBwqyM1G7IUrNVQlaLB8PTtfC4j94B8E/edit
+Upwork catalog paste (on-platform USD 70, no Stripe on Upwork): `docs/upwork-catalog.md`
 WhatsApp one-liner: `docs/whatsapp-paste.txt`.
 
 ## What the buyer gets
@@ -44,4 +48,4 @@ They send the Excel/CSV those numbers came from. No live-database plug-in. No ca
 2. First Hengxing mail promised "we automate the ask" - this offer walks that back; trust cost is unpaid.
 3. Cortex/DMS are not in this cloud environment, so a software demo cannot be given from here.
 4. Cassandra USD checkout is live and crash.netie.ai is a directory listing - nobody can buy from the public host.
-5. Stripe payouts_enabled=false. A paid session still cannot reach Bank Islam until IC verification clears.
+5. Stripe `payouts_enabled=true` as of 22 Aug 2026. Identity document is verified. Business model form is still past due. Do not claim a payout has happened; live charges are still 0 as of last_stripe_check.

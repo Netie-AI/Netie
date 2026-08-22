@@ -35,3 +35,71 @@ Tone: `.cursor/skills/outreach-tone/SKILL.md`
 - Thread: `1a029e327b88cbdb`
 - Site form: phone field rejected input. Do not mail export1/export2 the same day.
 - Do not mail again unless they reply.
+
+## Monday 24 Aug 2026 first-mails (do not send before 9:00 MYT)
+
+Tone: `.cursor/skills/outreach-tone/SKILL.md`. One inbox. One fact. One ask. Telegraph link only if a link is needed. Not Hengxing / Easyway / Centrolink / the five above.
+
+### A. Pen Express -- NOT SENT
+
+- To: info@penexpressgroup.com
+- Fact measured 22 Aug on https://www.penexpressgroup.com/logistics-company-in-penang/ : bonded warehouse in the Free Commercial Zone at Penang International Airport, MAS Kargo Agents Complex.
+- One inbox. Do not also mail cs.air / cs.ocean / warehouse@ the same day.
+- Subject: Penang Airport bonded warehouse
+- Draft:
+
+Dear Pen Express team,
+
+I am Jian Hong, writing from Penang. I found this inbox on your Penang logistics page.
+
+Your warehouse sits in the Free Commercial Zone at Penang International Airport (MAS Kargo Agents Complex). If a weekly carton or charge total from that bonded store is hard to defend, send the Excel. I trace the figure to a cell or write that it cannot be traced. RM 300, 20 minutes.
+
+If this is not useful, no need to write back.
+
+Jian Hong
+Netie, Penang
+oojianhongg@gmail.com
+
+### B. InterOcean Penang -- NOT SENT
+
+- To: export.pen@interocean.com.my
+- Fact measured 22 Aug on https://interocean.com.my/office-facilities/ : Penang office at Unit 3A-01, Wisma Leader, No.8 Jalan Larut; Northport warehouse is listed separately.
+- One inbox. Do not also mail sales@ / export@ / import.pen@ the same day.
+- Subject: Wisma Leader export sheet
+- Draft:
+
+Dear InterOcean Penang team,
+
+I am Jian Hong, writing from Penang. I found this inbox on your offices page.
+
+Your Penang office is listed at Wisma Leader on Jalan Larut, with a separate Northport warehouse. If an export total on last week's sheet is hard to defend, send the Excel. I write the sheet, cell, and formula, or I write that it cannot be traced. RM 300, 20 minutes.
+
+If this is not useful, no need to write back.
+
+Jian Hong
+Netie, Penang
+oojianhongg@gmail.com
+
+### C. BH Armada -- NOT SENT
+
+- To: info@bharmada.com
+- Fact measured 22 Aug on https://www.bharmada.com/contact.html : Wisma Yew Chye Seng, 5203 Jalan Mak Mandin, Butterworth; site also says two locations at Port Klang and Penang.
+- One inbox.
+- Subject: Mak Mandin warehouse sheet
+- Draft:
+
+Dear BH Armada team,
+
+I am Jian Hong, writing from Penang. I found this inbox on your contact page.
+
+Your Butterworth office is at Wisma Yew Chye Seng in Mak Mandin, and the site lists Port Klang as the second site. If a haulage or warehouse total on last week's sheet is hard to defend, send the Excel. I trace the figure to a cell or write that it cannot be traced. RM 300, 20 minutes.
+
+If this is not useful, no need to write back.
+
+Jian Hong
+Netie, Penang
+oojianhongg@gmail.com
+
+### Hold (do not mail the same morning as A-C)
+
+- Intergrated Freighters Penang: enquiry@ifsb-pen.com.my from https://www.intergratedfreighters.com.my/contact.htm (Cloudflare-obfuscated; decoded). MAS Cargo Agent Building, Penang International Airport. Do not also mail enquiry@ifsb-kul.com.my the same day.

@@ -40,6 +40,8 @@ RM 500. HTML files. One revision if a published line is wrong.
 Email: oojianhongg@gmail.com
 WhatsApp: +60 16-556 8918
 
+Drive copy of this paste: https://docs.google.com/document/d/1HyKS-wsE3M57VaJ7Eo0pbOF94e3qOv6Mybk-GkyknDM/edit
+
 Tags:
 excel, spreadsheet, data, audit, malaysia
 
