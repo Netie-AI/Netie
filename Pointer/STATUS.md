@@ -4,7 +4,7 @@
 
 ## Now
 
-1. Verify this tick (pre-QR restart): 17 tests OK, live mouse to 220,180, `/health`+`/pay`+`GET /`, gated sandbox write. Git `661e115`. `Netie-AI/Pointer` still 404.
+1. Verify measured: 17 tests OK, live mouse, `/health`+`/pay`+`GET /pay/pointer-rm300.png` (PNG 712 bytes)+`GET /`, gated sandbox write. Git `5f1b216`. `Netie-AI/Pointer` still 404.
 2. Stripe: charges 0, MYR 0. Pointer link `plink_1U7DHhFV5wcFod2f1pf2kUEs` still `active=true`. Drive pay sheet still owner-only (no anyone-with-link). crash.netie.ai still autoindex.
 3. QR PNG for that live link is in `pay/pointer-rm300.png` and `GET /pay/pointer-rm300.png`. OpenClaw/Hermes not installed here. No Slingshot confirmation.
 
