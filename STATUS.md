@@ -1,15 +1,15 @@
 # STATUS
 
-Updated: 2026-08-22 21:03 MYT. Success = live Stripe charge, then a payout.
+Updated: 2026-08-22 21:06 MYT. Success = live Stripe charge, then a payout.
 
 ## Now (measured)
 
 - Stripe: available MYR 0, customers 0, charges 0, PaymentIntents 0.
 - Same open Checkout `cs_live_a1DK...` RM 300, unpaid, no PI. Not income.
-- Tay Kwang Hin: sent, no bounce yet.
-- Fit Systems `sales@fitsystems.com.my`: first mail + public-facts draft sent (`1a0298843eb956a4`).
+- Fit Systems: sent, no bounce yet.
+- Dreshler Resources `sales@dreshler.com.my`: first mail + public-facts draft sent (`1a02989cb315147b`).
   Email is on live contact HTML. Services page still says Coming Soon.
-  Draft: https://litter.catbox.moe/sxyw9u.html
+  Draft: https://litter.catbox.moe/2f7lbi.html
 - Public pay page: https://litter.catbox.moe/d8n858.html
 
 ## Next
@@ -25,4 +25,6 @@ Updated: 2026-08-22 21:03 MYT. Success = live Stripe charge, then a payout.
    Skip DHU. Skip robex info@ (550). Skip Mrs Marine as Coming Soon.
    Skip Juta. Skip JTC sales@. Skip Yuan Jen Dealers-only.
    Skip ieplastics@yahoo.com (same firm as sales@). Skip MD Pack. Skip Tay Kwang Hin.
-   Skip Fit Systems. Skip Gayheng / IPL / NBH / EKG as Coming Soon (populated or mixed).
+   Skip Fit Systems. Skip Dreshler. Skip Gayheng / IPL / NBH / EKG / Axiatop / Yong Sheng
+   as Coming Soon (populated or mixed).
+   Tech Impro services page is Coming Soon; verify email on live HTML before mail.
