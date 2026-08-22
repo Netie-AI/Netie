@@ -4,7 +4,7 @@
 
 ## Now
 
-1. Verify measured: 17 tests OK, live mouse to 220,180, `/health`+`/pay`+`GET /` (`root_ok`), gated sandbox write (`degraded: local_act_without_cortex`). Git `52e9ce7`. `Netie-AI/Pointer` still 404.
+1. Verify measured: 17 tests OK, live mouse to 400,300, `/health`+`/pay` (`pay_bytes` 3057)+`GET /` (`root_ok`), gated sandbox write (`degraded: local_act_without_cortex`). Git `d7bcb46`. `Netie-AI/Pointer` still 404.
 2. Stripe live: charges 0, MYR 0 / 0 pending. `payouts_enabled=false`. crash.netie.ai still LiteSpeed autoindex.
 3. No Slingshot confirmation (deck still claims 100K downloads; false vs Stripe). Drive pay sheet: https://docs.google.com/document/d/1h7H6thuUqyD71MlDyQd0Vbey5ucO30JGM1sSZ_mN4nI/edit . OpenClaw/Hermes not installed here.
 
