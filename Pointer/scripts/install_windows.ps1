@@ -106,6 +106,7 @@ Write-Host "card: $bootstrap\.pointer-state\PAIR_CARD.txt (gitignored). Do not e
 Write-Host "opening http://127.0.0.1:7420/ (steps) and /pay (Stripe) in the default browser"
 Start-Process "http://127.0.0.1:7420/"
 Start-Process "http://127.0.0.1:7420/pay"
+Write-Host "Cash paths (do not auto-open during install): powershell -File scripts/open_revenue.ps1"
 
 Write-Host "5. OpenClaw / Hermes / Ollama (informational; not Cortex)"
 foreach ($b in @("ollama", "openclaw", "hermes")) {

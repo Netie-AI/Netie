@@ -367,6 +367,7 @@ class PairCardTests(unittest.TestCase):
             self.assertNotIn(tokens["pair_token"], hidden)
             nxt = (state / "POINTER_NEXT.txt").read_text(encoding="utf-8")
             self.assertIn("POINTER_PROVE.json", nxt)
+            self.assertIn("open_revenue.ps1", nxt)
             self.assertNotIn(tokens["pair_token"], nxt)
             self.assertNotIn("approval_token:", nxt)
 
@@ -383,6 +384,19 @@ class PairCardTests(unittest.TestCase):
         self.assertIn("CORTEX_URL", src)
         self.assertIn("mesh", src)
         self.assertIn("drive.google.com/drive/my-drive", src)
+        self.assertIn("open_revenue.ps1", src)
+
+    def test_open_revenue_script_has_four_cash_paths(self) -> None:
+        src = (Path(__file__).resolve().parents[1] / "scripts" / "open_revenue.ps1").read_text(
+            encoding="utf-8"
+        )
+        self.assertIn("aistudio.google.com/apikey", src)
+        self.assertIn("allthingsagentichackathon.devpost.com", src)
+        self.assertIn("ycombinator.com/apply", src)
+        self.assertIn("hacker101.com", src)
+        self.assertNotIn("POINTER_ALLOW_REMOTE=1", src)
+        self.assertIn("Do not blast Easyway/Hengxing", src)
+        self.assertIn("not a $1m claim", src.lower())
 
     def test_live_click_uses_state_shots(self) -> None:
         src = (Path(__file__).resolve().parents[1] / "pointer" / "__main__.py").read_text(

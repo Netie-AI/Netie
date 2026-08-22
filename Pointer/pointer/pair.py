@@ -58,6 +58,7 @@ def write_next(state_dir: Path) -> Path:
         *[f"{i}. {step}" for i, step in enumerate(laptop_next_steps(), start=1)],
         "",
         "After prove: Desktop POINTER_PROVE.json -- Drive-upload or email that file. Not PAIR_CARD.txt if you used pair --show.",
+        "Cash paths (optional): powershell -File scripts/open_revenue.ps1 -- AI Studio key, Agentic Devpost, YC late apply, Hacker101. Not a $1M claim.",
         "Do not set POINTER_ALLOW_REMOTE=1. This cloud VM cannot click D:\\Pointer until you paste tokens in a laptop Cursor chat.",
     ]
     path = state_dir / "POINTER_NEXT.txt"

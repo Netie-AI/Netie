@@ -4,6 +4,7 @@ Append-only. Newest first.
 
 ## 2026-08-22
 
+- `scripts/open_revenue.ps1` opens AI Studio, All Things Agentic, YC late apply, and Hacker101 on the founder laptop. Install script prints the command; it does not auto-open those tabs during prove.
 - install_windows.ps1 opens Drive My Drive after copying Desktop POINTER_PROVE.json so the founder can upload it. Pointer RM 300 payment link `plink_1U7DHhFV5wcFod2f1pf2kUEs` re-measured `active=true` (still 0 charges).
 - Durable public pay stopgaps measured: Telegraph `https://telegra.ph/Netie-pay-08-22` (HTTP 200, Pointer RM 300 + YC + Hacker101) and Wayback `https://web.archive.org/web/20260822131625/https://litter.catbox.moe/67z3ik.html` (HTTP 200). Do not commit Telegraph auth tokens. Hacker101 HTTP 200; H1 signup 403 from this VM. Devpost inbox exists (newsletter 2026-08-20); still no project URL.
 - Public pay copy refreshed on litterbox `67z3ik.html` (~72h from 13:10 UTC) so it includes YC late apply. Permanent catbox still `Invalid uploader`. Cortex `submit_intent` no longer POSTs `pointer.intent/v1` to `/api/engine/auto` (that path is race_router, not Pointer ingest).

@@ -17,6 +17,7 @@ What exists in this bootstrap and where.
 | `pointer/gemini_planner.py` | Optional google-genai planner; `GEMINI_API_KEY` or OpenVault `GOOGLE_API_KEY` |
 | `scripts/verify.sh` | Unit tests + live mouse |
 | `scripts/install_windows.ps1` | Laptop start + prove + pair card + Desktop copies |
+| `scripts/open_revenue.ps1` | Founder laptop: AI Studio + Agentic + YC + Hacker101 tabs |
 | `tests/test_pointer.py` | Gate, ledger, sandbox, Windows input, pay-page URLs |
 | `pay/index.html` | Durable pay page: live Stripe + Drive sheet + Pointer RM 300 QR |
 | `docs/CRADLE_SPARK.md` | Founder-only CIP Spark submit pack; traction honesty |
