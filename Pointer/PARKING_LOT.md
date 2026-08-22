@@ -5,7 +5,7 @@ Deferred work. **Every entry carries an unlock condition.**
 | ID | Item | Unlock condition |
 |----|------|------------------|
 | P-001 | `shell` action | Written allowlist + Cortex plan + approval token + a test that the allowlist can fail |
-| P-002 | Windows type/hotkey/screenshot proven on hardware | Run `scripts/install_windows.ps1` (accepts `python` or `py -3`). Phone pack: Drive `1by_5VEBbQpD86So-q6K8F2T2MpcHWNkd4BKb4UlARI0`. Unlock: Desktop `POINTER_PROVE.json` with `"ok": true`, or that file uploaded here. Token-free `POINTER_NEXT.txt` is safe to email |
+| P-002 | Windows type/hotkey/screenshot proven on hardware | Run `scripts/install_windows.ps1` (python or py -3; DPI-aware prove). Phone pack: Drive `1by_5VEBbQpD86So-q6K8F2T2MpcHWNkd4BKb4UlARI0`. Unlock: Desktop `POINTER_PROVE.json` with `"ok": true` and screenshot_bytes >= 100 |
 | P-003 | OCR `verify.expect_contains` | Local OCR binary present and a corpus of n>=30 screens with a named error bound |
 | P-004 | Talk to product `Netie-AI/Pointer` API instead of this bootstrap | GitHub token that can clone that private repo, plus a contract test against its payloads |
 | P-005 | Install OpenClaw/Hermes as laptop assistants | Founder laptop, Ollama 0.17+, and Pointer daemon already proven. Never as a second Cortex |

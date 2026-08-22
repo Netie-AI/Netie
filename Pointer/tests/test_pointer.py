@@ -343,6 +343,19 @@ class ProveTests(unittest.TestCase):
             self.assertNotIn("pair_token", text)
             self.assertNotIn("approval_token", text)
 
+    def test_prove_ok_needs_screenshot_bytes(self) -> None:
+        from pointer.prove import prove_ok
+
+        after = {"x": 220, "y": 180}
+        self.assertTrue(prove_ok(after=after, target_x=220, target_y=180, shot_bytes=200))
+        self.assertFalse(prove_ok(after=after, target_x=220, target_y=180, shot_bytes=0))
+        self.assertFalse(prove_ok(after={"x": 1, "y": 1}, target_x=220, target_y=180, shot_bytes=200))
+
+    def test_dpi_aware_skipped_off_windows(self) -> None:
+        from pointer.windows_input import ensure_dpi_aware
+
+        self.assertEqual(ensure_dpi_aware(), "skipped")
+
 
 if __name__ == "__main__":
     unittest.main()

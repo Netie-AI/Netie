@@ -23,6 +23,8 @@ class Executor:
         self.display = display or os.environ.get("DISPLAY") or ":1"
         self.screenshot_dir = screenshot_dir
         self.screenshot_dir.mkdir(parents=True, exist_ok=True)
+        if sys.platform == "win32":
+            windows_input.ensure_dpi_aware()
 
     def _env(self) -> dict[str, str]:
         env = os.environ.copy()
@@ -89,6 +91,17 @@ class Executor:
                 raise ExecutorError(f"xdotool mousemove failed: {exc}") from exc
         loc = self.mouse_location()
         return {"requested": {"x": int(x), "y": int(y)}, "actual": loc}
+
+    def screen_size(self) -> tuple[int, int]:
+        if sys.platform == "win32":
+            import ctypes
+
+            w = int(ctypes.windll.user32.GetSystemMetrics(0))
+            h = int(ctypes.windll.user32.GetSystemMetrics(1))
+            if w < 2 or h < 2:
+                return (1920, 1080)
+            return (w, h)
+        return self.display_size()
 
     def click(self, x: int, y: int, button: str = "left") -> dict[str, Any]:
         moved = self.move(x, y)

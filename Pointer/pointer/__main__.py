@@ -10,7 +10,7 @@ from pathlib import Path
 from . import fallback, server
 from .executor import Executor, ExecutorError
 from .pair import PairStore, write_card
-from .prove import write_prove
+from .prove import prove_ok, write_prove
 from .server import _state_dir
 
 
@@ -70,9 +70,10 @@ def main(argv: list[str] | None = None) -> int:
         state = _state_dir()
         ex = Executor(display=None, screenshot_dir=state / "shots")
         before = ex.mouse_location()
-        target_x, target_y = 220, 180
+        w, h = ex.screen_size()
+        target_x, target_y = min(220, w - 1), min(180, h - 1)
         if before.get("x") == target_x and before.get("y") == target_y:
-            target_x, target_y = 400, 300
+            target_x, target_y = min(400, w - 1), min(300, h - 1)
         moved = ex.move(target_x, target_y)
         after = ex.mouse_location()
         shot = None
@@ -95,7 +96,9 @@ def main(argv: list[str] | None = None) -> int:
             "screenshot": shot,
             "screenshot_bytes": shot_bytes,
             "screenshot_error": shot_error,
-            "ok": after.get("x") == target_x and after.get("y") == target_y,
+            "ok": prove_ok(
+                after=after, target_x=target_x, target_y=target_y, shot_bytes=shot_bytes
+            ),
             "openclaw": fb.get("binaries", {}).get("openclaw"),
             "hermes": fb.get("binaries", {}).get("hermes"),
         }

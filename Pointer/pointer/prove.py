@@ -7,6 +7,15 @@ from pathlib import Path
 from typing import Any
 
 
+def prove_ok(*, after: dict[str, Any], target_x: int, target_y: int, shot_bytes: int) -> bool:
+    """Mouse landed AND a real screenshot exists. Tokens never belong here."""
+    return (
+        after.get("x") == target_x
+        and after.get("y") == target_y
+        and int(shot_bytes) >= 100
+    )
+
+
 def write_prove(state_dir: Path, payload: dict[str, Any]) -> Path:
     banned = ("pair_token", "approval_token")
     blob = json.dumps(payload)

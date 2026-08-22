@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import sys
 from typing import Iterable
 
 KEYEVENTF_EXTENDEDKEY = 0x0001
@@ -30,6 +31,24 @@ VK = {
     "left": 0x25,
     "right": 0x27,
 }
+
+
+def ensure_dpi_aware() -> str:
+    """Best-effort per-monitor DPI so SetCursorPos matches GetCursorPos."""
+    if sys.platform != "win32":
+        return "skipped"
+    import ctypes
+
+    try:
+        ctypes.windll.shcore.SetProcessDpiAwareness(2)
+        return "per_monitor"
+    except (AttributeError, OSError, ValueError):
+        pass
+    try:
+        ctypes.windll.user32.SetProcessDPIAware()
+        return "system"
+    except (AttributeError, OSError, ValueError):
+        return "failed"
 
 
 def vk_code(name: str) -> int:
