@@ -8,7 +8,7 @@ import sys
 
 from . import fallback, server
 from .executor import Executor, ExecutorError
-from .pair import PairStore
+from .pair import PairStore, write_card
 from .server import _state_dir
 
 
@@ -24,6 +24,12 @@ def main(argv: list[str] | None = None) -> int:
     live.add_argument("--y", type=int, default=200)
     pair = sub.add_parser("pair", help="print pair file path; --show dumps tokens locally")
     pair.add_argument("--show", action="store_true", help="print tokens to stdout (laptop only)")
+    pair.add_argument("--card", action="store_true", help="write .pointer-state/PAIR_CARD.txt (gitignored)")
+    pair.add_argument(
+        "--rotate-approval",
+        action="store_true",
+        help="replace approval token after a local paste",
+    )
     args = ap.parse_args(argv)
 
     if args.cmd == "serve":
@@ -38,7 +44,7 @@ def main(argv: list[str] | None = None) -> int:
         print(json.dumps(fallback.report(), indent=2))
         return 0
     if args.cmd == "live-click":
-        ex = Executor(display=None, screenshot_dir=__import__("pathlib").Path("/tmp/pointer-live"))
+        ex = Executor(display=None, screenshot_dir=_state_dir() / "shots")
         before = ex.mouse_location()
         moved = ex.move(args.x, args.y)
         after = ex.mouse_location()
@@ -57,12 +63,17 @@ def main(argv: list[str] | None = None) -> int:
     if args.cmd == "pair":
         path = _state_dir() / "pair.json"
         store = PairStore(path)
+        if args.rotate_approval:
+            store.rotate_approval()
         tokens = store.load()
         payload = {
             "pair_file": str(path),
             "has_pair_token": bool(tokens.get("pair_token")),
             "has_approval_token": bool(tokens.get("approval_token")),
+            "rotated_approval": bool(args.rotate_approval),
         }
+        if args.card:
+            payload["card_file"] = str(write_card(_state_dir(), show_tokens=args.show))
         if args.show:
             payload["pair_token"] = tokens["pair_token"]
             payload["approval_token"] = tokens["approval_token"]

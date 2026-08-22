@@ -13,7 +13,7 @@ from urllib.parse import urlparse
 from . import DEFAULT_BIND, DEFAULT_PORT
 from .engine import Engine
 from .fallback import report as fallback_report
-from .pair import PairStore
+from .pair import PairStore, laptop_next_steps
 from .protocol import SCHEMA, Intent
 
 
@@ -26,6 +26,26 @@ def _state_dir() -> Path:
 
 def pay_page_path() -> Path:
     return Path(__file__).resolve().parents[1] / "pay" / "index.html"
+
+
+def laptop_root_html() -> bytes:
+    items = "".join(f"<li>{step}</li>" for step in laptop_next_steps())
+    page = f"""<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Pointer laptop</title>
+</head>
+<body>
+  <h1>Pointer on this machine</h1>
+  <p>Health: <a href="/health">/health</a> Pay: <a href="/pay">/pay</a> Status: <a href="/v1/status">/v1/status</a></p>
+  <ol>{items}</ol>
+  <p>Tokens stay in .pointer-state/pair.json. Do not email them. Do not set POINTER_ALLOW_REMOTE=1.</p>
+</body>
+</html>
+"""
+    return page.encode("utf-8")
 
 
 class PointerHandler(BaseHTTPRequestHandler):
@@ -74,12 +94,17 @@ class PointerHandler(BaseHTTPRequestHandler):
 
     def do_GET(self) -> None:  # noqa: N802
         path = urlparse(self.path).path
+        if path in {"/", ""}:
+            self._html(200, laptop_root_html())
+            return
         if path in {"/health", "/healthz"}:
             self._json(200, {"ok": True, "schema": SCHEMA})
             return
         if path == "/v1/status":
             status = self.engine.status()
             status["fallback"] = fallback_report()
+            status["pair_ready"] = bool(self.pair_token and self.approval_token)
+            status["next"] = laptop_next_steps()
             self._json(200, status)
             return
         if path in {"/pay", "/pay/", "/pay/index.html"}:

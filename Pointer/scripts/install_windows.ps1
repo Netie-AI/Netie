@@ -1,5 +1,5 @@
 #Requires -Version 5.1
-# Verify Pointer on the founder laptop. Does NOT install OpenClaw as a third orchestrator
+# Start Pointer on the founder laptop. Does NOT install OpenClaw as a third orchestrator
 # unless -FallbackAssistants is passed AND the Pointer daemon cannot start.
 
 param(
@@ -7,9 +7,13 @@ param(
 )
 
 $ErrorActionPreference = "Stop"
+$bootstrap = Split-Path -Parent $PSScriptRoot
+Set-Location $bootstrap
+$env:PYTHONPATH = $bootstrap
+$env:POINTER_BIND = "127.0.0.1"
+
 Write-Host "1. Looking for product Pointer at D:\Pointer"
 $product = "D:\Pointer"
-$bootstrap = Split-Path -Parent $PSScriptRoot
 if (Test-Path $product) {
     Write-Host "HIT $product"
 } else {
@@ -19,23 +23,47 @@ if (Test-Path $product) {
 Write-Host "2. Python"
 python --version
 
-Write-Host "3. Start daemon on 127.0.0.1:7420 in a new window if not listening"
+Write-Host "3. Daemon on 127.0.0.1:7420"
+$up = $false
 try {
     $r = Invoke-WebRequest -UseBasicParsing http://127.0.0.1:7420/health -TimeoutSec 2
-    Write-Host "daemon already up: $($r.StatusCode)"
+    if ($r.StatusCode -eq 200) { $up = $true }
 } catch {
-    Write-Host "daemon down - start with: python -m pointer serve"
-    Write-Host "from $bootstrap"
+    $up = $false
+}
+if ($up) {
+    Write-Host "daemon already up"
+} else {
+    Write-Host "starting python -m pointer serve (loopback only)"
+    Start-Process -FilePath "python" -WorkingDirectory $bootstrap -ArgumentList "-m","pointer","serve"
+    for ($i = 0; $i -lt 20; $i++) {
+        Start-Sleep -Milliseconds 400
+        try {
+            $r = Invoke-WebRequest -UseBasicParsing http://127.0.0.1:7420/health -TimeoutSec 2
+            if ($r.StatusCode -eq 200) { $up = $true; break }
+        } catch {
+            $up = $false
+        }
+    }
+}
+if (-not $up) {
+    throw "daemon did not become healthy on http://127.0.0.1:7420/health"
 }
 
-Write-Host "4. OpenClaw / Hermes / Ollama (informational)"
+Write-Host "4. Prove hardware (live-click) then write pair card (no tokens in this window)"
+python -m pointer live-click --x 220 --y 180
+if ($LASTEXITCODE -ne 0) {
+    Write-Host "live-click failed; still writing pair card. This is P-002 unproven."
+}
+python -m pointer pair --card
+Write-Host "card: $bootstrap\.pointer-state\PAIR_CARD.txt (gitignored). Do not email tokens."
+Write-Host "open http://127.0.0.1:7420/ for the same 5 steps"
+
+Write-Host "5. OpenClaw / Hermes / Ollama (informational; not Cortex)"
 foreach ($b in @("ollama", "openclaw", "hermes")) {
     $cmd = Get-Command $b -ErrorAction SilentlyContinue
     if ($cmd) { Write-Host "HIT $b -> $($cmd.Source)" } else { Write-Host "MISS $b" }
 }
-
-Write-Host "5. Pair tokens (laptop only, do not commit, do not paste into chat unless pairing a cloud agent)"
-Write-Host "   python -m pointer pair --show"
 
 if ($FallbackAssistants) {
     Write-Host "Fallback requested. NETIE.md: these are assistants, not Cortex."

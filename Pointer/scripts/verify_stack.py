@@ -59,7 +59,8 @@ def daemon_health() -> dict:
 
     url = os.environ.get("POINTER_URL", "http://127.0.0.1:7420") + "/health"
     pay_url = os.environ.get("POINTER_URL", "http://127.0.0.1:7420") + "/pay"
-    out: dict = {"url": url, "pay_url": pay_url}
+    root_url = os.environ.get("POINTER_URL", "http://127.0.0.1:7420") + "/"
+    out: dict = {"url": url, "pay_url": pay_url, "root_url": root_url}
     try:
         with urllib.request.urlopen(url, timeout=2) as resp:
             body = json.loads(resp.read().decode("utf-8"))
@@ -77,6 +78,19 @@ def daemon_health() -> dict:
     except (urllib.error.URLError, TimeoutError, OSError, ValueError) as exc:
         out["pay_ok"] = False
         out["pay_error"] = str(exc)
+    try:
+        with urllib.request.urlopen(root_url, timeout=2) as resp:
+            root = resp.read().decode("utf-8", errors="replace")
+            out["root_ok"] = (
+                resp.status == 200
+                and "live-click" in root
+                and "POINTER_ALLOW_REMOTE" in root
+                and "pair_token:" not in root
+            )
+            out["root_bytes"] = len(root)
+    except (urllib.error.URLError, TimeoutError, OSError, ValueError) as exc:
+        out["root_ok"] = False
+        out["root_error"] = str(exc)
     return out
 
 
@@ -167,6 +181,10 @@ def main() -> int:
     if live_error:
         return 1
     if daemon.get("ok") and not intent.get("ok"):
+        return 1
+    if daemon.get("ok") and not daemon.get("pay_ok"):
+        return 1
+    if daemon.get("ok") and not daemon.get("root_ok"):
         return 1
     return 0
 

@@ -28,9 +28,17 @@ PYTHONPATH=. python3 -m pointer live-click --x 220 --y 180
 
 ```powershell
 cd D:\Netie\Pointer
+$env:PYTHONPATH = (Get-Location)
 .\scripts\install_windows.ps1
-python -m pointer serve
 ```
+
+That script starts `python -m pointer serve` on loopback if needed, runs
+`live-click`, and writes `.pointer-state/PAIR_CARD.txt` (gitignored, no tokens
+in the window). Then open http://127.0.0.1:7420/ for the same 5 steps.
+
+`live-click` screenshots go to `.pointer-state/shots`, not `/tmp`.
+Do not set `POINTER_ALLOW_REMOTE=1`. Do not email pair tokens.
+This cloud VM still cannot click `D:\Pointer`.
 
 OpenClaw / Hermes: **not** a Pointer replacement. `NETIE.md` forbids a third
 orchestrator. Check with `python -m pointer verify`. Install via `ollama launch openclaw`

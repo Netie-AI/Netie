@@ -24,9 +24,9 @@ OpenClaw and Hermes are not part of this process.
 | Path | Role |
 |---|---|
 | `Pointer/pointer/server.py` | `ThreadingHTTPServer` on `127.0.0.1:7420` |
-| `Pointer/pointer/__main__.py` | `serve`, `verify`, `live-click` |
+| `Pointer/pointer/__main__.py` | `serve`, `verify`, `live-click`, `pair --card` |
 | `Pointer/scripts/verify.sh` | unit tests + live mouse/screenshot |
-| `Pointer/scripts/install_windows.ps1` | laptop checker |
+| `Pointer/scripts/install_windows.ps1` | laptop start + live-click + pair card |
 
 ---
 
@@ -34,8 +34,10 @@ OpenClaw and Hermes are not part of this process.
 
 | Method | Path | Auth |
 |---|---|---|
+| GET | `/` | none (laptop next steps, no tokens) |
 | GET | `/health`, `/healthz` | none |
-| GET | `/v1/status` | none (loopback) |
+| GET | `/pay` | none (live Stripe HTML) |
+| GET | `/v1/status` | none (loopback; `pair_ready` boolean, no tokens) |
 | POST | `/v1/intent` | pair token if `source=remote-paired` |
 | POST | `/v1/kill` | none (loopback kill is intentional) |
 | POST | `/v1/unkill` | pair token |

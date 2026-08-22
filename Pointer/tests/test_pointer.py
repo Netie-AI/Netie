@@ -230,5 +230,41 @@ class PayRouteTests(unittest.TestCase):
         self.assertIn("buy.stripe.com", p.read_text(encoding="utf-8"))
 
 
+class PairCardTests(unittest.TestCase):
+    def test_card_omits_tokens_until_show(self) -> None:
+        from pointer.pair import laptop_next_steps, write_card
+
+        steps = laptop_next_steps()
+        self.assertEqual(len(steps), 5)
+        self.assertTrue(any("live-click" in s for s in steps))
+        self.assertTrue(any("POINTER_ALLOW_REMOTE" in s for s in steps))
+        with tempfile.TemporaryDirectory() as td:
+            state = Path(td)
+            text = write_card(state, show_tokens=False).read_text(encoding="utf-8")
+            tokens = json.loads((state / "pair.json").read_text(encoding="utf-8"))
+            self.assertIn("Do not email tokens", text)
+            self.assertNotIn("\npair_token:", text)
+            self.assertNotIn(tokens["pair_token"], text)
+            shown = write_card(state, show_tokens=True).read_text(encoding="utf-8")
+            self.assertIn(tokens["pair_token"], shown)
+            hidden = write_card(state, show_tokens=False).read_text(encoding="utf-8")
+            self.assertNotIn(tokens["pair_token"], hidden)
+
+    def test_live_click_uses_state_shots(self) -> None:
+        src = (Path(__file__).resolve().parents[1] / "pointer" / "__main__.py").read_text(
+            encoding="utf-8"
+        )
+        self.assertNotIn("/tmp/pointer-live", src)
+        self.assertIn('_state_dir() / "shots"', src)
+
+    def test_laptop_root_html_has_steps_not_tokens(self) -> None:
+        from pointer.server import laptop_root_html
+
+        html = laptop_root_html().decode("utf-8")
+        self.assertIn("live-click", html)
+        self.assertIn("POINTER_ALLOW_REMOTE", html)
+        self.assertNotIn("pair_token:", html)
+
+
 if __name__ == "__main__":
     unittest.main()

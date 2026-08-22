@@ -26,13 +26,19 @@ If `D:\Pointer` is missing, run the bootstrap:
 
 ```powershell
 cd D:\Netie\Pointer
+$env:PYTHONPATH = (Get-Location)
 .\scripts\install_windows.ps1
-python -m pointer serve
 ```
+
+The script starts the daemon on `127.0.0.1:7420` if it is down, runs
+`python -m pointer live-click`, and writes `.pointer-state/PAIR_CARD.txt`.
+Open http://127.0.0.1:7420/ for the laptop card. `live-click` writes PNG
+files under `.pointer-state/shots` (not `/tmp`).
 
 Default bind is `127.0.0.1:7420`. Non-loopback bind is refused unless
 `POINTER_ALLOW_REMOTE=1`. Pair + approval tokens are written to
 `Pointer/.pointer-state/pair.json` with mode 600. Do not commit that file.
+`python -m pointer pair --show` dumps tokens locally. Do not email them.
 
 Kill switch: `POST http://127.0.0.1:7420/v1/kill`.
 
