@@ -17,13 +17,13 @@ Delivery: 3 days
 
 Description:
 
-I am Jian Hong Oo, Application Engineer at Jumpwin. I ship AI product landings and small web apps.
+I am Jian Hong Oo, Application Engineer at Jumpwin. I build hand-coded product landing pages and small web interfaces from facts you approve.
 
 You send copy, logo, and any live URL. I return HTML files plus one revision if a published line is wrong.
 
-Public work: netie.ai, netie-ai.github.io/constructor, github.com/Netie-AI (Constructor, OpenHBM, OpenForge, Cassandra, Vertex).
+Public work: https://netie.ai/hire/ (real screenshot gallery), https://netie-ai.github.io/constructor/ (browser process canvas), and https://github.com/Netie-AI (public code and tooling).
 
-Public demos: netie.ai (Cortex, AIM, ASA), netie-ai.github.io/constructor, netie-ai.github.io/Cassandra.
+The Constructor canvas is a browser sketch, AIM is a file-intake interface, and ASA is an unreleased pre-order landing page. They show published interface work, not customer case studies.
 
 Do not paste Stripe links on Upwork.
 
@@ -34,4 +34,4 @@ Title: Trace a number in your Excel and write the source
 Price: USD 70
 Delivery: 1 day
 
-Keep the old Number Trace copy. Side work only.
+Keep the old Number Trace copy as a separate catalog item, not the headline offer.
