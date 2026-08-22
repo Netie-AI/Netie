@@ -3,389 +3,445 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Netie.AI · Your AI solution company</title>
-  <meta name="description" content="Netie.AI, Penang. Cortex, Constructor, DBMS, RAG, LLM programs, websites. Live demos on netie.ai. Stripe Checkout. Invoice on pay.">
-  <link rel="icon" href="https://netie.ai/logo512.png">
+  <title>Hire Jian Hong Oo in Penang | AI systems, analysis and websites</title>
+  <meta name="description" content="Jian Hong Oo builds scoped AI tools, process prototypes, file analysis and one-page business websites for Malaysian teams. Real public interface screenshots. Written scope before payment.">
   <style>
     :root {
       --bg: #07090e;
-      --panel: #10141c;
-      --ink: #eef3f8;
-      --muted: #8b97a8;
-      --line: #243044;
-      --cyan: #3ce0c0;
-      --gold: #d4b06a;
-      --btn: #3ce0c0;
+      --panel: #0f141d;
+      --ink: #f1f5f9;
+      --muted: #9ba9ba;
+      --line: #263448;
+      --cyan: #50dfc6;
+      --cyan-dark: #0f332e;
+      --gold: #d9b36c;
+      --soft: #101923;
     }
     * { box-sizing: border-box; }
     html { scroll-behavior: smooth; }
     body {
       margin: 0;
-      background: var(--bg);
+      background: radial-gradient(circle at top right, #122936 0, transparent 32rem), var(--bg);
       color: var(--ink);
-      font: 16px/1.45 ui-sans-serif, system-ui, "Segoe UI", sans-serif;
+      font: 16px/1.55 ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
     }
     a { color: var(--cyan); }
-    img { max-width: 100%; }
-    .wrap { max-width: 1100px; margin: 0 auto; padding: 0 1.2rem; }
+    a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-visible {
+      outline: 3px solid var(--gold);
+      outline-offset: 3px;
+    }
+    img { display: block; max-width: 100%; }
+    .wrap { max-width: 1160px; margin: 0 auto; padding: 0 1.2rem; }
     nav {
       display: flex;
       align-items: center;
       justify-content: space-between;
+      gap: 1rem;
       padding: 1rem 0;
       border-bottom: 1px solid var(--line);
     }
     .brand {
-      display: flex;
+      display: inline-flex;
       align-items: center;
-      gap: .7rem;
+      gap: .6rem;
       color: var(--ink);
       text-decoration: none;
-      font-weight: 800;
-      letter-spacing: .12em;
+      font-weight: 850;
+      letter-spacing: .1em;
+      white-space: nowrap;
     }
-    .brand img { width: 36px; height: 36px; }
-    nav a { color: var(--muted); text-decoration: none; margin-left: 1rem; font-size: .9rem; }
-    hero, section { display: block; }
+    .brand-mark {
+      display: grid;
+      width: 1.85rem;
+      height: 1.85rem;
+      place-items: center;
+      border: 1px solid var(--cyan);
+      border-radius: 50%;
+      color: var(--cyan);
+      font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+      font-size: 1rem;
+      letter-spacing: 0;
+    }
+    .nav-links { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: .85rem; }
+    .nav-links a { color: var(--muted); text-decoration: none; font-size: .88rem; }
+    .nav-links a:hover { color: var(--cyan); }
     .hero {
       display: grid;
-      gap: 1.5rem;
-      padding: 2.2rem 0 2.6rem;
+      gap: 2rem;
+      padding: 4rem 0 2rem;
       align-items: center;
     }
     @media (min-width: 860px) {
-      .hero { grid-template-columns: 1.1fr .9fr; min-height: 78vh; }
+      .hero { grid-template-columns: 1fr .96fr; min-height: 68vh; }
     }
-    h1 { font-size: clamp(2rem, 5vw, 3.4rem); line-height: 1.05; margin: 0 0 .8rem; letter-spacing: -.03em; }
+    .kicker {
+      color: var(--gold);
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      font-size: .72rem;
+      font-weight: 760;
+    }
+    h1 {
+      max-width: 12ch;
+      margin: .4rem 0 1rem;
+      font-size: clamp(2.55rem, 6vw, 5.3rem);
+      line-height: .98;
+      letter-spacing: -.055em;
+    }
     h1 span { color: var(--cyan); }
-    .lede { color: var(--muted); font-size: 1.05rem; max-width: 36rem; }
-    .cta { display: flex; flex-wrap: wrap; gap: .6rem; margin-top: 1.2rem; }
+    h2 {
+      max-width: 22ch;
+      margin: .25rem 0 .8rem;
+      font-size: clamp(1.75rem, 3vw, 2.7rem);
+      line-height: 1.08;
+      letter-spacing: -.035em;
+    }
+    h3 { margin: .3rem 0 .6rem; font-size: 1.14rem; line-height: 1.25; }
+    p { margin: 0; }
+    .lede { max-width: 42rem; color: var(--muted); font-size: 1.08rem; }
+    .proof-line { margin-top: 1rem; color: var(--muted); font-size: .9rem; }
+    .cta { display: flex; flex-wrap: wrap; gap: .65rem; margin-top: 1.3rem; }
     .btn {
-      display: inline-block;
-      padding: .75rem 1.05rem;
-      background: var(--btn);
-      color: #04120e;
-      text-decoration: none;
-      font-weight: 700;
+      display: inline-flex;
+      min-height: 44px;
+      align-items: center;
+      justify-content: center;
+      padding: .68rem 1rem;
+      border: 1px solid var(--cyan);
       border-radius: 8px;
+      background: var(--cyan);
+      color: #03130f;
+      font-weight: 800;
+      text-align: center;
+      text-decoration: none;
+      cursor: pointer;
     }
-    .btn.ghost { background: transparent; color: var(--ink); border: 1px solid var(--line); }
-    .stage {
-      position: relative;
-      min-height: 320px;
-      border: 1px solid var(--line);
-      border-radius: 18px;
-      background:
-        radial-gradient(circle at 20% 20%, #163a3a 0, transparent 40%),
-        radial-gradient(circle at 80% 80%, #2a2340 0, transparent 42%),
-        #0c1118;
-      overflow: hidden;
-    }
-    .stage svg { width: 100%; height: 100%; display: block; }
-    .kicker { color: var(--gold); letter-spacing: .16em; text-transform: uppercase; font-size: .72rem; font-weight: 700; }
-    h2 { font-size: 1.5rem; margin: 0 0 1rem; }
-    .grid { display: grid; gap: 1rem; }
-    @media (min-width: 720px) {
-      .grid.four { grid-template-columns: repeat(4, 1fr); }
-      .grid.three { grid-template-columns: repeat(3, 1fr); }
-      .grid.two { grid-template-columns: 1fr 1fr; }
-    }
-    .card {
-      background: var(--panel);
+    .btn:hover { filter: brightness(1.08); }
+    .btn.ghost { background: transparent; color: var(--ink); border-color: var(--line); }
+    .hero-shot, .screen-card, .service, .step, form, .contact-card {
       border: 1px solid var(--line);
       border-radius: 14px;
-      padding: 1rem;
-      text-decoration: none;
-      color: inherit;
-      display: block;
+      background: rgba(15, 20, 29, .88);
     }
-    .card:hover { border-color: var(--cyan); }
-    .card h3 { margin: .4rem 0 .35rem; font-size: 1.05rem; }
-    .card p { margin: 0; color: var(--muted); font-size: .92rem; }
-    .price { color: var(--cyan); font-weight: 800; font-size: 1.15rem; margin: .55rem 0; }
-    .mock {
-      height: 110px;
-      border-radius: 10px;
-      margin-bottom: .7rem;
-      background: #0a0d13;
-      border: 1px solid #1c2636;
-      position: relative;
+    .hero-shot {
       overflow: hidden;
+      color: inherit;
+      text-decoration: none;
+      box-shadow: 0 20px 70px rgba(0, 0, 0, .3);
     }
-    .node { position: absolute; width: 54px; height: 22px; border-radius: 5px; background: #1b3d3a; border: 1px solid var(--cyan); }
-    .bar { height: 8px; background: #243044; border-radius: 4px; margin: 10px; }
-    .steps { counter-reset: step; }
-    .steps article { padding-left: 3rem; position: relative; }
-    .steps article:before {
+    .hero-shot img { width: 100%; aspect-ratio: 1440 / 1000; object-fit: cover; }
+    .shot-caption { padding: .75rem .9rem .85rem; color: var(--muted); font-size: .85rem; }
+    .shot-caption b { display: block; margin-bottom: .1rem; color: var(--ink); }
+    .facts {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: .75rem;
+      margin: 1.1rem 0 0;
+    }
+    .fact {
+      min-width: 0;
+      padding: .7rem .75rem;
+      border: 1px solid var(--line);
+      border-radius: 9px;
+      background: var(--soft);
+      color: var(--muted);
+      font-size: .82rem;
+    }
+    .fact b { display: block; color: var(--ink); font-size: .92rem; }
+    main { padding: 2.6rem 0 0; }
+    section { scroll-margin-top: 1rem; }
+    section + section { margin-top: 5rem; }
+    .section-copy { max-width: 45rem; color: var(--muted); }
+    .grid { display: grid; gap: 1rem; }
+    .services { grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); margin-top: 1.4rem; }
+    .service { display: flex; flex-direction: column; padding: 1.15rem; }
+    .service.featured { border-color: #467a75; }
+    .service p { color: var(--muted); }
+    .service .scope { margin-top: .85rem; font-size: .88rem; }
+    .service .cta { margin-top: auto; padding-top: 1rem; }
+    .service .btn { width: 100%; }
+    .eyebrow { color: var(--gold); font-size: .74rem; font-weight: 760; letter-spacing: .1em; text-transform: uppercase; }
+    .price { margin: .75rem 0 .35rem; color: var(--cyan); font-size: 1.12rem; font-weight: 850; }
+    .screens { grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); margin-top: 1.4rem; }
+    .screen-card {
+      overflow: hidden;
+      color: inherit;
+      text-decoration: none;
+      transition: border-color .15s ease, transform .15s ease;
+    }
+    .screen-card:hover { border-color: var(--cyan); transform: translateY(-2px); }
+    .screen-card img { width: 100%; aspect-ratio: 1440 / 1000; object-fit: cover; border-bottom: 1px solid var(--line); }
+    .screen-copy { padding: .95rem; }
+    .screen-copy p { color: var(--muted); font-size: .9rem; }
+    .screen-url { display: block; margin-top: .7rem; color: var(--cyan); font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: .72rem; overflow-wrap: anywhere; }
+    .notice {
+      max-width: 58rem;
+      margin-top: 1rem;
+      padding: .85rem 1rem;
+      border-left: 3px solid var(--gold);
+      background: #16150f;
+      color: #d5c9ad;
+      font-size: .9rem;
+    }
+    .steps { grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); margin-top: 1.3rem; counter-reset: step; }
+    .step { position: relative; padding: 1.1rem 1.1rem 1.1rem 3.6rem; }
+    .step::before {
+      position: absolute;
+      top: 1.05rem;
+      left: 1.05rem;
+      width: 1.7rem;
+      height: 1.7rem;
+      border-radius: 50%;
+      background: var(--cyan);
+      color: #03130f;
       counter-increment: step;
       content: counter(step);
-      position: absolute; left: 0; top: 0;
-      width: 2rem; height: 2rem;
-      border-radius: 50%;
-      background: var(--cyan); color: #04120e;
-      font-weight: 800; text-align: center; line-height: 2rem;
+      font-weight: 850;
+      line-height: 1.7rem;
+      text-align: center;
     }
-    .tl { border-left: 2px solid var(--line); margin-left: .5rem; padding-left: 1.2rem; }
-    .tl div { margin: 0 0 1.1rem; }
-    .tl b { color: var(--gold); display: block; font-size: .78rem; letter-spacing: .08em; }
-    form label { display: block; margin: .7rem 0 .25rem; font-size: .9rem; }
+    .step p { color: var(--muted); font-size: .92rem; }
+    .contact { grid-template-columns: minmax(0, 1.3fr) minmax(260px, .7fr); align-items: start; }
+    form, .contact-card { padding: 1.15rem; }
+    label { display: block; margin: .85rem 0 .28rem; color: var(--ink); font-size: .9rem; font-weight: 670; }
     input, select, textarea {
       width: 100%;
-      padding: .65rem .7rem;
-      border-radius: 8px;
+      min-height: 44px;
+      padding: .65rem .75rem;
       border: 1px solid var(--line);
-      background: #0a0d13;
+      border-radius: 8px;
+      background: #090d14;
       color: var(--ink);
       font: inherit;
     }
-    textarea { min-height: 5.5rem; }
-    button.btn { border: 0; cursor: pointer; font: inherit; }
-    footer { padding: 2.5rem 0 3rem; color: var(--muted); border-top: 1px solid var(--line); margin-top: 2rem; }
+    textarea { min-height: 6.2rem; resize: vertical; }
+    .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: .75rem; }
+    .form-grid label { margin-top: .75rem; }
+    .form-note { margin-top: 1rem; color: var(--muted); font-size: .82rem; }
+    button.btn { border: 0; font: inherit; }
+    .contact-card p { margin-top: .7rem; color: var(--muted); }
+    .contact-card a { overflow-wrap: anywhere; }
+    footer { margin-top: 4rem; padding: 2rem 0 3rem; border-top: 1px solid var(--line); color: var(--muted); font-size: .9rem; }
+    @media (max-width: 700px) {
+      nav { align-items: flex-start; flex-direction: column; }
+      .nav-links { justify-content: flex-start; gap: .65rem 1rem; }
+      .hero { padding-top: 2.5rem; }
+      .facts, .form-grid, .contact { grid-template-columns: 1fr; }
+      section + section { margin-top: 3.6rem; }
+    }
   </style>
 </head>
 <body>
   <div class="wrap">
     <nav>
-      <a class="brand" href="#top"><img src="https://netie.ai/logo512.png" alt=""> NETIE.AI</a>
-      <div>
-        <a href="#demos">Demos</a>
-        <a href="#work">How</a>
-        <a href="#solutions">Hire</a>
-        <a href="#portfolio">Portfolio</a>
-        <a href="#contact">Contact</a>
+      <a class="brand" href="#top"><span class="brand-mark">n</span> NETIE.AI</a>
+      <div class="nav-links">
+        <a href="#services">Services</a>
+        <a href="#work">Public work</a>
+        <a href="#how">How it works</a>
+        <a href="#brief">Brief</a>
       </div>
     </nav>
 
-    <div class="hero" id="top">
+    <header class="hero" id="top">
       <div>
-        <p class="kicker">Penang · Malaysia</p>
-        <h1>Netie.AI.<br><span>Your AI solution company.</span></h1>
-        <p class="lede">We design the system, the agents, the page, and the model that runs on your files. Cortex, Constructor, DBMS, RAG, LLM programs. Every product below has a public demo URL. Jian Hong ships it. You own the files.</p>
+        <p class="kicker">Penang, Malaysia - Jian Hong Oo</p>
+        <h1>AI work that<br><span>shows its source.</span></h1>
+        <p class="lede">I build searchable company knowledge, process prototypes, decision-ready file analysis, and clear business websites. One engineer, small fixed scopes, source-file handoff.</p>
         <div class="cta">
-          <a class="btn" href="#solutions">See solutions</a>
-          <a class="btn ghost" href="https://netie.ai/" target="_blank" rel="noopener">Open live suite</a>
+          <a class="btn" href="#brief">Request a written scope</a>
+          <a class="btn ghost" href="#work">View public work</a>
+        </div>
+        <p class="proof-line">Everything below links to a public interface. Captions state exactly what each screen proves.</p>
+        <div class="facts" aria-label="Jian's delivery profile">
+          <div class="fact"><b>One engineer</b>Jian scopes and ships the work.</div>
+          <div class="fact"><b>Practical stack</b>Python, FastAPI, React, SQL.</div>
+          <div class="fact"><b>Handoff</b>You receive the agreed files and notes.</div>
         </div>
       </div>
-      <div class="stage" aria-hidden="true">
-        <svg viewBox="0 0 640 420" xmlns="http://www.w3.org/2000/svg">
-          <defs>
-            <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
-              <stop stop-color="#3ce0c0"/><stop offset="1" stop-color="#d4b06a"/>
-            </linearGradient>
-          </defs>
-          <text x="36" y="46" fill="#8b97a8" font-size="12" font-family="ui-monospace,monospace">NETIE GRAPH // LIVE</text>
-          <circle cx="160" cy="210" r="54" fill="none" stroke="url(#g)" stroke-width="2"/>
-          <circle cx="320" cy="140" r="40" fill="none" stroke="#3ce0c0" stroke-width="1.5"/>
-          <circle cx="460" cy="250" r="48" fill="none" stroke="#d4b06a" stroke-width="1.5"/>
-          <line x1="214" y1="210" x2="280" y2="140" stroke="#3ce0c0" stroke-width="1.5"/>
-          <line x1="360" y1="140" x2="412" y2="250" stroke="#d4b06a" stroke-width="1.5"/>
-          <line x1="214" y1="210" x2="412" y2="250" stroke="#3a4a60" stroke-width="1"/>
-          <text x="132" y="216" fill="#eef3f8" font-size="13" font-family="ui-sans-serif,sans-serif">CORTEX</text>
-          <text x="286" y="145" fill="#eef3f8" font-size="12">DAG</text>
-          <text x="430" y="255" fill="#eef3f8" font-size="12">DBMS</text>
-          <rect x="40" y="320" width="160" height="54" rx="8" fill="#10141c" stroke="#243044"/>
-          <text x="56" y="342" fill="#3ce0c0" font-size="11">VANGUARD</text>
-          <text x="56" y="360" fill="#8b97a8" font-size="11">signal scan</text>
-          <rect x="220" y="320" width="160" height="54" rx="8" fill="#10141c" stroke="#243044"/>
-          <text x="236" y="342" fill="#3ce0c0" font-size="11">CLOSER</text>
-          <text x="236" y="360" fill="#8b97a8" font-size="11">negotiate</text>
-          <rect x="400" y="320" width="200" height="54" rx="8" fill="#10141c" stroke="#243044"/>
-          <text x="416" y="342" fill="#d4b06a" font-size="11">CONSTRUCTOR</text>
-          <text x="416" y="360" fill="#8b97a8" font-size="11">prompt to agent</text>
-        </svg>
-      </div>
-    </div>
+      <a class="hero-shot" href="https://netie-ai.github.io/constructor/" target="_blank" rel="noopener">
+        <img src="https://netie.ai/hire/assets/constructor.webp" width="1440" height="1000" alt="Constructor public browser canvas with a connected process graph">
+        <span class="shot-caption"><b>Constructor - public browser sketch</b>Drag nodes, rewire the path, and export JSON. This screen makes no production backend call.</span>
+      </a>
+    </header>
 
-    <section id="demos">
-      <p class="kicker">Public demos</p>
-      <h2>Open the work. Every product has a URL.</h2>
-      <div class="grid four">
-        <a class="card" href="https://netie.ai/" target="_blank" rel="noopener">
-          <div class="mock">
-            <div class="bar" style="width:40%"></div>
-            <div class="bar" style="width:70%"></div>
-            <div class="node" style="left:18px;top:48px"></div>
-            <div class="node" style="left:86px;top:62px"></div>
-          </div>
-          <h3>netie.ai suite</h3>
-          <p>Cortex, Vanguard, Closer, Constructor. Live Next.js on this domain.</p>
-        </a>
-        <a class="card" href="https://netie.ai/#cortex" target="_blank" rel="noopener">
-          <div class="mock">
-            <div class="bar" style="width:62%"></div>
-            <div class="node" style="left:22px;top:48px;width:80px"></div>
-            <div class="node" style="left:110px;top:68px"></div>
-          </div>
-          <h3>Cortex</h3>
-          <p>Orchestrator chat on netie.ai. Public demo for agent / LLM work.</p>
-        </a>
-        <a class="card" href="https://netie-ai.github.io/constructor/" target="_blank" rel="noopener">
-          <div class="mock">
-            <div class="node" style="left:16px;top:28px"></div>
-            <div class="node" style="left:90px;top:48px;width:70px"></div>
-            <div class="node" style="left:40px;top:74px"></div>
-          </div>
-          <h3>Constructor</h3>
-          <p>Public DAG canvas. Drag nodes. Wire an agent.</p>
-        </a>
-        <a class="card" href="https://netie.ai/aim/" target="_blank" rel="noopener">
-          <div class="mock">
-            <div class="bar" style="width:50%"></div>
-            <div class="bar" style="width:75%"></div>
-            <div class="bar" style="width:35%"></div>
-          </div>
-          <h3>AIM</h3>
-          <p>Professional-twin R&amp;D. Live at netie.ai/aim.</p>
-        </a>
-        <a class="card" href="https://netie.ai/asa/" target="_blank" rel="noopener">
-          <div class="mock">
-            <div class="node" style="left:20px;top:36px;width:90px"></div>
-            <div class="bar" style="width:60%;margin-top:58px"></div>
-          </div>
-          <h3>ASA</h3>
-          <p>Live at netie.ai/asa.</p>
-        </a>
-        <a class="card" href="https://netie-ai.github.io/Cassandra/" target="_blank" rel="noopener">
-          <div class="mock" style="display:grid;grid-template-columns:repeat(6,1fr);gap:4px;padding:12px">
-            <span style="background:#3ce0c0;min-height:18px"></span><span style="background:#163a3a"></span><span style="background:#d4b06a"></span><span style="background:#243044"></span><span style="background:#3ce0c0"></span><span style="background:#1b3d3a"></span>
-          </div>
-          <h3>Cassandra</h3>
-          <p>News sentiment pages. Public GitHub Pages.</p>
-        </a>
-        <a class="card" href="https://github.com/Netie-AI" target="_blank" rel="noopener">
-          <div class="mock" style="display:grid;grid-template-columns:repeat(8,1fr);gap:4px;padding:12px">
-            <span style="background:#163a3a;min-height:18px"></span><span style="background:#3ce0c0"></span><span style="background:#1b3d3a"></span><span style="background:#3ce0c0"></span><span style="background:#243044"></span><span style="background:#3ce0c0"></span><span style="background:#163a3a"></span><span style="background:#d4b06a"></span>
-            <span style="background:#3ce0c0;min-height:18px"></span><span style="background:#243044"></span><span style="background:#3ce0c0"></span><span style="background:#163a3a"></span><span style="background:#3ce0c0"></span><span style="background:#1b3d3a"></span><span style="background:#3ce0c0"></span><span style="background:#243044"></span>
-          </div>
-          <h3>GitHub org</h3>
-          <p>OpenHBM, OpenForge, Vertex, AIM, AnalogCrawler.</p>
-        </a>
-        <a class="card" href="https://www.twine.net/jianhong" target="_blank" rel="noopener">
-          <div class="mock">
-            <div class="bar" style="width:55%"></div>
-            <div class="bar" style="width:30%"></div>
-            <p style="position:absolute;left:12px;bottom:12px;color:#3ce0c0;margin:0;font-size:12px">$180 / day</p>
-          </div>
-          <h3>Twine</h3>
-          <p>Jian Hong Oo. AI Engineer + Web Developer.</p>
-        </a>
-      </div>
-    </section>
-
-    <section id="work" style="padding-top:2.4rem">
-      <p class="kicker">Execution</p>
-      <h2>Clear path from brief to files.</h2>
-      <div class="grid three steps">
-        <article class="card"><h3>Scope</h3><p>You send the site, the files, or the process. We name the system and the price.</p></article>
-        <article class="card"><h3>Pay</h3><p>Stripe Checkout. Card, GrabPay, or Link. Invoice on the charge. Not a subscription.</p></article>
-        <article class="card"><h3>Deliver</h3><p>HTML, schema, agent graph, or a written analytics pack. You host it. You own it.</p></article>
-      </div>
-    </section>
-
-    <section id="solutions" style="padding-top:2.4rem">
-      <p class="kicker">Solutions</p>
-      <h2>What we sell from this desk.</h2>
-      <div class="grid two">
-        <article class="card">
-          <p class="kicker">System</p>
-          <h3>DBMS / operations database</h3>
-          <p>Tables, APIs, admin, and the screens your team actually uses. Warehouse, clinic, freight, or factory. Cortex-shaped if you need agents on top.</p>
-          <p>Demo: <a href="https://netie.ai/aim/" target="_blank" rel="noopener">netie.ai/aim</a> · <a href="https://netie.ai/#cortex" target="_blank" rel="noopener">Cortex</a></p>
-          <p class="price">RM 20,000</p>
-          <a class="btn" href="https://buy.stripe.com/6oU28rdlk4KffUo06w9ws09">Pay RM 20,000</a>
-        </article>
-        <article class="card">
-          <p class="kicker">Product</p>
-          <h3>Website / AI landing</h3>
-          <p>One page from facts already on your site. HTML files. One revision. Same craft as netie.ai.</p>
-          <p>Demo: <a href="https://netie.ai/" target="_blank" rel="noopener">netie.ai</a> · <a href="https://netie.ai/projects/" target="_blank" rel="noopener">projects</a></p>
-          <p class="price">RM 500</p>
-          <a class="btn" href="https://buy.stripe.com/3cIcN54OO6SnaA4g5u9ws07">Pay RM 500</a>
-        </article>
-        <article class="card">
-          <p class="kicker">Analytics</p>
-          <h3>File analytics + presentation</h3>
-          <p>You send the Excel or PDF. We return a written map and a short deck: where the figure comes from, what is missing, what to show the meeting.</p>
-          <p>Demo: <a href="https://netie-ai.github.io/constructor/" target="_blank" rel="noopener">Constructor DAG</a> · <a href="https://netie-ai.github.io/Cassandra/" target="_blank" rel="noopener">Cassandra</a></p>
-          <p class="price">RM 1,500</p>
-          <a class="btn" href="https://buy.stripe.com/dRm8wP3KKfoT9w0g5u9ws03">Pay RM 1,500</a>
-        </article>
-        <article class="card">
-          <p class="kicker">Agents</p>
-          <h3>PRD, RAG, LLM, desktop agent</h3>
-          <p>Product spec. Chat over your files. Fine-tune or self-host a model. Constructor DAG. Pointer-style desktop interactor. Quoted after a 15-minute look at your files.</p>
-          <p>Demo: <a href="https://netie.ai/#cortex" target="_blank" rel="noopener">Cortex</a> · <a href="https://netie-ai.github.io/constructor/" target="_blank" rel="noopener">Constructor</a> · <a href="https://netie.ai/asa/" target="_blank" rel="noopener">ASA</a></p>
-          <p class="price">Email quote</p>
-          <a class="btn ghost" href="#contact">Send the brief</a>
-        </article>
-      </div>
-    </section>
-
-    <section id="portfolio" style="padding-top:2.4rem">
-      <p class="kicker">Portfolio</p>
-      <h2>From first Netie work to the suite you can open now.</h2>
-      <div class="tl">
-        <div><b>2021</b> Netie.AI starts. Jian Hong as AI engineer. Product thinking before the public suite.</div>
-        <div><b>Open hardware</b> <a href="https://github.com/Netie-AI/OpenHBM">OpenHBM</a>, <a href="https://github.com/Netie-AI/OpenForge">OpenForge</a>, <a href="https://github.com/Netie-AI/AnalogCrawler">AnalogCrawler</a>.</div>
-        <div><b>Constructor</b> DAG canvas. Live: <a href="https://netie-ai.github.io/constructor/">netie-ai.github.io/constructor</a>.</div>
-        <div><b>Cassandra + Vertex + AIM</b> News sentiment, industrial AI, professional-twin R&amp;D. Org: <a href="https://github.com/Netie-AI">github.com/Netie-AI</a>.</div>
-        <div><b>netie.ai suite</b> <a href="https://netie.ai/#vanguard">Vanguard</a> (signals), <a href="https://netie.ai/#closer">Closer</a> (negotiate), <a href="https://netie.ai/#cortex">Cortex</a> (orchestrate), Constructor, Ghost Mode, Semantic Explorer.</div>
-        <div><b>2026 Jumpwin</b> Application Engineer. Self-hosted LLM + RAG over datasheets. Public demo of the same class: <a href="https://netie.ai/#cortex">Cortex on netie.ai</a>.</div>
-      </div>
-    </section>
-
-    <section id="contact" style="padding-top:2.4rem">
-      <p class="kicker">Reach us</p>
-      <h2>Need an AI solution? Email is enough.</h2>
-      <div class="grid two">
-        <form class="card" id="brief">
-          <label for="name">Name</label>
-          <input id="name" required autocomplete="name">
-          <label for="email">Email</label>
-          <input id="email" type="email" required autocomplete="email">
-          <label for="job">Need</label>
-          <select id="job">
-            <option>DBMS / operations system · RM 20,000</option>
-            <option>Website · RM 500</option>
-            <option>File analytics + presentation · RM 1,500</option>
-            <option>PRD / RAG / LLM / desktop agent · quote</option>
-            <option>Cortex / Constructor / other Netie suite</option>
-          </select>
-          <label for="note">Files, URL, or what to build</label>
-          <textarea id="note" required placeholder="Link, file name, or the process to automate"></textarea>
-          <p style="margin-top:1rem">
-            <button class="btn" type="submit">Open email to Netie.AI</button>
-            <a class="btn ghost" href="mailto:oojianhongg@gmail.com">oojianhongg@gmail.com</a>
-          </p>
-        </form>
-        <div class="card">
-          <h3>Desk</h3>
-          <p>Jian Hong Oo · Penang</p>
-          <p>+60 16-556 8918</p>
-          <p>Twine hire: <a href="https://www.twine.net/jianhong">twine.net/jianhong</a></p>
-          <p>If you pay on Twine, do not also pay Stripe for the same hour.</p>
+    <main>
+      <section id="services">
+        <p class="kicker">Services</p>
+        <h2>Useful systems, clear boundaries.</h2>
+        <p class="section-copy">Start with a specific workflow, file set, or page. I write the scope before work starts. Fixed-price services stay small; systems and AI pilots are quoted against the work actually required.</p>
+        <div class="grid services">
+          <article class="service featured">
+            <p class="eyebrow">Quoted AI service</p>
+            <h3>Company-file search with citations</h3>
+            <p>Search an agreed document set in plain language. Answers cite the source passage or say the evidence is not available.</p>
+            <p class="scope">One corpus, access rules, evaluation, model costs, and handoff are agreed in writing. Public AIM is an intake-interface sample, not a public retrieval backend.</p>
+            <div class="cta"><a class="btn ghost" href="#brief">Request a scope</a></div>
+          </article>
+          <article class="service">
+            <p class="eyebrow">Prototype before build</p>
+            <h3>Process map and decision prototype</h3>
+            <p>Turn one repeated process into an editable graph, a written spec, failure cases, and an exported JSON handoff.</p>
+            <p class="scope">Sample records only. No live integration, production deployment, or migration at this stage.</p>
+            <div class="cta"><a class="btn ghost" href="#brief">Map one process</a></div>
+          </article>
+          <article class="service">
+            <p class="eyebrow">Scoped build</p>
+            <h3>Internal operations system</h3>
+            <p>Replace one defined spreadsheet or manual workflow with an agreed data model, API, admin area, and team screens.</p>
+            <p class="price">RM 20,000 after written scope</p>
+            <p class="scope">Migration, integrations, AI features, hosting, and support are separate unless included in the scope.</p>
+            <div class="cta"><a class="btn ghost" href="#brief">Discuss the system</a></div>
+          </article>
+          <article class="service">
+            <p class="eyebrow">Fixed scope</p>
+            <h3>One-page business website</h3>
+            <p>One responsive static HTML page built from approved facts, copy, and assets. Deployment-ready files plus one revision.</p>
+            <p class="price">RM 500</p>
+            <p class="scope">Domain, hosting, photography, logo work, and extra pages are excluded.</p>
+            <div class="cta"><a class="btn" href="https://buy.stripe.com/3cIcN54OO6SnaA4g5u9ws07">Start a RM 500 page</a></div>
+          </article>
+          <article class="service">
+            <p class="eyebrow">Fixed scope</p>
+            <h3>File analysis and presentation</h3>
+            <p>Analyse an agreed Excel or PDF set and return a source map, key findings, missing-data notes, and a concise presentation.</p>
+            <p class="price">RM 1,500</p>
+            <p class="scope">Decision support only. It is not an audit, legal advice, or financial advice.</p>
+            <div class="cta"><a class="btn" href="https://buy.stripe.com/dRm8wP3KKfoT9w0g5u9ws03">Buy fixed-scope analysis</a></div>
+          </article>
         </div>
-      </div>
-    </section>
+      </section>
+
+      <section id="work">
+        <p class="kicker">Public work</p>
+        <h2>Real screens. Plain captions.</h2>
+        <p class="section-copy">These are public interfaces Jian has published. They are not customer case studies, production benchmarks, security certifications, or evidence of revenue.</p>
+        <div class="notice">A screenshot should prove a screen, not a promise. Each card links to the live page and says what that page does not prove.</div>
+        <div class="grid screens">
+          <a class="screen-card" href="https://netie-ai.github.io/constructor/" target="_blank" rel="noopener">
+            <img src="https://netie.ai/hire/assets/constructor.webp" width="1440" height="1000" loading="lazy" alt="Constructor browser canvas with linked process nodes and an audit side panel">
+            <div class="screen-copy"><h3>Constructor</h3><p>Browser-based process canvas. Drag nodes, rewire the path, and export JSON. This public sketch makes no production backend call.</p><span class="screen-url">netie-ai.github.io/constructor/</span></div>
+          </a>
+          <a class="screen-card" href="https://netie.ai/aim/" target="_blank" rel="noopener">
+            <img src="https://netie.ai/hire/assets/aim.webp" width="1440" height="1000" loading="lazy" alt="Netie AIM public file-intake form">
+            <div class="screen-copy"><h3>AIM</h3><p>Public file-intake interface for a document workflow. It is a front-end sample, not a public retrieval backend.</p><span class="screen-url">netie.ai/aim/</span></div>
+          </a>
+          <a class="screen-card" href="https://netie.ai/asa/" target="_blank" rel="noopener">
+            <img src="https://netie.ai/hire/assets/asa.webp" width="1440" height="1000" loading="lazy" alt="Netie ASA pre-order landing page with an email, phone, and Stripe button">
+            <div class="screen-copy"><h3>ASA landing page</h3><p>Live form and checkout interaction for an unreleased pre-order. It is a page-craft sample, not a record of customer delivery.</p><span class="screen-url">netie.ai/asa/</span></div>
+          </a>
+          <a class="screen-card" href="https://netie-ai.github.io/Cassandra/" target="_blank" rel="noopener">
+            <img src="https://netie.ai/hire/assets/cassandra.webp" width="1440" height="1000" loading="lazy" alt="Cassandra illustrative market interface">
+            <div class="screen-copy"><h3>Cassandra</h3><p>Illustrative market interface published on GitHub Pages. Its public archive is not wired, so it is not an analytics case study.</p><span class="screen-url">netie-ai.github.io/Cassandra/</span></div>
+          </a>
+        </div>
+      </section>
+
+      <section id="how">
+        <p class="kicker">How it works</p>
+        <h2>Scope first. Build second.</h2>
+        <div class="grid steps">
+          <article class="step"><h3>Send a non-sensitive brief</h3><p>Share the current process, users, sample input, desired output, and constraints. Do not send credentials or confidential records through this form.</p></article>
+          <article class="step"><h3>Confirm the written scope</h3><p>You receive deliverables, exclusions, price, assumptions, and revision terms. Quoted work starts after the scope is approved.</p></article>
+          <article class="step"><h3>Review and receive the work</h3><p>Review an agreed example or workflow. After in-scope corrections, you receive the agreed files and handoff notes.</p></article>
+        </div>
+      </section>
+
+      <section aria-labelledby="brief-heading">
+        <p class="kicker">Brief</p>
+        <h2 id="brief-heading">Describe the work, not the technology.</h2>
+        <p class="section-copy">A clear current process and desired result are more useful than a list of tools. This form opens an email draft on your device; it does not upload files.</p>
+        <div class="grid contact">
+          <form id="brief">
+            <div class="form-grid">
+              <div><label for="name">Name</label><input id="name" required autocomplete="name"></div>
+              <div><label for="email">Work email</label><input id="email" type="email" required autocomplete="email"></div>
+            </div>
+            <div class="form-grid">
+              <div><label for="company">Company or team (optional)</label><input id="company" autocomplete="organization"></div>
+              <div><label for="target-date">Target date (optional)</label><input id="target-date" placeholder="For example: 15 September"></div>
+            </div>
+            <label for="job">What do you need?</label>
+            <select id="job">
+              <option>One-page static website - RM 500</option>
+              <option>File analysis and presentation - RM 1,500</option>
+              <option>Internal operations system - RM 20,000 after scope</option>
+              <option>Company-file search with citations - quote</option>
+              <option>Process map and decision prototype - quote</option>
+              <option>Not sure - help me scope it</option>
+            </select>
+            <label for="current">Who will use this, and what do they do now?</label>
+            <textarea id="current" required placeholder="For example: three people reconcile a weekly Excel report by hand."></textarea>
+            <label for="outcome">What result should the delivered work produce?</label>
+            <textarea id="outcome" required placeholder="For example: a manager can find the source page for each reported number."></textarea>
+            <label for="source">Sample URL or non-sensitive file link (optional)</label>
+            <input id="source" type="url" placeholder="https://">
+            <label for="data">Data constraint</label>
+            <select id="data">
+              <option>Public or non-sensitive data</option>
+              <option>Private company data; cloud use can be discussed</option>
+              <option>Data must remain on customer-controlled infrastructure</option>
+              <option>Not sure</option>
+            </select>
+            <div class="cta">
+              <button class="btn" type="submit">Open an email draft</button>
+              <a class="btn ghost" id="whatsapp-brief" href="https://wa.me/60165568918?text=Hello%20Jian%2C%20I%20would%20like%20a%20written%20scope." target="_blank" rel="noopener">Send brief on WhatsApp</a>
+            </div>
+            <p class="form-note">Do not paste passwords, API keys, customer records, or confidential file contents. Use this form to arrange a safe transfer.</p>
+          </form>
+          <aside class="contact-card">
+            <h3>Jian Hong Oo</h3>
+            <p>AI engineer in Penang. English, Malay, and Mandarin.</p>
+            <p><a href="mailto:oojianhongg@gmail.com">oojianhongg@gmail.com</a></p>
+            <p><a href="tel:+60165568918">+60 16-556 8918</a></p>
+            <p><a href="https://www.twine.net/jianhong" target="_blank" rel="noopener">Twine profile</a></p>
+            <p><a href="https://github.com/Netie-AI" target="_blank" rel="noopener">Netie-AI public GitHub</a></p>
+            <p class="form-note">Fixed-scope payments use Stripe Checkout. Systems and AI pilots receive a written scope before payment.</p>
+          </aside>
+        </div>
+      </section>
+    </main>
 
     <footer>
-      Netie.AI · Penang · Stripe NETIE Malaysia · Invoice on pay
+      Netie.AI - Jian Hong Oo - Penang - Written scope before payment
     </footer>
   </div>
   <script>
-    document.getElementById("brief").addEventListener("submit", function (e) {
-      e.preventDefault();
-      var body = [
-        "Name: " + document.getElementById("name").value.trim(),
-        "Email: " + document.getElementById("email").value.trim(),
-        "Need: " + document.getElementById("job").value,
-        "",
-        document.getElementById("note").value.trim()
+    const briefForm = document.getElementById("brief");
+    const whatsappBrief = document.getElementById("whatsapp-brief");
+
+    function value(id) {
+      return document.getElementById(id).value.trim();
+    }
+
+    function briefText() {
+      return [
+        "Name: " + value("name"),
+        "Work email: " + value("email"),
+        "Company or team: " + value("company"),
+        "Need: " + value("job"),
+        "Current work: " + value("current"),
+        "Desired result: " + value("outcome"),
+        "Sample URL or link: " + value("source"),
+        "Data constraint: " + value("data"),
+        "Target date: " + value("target-date")
       ].join("\n");
+    }
+
+    function updateWhatsApp() {
+      whatsappBrief.href = "https://wa.me/60165568918?text=" +
+        encodeURIComponent("Hello Jian, I would like a written scope.\n\n" + briefText());
+    }
+
+    briefForm.addEventListener("input", updateWhatsApp);
+    briefForm.addEventListener("change", updateWhatsApp);
+    briefForm.addEventListener("submit", function (e) {
+      e.preventDefault();
       window.location.href = "mailto:oojianhongg@gmail.com?subject=" +
-        encodeURIComponent("Netie.AI: " + document.getElementById("job").value) +
-        "&body=" + encodeURIComponent(body);
+        encodeURIComponent("Scope request: " + value("job")) +
+        "&body=" + encodeURIComponent(briefText());
     });
+    updateWhatsApp();
   </script>
 </body>
 </html>
