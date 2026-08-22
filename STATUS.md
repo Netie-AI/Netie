@@ -1,6 +1,6 @@
 # STATUS
 
-Updated: 2026-08-23 04:35 MYT. Success = live Stripe charge, then a payout.
+Updated: 2026-08-23 04:38 MYT. Success = live Stripe charge, then a payout.
 
 ## Now (measured)
 
@@ -10,6 +10,7 @@ Updated: 2026-08-23 04:35 MYT. Success = live Stripe charge, then a payout.
 - Mirrors now match the screenshot-led page: https://brewpage.app/public/ANzfhLqHto/index.html ; https://netie-penang.surge.sh/ ; https://telegra.ph/Netie-AI-landing-page-08-22 ; https://rentry.co/gk39ee85 ; https://rentry.co/gauz3o64
 - BrewPage directory URL is a site wrapper; share its explicit `/index.html` URL. Surge is a human-readable mirror with platform `robots.txt` disallowing crawl. Temporary Litter copies are stale; its upload endpoint returned BunkerWeb HTTP 500 twice, so do not share them.
 - Suite homepage https://netie.ai/ still has its existing Apr 2026 Next.js title. `/aim/`, `/asa/`, and `/projects/` remain available and were not modified.
+- Timer tick 23 Aug 04:38 MYT: skipped Stripe because `last_stripe_check` is already today; no watched prospect or Truelancer replies; Saturday means Monday queue A-C stays unsent. Published and verified a fresh proof-led Rentry mirror: https://rentry.co/netie-hire-proof-2026
 - Laptop Drive 22 Aug docs were still Number Trace. New Drive doc: https://docs.google.com/document/d/1siVTp9MYgB3jatoUecjkfakQ86tkWkt06ZxMoiJwx1k/edit
 - Spaceship Hosting Manager login worked after Gmail recovery (username netiejh). Hosting Essential still expired; File Manager still uploaded /hire/. Password for that login lives only in this VM tmp, not in git.
 
