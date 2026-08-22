@@ -1,0 +1,14 @@
+---
+description: Human Malaysian professional tone for all Netie buyer outreach. Stripe at most once a day.
+alwaysApply: true
+---
+
+# Tone
+
+Read `.cursor/skills/outreach-tone/SKILL.md` before any buyer email, WhatsApp paste, or marketplace copy.
+
+Write as Jian Hong in Penang. Short. Polite. One fact about them. One ask. One link.
+
+Do not send scraper-tone mail: no JSON, vCard, mailto, live HTML, NEWPAGES SSM, "72h host", or "your page still says coming soon" as the hook.
+
+Do not check Stripe on every goal tick. At most once per calendar day MYT. Record `last_stripe_check` in STATUS.md.
