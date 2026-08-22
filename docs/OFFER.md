@@ -17,8 +17,8 @@ Source: `docs/pay.html`. Not a Coming Soon pitch.
 Fiverr paste (Telegraph URLs): https://docs.google.com/document/d/1HyKS-wsE3M57VaJ7Eo0pbOF94e3qOv6Mybk-GkyknDM/edit
 Older Fiverr paste (litterbox vs14br): https://docs.google.com/document/d/1z2pWHqJPqmAHBwqyM1G7IUrNVQlaLB8PTtfC4j94B8E/edit
 Upwork catalog paste (on-platform USD 70, no Stripe on Upwork): `docs/upwork-catalog.md`
-Twine freelancer profile (measured 22 Aug 23:26 MYT, HTTP 200, Available to hire): https://www.twine.net/jianhong
-If a client hires on Twine, take Twine pay. Do not also Stripe the same hour.
+Twine freelancer profile (measured 22 Aug 23:42 MYT, HTTP 200, Available to hire): https://www.twine.net/jianhong
+Public HTML includes Transportation & Logistics and work line "Excel number tracing" at Netie. If a client hires on Twine, take Twine pay. Do not also Stripe the same hour.
 WhatsApp one-liner: `docs/whatsapp-paste.txt`.
 
 ## What the buyer gets
