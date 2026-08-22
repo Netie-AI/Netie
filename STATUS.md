@@ -6,12 +6,13 @@ Updated: 2026-08-22. Success = live Stripe charge, then a payout.
 
 - Stripe livemode: available MYR 0, customers 0, charges 0. No replies.
 - payouts_enabled=false. Upload Drive `Ic.pdf` in Dashboard.
-- RM 300: https://buy.stripe.com/fZu3cvdlkb8D4bG5qQ9ws04  QR: `docs/pay-rm300.png`
-- RM 1,500: https://buy.stripe.com/dRm8wP3KKfoT9w0g5u9ws03  QR: `docs/pay-rm1500.png`
-- Outbound today: Hengxing, Easyway, Centrolink. Transways drafted for Monday. Stop mailing today.
+- Spaceship Web Hosting Essential expired 2026-07-21. That is why crash.netie.ai is a LiteSpeed listing. netie.ai still serves the old marketing page (no pay links).
+- RM 300: https://buy.stripe.com/fZu3cvdlkb8D4bG5qQ9ws04
+- Outbound today: Hengxing, Easyway, Centrolink. Transways drafted. Stop mailing today.
+- Loop: 2h until Monday office hours.
 
 ## Next
 
-1. Founder: Gmail "WhatsApp this QR to Easyway now" is in inbox. Send that WhatsApp. Then upload `Ic.pdf`.
-2. Upload `Ic.pdf` to Stripe. Share the Drive pay doc as anyone-with-the-link.
-3. Loop is 2h until Monday office hours (MY SME inboxes are closed Saturday night). Then send Transways draft and return to 30m.
+1. Founder: Gmail QR -> WhatsApp Easyway +603-3324 0386.
+2. Upload `Ic.pdf` to Stripe.
+3. Renew Spaceship hosting: https://www.spaceship.com/launchpad/
