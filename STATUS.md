@@ -14,4 +14,4 @@ Updated: 2026-08-22. Success = live Stripe charge, then a payout.
 
 1. Founder: Gmail "WhatsApp this QR to Easyway now" is in inbox. Send that WhatsApp. Then upload `Ic.pdf`.
 2. Upload `Ic.pdf` to Stripe. Share the Drive pay doc as anyone-with-the-link.
-3. Monday: send Transways draft. Loop: re-read balance/charges.
+3. Loop is 2h until Monday office hours (MY SME inboxes are closed Saturday night). Then send Transways draft and return to 30m.
