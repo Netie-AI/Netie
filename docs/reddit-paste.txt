@@ -1,14 +1,14 @@
-Title: Penang -- I will trace one number in your Excel (RM 300)
+Title: Penang -- fixed-scope report analysis and presentation (RM 1,500)
 
 Text:
 
-I am Jian Hong in Penang.
+I am Jian Hong, an application engineer in Penang.
 
-Send me an Excel or CSV and name one figure. I write the sheet, cell, and formula, or I write that it cannot be traced. Twenty minutes after I have the file. Stripe invoice.
+If a report total is difficult to explain, I can review an agreed Excel, CSV, PDF, or SQL extract. You receive a source map where the file supports it, key findings, missing-data notes, and a concise presentation for one stated decision.
 
-I do not log into your system. I do not guess.
+Before payment, we agree in writing on the decision, the files, the exclusions, and a safe handoff. I do not log into live systems. This is decision support, not an audit, legal advice, or financial advice.
 
-Pay: https://buy.stripe.com/fZu3cvdlkb8D4bG5qQ9ws04
+Proof and scope: https://netie.ai/hire/
 
 oojianhongg@gmail.com
 +60 16-556 8918

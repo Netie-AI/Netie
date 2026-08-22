@@ -1,6 +1,6 @@
 # STATUS
 
-Updated: 2026-08-23 06:30 MYT. Success = live Stripe charge, then a payout.
+Updated: 2026-08-23 06:40 MYT. Success = live Stripe charge, then a payout.
 
 ## Now (measured)
 
@@ -11,6 +11,8 @@ Updated: 2026-08-23 06:30 MYT. Success = live Stripe charge, then a payout.
 - Synthetic operations board is live: https://netie.ai/hire/ops/ (HTTP 200, title `Synthetic operations board | Netie.AI`). It has synthetic records and browser-only filters, selection, local status changes, and a local JSON download. It has no API, login, customer data, integration, or production workflow. The production download matches `docs/ops/index.html` byte-for-byte.
 - Direct proof links are live in the relevant service cards: the cited-answer prototype and AIM for company-file search and intake, Constructor for the process canvas, the synthetic operations board for the internal-system prototype, the public-work gallery for page craft, and the source trace for file analysis. Canonical, BrewPage, and Surge all returned HTTP 200 with the new links at 06:29 MYT.
 - Copy is proof-led: scoped services, written-scope CTA, public-interface limits, and no invented wireframes or production claims. The source trace is evidence for the RM 1,500 file-analysis service, not a separate low-price headline.
+- Checkout audit 23 Aug 06:33 MYT: the three public payment links load without login as one-time Stripe Checkout pages. The file-analysis checkout now shows `Netie File Analysis + Presentation` at MYR 1,500 (USD equivalent selectable), matching its live card. The RM 500 website and RM 20,000 operations-system checkouts also match their cards.
+- The retired one-number RM 300 Stripe link is inactive and explains that the offer is retired. Local prospect-page drafts, Reddit copy, and WhatsApp copy no longer point at it; they use the current fixed-scope file-analysis offer or canonical hire page.
 - Mirrors now link the screenshot-led page and source trace: https://brewpage.app/public/ANzfhLqHto/index.html ; https://netie-penang.surge.sh/ ; https://telegra.ph/Netie-AI-landing-page-08-22 ; https://rentry.co/gk39ee85 ; https://rentry.co/gauz3o64 ; https://rentry.co/netie-hire-proof-2026
 - BrewPage directory URL is a site wrapper; share its explicit `/index.html` URL. Surge is a human-readable mirror with platform `robots.txt` disallowing crawl. Temporary Litter copies are stale; its upload endpoint returned BunkerWeb HTTP 500 twice, so do not share them.
 - Suite homepage https://netie.ai/ still has its existing Apr 2026 Next.js title. `/aim/`, `/asa/`, and `/projects/` remain available and were not modified.
