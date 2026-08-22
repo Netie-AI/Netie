@@ -16,6 +16,7 @@ What exists in this bootstrap and where.
 | `pointer/mesh.py` | Independent Cortex :8010 / OpenVault-mesh Cortex :8000 / OpenVault :5000 probes; no silent remap |
 | `pointer/gemini_planner.py` | Optional google-genai planner; `GEMINI_API_KEY` or OpenVault `GOOGLE_API_KEY` |
 | `scripts/verify.sh` | Unit tests + live mouse |
+| `scripts/what_is_live.sh` | Daemon vs Cloud Run vs Devpost; skips Stripe; does not claim a win |
 | `scripts/install_windows.ps1` | Laptop start + prove + pair card + Desktop copies |
 | `scripts/install_windows.cmd` | Double-click wrapper for the ps1 (ExecutionPolicy Bypass) |
 | `INSTALL.txt` | Five-line Windows unzip card: double-click `install_windows.cmd` |

@@ -89,5 +89,32 @@ class TestDeployHackathonSh(unittest.TestCase):
         self.assertNotIn("secret-must-not-print", blob)
 
 
+class TestWhatIsLiveSh(unittest.TestCase):
+    def test_skips_stripe_and_does_not_claim_win(self) -> None:
+        path = ROOT / "scripts" / "what_is_live.sh"
+        self.assertTrue(path.is_file())
+        text = path.read_text(encoding="utf-8")
+        self.assertIn("stripe_check=skipped", text)
+        self.assertIn("auto_win=no", text)
+        self.assertIn("math_research_exam=no", text)
+        self.assertNotIn("dashboard.stripe.com", text)
+        self.assertNotIn("GetBalance", text)
+        r = subprocess.run(
+            ["bash", str(path)],
+            cwd=str(ROOT),
+            capture_output=True,
+            text=True,
+            timeout=10,
+        )
+        blob = r.stdout + r.stderr
+        self.assertIn("stripe_check=skipped", blob)
+        self.assertIn("auto_join=no", blob)
+        self.assertNotIn("secret-must-not-print", blob)
+        if r.returncode == 0:
+            self.assertIn("local_daemon=running", blob)
+        else:
+            self.assertIn("local_daemon=down", blob)
+
+
 if __name__ == "__main__":
     unittest.main()

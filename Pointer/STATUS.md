@@ -4,7 +4,7 @@
 
 ## Now
 
-1. Local app **is running**: tmux `pointer-daemon` since 11:29 UTC, `GET /health` 200 at 13:36 UTC. Cloud Run **not** deployed (`gcloud` missing, Gemini/Google keys unset). Devpost **not** submitted. A win is **not** confirmed. All Things Agentic is a build+4min demo (Innovation 40 / Architecture 30 / Demo 30), not a math or research exam.
+1. Local app **is running**: tmux `pointer-daemon` since 11:29 UTC, `GET /health` 200 at 13:38 UTC. Cloud Run **not** deployed (`gcloud` missing, Gemini/Google keys unset). Devpost **not** submitted. A win is **not** confirmed. All Things Agentic is a build+4min demo (Innovation 40 / Architecture 30 / Demo 30), not a math or research exam. `scripts/what_is_live.sh` re-measures this and skips Stripe.
 2. Verify last green 2026-08-22 13:35 UTC git `3f58a2e`: 45 tests, live mouse, hackathon probe HTTP 503 + `missing_gemini_key`. `Netie-AI/Pointer` still 404. No POINTER_PROVE.json. Stripe balance checked daily, not every tick. $1M is not in evidence.
 3. OpenClaw/Hermes not installed here.
 
