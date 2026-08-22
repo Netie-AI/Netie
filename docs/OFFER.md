@@ -21,6 +21,12 @@ Public proof, with honest labels:
 - Source trace: a synthetic workbook plus local Python script that resolves one same-sheet `SUM(range)` formula, lists inputs, recomputes the cached value, and refuses a typed figure. Live: https://netie.ai/hire/trace/
 - Do not market these as customer case studies, performance benchmarks, security certifications, or revenue proof.
 
+Service-card proof mapping on `https://netie.ai/hire/`:
+- Company-file search: linked AIM public file-intake sample. It is not a retrieval backend.
+- Process map and decision prototype: linked Constructor browser canvas with sample records. It has no live integration.
+- Internal operations system and one-page website: linked public-work gallery only, not a claimed operations-system demo.
+- File analysis + presentation: linked reproducible source trace with synthetic data.
+
 Public mirrors:
 - Telegraph: https://telegra.ph/Netie-AI-landing-page-08-22
 - Telegraph alias: https://telegra.ph/Netie-Number-Trace-08-22

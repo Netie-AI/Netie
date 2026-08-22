@@ -1,12 +1,13 @@
 # STATUS
 
-Updated: 2026-08-23 05:28 MYT. Success = live Stripe charge, then a payout.
+Updated: 2026-08-23 05:40 MYT. Success = live Stripe charge, then a payout.
 
 ## Now (measured)
 
 - last_stripe_check: 2026-08-23 00:17 MYT. Did not poll balance.
 - Canonical hire page is live: https://netie.ai/hire/ (HTTP 200, title `Hire Jian Hong Oo in Penang | AI systems, analysis and websites`). It uses a real Constructor screenshot in the hero plus captioned Constructor, AIM, ASA, and Cassandra gallery images served from `/hire/assets/`.
 - Reproducible source trace is live: https://netie.ai/hire/trace/ (HTTP 200, title `One figure, traced to its source | Netie.AI`). It serves a synthetic workbook, local Python script, exact traced output, and exact refusal output. Downloading the production files and running them locally reproduced both outputs byte-for-byte at 05:20 MYT.
+- Direct proof links are live in the relevant service cards: AIM for the company-file intake sample, Constructor for the process canvas, the public-work gallery for operations and page craft, and the source trace for file analysis. Canonical, BrewPage, and Surge all returned HTTP 200 with the new links at 05:40 MYT.
 - Copy is proof-led: scoped services, written-scope CTA, public-interface limits, and no invented wireframes or production claims. The source trace is evidence for the RM 1,500 file-analysis service, not a separate low-price headline.
 - Mirrors now link the screenshot-led page and source trace: https://brewpage.app/public/ANzfhLqHto/index.html ; https://netie-penang.surge.sh/ ; https://telegra.ph/Netie-AI-landing-page-08-22 ; https://rentry.co/gk39ee85 ; https://rentry.co/gauz3o64 ; https://rentry.co/netie-hire-proof-2026
 - BrewPage directory URL is a site wrapper; share its explicit `/index.html` URL. Surge is a human-readable mirror with platform `robots.txt` disallowing crawl. Temporary Litter copies are stale; its upload endpoint returned BunkerWeb HTTP 500 twice, so do not share them.
