@@ -13,4 +13,4 @@ Deferred work. **Every entry carries an unlock condition.**
 | P-007 | $1M authorized bounty hunting | HackerOne/Bugcrowd **in-scope** programs only; no unauthorised access; no exploit PoCs from this agent. H1 pays the researcher (not Stripe). Unlock: HackerOne username recorded in STATUS |
 | P-008 | Startup SG Tech grant | Evidence of a Singapore Pte Ltd with >=30% SC/PR shareholding and core R&D in SG. Malaysia SSM entity alone is not eligible |
 | P-009 | IPHatch Asia 2026 | Deadline 2026-08-09 has passed |
-| P-010 | Cradle CIP Spark application | Founder registers at https://gms.cradle.com.my/ with a 2-person team (1 Malaysian) and the Pointer pitch deck. Rolling intake; conditional grant up to RM150k. Unlock: GMS application id in STATUS |
+| P-011 | Public pay host on netie.ai | Vercel project `ruma-houser` has misconfigured domains `netie.ai` and `www.netie.ai` (mail 2026-08-22). Unlock: those domains resolve to a page that serves `Pointer/pay/index.html`, or crash.netie.ai is no longer LiteSpeed autoindex |

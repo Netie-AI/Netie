@@ -23,6 +23,7 @@ Default listen: `http://127.0.0.1:7420`
 Root: `GET /` (laptop steps, no tokens)
 Health: `GET /health`
 Pay: `GET /pay` (static `pay/index.html`)
+QR: `GET /pay/pointer-rm300.png`
 Status: `GET /v1/status`
 Intent: `POST /v1/intent`
 Kill: `POST /v1/kill`

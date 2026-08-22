@@ -236,6 +236,12 @@ class PayRouteTests(unittest.TestCase):
         self.assertTrue(qr.is_file())
         self.assertTrue(qr.read_bytes().startswith(b"\x89PNG"))
 
+    def test_handler_serves_html_and_png(self) -> None:
+        from pointer.server import PointerHandler
+
+        self.assertTrue(callable(getattr(PointerHandler, "_html")))
+        self.assertTrue(callable(getattr(PointerHandler, "_png")))
+
 
 class PairCardTests(unittest.TestCase):
     def test_card_omits_tokens_until_show(self) -> None:

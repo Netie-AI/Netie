@@ -68,6 +68,13 @@ class PointerHandler(BaseHTTPRequestHandler):
         self.end_headers()
         self.wfile.write(raw)
 
+    def _html(self, code: int, body: bytes) -> None:
+        self.send_response(code)
+        self.send_header("Content-Type", "text/html; charset=utf-8")
+        self.send_header("Content-Length", str(len(body)))
+        self.end_headers()
+        self.wfile.write(body)
+
     def _png(self, code: int, body: bytes) -> None:
         self.send_response(code)
         self.send_header("Content-Type", "image/png")
