@@ -1,12 +1,12 @@
 # STATUS
 
-Updated: 2026-08-22 19:53 MYT. Success = live Stripe charge, then a payout.
+Updated: 2026-08-22 19:54 MYT. Success = live Stripe charge, then a payout.
 
 ## Now (measured)
 
 - Stripe: available MYR 0, customers 0, charges 0, PaymentIntents 0.
 - Same open Checkout `cs_live_a1DK...` RM 300, unpaid, no PI. Not income.
-- PCSS thread: sent public-facts draft in the email body. Live date left empty (12 July 2024 is stale).
+- New: ISM Tawau `enquiry@ism.edu.my` -- homepage still says website coming soon. Offered RM 500 static page.
 - Public pay page: https://litter.catbox.moe/d8n858.html
 
 ## Next
