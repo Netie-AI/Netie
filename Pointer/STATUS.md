@@ -4,7 +4,7 @@
 
 ## Now
 
-1. Verify gate: `python -m pointer prove` on this VM wrote `.pointer-state/PROVE.json` with `"ok": true` (Linux DISPLAY=:1). Windows P-002 still missing. `Netie-AI/Pointer` still 404. Stripe charges 0.
+1. Verify measured: 20 tests OK, live mouse, `/health`+`/pay`+QR+`GET /` (`pointer prove` on root), gated sandbox write. Linux `prove` ok=true. Git `f7276cf`. `Netie-AI/Pointer` still 404. Stripe charges 0.
 2. Fiverr: Google sign-in only; no gig URL. Drive QR still owner-only. No Slingshot confirmation.
 3. OpenClaw/Hermes not installed here. Do not flip netie.ai apex DNS.
 
