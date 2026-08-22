@@ -1,17 +1,16 @@
 # STATUS
 
-Updated: 2026-08-22 21:20 MYT. Success = live Stripe charge, then a payout.
+Updated: 2026-08-22 21:25 MYT. Success = live Stripe charge, then a payout.
 
 ## Now (measured)
 
 - Stripe: available MYR 0, customers 0, charges 0, PaymentIntents 0.
 - Same open Checkout `cs_live_a1DK...` RM 300, unpaid, no PI. Not income.
 - No buyer replies. Known bounces unchanged (Robex, PT, DHU, QEDT sales@, WM info@, Silverjack).
-- Progresif Kukuh `pksb55@pksb.my`: first mail + public-facts draft sent (`1a0298eed8bc0564`).
-  Email is on NEWPAGES mobile contact (same SSM 667713-D as n.my).
-  n.my Services is Coming Soon; homepage already lists insulation / refractory / acoustic / ceiling.
-  www.pksb.my is a Bluevy parking page. Draft fills n.my only, not the parked host.
-  Draft: https://litter.catbox.moe/jwjlyf.html
+- True Easy `trueeasy@hotmail.com`: first mail + public-facts draft sent (`1a029909c45c43ef`).
+  Email is a live homepage mailto. Services menu still says Coming Soon.
+  About already lists CY-series PET stretch blowing plus moulds and related equipment.
+  Draft: https://litter.catbox.moe/cb6fpx.html
 - Public pay page: https://litter.catbox.moe/d8n858.html
 
 ## Next
@@ -31,3 +30,5 @@ Updated: 2026-08-22 21:20 MYT. Success = live Stripe charge, then a payout.
    Skip Gayheng / IPL / NBH / EKG / Axiatop / Yong Sheng / Indigo as Coming Soon
    (populated or mixed).
    Skip www.pksb.my as Coming Soon (Bluevy parking). Skip pksb55@pksb.my (mailed).
+   Skip Sigma Tech servicesbycat (Service nav already goes to products).
+   Skip Wearezist as Coming Soon (populated). Skip trueeasy@hotmail.com (mailed).
