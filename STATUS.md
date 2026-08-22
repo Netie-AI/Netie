@@ -1,12 +1,14 @@
 # STATUS
 
-Updated: 2026-08-22 19:41 MYT. Success = live Stripe charge, then a payout.
+Updated: 2026-08-22 19:43 MYT. Success = live Stripe charge, then a payout.
 
 ## Now (measured)
 
-- Stripe re-check: available MYR 0, customers 0, charges 0, Checkout 0, PaymentIntents 0. No buyer replies.
+- Stripe: available MYR 0, customers 0, charges 0, PaymentIntents 0.
+- First live Checkout opened: `cs_live_a1DK...` RM 300, status open, unpaid, no PI yet. Not income.
+- No buyer replies. MOL Penang not bounced.
 - Public pay page: https://litter.catbox.moe/d8n858.html
-- New: MOL Logistics Penang `MLGMY.PENALL@molgroup.com` -- Bayan Lepas office listed on molseao.com. Offered RM 300 One Number.
+- New: Globemate `enquiry@gmlgroup.com.my` -- Port Klang warehouse page. Offered RM 300 One Number.
 
 ## Next
 
