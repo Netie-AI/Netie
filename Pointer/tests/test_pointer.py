@@ -249,6 +249,9 @@ class PayPageTests(unittest.TestCase):
         self.assertIn("YC_FALL_2026.md", html)
         self.assertIn("1QM46jy2SNF23oosjQSa8CakDfdGCZu5r-r_oANhp0QM", html)
         self.assertIn("ycombinator.com/apply", html)
+        self.assertIn("AGENTIC_CINEMA.md", html)
+        self.assertIn("11CCnQ5coVVPbTZa-gsJJxbBvyttSCZKyy9i3RiwdkPY", html)
+        self.assertIn("agentic-cinema.devpost.com", html)
         self.assertNotIn("100K+", html)
         self.assertNotIn("030627070887", html)
 
@@ -386,17 +389,36 @@ class PairCardTests(unittest.TestCase):
         self.assertIn("drive.google.com/drive/my-drive", src)
         self.assertIn("open_revenue.ps1", src)
 
-    def test_open_revenue_script_has_four_cash_paths(self) -> None:
+    def test_open_revenue_script_has_five_cash_paths(self) -> None:
         src = (Path(__file__).resolve().parents[1] / "scripts" / "open_revenue.ps1").read_text(
             encoding="utf-8"
         )
         self.assertIn("aistudio.google.com/apikey", src)
         self.assertIn("allthingsagentichackathon.devpost.com", src)
+        self.assertIn("agentic-cinema.devpost.com", src)
         self.assertIn("ycombinator.com/apply", src)
         self.assertIn("hacker101.com", src)
         self.assertNotIn("POINTER_ALLOW_REMOTE=1", src)
         self.assertIn("Do not blast Easyway/Hengxing", src)
         self.assertIn("not a $1m claim", src.lower())
+        cmd = (Path(__file__).resolve().parents[1] / "scripts" / "install_windows.cmd").read_text(
+            encoding="utf-8"
+        )
+        self.assertIn("install_windows.ps1", cmd)
+        self.assertIn("ExecutionPolicy Bypass", cmd)
+
+    def test_agentic_cinema_pack_is_new_project_and_honest(self) -> None:
+        pack = (Path(__file__).resolve().parents[1] / "docs" / "AGENTIC_CINEMA.md").read_text(
+            encoding="utf-8"
+        )
+        self.assertIn("9 Sep 2026", pack)
+        self.assertIn("agentic-cinema.devpost.com", pack)
+        self.assertIn("cannot submit", pack)
+        self.assertIn("modification of existing Pointer", pack)
+        self.assertIn("100K downloads", pack)
+        self.assertIn("7,500", pack)
+        self.assertIn("11CCnQ5coVVPbTZa-gsJJxbBvyttSCZKyy9i3RiwdkPY", pack)
+        self.assertNotIn("030627070887", pack)
 
     def test_live_click_uses_state_shots(self) -> None:
         src = (Path(__file__).resolve().parents[1] / "pointer" / "__main__.py").read_text(

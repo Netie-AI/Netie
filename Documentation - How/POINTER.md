@@ -26,6 +26,8 @@ If `D:\Pointer` is missing, run the bootstrap:
 
 ```powershell
 cd D:\Netie\Pointer
+# double-click scripts\install_windows.cmd
+# or:
 $env:PYTHONPATH = (Get-Location)
 .\scripts\install_windows.ps1
 ```
