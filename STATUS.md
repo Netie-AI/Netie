@@ -1,17 +1,17 @@
 # STATUS
 
-Updated: 2026-08-22 22:40 MYT. Success = live Stripe charge, then a payout.
+Updated: 2026-08-22 22:44 MYT. Success = live Stripe charge, then a payout.
 
 ## Now (measured)
 
 - Stripe: available MYR 0, customers 0, charges 0, PaymentIntents 0.
 - Two open Checkouts, both RM 300 One Number, unpaid, no PI. Not income.
   Older `cs_live_a1DK...`. Newer `cs_live_a1TO...` (card, GrabPay, Link).
-- No buyer replies. Kian Seng send has no bounce yet.
-- Lutonics `hescar.lutonics@gmail.com`: first mail + public-facts draft sent
-  (`1a029a5003a6eb29`). Email is on the live contact mailto. Services is in the nav.
-  Services page still says Coming Soon. Homepage already lists sensors / controllers.
-  Draft: https://litter.catbox.moe/ae394q.html
+- No buyer replies. Lutonics send has no bounce yet.
+- Metafert `general@metafert.com.my`: first mail + public-facts draft sent
+  (`1a029a5fbf30be6b`). Email is on the live homepage mailto. Services is in the nav.
+  Services page still says Coming Soon. Homepage already lists compound / foliar / CRF.
+  Draft: https://litter.catbox.moe/k5etq0.html
 - Known bounces: Robex, PT, DHU, QEDT sales@, WM info@, Silverjack, willmfg.com.my.
 - Public pay page: https://litter.catbox.moe/d8n858.html
 
@@ -45,9 +45,10 @@ Updated: 2026-08-22 22:40 MYT. Success = live Stripe charge, then a payout.
    Skip gwgmanufacturing@gmail.com (mailed).
    Skip kiansengfoundry@gmail.com (mailed).
    Skip hescar.lutonics@gmail.com (mailed).
+   Skip general@metafert.com.my (mailed). Do not guess info@metafert.com.my.
    Skip Ridgemonde /services as Coming Soon (no Services item in homepage nav).
    Skip Top Creative Steel until a mailto is on live HTML (contact Email heading empty).
    Skip steelux /services as Coming Soon unless Services is in the homepage nav.
    Skip Shoon Teet /services (populated).
-   Metafert `metafert.com.my/services` and NATTEST `nationaltestlab.com/services`
-   say Coming Soon. Verify email on live HTML and Services in the nav before mailing.
+   NATTEST `nationaltestlab.com/services` says Coming Soon. Verify email on live
+   HTML and Services in the nav before mailing.
