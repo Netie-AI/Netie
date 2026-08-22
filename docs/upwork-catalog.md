@@ -1,37 +1,37 @@
-# Upwork Project Catalog (Number Trace)
+# Upwork Project Catalog (AI-first)
 
 Pay on Upwork for this gig. Do not also collect Stripe for the same hour.
-Do not spend Connects on cold proposals this week. Catalog first.
+Do not spend Connects. Do not buy FastTrack anywhere else.
+Blocker measured 22 Aug: Upwork Welcome is Apple-only on this VM. Google session expired. Do not request founder password or phone OTP.
 
-Open: https://www.upwork.com/ then Profile -> Project Catalog -> Create a catalog project.
+If you can open Catalog on the laptop, paste this.
 
-Blocker measured 22 Aug 23:00 MYT on this VM: Upwork Welcome for oojianhongg@gmail.com offers Continue with Apple. Google session is expired. Do not request the founder password or phone OTP. Do not pay Connects.
+## Catalog A (headline)
+
+Title: AI product landing page from your copy
+
+Category: Web, Mobile & Software Dev -> Web Development / Web Design
+
+Price: USD 120
+Delivery: 3 days
+
+Description:
+
+I am Jian Hong Oo, Application Engineer at Jumpwin. I ship AI product landings and small web apps.
+
+You send copy, logo, and any live URL. I return HTML files plus one revision if a published line is wrong.
+
+Public work: netie.ai, netie-ai.github.io/constructor, github.com/Netie-AI (Constructor, OpenHBM, OpenForge, Cassandra, Vertex).
+
+I do not sell a public AirGPT login. AirGPT runs on Jumpwin infra.
+
+Do not paste Stripe links on Upwork.
+
+## Catalog B (side)
 
 Title: Trace a number in your Excel and write the source
 
-Category: Data Science & Analytics -> Data Extraction / Spreadsheets (or Other)
+Price: USD 70
+Delivery: 1 day
 
-Price: USD 70 (matches live RM 300 Stripe SKU; Upwork takes a cut)
-
-Delivery: 1 day (actual desk work 20 minutes after the file arrives)
-
-Description (paste):
-
-I am Jian Hong in Penang. This is desk work, not software.
-
-You send an Excel or CSV and name one figure from that file. I write where it came from: sheet, cell, formula, or the matching rows. If it cannot be traced, I write that. I do not guess.
-
-What you get
-- One written source map
-- Done in 20 minutes after I have the file
-
-What you do not get
-- No live database plug-in
-- No cameras or staff tracking
-- No software licence
-
-I do not log into your warehouse system. You send a file.
-
-Add-on (optional): 4 extra numbers, USD 280, 90 minutes total. Same cannot-be-traced rule.
-
-Do not paste Stripe links on Upwork. If a buyer wants Stripe instead of Upwork, send them https://telegra.ph/Netie-Number-Trace-08-22 off-platform and do not charge twice.
+Keep the old Number Trace copy. Side work only.
