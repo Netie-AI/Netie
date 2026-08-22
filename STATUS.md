@@ -1,15 +1,16 @@
 # STATUS
 
-Updated: 2026-08-22 22:28 MYT. Success = live Stripe charge, then a payout.
+Updated: 2026-08-22 22:32 MYT. Success = live Stripe charge, then a payout.
 
 ## Now (measured)
 
 - last_stripe_check: 2026-08-22 22:17 MYT. Next: 2026-08-23. Still RM 0 last check.
-- TBL: export1@tblf.com.my auto-reply. Dead inbox. Rerouted one mail to Penang team `pen@mpconsol.com.my` (`1a029df49f8376e2`). Do not mail other mpconsol addresses today.
-- Greenpen: sent, no bounce yet.
-- Kwork: account `oojianhongg` email-confirmed. Listing blocked on phone OTP. Did not call the founder.
+- Forward Logistics: site form phone field rejected. Mailed `sales@forwardlogs.com` (`1a029e327b88cbdb`). Do not mail their export inboxes today.
+- Guru.com: this Gmail already registered. Did not reset password.
+- TBL Penang `pen@mpconsol.com.my`: sent, no bounce yet. Greenpen: no bounce yet.
+- Kwork: email confirmed, listing blocked on phone OTP.
 
 ## Next
 
-1. Watch pen@mpconsol + Greenpen + Transways + Image. Stripe once on 23 Aug MYT.
-2. Do not ask the founder for Fiverr, Freelancer, or phone OTP.
+1. Watch Forward + mpconsol + Greenpen + Transways + Image. Stripe once on 23 Aug MYT.
+2. Do not ask the founder for marketplace passwords or phone OTP.
