@@ -1,13 +1,13 @@
 # STATUS
 
-Updated: 2026-08-22 19:48 MYT. Success = live Stripe charge, then a payout.
+Updated: 2026-08-22 19:49 MYT. Success = live Stripe charge, then a payout.
 
 ## Now (measured)
 
 - Stripe: available MYR 0, customers 0, charges 0, PaymentIntents 0.
 - Same open Checkout `cs_live_a1DK...` RM 300, unpaid, no PI. Not income.
 - Public pay page: https://litter.catbox.moe/d8n858.html
-- New: WorkConnect `info@workconnect.com.my` -- training/seminar still marked coming soon. Offered RM 500 static page.
+- New: Bluewhale `inquiry@bluewhale.com.my` -- on live site. Offered RM 300 One Number.
 
 ## Next
 
