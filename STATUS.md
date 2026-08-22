@@ -1,16 +1,14 @@
 # STATUS
 
-Updated: 2026-08-23 03:23 MYT. Success = live Stripe charge, then a payout.
+Updated: 2026-08-23 03:30 MYT. Success = live Stripe charge, then a payout.
 
 ## Now (measured)
 
-- last_stripe_check: 2026-08-23 00:17 MYT. Same MYT day: did not poll Stripe. Still MYR 0 as of that read. Next: 2026-08-24.
-- Gmail: no replies on the six published-job applies or the five 3PL first-mails. Sunday: no 3PL first-mail.
-- Crawlable HTML pay page: https://brewpage.app/public/ANzfhLqHto (HTTP 200, `text/html`, 3 Stripe hrefs). Live `robots.txt` is `Allow: /`. Root brewpage robots also Allow. Expires 21 Sep 2026. Telegraph AI landing now points here first. Surge remains a human copy only (`Disallow: /`).
-- Flywheel Motion entry-level Agentic Engineer intake SUBMITTED 23 Aug 03:23 MYT (ctaio.dev, worldwide contract). Watch Gmail. Do not re-apply.
+- last_stripe_check: 2026-08-23 00:17 MYT. Did not poll balance. New live SKU: DBMS RM 20,000 https://buy.stripe.com/6oU28rdlk4KffUo06w9ws09
+- Pay page is a Netie.AI company page (proof, how, solutions, 2021-2026 portfolio, email). No warehouse/CCTV/mining disclaimer. Number Trace is not the headline.
+- Live HTML: https://brewpage.app/public/ANzfhLqHto and https://netie-penang.surge.sh/ (both measured with title Netie.AI, 3 Stripe hrefs: 20k / 500 / 1500). Telegraph: https://telegra.ph/Netie-AI-landing-page-08-22
 
 ## Next
 
-1. Mon 24 Aug 9:00 MYT: send monday-queue A-C. Stripe once. Then 30 min timer.
-2. Watch job inboxes including Flywheel. If Twine inbound, take Twine pay.
-3. Re-host 8ytqjj before it dies, or send people to Telegraph/BrewPage. Do not grind captchas. Do not buy marketplace upgrades.
+1. Mon 24 Aug 9:00 MYT: monday-queue A-C. Stripe once.
+2. Watch job inboxes including Flywheel. If someone pays RM 20k, start the scoped DBMS build.

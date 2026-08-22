@@ -1,14 +1,16 @@
-# Offer: Netie Number Trace
+# Offer: Netie.AI
 
-Pay:
-- One number, RM 300, 20 minutes: https://buy.stripe.com/fZu3cvdlkb8D4bG5qQ9ws04
-- Five numbers, RM 1,500, 90 minutes: https://buy.stripe.com/dRm8wP3KKfoT9w0g5u9ws03
-- One-page site, RM 500, files + one revision: https://buy.stripe.com/3cIcN54OO6SnaA4g5u9ws07
+Pay (live Stripe, invoice on, MYR):
+- DBMS / operations system, RM 20,000: https://buy.stripe.com/6oU28rdlk4KffUo06w9ws09 (`prod_V7ZigLN74TMIC7` / `price_1U7KYnFV5wcFod2fn9hDMBek`)
+- Website / AI landing, RM 500: https://buy.stripe.com/3cIcN54OO6SnaA4g5u9ws07
+- File analytics + presentation, RM 1,500: https://buy.stripe.com/dRm8wP3KKfoT9w0g5u9ws03
+- One figure map still exists (not headline): https://buy.stripe.com/fZu3cvdlkb8D4bG5qQ9ws04
+PRD, RAG, LLM programs, Constructor DAG, desktop agent: email quote. Cortex and DMS-shaped work is sold from this desk, scoped, not a software licence dump.
 
 Stripe live. Invoice on. Card, GrabPay, or Link. Not a subscription.
 FPX is off until enabled in Stripe Dashboard. payouts_enabled=true as of 22 Aug 2026. Business model form still past due.
 Public pay page (durable, Number Trace): https://telegra.ph/Netie-Number-Trace-08-22
-Public hire page (durable, AI landing headline, measured 23 Aug 03:23 MYT HTTP 200, 3 Stripe hrefs + Twine + BrewPage): https://telegra.ph/Netie-AI-landing-page-08-22
+Public hire page (Telegraph, measured 23 Aug 03:30 MYT, title Netie.AI, 3 Stripe hrefs + BrewPage): https://telegra.ph/Netie-AI-landing-page-08-22
 Rendered HTML from public GitLab is blocked from this IP as of 23 Aug 02:20 MYT (githack 302 to GitLab sign_in; gitlab.com/jianhongpg/number-trace 403/sign_in; Chrome Cloudflare human check). Do not use those URLs until they measure 200 again.
 Public GitLab snippet 6040859 same sign_in wall.
 Markdown copies: https://rentry.co/mst6o543 and https://rentry.co/gk39ee85 (gk39ee85 rewritten AI-first 23 Aug 02:40 MYT, 3 Stripe hrefs, noindex).
@@ -35,31 +37,24 @@ WhatsApp one-liner: `docs/whatsapp-paste.txt`.
 
 ## What the buyer gets
 
-One Number (RM 300): 1 figure, 20 minutes, written trace or "cannot be traced".
-Number Trace (RM 1,500): 5 figures, 90 minutes, same rule.
-Writeup form: `docs/number-trace-deliverable.md`
-Drive copy: https://docs.google.com/document/d/1lkg9yMkNnHIfQEvCVW7pM7aDl4hPG41D5k7G3tiCKoc/edit
-Helper: `python scripts/trace_number.py FILE CELL`
+DBMS / operations system (RM 20,000): scoped schema, APIs, admin. Not a Cortex licence dump.
+Website (RM 500): HTML from published facts. One revision.
+File analytics + presentation (RM 1,500): map plus a short deck from the files they send.
+PRD / RAG / LLM / desktop agent: quoted after a look at the files.
+Public demos: netie.ai, Constructor canvas, GitHub org. Cortex GitHub is not public from this token; Cortex is named and shown on netie.ai.
 
-They send the Excel/CSV those numbers came from. No live-database plug-in. No cameras. No staff tracking. No software licence.
+Old Number Trace writeup still exists for the RM 300/1,500 figure-map SKUs: `docs/number-trace-deliverable.md`. Not the headline.
 
 ## What we do not claim
 
-- We do not claim Space ACL holds. It does not, on the last measured TAS.
-- We do not claim answers are under 1 percent error. Verified n=47, so the bound is 6.4 percent.
-- We do not claim "we automate the warehouse." The 2026-08-22 Hengxing mail overclaimed. This offer does not.
-
-## Buyer math (Hengxing-shaped, logistics SME)
-
-- Clerk base RM 2,500 is a common MY SME figure; fully loaded ~RM 2,900 with EPF/SOCSO/EIS/HRDF. [ASSUMPTION: skill baseline, not Hengxing payroll]
-- RM 1,500 is about half a loaded clerk-month.
-- Pays back in the same month only if the map finds at least that much wasted recon or a wrong figure that would have shipped.
-- If the five numbers already trace cleanly, the buyer spent RM 1,500 to learn nothing is broken. That is a real kill.
+- We do not claim a live Stripe charge has landed. last_stripe_check 23 Aug 00:17 MYT was MYR 0.
+- We do not claim USD 200k client revenue.
+- We do not invent reviews. Proof is public URLs.
+- We do not sell casino or gambling products.
 
 ## Objections that still stand
 
-1. Why not keep the clerk and skip us - needs one concrete miss a clerk cannot catch.
-2. First Hengxing mail promised "we automate the ask" - this offer walks that back; trust cost is unpaid.
-3. Cortex/DMS are not in this cloud environment, so a software demo cannot be given from here.
-4. Cassandra USD checkout is live and crash.netie.ai is a directory listing - nobody can buy from the public host.
-5. Stripe `payouts_enabled=true` as of 22 Aug 2026. Identity document is verified. Business model form is still past due. Do not claim a payout has happened; live charges are still 0 as of last_stripe_check 23 Aug 00:17 MYT.
+1. RM 20,000 is a scoped build, not an infinite enterprise licence.
+2. Cortex/DMS-shaped work is sold from this desk; the public Cortex git repo is still 404 to this cloud token. Demo from netie.ai and Constructor Pages.
+3. Cassandra USD checkout and crash.netie.ai are not this pay page.
+4. Stripe `payouts_enabled=true` as of 22 Aug 2026. Business model form still past due.

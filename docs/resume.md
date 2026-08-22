@@ -55,7 +55,7 @@ Languages: English, Malay, Mandarin.
 
 ## Freelance offers that match this resume
 
-1. AI landing page / product page from your copy. HTML files. One revision.
-2. RAG or chat UI over files you send. Not a ChatGPT account. Your files, one small app.
-3. Constructor-style DAG or agent canvas UI.
-4. Spreadsheet source map is side work only (RM 300 / one figure). Not the headline.
+1. DBMS / operations system. RM 20,000. Scoped schema + admin.
+2. Website / AI landing from your copy. RM 500. HTML files. One revision.
+3. File analytics + presentation. RM 1,500.
+4. PRD, RAG over files, LLM program, Constructor DAG, desktop agent. Quoted.
