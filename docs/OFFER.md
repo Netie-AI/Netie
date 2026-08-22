@@ -17,9 +17,9 @@ Source: `docs/pay.html`. Not a Coming Soon pitch.
 Fiverr paste (Telegraph URLs): https://docs.google.com/document/d/1HyKS-wsE3M57VaJ7Eo0pbOF94e3qOv6Mybk-GkyknDM/edit
 Older Fiverr paste (litterbox vs14br): https://docs.google.com/document/d/1z2pWHqJPqmAHBwqyM1G7IUrNVQlaLB8PTtfC4j94B8E/edit
 Upwork catalog paste (on-platform USD 70, no Stripe on Upwork): `docs/upwork-catalog.md`
-Twine freelancer profile (measured 23 Aug 00:42 MYT, HTTP 200, Available to hire, score Medium): https://www.twine.net/jianhong
+Twine freelancer profile (measured 23 Aug 00:55 MYT, HTTP 200, Available to hire, score Medium): https://www.twine.net/jianhong
 Number Trace project (HTTP 200): https://www.twine.net/jianhong/c215tb0/number-trace-on-excel
-API user 1785534: skills Microsoft Excel (experience 71) + Freelance Gig (0), languages English and Malay, sector Transportation & Logistics, work line "Excel number tracing" at Netie. Avatar still placeholder. Twine rewrites off-site URLs to /signin; keep the pay link on Telegraph, not in the Twine project body. If a client hires on Twine, take Twine pay. Do not also Stripe the same hour.
+API user 1785534: day_rate 8000 USD cents ($80/day), skills Microsoft Excel (experience 45) + Freelance Gig (0), languages English and Malay, sector Transportation & Logistics, work line "Excel number tracing" at Netie. Avatar still placeholder. Twine rewrites off-site URLs to /signin; keep the pay link on Telegraph, not in the Twine project body. JSON PATCH can ignore day_rate; FormData POST `_method=PATCH` to `/api/users/1785534` did write it. If a client hires on Twine, take Twine pay. Do not also Stripe the same hour.
 WhatsApp one-liner: `docs/whatsapp-paste.txt`.
 
 ## What the buyer gets
