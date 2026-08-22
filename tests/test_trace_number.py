@@ -27,6 +27,15 @@ def run_trace(*arguments: str) -> subprocess.CompletedProcess[str]:
     )
 
 
+def write_mutated_workbook(destination: Path, transform: callable) -> None:
+    with zipfile.ZipFile(FIXTURE) as source, zipfile.ZipFile(destination, "w") as output:
+        for member in source.infolist():
+            content = source.read(member.filename)
+            if member.filename == "xl/worksheets/sheet1.xml":
+                content = transform(content)
+            output.writestr(member, content)
+
+
 class TraceNumberTests(unittest.TestCase):
     def test_simple_sum_reports_inputs_and_recomputes(self) -> None:
         result = run_trace(str(FIXTURE), "WK32!F4")
@@ -60,17 +69,62 @@ class TraceNumberTests(unittest.TestCase):
     def test_cached_value_disagreement_refuses(self) -> None:
         with tempfile.TemporaryDirectory() as temporary_directory:
             workbook = Path(temporary_directory) / "stale-cache.xlsx"
-            with zipfile.ZipFile(FIXTURE) as source, zipfile.ZipFile(workbook, "w") as destination:
-                for member in source.infolist():
-                    content = source.read(member.filename)
-                    if member.filename == "xl/worksheets/sheet1.xml":
-                        content = content.replace(b"<v>6480</v>", b"<v>9999</v>", 1)
-                    destination.writestr(member, content)
+            write_mutated_workbook(workbook, lambda content: content.replace(b"<v>6480</v>", b"<v>9999</v>", 1))
 
             result = run_trace(str(workbook), "WK32!F4")
 
         self.assertEqual(result.returncode, 2, result.stderr)
         self.assertIn("Cached value disagrees with recomputed value (6480).", result.stdout)
+
+    def test_circular_sum_refuses(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary_directory:
+            workbook = Path(temporary_directory) / "self-reference.xlsx"
+            write_mutated_workbook(workbook, lambda content: content.replace(b"SUM(C4:E4)", b"SUM(F4:F4)"))
+            result = run_trace(str(workbook), "WK32!F4")
+
+        self.assertEqual(result.returncode, 2, result.stderr)
+        self.assertIn("Reason: Formula references the selected cell.", result.stdout)
+
+    def test_formula_input_refuses_stale_cached_value(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary_directory:
+            workbook = Path(temporary_directory) / "nested-formula.xlsx"
+            write_mutated_workbook(
+                workbook,
+                lambda content: content.replace(
+                    b'<c r="C4"><v>2100</v></c>',
+                    b'<c r="C4"><f>1</f><v>2100</v></c>',
+                ),
+            )
+            result = run_trace(str(workbook), "WK32!F4")
+
+        self.assertEqual(result.returncode, 2, result.stderr)
+        self.assertIn("Input WK32!C4 contains a formula; nested formulas are not supported.", result.stdout)
+
+    def test_lowercase_shared_formula_translates_to_child_row(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary_directory:
+            workbook = Path(temporary_directory) / "lowercase-shared.xlsx"
+            write_mutated_workbook(workbook, lambda content: content.replace(b"SUM(C4:E4)", b"SUM(c4:e4)"))
+            result = run_trace(str(workbook), "WK32!F5")
+
+        self.assertEqual(result.returncode, 0, result.stderr)
+        self.assertIn("Formula: =SUM(C5:E5)", result.stdout)
+        self.assertIn("Recomputed from inputs: 400 (matches cached value)", result.stdout)
+
+    def test_nonfinite_value_refuses_without_traceback(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary_directory:
+            workbook = Path(temporary_directory) / "infinite.xlsx"
+            write_mutated_workbook(
+                workbook,
+                lambda content: content.replace(
+                    b'<c r="C4"><v>2100</v></c>',
+                    b'<c r="C4"><v>Infinity</v></c>',
+                ).replace(b"<v>6480</v>", b"<v>Infinity</v>", 1),
+            )
+            result = run_trace(str(workbook), "WK32!F4")
+
+        self.assertEqual(result.returncode, 2, result.stderr)
+        self.assertIn("Reason: Formula result is not numeric.", result.stdout)
+        self.assertNotIn("Traceback", result.stderr)
 
     def test_bad_xlsx_has_no_traceback(self) -> None:
         with tempfile.TemporaryDirectory() as temporary_directory:

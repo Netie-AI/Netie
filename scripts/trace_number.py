@@ -21,7 +21,10 @@ MAIN_NS = "http://schemas.openxmlformats.org/spreadsheetml/2006/main"
 REL_NS = "http://schemas.openxmlformats.org/officeDocument/2006/relationships"
 NS = {"m": MAIN_NS}
 CELL_REF_RE = re.compile(r"^\$?([A-Za-z]{1,3})\$?([1-9][0-9]*)$")
-CELL_TOKEN_RE = re.compile(r"(?P<col_abs>\$?)(?P<col>[A-Z]{1,3})(?P<row_abs>\$?)(?P<row>[1-9][0-9]*)")
+CELL_TOKEN_RE = re.compile(
+    r"(?P<col_abs>\$?)(?P<col>[A-Z]{1,3})(?P<row_abs>\$?)(?P<row>[1-9][0-9]*)",
+    re.IGNORECASE,
+)
 SUM_RANGE_RE = re.compile(
     r"^SUM\(\s*(?:(?P<sheet>'(?:[^']|'')+'|[^!]+)!)?"
     r"(?P<start>\$?[A-Za-z]{1,3}\$?[1-9][0-9]*):"
@@ -121,9 +124,10 @@ def decimal_from(value: str | None) -> Decimal | None:
     if value is None:
         return None
     try:
-        return Decimal(value)
+        parsed = Decimal(value)
     except InvalidOperation:
         return None
+    return parsed if parsed.is_finite() else None
 
 
 def compact_decimal(value: Decimal) -> str:
@@ -307,6 +311,7 @@ def sum_range_inputs(
     formula: str,
     sheet_name: str,
     cells: dict[str, SpreadsheetCell],
+    selected_coordinate: str,
 ) -> tuple[list[TraceInput] | None, Decimal | None, str | None]:
     match = SUM_RANGE_RE.fullmatch(formula.lstrip("="))
     if not match:
@@ -324,8 +329,12 @@ def sum_range_inputs(
         for column in range(start_col, end_col + 1):
             coordinate = cell_name(column, row)
             source = cells.get(coordinate)
+            if coordinate == selected_coordinate:
+                return None, None, "Formula references the selected cell."
             if source is None or source.value is None or source.numeric_value is None:
                 return None, None, f"Input {sheet_name}!{coordinate} is not a numeric cell."
+            if source.formula is not None:
+                return None, None, f"Input {sheet_name}!{coordinate} contains a formula; nested formulas are not supported."
             inputs.append(TraceInput(cell=f"{sheet_name}!{coordinate}", value=source.value))
             total += source.numeric_value
     return inputs, total, None
@@ -372,7 +381,7 @@ def trace_xlsx(path: Path, requested_reference: str, requested_sheet: str | None
     if cell.numeric_value is None:
         return cannot_trace(path, requested_reference, sheet_name, coordinate, cell, "Formula result is not numeric.")
 
-    inputs, recomputed, reason = sum_range_inputs(cell.formula, sheet_name, cells)
+    inputs, recomputed, reason = sum_range_inputs(cell.formula, sheet_name, cells, coordinate)
     if inputs is None or recomputed is None:
         return cannot_trace(path, requested_reference, sheet_name, coordinate, cell, reason or "Formula cannot be traced.")
     if recomputed != cell.numeric_value:
