@@ -1,16 +1,15 @@
 # STATUS
 
-Updated: 2026-08-22 20:22 MYT. Success = live Stripe charge, then a payout.
+Updated: 2026-08-22 20:23 MYT. Success = live Stripe charge, then a payout.
 
 ## Now (measured)
 
 - Stripe: available MYR 0, customers 0, charges 0, PaymentIntents 0.
 - Same open Checkout `cs_live_a1DK...` RM 300, unpaid, no PI. Not income.
-- J TOP: sent, no bounce yet.
-- NCT ground-handling page is 404. Skipped.
-- JC Machinery `jcmkt6298@gmail.com`: first mail + public-facts draft sent (`1a0296c1fa8bca6f`).
-  Email is on live homepage. Services page still says Coming Soon.
-  Draft: https://litter.catbox.moe/zuxo1e.html
+- JC Machinery: sent, no bounce yet.
+- Newcas `enquiry@newcas.com.my`: first mail + public-facts draft sent (`1a0296d17a602875`).
+  Email is on live NEWPAGES contact (same SSM 1291552-W). Services page still says Coming Soon.
+  Draft: https://litter.catbox.moe/yi6k2p.html
 - Public pay page: https://litter.catbox.moe/d8n858.html
 
 ## Next
@@ -19,6 +18,5 @@ Updated: 2026-08-22 20:22 MYT. Success = live Stripe charge, then a payout.
    https://docs.google.com/document/d/1riREBp22fMTZBaYxoyUGyMQgI1yYISNe3-cyqlNCVCc/edit
 2. Upload `Ic.pdf` to Stripe. Enable FPX in Dashboard.
 3. Renew Spaceship hosting: https://www.spaceship.com/launchpad/
-4. Agent next: Newcas `enquiry@newcas.com.my` if still unpaid.
-   Email is on live product pages and NEWPAGES. Services page still says Coming Soon.
-   Skip NCT (404). Skip PT. Skip CF. Skip Amici. Skip DHU.
+4. Agent next: one unused /services/ Coming Soon inbox with email on live HTML.
+   Skip PT. Skip CF. Skip NCT (404). Skip Amici. Skip DHU.
