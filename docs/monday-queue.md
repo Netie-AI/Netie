@@ -148,3 +148,12 @@ oojianhongg@gmail.com
 - Also measured this round: HN freelancer thread no comment box; PPH offer/new still walled; Twine inbound empty.
 - Do not mail again unless they reply.
 
+### Horizon Labs -- SENT 23 Aug 2026 03:07 MYT
+
+- To: admin@horizonlabs.ai (measured on https://horizonlabs.ai HTTP 200). Do not also mail hr@ the same day.
+- Source: live careers page https://horizonlabs.ai/careers/ai-software-engineer (HTTP 200). Site describes itself as The Modern AI Venture Studio.
+- Thread: `1a02ade5fa3dded1`
+- Honest: Penang/MY, GMT+8, Python RAG + React DAG canvas. Jumpwin current employer. Dover full-stack apply URL was 404; used the live careers page instead.
+- Skipped this round: SureSwift (Canada-only), Constelli (4+ yrs asyncio/air-gap), AIDAR (Germany/EU remote).
+- Do not mail again unless they reply.
+
