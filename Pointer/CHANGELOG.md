@@ -4,6 +4,7 @@ Append-only. Newest first.
 
 ## 2026-08-22
 
+- Laptop phone pack Drive `1by_5VEBbQpD86So-q6K8F2T2MpcHWNkd4BKb4UlARI0` (5 steps, no tokens, branch zip + py -3). Still no POINTER_PROVE.json.
 - install_windows.ps1 accepts `python` or `py -3`. `pair --card` writes token-free POINTER_NEXT.txt for Desktop. Product Pointer PRs #26/#27 in Gmail still have no cloneable payloads.
 - Cradle CIP Spark phone pack Drive `16kmarL_ZW48KYA0uvQW51-JvwnB7yyKB9ZabmTNoSoA`. GMS register only until a second teammate is named. Do not paste deck 100K traction.
 - Public pay copy on litterbox `u399xy.html` + QR `5hdpx8.png` (~72h from 12:17 UTC). Drive QR still owner-only. P-013 durable host still open.

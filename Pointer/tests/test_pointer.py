@@ -229,6 +229,7 @@ class PayPageTests(unittest.TestCase):
         self.assertIn("https://litter.catbox.moe/u399xy.html", html)
         self.assertIn("https://docs.google.com/document/d/16kmarL_ZW48KYA0uvQW51-JvwnB7yyKB9ZabmTNoSoA/edit", html)
         self.assertIn("CRADLE_SPARK.md", html)
+        self.assertIn("https://docs.google.com/document/d/1by_5VEBbQpD86So-q6K8F2T2MpcHWNkd4BKb4UlARI0/edit", html)
         self.assertNotIn("100K+", html)
 
     def test_cradle_pack_forbids_false_traction(self) -> None:
