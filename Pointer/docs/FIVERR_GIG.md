@@ -35,3 +35,5 @@ I will refuse: binding 0.0.0.0, POINTER_ALLOW_REMOTE=1, reading your pair tokens
 ## Unlock
 
 Gig URL in Pointer/STATUS.md. This file is not a live listing.
+
+Phone paste (Drive, founder-owned, 2026-08-22): https://docs.google.com/document/d/1CIfusgZvh8yXwucboi1iYpdMhgFHEyFlWEqjY4U_fIs/edit

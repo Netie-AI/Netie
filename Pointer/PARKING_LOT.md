@@ -13,4 +13,4 @@ Deferred work. **Every entry carries an unlock condition.**
 | P-007 | $1M authorized bounty hunting | HackerOne/Bugcrowd **in-scope** programs only; no unauthorised access; no exploit PoCs from this agent. H1 pays the researcher (not Stripe). Unlock: HackerOne username recorded in STATUS |
 | P-008 | Startup SG Tech grant | Evidence of a Singapore Pte Ltd with >=30% SC/PR shareholding and core R&D in SG. Malaysia SSM entity alone is not eligible |
 | P-009 | IPHatch Asia 2026 | Deadline 2026-08-09 has passed |
-| P-012 | Fiverr Pointer-install gig live | Founder publishes from `Pointer/docs/FIVERR_GIG.md`. Unlock: gig URL in STATUS. Google sign-in to Fiverr measured 2026-08-22 11:30 UTC |
+| P-012 | Fiverr Pointer-install gig live | Founder publishes from Drive `1CIfusgZvh8yXwucboi1iYpdMhgFHEyFlWEqjY4U_fIs` or `Pointer/docs/FIVERR_GIG.md`. Unlock: gig URL in STATUS. Google sign-in to Fiverr measured 2026-08-22 11:30 UTC |
