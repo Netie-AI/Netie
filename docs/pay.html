@@ -218,6 +218,21 @@
     .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: .75rem; }
     .form-grid label { margin-top: .75rem; }
     .form-note { margin-top: 1rem; color: var(--muted); font-size: .82rem; }
+    .brief-ready {
+      margin-top: 1.2rem;
+      padding: 1rem;
+      border: 1px solid var(--cyan);
+      border-radius: 10px;
+      background: var(--soft);
+    }
+    .brief-ready h3 { margin-top: 0; }
+    .brief-ready p { color: var(--muted); font-size: .9rem; }
+    .brief-ready textarea {
+      min-height: 11rem;
+      margin-top: .75rem;
+      font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+      font-size: .85rem;
+    }
     button.btn { border: 0; font: inherit; }
     .contact-card p { margin-top: .7rem; color: var(--muted); }
     .contact-card a { overflow-wrap: anywhere; }
@@ -362,7 +377,7 @@
       <section aria-labelledby="brief-heading">
         <p class="kicker">Brief</p>
         <h2 id="brief-heading">Describe the work, not the technology.</h2>
-        <p class="section-copy">A clear current process and desired result are more useful than a list of tools. This form opens an email draft on your device; it does not upload files.</p>
+        <p class="section-copy">A clear current process and desired result are more useful than a list of tools. This page prepares a message on your device; it does not upload files or send anything.</p>
         <div class="grid contact">
           <form id="brief">
             <div class="form-grid">
@@ -396,10 +411,20 @@
               <option>Not sure</option>
             </select>
             <div class="cta">
-              <button class="btn" type="submit">Open an email draft</button>
+              <button class="btn" type="submit">Prepare my brief</button>
               <a class="btn ghost" id="whatsapp-brief" href="https://wa.me/60165568918?text=Hello%20Jian%2C%20I%20would%20like%20a%20written%20scope." target="_blank" rel="noopener">Send brief on WhatsApp</a>
             </div>
             <p class="form-note">Do not paste passwords, API keys, customer records, or confidential file contents. Use this form to arrange a safe transfer.</p>
+            <div class="brief-ready" id="brief-ready" hidden aria-live="polite" tabindex="-1">
+              <h3>Your brief is ready to send</h3>
+              <p>Nothing has been sent or uploaded. Use a route below, or copy the text and send it in the channel you prefer.</p>
+              <textarea id="brief-output" readonly rows="10" aria-label="Prepared brief text"></textarea>
+              <div class="cta">
+                <button class="btn" type="button" id="copy-brief">Copy the brief</button>
+                <a class="btn ghost" id="mail-brief" href="mailto:oojianhongg@gmail.com">Open my email app</a>
+              </div>
+              <p class="form-note" id="copy-status" role="status">If your email app does not open, copy the text and send it to <a href="mailto:oojianhongg@gmail.com">oojianhongg@gmail.com</a> or on <a href="https://wa.me/60165568918" target="_blank" rel="noopener">WhatsApp +60 16-556 8918</a>.</p>
+            </div>
           </form>
           <aside class="contact-card">
             <h3>Jian Hong Oo</h3>
@@ -423,6 +448,11 @@
     const jobField = document.getElementById("job");
     const whatsappBrief = document.getElementById("whatsapp-brief");
     const briefCtas = document.querySelectorAll("[data-brief-job]");
+    const briefReady = document.getElementById("brief-ready");
+    const briefOutput = document.getElementById("brief-output");
+    const copyBrief = document.getElementById("copy-brief");
+    const mailBrief = document.getElementById("mail-brief");
+    const copyStatus = document.getElementById("copy-status");
 
     function value(id) {
       return document.getElementById(id).value.trim();
@@ -447,6 +477,20 @@
         encodeURIComponent("Hello Jian, I would like a written scope.\n\n" + briefText());
     }
 
+    function selectBriefText() {
+      briefOutput.focus();
+      briefOutput.select();
+      briefOutput.setSelectionRange(0, briefOutput.value.length);
+    }
+
+    function copyFallback() {
+      selectBriefText();
+      const copied = typeof document.execCommand === "function" && document.execCommand("copy");
+      copyStatus.textContent = copied
+        ? "Brief copied. Send it to oojianhongg@gmail.com or on WhatsApp +60 16-556 8918."
+        : "Copy did not work in this browser. Select the text above and copy it manually.";
+    }
+
     briefForm.addEventListener("input", updateWhatsApp);
     briefForm.addEventListener("change", updateWhatsApp);
     briefCtas.forEach(function (cta) {
@@ -457,9 +501,28 @@
     });
     briefForm.addEventListener("submit", function (e) {
       e.preventDefault();
-      window.location.href = "mailto:oojianhongg@gmail.com?subject=" +
-        encodeURIComponent("Scope request: " + value("job")) +
-        "&body=" + encodeURIComponent(briefText());
+      const text = briefText();
+      const subject = "Scope request: " + value("job");
+      briefOutput.value = text;
+      mailBrief.href = "mailto:oojianhongg@gmail.com?subject=" +
+        encodeURIComponent(subject) + "&body=" + encodeURIComponent(text);
+      copyStatus.textContent = "Nothing has been sent or uploaded. Copy the text, open your email app, or use WhatsApp.";
+      briefReady.hidden = false;
+      briefReady.scrollIntoView({ behavior: "smooth", block: "start" });
+      briefReady.focus();
+    });
+    copyBrief.addEventListener("click", function () {
+      selectBriefText();
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(briefOutput.value).then(
+          function () {
+            copyStatus.textContent = "Brief copied. Send it to oojianhongg@gmail.com or on WhatsApp +60 16-556 8918.";
+          },
+          copyFallback
+        );
+      } else {
+        copyFallback();
+      }
     });
     updateWhatsApp();
   </script>
