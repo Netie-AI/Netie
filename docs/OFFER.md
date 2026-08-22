@@ -21,12 +21,11 @@ Source: `docs/pay.html`. Not a Coming Soon pitch.
 Fiverr paste (Telegraph URLs): https://docs.google.com/document/d/1HyKS-wsE3M57VaJ7Eo0pbOF94e3qOv6Mybk-GkyknDM/edit
 Older Fiverr paste (litterbox vs14br): https://docs.google.com/document/d/1z2pWHqJPqmAHBwqyM1G7IUrNVQlaLB8PTtfC4j94B8E/edit
 Upwork catalog paste (on-platform USD 70, no Stripe on Upwork): `docs/upwork-catalog.md`
-Twine freelancer profile (measured 23 Aug 01:51 MYT, HTTP 200): https://www.twine.net/jianhong
-Display name Jian Hong Oo. Roles AI Engineer + Web Developer. day_rate 18000 USD cents ($180/day). Sector Information Technology.
+Twine freelancer profile (measured 23 Aug 02:16 MYT, HTTP 200): https://www.twine.net/jianhong
+Display name Jian Hong Oo. Roles AI Engineer + Web Developer. day_rate 18000 USD cents ($180/day). Sector Information Technology. has_resume=true (PDF uploaded to Twine; source `docs/resume.md`).
 Work: Jumpwin Technologies Application Engineer (May 2026-Present); Netie.AI AI Engineer (Jul 2021-May 2026). Education: Universiti Malaya BEng Electrical (Dean List), Oct 2022-Jul 2026.
-Skills accepted: Python 70, JavaScript 55, Microsoft Excel 45. Pending: FastAPI, HTML, Machine Learning, React.
-Projects: Constructor DAG canvas, Netie.ai product landing, OpenHBM HBM4 controller, Spreadsheet source map (side). Twine rewrites off-site URLs to /signin; do not paste Telegraph/Stripe into project bodies. application_credits=0 so job applications are blocked; do not buy Twine Pro. If a client hires on Twine, take Twine pay. Do not also Stripe the same hour.
-Resume for marketplace paste: `docs/resume.md`
+Skills (resume parse, accepted): Python, Prompt Engineering, API, Large Language Model, Docker, SQL, Cassandra, HTML5, JavaScript, React JS, Microsoft Excel. Freelance Gig removed.
+Projects: Constructor DAG canvas, Netie.ai product landing, OpenHBM HBM4 controller, Spreadsheet source map (side). Twine rewrites off-site URLs to /signin; do not paste Telegraph/Stripe into project bodies. Image file POST to /api/projects does not attach a cover (stays mediaType text). application_credits=0 so job applications are blocked; do not buy Twine Pro. If a client hires on Twine, take Twine pay. Do not also Stripe the same hour.
 WhatsApp one-liner: `docs/whatsapp-paste.txt`.
 
 ## What the buyer gets
