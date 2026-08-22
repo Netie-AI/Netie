@@ -80,6 +80,57 @@ def daemon_health() -> dict:
     return out
 
 
+def live_intent() -> dict:
+    import json
+    import urllib.error
+    import urllib.request
+    from pointer.protocol import SCHEMA
+
+    base = os.environ.get("POINTER_URL", "http://127.0.0.1:7420")
+    pair = ROOT / ".pointer-state" / "pair.json"
+    if not pair.is_file():
+        return {"ok": False, "error": "pair.json missing; start the daemon once"}
+    tokens = json.loads(pair.read_text(encoding="utf-8"))
+    marker = "pointer-verify-act"
+    payload = {
+        "schema": SCHEMA,
+        "intent_id": "verify-act-1",
+        "source": "local-test",
+        "goal": "sandbox write to prove gated act",
+        "approval_token": tokens.get("approval_token"),
+        "actions": [{"type": "file_write", "path": "verify-tick.txt", "content": marker}],
+    }
+    req = urllib.request.Request(
+        base + "/v1/intent",
+        data=json.dumps(payload).encode("utf-8"),
+        headers={"Content-Type": "application/json"},
+        method="POST",
+    )
+    try:
+        with urllib.request.urlopen(req, timeout=10) as resp:
+            body = json.loads(resp.read().decode("utf-8"))
+            code = resp.status
+    except urllib.error.HTTPError as exc:
+        raw = exc.read().decode("utf-8")
+        try:
+            body = json.loads(raw)
+        except json.JSONDecodeError:
+            body = {"raw": raw}
+        code = exc.code
+    except (urllib.error.URLError, TimeoutError, OSError, ValueError) as exc:
+        return {"ok": False, "error": str(exc)}
+    dest = ROOT / ".pointer-state" / "sandbox" / "verify-tick.txt"
+    written = dest.is_file() and dest.read_text(encoding="utf-8") == marker
+    return {
+        "ok": code == 200 and body.get("verdict") == "executed" and written,
+        "http": code,
+        "verdict": body.get("verdict"),
+        "reason": body.get("reason"),
+        "degraded": body.get("degraded"),
+        "sandbox_written": written,
+    }
+
+
 def main() -> int:
     from pointer.fallback import report
 
@@ -92,6 +143,8 @@ def main() -> int:
             live = live_mouse()
         except Exception as exc:  # noqa: BLE001 - verify must never crash silent
             live_error = f"{type(exc).__name__}: {exc}"
+    daemon = daemon_health()
+    intent = live_intent() if daemon.get("ok") else {"ok": False, "skipped": True, "reason": "daemon down"}
     payload = {
         "unit_tests": {
             "run": unit.testsRun,
@@ -101,7 +154,8 @@ def main() -> int:
         },
         "live_mouse": live,
         "live_error": live_error,
-        "daemon": daemon_health(),
+        "daemon": daemon,
+        "live_intent": intent,
         "fallback": report(),
         "git": subprocess.check_output(["git", "rev-parse", "--short", "HEAD"], cwd=ROOT.parent, text=True).strip(),
     }
@@ -111,6 +165,8 @@ def main() -> int:
     if live is not None and not live.get("ok"):
         return 1
     if live_error:
+        return 1
+    if daemon.get("ok") and not intent.get("ok"):
         return 1
     return 0
 

@@ -208,6 +208,7 @@ class PayPageTests(unittest.TestCase):
     def test_live_stripe_links_present(self) -> None:
         html = (Path(__file__).resolve().parents[1] / "pay" / "index.html").read_text(encoding="utf-8")
         for url in (
+            "https://buy.stripe.com/dRmaEXchg7Wr7nS8D29ws08",
             "https://buy.stripe.com/dRm8wP3KKfoT9w0g5u9ws03",
             "https://buy.stripe.com/fZu3cvdlkb8D4bG5qQ9ws04",
             "https://buy.stripe.com/3cIcN54OO6SnaA4g5u9ws07",
