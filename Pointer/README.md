@@ -38,7 +38,7 @@ or `ollama launch hermes` only on the laptop if this daemon cannot start.
 
 ## Pay (does not expire)
 
-Open `pay/index.html`. Live Stripe links. Payouts remain blocked until identity is uploaded.
+Open `pay/index.html` or, with the daemon up, http://127.0.0.1:7420/pay
 
 ## Cradle CIP Spark
 

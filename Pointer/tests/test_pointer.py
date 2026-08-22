@@ -219,5 +219,15 @@ class PayPageTests(unittest.TestCase):
         self.assertNotIn("100K+", html)
 
 
+class PayRouteTests(unittest.TestCase):
+    def test_pay_page_path_is_the_html_file(self) -> None:
+        from pointer.server import pay_page_path
+
+        p = pay_page_path()
+        self.assertTrue(p.is_file())
+        self.assertEqual(p.name, "index.html")
+        self.assertIn("buy.stripe.com", p.read_text(encoding="utf-8"))
+
+
 if __name__ == "__main__":
     unittest.main()

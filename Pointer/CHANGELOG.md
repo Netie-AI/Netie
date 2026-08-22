@@ -4,7 +4,7 @@ Append-only. Newest first.
 
 ## 2026-08-22
 
-- Durable `pay/index.html` over measured live Stripe links; Cradle Spark pack that forbids fake traction. Verify now records daemon health.
+- Daemon `GET /pay` serves the durable Stripe page so laptop `serve` is also the buy surface. Tick: 0 charges, no buyer mail.
 - Loop tick: verify still 12/12 + live mouse; Stripe MYR 0; no buyer replies; crash.netie.ai still autoindex. Next money path that is actually open: Cradle CIP Spark (gms.cradle.com.my), founder submit only.
 - Windows type/hotkey/screenshot wired through `windows_input.py` (SendInput + CopyFromScreen). Unit-tested on Linux; hardware proof still requires the founder laptop.
 - Daemon started on this VM at `127.0.0.1:7420`. Stripe live balance remains MYR 0 / 0 charges.

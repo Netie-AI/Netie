@@ -58,12 +58,26 @@ def daemon_health() -> dict:
     import urllib.request
 
     url = os.environ.get("POINTER_URL", "http://127.0.0.1:7420") + "/health"
+    pay_url = os.environ.get("POINTER_URL", "http://127.0.0.1:7420") + "/pay"
+    out: dict = {"url": url, "pay_url": pay_url}
     try:
         with urllib.request.urlopen(url, timeout=2) as resp:
             body = json.loads(resp.read().decode("utf-8"))
-            return {"ok": resp.status == 200, "url": url, "body": body}
+            out["ok"] = resp.status == 200
+            out["body"] = body
     except (urllib.error.URLError, TimeoutError, OSError, ValueError, json.JSONDecodeError) as exc:
-        return {"ok": False, "url": url, "error": str(exc)}
+        out["ok"] = False
+        out["error"] = str(exc)
+        return out
+    try:
+        with urllib.request.urlopen(pay_url, timeout=2) as resp:
+            html = resp.read().decode("utf-8", errors="replace")
+            out["pay_ok"] = resp.status == 200 and "buy.stripe.com" in html
+            out["pay_bytes"] = len(html)
+    except (urllib.error.URLError, TimeoutError, OSError, ValueError) as exc:
+        out["pay_ok"] = False
+        out["pay_error"] = str(exc)
+    return out
 
 
 def main() -> int:

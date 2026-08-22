@@ -24,6 +24,10 @@ def _state_dir() -> Path:
     return Path(__file__).resolve().parents[1] / ".pointer-state"
 
 
+def pay_page_path() -> Path:
+    return Path(__file__).resolve().parents[1] / "pay" / "index.html"
+
+
 class PointerHandler(BaseHTTPRequestHandler):
     engine: Engine
     pair_token: str
@@ -39,6 +43,13 @@ class PointerHandler(BaseHTTPRequestHandler):
         self.send_header("Content-Length", str(len(raw)))
         self.end_headers()
         self.wfile.write(raw)
+
+    def _html(self, code: int, body: bytes) -> None:
+        self.send_response(code)
+        self.send_header("Content-Type", "text/html; charset=utf-8")
+        self.send_header("Content-Length", str(len(body)))
+        self.end_headers()
+        self.wfile.write(body)
 
     def _bearer(self) -> str | None:
         header = self.headers.get("Authorization") or ""
@@ -70,6 +81,13 @@ class PointerHandler(BaseHTTPRequestHandler):
             status = self.engine.status()
             status["fallback"] = fallback_report()
             self._json(200, status)
+            return
+        if path in {"/pay", "/pay/", "/pay/index.html"}:
+            page = pay_page_path()
+            if not page.is_file():
+                self._json(500, {"ok": False, "reason": "pay page missing"})
+                return
+            self._html(200, page.read_bytes())
             return
         self._json(404, {"ok": False, "reason": "not found"})
 

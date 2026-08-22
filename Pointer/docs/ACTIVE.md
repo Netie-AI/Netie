@@ -20,6 +20,7 @@ What exists in this bootstrap and where.
 
 Default listen: `http://127.0.0.1:7420`
 Health: `GET /health`
+Pay: `GET /pay` (static `pay/index.html`)
 Status: `GET /v1/status`
 Intent: `POST /v1/intent`
 Kill: `POST /v1/kill`
