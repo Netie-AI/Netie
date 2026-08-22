@@ -16,6 +16,7 @@ WhatsApp one-liner: `docs/whatsapp-paste.txt`.
 
 One Number (RM 300): 1 figure, 20 minutes, written trace or "cannot be traced".
 Number Trace (RM 1,500): 5 figures, 90 minutes, same rule.
+Writeup form: `docs/number-trace-deliverable.md`.
 
 They send the Excel/CSV those numbers came from. No live-database plug-in. No cameras. No staff tracking. No software licence.
 
