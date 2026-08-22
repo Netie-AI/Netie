@@ -4,9 +4,9 @@
 
 ## Now
 
-1. 5-min loop still **off**. Stripe Projects search (CLI v1.50.4, unauthenticated) returned 0 Gemini/Google services. No POINTER_PROVE.json on Drive.
-2. Upwork pack live in git: `docs/UPWORK.md` / Drive `10hmUTFuoP1IYMp4dkB8TPFFcINtipcPXacqRLFVUIEY`. No catalog URL yet. Local daemon up. Cloud Run not deployed. A win is not confirmed.
-3. OpenClaw/Hermes not installed here. Product Pointer still 404. $1M is not in evidence.
+1. 5-min loop still **off**. Cloned public OpenVault to /tmp (not started). This VM has no `~/.openvault/keys.db` and no `GOOGLE_API_KEY`. Mesh now reports `google_key_absent_on_this_host`. Booting an empty vault here would not unlock Cloud Run.
+2. Local daemon up. Cloud Run not deployed. No POINTER_PROVE.json. No Devpost URL. A win is not confirmed. Product Pointer still 404.
+3. OpenClaw/Hermes not installed here. $1M is not in evidence.
 
 ## Next
 

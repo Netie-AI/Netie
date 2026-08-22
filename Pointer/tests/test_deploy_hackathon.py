@@ -97,6 +97,8 @@ class TestWhatIsLiveSh(unittest.TestCase):
         self.assertIn("stripe_check=skipped", text)
         self.assertIn("auto_win=no", text)
         self.assertIn("math_research_exam=no", text)
+        self.assertIn("openvault_keys_db", text)
+        self.assertNotIn("keys.db contents", text)
         self.assertNotIn("dashboard.stripe.com", text)
         self.assertNotIn("GetBalance", text)
         r = subprocess.run(

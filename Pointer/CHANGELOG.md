@@ -4,6 +4,7 @@ Append-only. Newest first.
 
 ## 2026-08-22
 
+- Mesh + `what_is_live.sh` now report OpenVault `keys.db` / Google env presence only (no secret read). This cloud host has neither. Cloned `Netie-AI/OpenVault` to /tmp; did not start an empty vault. 5-min loop stays off.
 - Upwork catalog paste `docs/UPWORK.md` / Drive `10hmUTFuoP1IYMp4dkB8TPFFcINtipcPXacqRLFVUIEY`. Google sign-in measured. This agent will not log in. Stripe Projects CLI (unauthenticated) returned 0 Gemini/Google services. 5-min loop stays off.
 - Unsubscribed the 5-min `loop-pointer-laptop-control` timer. It was re-verifying a loopback daemon and rewriting STATUS. That is not a Devpost submit, not a win, and not laptop control. Founder must continue in a new chat.
 - `install_windows.ps1` now runs `pointer prove` and copies Desktop POINTER_PROVE.json before starting the daemon. A wedged `:7420` no longer aborts the install. `prove` writes the JSON even if `SetCursorPos` raises. Stripe not re-checked this tick.

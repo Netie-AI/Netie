@@ -600,6 +600,19 @@ class MeshTests(unittest.TestCase):
         self.assertFalse(mesh.report()["silent_port_remap"])
         self.assertFalse(mesh.report()["cortex_auto_ingests_pointer_intent"])
         self.assertNotIn("030627070887", Path(mesh.__file__).read_text(encoding="utf-8"))
+        loc = mesh.local_vault_presence()
+        self.assertIn("keys_db_exists", loc)
+        self.assertIn("google_env_set", loc)
+        self.assertNotIn("value", loc)
+        env = {"GOOGLE_API_KEY": "", "GEMINI_API_KEY": "", "OPENVAULT_HOME": "/tmp/pointer-no-vault"}
+        with mock.patch.dict(os.environ, env, clear=False):
+            os.environ.pop("GOOGLE_API_KEY", None)
+            os.environ.pop("GEMINI_API_KEY", None)
+            os.environ["OPENVAULT_HOME"] = "/tmp/pointer-no-vault-missing"
+            loc2 = mesh.local_vault_presence()
+            self.assertFalse(loc2["keys_db_exists"])
+            self.assertFalse(loc2["google_env_set"])
+            self.assertIn("google_key_absent_on_this_host", mesh.report()["degraded"])
 
     def test_gate_does_not_follow_openvault_mesh_port(self) -> None:
         import urllib.error

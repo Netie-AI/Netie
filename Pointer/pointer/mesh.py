@@ -15,6 +15,7 @@ from __future__ import annotations
 import os
 import urllib.error
 import urllib.request
+from pathlib import Path
 from typing import Any
 
 from . import DEFAULT_PORT
@@ -71,6 +72,20 @@ def probe_cortex(base: str) -> dict[str, Any]:
     }
 
 
+def local_vault_presence() -> dict[str, Any]:
+    """Presence only. Never reads keys.db or prints secrets."""
+    override = os.environ.get("OPENVAULT_HOME")
+    home = Path(override).expanduser() if override else Path.home() / ".openvault"
+    db = home / "keys.db"
+    env_set = bool(os.environ.get("GOOGLE_API_KEY") or os.environ.get("GEMINI_API_KEY"))
+    return {
+        "openvault_home_exists": home.is_dir(),
+        "keys_db_exists": db.is_file(),
+        "google_env_set": env_set,
+        "note": "Presence only. This cloud home is not the founder laptop vault.",
+    }
+
+
 def probe_openvault(base: str) -> dict[str, Any]:
     hz = probe_url(base + OPENVAULT_HEALTH)
     if hz["ok"]:
@@ -99,6 +114,9 @@ def report() -> dict[str, Any]:
         degraded.append("cortex_openvault_mesh_unreachable")
     if not vault["reachable"]:
         degraded.append("openvault_unreachable")
+    local = local_vault_presence()
+    if not local["google_env_set"] and not local["keys_db_exists"]:
+        degraded.append("google_key_absent_on_this_host")
     if not same_url and tas["reachable"] is False and mesh_cx["reachable"] is True:
         degraded.append("cortex_on_openvault_port_set_CORTEX_URL")
     return {
@@ -129,6 +147,7 @@ def report() -> dict[str, Any]:
                 "google (POST /api/keyvault/upsert). Export that env into the hackathon "
                 "process. Pointer does not copy secrets from OpenVault."
             ),
+            "local": local,
             **vault,
         },
         "degraded": degraded,

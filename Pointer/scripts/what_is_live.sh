@@ -23,6 +23,12 @@ if [[ -n "${GEMINI_API_KEY:-}${GOOGLE_API_KEY:-}" ]]; then
 else
   echo "gemini_or_google_key=unset"
 fi
+OV_HOME="${OPENVAULT_HOME:-$HOME/.openvault}"
+if [[ -f "$OV_HOME/keys.db" ]]; then
+  echo "openvault_keys_db=present (not read)"
+else
+  echo "openvault_keys_db=absent host_is_not_laptop_vault"
+fi
 
 echo "cloud_run=not_deployed_from_this_vm"
 echo "devpost=not_submitted"
