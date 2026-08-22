@@ -20,6 +20,10 @@ What exists in this bootstrap and where.
 | `docs/CRADLE_SPARK.md` | Founder-only CIP Spark submit pack; traction honesty |
 | `docs/HACKERONE.md` | Founder-only H1 signup pack; no exploits/PoCs from this agent |
 | `docs/FIVERR_GIG.md` | Founder-only Fiverr paste pack; no false traction |
+| `docs/FORHIRE.md` | Founder-only r/forhire paste; one post / 7 days |
+| `docs/BUGCROWD.md` | Founder-only Bugcrowd signup; no exploits/PoCs |
+| `docs/STRIPE_PAYOUTS.md` | Founder Dashboard identity; no NRIC in git |
+| `docs/AGENTIC_HACK.md` | Founder-only Devpost submit pack; Gemini/ADK/GCP required |
 
 Default listen: `http://127.0.0.1:7420`
 Root: `GET /` (laptop steps, no tokens)

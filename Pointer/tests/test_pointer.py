@@ -237,6 +237,8 @@ class PayPageTests(unittest.TestCase):
         self.assertIn("FORHIRE.md", html)
         self.assertIn("1k0aHSZTRYeilXjc4CK4AbiyA7sXor2qTusYhg-oRLc4", html)
         self.assertIn("BUGCROWD.md", html)
+        self.assertIn("1P3E2rf1NSnNUrf454YB6dL5P34ObNv3PmICVu1yb59Y", html)
+        self.assertIn("AGENTIC_HACK.md", html)
         self.assertNotIn("100K+", html)
         self.assertNotIn("030627070887", html)
 
@@ -250,6 +252,18 @@ class PayPageTests(unittest.TestCase):
         self.assertIn("1hP52Fun6L1LQEsxdgU-1E-f60yhXJ45He69tt7WrT4o", text)
         self.assertIn("100K downloads", text)
         self.assertIn("will not post to Reddit", text)
+
+    def test_agentic_hack_pack_requires_gemini_and_forbids_false_traction(self) -> None:
+        pack = (Path(__file__).resolve().parents[1] / "docs" / "AGENTIC_HACK.md").read_text(
+            encoding="utf-8"
+        )
+        self.assertIn("31 Aug 2026", pack)
+        self.assertIn("Gemini 3.5", pack)
+        self.assertIn("cannot submit", pack)
+        self.assertIn("does **not** satisfy", pack)
+        self.assertIn("1P3E2rf1NSnNUrf454YB6dL5P34ObNv3PmICVu1yb59Y", pack)
+        self.assertIn("100K downloads", pack)
+        self.assertIn("ycombinator.com/apply", pack)
 
     def test_bugcrowd_pack_forbids_exploits(self) -> None:
         pack = (Path(__file__).resolve().parents[1] / "docs" / "BUGCROWD.md").read_text(
