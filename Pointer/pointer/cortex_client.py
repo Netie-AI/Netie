@@ -6,7 +6,6 @@ Do not remap ports here. See pointer.mesh.report().
 
 from __future__ import annotations
 
-import json
 import os
 import urllib.error
 import urllib.request
@@ -30,16 +29,18 @@ def ping(timeout: float = 1.5) -> bool:
             return False
 
 
+# TAS-CORTEX.md section 5: POST /api/engine/auto is race_router.auto_route
+# (family cosine + stored winner). It does not ingest pointer.intent/v1.
+# Cortex reaches this daemon via Pointer POST /v1/intent. Do not POST intents
+# the other way.
+CORTEX_AUTO_INGESTS_POINTER_INTENT = False
+
+
 def submit_intent(payload: dict, timeout: float = 5.0) -> dict | None:
-    """POST the intent to Cortex if a plan endpoint exists. None = not reachable."""
-    url = cortex_base() + "/api/engine/auto"
-    data = json.dumps(payload).encode("utf-8")
-    req = urllib.request.Request(
-        url, data=data, headers={"Content-Type": "application/json"}, method="POST"
-    )
-    try:
-        with urllib.request.urlopen(req, timeout=timeout) as resp:
-            body = resp.read().decode("utf-8")
-            return json.loads(body) if body else {}
-    except (urllib.error.URLError, TimeoutError, OSError, ValueError, json.JSONDecodeError):
-        return None
+    """Refuse to POST pointer.intent to Cortex /api/engine/auto.
+
+    Returning None is the fail-closed miss (unreachable / wrong contract), not a
+    silent plan. timeout is accepted for call-site compatibility and unused.
+    """
+    del payload, timeout
+    return None

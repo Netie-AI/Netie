@@ -4,6 +4,7 @@ Append-only. Newest first.
 
 ## 2026-08-22
 
+- Public pay copy refreshed on litterbox `67z3ik.html` (~72h from 13:10 UTC) so it includes YC late apply. Permanent catbox still `Invalid uploader`. Cortex `submit_intent` no longer POSTs `pointer.intent/v1` to `/api/engine/auto` (that path is race_router, not Pointer ingest).
 - OpenVault org-clone aligned: `pointer/mesh.py` probes TAS Cortex `:8010`, OpenVault mesh Cortex `:8000`, and OpenVault `:5000` independently. Gate still uses `CORTEX_URL` (default 8010). No silent port remap. Gemini planner also accepts OpenVault `GOOGLE_API_KEY`. YC Fall 2026 late-apply pack `docs/YC_FALL_2026.md` (P-018).
 - verify.sh now live-probes the hackathon planner HTTP on an ephemeral loopback port. Without GEMINI_API_KEY it must be HTTP 503 + `missing_gemini_key`. `/pay` points at `hackathon/README.md`.
 - Hackathon scaffold: `pointer/gemini_planner.py` (google-genai, fail-closed without `GEMINI_API_KEY`, refuses `shell`) plus `hackathon/` Cloud Run wrapper. Still not a submitted Devpost entry. P-017.

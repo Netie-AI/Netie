@@ -228,7 +228,7 @@ class PayPageTests(unittest.TestCase):
         self.assertIn("https://docs.google.com/document/d/1CIfusgZvh8yXwucboi1iYpdMhgFHEyFlWEqjY4U_fIs/edit", html)
         self.assertIn("https://docs.google.com/document/d/1n5htCeuadHZsU7udormJGiAh-EmigBj3izXWR4NUMD4/edit", html)
         self.assertIn("HACKERONE.md", html)
-        self.assertIn("https://litter.catbox.moe/k99m4f.html", html)
+        self.assertIn("https://litter.catbox.moe/67z3ik.html", html)
         self.assertIn("https://docs.google.com/document/d/16kmarL_ZW48KYA0uvQW51-JvwnB7yyKB9ZabmTNoSoA/edit", html)
         self.assertIn("CRADLE_SPARK.md", html)
         self.assertIn("https://docs.google.com/document/d/1by_5VEBbQpD86So-q6K8F2T2MpcHWNkd4BKb4UlARI0/edit", html)
@@ -508,6 +508,7 @@ class MeshTests(unittest.TestCase):
         self.assertEqual(mesh.OPENVAULT_GOOGLE_ENV, "GOOGLE_API_KEY")
         self.assertEqual(mesh.OPENVAULT_GOOGLE_PROVIDER, "google")
         self.assertFalse(mesh.report()["silent_port_remap"])
+        self.assertFalse(mesh.report()["cortex_auto_ingests_pointer_intent"])
         self.assertNotIn("030627070887", Path(mesh.__file__).read_text(encoding="utf-8"))
 
     def test_gate_does_not_follow_openvault_mesh_port(self) -> None:
@@ -546,6 +547,15 @@ class MeshTests(unittest.TestCase):
         self.assertTrue(rep["cortex_openvault_mesh"]["reachable"])
         self.assertIn("cortex_on_openvault_port_set_CORTEX_URL", rep["degraded"])
         self.assertFalse(rep["silent_port_remap"])
+
+    def test_submit_intent_does_not_post_to_auto_route(self) -> None:
+        from pointer import cortex_client
+
+        self.assertFalse(cortex_client.CORTEX_AUTO_INGESTS_POINTER_INTENT)
+        with mock.patch("urllib.request.urlopen") as opener:
+            out = cortex_client.submit_intent({"schema": SCHEMA, "goal": "nope"})
+        self.assertIsNone(out)
+        opener.assert_not_called()
 
 
 class YcPackTests(unittest.TestCase):

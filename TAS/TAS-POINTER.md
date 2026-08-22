@@ -96,5 +96,9 @@ Pointer `python -m pointer mesh` probes both Cortex URLs independently.
 `silent_port_remap` is always false. If the laptop runs Cortex the OpenVault way,
 set `CORTEX_URL=http://127.0.0.1:8000` before `pointer serve`.
 
+`POST /api/engine/auto` on Cortex is `race_router.auto_route`, not Pointer ingest.
+Pointer `submit_intent` returns None and does not POST `pointer.intent/v1` there.
+Cortex reaches Pointer via `POST /v1/intent` on `:7420`.
+
 Gemini keys: OpenVault provider id `google`, env `GOOGLE_API_KEY`, register
 https://aistudio.google.com/apikey . Pointer must not grow a second vault.

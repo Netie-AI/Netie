@@ -104,6 +104,7 @@ def report() -> dict[str, Any]:
     return {
         "pointer_listen": f"127.0.0.1:{DEFAULT_PORT}",
         "silent_port_remap": False,
+        "cortex_auto_ingests_pointer_intent": False,
         "cortex_tas": {
             "url": tas_cortex_base(),
             "default": TAS_CORTEX_DEFAULT,
