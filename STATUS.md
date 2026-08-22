@@ -1,13 +1,12 @@
 # STATUS
 
-Updated: 2026-08-22 19:50 MYT. Success = live Stripe charge, then a payout.
+Updated: 2026-08-22 19:51 MYT. Success = live Stripe charge, then a payout.
 
 ## Now (measured)
 
 - Stripe: available MYR 0, customers 0, charges 0, PaymentIntents 0.
 - Same open Checkout `cs_live_a1DK...` RM 300, unpaid, no PI. Not income.
-- No new cold email this tick (stop minute-interval spray).
-- JOTAC draft from public course titles only:
+- JOTAC thread: sent the public-facts draft. No bounce.
   https://litter.catbox.moe/fl6wqr.html
 - Public pay page: https://litter.catbox.moe/d8n858.html
 
