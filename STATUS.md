@@ -1,6 +1,6 @@
 # STATUS
 
-Updated: 2026-08-23 05:20 MYT. Success = live Stripe charge, then a payout.
+Updated: 2026-08-23 05:25 MYT. Success = live Stripe charge, then a payout.
 
 ## Now (measured)
 
@@ -13,6 +13,7 @@ Updated: 2026-08-23 05:20 MYT. Success = live Stripe charge, then a payout.
 - Suite homepage https://netie.ai/ still has its existing Apr 2026 Next.js title. `/aim/`, `/asa/`, and `/projects/` remain available and were not modified.
 - Timer tick 23 Aug 04:38 MYT: skipped Stripe because `last_stripe_check` is already today; no watched prospect or Truelancer replies; Saturday means Monday queue A-C stays unsent. Published and verified a fresh proof-led Rentry mirror: https://rentry.co/netie-hire-proof-2026
 - Deployment 23 Aug 05:20 MYT: Spaceship File Manager uploaded `/hire/index.html` and the six-file `/hire/trace/` artifact. Root `/` and `/aim/` still returned HTTP 200. BrewPage, Surge, Telegraph, and all three Rentry mirrors were synchronized with the source-trace link.
+- Monday 24 Aug queue was rewritten against freshly checked prospect pages. Three Gmail drafts for Pen Express, InterOcean Penang, and BH Armada were created but not sent; their draft/thread IDs are in `docs/monday-queue.md`. Gmail `ListDrafts` returned all three with the `DRAFT` label. Direct thread read-back is denied by the current Gmail scope. Do not send before 09:00 MYT Monday.
 - Laptop Drive 22 Aug docs were still Number Trace. New Drive doc: https://docs.google.com/document/d/1siVTp9MYgB3jatoUecjkfakQ86tkWkt06ZxMoiJwx1k/edit
 - Spaceship Hosting Manager login worked after Gmail recovery (username netiejh). Hosting Essential still expired; File Manager still uploaded /hire/. Password for that login lives only in this VM tmp, not in git.
 

@@ -38,23 +38,33 @@ Tone: `.cursor/skills/outreach-tone/SKILL.md`
 
 ## Monday 24 Aug 2026 first-mails (do not send before 9:00 MYT)
 
-Tone: `.cursor/skills/outreach-tone/SKILL.md`. One inbox. One fact. One ask. Telegraph link only if a link is needed. Not Hengxing / Easyway / Centrolink / the five above.
+Tone: `.cursor/skills/outreach-tone/SKILL.md`. One inbox. One fact. One ask. At most one proof link. Not Hengxing / Easyway / Centrolink / the five above.
+
+Gmail drafts were created 23 Aug 05:25 MYT and are not sent:
+- Pen Express: draft `r4883945163701155217`, thread `1a02b5d6f585f332`
+- InterOcean Penang: draft `r-8192599428649523972`, thread `1a02b5d71cbddc92`
+- BH Armada: draft `r-8439203117394069842`, thread `1a02b5d7160bc074`
 
 ### A. Pen Express -- NOT SENT
 
 - To: info@penexpressgroup.com
-- Fact measured 22 Aug on https://www.penexpressgroup.com/logistics-company-in-penang/ : bonded warehouse in the Free Commercial Zone at Penang International Airport, MAS Kargo Agents Complex.
+- Fact rechecked 23 Aug on https://www.penexpressgroup.com/logistics-company-in-penang/ : warehouse in the Free Commercial Zone at the MAS Kargo Agents Complex, Penang International Airport.
 - One inbox. Do not also mail cs.air / cs.ocean / warehouse@ the same day.
-- Subject: Penang Airport bonded warehouse
+- Gmail draft: `r4883945163701155217` (not sent).
+- Subject: Free Commercial Zone weekly totals
 - Draft:
 
 Dear Pen Express team,
 
 I am Jian Hong, writing from Penang. I found this inbox on your Penang logistics page.
 
-Your warehouse sits in the Free Commercial Zone at Penang International Airport (MAS Kargo Agents Complex). If a weekly carton or charge total from that bonded store is hard to defend, send the Excel. I trace the figure to a cell or write that it cannot be traced. RM 300, 20 minutes.
+Your Penang warehouse is listed in the Free Commercial Zone at the MAS Kargo Agents Complex. If a weekly carton, charge, or stock total needs a clear file trail, I do fixed-scope file analysis from records you agree to share: source map, findings, missing-data notes, and a short presentation. RM 1,500, decision support only, not an audit.
 
-If this is not useful, no need to write back.
+Here is a synthetic local example of one figure being traced: https://netie.ai/hire/trace/
+
+Would a short written scope for one report be useful?
+
+If not, no need to reply.
 
 Jian Hong
 Netie, Penang
@@ -63,8 +73,9 @@ oojianhongg@gmail.com
 ### B. InterOcean Penang -- NOT SENT
 
 - To: export.pen@interocean.com.my
-- Fact measured 22 Aug on https://interocean.com.my/office-facilities/ : Penang office at Unit 3A-01, Wisma Leader, No.8 Jalan Larut; Northport warehouse is listed separately.
+- Fact rechecked 23 Aug on https://interocean.com.my/office-facilities/ : Penang export office at Unit 3A-01, Wisma Leader, No. 8 Jalan Larut; Northport and Westport warehouses are listed separately.
 - One inbox. Do not also mail sales@ / export@ / import.pen@ the same day.
+- Gmail draft: `r-8192599428649523972` (not sent).
 - Subject: Wisma Leader export sheet
 - Draft:
 
@@ -72,9 +83,11 @@ Dear InterOcean Penang team,
 
 I am Jian Hong, writing from Penang. I found this inbox on your offices page.
 
-Your Penang office is listed at Wisma Leader on Jalan Larut, with a separate Northport warehouse. If an export total on last week's sheet is hard to defend, send the Excel. I write the sheet, cell, and formula, or I write that it cannot be traced. RM 300, 20 minutes.
+Your Penang export office is listed at Wisma Leader on Jalan Larut, while Northport and Westport warehouses are listed separately. If an export report needs a clearer trail from a total to its source, I do fixed-scope file analysis from records you agree to share: source map, findings, missing-data notes, and a short presentation. RM 1,500, decision support only, not an audit.
 
-If this is not useful, no need to write back.
+Would a short written scope for one report be useful?
+
+If not, no need to reply.
 
 Jian Hong
 Netie, Penang
@@ -83,8 +96,9 @@ oojianhongg@gmail.com
 ### C. BH Armada -- NOT SENT
 
 - To: info@bharmada.com
-- Fact measured 22 Aug on https://www.bharmada.com/contact.html : Wisma Yew Chye Seng, 5203 Jalan Mak Mandin, Butterworth; site also says two locations at Port Klang and Penang.
+- Fact rechecked 23 Aug on https://www.bharmada.com/contact.html : Wisma Yew Chye Seng, 5203 Jalan Mak Mandin, Butterworth.
 - One inbox.
+- Gmail draft: `r-8439203117394069842` (not sent).
 - Subject: Mak Mandin warehouse sheet
 - Draft:
 
@@ -92,13 +106,21 @@ Dear BH Armada team,
 
 I am Jian Hong, writing from Penang. I found this inbox on your contact page.
 
-Your Butterworth office is at Wisma Yew Chye Seng in Mak Mandin, and the site lists Port Klang as the second site. If a haulage or warehouse total on last week's sheet is hard to defend, send the Excel. I trace the figure to a cell or write that it cannot be traced. RM 300, 20 minutes.
+Your Butterworth office is listed at Wisma Yew Chye Seng, 5203 Jalan Mak Mandin. If a monthly haulage or warehouse total needs a clear file trail, I do fixed-scope file analysis from records you agree to share: source map, findings, missing-data notes, and a short presentation. RM 1,500, decision support only, not an audit.
 
-If this is not useful, no need to write back.
+Would a short written scope for one report be useful?
+
+If not, no need to reply.
 
 Jian Hong
 Netie, Penang
 oojianhongg@gmail.com
+
+### Follow-up, only after three business days and only if there is no reply
+
+One detail I should have included: the scope, exclusions, price, and files needed are agreed in writing before I start. If one report needs a source map and short decision presentation, reply and I will send the scope. If not, I will not write again.
+
+For InterOcean and BH Armada only, add this one link after the first sentence: `Synthetic local example: https://netie.ai/hire/trace/`. Do not add another link to Pen Express's follow-up because it already received the proof link.
 
 ### Hold (do not mail the same morning as A-C)
 
