@@ -1,15 +1,18 @@
 # STATUS
 
-Updated: 2026-08-22 20:00 MYT. Success = live Stripe charge, then a payout.
+Updated: 2026-08-22 20:04 MYT. Success = live Stripe charge, then a payout.
 
 ## Now (measured)
 
 - Stripe: available MYR 0, customers 0, charges 0, PaymentIntents 0.
+- payouts_enabled=false. Identity document + business-model form still past due.
 - Same open Checkout `cs_live_a1DK...` RM 300, unpaid, no PI. Not income.
-- Burgenns `services@burgenns.com.my`: first mail + public-facts draft sent.
-  Email is on live HTML. Coming-soon page, valuation copy only.
-  https://litter.catbox.moe/nmu1sk.html
+- Hengxing / Easyway / Centrolink / Transways: no replies.
+- DHU `enquiries@dhuam.edu.my`: first mail + public-facts draft sent.
+  Email is in the live page source. Visible homepage is maintenance only.
+  https://litter.catbox.moe/bn4q1s.html
 - Public pay page: https://litter.catbox.moe/d8n858.html
+- Saturday: Transways held. 2h loop stays.
 
 ## Next
 
@@ -18,4 +21,4 @@ Updated: 2026-08-22 20:00 MYT. Success = live Stripe charge, then a payout.
 2. Upload `Ic.pdf` to Stripe. Enable FPX in Dashboard.
 3. Renew Spaceship hosting: https://www.spaceship.com/launchpad/
 4. Agent next: one unused mailbox with a posted coming-soon problem.
-   Skip AIQUE and Maxtree (web shops). Skip A&T and Perisaiprima (no public email).
+   Skip First Pacific and RS Multimedia (no public email). Skip Magenta (agency).
