@@ -260,7 +260,7 @@ class PairCardTests(unittest.TestCase):
 
         steps = laptop_next_steps()
         self.assertEqual(len(steps), 5)
-        self.assertTrue(any("live-click" in s for s in steps))
+        self.assertTrue(any("pointer prove" in s for s in steps))
         self.assertTrue(any("POINTER_ALLOW_REMOTE" in s for s in steps))
         with tempfile.TemporaryDirectory() as td:
             state = Path(td)
@@ -285,9 +285,24 @@ class PairCardTests(unittest.TestCase):
         from pointer.server import laptop_root_html
 
         html = laptop_root_html().decode("utf-8")
-        self.assertIn("live-click", html)
+        self.assertIn("pointer prove", html)
         self.assertIn("POINTER_ALLOW_REMOTE", html)
         self.assertNotIn("pair_token:", html)
+
+
+class ProveTests(unittest.TestCase):
+    def test_prove_file_rejects_tokens(self) -> None:
+        from pointer.prove import write_prove
+
+        with tempfile.TemporaryDirectory() as td:
+            state = Path(td)
+            with self.assertRaises(ValueError):
+                write_prove(state, {"ok": True, "pair_token": "secret"})
+            path = write_prove(state, {"schema": "pointer.prove/v1", "ok": True, "platform": "test"})
+            text = path.read_text(encoding="utf-8")
+            self.assertIn("pointer.prove/v1", text)
+            self.assertNotIn("pair_token", text)
+            self.assertNotIn("approval_token", text)
 
 
 if __name__ == "__main__":

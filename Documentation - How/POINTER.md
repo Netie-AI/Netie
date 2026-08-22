@@ -31,9 +31,9 @@ $env:PYTHONPATH = (Get-Location)
 ```
 
 The script starts the daemon on `127.0.0.1:7420` if it is down, runs
-`python -m pointer live-click`, and writes `.pointer-state/PAIR_CARD.txt`.
-Open http://127.0.0.1:7420/ for the laptop card. `live-click` writes PNG
-files under `.pointer-state/shots` (not `/tmp`).
+`python -m pointer prove`, and writes `.pointer-state/PAIR_CARD.txt`.
+Open http://127.0.0.1:7420/ for the laptop card. `prove` writes PNG
+files under `.pointer-state/shots` (not `/tmp`) and `PROVE.json` with no tokens.
 
 Default bind is `127.0.0.1:7420`. Non-loopback bind is refused unless
 `POINTER_ALLOW_REMOTE=1`. Pair + approval tokens are written to

@@ -92,7 +92,7 @@ def daemon_health() -> dict:
             root = resp.read().decode("utf-8", errors="replace")
             out["root_ok"] = (
                 resp.status == 200
-                and "live-click" in root
+                and "pointer prove" in root
                 and "POINTER_ALLOW_REMOTE" in root
                 and "pair_token:" not in root
             )

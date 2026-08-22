@@ -20,6 +20,7 @@ Health: `GET http://127.0.0.1:7420/health`
 
 ```bash
 cd Pointer
+PYTHONPATH=. python3 -m pointer prove
 PYTHONPATH=. python3 -m pointer live-click --x 220 --y 180
 ./scripts/verify.sh
 ```
@@ -33,8 +34,8 @@ $env:PYTHONPATH = (Get-Location)
 ```
 
 That script starts `python -m pointer serve` on loopback if needed, runs
-`live-click`, writes `.pointer-state/PAIR_CARD.txt`, and copies
-`POINTER_CARD.txt` plus `POINTER_RM300.png` to the Desktop.
+`prove` (writes `.pointer-state/PROVE.json`, no tokens), and copies
+`POINTER_CARD.txt`, `POINTER_PROVE.json`, plus `POINTER_RM300.png` to the Desktop.
 
 `live-click` screenshots go to `.pointer-state/shots`, not `/tmp`.
 Do not set `POINTER_ALLOW_REMOTE=1`. Do not email pair tokens.

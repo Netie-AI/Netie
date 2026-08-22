@@ -50,20 +50,24 @@ if (-not $up) {
     throw "daemon did not become healthy on http://127.0.0.1:7420/health"
 }
 
-Write-Host "4. Prove hardware (live-click) then write pair card (no tokens in this window)"
-python -m pointer live-click --x 220 --y 180
+Write-Host "4. Prove hardware then write pair card (no tokens in this window)"
+python -m pointer prove
 if ($LASTEXITCODE -ne 0) {
-    Write-Host "live-click failed; still writing pair card. This is P-002 unproven."
+    Write-Host "prove failed; still writing pair card. This is P-002 unproven."
 }
 python -m pointer pair --card
 $desktop = [Environment]::GetFolderPath("Desktop")
 if ($desktop) {
     Copy-Item (Join-Path $bootstrap ".pointer-state\PAIR_CARD.txt") (Join-Path $desktop "POINTER_CARD.txt") -Force
+    $prove = Join-Path $bootstrap ".pointer-state\PROVE.json"
+    if (Test-Path $prove) {
+        Copy-Item $prove (Join-Path $desktop "POINTER_PROVE.json") -Force
+    }
     $qr = Join-Path $bootstrap "pay\pointer-rm300.png"
     if (Test-Path $qr) {
         Copy-Item $qr (Join-Path $desktop "POINTER_RM300.png") -Force
     }
-    Write-Host "desktop copies: POINTER_CARD.txt (no tokens) and POINTER_RM300.png if present"
+    Write-Host "desktop copies: POINTER_CARD.txt (no tokens), POINTER_PROVE.json, POINTER_RM300.png if present"
 }
 Write-Host "card: $bootstrap\.pointer-state\PAIR_CARD.txt (gitignored). Do not email tokens."
 Write-Host "open http://127.0.0.1:7420/ for the same 5 steps"

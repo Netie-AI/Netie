@@ -24,9 +24,9 @@ OpenClaw and Hermes are not part of this process.
 | Path | Role |
 |---|---|
 | `Pointer/pointer/server.py` | `ThreadingHTTPServer` on `127.0.0.1:7420` |
-| `Pointer/pointer/__main__.py` | `serve`, `verify`, `live-click`, `pair --card` |
+| `Pointer/pointer/__main__.py` | `serve`, `verify`, `live-click`, `prove`, `pair --card` |
 | `Pointer/scripts/verify.sh` | unit tests + live mouse/screenshot |
-| `Pointer/scripts/install_windows.ps1` | laptop start + live-click + pair card |
+| `Pointer/scripts/install_windows.ps1` | laptop start + prove + pair card |
 
 ---
 
