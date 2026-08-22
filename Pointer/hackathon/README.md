@@ -48,9 +48,18 @@ Then, only on the laptop, POST the returned intent to `http://127.0.0.1:7420/v1/
 From the `Pointer/` directory (build context must include `pointer/`):
 
 ```bash
-gcloud run deploy pointer-hackathon --source . --dockerfile hackathon/Dockerfile
-# set GOOGLE_API_KEY or GEMINI_API_KEY as a Cloud Run secret. Do not --allow-unauthenticated unless you accept public planners.
+cd Pointer
+# dry-run preflight (this VM has no gcloud and no key; must refuse or dry-run)
+bash scripts/deploy_hackathon.sh
+# founder laptop / Cloud SDK machine:
+export GOOGLE_API_KEY=...   # from OpenVault, not git
+export DEPLOY=1
+bash scripts/deploy_hackathon.sh
 ```
+
+The script refuses `POINTER_ALLOW_REMOTE=1`, refuses a missing key, refuses missing `gcloud`, and deploys with `--no-allow-unauthenticated`. It writes the key to a temp Secret Manager file and does not print it.
+
+Windows: `powershell -File scripts/deploy_hackathon.ps1` with `$env:DEPLOY='1'`.
 
 Demo video must show the Cloud Run dashboard or `.run.app` URL plus the Pointer prove screenshot. Do not enable `POINTER_ALLOW_REMOTE=1`.
 
