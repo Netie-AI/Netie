@@ -226,6 +226,8 @@ class PayPageTests(unittest.TestCase):
         self.assertIn("https://drive.google.com/file/d/12HUn5z1C62HwMp144kB_-wvnBom4XIke/view", html)
         self.assertIn("FIVERR_GIG.md", html)
         self.assertIn("https://docs.google.com/document/d/1CIfusgZvh8yXwucboi1iYpdMhgFHEyFlWEqjY4U_fIs/edit", html)
+        self.assertIn("UPWORK.md", html)
+        self.assertIn("10hmUTFuoP1IYMp4dkB8TPFFcINtipcPXacqRLFVUIEY", html)
         self.assertIn("https://docs.google.com/document/d/1n5htCeuadHZsU7udormJGiAh-EmigBj3izXWR4NUMD4/edit", html)
         self.assertIn("HACKERONE.md", html)
         self.assertIn("https://litter.catbox.moe/67z3ik.html", html)
@@ -352,6 +354,17 @@ class PayPageTests(unittest.TestCase):
         self.assertIn("false vs Stripe", pack)
         self.assertIn("1CIfusgZvh8yXwucboi1iYpdMhgFHEyFlWEqjY4U_fIs", pack)
 
+    def test_upwork_pack_forbids_false_traction(self) -> None:
+        pack = (Path(__file__).resolve().parents[1] / "docs" / "UPWORK.md").read_text(
+            encoding="utf-8"
+        )
+        self.assertIn("USD 70", pack)
+        self.assertIn("Do not also collect Stripe", pack)
+        self.assertIn("100K downloads", pack)
+        self.assertIn("will not use login codes", pack)
+        self.assertIn("10hmUTFuoP1IYMp4dkB8TPFFcINtipcPXacqRLFVUIEY", pack)
+        self.assertIn("Catalog project first", pack)
+
 
 class PayRouteTests(unittest.TestCase):
     def test_pay_page_path_is_the_html_file(self) -> None:
@@ -426,6 +439,7 @@ class PairCardTests(unittest.TestCase):
         self.assertIn("agentic-cinema.devpost.com", src)
         self.assertIn("ycombinator.com/apply", src)
         self.assertIn("hacker101.com", src)
+        self.assertIn("upwork.com", src)
         self.assertNotIn("POINTER_ALLOW_REMOTE=1", src)
         self.assertIn("Do not blast Easyway/Hengxing", src)
         self.assertIn("not a $1m claim", src.lower())

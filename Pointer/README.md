@@ -56,3 +56,7 @@ Open `pay/index.html` or, with the daemon up, http://127.0.0.1:7420/pay
 ## Fiverr
 
 `docs/FIVERR_GIG.md`. Founder publishes. Pay on Fiverr for that gig.
+
+## Upwork
+
+`docs/UPWORK.md`. Founder publishes a catalog project. This agent will not log in.
