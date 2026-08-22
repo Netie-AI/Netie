@@ -51,5 +51,5 @@ Title:
 I will trace a number in your Excel and write the source
 
 Keep the old Number Trace copy. Do not make this the first gig.
-Pay page if they want Stripe instead of Fiverr: https://telegra.ph/Netie-AI-landing-page-08-22 or https://brewpage.app/public/ANzfhLqHto
+Pay page if they want Stripe instead of Fiverr: https://netie.ai/hire/
 Do not charge twice.
