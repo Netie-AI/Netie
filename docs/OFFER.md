@@ -3,6 +3,7 @@
 Pay:
 - One number, RM 300, 20 minutes: https://buy.stripe.com/fZu3cvdlkb8D4bG5qQ9ws04
 - Five numbers, RM 1,500, 90 minutes: https://buy.stripe.com/dRm8wP3KKfoT9w0g5u9ws03
+- One-page site, RM 500, files + one revision: https://buy.stripe.com/3cIcN54OO6SnaA4g5u9ws07
 
 Stripe live. Invoice on. Card, GrabPay, or Link. Not a subscription.
 FPX is off until the founder enables it in Stripe Dashboard. Payouts are off until identity is verified. MyKad is already in Drive as `Ic.pdf`; upload that in Dashboard.

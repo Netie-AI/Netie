@@ -1,16 +1,13 @@
 # STATUS
 
-Updated: 2026-08-22 19:32 MYT. Success = live Stripe charge, then a payout.
+Updated: 2026-08-22 19:35 MYT. Success = live Stripe charge, then a payout.
 
 ## Now (measured)
 
-- Stripe livemode: available MYR 0, customers 0, charges 0. No 3PL replies.
-- payouts_enabled=false. Upload Drive `Ic.pdf` in Dashboard plus the business-model form.
-- Spaceship Web Hosting Essential expired 2026-07-21. crash.netie.ai is still a LiteSpeed listing.
-- Public pay page (inline QRs, expires ~72h): https://litter.catbox.moe/pohaj0.html
-- Posted-task outreach: HN Jun 2026 Vue3 UI ask -> `fnmnlmusic@gmail.com`. WM bounce retry -> `reel@wm.com.my` (info@ was 550).
-- Skipped: CAPTCHA farms, homework mills, review fraud, bot-banned task sites. August HN thread had zero SEEKING FREELANCER posts.
-- Transways held for Mon 24 Aug 09:00 MYT. No WhatsApp API on this cloud agent.
+- Stripe livemode last check: MYR 0. New SKU: One-page site RM 500 `https://buy.stripe.com/3cIcN54OO6SnaA4g5u9ws07`
+- No WhatsApp API in this cloud (Drive = photos/group links only). Founder tap-to-send mailed.
+- QEDT posted gap ("Datasheet to be uploaded"): draft https://litter.catbox.moe/rc8qsx.html mailed to `miza@qedt.com.my`
+- YAL `info@yal.com.my` mailed RM 300. Transways still Mon 24 Aug 09:00 MYT.
 
 ## Next
 
