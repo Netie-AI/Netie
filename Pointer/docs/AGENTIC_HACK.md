@@ -18,7 +18,15 @@ Every project must use:
 2. At least one Google agent framework: ADK, GenAI SDK, Antigravity SDK, or Genkit
 3. At least one Google Cloud service (Cloud Run, Cloud SQL, Firestore, GKE, or Pub/Sub)
 
-The Netie Pointer bootstrap on this VM (stdlib HTTP + xdotool) does **not** satisfy those three. Do not submit this repo as-is.
+The Netie Pointer **daemon** on this VM (stdlib HTTP + xdotool) does **not** satisfy those three by itself. Do not submit `pointer serve` as the whole entry.
+
+Scaffold in this PR (still needs the founder's `GEMINI_API_KEY` + Cloud Run deploy):
+
+- `pointer/gemini_planner.py` -- GenAI SDK, fail-closed without the key, refuses `shell`
+- `hackathon/app.py` + `hackathon/Dockerfile` -- Cloud Run HTTP `POST /plan`
+- `hackathon/README.md` -- spin-up + architecture diagram
+
+This agent has no Gemini key on the cloud VM and cannot submit Devpost.
 
 Track fit if you add the Google stack: Taskmaster (agent takes action, not just chat). Collaborative Partner if you keep the human in the loop (Pointer kill switch + approval token).
 

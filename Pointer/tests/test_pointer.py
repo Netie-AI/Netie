@@ -1,9 +1,11 @@
 from __future__ import annotations
 
 import json
+import os
 import tempfile
 import unittest
 from pathlib import Path
+from unittest import mock
 
 from pointer.gate import Gate
 from pointer.ledger import Ledger
@@ -261,6 +263,8 @@ class PayPageTests(unittest.TestCase):
         self.assertIn("Gemini 3.5", pack)
         self.assertIn("cannot submit", pack)
         self.assertIn("does **not** satisfy", pack)
+        self.assertIn("gemini_planner.py", pack)
+        self.assertIn("hackathon/Dockerfile", pack)
         self.assertIn("1P3E2rf1NSnNUrf454YB6dL5P34ObNv3PmICVu1yb59Y", pack)
         self.assertIn("100K downloads", pack)
         self.assertIn("ycombinator.com/apply", pack)
@@ -410,6 +414,55 @@ class ProveTests(unittest.TestCase):
         from pointer.windows_input import ensure_dpi_aware
 
         self.assertEqual(ensure_dpi_aware(), "skipped")
+
+
+class GeminiPlannerTests(unittest.TestCase):
+    def test_missing_key_is_fail_closed(self) -> None:
+        from pointer.gemini_planner import PlannerError, plan
+
+        with mock.patch.dict(os.environ, {"GEMINI_API_KEY": ""}, clear=False):
+            with self.assertRaises(PlannerError):
+                plan("move to 220,180")
+
+    def test_plan_validates_schema_and_refuses_shell(self) -> None:
+        from pointer.gemini_planner import PlannerError, plan
+        from pointer.protocol import SCHEMA
+
+        good = {
+            "schema": SCHEMA,
+            "intent_id": "h-1",
+            "source": "local-test",
+            "goal": "move",
+            "actions": [{"type": "move", "x": 220, "y": 180}, {"type": "perceive"}],
+        }
+        with mock.patch.dict(os.environ, {"GEMINI_API_KEY": "test-key"}):
+            with mock.patch("pointer.gemini_planner._generate", return_value=json.dumps(good)):
+                out = plan("move")
+        self.assertEqual(out["schema"], SCHEMA)
+        self.assertEqual(out["actions"][0]["type"], "move")
+        bad = dict(good)
+        bad["actions"] = [{"type": "shell", "command": "rm -rf /"}]
+        with mock.patch.dict(os.environ, {"GEMINI_API_KEY": "test-key"}):
+            with mock.patch("pointer.gemini_planner._generate", return_value=json.dumps(bad)):
+                with self.assertRaises(PlannerError):
+                    plan("hack")
+
+    def test_hackathon_health_degraded_without_key(self) -> None:
+        from hackathon.app import health
+
+        with mock.patch.dict(os.environ, {"GEMINI_API_KEY": ""}, clear=False):
+            body = health()
+        self.assertFalse(body["ok"])
+        self.assertIn("missing_gemini_key", body["degraded"])
+
+    def test_hackathon_dockerfile_copies_pointer(self) -> None:
+        root = Path(__file__).resolve().parents[1]
+        text = (root / "hackathon" / "Dockerfile").read_text(encoding="utf-8")
+        self.assertIn("COPY pointer", text)
+        self.assertIn("google-genai", (root / "hackathon" / "requirements.txt").read_text(encoding="utf-8"))
+        readme = (root / "hackathon" / "README.md").read_text(encoding="utf-8")
+        self.assertIn("POINTER_ALLOW_REMOTE stays unset", readme)
+        self.assertIn("Cloud Run", readme)
 
 
 if __name__ == "__main__":

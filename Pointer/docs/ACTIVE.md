@@ -24,6 +24,7 @@ What exists in this bootstrap and where.
 | `docs/BUGCROWD.md` | Founder-only Bugcrowd signup; no exploits/PoCs |
 | `docs/STRIPE_PAYOUTS.md` | Founder Dashboard identity; no NRIC in git |
 | `docs/AGENTIC_HACK.md` | Founder-only Devpost submit pack; Gemini/ADK/GCP required |
+| `hackathon/` | Cloud Run + google-genai planner scaffold; fail-closed without GEMINI_API_KEY |
 
 Default listen: `http://127.0.0.1:7420`
 Root: `GET /` (laptop steps, no tokens)
