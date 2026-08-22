@@ -5,6 +5,8 @@ This agent cannot register on GMS. Founder submits.
 Official: https://www.cradle.com.my/cip-spark/
 Apply: https://gms.cradle.com.my/
 
+Phone copy (Drive): https://docs.google.com/document/d/16kmarL_ZW48KYA0uvQW51-JvwnB7yyKB9ZabmTNoSoA/edit
+
 ## Eligibility we can use (measured against public criteria)
 
 - Individual path: team of **2**, at least **1 Malaysian**, at least 1 person residing in Malaysia.

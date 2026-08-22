@@ -227,7 +227,19 @@ class PayPageTests(unittest.TestCase):
         self.assertIn("https://docs.google.com/document/d/1n5htCeuadHZsU7udormJGiAh-EmigBj3izXWR4NUMD4/edit", html)
         self.assertIn("HACKERONE.md", html)
         self.assertIn("https://litter.catbox.moe/u399xy.html", html)
+        self.assertIn("https://docs.google.com/document/d/16kmarL_ZW48KYA0uvQW51-JvwnB7yyKB9ZabmTNoSoA/edit", html)
+        self.assertIn("CRADLE_SPARK.md", html)
         self.assertNotIn("100K+", html)
+
+    def test_cradle_pack_forbids_false_traction(self) -> None:
+        pack = (Path(__file__).resolve().parents[1] / "docs" / "CRADLE_SPARK.md").read_text(
+            encoding="utf-8"
+        )
+        self.assertIn("gms.cradle.com.my", pack)
+        self.assertIn("16kmarL_ZW48KYA0uvQW51-JvwnB7yyKB9ZabmTNoSoA", pack)
+        self.assertIn("100K+ Downloads", pack)
+        self.assertIn("MYR 0, 0 charges", pack)
+        self.assertIn("Second teammate is not named", pack)
 
     def test_hackerone_pack_forbids_exploits(self) -> None:
         pack = (Path(__file__).resolve().parents[1] / "docs" / "HACKERONE.md").read_text(
