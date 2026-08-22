@@ -4,7 +4,7 @@
 
 ## Now
 
-1. Verify measured: 18 tests OK, live mouse 220,180, `/health`+`/pay`+QR+`GET /`, gated sandbox write. Git `44ab1d4` then Fiverr pack commit. `Netie-AI/Pointer` still 404. Stripe charges 0.
+1. Verify measured: 19 tests OK, live mouse 220,180, `/health`+`/pay`+QR+`GET /`, gated sandbox write. Git `7a7bd52`. `Netie-AI/Pointer` still 404. Stripe charges 0.
 2. Gmail: Google sign-in to Fiverr 11:30 UTC (no gig URL yet). Outlier ToS only. No Slingshot confirmation. Drive QR still owner-only.
 3. OpenClaw/Hermes not installed here. Vercel ruma-houser still flags netie.ai/www; do not flip apex DNS.
 
