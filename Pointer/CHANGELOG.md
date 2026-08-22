@@ -4,6 +4,7 @@ Append-only. Newest first.
 
 ## 2026-08-22
 
+- Durable public pay stopgaps measured: Telegraph `https://telegra.ph/Netie-pay-08-22` (HTTP 200, Pointer RM 300 + YC + Hacker101) and Wayback `https://web.archive.org/web/20260822131625/https://litter.catbox.moe/67z3ik.html` (HTTP 200). Do not commit Telegraph auth tokens. Hacker101 HTTP 200; H1 signup 403 from this VM. Devpost inbox exists (newsletter 2026-08-20); still no project URL.
 - Public pay copy refreshed on litterbox `67z3ik.html` (~72h from 13:10 UTC) so it includes YC late apply. Permanent catbox still `Invalid uploader`. Cortex `submit_intent` no longer POSTs `pointer.intent/v1` to `/api/engine/auto` (that path is race_router, not Pointer ingest).
 - OpenVault org-clone aligned: `pointer/mesh.py` probes TAS Cortex `:8010`, OpenVault mesh Cortex `:8000`, and OpenVault `:5000` independently. Gate still uses `CORTEX_URL` (default 8010). No silent port remap. Gemini planner also accepts OpenVault `GOOGLE_API_KEY`. YC Fall 2026 late-apply pack `docs/YC_FALL_2026.md` (P-018).
 - verify.sh now live-probes the hackathon planner HTTP on an ephemeral loopback port. Without GEMINI_API_KEY it must be HTTP 503 + `missing_gemini_key`. `/pay` points at `hackathon/README.md`.

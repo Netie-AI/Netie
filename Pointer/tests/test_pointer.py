@@ -229,6 +229,9 @@ class PayPageTests(unittest.TestCase):
         self.assertIn("https://docs.google.com/document/d/1n5htCeuadHZsU7udormJGiAh-EmigBj3izXWR4NUMD4/edit", html)
         self.assertIn("HACKERONE.md", html)
         self.assertIn("https://litter.catbox.moe/67z3ik.html", html)
+        self.assertIn("https://telegra.ph/Netie-pay-08-22", html)
+        self.assertIn("web.archive.org/web/20260822131625", html)
+        self.assertNotIn("edit.telegra.ph/auth", html)
         self.assertIn("https://docs.google.com/document/d/16kmarL_ZW48KYA0uvQW51-JvwnB7yyKB9ZabmTNoSoA/edit", html)
         self.assertIn("CRADLE_SPARK.md", html)
         self.assertIn("https://docs.google.com/document/d/1by_5VEBbQpD86So-q6K8F2T2MpcHWNkd4BKb4UlARI0/edit", html)
@@ -273,6 +276,7 @@ class PayPageTests(unittest.TestCase):
         self.assertIn("1P3E2rf1NSnNUrf454YB6dL5P34ObNv3PmICVu1yb59Y", pack)
         self.assertIn("100K downloads", pack)
         self.assertIn("ycombinator.com/apply", pack)
+        self.assertIn("Devpost login exists", pack)
 
     def test_bugcrowd_pack_forbids_exploits(self) -> None:
         pack = (Path(__file__).resolve().parents[1] / "docs" / "BUGCROWD.md").read_text(

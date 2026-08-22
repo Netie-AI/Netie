@@ -51,6 +51,8 @@ Submit: public or private GitHub (share private with testing@devpost.com and clo
 
 Y Combinator Fall 2026: on-time deadline was 2026-07-27; late applications still accepted with no promised decision date. Pack: `docs/YC_FALL_2026.md`. https://www.ycombinator.com/apply -- same traction honesty. This agent cannot fill the YC form.
 
+Gmail measured 2026-08-22: Devpost newsletter from darlyze@devpost.com on 2026-08-20 (Backblaze hackathon recap). A Devpost login exists. Submit All Things Agentic with that account. Still no project URL.
+
 ## Unlock
 
 Devpost project URL in Pointer/STATUS.md. This file is not a submitted entry.
