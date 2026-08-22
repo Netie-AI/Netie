@@ -1,13 +1,12 @@
 # STATUS
 
-Updated: 2026-08-22 19:36 MYT. Success = live Stripe charge, then a payout.
+Updated: 2026-08-22 19:37 MYT. Success = live Stripe charge, then a payout.
 
 ## Now (measured)
 
 - Stripe re-check: available MYR 0, customers 0, charges 0. No buyer replies.
-- One-page RM 500: `https://buy.stripe.com/3cIcN54OO6SnaA4g5u9ws07`
-- New this tick: RCET Bukit Tengah `sales@rcet.com.my` (cc csr.rcengr@gmail.com). No bounce yet.
-- Transways still Mon 24 Aug 09:00 MYT. Founder tap-WA mail still unread.
+- Public pay page now has all 3 SKUs (~72h): https://litter.catbox.moe/d8n858.html
+- Did not send another cold email this tick. Transways still Mon 24 Aug 09:00 MYT.
 
 ## Next
 
