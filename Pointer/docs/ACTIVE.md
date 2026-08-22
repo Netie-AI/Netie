@@ -12,7 +12,9 @@ What exists in this bootstrap and where.
 | `pointer/engine.py` | Perceive/act/prove; sandbox file IO |
 | `pointer/server.py` | `127.0.0.1:7420` HTTP; `GET /` laptop steps |
 | `pointer/pair.py` | Pair tokens + `PAIR_CARD.txt` (no tokens unless `--show`) |
-| `pointer/fallback.py` | OpenClaw/Hermes/Ollama presence report |
+| `pointer/fallback.py` | OpenClaw/Hermes/Ollama presence report; includes mesh probe |
+| `pointer/mesh.py` | Independent Cortex :8010 / OpenVault-mesh Cortex :8000 / OpenVault :5000 probes; no silent remap |
+| `pointer/gemini_planner.py` | Optional google-genai planner; `GEMINI_API_KEY` or OpenVault `GOOGLE_API_KEY` |
 | `scripts/verify.sh` | Unit tests + live mouse |
 | `scripts/install_windows.ps1` | Laptop start + prove + pair card + Desktop copies |
 | `tests/test_pointer.py` | Gate, ledger, sandbox, Windows input, pay-page URLs |
@@ -24,7 +26,8 @@ What exists in this bootstrap and where.
 | `docs/BUGCROWD.md` | Founder-only Bugcrowd signup; no exploits/PoCs |
 | `docs/STRIPE_PAYOUTS.md` | Founder Dashboard identity; no NRIC in git |
 | `docs/AGENTIC_HACK.md` | Founder-only Devpost submit pack; Gemini/ADK/GCP required |
-| `hackathon/` | Cloud Run + google-genai planner scaffold; fail-closed without GEMINI_API_KEY |
+| `docs/YC_FALL_2026.md` | Founder-only YC late-apply pack; no fake traction |
+| `hackathon/` | Cloud Run + google-genai planner scaffold; fail-closed without a Gemini key |
 
 Default listen: `http://127.0.0.1:7420`
 Root: `GET /` (laptop steps, no tokens)

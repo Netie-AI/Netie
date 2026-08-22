@@ -1,6 +1,8 @@
 """Optional Gemini planner for the All Things Agentic hackathon.
 
-Not Cortex. Not imported by `pointer serve`. Fail-closed without GEMINI_API_KEY.
+Not Cortex. Not imported by `pointer serve`. Fail-closed without a key.
+Accepts GEMINI_API_KEY (google-genai docs) or GOOGLE_API_KEY (OpenVault
+provider `google`). Pointer does not fetch secrets from OpenVault.
 Never emits `shell`. Never sets POINTER_ALLOW_REMOTE.
 """
 
@@ -27,17 +29,27 @@ SYSTEM = (
 )
 
 
+def gemini_key_source() -> tuple[str | None, str | None]:
+    gem = os.environ.get("GEMINI_API_KEY", "").strip()
+    if gem:
+        return gem, "GEMINI_API_KEY"
+    goog = os.environ.get("GOOGLE_API_KEY", "").strip()
+    if goog:
+        return goog, "GOOGLE_API_KEY"
+    return None, None
+
+
 def gemini_configured() -> bool:
-    return bool(os.environ.get("GEMINI_API_KEY", "").strip())
+    return gemini_key_source()[0] is not None
 
 
 def plan(goal: str, *, model: str | None = None) -> dict[str, Any]:
     text = (goal or "").strip()
     if not text:
         raise PlannerError("goal is required")
-    key = os.environ.get("GEMINI_API_KEY", "").strip()
+    key, _source = gemini_key_source()
     if not key:
-        raise PlannerError("GEMINI_API_KEY missing")
+        raise PlannerError("GEMINI_API_KEY or GOOGLE_API_KEY missing")
     model_name = model or os.environ.get("GEMINI_MODEL", "gemini-3.5-flash")
     raw = _generate(key, model_name, text)
     try:

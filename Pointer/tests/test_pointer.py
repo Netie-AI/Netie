@@ -243,6 +243,9 @@ class PayPageTests(unittest.TestCase):
         self.assertIn("AGENTIC_HACK.md", html)
         self.assertIn("hackathon/README.md", html)
         self.assertIn("gemini_planner.py", html)
+        self.assertIn("YC_FALL_2026.md", html)
+        self.assertIn("1QM46jy2SNF23oosjQSa8CakDfdGCZu5r-r_oANhp0QM", html)
+        self.assertIn("ycombinator.com/apply", html)
         self.assertNotIn("100K+", html)
         self.assertNotIn("030627070887", html)
 
@@ -373,6 +376,8 @@ class PairCardTests(unittest.TestCase):
         self.assertIn("Start-Process", src)
         self.assertIn("http://127.0.0.1:7420/pay", src)
         self.assertIn("/select,", src)
+        self.assertIn("CORTEX_URL", src)
+        self.assertIn("mesh", src)
 
     def test_live_click_uses_state_shots(self) -> None:
         src = (Path(__file__).resolve().parents[1] / "pointer" / "__main__.py").read_text(
@@ -422,9 +427,30 @@ class GeminiPlannerTests(unittest.TestCase):
     def test_missing_key_is_fail_closed(self) -> None:
         from pointer.gemini_planner import PlannerError, plan
 
-        with mock.patch.dict(os.environ, {"GEMINI_API_KEY": ""}, clear=False):
+        with mock.patch.dict(
+            os.environ, {"GEMINI_API_KEY": "", "GOOGLE_API_KEY": ""}, clear=False
+        ):
             with self.assertRaises(PlannerError):
                 plan("move to 220,180")
+
+    def test_google_api_key_from_openvault_env(self) -> None:
+        from pointer.gemini_planner import gemini_key_source, plan
+        from pointer.protocol import SCHEMA
+
+        good = {
+            "schema": SCHEMA,
+            "intent_id": "h-1",
+            "source": "local-test",
+            "goal": "move",
+            "actions": [{"type": "move", "x": 220, "y": 180}],
+        }
+        with mock.patch.dict(
+            os.environ, {"GEMINI_API_KEY": "", "GOOGLE_API_KEY": "ov-google-key"}
+        ):
+            self.assertEqual(gemini_key_source()[1], "GOOGLE_API_KEY")
+            with mock.patch("pointer.gemini_planner._generate", return_value=json.dumps(good)):
+                out = plan("move")
+        self.assertEqual(out["actions"][0]["type"], "move")
 
     def test_plan_validates_schema_and_refuses_shell(self) -> None:
         from pointer.gemini_planner import PlannerError, plan
@@ -452,10 +478,13 @@ class GeminiPlannerTests(unittest.TestCase):
     def test_hackathon_health_degraded_without_key(self) -> None:
         from hackathon.app import health
 
-        with mock.patch.dict(os.environ, {"GEMINI_API_KEY": ""}, clear=False):
+        with mock.patch.dict(
+            os.environ, {"GEMINI_API_KEY": "", "GOOGLE_API_KEY": ""}, clear=False
+        ):
             body = health()
         self.assertFalse(body["ok"])
         self.assertIn("missing_gemini_key", body["degraded"])
+        self.assertIsNone(body["key_env"])
 
     def test_hackathon_dockerfile_copies_pointer(self) -> None:
         root = Path(__file__).resolve().parents[1]
@@ -465,6 +494,75 @@ class GeminiPlannerTests(unittest.TestCase):
         readme = (root / "hackathon" / "README.md").read_text(encoding="utf-8")
         self.assertIn("POINTER_ALLOW_REMOTE stays unset", readme)
         self.assertIn("Cloud Run", readme)
+        self.assertIn("GOOGLE_API_KEY", readme)
+        self.assertIn("OpenVault", readme)
+
+
+class MeshTests(unittest.TestCase):
+    def test_defaults_disagree_on_cortex_port(self) -> None:
+        from pointer import mesh
+
+        self.assertIn(":8010", mesh.TAS_CORTEX_DEFAULT)
+        self.assertIn(":8000", mesh.OPENVAULT_MESH_CORTEX_DEFAULT)
+        self.assertIn(":5000", mesh.OPENVAULT_DEFAULT)
+        self.assertEqual(mesh.OPENVAULT_GOOGLE_ENV, "GOOGLE_API_KEY")
+        self.assertEqual(mesh.OPENVAULT_GOOGLE_PROVIDER, "google")
+        self.assertFalse(mesh.report()["silent_port_remap"])
+        self.assertNotIn("030627070887", Path(mesh.__file__).read_text(encoding="utf-8"))
+
+    def test_gate_does_not_follow_openvault_mesh_port(self) -> None:
+        import urllib.error
+
+        from pointer import cortex_client, mesh
+
+        class Resp:
+            def __init__(self, status: int) -> None:
+                self.status = status
+
+            def __enter__(self) -> "Resp":
+                return self
+
+            def __exit__(self, *args: object) -> None:
+                return None
+
+            def read(self) -> bytes:
+                return b"{}"
+
+        def fake_open(url: str, timeout: float = 1.0):  # noqa: ARG001
+            if ":8000" in url and url.rstrip("/").endswith("/health"):
+                return Resp(200)
+            raise urllib.error.URLError("down")
+
+        env = {
+            "CORTEX_URL": mesh.TAS_CORTEX_DEFAULT,
+            "OPENVAULT_CORTEX_URL": mesh.OPENVAULT_MESH_CORTEX_DEFAULT,
+            "OPENVAULT_URL": mesh.OPENVAULT_DEFAULT,
+        }
+        with mock.patch.dict(os.environ, env, clear=False):
+            with mock.patch("urllib.request.urlopen", side_effect=fake_open):
+                self.assertFalse(cortex_client.ping())
+                rep = mesh.report()
+        self.assertFalse(rep["cortex_tas"]["reachable"])
+        self.assertTrue(rep["cortex_openvault_mesh"]["reachable"])
+        self.assertIn("cortex_on_openvault_port_set_CORTEX_URL", rep["degraded"])
+        self.assertFalse(rep["silent_port_remap"])
+
+
+class YcPackTests(unittest.TestCase):
+    def test_yc_pack_is_late_apply_and_honest(self) -> None:
+        text = (Path(__file__).resolve().parents[1] / "docs" / "YC_FALL_2026.md").read_text(
+            encoding="utf-8"
+        )
+        self.assertIn("1QM46jy2SNF23oosjQSa8CakDfdGCZu5r-r_oANhp0QM", text)
+        self.assertIn("ycombinator.com/apply", text)
+        self.assertIn("late", text.lower())
+        self.assertIn("cannot fill", text)
+        self.assertIn("100K downloads", text)
+        self.assertIn("Charges: 0", text)
+        self.assertNotIn("030627070887", text)
+        self.assertIn("Do not write", text)
+        self.assertIn("$1M ARR", text)
+        self.assertIn("YC_FALL_2026.md", (Path(__file__).resolve().parents[1] / "docs" / "ACTIVE.md").read_text(encoding="utf-8"))
 
 
 if __name__ == "__main__":

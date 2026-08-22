@@ -6,15 +6,17 @@ import json
 import os
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 
-from pointer.gemini_planner import PlannerError, gemini_configured, plan
+from pointer.gemini_planner import PlannerError, gemini_configured, gemini_key_source, plan
 
 
 def health() -> dict:
     ok = gemini_configured()
+    _key, key_env = gemini_key_source()
     return {
         "ok": ok,
         "schema": "pointer.intent/v1",
         "degraded": [] if ok else ["missing_gemini_key"],
+        "key_env": key_env,
         "gcp": "cloud-run" if os.environ.get("K_SERVICE") else "local",
     }
 

@@ -20,13 +20,13 @@ Every project must use:
 
 The Netie Pointer **daemon** on this VM (stdlib HTTP + xdotool) does **not** satisfy those three by itself. Do not submit `pointer serve` as the whole entry.
 
-Scaffold in this PR (still needs the founder's `GEMINI_API_KEY` + Cloud Run deploy):
+Scaffold in this PR (still needs the founder's Gemini key + Cloud Run deploy):
 
-- `pointer/gemini_planner.py` -- GenAI SDK, fail-closed without the key, refuses `shell`
+- `pointer/gemini_planner.py` -- GenAI SDK, fail-closed without the key, refuses `shell`. Reads `GEMINI_API_KEY` or OpenVault's `GOOGLE_API_KEY` (provider `google`). Does not copy secrets from OpenVault.
 - `hackathon/app.py` + `hackathon/Dockerfile` -- Cloud Run HTTP `POST /plan`
 - `hackathon/README.md` -- spin-up + architecture diagram
 
-This agent has no Gemini key on the cloud VM and cannot submit Devpost.
+This agent has no Gemini key on the cloud VM and cannot submit Devpost. Store the key in OpenVault (`POST /api/keyvault/upsert`, env_key `GOOGLE_API_KEY`), then export it into Cloud Run. Not a second Pointer vault.
 
 Track fit if you add the Google stack: Taskmaster (agent takes action, not just chat). Collaborative Partner if you keep the human in the loop (Pointer kill switch + approval token).
 
@@ -49,7 +49,7 @@ Submit: public or private GitHub (share private with testing@devpost.com and clo
 
 ## Also open (not this pack)
 
-Y Combinator Fall 2026: on-time deadline was 2026-07-27; late applications still accepted with no promised decision date. https://www.ycombinator.com/apply -- same traction honesty. This agent cannot fill the YC form.
+Y Combinator Fall 2026: on-time deadline was 2026-07-27; late applications still accepted with no promised decision date. Pack: `docs/YC_FALL_2026.md`. https://www.ycombinator.com/apply -- same traction honesty. This agent cannot fill the YC form.
 
 ## Unlock
 

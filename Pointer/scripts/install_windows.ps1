@@ -68,6 +68,10 @@ if (-not $up) {
     throw "daemon did not become healthy on http://127.0.0.1:7420/health"
 }
 
+Write-Host "3b. Mesh probes (TAS Cortex :8010 vs OpenVault mesh Cortex :8000). No silent remap."
+& $Py.File @($Py.Prefix + @("-m", "pointer", "mesh"))
+Write-Host "If Cortex is the OpenVault mesh on :8000, set CORTEX_URL=http://127.0.0.1:8000 then restart serve. TAS default is :8010."
+
 Write-Host "4. Prove hardware then write pair card (no tokens in this window)"
 & $Py.File @($Py.Prefix + @("-m", "pointer", "prove"))
 if ($LASTEXITCODE -ne 0) {

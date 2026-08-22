@@ -21,6 +21,7 @@ def main(argv: list[str] | None = None) -> int:
     serve.add_argument("--bind", default=None)
     serve.add_argument("--port", type=int, default=None)
     sub.add_parser("verify", help="print stack status as JSON")
+    sub.add_parser("mesh", help="probe Cortex TAS :8010, OpenVault mesh Cortex :8000, OpenVault :5000")
     live = sub.add_parser("live-click", help="move the mouse to prove control")
     live.add_argument("--x", type=int, default=200)
     live.add_argument("--y", type=int, default=200)
@@ -45,6 +46,11 @@ def main(argv: list[str] | None = None) -> int:
         return server.main()
     if args.cmd == "verify":
         print(json.dumps(fallback.report(), indent=2))
+        return 0
+    if args.cmd == "mesh":
+        from . import mesh
+
+        print(json.dumps(mesh.report(), indent=2))
         return 0
     if args.cmd == "live-click":
         ex = Executor(display=None, screenshot_dir=_state_dir() / "shots")

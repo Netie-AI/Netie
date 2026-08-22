@@ -1,4 +1,8 @@
-"""Cortex is the brain. Pointer only pings it; it does not plan."""
+"""Cortex is the brain. Pointer only pings it; it does not plan.
+
+Default CORTEX_URL is TAS-CORTEX :8010. Cloneable OpenVault mesh uses :8000.
+Do not remap ports here. See pointer.mesh.report().
+"""
 
 from __future__ import annotations
 

@@ -37,10 +37,13 @@ def product_pointer_present() -> dict[str, Any]:
 
 
 def report() -> dict[str, Any]:
+    from . import mesh
+
     bins = which_all()
     product = product_pointer_present()
     return {
         "product_pointer": product,
+        "mesh": mesh.report(),
         "binaries": bins,
         "fallback_policy": (
             "OpenClaw and Hermes are Ollama-launched personal assistants, not Pointer. "

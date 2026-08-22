@@ -75,3 +75,26 @@ Display on this VM: `:1`, `1920x1200`.
 
 The private product at `Netie-AI/Pointer` (Word coworker, 60s recall ring, Electron HUD,
 Clicky). This token cannot clone it. Do not claim the bootstrap is that app.
+
+---
+
+## 7. Org-clone evidence (measured 2026-08-22)
+
+This cloud token can list org repos: Vertex, AIM, OpenHBM, CI-Doctor, OpenForge,
+OpenVault, AnalogCrawler, Cassandra, VKing, Netie. `Netie-AI/Pointer` and
+`Netie-AI/Cortex` remain GitHub 404.
+
+Cloneable vault: https://github.com/Netie-AI/OpenVault
+
+| Peer | OpenVault mesh (clone) | This meta repo TAS | Pointer gate |
+|---|---|---|---|
+| OpenVault | `:5000` `/api/healthz` | not a Pointer TAS | probe only (`OPENVAULT_URL`) |
+| Cortex | `:8000` `/health` | TAS-CORTEX uvicorn `:8010` | `CORTEX_URL` default `:8010` |
+| Pointer | not in OpenVault mesh pack | this file, `:7420` | listen loopback |
+
+Pointer `python -m pointer mesh` probes both Cortex URLs independently.
+`silent_port_remap` is always false. If the laptop runs Cortex the OpenVault way,
+set `CORTEX_URL=http://127.0.0.1:8000` before `pointer serve`.
+
+Gemini keys: OpenVault provider id `google`, env `GOOGLE_API_KEY`, register
+https://aistudio.google.com/apikey . Pointer must not grow a second vault.

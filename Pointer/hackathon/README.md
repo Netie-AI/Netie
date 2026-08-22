@@ -7,11 +7,13 @@ Official: https://allthingsagentichackathon.devpost.com/
 
 ## Required Google stack
 
-1. Gemini 3.5+ via `google-genai` (`GEMINI_API_KEY`)
+1. Gemini 3.5+ via `google-genai` (`GEMINI_API_KEY` or OpenVault `GOOGLE_API_KEY`)
 2. This HTTP service on Cloud Run (the GCP service)
 3. Pointer daemon stays on loopback `127.0.0.1:7420`
 
-Without `GEMINI_API_KEY` the planner refuses. A silent fallback is a lie.
+Without a key the planner refuses. A silent fallback is a lie.
+
+Key source of truth is OpenVault (cloneable `Netie-AI/OpenVault`), provider id `google`, env `GOOGLE_API_KEY` (AI Studio: https://aistudio.google.com/apikey). `pointer serve` does not import this planner and does not copy vault secrets. Export `GOOGLE_API_KEY` or `GEMINI_API_KEY` into the hackathon process only.
 
 ## Architecture (ASCII)
 
@@ -33,7 +35,7 @@ POINTER_ALLOW_REMOTE stays unset
 ```bash
 cd Pointer
 python3 -m pip install -r hackathon/requirements.txt
-export GEMINI_API_KEY=...   # founder GCP / AI Studio key, not in git
+export GOOGLE_API_KEY=...   # from OpenVault provider google, or GEMINI_API_KEY; not in git
 PYTHONPATH=. python3 hackathon/app.py
 # GET http://127.0.0.1:8080/health
 # POST http://127.0.0.1:8080/plan  {"goal":"move to 220,180 and perceive"}
@@ -47,7 +49,7 @@ From the `Pointer/` directory (build context must include `pointer/`):
 
 ```bash
 gcloud run deploy pointer-hackathon --source . --dockerfile hackathon/Dockerfile
-# set GEMINI_API_KEY as a Cloud Run secret. Do not --allow-unauthenticated unless you accept public planners.
+# set GOOGLE_API_KEY or GEMINI_API_KEY as a Cloud Run secret. Do not --allow-unauthenticated unless you accept public planners.
 ```
 
 Demo video must show the Cloud Run dashboard or `.run.app` URL plus the Pointer prove screenshot. Do not enable `POINTER_ALLOW_REMOTE=1`.
