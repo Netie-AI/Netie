@@ -13,3 +13,10 @@ Tone: `.cursor/skills/outreach-tone/SKILL.md`
 - To: info@imagegroup.com.my
 - Thread: `1a029cc488891cd4`
 - Do not mail again unless they reply.
+
+## 3. Greenpen Freight (Penang) -- SENT 22 Aug 2026 22:20 MYT
+
+- To: penfwdbiz@gfs.com.my
+- Thread: `1a029d7d34ad93a6`
+- Contact form failed reCAPTCHA v3. Do not mail PKL/Johor inboxes the same day.
+- Do not mail again unless they reply.
