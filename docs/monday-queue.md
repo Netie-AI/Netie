@@ -20,3 +20,11 @@ Tone: `.cursor/skills/outreach-tone/SKILL.md`
 - Thread: `1a029d7d34ad93a6`
 - Contact form failed reCAPTCHA v3. Do not mail PKL/Johor inboxes the same day.
 - Do not mail again unless they reply.
+
+## 4. TBL Freight -- SENT 22 Aug 2026 22:24 MYT
+
+- To: export1@tblf.com.my
+- Thread: `1a029dbec7578f31`
+- Public on contact page (Jalan Ramin 2, Bandar Botanic + Wisma Boon Siew).
+- Do not mail export2@tblf.com.my the same day.
+- Do not mail again unless they reply.
