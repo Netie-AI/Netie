@@ -1,15 +1,15 @@
 # STATUS
 
-Updated: 2026-08-22 20:55 MYT. Success = live Stripe charge, then a payout.
+Updated: 2026-08-22 20:58 MYT. Success = live Stripe charge, then a payout.
 
 ## Now (measured)
 
 - Stripe: available MYR 0, customers 0, charges 0, PaymentIntents 0.
 - Same open Checkout `cs_live_a1DK...` RM 300, unpaid, no PI. Not income.
-- JTC: sent, no bounce yet.
-- Inner Elite Plastics `sales@ieplastics.com.my`: first mail + public-facts draft sent (`1a0298464b7157a6`).
-  Email is on live homepage header. Services page still says Coming Soon.
-  Draft: https://litter.catbox.moe/l6rgfu.html
+- Inner Elite: sent, no bounce yet.
+- MD Pack Industries `mdpackmy@mdpack.my`: first mail + public-facts draft sent (`1a02985d536f8d6d`).
+  Email is on live contact and services HTML. Services page still says Coming Soon.
+  Draft: https://litter.catbox.moe/upxu4w.html
 - Public pay page: https://litter.catbox.moe/d8n858.html
 
 ## Next
@@ -24,4 +24,5 @@ Updated: 2026-08-22 20:55 MYT. Success = live Stripe charge, then a payout.
    Skip NCR. Skip jsstorage@yahoo.com. Skip PT. Skip CF. Skip NCT. Skip Amici.
    Skip DHU. Skip robex info@ (550). Skip Mrs Marine as Coming Soon.
    Skip Juta. Skip JTC sales@. Skip Yuan Jen Dealers-only.
-   Skip ieplastics@yahoo.com (same firm as sales@).
+   Skip ieplastics@yahoo.com (same firm as sales@). Skip MD Pack.
+   Tay Kwang Hin services page is Coming Soon; verify email on live HTML before mail.
