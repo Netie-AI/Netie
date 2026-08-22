@@ -4,13 +4,13 @@
 
 ## Now
 
-1. Verify measured 2026-08-22 13:17 UTC git `5060742`: 38 tests OK, live mouse, `/health`+`/pay`(7683B)+QR+`GET /` 200, gated sandbox write `degraded: local_act_without_cortex`. Hackathon live HTTP 503 + `missing_gemini_key`. `Netie-AI/Pointer` still 404. Stripe MYR 0 / 0 charges, `payouts_enabled=false`. $1M is not in evidence.
-2. Public pay: https://telegra.ph/Netie-pay-08-22 (HTTP 200) + Wayback `20260822131625` of litterbox `67z3ik.html`. Devpost inbox exists (newsletter 2026-08-20); no project URL. No POINTER_PROVE.json. No YC application id. No H1 username.
+1. Verify measured 2026-08-22 13:20 UTC git `0dd7561`: 38 tests OK, live mouse, `/health`+`/pay`(7683B)+QR+`GET /` 200 (includes Drive My Drive step), gated sandbox write `degraded: local_act_without_cortex`. Hackathon live HTTP 503 + `missing_gemini_key`. `Netie-AI/Pointer` still 404. Stripe MYR 0 / 0 charges. Pointer RM 300 `plink_1U7DHhFV5wcFod2f1pf2kUEs` `active=true`. `payouts_enabled=false`. $1M is not in evidence.
+2. install_windows.ps1 now opens Drive My Drive after Desktop POINTER_PROVE.json copy. Still no POINTER_PROVE.json in Drive. No Devpost project URL. No YC application id. No H1 username.
 3. OpenClaw/Hermes not installed here.
 
 ## Next
 
-- Founder: submit All Things Agentic on the existing Devpost login (deadline 31 Aug 17:00 PDT) after Gemini key + Cloud Run. YC late apply. `.\scripts\install_windows.ps1`. Hacker101 then H1 signup in a browser (this VM got HTTP 403). Stripe Dashboard identity.
+- Founder: run `.\scripts\install_windows.ps1`, upload Desktop POINTER_PROVE.json in the Drive tab it opens. Submit All Things Agentic on existing Devpost login after Gemini key + Cloud Run. YC late apply. Stripe Dashboard identity.
 - Do not re-blast Easyway/Hengxing today.
 
 ## Later
