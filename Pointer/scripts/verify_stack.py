@@ -13,13 +13,6 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
-PKG_PARENT = ROOT
-if str(PKG_PARENT) not in sys.path:
-    sys.path.insert(0, str(PKG_PARENT))
-
-# tests/ lives under Pointer/; package is Pointer/pointer
-if str(ROOT) not in sys.path:
-    sys.path.insert(0, str(ROOT))
 
 
 def run_unit() -> unittest.TestResult:
@@ -59,6 +52,20 @@ def live_mouse() -> dict:
     }
 
 
+def daemon_health() -> dict:
+    import json
+    import urllib.error
+    import urllib.request
+
+    url = os.environ.get("POINTER_URL", "http://127.0.0.1:7420") + "/health"
+    try:
+        with urllib.request.urlopen(url, timeout=2) as resp:
+            body = json.loads(resp.read().decode("utf-8"))
+            return {"ok": resp.status == 200, "url": url, "body": body}
+    except (urllib.error.URLError, TimeoutError, OSError, ValueError, json.JSONDecodeError) as exc:
+        return {"ok": False, "url": url, "error": str(exc)}
+
+
 def main() -> int:
     from pointer.fallback import report
 
@@ -80,6 +87,7 @@ def main() -> int:
         },
         "live_mouse": live,
         "live_error": live_error,
+        "daemon": daemon_health(),
         "fallback": report(),
         "git": subprocess.check_output(["git", "rev-parse", "--short", "HEAD"], cwd=ROOT.parent, text=True).strip(),
     }

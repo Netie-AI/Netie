@@ -36,6 +36,10 @@ OpenClaw / Hermes: **not** a Pointer replacement. `NETIE.md` forbids a third
 orchestrator. Check with `python -m pointer verify`. Install via `ollama launch openclaw`
 or `ollama launch hermes` only on the laptop if this daemon cannot start.
 
-## Payloads
+## Pay (does not expire)
 
-See `../Documentation - How/POINTER.md`.
+Open `pay/index.html`. Live Stripe links. Payouts remain blocked until identity is uploaded.
+
+## Cradle CIP Spark
+
+`docs/CRADLE_SPARK.md`. Founder submits on GMS. Do not paste unverified traction.

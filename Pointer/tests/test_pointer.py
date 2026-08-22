@@ -204,5 +204,20 @@ class WindowsInputTests(unittest.TestCase):
             w.vk_code("not-a-key")
 
 
+class PayPageTests(unittest.TestCase):
+    def test_live_stripe_links_present(self) -> None:
+        html = (Path(__file__).resolve().parents[1] / "pay" / "index.html").read_text(encoding="utf-8")
+        for url in (
+            "https://buy.stripe.com/dRm8wP3KKfoT9w0g5u9ws03",
+            "https://buy.stripe.com/fZu3cvdlkb8D4bG5qQ9ws04",
+            "https://buy.stripe.com/3cIcN54OO6SnaA4g5u9ws07",
+            "https://buy.stripe.com/5kQ14nepo3Gb37C9H69ws06",
+            "https://donate.stripe.com/aFa14n8104KfcIc9H69ws05",
+        ):
+            self.assertIn(url, html)
+        self.assertIn("Payouts to Bank Islam are blocked", html)
+        self.assertNotIn("100K+", html)
+
+
 if __name__ == "__main__":
     unittest.main()

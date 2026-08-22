@@ -4,18 +4,17 @@
 
 ## Now
 
-1. Tick 2026-08-22 11:33Z: `Netie-AI/Pointer` still 404. Daemon `GET /health` 200. 12/12 tests green. Live mouse 400,300 -> 220,180, shot 5102947 bytes. OpenClaw/Hermes still missing; not installed here.
-2. Stripe `acct_1RMx9FFV5wcFod2f`: charges_enabled true, payouts_enabled false (`requirements.past_due`: identity document + business-model form). Balance MYR 0 / 0 charges. No inbound mail from Easyway/Hengxing/Centrolink. `crash.netie.ai` is still a LiteSpeed folder listing.
-3. This VM cannot reach `D:\Pointer`. Pair file exists locally (not committed).
+1. Daemon `GET /health` 200. Product `Netie-AI/Pointer` still 404. OpenClaw/Hermes not installed here.
+2. Durable pay page `Pointer/pay/index.html` lists live Stripe links (Number Trace RM1500, One Number RM300, one-page RM500, USD60 extract, donate, Cassandra). Payouts still blocked on identity. Balance still MYR 0 / 0 charges.
+3. Cradle CIP Spark pack: `Pointer/docs/CRADLE_SPARK.md`. Need a named second teammate before GMS submit. Deck "100K downloads" is **not** in evidence.
 
 ## Next
 
-- Founder laptop: `cd D:\Netie\Pointer; python -m pointer serve` then `python -m pointer pair --show`.
-- Money out: upload identity document in Stripe Dashboard. Sibling owns Number Trace SKUs; do not recreate. Do not re-mail Easyway/Hengxing today.
-- Open grant: Cradle CIP Spark, rolling, up to RM150k, individuals if team of 2 with 1 Malaysian. Apply at https://gms.cradle.com.my/ with the Pointer deck. This agent cannot submit GMS.
+- Founder: open `Pointer/pay/index.html` (or host it). Upload Stripe identity. Do not re-mail Easyway/Hengxing today.
+- GMS: https://gms.cradle.com.my/ after a second teammate is named in STATUS.
+- Laptop: `python -m pointer serve` then `python -m pointer pair --show`.
 
 ## Later
 
-- Clone product Pointer when the token can see `Netie-AI/Pointer`.
-- OCR `verify.expect_contains` (fail-closed today).
-- Authorized bounty only after `payouts_enabled=true`. $1M/month is not in evidence.
+- Clone product Pointer when the token can see it.
+- OCR verify. Authorized bounty after `payouts_enabled=true`. $1M/month is not in evidence.

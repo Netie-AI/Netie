@@ -14,7 +14,9 @@ What exists in this bootstrap and where.
 | `pointer/fallback.py` | OpenClaw/Hermes/Ollama presence report |
 | `scripts/verify.sh` | Unit tests + live mouse |
 | `scripts/install_windows.ps1` | Laptop installer/checker |
-| `tests/test_pointer.py` | Gate, ledger, sandbox |
+| `tests/test_pointer.py` | Gate, ledger, sandbox, Windows input, pay-page URLs |
+| `pay/index.html` | Durable pay page over live Stripe links (does not expire in 72h) |
+| `docs/CRADLE_SPARK.md` | Founder-only CIP Spark submit pack; traction honesty |
 
 Default listen: `http://127.0.0.1:7420`
 Health: `GET /health`
