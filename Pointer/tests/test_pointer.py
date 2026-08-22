@@ -246,6 +246,8 @@ class PayPageTests(unittest.TestCase):
         self.assertIn("AGENTIC_HACK.md", html)
         self.assertIn("hackathon/README.md", html)
         self.assertIn("gemini_planner.py", html)
+        self.assertIn("forms.gle/riGhgDSHkHeMx8Ca6", html)
+        self.assertIn("cannot auto-join", html)
         self.assertIn("YC_FALL_2026.md", html)
         self.assertIn("1QM46jy2SNF23oosjQSa8CakDfdGCZu5r-r_oANhp0QM", html)
         self.assertIn("ycombinator.com/apply", html)
@@ -273,6 +275,9 @@ class PayPageTests(unittest.TestCase):
         self.assertIn("31 Aug 2026", pack)
         self.assertIn("Gemini 3.5", pack)
         self.assertIn("cannot submit", pack)
+        self.assertIn("cannot auto-join or auto-win", pack)
+        self.assertIn("A win is not confirmed", pack)
+        self.assertIn("not part of this contest", pack)
         self.assertIn("does **not** satisfy", pack)
         self.assertIn("gemini_planner.py", pack)
         self.assertIn("hackathon/Dockerfile", pack)
@@ -280,6 +285,8 @@ class PayPageTests(unittest.TestCase):
         self.assertIn("100K downloads", pack)
         self.assertIn("ycombinator.com/apply", pack)
         self.assertIn("Devpost login exists", pack)
+        self.assertIn("forms.gle/riGhgDSHkHeMx8Ca6", pack)
+        self.assertNotIn("we will win $1m", pack.lower())
 
     def test_bugcrowd_pack_forbids_exploits(self) -> None:
         pack = (Path(__file__).resolve().parents[1] / "docs" / "BUGCROWD.md").read_text(
@@ -395,12 +402,14 @@ class PairCardTests(unittest.TestCase):
         )
         self.assertIn("aistudio.google.com/apikey", src)
         self.assertIn("allthingsagentichackathon.devpost.com", src)
+        self.assertIn("forms.gle/riGhgDSHkHeMx8Ca6", src)
         self.assertIn("agentic-cinema.devpost.com", src)
         self.assertIn("ycombinator.com/apply", src)
         self.assertIn("hacker101.com", src)
         self.assertNotIn("POINTER_ALLOW_REMOTE=1", src)
         self.assertIn("Do not blast Easyway/Hengxing", src)
         self.assertIn("not a $1m claim", src.lower())
+        self.assertIn("does not auto-join or auto-win", src)
         cmd = (Path(__file__).resolve().parents[1] / "scripts" / "install_windows.cmd").read_text(
             encoding="utf-8"
         )

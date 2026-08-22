@@ -4,6 +4,7 @@ Append-only. Newest first.
 
 ## 2026-08-22
 
+- Recorded live vs not-live: local Pointer daemon is running; Cloud Run is not deployed; Devpost is not submitted; a win is not confirmed. All Things Agentic has no math/research exam. Founder GCP $150 credit form (by 28 Aug 2026 12:00 PT) wired on `/pay` + `open_revenue.ps1`: https://forms.gle/riGhgDSHkHeMx8Ca6. Stripe balance check moved to daily, not every 5-min tick.
 - Fail-closed Cloud Run deploy helper `scripts/deploy_hackathon.sh` + `.ps1` for P-017. Refuses `POINTER_ALLOW_REMOTE=1`, missing Gemini/Google key, and missing `gcloud`. Dry-run unless `DEPLOY=1`. Deploys with `--no-allow-unauthenticated`. Does not print the key. This VM has no gcloud and no key; dry-run/refuse is the expected result here. Still no Devpost URL.
 - `INSTALL.txt` + README Windows steps now lead with double-click `scripts\\install_windows.cmd`. Stripe checkout `https://buy.stripe.com/dRmaEXchg7Wr7nS8D29ws08` re-measured HTTP 200. Still 0 charges.
 - Agentic Cinema (Devpost) measured open until 9 Sep 2026 14:00 PDT. Malaysia not excluded. NEW project required (not Pointer-as-is). Pack `docs/AGENTIC_CINEMA.md` / Drive `11CCnQ5coVVPbTZa-gsJJxbBvyttSCZKyy9i3RiwdkPY`. P-019. Double-click `scripts/install_windows.cmd`.
