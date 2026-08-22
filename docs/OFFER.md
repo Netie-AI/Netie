@@ -8,13 +8,13 @@ Pay:
 Stripe live. Invoice on. Card, GrabPay, or Link. Not a subscription.
 FPX is off until enabled in Stripe Dashboard. payouts_enabled=true as of 22 Aug 2026. Business model form still past due.
 Public pay page (durable, Number Trace): https://telegra.ph/Netie-Number-Trace-08-22
-Public hire page (durable, AI landing headline, measured 23 Aug 02:22 MYT HTTP 200, 3 Stripe hrefs + Twine): https://telegra.ph/Netie-AI-landing-page-08-22
+Public hire page (durable, AI landing headline, measured 23 Aug 02:40 MYT HTTP 200, 3 Stripe hrefs + Twine): https://telegra.ph/Netie-AI-landing-page-08-22
 Rendered HTML from public GitLab is blocked from this IP as of 23 Aug 02:20 MYT (githack 302 to GitLab sign_in; gitlab.com/jianhongpg/number-trace 403/sign_in; Chrome Cloudflare human check). Do not use those URLs until they measure 200 again.
 Public GitLab snippet 6040859 same sign_in wall.
-Markdown copies: https://rentry.co/mst6o543 and https://rentry.co/gk39ee85 (new 23 Aug 02:19 MYT, 3 Stripe hrefs, noindex).
-72h HTML copy still up: https://litter.catbox.moe/otu3iz.html
-Older copy still up: https://litter.catbox.moe/vs14br.html
-New litterbox upload endpoint land.php is 404 from this IP. Permanent catbox still Invalid uploader.
+Markdown copies: https://rentry.co/mst6o543 and https://rentry.co/gk39ee85 (gk39ee85 rewritten AI-first 23 Aug 02:40 MYT, 3 Stripe hrefs, noindex).
+72h HTML copy (AI-first source `docs/pay.html`, measured 23 Aug 02:40 MYT HTTP 200, 3 Stripe hrefs + Twine): https://litter.catbox.moe/8ytqjj.html (expires ~25 Aug 18:35 UTC)
+Older 72h copies still up: https://litter.catbox.moe/otu3iz.html and https://litter.catbox.moe/vs14br.html
+litterbox internals/api.php upload works again from this IP (23 Aug 02:35 MYT). land.php still unused. Permanent catbox still Invalid uploader.
 Wayback save of Telegraph returned 302 to https://web.archive.org/web/20260822165726/https://telegra.ph/Netie-Number-Trace-08-22 (snapshot GET 403/429 from this IP; Telegraph itself still 200 with 3 Stripe hrefs).
 Do not use telegra.ph/Netie-pay-08-22 (Pointer page).
 Write.as anonymous post was blocked (`contentisblocked`). Do not share it.
