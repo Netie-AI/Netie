@@ -4,6 +4,7 @@ Append-only. Newest first.
 
 ## 2026-08-22
 
+- `INSTALL.txt` + README Windows steps now lead with double-click `scripts\\install_windows.cmd`. Stripe checkout `https://buy.stripe.com/dRmaEXchg7Wr7nS8D29ws08` re-measured HTTP 200. Still 0 charges.
 - Agentic Cinema (Devpost) measured open until 9 Sep 2026 14:00 PDT. Malaysia not excluded. NEW project required (not Pointer-as-is). Pack `docs/AGENTIC_CINEMA.md` / Drive `11CCnQ5coVVPbTZa-gsJJxbBvyttSCZKyy9i3RiwdkPY`. P-019. Double-click `scripts/install_windows.cmd`.
 - `scripts/open_revenue.ps1` opens AI Studio, All Things Agentic, YC late apply, and Hacker101 on the founder laptop. Install script prints the command; it does not auto-open those tabs during prove.
 - install_windows.ps1 opens Drive My Drive after copying Desktop POINTER_PROVE.json so the founder can upload it. Pointer RM 300 payment link `plink_1U7DHhFV5wcFod2f1pf2kUEs` re-measured `active=true` (still 0 charges).

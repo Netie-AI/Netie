@@ -406,6 +406,11 @@ class PairCardTests(unittest.TestCase):
         )
         self.assertIn("install_windows.ps1", cmd)
         self.assertIn("ExecutionPolicy Bypass", cmd)
+        self.assertIn("install_windows.cmd", (Path(__file__).resolve().parents[1] / "README.md").read_text(encoding="utf-8"))
+        inst = (Path(__file__).resolve().parents[1] / "INSTALL.txt").read_text(encoding="utf-8")
+        self.assertIn("install_windows.cmd", inst)
+        self.assertIn("POINTER_ALLOW_REMOTE", inst)
+        self.assertNotIn("pair_token", inst)
 
     def test_agentic_cinema_pack_is_new_project_and_honest(self) -> None:
         pack = (Path(__file__).resolve().parents[1] / "docs" / "AGENTIC_CINEMA.md").read_text(

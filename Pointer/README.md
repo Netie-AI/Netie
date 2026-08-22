@@ -27,15 +27,15 @@ PYTHONPATH=. python3 -m pointer live-click --x 220 --y 180
 
 ## Run on the Windows laptop
 
-```powershell
-cd D:\Netie\Pointer
-$env:PYTHONPATH = (Get-Location)
-.\scripts\install_windows.ps1
-```
+1. Copy this `Pointer/` folder onto the laptop (next to `D:\Pointer` if that product tree exists).
+2. Double-click `scripts\install_windows.cmd` (same as `powershell -File scripts\install_windows.ps1`).
+3. Upload Desktop `POINTER_PROVE.json` in the Drive tab the script opens. Do not upload tokens.
+4. Optional cash paths: double-click `scripts\open_revenue.cmd` (AI Studio, Agentic, Cinema, YC, Hacker101). Not a $1M claim.
 
 That script starts `python -m pointer serve` on loopback if needed, runs
-`prove` (writes `.pointer-state/PROVE.json`, no tokens), and copies
-`POINTER_CARD.txt`, `POINTER_PROVE.json`, plus `POINTER_RM300.png` to the Desktop.
+`prove` (writes `.pointer-state/PROVE.json`, no tokens), copies
+`POINTER_CARD.txt`, `POINTER_PROVE.json`, plus `POINTER_RM300.png` to the Desktop,
+and opens Drive My Drive.
 
 `live-click` screenshots go to `.pointer-state/shots`, not `/tmp`.
 Do not set `POINTER_ALLOW_REMOTE=1`. Do not email pair tokens.

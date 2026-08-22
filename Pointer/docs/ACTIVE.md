@@ -18,6 +18,7 @@ What exists in this bootstrap and where.
 | `scripts/verify.sh` | Unit tests + live mouse |
 | `scripts/install_windows.ps1` | Laptop start + prove + pair card + Desktop copies |
 | `scripts/install_windows.cmd` | Double-click wrapper for the ps1 (ExecutionPolicy Bypass) |
+| `INSTALL.txt` | Five-line Windows unzip card: double-click `install_windows.cmd` |
 | `scripts/open_revenue.ps1` | Founder laptop: AI Studio + Agentic + Cinema + YC + Hacker101 tabs |
 | `docs/AGENTIC_CINEMA.md` | Founder-only Agentic Cinema pack; NEW project required |
 | `tests/test_pointer.py` | Gate, ledger, sandbox, Windows input, pay-page URLs |
