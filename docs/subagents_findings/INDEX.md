@@ -8,3 +8,4 @@ This index records reusable findings from focused subagent reviews.
 | [2026-08-22-gpt-conversion-ux-critique.md](2026-08-22-gpt-conversion-ux-critique.md) | conversion, scope, static HTML, mobile, screenshot ethics | Proof before payment, explicit scope, real screenshots, and reliable contact routes. |
 | [2026-08-23-trace-demo-feasibility.md](2026-08-23-trace-demo-feasibility.md) | source trace, xlsx parsing, reproducible proof, RM1500 | Fix the local trace tool before using it as buyer-verifiable proof. |
 | [2026-08-23-adversarial-trace-review.md](2026-08-23-adversarial-trace-review.md) | false Traced, circular, stale input, non-finite XML | Block deployment until adversarial workbooks fail closed. |
+| [2026-08-23-adversarial-trace-recheck.md](2026-08-23-adversarial-trace-recheck.md) | fail-closed, adversarial recheck, static proof | All prior blockers now refuse cleanly; safe to deploy. |
