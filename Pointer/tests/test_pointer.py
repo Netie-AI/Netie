@@ -224,7 +224,18 @@ class PayPageTests(unittest.TestCase):
         self.assertIn("https://drive.google.com/file/d/12HUn5z1C62HwMp144kB_-wvnBom4XIke/view", html)
         self.assertIn("FIVERR_GIG.md", html)
         self.assertIn("https://docs.google.com/document/d/1CIfusgZvh8yXwucboi1iYpdMhgFHEyFlWEqjY4U_fIs/edit", html)
+        self.assertIn("https://docs.google.com/document/d/1n5htCeuadHZsU7udormJGiAh-EmigBj3izXWR4NUMD4/edit", html)
+        self.assertIn("HACKERONE.md", html)
         self.assertNotIn("100K+", html)
+
+    def test_hackerone_pack_forbids_exploits(self) -> None:
+        pack = (Path(__file__).resolve().parents[1] / "docs" / "HACKERONE.md").read_text(
+            encoding="utf-8"
+        )
+        self.assertIn("will not write exploits", pack)
+        self.assertIn("https://hackerone.com/users/sign_up", pack)
+        self.assertIn("1n5htCeuadHZsU7udormJGiAh-EmigBj3izXWR4NUMD4", pack)
+        self.assertIn("Do not test netie.ai", pack)
 
     def test_fiverr_pack_forbids_false_traction(self) -> None:
         pack = (Path(__file__).resolve().parents[1] / "docs" / "FIVERR_GIG.md").read_text(

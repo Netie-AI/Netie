@@ -18,6 +18,7 @@ What exists in this bootstrap and where.
 | `tests/test_pointer.py` | Gate, ledger, sandbox, Windows input, pay-page URLs |
 | `pay/index.html` | Durable pay page: live Stripe + Drive sheet + Pointer RM 300 QR |
 | `docs/CRADLE_SPARK.md` | Founder-only CIP Spark submit pack; traction honesty |
+| `docs/HACKERONE.md` | Founder-only H1 signup pack; no exploits/PoCs from this agent |
 | `docs/FIVERR_GIG.md` | Founder-only Fiverr paste pack; no false traction |
 
 Default listen: `http://127.0.0.1:7420`
