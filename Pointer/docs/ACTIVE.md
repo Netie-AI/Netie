@@ -31,6 +31,7 @@ What exists in this bootstrap and where.
 | `docs/BUGCROWD.md` | Founder-only Bugcrowd signup; no exploits/PoCs |
 | `docs/STRIPE_PAYOUTS.md` | Founder Dashboard identity; no NRIC in git |
 | `docs/AGENTIC_HACK.md` | Founder-only Devpost submit pack; Gemini/ADK/GCP required |
+| `docs/AGENTIC_DEMO.md` | 4-min demo shot list; film after Cloud Run; win not confirmed |
 | `docs/YC_FALL_2026.md` | Founder-only YC late-apply pack; no fake traction |
 | `hackathon/` | Cloud Run + google-genai planner scaffold; fail-closed without a Gemini key |
 

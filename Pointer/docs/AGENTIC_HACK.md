@@ -37,6 +37,7 @@ Scaffold in this PR (still needs the founder's Gemini key + Cloud Run deploy):
 - `hackathon/app.py` + `hackathon/Dockerfile` -- Cloud Run HTTP `POST /plan`
 - `hackathon/README.md` -- spin-up + architecture diagram
 - `scripts/deploy_hackathon.sh` / `.ps1` -- dry-run unless `DEPLOY=1`; refuses remote Pointer and missing key/gcloud; `--no-allow-unauthenticated`
+- `docs/AGENTIC_DEMO.md` -- 4-min shot list (film after Cloud Run is live)
 
 This agent has no Gemini key on the cloud VM and cannot submit Devpost. Store the key in OpenVault (`POST /api/keyvault/upsert`, env_key `GOOGLE_API_KEY`), then export it into Cloud Run. Not a second Pointer vault.
 

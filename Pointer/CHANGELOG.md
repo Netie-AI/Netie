@@ -4,6 +4,7 @@ Append-only. Newest first.
 
 ## 2026-08-22
 
+- 4-min All Things Agentic demo shot list `docs/AGENTIC_DEMO.md` / Drive `1BE_tt-bZB47vTRJsDgHHJsLMlXEz-dcpvP1cDz3L8uo`. Film after Cloud Run. Not a submitted video. A win is not confirmed. Stripe not re-checked this tick.
 - `scripts/what_is_live.sh` prints local daemon / missing gcloud / no Devpost / no auto-win. Skips Stripe (daily only). Does not deploy.
 - Recorded live vs not-live: local Pointer daemon is running; Cloud Run is not deployed; Devpost is not submitted; a win is not confirmed. All Things Agentic has no math/research exam. Founder GCP $150 credit form (by 28 Aug 2026 12:00 PT) wired on `/pay` + `open_revenue.ps1`: https://forms.gle/riGhgDSHkHeMx8Ca6. Stripe balance check moved to daily, not every 5-min tick.
 - Fail-closed Cloud Run deploy helper `scripts/deploy_hackathon.sh` + `.ps1` for P-017. Refuses `POINTER_ALLOW_REMOTE=1`, missing Gemini/Google key, and missing `gcloud`. Dry-run unless `DEPLOY=1`. Deploys with `--no-allow-unauthenticated`. Does not print the key. This VM has no gcloud and no key; dry-run/refuse is the expected result here. Still no Devpost URL.

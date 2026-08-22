@@ -248,6 +248,8 @@ class PayPageTests(unittest.TestCase):
         self.assertIn("gemini_planner.py", html)
         self.assertIn("forms.gle/riGhgDSHkHeMx8Ca6", html)
         self.assertIn("cannot auto-join", html)
+        self.assertIn("AGENTIC_DEMO.md", html)
+        self.assertIn("1BE_tt-bZB47vTRJsDgHHJsLMlXEz-dcpvP1cDz3L8uo", html)
         self.assertIn("YC_FALL_2026.md", html)
         self.assertIn("1QM46jy2SNF23oosjQSa8CakDfdGCZu5r-r_oANhp0QM", html)
         self.assertIn("ycombinator.com/apply", html)
@@ -286,7 +288,21 @@ class PayPageTests(unittest.TestCase):
         self.assertIn("ycombinator.com/apply", pack)
         self.assertIn("Devpost login exists", pack)
         self.assertIn("forms.gle/riGhgDSHkHeMx8Ca6", pack)
+        self.assertIn("AGENTIC_DEMO.md", pack)
         self.assertNotIn("we will win $1m", pack.lower())
+
+    def test_agentic_demo_shot_list_is_honest(self) -> None:
+        demo = (Path(__file__).resolve().parents[1] / "docs" / "AGENTIC_DEMO.md").read_text(
+            encoding="utf-8"
+        )
+        self.assertIn("4 minute", demo)
+        self.assertIn("unedited", demo)
+        self.assertIn("missing_gemini_key", demo)
+        self.assertIn("1BE_tt-bZB47vTRJsDgHHJsLMlXEz-dcpvP1cDz3L8uo", demo)
+        self.assertIn("Do not fake", demo)
+        self.assertIn("100K downloads", demo)
+        self.assertIn("A win is not confirmed", demo)
+        self.assertNotIn("we will win $1m", demo.lower())
 
     def test_bugcrowd_pack_forbids_exploits(self) -> None:
         pack = (Path(__file__).resolve().parents[1] / "docs" / "BUGCROWD.md").read_text(
