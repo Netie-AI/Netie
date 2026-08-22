@@ -12,6 +12,6 @@ Updated: 2026-08-22. Success = live Stripe charge, then a payout.
 
 ## Next
 
-1. Founder: WhatsApp Easyway the RM 300 QR, or call +603-3324 0386.
+1. Founder: Gmail "WhatsApp this QR to Easyway now" is in inbox. Send that WhatsApp. Then upload `Ic.pdf`.
 2. Upload `Ic.pdf` to Stripe. Share the Drive pay doc as anyone-with-the-link.
 3. Monday: send Transways draft. Loop: re-read balance/charges.
