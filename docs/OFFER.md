@@ -8,7 +8,9 @@ Pay:
 Stripe live. Invoice on. Card, GrabPay, or Link. Not a subscription.
 FPX is off until enabled in Stripe Dashboard. payouts_enabled=true as of 22 Aug 2026. Business model form still past due.
 Public pay page (durable): https://telegra.ph/Netie-Number-Trace-08-22
-Markdown copy (measured 23 Aug 01:05 MYT, HTTP 200, 3 Stripe hrefs): https://rentry.co/mst6o543
+Rendered HTML from public GitLab (measured 23 Aug 01:20 MYT, text/html, 3 Stripe hrefs): https://gl.githack.com/jianhongpg/number-trace/raw/main/index.html
+Source repo (public, HTTP 200): https://gitlab.com/jianhongpg/number-trace
+Markdown copy: https://rentry.co/mst6o543
 72h HTML copy: https://litter.catbox.moe/otu3iz.html
 Older copy still up: https://litter.catbox.moe/vs14br.html
 Wayback save requested 22 Aug 22:45 MYT: https://web.archive.org/web/20260822144553/https://telegra.ph/Netie-Number-Trace-08-22 (snapshot GET was 429; Telegraph itself still 200 with 3 Stripe hrefs).
