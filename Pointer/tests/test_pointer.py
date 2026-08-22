@@ -226,15 +226,28 @@ class PayPageTests(unittest.TestCase):
         self.assertIn("https://docs.google.com/document/d/1CIfusgZvh8yXwucboi1iYpdMhgFHEyFlWEqjY4U_fIs/edit", html)
         self.assertIn("https://docs.google.com/document/d/1n5htCeuadHZsU7udormJGiAh-EmigBj3izXWR4NUMD4/edit", html)
         self.assertIn("HACKERONE.md", html)
-        self.assertIn("https://litter.catbox.moe/u399xy.html", html)
+        self.assertIn("https://litter.catbox.moe/q727wl.html", html)
         self.assertIn("https://docs.google.com/document/d/16kmarL_ZW48KYA0uvQW51-JvwnB7yyKB9ZabmTNoSoA/edit", html)
         self.assertIn("CRADLE_SPARK.md", html)
         self.assertIn("https://docs.google.com/document/d/1by_5VEBbQpD86So-q6K8F2T2MpcHWNkd4BKb4UlARI0/edit", html)
         self.assertIn("175ocCJoFFaXbbKkHKNyvw0w6AkwEiaix1D527Qf-8Oo", html)
         self.assertIn("STRIPE_PAYOUTS.md", html)
         self.assertIn("dashboard.stripe.com/settings/update", html)
+        self.assertIn("1hP52Fun6L1LQEsxdgU-1E-f60yhXJ45He69tt7WrT4o", html)
+        self.assertIn("FORHIRE.md", html)
         self.assertNotIn("100K+", html)
         self.assertNotIn("030627070887", html)
+
+    def test_forhire_pack_has_rate_and_seven_day_cap(self) -> None:
+        text = (Path(__file__).resolve().parents[1] / "docs" / "FORHIRE.md").read_text(
+            encoding="utf-8"
+        )
+        self.assertIn("[For Hire]", text)
+        self.assertIn("USD 70", text)
+        self.assertIn("one post per 7 days", text)
+        self.assertIn("1hP52Fun6L1LQEsxdgU-1E-f60yhXJ45He69tt7WrT4o", text)
+        self.assertIn("100K downloads", text)
+        self.assertIn("will not post to Reddit", text)
 
     def test_stripe_payouts_pack_has_dashboard_and_no_nric(self) -> None:
         text = (Path(__file__).resolve().parents[1] / "docs" / "STRIPE_PAYOUTS.md").read_text(

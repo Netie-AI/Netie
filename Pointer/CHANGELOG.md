@@ -4,12 +4,14 @@ Append-only. Newest first.
 
 ## 2026-08-22
 
+- Reddit r/forhire Pointer paste: `docs/FORHIRE.md` plus Drive `1hP52Fun6L1LQEsxdgU-1E-f60yhXJ45He69tt7WrT4o`. Agent will not post. One post / 7 days; sibling Excel paste already mailed today. P-015.
+- MDEC MDAG-AI measured closed (2025-07-18). Not an apply-now path. P-016.
 - Stripe payouts phone pack: `docs/STRIPE_PAYOUTS.md` plus Drive `175ocCJoFFaXbbKkHKNyvw0w6AkwEiaix1D527Qf-8Oo`. Linked from `/pay`. Dashboard-only; NRIC stays out of git. P-014.
 - Windows prove: SetProcessDpiAwareness so SetCursorPos matches GetCursorPos; `ok` requires screenshot >=100 bytes; targets clamped to screen size. Linux prove still ok=true.
 - Laptop phone pack Drive `1by_5VEBbQpD86So-q6K8F2T2MpcHWNkd4BKb4UlARI0` (5 steps, no tokens, branch zip + py -3). Still no POINTER_PROVE.json.
 - install_windows.ps1 accepts `python` or `py -3`. `pair --card` writes token-free POINTER_NEXT.txt for Desktop. Product Pointer PRs #26/#27 in Gmail still have no cloneable payloads.
 - Cradle CIP Spark phone pack Drive `16kmarL_ZW48KYA0uvQW51-JvwnB7yyKB9ZabmTNoSoA`. GMS register only until a second teammate is named. Do not paste deck 100K traction.
-- Public pay copy on litterbox `u399xy.html` + QR `5hdpx8.png` (~72h from 12:17 UTC). Drive QR still owner-only. P-013 durable host still open.
+- Public pay copy refreshed on litterbox `q727wl.html` (~72h from 12:41 UTC) so it includes payouts + r/forhire. QR still `5hdpx8.png`. P-013 durable host still open.
 - HackerOne signup pack `docs/HACKERONE.md` + Drive `1n5htCeuadHZsU7udormJGiAh-EmigBj3izXWR4NUMD4`. Directory measured public bounties (Vercel Sandbox, Agoda Public, Anthropic). No H1 username yet. Agent still will not write exploits/PoCs.
 - Pointer Fiverr phone-paste Drive doc `1CIfusgZvh8yXwucboi1iYpdMhgFHEyFlWEqjY4U_fIs` (USD 70). Wired on `/pay`. Still not a live gig URL. Stripe charges remain 0.
 - `python -m pointer prove` writes `.pointer-state/PROVE.json` (no tokens). install_windows.ps1 copies it to Desktop as POINTER_PROVE.json. Linux prove ok on this VM; Windows still unproven.
