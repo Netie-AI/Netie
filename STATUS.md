@@ -1,14 +1,14 @@
 # STATUS
 
-Updated: 2026-08-22 19:44 MYT. Success = live Stripe charge, then a payout.
+Updated: 2026-08-22 19:45 MYT. Success = live Stripe charge, then a payout.
 
 ## Now (measured)
 
 - Stripe: available MYR 0, customers 0, charges 0, PaymentIntents 0.
 - Same open Checkout `cs_live_a1DK...` RM 300, unpaid, no PI. Not income.
-- No buyer replies. Globemate and MOL Penang not bounced.
+- HN Aug 2026 freelancer thread: SEEKING WORK only. No SEEKING FREELANCER buyers.
 - Public pay page: https://litter.catbox.moe/d8n858.html
-- New: Sin-Kung `sklkl@sinkung.com.my` -- Shah Alam bonded warehouse page. Offered RM 300 One Number.
+- New: JOTAC `admin@jotac.com.my` -- /coming-soon/ countdown is 0:0:0:0. Offered RM 500 static page.
 
 ## Next
 
