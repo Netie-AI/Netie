@@ -17,8 +17,8 @@ Source: `docs/pay.html`. Not a Coming Soon pitch.
 Fiverr paste (Telegraph URLs): https://docs.google.com/document/d/1HyKS-wsE3M57VaJ7Eo0pbOF94e3qOv6Mybk-GkyknDM/edit
 Older Fiverr paste (litterbox vs14br): https://docs.google.com/document/d/1z2pWHqJPqmAHBwqyM1G7IUrNVQlaLB8PTtfC4j94B8E/edit
 Upwork catalog paste (on-platform USD 70, no Stripe on Upwork): `docs/upwork-catalog.md`
-Twine freelancer profile (measured 22 Aug 23:42 MYT, HTTP 200, Available to hire): https://www.twine.net/jianhong
-Public HTML includes Transportation & Logistics and work line "Excel number tracing" at Netie. If a client hires on Twine, take Twine pay. Do not also Stripe the same hour.
+Twine freelancer profile (measured 23 Aug 00:17 MYT, HTTP 200, Available to hire, score Medium): https://www.twine.net/jianhong
+API user 1785534: skill Microsoft Excel (accepted), languages English and Malay, sector Transportation & Logistics, work line "Excel number tracing" at Netie. If a client hires on Twine, take Twine pay. Do not also Stripe the same hour.
 WhatsApp one-liner: `docs/whatsapp-paste.txt`.
 
 ## What the buyer gets
@@ -50,4 +50,4 @@ They send the Excel/CSV those numbers came from. No live-database plug-in. No ca
 2. First Hengxing mail promised "we automate the ask" - this offer walks that back; trust cost is unpaid.
 3. Cortex/DMS are not in this cloud environment, so a software demo cannot be given from here.
 4. Cassandra USD checkout is live and crash.netie.ai is a directory listing - nobody can buy from the public host.
-5. Stripe `payouts_enabled=true` as of 22 Aug 2026. Identity document is verified. Business model form is still past due. Do not claim a payout has happened; live charges are still 0 as of last_stripe_check.
+5. Stripe `payouts_enabled=true` as of 22 Aug 2026. Identity document is verified. Business model form is still past due. Do not claim a payout has happened; live charges are still 0 as of last_stripe_check 23 Aug 00:17 MYT.
