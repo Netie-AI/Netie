@@ -1,15 +1,15 @@
 # STATUS
 
-Updated: 2026-08-22 20:46 MYT. Success = live Stripe charge, then a payout.
+Updated: 2026-08-22 20:47 MYT. Success = live Stripe charge, then a payout.
 
 ## Now (measured)
 
 - Stripe: available MYR 0, customers 0, charges 0, PaymentIntents 0.
 - Same open Checkout `cs_live_a1DK...` RM 300, unpaid, no PI. Not income.
-- Hoe Leong: sent, no bounce yet.
-- Nursery U Garden `nug.garden@gmail.com`: first mail + public-facts draft sent (`1a0297ef7158bf19`).
-  Email is on live homepage and services page. Services page still says Coming Soon.
-  Draft: https://litter.catbox.moe/zw5qd1.html
+- Nursery U Garden: sent, no bounce yet.
+- Juta Textile `jutatextile@gmail.com`: first mail + public-facts draft sent (`1a0298026b624c3f`).
+  Email is on live homepage, contact, and services HTML. Services page still says Coming Soon.
+  Draft: https://litter.catbox.moe/i1mbmk.html
 - Public pay page: https://litter.catbox.moe/d8n858.html
 
 ## Next
@@ -18,9 +18,8 @@ Updated: 2026-08-22 20:46 MYT. Success = live Stripe charge, then a payout.
    https://docs.google.com/document/d/1riREBp22fMTZBaYxoyUGyMQgI1yYISNe3-cyqlNCVCc/edit
 2. Upload `Ic.pdf` to Stripe. Enable FPX in Dashboard.
 3. Renew Spaceship hosting: https://www.spaceship.com/launchpad/
-4. Agent next: Juta Textile services URL exists
-   (https://www.jutatextile.com.my/index.php?ws=servicesbycat).
-   Re-verify Coming Soon + email on live HTML before mailing.
+4. Agent next: find one unused Coming Soon / empty-services page with email
+   on live HTML.
    Skip ginakhoo@megahmach.com. Skip Newton as Coming Soon (populated).
    Skip NCR. Skip jsstorage@yahoo.com. Skip PT. Skip CF. Skip NCT. Skip Amici.
    Skip DHU. Skip robex info@ (550). Skip Mrs Marine as Coming Soon.
