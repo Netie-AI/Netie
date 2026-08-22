@@ -8,13 +8,13 @@ Pay:
 Stripe live. Invoice on. Card, GrabPay, or Link. Not a subscription.
 FPX is off until enabled in Stripe Dashboard. payouts_enabled=true as of 22 Aug 2026. Business model form still past due.
 Public pay page (durable): https://telegra.ph/Netie-Number-Trace-08-22
-Rendered HTML from public GitLab (Chrome still renders after the rawgit.hack interstitial; curl from this IP got Cloudflare 403 on 23 Aug 01:42 MYT): https://gl.githack.com/jianhongpg/number-trace/raw/main/index.html
-Source repo (public, HTTP 200): https://gitlab.com/jianhongpg/number-trace
-Public GitLab snippet (measured 23 Aug 01:42 MYT, HTTP 200, Telegraph in body): https://gitlab.com/-/snippets/6040859
-Markdown copy: https://rentry.co/mst6o543
-72h HTML copy: https://litter.catbox.moe/otu3iz.html
+Rendered HTML from public GitLab is blocked from this IP as of 23 Aug 02:20 MYT (githack 302 to GitLab sign_in; gitlab.com/jianhongpg/number-trace 403/sign_in; Chrome Cloudflare human check). Do not use those URLs until they measure 200 again.
+Public GitLab snippet 6040859 same sign_in wall.
+Markdown copies: https://rentry.co/mst6o543 and https://rentry.co/gk39ee85 (new 23 Aug 02:19 MYT, 3 Stripe hrefs, noindex).
+72h HTML copy still up: https://litter.catbox.moe/otu3iz.html
 Older copy still up: https://litter.catbox.moe/vs14br.html
-Wayback save requested 22 Aug 22:45 MYT: https://web.archive.org/web/20260822144553/https://telegra.ph/Netie-Number-Trace-08-22 (snapshot GET was 429; Telegraph itself still 200 with 3 Stripe hrefs).
+New litterbox upload endpoint land.php is 404 from this IP. Permanent catbox still Invalid uploader.
+Wayback save of Telegraph returned 302 to https://web.archive.org/web/20260822165726/https://telegra.ph/Netie-Number-Trace-08-22 (snapshot GET 403/429 from this IP; Telegraph itself still 200 with 3 Stripe hrefs).
 Do not use telegra.ph/Netie-pay-08-22 (Pointer page).
 Write.as anonymous post was blocked (`contentisblocked`). Do not share it.
 Source: `docs/pay.html`. Not a Coming Soon pitch.

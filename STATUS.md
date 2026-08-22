@@ -1,16 +1,16 @@
 # STATUS
 
-Updated: 2026-08-23 02:16 MYT. Success = live Stripe charge, then a payout.
+Updated: 2026-08-23 02:20 MYT. Success = live Stripe charge, then a payout.
 
 ## Now (measured)
 
-- last_stripe_check: 2026-08-23 00:17 MYT. Did not poll again this MYT day. Still MYR 0 / 0 charges. Next Stripe read: 2026-08-24.
-- Twine https://www.twine.net/jianhong HTTP 200. has_resume=true (PDF posted 23 Aug 02:10 MYT via /api/users/resume). Roles AI Engineer + Web Developer. $180/day. IT sector. Jumpwin + Netie.AI work. UM education only (parser junk rows deleted). Skills from resume parse: Python, Prompt Engineering, API, LLM, Docker, SQL, Cassandra, HTML5, JavaScript, React JS, Excel. Freelance Gig skill deleted. Projects: Constructor, netie.ai landing, OpenHBM, spreadsheet side. Credits posted on the three AI projects. application_credits=0. Did not buy Pro. Image-cover attach via /api/projects file field was ignored (still text placeholders). /upload FineUploader session is a different PHP stack (401 from curl). Avatar still placeholder J. Cover already set.
-- Live demos: netie.ai, netie-ai.github.io/constructor, github.com/Netie-AI. AirGPT/Cortex GitHub 404. Did not claim USD 200k. Did not offer casino apps.
-- Gmail: no 3PL replies, no Truelancer verify. Sunday: no first-mail.
+- last_stripe_check: 2026-08-23 00:17 MYT. 2h earn tick skipped Stripe (same MYT day). Still MYR 0 / 0 charges as of that read. Next Stripe read: 2026-08-24.
+- Gmail: no replies from Transways, Image, Greenpen, mpconsol, Forward. No Truelancer verify. Sunday 02:20 MYT: no first-mail. 2h timer stays until Mon 24 Aug 9:00 MYT.
+- New public pay copy (measured 200, 3 Stripe hrefs): https://rentry.co/gk39ee85 (noindex, same as the older rentry). Telegraph still 200 with 3 Stripe hrefs: https://telegra.ph/Netie-Number-Trace-08-22 . Older rentry https://rentry.co/mst6o543 still 200. Litterbox https://litter.catbox.moe/otu3iz.html and vs14br still 200. New litterbox POST to land.php is 404 from this IP (BunkerWeb). Permanent catbox still Invalid uploader. GitLab number-trace raw/githack now redirect to sign_in; Chrome hit Cloudflare human check. Did not grind it. Git HTTPS password still rejected (needs PAT). Did not ask founder.
+- Twine https://www.twine.net/jianhong HTTP 200, has_resume=true. application_credits=0. Did not buy Pro.
 
 ## Next
 
-1. Mon 24 Aug 9:00 MYT: send monday-queue A-C. Stripe once that calendar day.
-2. If Twine inbound, take Twine pay. Re-host litterbox HTML before ~25 Aug.
+1. Mon 24 Aug 9:00 MYT: send monday-queue A-C. Stripe once that calendar day. Then drop 2h timer to 30 min.
+2. If Twine inbound, take Twine pay. Litterbox otu3iz still up; re-host again if it dies before a buyer pays.
 3. Do not grind captchas. Do not buy marketplace upgrades. Do not reset Fiverr/Upwork passwords.
