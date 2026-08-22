@@ -1,16 +1,17 @@
 # STATUS
 
-Updated: 2026-08-22 21:50 MYT. Success = live Stripe charge, then a payout.
+Updated: 2026-08-22 22:20 MYT. Success = live Stripe charge, then a payout.
 
 ## Now (measured)
 
 - Stripe: available MYR 0, customers 0, charges 0, PaymentIntents 0.
-- Same open Checkout `cs_live_a1DK...` RM 300, unpaid, no PI. Not income.
+- Two open Checkouts, both RM 300 One Number, unpaid, no PI. Not income.
+  Older `cs_live_a1DK...`. Newer `cs_live_a1TO...` (card, GrabPay, Link).
 - No buyer replies. Known bounces unchanged (Robex, PT, DHU, QEDT sales@, WM info@, Silverjack).
-- Acme Upholstery `acmeupholstery5168@gmail.com`: first mail + public-facts draft sent (`1a0299a11942f785`).
-  Email is on NEWPAGES mobile contact (same SSM 1161239-U).
-  Services menu still says Coming Soon. Homepage already lists sofa / bed / OEM.
-  Draft: https://litter.catbox.moe/esiwdm.html
+- VES Industrial `info@vesvac.com`: first mail + public-facts draft sent.
+  Email is on the live homepage mailto. Service is in the nav.
+  Service page is empty (not Coming Soon text). Homepage already lists vacuum pump service.
+  Draft: https://litter.catbox.moe/5na1li.html
 - Public pay page: https://litter.catbox.moe/d8n858.html
 
 ## Next
@@ -37,3 +38,4 @@ Updated: 2026-08-22 21:50 MYT. Success = live Stripe charge, then a payout.
    Skip trueeasy@hotmail.com. Skip support@ikaa.com.my (same firm as sales@).
    Skip sales@ikaa.com.my. Skip sales@jss.com.my. Skip sales.qmg@gmail.com.
    Skip acmeupholstery8996@gmail.com (same firm as 5168). Skip 5168 (mailed).
+   Skip info@vesvac.com (mailed).
