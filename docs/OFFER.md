@@ -13,6 +13,7 @@ Rendered HTML from public GitLab is blocked from this IP as of 23 Aug 02:20 MYT 
 Public GitLab snippet 6040859 same sign_in wall.
 Markdown copies: https://rentry.co/mst6o543 and https://rentry.co/gk39ee85 (gk39ee85 rewritten AI-first 23 Aug 02:40 MYT, 3 Stripe hrefs, noindex).
 72h HTML copy (AI-first source `docs/pay.html`, measured 23 Aug 02:40 MYT HTTP 200, 3 Stripe hrefs + Twine): https://litter.catbox.moe/8ytqjj.html (expires ~25 Aug 18:35 UTC)
+Durable HTML copy (same `docs/pay.html`, measured 23 Aug 03:10 MYT HTTP 200, `text/html`, 3 Stripe hrefs + Twine): https://netie-penang.surge.sh/
 Older 72h copies still up: https://litter.catbox.moe/otu3iz.html and https://litter.catbox.moe/vs14br.html
 litterbox internals/api.php upload works again from this IP (23 Aug 02:35 MYT). land.php still unused. Permanent catbox still Invalid uploader.
 Wayback save of Telegraph returned 302 to https://web.archive.org/web/20260822165726/https://telegra.ph/Netie-Number-Trace-08-22 (snapshot GET 403/429 from this IP; Telegraph itself still 200 with 3 Stripe hrefs).
