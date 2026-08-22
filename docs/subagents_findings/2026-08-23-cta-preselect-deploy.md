@@ -23,3 +23,13 @@
 | File analysis `Request a written scope` | `File analysis and presentation - RM 1,500` |
 
 All six CTAs navigated to the brief and selected the expected offer before any submission.
+
+## Mirror verification return
+
+- Agent: computerUse
+- Keywords: BrewPage, Surge, CTA, file analysis, browser verification, no submission
+- Main idea: The two full-page mirrors serve the same file-analysis scope selection as the canonical page.
+- `https://brewpage.app/public/ANzfhLqHto/index.html` loaded and passed both file-analysis CTA checks.
+- `https://netie-penang.surge.sh/` loaded and passed both file-analysis CTA checks.
+- On each mirror, `Request a file-analysis scope` and the file-analysis card's `Request a written scope` navigated to `#brief` and selected `File analysis and presentation - RM 1,500`.
+- No form was submitted and no personal data was entered.
