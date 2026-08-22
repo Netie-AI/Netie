@@ -8,8 +8,9 @@ Pay:
 Stripe live. Invoice on. Card, GrabPay, or Link. Not a subscription.
 FPX is off until enabled in Stripe Dashboard. payouts_enabled=true as of 22 Aug 2026. Business model form still past due.
 Public pay page (durable): https://telegra.ph/Netie-Number-Trace-08-22
-Rendered HTML from public GitLab (measured 23 Aug 01:20 MYT, text/html, 3 Stripe hrefs): https://gl.githack.com/jianhongpg/number-trace/raw/main/index.html
+Rendered HTML from public GitLab (Chrome still renders after the rawgit.hack interstitial; curl from this IP got Cloudflare 403 on 23 Aug 01:42 MYT): https://gl.githack.com/jianhongpg/number-trace/raw/main/index.html
 Source repo (public, HTTP 200): https://gitlab.com/jianhongpg/number-trace
+Public GitLab snippet (measured 23 Aug 01:42 MYT, HTTP 200, Telegraph in body): https://gitlab.com/-/snippets/6040859
 Markdown copy: https://rentry.co/mst6o543
 72h HTML copy: https://litter.catbox.moe/otu3iz.html
 Older copy still up: https://litter.catbox.moe/vs14br.html
