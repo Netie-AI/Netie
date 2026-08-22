@@ -235,6 +235,8 @@ class PayPageTests(unittest.TestCase):
         self.assertIn("dashboard.stripe.com/settings/update", html)
         self.assertIn("1hP52Fun6L1LQEsxdgU-1E-f60yhXJ45He69tt7WrT4o", html)
         self.assertIn("FORHIRE.md", html)
+        self.assertIn("1k0aHSZTRYeilXjc4CK4AbiyA7sXor2qTusYhg-oRLc4", html)
+        self.assertIn("BUGCROWD.md", html)
         self.assertNotIn("100K+", html)
         self.assertNotIn("030627070887", html)
 
@@ -248,6 +250,16 @@ class PayPageTests(unittest.TestCase):
         self.assertIn("1hP52Fun6L1LQEsxdgU-1E-f60yhXJ45He69tt7WrT4o", text)
         self.assertIn("100K downloads", text)
         self.assertIn("will not post to Reddit", text)
+
+    def test_bugcrowd_pack_forbids_exploits(self) -> None:
+        pack = (Path(__file__).resolve().parents[1] / "docs" / "BUGCROWD.md").read_text(
+            encoding="utf-8"
+        )
+        self.assertIn("will not write exploits", pack)
+        self.assertIn("login.bugcrowd.com/signin/register", pack)
+        self.assertIn("1k0aHSZTRYeilXjc4CK4AbiyA7sXor2qTusYhg-oRLc4", pack)
+        self.assertIn("Do not test netie.ai", pack)
+        self.assertIn("engagements/tesla", pack)
 
     def test_stripe_payouts_pack_has_dashboard_and_no_nric(self) -> None:
         text = (Path(__file__).resolve().parents[1] / "docs" / "STRIPE_PAYOUTS.md").read_text(

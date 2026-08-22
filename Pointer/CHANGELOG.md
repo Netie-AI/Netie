@@ -4,6 +4,8 @@ Append-only. Newest first.
 
 ## 2026-08-22
 
+- Bugcrowd signup pack: `docs/BUGCROWD.md` plus Drive `1k0aHSZTRYeilXjc4CK4AbiyA7sXor2qTusYhg-oRLc4`. Tesla + Mastercard briefs measured HTTP 200. Agent still will not write exploits/PoCs. P-007.
+- paste.rs accepted the pay HTML but served `text/plain` (not a buyer host). P-013 still open.
 - Reddit r/forhire Pointer paste: `docs/FORHIRE.md` plus Drive `1hP52Fun6L1LQEsxdgU-1E-f60yhXJ45He69tt7WrT4o`. Agent will not post. One post / 7 days; sibling Excel paste already mailed today. P-015.
 - MDEC MDAG-AI measured closed (2025-07-18). Not an apply-now path. P-016.
 - Stripe payouts phone pack: `docs/STRIPE_PAYOUTS.md` plus Drive `175ocCJoFFaXbbKkHKNyvw0w6AkwEiaix1D527Qf-8Oo`. Linked from `/pay`. Dashboard-only; NRIC stays out of git. P-014.
