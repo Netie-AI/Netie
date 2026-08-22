@@ -9,8 +9,9 @@ PRD, RAG, LLM programs, Constructor DAG, desktop agent: email quote. Cortex and 
 
 Stripe live. Invoice on. Card, GrabPay, or Link. Not a subscription.
 FPX is off until enabled in Stripe Dashboard. payouts_enabled=true as of 22 Aug 2026. Business model form still past due.
+Public hire page on the domain (measured 23 Aug 04:01 MYT, HTTP 200, title Netie.AI · Your AI solution company, suite homepage untouched): https://netie.ai/hire/
 Public hire page (Telegraph, company page + demos): https://telegra.ph/Netie-AI-landing-page-08-22
-Old Number Trace Telegraph URL is rewritten to the same company page (do not leave Side desk / RM 300 headline there).
+Old Number Trace Telegraph URL now serves the same company page (no Side desk / RM 300 headline): https://telegra.ph/Netie-Number-Trace-08-22
 Rendered HTML from public GitLab is blocked from this IP as of 23 Aug 02:20 MYT (githack 302 to GitLab sign_in; gitlab.com/jianhongpg/number-trace 403/sign_in; Chrome Cloudflare human check). Do not use those URLs until they measure 200 again.
 Public GitLab snippet 6040859 same sign_in wall.
 Markdown copies: https://rentry.co/mst6o543 and https://rentry.co/gk39ee85 (gk39ee85 rewritten AI-first 23 Aug 02:40 MYT, 3 Stripe hrefs, noindex).
