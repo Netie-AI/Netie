@@ -21,10 +21,10 @@ Tone: `.cursor/skills/outreach-tone/SKILL.md`
 - Contact form failed reCAPTCHA v3. Do not mail PKL/Johor inboxes the same day.
 - Do not mail again unless they reply.
 
-## 4. TBL Freight -- SENT 22 Aug 2026 22:24 MYT
+## 4. TBL Freight -- SENT 22 Aug 2026 22:24 MYT, rerouted 22:28 MYT
 
-- To: export1@tblf.com.my
-- Thread: `1a029dbec7578f31`
-- Public on contact page (Jalan Ramin 2, Bandar Botanic + Wisma Boon Siew).
-- Do not mail export2@tblf.com.my the same day.
+- First: export1@tblf.com.my (`1a029dbec7578f31`)
+- Auto-reply from ops@tblf.com.my: tblf.com.my inboxes are dead. New domain mpconsol.com.my.
+- Reroute (one inbox): pen@mpconsol.com.my (`1a029df49f8376e2`)
+- Do not mail export1/export2/import/acc/joyce at mpconsol the same day.
 - Do not mail again unless they reply.
