@@ -157,3 +157,11 @@ oojianhongg@gmail.com
 - Skipped this round: SureSwift (Canada-only), Constelli (4+ yrs asyncio/air-gap), AIDAR (Germany/EU remote).
 - Do not mail again unless they reply.
 
+### Flywheel Motion -- SUBMITTED 23 Aug 2026 03:23 MYT
+
+- Source: Ask HN Who is hiring August 2026, item 49156702. Worldwide remote contract. Entry-level Agentic Engineer (not the Senior listing). Intake on hiring.tfw.bz.
+- Site picked: ctaio.dev. Skipped tipmaster.de (betting / World Cup tips). Did not start a casino.
+- Server returned ok, submission_id 1706. Done page: a human reads it and emails if they want to talk.
+- Watch `oojianhongg@gmail.com`. Do not re-apply. Do not mail jobs@flywheel.bz unless they ask.
+- Skipped this round: Enveritas (Greenhouse captcha; they say do not apply via jobs@), FlexMade (5+ years), Railway/Everis Ashby forms.
+

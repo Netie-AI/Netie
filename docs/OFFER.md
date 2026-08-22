@@ -8,13 +8,15 @@ Pay:
 Stripe live. Invoice on. Card, GrabPay, or Link. Not a subscription.
 FPX is off until enabled in Stripe Dashboard. payouts_enabled=true as of 22 Aug 2026. Business model form still past due.
 Public pay page (durable, Number Trace): https://telegra.ph/Netie-Number-Trace-08-22
-Public hire page (durable, AI landing headline, measured 23 Aug 02:40 MYT HTTP 200, 3 Stripe hrefs + Twine): https://telegra.ph/Netie-AI-landing-page-08-22
+Public hire page (durable, AI landing headline, measured 23 Aug 03:23 MYT HTTP 200, 3 Stripe hrefs + Twine + BrewPage): https://telegra.ph/Netie-AI-landing-page-08-22
 Rendered HTML from public GitLab is blocked from this IP as of 23 Aug 02:20 MYT (githack 302 to GitLab sign_in; gitlab.com/jianhongpg/number-trace 403/sign_in; Chrome Cloudflare human check). Do not use those URLs until they measure 200 again.
 Public GitLab snippet 6040859 same sign_in wall.
 Markdown copies: https://rentry.co/mst6o543 and https://rentry.co/gk39ee85 (gk39ee85 rewritten AI-first 23 Aug 02:40 MYT, 3 Stripe hrefs, noindex).
 72h HTML copy (AI-first source `docs/pay.html`, measured 23 Aug 02:40 MYT HTTP 200, 3 Stripe hrefs + Twine): https://litter.catbox.moe/8ytqjj.html (expires ~25 Aug 18:35 UTC)
-Durable HTML copy (same `docs/pay.html`, measured 23 Aug 03:10 MYT HTTP 200, `text/html`, 3 Stripe hrefs + Twine): https://netie-penang.surge.sh/
-Surge email verified 23 Aug 03:11 MYT (`Email verified`). Surge still serves `robots.txt` as `Disallow: /` even when a local Allow file is uploaded (measured 23 Aug 03:12 MYT). Treat Surge as a human HTML copy, not the SEO canonical. Telegraph AI landing now links that HTML copy (measured 23 Aug 03:12 MYT, 3 Stripe hrefs + surge).
+Crawlable HTML copy (same `docs/pay.html`, measured 23 Aug 03:16 MYT HTTP 200, `text/html`, 3 Stripe hrefs, no `x-robots-tag` on the page GET): https://brewpage.app/public/ANzfhLqHto
+BrewPage site `robots.txt` is `User-agent: * Allow: /` (measured 23 Aug 03:16 MYT). Root https://brewpage.app/robots.txt also Allow. TTL 30 days, expires ~21 Sep 2026. Telegraph AI landing now leads with this URL (measured 23 Aug 03:20 MYT, brewpage + surge + 3 Stripe hrefs). Do not commit BrewPage owner tokens (`/tmp/brewpage.json` only).
+Durable HTML copy that humans can open but Google is told not to crawl: https://netie-penang.surge.sh/
+Surge email verified 23 Aug 03:11 MYT (`Email verified`). Surge still serves `robots.txt` as `Disallow: /` even when a local Allow file is uploaded (measured 23 Aug 03:12 MYT). Treat Surge as a human HTML copy, not the SEO canonical.
 Older 72h copies still up: https://litter.catbox.moe/otu3iz.html and https://litter.catbox.moe/vs14br.html
 litterbox internals/api.php upload works again from this IP (23 Aug 02:35 MYT). land.php still unused. Permanent catbox still Invalid uploader.
 Wayback save of Telegraph returned 302 to https://web.archive.org/web/20260822165726/https://telegra.ph/Netie-Number-Trace-08-22 (snapshot GET 403/429 from this IP; Telegraph itself still 200 with 3 Stripe hrefs).
