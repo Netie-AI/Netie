@@ -1,6 +1,6 @@
 # STATUS.md - Netie estate
 
-**Last updated:** 2026-08-03
+**Last updated:** 2026-08-20
 **Rule:** Tier 1 roadmap only. Max 3 in Now. No dates. Problems, not features.
 
 ---
@@ -13,6 +13,8 @@
 
 ## Next
 
+- **Netie Control (option 3 locked)** - plane-4 client. Cortex hero + healthz + ledger probes. Goals/secrets writes 405. Heartbeat/agent-hire still live (rest of C05). GitHub Issues stay lawful.
+- **Plane.so trial** - Community v1.4.1 at `http://localhost:8099`. Mapping in `D:\plane-selfhost\HOWTO.md`. GitHub Issues stay lawful until DOCUMENT_SYSTEM is amended.
 - **TAS fill** - `TAS-CORTEX`, `TAS-DMS`, `TAS-SPACE` measured 2026-08-02; `TAS-OPENVAULT`, `TAS-AIRGPT`, `TAS-POINTER` still missing.
 - **PRD stubs** - thin PRD-001 files for OpenVault, AirGPT, Pointer, Space, Cortex (companion to DMS); slice on next PRD Agent pass.
 - **Open PRs** - Cortex #4, DMS #1 open; Cortex #2/#3 and DMS drafts remain.
