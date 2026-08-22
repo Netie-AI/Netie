@@ -90,10 +90,16 @@ if ($desktop) {
         Copy-Item $qr (Join-Path $desktop "POINTER_RM300.png") -Force
     }
     Write-Host "desktop copies: POINTER_CARD.txt (no tokens), POINTER_NEXT.txt, POINTER_PROVE.json, POINTER_RM300.png if present"
-    Write-Host "email or Drive-upload POINTER_PROVE.json only. Do not email tokens."
+    Write-Host "Drive-upload Desktop POINTER_PROVE.json only. Do not email tokens."
+    $proveDesk = Join-Path $desktop "POINTER_PROVE.json"
+    if (Test-Path $proveDesk) {
+        Start-Process explorer.exe -ArgumentList "/select,$proveDesk"
+    }
 }
 Write-Host "card: $bootstrap\.pointer-state\PAIR_CARD.txt (gitignored). Do not email tokens."
-Write-Host "open http://127.0.0.1:7420/ for the same 5 steps"
+Write-Host "opening http://127.0.0.1:7420/ (steps) and /pay (Stripe) in the default browser"
+Start-Process "http://127.0.0.1:7420/"
+Start-Process "http://127.0.0.1:7420/pay"
 
 Write-Host "5. OpenClaw / Hermes / Ollama (informational; not Cortex)"
 foreach ($b in @("ollama", "openclaw", "hermes")) {

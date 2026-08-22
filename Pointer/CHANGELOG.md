@@ -4,6 +4,8 @@ Append-only. Newest first.
 
 ## 2026-08-22
 
+- install_windows.ps1 now opens loopback `/` and `/pay` in the default browser and selects Desktop POINTER_PROVE.json in Explorer. Still no Windows prove file. P-002.
+- Wayback save of litterbox pay returned HTTP 523; archive.ph returned 429. P-013 still open.
 - Bugcrowd signup pack: `docs/BUGCROWD.md` plus Drive `1k0aHSZTRYeilXjc4CK4AbiyA7sXor2qTusYhg-oRLc4`. Tesla + Mastercard briefs measured HTTP 200. Agent still will not write exploits/PoCs. P-007.
 - paste.rs accepted the pay HTML but served `text/plain` (not a buyer host). P-013 still open.
 - Reddit r/forhire Pointer paste: `docs/FORHIRE.md` plus Drive `1hP52Fun6L1LQEsxdgU-1E-f60yhXJ45He69tt7WrT4o`. Agent will not post. One post / 7 days; sibling Excel paste already mailed today. P-015.

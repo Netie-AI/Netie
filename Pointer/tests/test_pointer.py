@@ -350,6 +350,9 @@ class PairCardTests(unittest.TestCase):
         self.assertIn("Get-Command py", src)
         self.assertIn("POINTER_NEXT.txt", src)
         self.assertIn("POINTER_PROVE.json", src)
+        self.assertIn("Start-Process", src)
+        self.assertIn("http://127.0.0.1:7420/pay", src)
+        self.assertIn("/select,", src)
 
     def test_live_click_uses_state_shots(self) -> None:
         src = (Path(__file__).resolve().parents[1] / "pointer" / "__main__.py").read_text(

@@ -4,13 +4,13 @@
 
 ## Now
 
-1. Verify measured 2026-08-22 12:45 UTC: 28 tests OK, live mouse, `/health`+`/pay`(6509B)+QR+`GET /` 200, gated sandbox write (`degraded: local_act_without_cortex`). `Netie-AI/Pointer` still 404. Stripe live: 0 charges, MYR 0, `payouts_enabled=false`.
-2. P-007 Bugcrowd pack on `/pay` + Drive `1k0aHSZTRYeilXjc4CK4AbiyA7sXor2qTusYhg-oRLc4`; mailed 12:45 UTC. Tesla + Mastercard briefs HTTP 200. No H1/Bugcrowd username. No `POINTER_PROVE.json`. Fiverr/Slingshot empty.
-3. paste.rs served pay HTML as `text/plain` (not a buyer host). Litterbox `q727wl.html` still 200. OpenClaw/Hermes not installed here.
+1. Verify measured 2026-08-22 12:48 UTC: 28 tests OK, live mouse, `/health`+`/pay`(6509B)+QR+`GET /` 200, gated sandbox write (`degraded: local_act_without_cortex`). `gh api orgs/Netie-AI/repos` lists Netie/Cassandra/... but not Pointer (still 404). Stripe live: 0 charges, `payouts_enabled=false`.
+2. install_windows.ps1 now opens loopback `/` + `/pay` and selects Desktop `POINTER_PROVE.json`. No prove file on Drive. No H1/Bugcrowd username. Fiverr/Slingshot empty.
+3. Wayback save of litterbox pay returned HTTP 523; archive.ph 429. Litterbox `q727wl.html` still 200. OpenClaw/Hermes not installed here.
 
 ## Next
 
-- Founder: H1 or Bugcrowd username; Fiverr Pointer gig this week; Stripe Dashboard identity; laptop pack `1by_5VEBbQpD86So-q6K8F2T2MpcHWNkd4BKb4UlARI0`.
+- Founder: run `.\scripts\install_windows.ps1` on the Windows laptop (browser + Explorer now open for you). Drive-upload Desktop `POINTER_PROVE.json` only. H1/Bugcrowd username. Fiverr Pointer gig. Stripe Dashboard identity.
 - Do not re-blast Easyway/Hengxing today.
 
 ## Later
