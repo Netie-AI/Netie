@@ -12,3 +12,4 @@ This index records reusable findings from focused subagent reviews.
 | [2026-08-23-monday-outreach-review.md](2026-08-23-monday-outreach-review.md) | Monday queue, RM1500 analysis, proof link, Malaysian outreach | Replace retired low-price trace copy with a concise scope-first ask. |
 | [2026-08-23-ops-file-manager-deploy.md](2026-08-23-ops-file-manager-deploy.md) | Spaceship File Manager, static upload, operations board | Use File Manager upload, not the unreliable Jupiter editor, for `/hire/` static files. |
 | [2026-08-23-knowledge-file-manager-deploy.md](2026-08-23-knowledge-file-manager-deploy.md) | cited answer, no-answer state, File Manager, fixed corpus | Live fixed-source proof shows citations and a clean no-answer boundary. |
+| [2026-08-23-cta-preselect-deploy.md](2026-08-23-cta-preselect-deploy.md) | CTA, brief form, service selection, File Manager, conversion | Each service CTA selects its matching offer in the scope form before submission. |
