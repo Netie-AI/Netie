@@ -18,7 +18,7 @@ Fiverr paste (Telegraph URLs): https://docs.google.com/document/d/1HyKS-wsE3M57V
 Older Fiverr paste (litterbox vs14br): https://docs.google.com/document/d/1z2pWHqJPqmAHBwqyM1G7IUrNVQlaLB8PTtfC4j94B8E/edit
 Upwork catalog paste (on-platform USD 70, no Stripe on Upwork): `docs/upwork-catalog.md`
 Twine freelancer profile (measured 23 Aug 00:17 MYT, HTTP 200, Available to hire, score Medium): https://www.twine.net/jianhong
-API user 1785534: skill Microsoft Excel (accepted), languages English and Malay, sector Transportation & Logistics, work line "Excel number tracing" at Netie. If a client hires on Twine, take Twine pay. Do not also Stripe the same hour.
+API user 1785534: skills Freelance Gig + Microsoft Excel (both accepted), languages English and Malay, sector Transportation & Logistics, work line "Excel number tracing" at Netie. If a client hires on Twine, take Twine pay. Do not also Stripe the same hour.
 WhatsApp one-liner: `docs/whatsapp-paste.txt`.
 
 ## What the buyer gets
