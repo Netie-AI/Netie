@@ -5,6 +5,8 @@ Do not spend Connects on cold proposals this week. Catalog first.
 
 Open: https://www.upwork.com/ then Profile -> Project Catalog -> Create a catalog project.
 
+Blocker measured 22 Aug 23:00 MYT on this VM: Upwork Welcome for oojianhongg@gmail.com offers Continue with Apple. Google session is expired. Do not request the founder password or phone OTP. Do not pay Connects.
+
 Title: Trace a number in your Excel and write the source
 
 Category: Data Science & Analytics -> Data Extraction / Spreadsheets (or Other)
