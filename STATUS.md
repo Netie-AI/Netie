@@ -1,15 +1,15 @@
 # STATUS
 
-Updated: 2026-08-22 20:42 MYT. Success = live Stripe charge, then a payout.
+Updated: 2026-08-22 20:43 MYT. Success = live Stripe charge, then a payout.
 
 ## Now (measured)
 
 - Stripe: available MYR 0, customers 0, charges 0, PaymentIntents 0.
 - Same open Checkout `cs_live_a1DK...` RM 300, unpaid, no PI. Not income.
-- Sin Ban Lee: sent, no bounce yet.
-- Stream Communication `streamcommunicationsystem@gmail.com`: first mail + public-facts draft sent (`1a0297bad3e619c8`).
-  Email is on live homepage and contact HTML. Services page still says Coming Soon.
-  Draft: https://litter.catbox.moe/nzenhp.html
+- Stream: sent, no bounce yet.
+- Megah Equipment `megahequipment@gmail.com`: first mail + public-facts draft sent (`1a0297cbcfc54b9d`).
+  Email is on live homepage and services header. Services page still says Coming Soon.
+  Draft: https://litter.catbox.moe/h8c8rq.html
 - Public pay page: https://litter.catbox.moe/d8n858.html
 
 ## Next
@@ -19,6 +19,7 @@ Updated: 2026-08-22 20:42 MYT. Success = live Stripe charge, then a payout.
 2. Upload `Ic.pdf` to Stripe. Enable FPX in Dashboard.
 3. Renew Spaceship hosting: https://www.spaceship.com/launchpad/
 4. Agent next: find one unused Coming Soon / empty-services page with email
-   on live HTML.
+   on live HTML. Do not mail ginakhoo@megahmach.com (same firm).
+   Skip Newton Hydraulics as Coming Soon (services page is populated).
    Skip NCR. Skip jsstorage@yahoo.com. Skip PT. Skip CF. Skip NCT. Skip Amici.
    Skip DHU. Skip robex info@ (550). Skip Mrs Marine as Coming Soon.
