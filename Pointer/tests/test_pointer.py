@@ -226,7 +226,7 @@ class PayPageTests(unittest.TestCase):
         self.assertIn("https://docs.google.com/document/d/1CIfusgZvh8yXwucboi1iYpdMhgFHEyFlWEqjY4U_fIs/edit", html)
         self.assertIn("https://docs.google.com/document/d/1n5htCeuadHZsU7udormJGiAh-EmigBj3izXWR4NUMD4/edit", html)
         self.assertIn("HACKERONE.md", html)
-        self.assertIn("https://litter.catbox.moe/q727wl.html", html)
+        self.assertIn("https://litter.catbox.moe/k99m4f.html", html)
         self.assertIn("https://docs.google.com/document/d/16kmarL_ZW48KYA0uvQW51-JvwnB7yyKB9ZabmTNoSoA/edit", html)
         self.assertIn("CRADLE_SPARK.md", html)
         self.assertIn("https://docs.google.com/document/d/1by_5VEBbQpD86So-q6K8F2T2MpcHWNkd4BKb4UlARI0/edit", html)

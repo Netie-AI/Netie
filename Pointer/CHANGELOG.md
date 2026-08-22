@@ -4,6 +4,7 @@ Append-only. Newest first.
 
 ## 2026-08-22
 
+- Public pay copy refreshed on litterbox `k99m4f.html` (~72h from 12:52 UTC) so it includes Agentic + Bugcrowd + payouts + r/forhire. QR still `5hdpx8.png`. P-013 still open.
 - All Things Agentic hackathon pack: `docs/AGENTIC_HACK.md` plus Drive `1P3E2rf1NSnNUrf454YB6dL5P34ObNv3PmICVu1yb59Y`. Deadline 31 Aug 2026 17:00 PDT. Pointer-as-is is not a valid Gemini/ADK/GCP entry. P-017.
 - install_windows.ps1 now opens loopback `/` and `/pay` in the default browser and selects Desktop POINTER_PROVE.json in Explorer. Still no Windows prove file. P-002.
 - Wayback save of litterbox pay returned HTTP 523; archive.ph returned 429. P-013 still open.
