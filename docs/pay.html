@@ -249,7 +249,7 @@
         <h1>AI work that<br><span>shows its source.</span></h1>
         <p class="lede">I build searchable company knowledge, process prototypes, decision-ready file analysis, and clear business websites. One engineer, small fixed scopes, source-file handoff.</p>
         <div class="cta">
-          <a class="btn" href="#brief">Request a written scope</a>
+          <a class="btn" href="#brief" data-brief-job="Not sure - help me scope it">Request a written scope</a>
           <a class="btn ghost" href="#proof">See a figure traced</a>
         </div>
         <p class="proof-line">Everything below links to a public interface. One source trace can be downloaded and re-run without a backend.</p>
@@ -273,7 +273,7 @@
         <div class="notice">Synthetic sample data. No client file, no public upload, no backend, and no accuracy claim. The tool reads local `.xlsx` and `.csv` files only.</div>
         <div class="cta">
           <a class="btn" href="https://netie.ai/hire/trace/">Open the source trace</a>
-          <a class="btn ghost" href="#brief">Request a file-analysis scope</a>
+          <a class="btn ghost" href="#brief" data-brief-job="File analysis and presentation - RM 1,500">Request a file-analysis scope</a>
         </div>
       </section>
 
@@ -287,14 +287,14 @@
             <h3>Company-file search with citations</h3>
             <p>Search an agreed document set in plain language. Answers cite the source passage or say the evidence is not available.</p>
             <p class="scope">One corpus, access rules, evaluation, model costs, and handoff are agreed in writing. <a href="https://netie.ai/hire/knowledge/">Open the synthetic cited-answer prototype</a>; it uses fixed local passages, not a public retrieval backend. <a href="https://netie.ai/aim/" target="_blank" rel="noopener">AIM is the separate intake-interface sample.</a></p>
-            <div class="cta"><a class="btn ghost" href="#brief">Request a scope</a></div>
+            <div class="cta"><a class="btn ghost" href="#brief" data-brief-job="Company-file search with citations - quote">Request a scope</a></div>
           </article>
           <article class="service">
             <p class="eyebrow">Prototype before build</p>
             <h3>Process map and decision prototype</h3>
             <p>Turn one repeated process into an editable graph, a written spec, failure cases, and an exported JSON handoff.</p>
             <p class="scope"><a href="https://netie-ai.github.io/constructor/" target="_blank" rel="noopener">Try the public Constructor canvas</a> with sample records. No live integration, production deployment, or migration at this stage.</p>
-            <div class="cta"><a class="btn ghost" href="#brief">Map one process</a></div>
+            <div class="cta"><a class="btn ghost" href="#brief" data-brief-job="Process map and decision prototype - quote">Map one process</a></div>
           </article>
           <article class="service">
             <p class="eyebrow">Scoped build</p>
@@ -302,7 +302,7 @@
             <p>Replace one defined spreadsheet or manual workflow with an agreed data model, API, admin area, and team screens.</p>
             <p class="price">RM 20,000 after written scope</p>
             <p class="scope"><a href="https://netie.ai/hire/ops/">Open the synthetic operations-board prototype</a>. It has no API, customer data, integration, or production deployment. Migration, AI features, hosting, and support are separate unless included in the scope.</p>
-            <div class="cta"><a class="btn ghost" href="#brief">Discuss the system</a></div>
+            <div class="cta"><a class="btn ghost" href="#brief" data-brief-job="Internal operations system - RM 20,000 after scope">Discuss the system</a></div>
           </article>
           <article class="service">
             <p class="eyebrow">Fixed scope</p>
@@ -319,7 +319,7 @@
             <p class="price">RM 1,500</p>
             <p class="scope">Decision support only. It is not an audit, legal advice, or financial advice. The decision, files, exclusions, and safe handoff are agreed in writing before checkout.</p>
             <p class="scope"><a href="https://netie.ai/hire/trace/">See one figure traced end to end</a> on a synthetic workbook you can download and re-run.</p>
-            <div class="cta"><a class="btn" href="#brief">Request a written scope</a></div>
+            <div class="cta"><a class="btn" href="#brief" data-brief-job="File analysis and presentation - RM 1,500">Request a written scope</a></div>
           </article>
         </div>
       </section>
@@ -420,7 +420,9 @@
   </div>
   <script>
     const briefForm = document.getElementById("brief");
+    const jobField = document.getElementById("job");
     const whatsappBrief = document.getElementById("whatsapp-brief");
+    const briefCtas = document.querySelectorAll("[data-brief-job]");
 
     function value(id) {
       return document.getElementById(id).value.trim();
@@ -447,6 +449,12 @@
 
     briefForm.addEventListener("input", updateWhatsApp);
     briefForm.addEventListener("change", updateWhatsApp);
+    briefCtas.forEach(function (cta) {
+      cta.addEventListener("click", function () {
+        jobField.value = cta.dataset.briefJob;
+        updateWhatsApp();
+      });
+    });
     briefForm.addEventListener("submit", function (e) {
       e.preventDefault();
       window.location.href = "mailto:oojianhongg@gmail.com?subject=" +
