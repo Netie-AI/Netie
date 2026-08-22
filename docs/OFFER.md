@@ -1,7 +1,8 @@
 # Offer: Netie Number Trace
 
 Pay: https://buy.stripe.com/dRm8wP3KKfoT9w0g5u9ws03
-Price: RM 1,500 once. Stripe live. Invoice on. Not a subscription.
+Price: RM 1,500 once. Stripe live. Invoice on. Card, GrabPay, or Link. Not a subscription.
+FPX is off until the founder enables it in Stripe Dashboard. Payouts are off until identity is verified.
 
 ## What the buyer gets
 
@@ -28,5 +29,5 @@ Price: RM 1,500 once. Stripe live. Invoice on. Not a subscription.
 1. Why not keep the clerk and skip us - needs one concrete miss a clerk cannot catch.
 2. First Hengxing mail promised "we automate the ask" - this offer walks that back; trust cost is unpaid.
 3. Cortex/DMS are not in this cloud environment, so a software demo cannot be given from here.
-4. Cassandra already has live USD checkout and zero customers - a second unpaid product does not print USD 1,000,000.
-5. USD 1,000,000 by 30 Sep 2026 is not implied by RM 0 and one unpaid outbound email.
+4. Cassandra USD checkout is live and crash.netie.ai is a directory listing - nobody can buy from the public host.
+5. Stripe payouts_enabled=false. A paid session still cannot reach Bank Islam until IC verification clears.
