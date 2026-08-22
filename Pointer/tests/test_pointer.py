@@ -217,6 +217,9 @@ class PayPageTests(unittest.TestCase):
         ):
             self.assertIn(url, html)
         self.assertIn("Payouts to Bank Islam are blocked", html)
+        self.assertIn("https://docs.google.com/document/d/1h7H6thuUqyD71MlDyQd0Vbey5ucO30JGM1sSZ_mN4nI/edit", html)
+        self.assertIn("https://hackerone.com/opportunities/all", html)
+        self.assertIn("https://app.outlier.ai/", html)
         self.assertNotIn("100K+", html)
 
 

@@ -4,6 +4,7 @@ Append-only. Newest first.
 
 ## 2026-08-22
 
+- Drive pay sheet `1h7H6thuUqyD71MlDyQd0Vbey5ucO30JGM1sSZ_mN4nI` plus HackerOne/Outlier/Bugcrowd links on `/pay`. H1 pays the researcher; Stripe payouts block is NETIE SKUs only. crash.netie.ai still autoindex.
 - Laptop pair card: `GET /` + `python -m pointer pair --card`. `live-click` writes `.pointer-state/shots` (Windows-safe; was `/tmp`). install_windows.ps1 now starts serve + live-click. Tokens still not emailed.
 - Live SKU `prod_V7SBesawobyQ3x` Pointer laptop install RM 300: https://buy.stripe.com/dRmaEXchg7Wr7nS8D29ws08. Verify now proves gated sandbox write through the daemon.
 - Loop tick: verify still 12/12 + live mouse; Stripe MYR 0; no buyer replies; crash.netie.ai still autoindex. Next money path that is actually open: Cradle CIP Spark (gms.cradle.com.my), founder submit only.
