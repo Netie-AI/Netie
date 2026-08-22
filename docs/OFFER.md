@@ -1,0 +1,32 @@
+# Offer: Netie Number Trace
+
+Pay: https://buy.stripe.com/dRm8wP3KKfoT9w0g5u9ws03
+Price: RM 1,500 once. Stripe live. Invoice on. Not a subscription.
+
+## What the buyer gets
+
+1. They send 5 numbers from a monthly ops/warehouse/finance report, plus the Excel/CSV/SQL extract those numbers supposedly came from.
+2. 90-minute session. Each number is traced to a cell, a query, or a gap.
+3. Written map: number -> source, or "cannot be traced" with what is missing.
+4. No live-database plug-in. No cameras. No staff tracking. No software licence.
+
+## What we do not claim
+
+- We do not claim Space ACL holds. It does not, on the last measured TAS.
+- We do not claim answers are under 1 percent error. Verified n=47, so the bound is 6.4 percent.
+- We do not claim "we automate the warehouse." The 2026-08-22 Hengxing mail overclaimed. This offer does not.
+
+## Buyer math (Hengxing-shaped, logistics SME)
+
+- Clerk base RM 2,500 is a common MY SME figure; fully loaded ~RM 2,900 with EPF/SOCSO/EIS/HRDF. [ASSUMPTION: skill baseline, not Hengxing payroll]
+- RM 1,500 is about half a loaded clerk-month.
+- Pays back in the same month only if the map finds at least that much wasted recon or a wrong figure that would have shipped.
+- If the five numbers already trace cleanly, the buyer spent RM 1,500 to learn nothing is broken. That is a real kill.
+
+## Objections that still stand
+
+1. Why not keep the clerk and skip us - needs one concrete miss a clerk cannot catch.
+2. First Hengxing mail promised "we automate the ask" - this offer walks that back; trust cost is unpaid.
+3. Cortex/DMS are not in this cloud environment, so a software demo cannot be given from here.
+4. Cassandra already has live USD checkout and zero customers - a second unpaid product does not print USD 1,000,000.
+5. USD 1,000,000 by 30 Sep 2026 is not implied by RM 0 and one unpaid outbound email.
