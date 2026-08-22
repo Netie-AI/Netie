@@ -6,8 +6,9 @@ Pay:
 - One-page site, RM 500, files + one revision: https://buy.stripe.com/3cIcN54OO6SnaA4g5u9ws07
 
 Stripe live. Invoice on. Card, GrabPay, or Link. Not a subscription.
-FPX is off until the founder enables it in Stripe Dashboard. Payouts are off until identity is verified. MyKad is already in Drive as `Ic.pdf`; upload that in Dashboard.
-Public pay page (~72h): https://litter.catbox.moe/vs14br.html
+FPX is off until enabled in Stripe Dashboard. payouts_enabled=true as of 22 Aug 2026. Business model form still past due.
+Public pay page (~72h from 22 Aug 22:36 MYT): https://litter.catbox.moe/otu3iz.html
+Older copy still up: https://litter.catbox.moe/vs14br.html
 Source: `docs/pay.html`. Not a Coming Soon pitch.
 Fiverr paste: https://docs.google.com/document/d/1z2pWHqJPqmAHBwqyM1G7IUrNVQlaLB8PTtfC4j94B8E/edit
 WhatsApp one-liner: `docs/whatsapp-paste.txt`.
