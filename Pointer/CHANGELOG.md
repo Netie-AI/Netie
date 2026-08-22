@@ -4,6 +4,7 @@ Append-only. Newest first.
 
 ## 2026-08-22
 
+- Unsubscribed the 5-min `loop-pointer-laptop-control` timer. It was re-verifying a loopback daemon and rewriting STATUS. That is not a Devpost submit, not a win, and not laptop control. Founder must continue in a new chat.
 - `install_windows.ps1` now runs `pointer prove` and copies Desktop POINTER_PROVE.json before starting the daemon. A wedged `:7420` no longer aborts the install. `prove` writes the JSON even if `SetCursorPos` raises. Stripe not re-checked this tick.
 - 4-min All Things Agentic demo shot list `docs/AGENTIC_DEMO.md` / Drive `1BE_tt-bZB47vTRJsDgHHJsLMlXEz-dcpvP1cDz3L8uo`. Film after Cloud Run. Not a submitted video. A win is not confirmed. Stripe not re-checked this tick.
 - `scripts/what_is_live.sh` prints local daemon / missing gcloud / no Devpost / no auto-win. Skips Stripe (daily only). Does not deploy.
