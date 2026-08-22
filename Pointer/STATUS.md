@@ -4,7 +4,7 @@
 
 ## Now
 
-1. Verify: `_html` was dropped when QR `_png` landed (pay/root empty reply). Restored + regression test. Re-run after daemon restart is the gate. `Netie-AI/Pointer` still 404.
+1. Verify measured: 18 tests OK, live mouse, `/health`+`/pay` (`pay_ok`)+QR PNG 712 bytes+`GET /` (`root_ok`), gated sandbox write. Git `784effa`. `Netie-AI/Pointer` still 404.
 2. Stripe: charges 0. Pointer `plink_1U7DHhFV5wcFod2f1pf2kUEs` was active last tick. Drive pay sheet still owner-only.
 3. Vercel mail 06:51: project `ruma-houser` flags `netie.ai` and `www.netie.ai` as misconfigured. Apex `https://netie.ai/` still LiteSpeed 200 (HTML 73625 bytes, last-modified 2026-04-03). Do not point the apex at Vercel without a cutover plan. OpenClaw/Hermes not installed here.
 
