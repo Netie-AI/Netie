@@ -139,3 +139,12 @@ oojianhongg@gmail.com
 - Skipped this round: FanPad (Angular/.NET 5+ yrs), DualEntry (LATAM/EU/India mobile or NY EM), Coder (must use careers form), Pingintel (annotation ops lead), Albert (principal/distinguished).
 - Do not mail again unless they reply.
 
+### Softech Associate -- SENT 23 Aug 2026 03:03 MYT
+
+- To: jose.marrero@softechassociate.com
+- Source: Python.org job 8126, Software Engineer (Remote), Panama City Beach, Florida. Site https://softechassociate.com measured HTTP 200.
+- Thread: `1a02adb16c39dfed`
+- Honest: Python/React + RAG. No FastAPI for a US client. Malaysian, Penang. Jumpwin current employer. Asked them to skip if US-only.
+- Also measured this round: HN freelancer thread no comment box; PPH offer/new still walled; Twine inbound empty.
+- Do not mail again unless they reply.
+
