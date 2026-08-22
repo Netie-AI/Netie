@@ -11,7 +11,7 @@ def laptop_next_steps() -> list[str]:
     return [
         "On the Windows laptop, not the cloud VM: copy Pointer/ then run powershell -File scripts/install_windows.ps1",
         "Keep python -m pointer serve on 127.0.0.1:7420. Do not set POINTER_ALLOW_REMOTE=1. If Cortex is the OpenVault mesh on :8000, set CORTEX_URL=http://127.0.0.1:8000 before serve (TAS default is :8010; Pointer will not auto-switch).",
-        "Prove hardware: python -m pointer prove (writes .pointer-state/PROVE.json, no tokens). Then Drive-upload or email Desktop POINTER_PROVE.json only",
+        "Prove hardware: python -m pointer prove (writes .pointer-state/PROVE.json, no tokens). Then Drive-upload Desktop POINTER_PROVE.json only (install script opens Drive My Drive).",
         "Hold tokens on that machine: python -m pointer pair --card. Use pair --show only locally. Do not email tokens.",
         "This cloud VM cannot click D:\\Pointer. Paste tokens only into a Cursor chat on the laptop, then python -m pointer pair --rotate-approval.",
     ]

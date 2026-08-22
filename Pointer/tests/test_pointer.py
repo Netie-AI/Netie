@@ -382,6 +382,7 @@ class PairCardTests(unittest.TestCase):
         self.assertIn("/select,", src)
         self.assertIn("CORTEX_URL", src)
         self.assertIn("mesh", src)
+        self.assertIn("drive.google.com/drive/my-drive", src)
 
     def test_live_click_uses_state_shots(self) -> None:
         src = (Path(__file__).resolve().parents[1] / "pointer" / "__main__.py").read_text(
@@ -396,6 +397,7 @@ class PairCardTests(unittest.TestCase):
         html = laptop_root_html().decode("utf-8")
         self.assertIn("pointer prove", html)
         self.assertIn("POINTER_ALLOW_REMOTE", html)
+        self.assertIn("Drive My Drive", html)
         self.assertNotIn("pair_token:", html)
 
 

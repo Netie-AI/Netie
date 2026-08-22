@@ -98,6 +98,8 @@ if ($desktop) {
     $proveDesk = Join-Path $desktop "POINTER_PROVE.json"
     if (Test-Path $proveDesk) {
         Start-Process explorer.exe -ArgumentList "/select,$proveDesk"
+        Write-Host "opening Drive My Drive so you can upload POINTER_PROVE.json (not PAIR_CARD.txt)"
+        Start-Process "https://drive.google.com/drive/my-drive"
     }
 }
 Write-Host "card: $bootstrap\.pointer-state\PAIR_CARD.txt (gitignored). Do not email tokens."
