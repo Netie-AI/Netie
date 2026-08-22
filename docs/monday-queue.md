@@ -130,3 +130,12 @@ oojianhongg@gmail.com
 - Honest: Product Engineer, not Staff Agentic AI. React/JS + Python RAG. No production Express/GCP/Terraform. Malaysian, Penang. Workable listing may be US-remote; HN said almost anywhere.
 - Do not mail again unless they reply.
 
+### Starbridge -- SENT 23 Aug 2026 02:57 MYT
+
+- To: recruiting@starbridge.ai
+- Source: Ask HN Who is hiring August 2026, item 49157646 (Senior AI Engineer, NYC or Remote; Python/LLM/RAG bonus)
+- Thread: `1a02ad519fd185a3`
+- Honest: mid-level Python RAG at Jumpwin, not senior NYC. No production LangChain/LlamaIndex. Malaysian, Penang. Jumpwin current employer.
+- Skipped this round: FanPad (Angular/.NET 5+ yrs), DualEntry (LATAM/EU/India mobile or NY EM), Coder (must use careers form), Pingintel (annotation ops lead), Albert (principal/distinguished).
+- Do not mail again unless they reply.
+
