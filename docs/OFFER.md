@@ -9,8 +9,8 @@ PRD, RAG, LLM programs, Constructor DAG, desktop agent: email quote. Cortex and 
 
 Stripe live. Invoice on. Card, GrabPay, or Link. Not a subscription.
 FPX is off until enabled in Stripe Dashboard. payouts_enabled=true as of 22 Aug 2026. Business model form still past due.
-Public pay page (durable, Number Trace): https://telegra.ph/Netie-Number-Trace-08-22
-Public hire page (Telegraph, measured 23 Aug 03:30 MYT, title Netie.AI, 3 Stripe hrefs + BrewPage): https://telegra.ph/Netie-AI-landing-page-08-22
+Public hire page (Telegraph, company page + demos): https://telegra.ph/Netie-AI-landing-page-08-22
+Old Number Trace Telegraph URL is rewritten to the same company page (do not leave Side desk / RM 300 headline there).
 Rendered HTML from public GitLab is blocked from this IP as of 23 Aug 02:20 MYT (githack 302 to GitLab sign_in; gitlab.com/jianhongpg/number-trace 403/sign_in; Chrome Cloudflare human check). Do not use those URLs until they measure 200 again.
 Public GitLab snippet 6040859 same sign_in wall.
 Markdown copies: https://rentry.co/mst6o543 and https://rentry.co/gk39ee85 (gk39ee85 rewritten AI-first 23 Aug 02:40 MYT, 3 Stripe hrefs, noindex).
@@ -49,8 +49,7 @@ Old Number Trace writeup still exists for the RM 300/1,500 figure-map SKUs: `doc
 
 - We do not claim a live Stripe charge has landed. last_stripe_check 23 Aug 00:17 MYT was MYR 0.
 - We do not claim USD 200k client revenue.
-- We do not invent reviews. Proof is public URLs.
-- We do not sell casino or gambling products.
+- We do not invent reviews. Proof is public URLs. Every product on the hire page has a live demo href (netie.ai suite, Cortex, AIM, ASA, Constructor, Cassandra, GitHub org).
 
 ## Objections that still stand
 

@@ -23,7 +23,7 @@ You send copy, logo, and any live URL. I return HTML files plus one revision if 
 
 Public work: netie.ai, netie-ai.github.io/constructor, github.com/Netie-AI (Constructor, OpenHBM, OpenForge, Cassandra, Vertex).
 
-I do not sell a public AirGPT login. AirGPT runs on Jumpwin infra.
+Public demos: netie.ai (Cortex, AIM, ASA), netie-ai.github.io/constructor, netie-ai.github.io/Cassandra.
 
 Do not paste Stripe links on Upwork.
 

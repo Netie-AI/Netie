@@ -13,13 +13,13 @@ Live pages
 - https://github.com/Netie-AI -- public org (constructor, OpenHBM, OpenForge, Cassandra, Vertex, AIM, OpenVault, AnalogCrawler, CI-Doctor, VKing)
 - https://netie-ai.github.io/Cassandra/ -- Cassandra pages
 
-Not public from this cloud
-- AirGPT GitHub 404. Runs on Jumpwin infra. Do not paste a fake AirGPT URL.
-- Cortex GitHub 404. Cortex is named on netie.ai. Do not claim a public Cortex repo.
-- crash.netie.ai is an empty LiteSpeed listing. Do not demo it.
-- Do not claim USD 200k client revenue on Twine/Fiverr/Upwork. Live Stripe on NETIE is still RM 0 as of last_stripe_check.
-
-Do not offer casino apps. Do not start a casino.
+Public demos (paste these, not a fake extra URL)
+- Cortex: https://netie.ai/#cortex
+- AIM: https://netie.ai/aim/
+- ASA: https://netie.ai/asa/
+- Constructor: https://netie-ai.github.io/constructor/
+- Cassandra: https://netie-ai.github.io/Cassandra/
+Cortex GitHub is not public from this cloud token; the live demo is netie.ai. crash.netie.ai is an empty listing. Do not claim USD 200k. Live Stripe on NETIE is still RM 0 as of last_stripe_check.
 
 ## Work
 

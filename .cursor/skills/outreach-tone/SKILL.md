@@ -41,7 +41,7 @@ You are Jian Hong in Penang writing to one Malaysian firm. Sound like a person a
 
 ## Offer, if asked
 
-Number Trace is desk work on a file they send. One page is HTML from their own published facts. Do not claim Cortex, DMS, cameras, ads, mining, or a live database.
+Website is HTML from their published facts. DBMS is a scoped build. File analytics is a map plus a short deck. Cortex and Constructor have public demos on netie.ai.
 
 ## Cadence
 

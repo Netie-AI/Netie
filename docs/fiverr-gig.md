@@ -1,6 +1,6 @@
 # Fiverr paste (AI-first, resume-backed)
 
-Post as Jian Hong Oo. Do not claim USD 200k. Do not offer casino apps.
+Post as Jian Hong Oo. Do not claim USD 200k.
 Fiverr login on this VM was wrong password 23 Aug. Do not reset. Do not ask the founder for OTP.
 If you can log in on the laptop, paste Gig A first, then Gig B as extra.
 
@@ -26,11 +26,13 @@ Public work you can open before you buy
 - netie-ai.github.io/constructor
 - github.com/Netie-AI (Constructor, OpenHBM, OpenForge, Cassandra, Vertex)
 
-What you do not get
-- No WordPress hosting
-- No ads account
-- No fake Cortex/AirGPT login
-- AirGPT is Jumpwin-internal. I will not demo a public AirGPT URL that does not exist.
+Public demos you can open before you buy
+- https://netie.ai (suite)
+- https://netie.ai/#cortex (Cortex)
+- https://netie.ai/aim/
+- https://netie.ai/asa/
+- https://netie-ai.github.io/constructor/
+- https://netie-ai.github.io/Cassandra/
 
 Packages
 - Basic: one landing page, files, one revision
@@ -49,5 +51,5 @@ Title:
 I will trace a number in your Excel and write the source
 
 Keep the old Number Trace copy. Do not make this the first gig.
-Pay page if they want Stripe instead of Fiverr: https://telegra.ph/Netie-Number-Trace-08-22
+Pay page if they want Stripe instead of Fiverr: https://telegra.ph/Netie-AI-landing-page-08-22 or https://brewpage.app/public/ANzfhLqHto
 Do not charge twice.
