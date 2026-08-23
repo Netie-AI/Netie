@@ -1,9 +1,10 @@
 # Offer: Netie.AI
 
-Canonical public hire page:
-- https://netie.ai/hire/
-- Source: `docs/pay.html`
-- Measured 23 Aug 2026 05:20 MYT: HTTP 200, title `Hire Jian Hong Oo in Penang | AI systems, analysis and websites`, four screenshot assets load from `/hire/assets/`, the source-trace CTA loads, and the existing suite homepage / app routes remain intact.
+Canonical public pages:
+- Product landing: https://netie.ai/ (original April Next.js homepage, including Suite chat)
+- Suite / demo index: https://netie.ai/suite/
+- Hire / introduce: https://netie.ai/hire/
+- Source: `docs/pay.html` for hire; do not replace the Next.js homepage
 
 Offer and checkout links:
 - Internal operations system, RM 20,000 after a written scope: https://buy.stripe.com/6oU28rdlk4KffUo06w9ws09 (`prod_V7ZigLN74TMIC7` / `price_1U7KYnFV5wcFod2fn9hDMBek`). Send this only after the buyer accepts the scope.

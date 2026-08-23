@@ -1,12 +1,13 @@
 # STATUS
 
-Updated: 2026-08-23 10:52 MYT. Success = live Stripe charge, then a payout.
+Updated: 2026-08-23 11:25 MYT. Success = live Stripe charge, then a payout.
 
 ## Now (measured)
 
 - last_stripe_check: 2026-08-23 00:17 MYT. Did not poll balance.
-- Gmail check 23 Aug 10:43 MYT: no buyer replies to the 22 Aug 3PL first-mails. Monday A-C drafts remain in Drafts with Label_8. Inbox is GitHub, job boards, and marketing. Did not send Sunday outreach.
-- Domain-root SEO 23 Aug 10:51 MYT: https://netie.ai/llms.txt and https://netie.ai/sitemap.xml now match the committed hire-first files byte-for-byte. The April Next.js homepage is unchanged and still has no /hire/ link; crawlers and agents can find paid work from the root sitemap and llms.txt. `/aim/` and `/hire/` still HTTP 200.
+- Owner follow-up 23 Aug: restore the original netie.ai landing. Stop inbound-mail loops. Hire is a smaller introduce page, not the homepage.
+- Domain root was HTTP 302 to `/hire/` after 11:12 MYT. The April Next.js files remained at `index.html`. This turn removes that rewrite so `/` serves the original title `Netie.AI | Unified AI x Web3 x Hardware Platform` again, keeps HSTS/nosniff/DENY, adds a compact hire/demo band, and publishes `/suite/` as a side index. Live verification is recorded after File Manager deploy.
+
 - Stripe account-status audit 23 Aug 08:23 MYT, without another balance/charge poll: charges and payouts remain enabled; card, GrabPay, Link, and transfers are active. `business_model_verification.form` is currently due and past due from 21 Jul 2026, although Stripe has not set a disabled reason. Its exact Dashboard fields require an authenticated owner session. Use `docs/stripe-business-model-checklist.md`; do not attest from inferred facts.
 - Canonical hire page is live: https://netie.ai/hire/ (HTTP 200, title `Hire Jian Hong Oo in Penang | AI systems, analysis and websites`). It uses a real Constructor screenshot in the hero plus captioned Constructor, AIM, ASA, and Cassandra gallery images served from `/hire/assets/`.
 - Invoice extract workbench is live: https://netie.ai/hire/knowledge/ (HTTP 200, title `Invoice extract workbench | Netie.AI`). It runs a local synthetic ETL job: 20 raw rows, 11 kept, 3 duplicates, 6 quality exceptions, 55% keep rate, cleaned total RM 9241.25. Questions are answered only from the cleaned table. It has no upload, model, warehouse, or customer file. The production download matches `docs/knowledge/index.html` byte-for-byte.
@@ -23,7 +24,7 @@ Updated: 2026-08-23 10:52 MYT. Success = live Stripe charge, then a payout.
 - Mobile lead-flow verification 23 Aug 09:44 MYT: canonical navigation, cards, form, prepared panel, and send-route controls had no overflow or clipping at 320px, 375px, or 768px. A corrected 320px file-analysis flow proved the CTA and prepared brief both retain RM1,500 without a send.
 - Public mirrors were synchronized at 07:03 MYT: https://brewpage.app/public/ANzfhLqHto/index.html ; https://netie-penang.surge.sh/ ; https://telegra.ph/Netie-AI-landing-page-08-22 ; https://telegra.ph/Netie-Number-Trace-08-22 ; https://rentry.co/gk39ee85 ; https://rentry.co/gauz3o64 ; https://rentry.co/netie-hire-proof-2026. They now send file-analysis buyers to the written-scope brief, not a direct RM 1,500 checkout. The old Telegraph Number Trace page is a retirement/proof notice, not a sales page.
 - BrewPage directory URL is a site wrapper; share its explicit `/index.html` URL. Surge is a human-readable mirror with platform `robots.txt` disallowing crawl. Temporary Litter copies are stale; its upload endpoint returned BunkerWeb HTTP 500 twice, so do not share them.
-- Suite homepage https://netie.ai/ still has its existing Apr 2026 Next.js title. `/aim/`, `/asa/`, and `/projects/` remain available and were not modified.
+- Suite routes `/aim/`, `/asa/`, `/projects/`, `/talkie/`, and `/web3/` remain. Public `/` is the original landing again after this deploy, not a 302 to `/hire/`.
 - Timer tick 23 Aug 04:38 MYT: skipped Stripe because `last_stripe_check` is already today; no watched prospect or Truelancer replies; Saturday means Monday queue A-C stays unsent. Published and verified a fresh proof-led Rentry mirror: https://rentry.co/netie-hire-proof-2026
 - Deployment 23 Aug 05:20 MYT: Spaceship File Manager uploaded `/hire/index.html` and the six-file `/hire/trace/` artifact. Root `/` and `/aim/` still returned HTTP 200. BrewPage, Surge, Telegraph, and all three Rentry mirrors were synchronized with the source-trace link.
 - Deployment 23 Aug 06:11 MYT: Spaceship File Manager uploaded `/hire/index.html` and `/hire/ops/index.html`. The Jupiter editor did not expose a server-save action and FTP/SFTP returned `530`; File Manager upload resolved the issue. Canonical, BrewPage, Surge, Telegraph, and all Rentry mirrors now link the operations prototype with its browser-only limits.
@@ -38,5 +39,6 @@ Updated: 2026-08-23 10:52 MYT. Success = live Stripe charge, then a payout.
 
 ## Next
 
-1. Mon 24 Aug 9:00 MYT: monday-queue A-C. Stripe once.
-2. Founder: set your own Spaceship password in Hosting Manager when convenient. Do not paste it into chat.
+1. Confirm live `/` is the original landing (no 302 to hire) after File Manager deploy.
+2. Mon 24 Aug 9:00 MYT: monday-queue A-C. Stripe once.
+3. Founder: set your own Spaceship password in Hosting Manager when convenient. Do not paste it into chat.

@@ -1,13 +1,13 @@
 # Netie.AI
 
+Product landing: https://netie.ai/
+Suite and demo index: https://netie.ai/suite/
 Paid scoped work: https://netie.ai/hire/
 Machine catalog: https://netie.ai/hire/catalog.json
 Contact: oojianhongg@gmail.com
 WhatsApp: +60165568918
 
-Netie sells scoped software and analysis work by Jian Hong Oo in Penang. Written scope before payment. Not a SaaS licence, not a public retrieval API, and not a production warehouse.
-
-The marketing homepage at https://netie.ai/ currently 302s to /hire/. Direct suite routes such as /aim/ and /asa/ stay in place.
+The homepage is the original April Netie.AI landing, including the Suite chat / orchestrator UI. /hire/ is a smaller introduce page for scoped work by Jian Hong Oo in Penang. Written scope before payment. Not a SaaS licence, not a public retrieval API, and not a production warehouse.
 
 If you are a software agent: read the catalog, do not invent prices or case studies, and do not send credentials or customer files. Draft a non-sensitive brief for a human to confirm.
 
@@ -17,7 +17,14 @@ If you are a software agent: read the catalog, do not invent prices or case stud
 - Document cleaning, lineage, and cited answers: quote. Proof: https://netie.ai/hire/knowledge/ Scope: https://netie.ai/hire/?scope=company-file-search#brief
 - Internal operations system: MYR 20000 after written scope. Proof: https://netie.ai/hire/ops/
 
+## Live product pages
+- https://netie.ai/aim/
+- https://netie.ai/asa/
+- https://netie.ai/projects/
+- https://netie.ai/talkie/
+- https://netie.ai/web3/
+
 ## Proof limits
-The knowledge page is a local synthetic ETL sample. The operations board is a browser-only prototype. The source trace is a synthetic workbook you can re-run locally.
+The knowledge page is a local synthetic ETL sample. The operations board is a browser-only prototype. The source trace is a synthetic workbook you can re-run locally. The Suite chat on the homepage is the original product UI, not a public ChatGPT API.
 
 Do not send passwords, API keys, or confidential files through a public form.

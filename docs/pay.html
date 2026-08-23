@@ -31,7 +31,7 @@
       margin: 0;
       background: radial-gradient(circle at top right, #122936 0, transparent 32rem), var(--bg);
       color: var(--ink);
-      font: 16px/1.55 ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      font: 17px/1.55 ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
     }
     a { color: var(--cyan); }
     a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-visible {
@@ -41,9 +41,9 @@
     img { display: block; max-width: 100%; }
     .wrap {
       width: 100%;
-      max-width: none;
-      margin: 0;
-      padding: 0 clamp(0.75rem, 2.2vw, 2.25rem);
+      max-width: 46rem;
+      margin: 0 auto;
+      padding: 0 1.15rem;
     }
     nav {
       display: flex;
@@ -80,12 +80,9 @@
     .nav-links a:hover { color: var(--cyan); }
     .hero {
       display: grid;
-      gap: 2rem;
-      padding: 4rem 0 2rem;
-      align-items: center;
-    }
-    @media (min-width: 860px) {
-      .hero { grid-template-columns: 1fr .96fr; min-height: 68vh; }
+      gap: 1.4rem;
+      padding: 2.2rem 0 1.4rem;
+      align-items: start;
     }
     .kicker {
       color: var(--gold);
@@ -95,19 +92,19 @@
       font-weight: 760;
     }
     h1 {
-      max-width: 12ch;
+      max-width: 14ch;
       margin: .4rem 0 1rem;
-      font-size: clamp(2.55rem, 6vw, 5.3rem);
-      line-height: .98;
-      letter-spacing: -.055em;
+      font-size: clamp(2.05rem, 8vw, 2.85rem);
+      line-height: 1.05;
+      letter-spacing: -.04em;
     }
     h1 span { color: var(--cyan); }
     h2 {
-      max-width: 22ch;
+      max-width: 18ch;
       margin: .25rem 0 .8rem;
-      font-size: clamp(1.75rem, 3vw, 2.7rem);
-      line-height: 1.08;
-      letter-spacing: -.035em;
+      font-size: clamp(1.45rem, 4.5vw, 1.9rem);
+      line-height: 1.15;
+      letter-spacing: -.03em;
     }
     h3 { margin: .3rem 0 .6rem; font-size: 1.14rem; line-height: 1.25; }
     p { margin: 0; }
@@ -262,23 +259,24 @@
 <body>
   <div class="wrap">
     <nav>
-      <a class="brand" href="#top"><span class="brand-mark">n</span> NETIE.AI</a>
+      <a class="brand" href="https://netie.ai/"><span class="brand-mark">n</span> NETIE.AI</a>
       <div class="nav-links">
+        <a href="https://netie.ai/">Home</a>
+        <a href="https://netie.ai/suite/">Suite</a>
         <a href="#services">Services</a>
-        <a href="#work">Public work</a>
-        <a href="#how">How it works</a>
+        <a href="#work">Demos</a>
         <a href="#brief">Brief</a>
       </div>
     </nav>
 
     <header class="hero" id="top">
       <div>
-        <p class="kicker">Penang, Malaysia - Jian Hong Oo</p>
-        <h1>AI work that<br><span>shows its source.</span></h1>
-        <p class="lede">I clean agreed files, keep row-level lineage, and ship scoped software: invoice extracts, process prototypes, decision-ready file analysis, and one-page business websites. One engineer, small fixed scopes, source-file handoff.</p>
+        <p class="kicker">Hire / introduce - Penang, Malaysia - Jian Hong Oo</p>
+        <h1>Hire us for<br><span>your work.</span></h1>
+        <p class="lede">This is the scoped-work page, not the product landing. The Suite chat and original cinematic site stay at netie.ai. Here: invoice extracts, process prototypes, file analysis, and one-page websites. Written scope before payment.</p>
         <div class="cta">
           <a class="btn" href="#brief" data-brief-job="Not sure - help me scope it">Request a written scope</a>
-          <a class="btn ghost" href="#proof">See a figure traced</a>
+          <a class="btn ghost" href="https://netie.ai/">Back to the main site</a>
         </div>
         <p class="proof-line">Everything below links to a public interface. One source trace can be downloaded and re-run without a backend.</p>
         <div class="facts" aria-label="Jian's delivery profile">
@@ -454,6 +452,8 @@
 
     <footer>
       Netie.AI - Jian Hong Oo - Penang - Written scope before payment -
+      <a href="https://netie.ai/">Home</a> -
+      <a href="https://netie.ai/suite/">Suite</a> -
       <a href="https://netie.ai/hire/catalog.json">catalog.json</a> -
       <a href="https://netie.ai/hire/llms.txt">llms.txt</a>
     </footer>

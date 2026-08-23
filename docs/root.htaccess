@@ -1,6 +1,5 @@
-# Send the domain root to payable hire work.
-# Keep /aim/, /asa/, /projects/, /hire/, and Next.js assets on their own URLs.
-# Restore the security headers that were on the previous document-root .htaccess.
+# Keep the April Next.js homepage at /. Do not send / to /hire/.
+# Hire, AIM, ASA, projects, and Next.js assets stay on their own URLs.
 <IfModule mod_headers.c>
 Header always set Strict-Transport-Security "max-age=31536000"
 Header always set X-Content-Type-Options "nosniff"
@@ -8,6 +7,5 @@ Header always set X-Frame-Options "DENY"
 </IfModule>
 <IfModule mod_rewrite.c>
 RewriteEngine On
-RewriteCond %{REQUEST_URI} ^/$
-RewriteRule ^$ /hire/ [R=302,L]
+# /suite/ is a small hub. Do not rewrite the homepage.
 </IfModule>
