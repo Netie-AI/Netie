@@ -5,6 +5,13 @@
 - Keywords: .htaccess, 302, homepage, suite, hire band, File Manager, HSTS
 - Main idea: The original Next.js landing was still on disk at index.html. Removing the root rewrite restores it. Hire stays a smaller centered introduce page with a compact home-page band.
 
+## Verified result
+
+- `curl -sI https://netie.ai/` is HTTP 200. Title is `Netie.AI | Unified AI x Web3 x Hardware Platform`.
+- Homepage HTML includes `<script src="/home-hire-band.js" defer></script>`. `/home-hire-band.js` matches git.
+- Hire, suite, knowledge, ops, trace, catalog, and both llms/sitemap files match committed source.
+- `/aim/` and `/asa/` remain HTTP 200. HSTS, nosniff, and DENY remain on the homepage response.
+
 ## Do
 
 - Keep HSTS, nosniff, and DENY when replacing document-root .htaccess.

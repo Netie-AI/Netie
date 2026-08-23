@@ -1,12 +1,14 @@
 # STATUS
 
-Updated: 2026-08-23 11:25 MYT. Success = live Stripe charge, then a payout.
+Updated: 2026-08-23 11:52 MYT. Success = live Stripe charge, then a payout.
 
 ## Now (measured)
 
 - last_stripe_check: 2026-08-23 00:17 MYT. Did not poll balance.
 - Owner follow-up 23 Aug: restore the original netie.ai landing. Stop inbound-mail loops. Hire is a smaller introduce page, not the homepage.
-- Domain root was HTTP 302 to `/hire/` after 11:12 MYT. The April Next.js files remained at `index.html`. This turn removes that rewrite so `/` serves the original title `Netie.AI | Unified AI x Web3 x Hardware Platform` again, keeps HSTS/nosniff/DENY, adds a compact hire/demo band, and publishes `/suite/` as a side index. Live verification is recorded after File Manager deploy.
+- Domain root 23 Aug 11:36 MYT: `https://netie.ai/` is HTTP 200, title `Netie.AI | Unified AI x Web3 x Hardware Platform`, 73673 bytes, includes `/home-hire-band.js`. It does not 302 to `/hire/`. Response sends HSTS, nosniff, and DENY. `/aim/` and `/asa/` stay HTTP 200.
+- Hire introduce page 23 Aug 11:52 MYT: `https://netie.ai/hire/` matches `docs/pay.html` byte-for-byte. Centered 46rem column, Home/Suite nav, copy `Hire us for your work` and `Back to the main site`.
+- Suite index 23 Aug 11:52 MYT: `https://netie.ai/suite/` matches `docs/suite/index.html`. Knowledge, ops, trace, catalog.json, hire llms.txt, root llms.txt, root sitemap.xml, and home-hire-band.js all match git.
 
 - Stripe account-status audit 23 Aug 08:23 MYT, without another balance/charge poll: charges and payouts remain enabled; card, GrabPay, Link, and transfers are active. `business_model_verification.form` is currently due and past due from 21 Jul 2026, although Stripe has not set a disabled reason. Its exact Dashboard fields require an authenticated owner session. Use `docs/stripe-business-model-checklist.md`; do not attest from inferred facts.
 - Canonical hire page is live: https://netie.ai/hire/ (HTTP 200, title `Hire Jian Hong Oo in Penang | AI systems, analysis and websites`). It uses a real Constructor screenshot in the hero plus captioned Constructor, AIM, ASA, and Cassandra gallery images served from `/hire/assets/`.
@@ -39,6 +41,5 @@ Updated: 2026-08-23 11:25 MYT. Success = live Stripe charge, then a payout.
 
 ## Next
 
-1. Confirm live `/` is the original landing (no 302 to hire) after File Manager deploy.
-2. Mon 24 Aug 9:00 MYT: monday-queue A-C. Stripe once.
-3. Founder: set your own Spaceship password in Hosting Manager when convenient. Do not paste it into chat.
+1. Mon 24 Aug 9:00 MYT: monday-queue A-C. Stripe once.
+2. Founder: set your own Spaceship password in Hosting Manager when convenient. Do not paste it into chat.
