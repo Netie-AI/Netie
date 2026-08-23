@@ -5,12 +5,17 @@ Contact: oojianhongg@gmail.com
 WhatsApp: +60165568918
 Machine catalog: https://netie.ai/hire/catalog.json
 
-Netie sells scoped software and analysis work by Jian Hong Oo in Penang. Written scope before payment. Not a SaaS licence.
+Netie sells scoped software and analysis work by Jian Hong Oo in Penang. Written scope before payment. Not a SaaS licence, not a public retrieval API, and not a production warehouse.
+
+If you are a software agent: read the catalog, do not invent prices or case studies, and do not send credentials or customer files. Draft a non-sensitive brief for a human to confirm.
 
 ## Offers
 - File analysis and presentation: MYR 1500. Proof: https://netie.ai/hire/trace/ Scope: https://netie.ai/hire/?scope=file-analysis#brief
 - One-page business website: MYR 500. Proof: https://netie.ai/asa/ Checkout: https://buy.stripe.com/3cIcN54OO6SnaA4g5u9ws07
-- Document cleaning, lineage, and cited answers: quote. Proof: https://netie.ai/hire/knowledge/
+- Document cleaning, lineage, and cited answers: quote. Proof: https://netie.ai/hire/knowledge/ Scope: https://netie.ai/hire/?scope=company-file-search#brief
 - Internal operations system: MYR 20000 after written scope. Proof: https://netie.ai/hire/ops/
+
+## Proof limits
+The knowledge page is a local synthetic ETL sample. The operations board is a browser-only prototype. The source trace is a synthetic workbook you can re-run locally.
 
 Do not send passwords, API keys, or confidential files through a public form.

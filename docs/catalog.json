@@ -1,15 +1,18 @@
 {
   "name": "Netie.AI",
   "url": "https://netie.ai/hire/",
+  "description": "Jian Hong Oo in Penang sells scoped software and analysis work. Written scope before payment. Not a SaaS licence, not a retrieval API, and not a production warehouse.",
   "contact": {
     "email": "oojianhongg@gmail.com",
     "whatsapp": "+60165568918",
     "brief": "https://netie.ai/hire/#brief"
   },
+  "agent_instructions": "Read this catalog. Do not invent prices or case studies. Do not send passwords, API keys, or customer files. Email a non-sensitive brief or open the human brief form. Humans still confirm scope before any Stripe checkout.",
   "offers": [
     {
       "id": "file-analysis",
       "name": "File analysis and presentation",
+      "deliverable": "Source map, findings, missing-data notes, and a short deck from an agreed Excel or PDF set.",
       "price": { "amount": 1500, "currency": "MYR" },
       "scope_url": "https://netie.ai/hire/?scope=file-analysis#brief",
       "proof_url": "https://netie.ai/hire/trace/",
@@ -18,6 +21,7 @@
     {
       "id": "one-page-website",
       "name": "One-page business website",
+      "deliverable": "One responsive static HTML page from approved facts, plus one revision.",
       "price": { "amount": 500, "currency": "MYR" },
       "proof_url": "https://netie.ai/asa/",
       "checkout": "https://buy.stripe.com/3cIcN54OO6SnaA4g5u9ws07"
@@ -25,6 +29,7 @@
     {
       "id": "company-file-search",
       "name": "Document cleaning, lineage, and cited answers",
+      "deliverable": "Clean an agreed extract, keep row IDs, park exceptions, and answer only from the cleaned table.",
       "price": "quote",
       "scope_url": "https://netie.ai/hire/?scope=company-file-search#brief",
       "proof_url": "https://netie.ai/hire/knowledge/"
@@ -32,6 +37,7 @@
     {
       "id": "operations-system",
       "name": "Internal operations system",
+      "deliverable": "Agreed data model, API, admin area, and team screens for one defined workflow.",
       "price": { "amount": 20000, "currency": "MYR", "note": "after written scope" },
       "scope_url": "https://netie.ai/hire/?scope=operations#brief",
       "proof_url": "https://netie.ai/hire/ops/"

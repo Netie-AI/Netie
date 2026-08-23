@@ -27,7 +27,12 @@
     a { color: var(--cyan); }
     a:focus-visible { outline: 3px solid var(--gold); outline-offset: 3px; }
     code, pre { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; }
-    .wrap { width: min(96vw, 1480px); margin: 0 auto; }
+    .wrap {
+      width: 100%;
+      max-width: none;
+      margin: 0;
+      padding: 0 clamp(0.75rem, 2.2vw, 2.25rem);
+    }
     nav {
       display: flex;
       align-items: center;

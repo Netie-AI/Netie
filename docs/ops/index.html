@@ -34,7 +34,12 @@
       outline-offset: 3px;
     }
     html { width: 100%; -webkit-text-size-adjust: 100%; }
-    .shell { width: min(96vw, 1760px); margin: 0 auto; }
+    .shell {
+      width: 100%;
+      max-width: none;
+      margin: 0;
+      padding: 0 clamp(0.75rem, 2.2vw, 2.25rem);
+    }
     .sr-only {
       position: absolute;
       width: 1px;
@@ -242,7 +247,6 @@
       .what { grid-template-columns: 1fr; margin-top: 2.5rem; }
     }
     @media (max-width: 470px) {
-      .shell { width: min(100vw - 1rem, 1760px); }
       header { padding-top: 2.5rem; }
       .filters { grid-template-columns: 1fr; }
       .detail { padding: 1rem; }

@@ -18,14 +18,14 @@ Public proof, with honest labels:
 - AIM: file-intake interface sample. It is not a public retrieval backend.
 - ASA: landing page with form and checkout interaction for an unreleased pre-order.
 - Cassandra: illustrative market interface; archive is not wired.
-- ETL and citation workbench: local synthetic invoice extract that normalizes vendors, parses money/dates, drops exact duplicates, parks exceptions, answers only from the cleaned table, and exports CSV/JSON. Live: https://netie.ai/hire/knowledge/
+- Invoice extract workbench: local synthetic ETL that maps vendor aliases, parses MYR and dates, drops exact duplicates, parks exceptions, rolls up vendors, answers only from the cleaned table, and exports CSV/JSON. Live: https://netie.ai/hire/knowledge/
 - Machine-readable offer list for agents: https://netie.ai/hire/catalog.json and https://netie.ai/hire/llms.txt
 - Source trace: a synthetic workbook plus local Python script that resolves one same-sheet `SUM(range)` formula, lists inputs, recomputes the cached value, and refuses a typed figure. Live: https://netie.ai/hire/trace/
 - Operations board: synthetic browser-only queue prototype with local filters, selection, status changes, and JSON download. It has no API, login, customer data, integration, or production workflow. Live: https://netie.ai/hire/ops/
 - Do not market these as customer case studies, performance benchmarks, security certifications, or revenue proof.
 
 Service-card proof mapping on `https://netie.ai/hire/`:
-- Company-file search: linked local ETL and citation workbench plus AIM public intake sample. Neither is a retrieval backend.
+- Company-file search: linked local invoice-extract workbench plus AIM public intake sample. Neither is a retrieval backend.
 - Process map and decision prototype: linked Constructor browser canvas with sample records. It has no live integration.
 - Internal operations system: linked synthetic operations-board prototype, not a claimed production system.
 - One-page website: linked ASA pre-order landing-page demo. It is an unreleased page-craft sample, not a customer case study or delivered client website.

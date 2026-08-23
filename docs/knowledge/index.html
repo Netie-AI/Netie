@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Local ETL and citation workbench | Netie.AI</title>
-  <meta name="description" content="Browser-only workbench that cleans messy synthetic dispatch invoices, shows lineage, flags exceptions, and answers only from the cleaned table.">
+  <title>Invoice extract workbench | Netie.AI</title>
+  <meta name="description" content="Local ETL workbench: clean a messy synthetic invoice extract, keep row lineage, park exceptions, roll up vendors, and answer only from the cleaned table.">
   <link rel="canonical" href="https://netie.ai/hire/knowledge/">
   <style>
     :root {
@@ -34,28 +34,27 @@
       outline-offset: 2px;
     }
     .shell {
-      width: min(96vw, 1760px);
-      margin: 0 auto;
-      padding: 0 0 2rem;
-    }
-    nav, header, .stats, .workbench, .ask, footer {
       width: 100%;
+      max-width: none;
+      margin: 0;
+      padding: 0 clamp(0.75rem, 2.2vw, 2.25rem) 2rem;
     }
     nav {
       display: flex;
       align-items: center;
       justify-content: space-between;
+      gap: 1rem;
       min-height: 56px;
       border-bottom: 1px solid var(--line);
     }
     .brand { color: var(--ink); font-weight: 800; letter-spacing: .12em; text-decoration: none; }
     nav a:last-child { color: var(--muted); font-size: .88rem; }
-    header { padding: 1.4rem 0 1rem; }
+    header { padding: 1.25rem 0 0.85rem; }
     .eyebrow { margin: 0; color: var(--amber); font-size: .7rem; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; }
-    h1 { margin: .35rem 0 .5rem; font-size: clamp(1.6rem, 2.4vw, 2.4rem); letter-spacing: -.03em; }
+    h1 { margin: .35rem 0 .5rem; font-size: clamp(1.55rem, 2.6vw, 2.45rem); letter-spacing: -.03em; }
     h1 span { color: var(--cyan); }
     p { margin: 0; }
-    .lede { color: var(--muted); max-width: 90ch; }
+    .lede { color: var(--muted); max-width: 92ch; }
     .notice {
       margin-top: .8rem;
       padding: .7rem .85rem;
@@ -66,7 +65,7 @@
     }
     .stats {
       display: grid;
-      grid-template-columns: repeat(4, minmax(0, 1fr));
+      grid-template-columns: repeat(6, minmax(0, 1fr));
       gap: .7rem;
       margin: 1rem 0;
     }
@@ -76,13 +75,36 @@
       border-radius: 10px;
       background: var(--panel);
     }
-    .stat b { display: block; font-size: 1.35rem; font-variant-numeric: tabular-nums; }
-    .stat span { color: var(--muted); font-size: .78rem; }
+    .stat b { display: block; font-size: 1.28rem; font-variant-numeric: tabular-nums; }
+    .stat span { color: var(--muted); font-size: .76rem; }
+    .bars {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: .7rem;
+      margin: 0 0 1rem;
+    }
+    .bar {
+      padding: .7rem .85rem;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      background: var(--panel);
+    }
+    .bar span { display: flex; justify-content: space-between; color: var(--muted); font-size: .78rem; }
+    .track { height: 8px; margin-top: .45rem; border-radius: 99px; background: #0c141c; overflow: hidden; }
+    .fill { height: 100%; background: var(--cyan); }
+    .fill.warn { background: var(--amber); }
+    .fill.bad { background: var(--red); }
     .workbench {
       display: grid;
-      grid-template-columns: minmax(0, 1.15fr) 220px minmax(0, 1.15fr);
+      grid-template-columns: minmax(0, 1.2fr) minmax(240px, 0.72fr) minmax(0, 1.2fr);
       gap: .8rem;
-      min-height: 52vh;
+      min-height: 46vh;
+    }
+    .split {
+      display: grid;
+      grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
+      gap: .8rem;
+      margin-top: .8rem;
     }
     .panel {
       min-width: 0;
@@ -98,20 +120,20 @@
       border-bottom: 1px solid var(--line);
       font-size: .95rem;
     }
-    .pipe { padding: .8rem; }
-    .step {
-      margin: 0 0 .65rem;
-      padding: .65rem .7rem;
+    .pipe, .schema { padding: .8rem; }
+    .step, .field {
+      margin: 0 0 .55rem;
+      padding: .55rem .65rem;
       border: 1px solid var(--line);
       border-radius: 8px;
       background: #0c141c;
     }
-    .step b { display: block; font-size: .82rem; }
-    .step span { color: var(--muted); font-size: .78rem; }
-    .table-wrap { overflow: auto; max-height: 58vh; }
+    .step b, .field b { display: block; font-size: .8rem; }
+    .step span, .field span { color: var(--muted); font-size: .76rem; }
+    .table-wrap { overflow: auto; max-height: 52vh; }
     table { width: 100%; border-collapse: collapse; font-size: .78rem; }
     th, td {
-      padding: .45rem .5rem;
+      padding: .42rem .5rem;
       border-bottom: 1px solid var(--line);
       text-align: left;
       vertical-align: top;
@@ -125,7 +147,7 @@
     .mono { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; }
     .ask {
       display: grid;
-      grid-template-columns: minmax(0, 1.2fr) minmax(280px, .8fr);
+      grid-template-columns: minmax(0, 1.25fr) minmax(280px, .75fr);
       gap: .8rem;
       margin-top: .8rem;
     }
@@ -189,15 +211,17 @@
       font-size: .82rem;
     }
     .actions { display: flex; flex-wrap: wrap; gap: .5rem; padding: .8rem; }
-    @media (max-width: 1100px) {
-      .workbench, .ask, .stats { grid-template-columns: 1fr; }
-      .table-wrap { max-height: 42vh; }
+    @media (max-width: 1200px) {
+      .stats, .bars { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+      .workbench, .split, .ask { grid-template-columns: 1fr; }
+      .table-wrap { max-height: 38vh; }
     }
-    @media (max-width: 520px) {
-      .shell { width: min(100vw - 1rem, 1760px); }
+    @media (max-width: 640px) {
+      .stats, .bars { grid-template-columns: 1fr 1fr; }
       form { grid-template-columns: 1fr; }
       .button { width: 100%; }
     }
+    .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0,0,0,0); }
   </style>
 </head>
 <body>
@@ -207,16 +231,23 @@
       <a href="https://netie.ai/hire/?scope=company-file-search#brief">Request a written corpus scope</a>
     </nav>
     <header>
-      <p class="eyebrow">Local ETL workbench - synthetic sample</p>
-      <h1>Clean the inbound file. <span>Keep the lineage.</span></h1>
-      <p class="lede">This page runs a local cleaning job on a messy dispatch-invoice extract: trim names, canonicalize vendors, parse money and dates, drop exact duplicates, and park incomplete rows as exceptions. Questions are answered only from the cleaned table, with the raw row IDs that produced each result.</p>
-      <p class="notice">Synthetic records only. No upload, model, backend, or customer file. Refreshing resets the job. This is a scoped cleaning-and-citation pattern, not a production warehouse.</p>
+      <p class="eyebrow">Local ETL workbench - synthetic dispatch invoices</p>
+      <h1>Clean the extract. <span>Keep the lineage.</span></h1>
+      <p class="lede">This page runs a local cleaning job on a messy invoice extract: trim names, map vendor aliases, parse MYR amounts and calendar dates, require invoice + amount + date + known vendor, drop exact duplicates, and park the rest as exceptions. Vendor totals and answers come only from the cleaned table, with the raw row IDs that produced each result.</p>
+      <p class="notice">Synthetic records only. No upload, model, warehouse, or customer file. Refreshing resets the job. This is the cleaning-and-citation pattern sold as scoped work, not a production ETL platform.</p>
     </header>
     <section class="stats" aria-label="Job totals">
       <div class="stat"><b id="n-raw">0</b><span>Raw inbound rows</span></div>
-      <div class="stat"><b id="n-clean">0</b><span>Rows kept after rules</span></div>
+      <div class="stat"><b id="n-clean">0</b><span>Rows kept</span></div>
       <div class="stat"><b id="n-dup">0</b><span>Exact duplicates dropped</span></div>
-      <div class="stat"><b id="n-ex">0</b><span>Exception rows parked</span></div>
+      <div class="stat"><b id="n-ex">0</b><span>Quality exceptions</span></div>
+      <div class="stat"><b id="n-rate">0%</b><span>Keep rate</span></div>
+      <div class="stat"><b id="n-sum">RM 0</b><span>Cleaned MYR total</span></div>
+    </section>
+    <section class="bars" aria-label="Quality rates">
+      <div class="bar"><span><b>Kept</b><i id="p-keep">0%</i></span><div class="track"><div class="fill" id="b-keep"></div></div></div>
+      <div class="bar"><span><b>Duplicates</b><i id="p-dup">0%</i></span><div class="track"><div class="fill warn" id="b-dup"></div></div></div>
+      <div class="bar"><span><b>Exceptions</b><i id="p-ex">0%</i></span><div class="track"><div class="fill bad" id="b-ex"></div></div></div>
     </section>
     <main class="workbench">
       <section class="panel">
@@ -224,11 +255,14 @@
         <div class="table-wrap"><table id="raw-table"></table></div>
       </section>
       <aside class="panel">
+        <h2>Job contract</h2>
+        <div class="schema" id="schema"></div>
         <h2>Applied rules</h2>
         <div class="pipe" id="pipe"></div>
         <div class="actions">
           <button class="button ghost" id="export-clean" type="button">Download cleaned CSV</button>
           <button class="button ghost" id="export-ex" type="button">Download exceptions JSON</button>
+          <button class="button ghost" id="export-job" type="button">Download job JSON</button>
         </div>
       </aside>
       <section class="panel">
@@ -236,12 +270,22 @@
         <div class="table-wrap"><table id="clean-table"></table></div>
       </section>
     </main>
+    <section class="split">
+      <section class="panel">
+        <h2>Parked exceptions</h2>
+        <div class="table-wrap"><table id="ex-table"></table></div>
+      </section>
+      <section class="panel">
+        <h2>Vendor rollup from cleaned rows</h2>
+        <div class="table-wrap"><table id="vendor-table"></table></div>
+      </section>
+    </section>
     <section class="ask">
       <div class="panel">
         <h2>Ask only what the cleaned table can support</h2>
         <form id="q-form">
           <label class="sr-only" for="q">Question</label>
-          <input id="q" autocomplete="off" placeholder="Ask about duplicates, exceptions, vendor names, or a cleaned total">
+          <input id="q" autocomplete="off" placeholder="Ask about keep rate, exceptions, duplicates, or a cleaned vendor total">
           <button class="button" type="submit">Answer from table</button>
         </form>
         <div class="quick">
@@ -249,122 +293,188 @@
           <button type="button" data-q="Which vendor names were canonicalized?">Vendor names</button>
           <button type="button" data-q="Which invoices were dropped as duplicates?">Duplicates</button>
           <button type="button" data-q="What is the cleaned total for Pen Express?">Pen Express total</button>
+          <button type="button" data-q="What is the keep rate?">Keep rate</button>
           <button type="button" data-q="What is the weather today?">Unknown question</button>
         </div>
         <div class="result" id="result" aria-live="polite"></div>
       </div>
       <aside class="panel">
         <h2>Selected lineage</h2>
-        <div class="lineage" id="lineage">Click a cleaned or raw row to see the source IDs and rules.</div>
+        <div class="lineage" id="lineage">Click a raw, cleaned, or exception row to see source IDs and rules.</div>
       </aside>
     </section>
     <footer>
       <span>Netie.AI - Jian Hong Oo - Penang - local-file ETL sample</span>
-      <span><a href="https://netie.ai/hire/catalog.json">Machine-readable catalog</a></span>
+      <span><a href="https://netie.ai/hire/catalog.json">Machine-readable catalog</a> - <a href="https://netie.ai/hire/llms.txt">llms.txt</a></span>
     </footer>
   </div>
-  <style>.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0)}</style>
   <script>
     const aliases = {
       "pen express sdn bhd": "PEN EXPRESS",
+      "pen express sdn. bhd.": "PEN EXPRESS",
       "pen express": "PEN EXPRESS",
       "pen-express": "PEN EXPRESS",
       "interocean penang": "INTEROCEAN PENANG",
       "inter ocean png": "INTEROCEAN PENANG",
       "bh armada": "BH ARMADA",
-      "bh armada sdn bhd": "BH ARMADA"
+      "bh armada sdn bhd": "BH ARMADA",
+      "bh-armada": "BH ARMADA"
     };
+    const schema = [
+      ["vendor", "Required. Map through the alias table; unknown names are parked."],
+      ["invoice", "Required. Trimmed invoice number."],
+      ["amount", "Required MYR. Strip RM, spaces, and thousand separators."],
+      ["date", "Required calendar day, stored as ISO YYYY-MM-DD."],
+      ["ref", "Optional dispatch reference. Blank becomes UNSET."]
+    ];
     const raw = [
-      { id: "R01", vendor: "  PEN EXPRESS SDN BHD ", invoice: "INV-1042", amount: "1,250.00", date: "22/08/26", ref: "", note: "carton total" },
-      { id: "R02", vendor: "Pen Express", invoice: "INV-1042", amount: "1250", date: "2026-08-22", ref: "DISP-88", note: "same invoice, extra spaces removed later" },
+      { id: "R01", vendor: "  PEN EXPRESS SDN BHD ", invoice: "INV-1042", amount: "1,250.00", date: "22/08/26", ref: "", note: "leading spaces" },
+      { id: "R02", vendor: "Pen Express", invoice: "INV-1042", amount: "1250", date: "2026-08-22", ref: "DISP-88", note: "same invoice as R01" },
       { id: "R03", vendor: "InterOcean Penang", invoice: "INV-2109", amount: "480.50", date: "21 Aug 2026", ref: "DISP-91", note: "ok" },
       { id: "R04", vendor: "BH ARMADA  ", invoice: "", amount: "900", date: "21-08-2026", ref: "DISP-77", note: "missing invoice" },
-      { id: "R05", vendor: "pen-express", invoice: "INV-1188", amount: "75.00", date: "2026/08/20", ref: "DISP-64", note: "small parts" },
+      { id: "R05", vendor: "pen-express", invoice: "INV-1188", amount: "75.00", date: "2026/08/20", ref: "DISP-64", note: "ok" },
       { id: "R06", vendor: "INTER OCEAN PNG", invoice: "INV-2109", amount: "480.50", date: "2026-08-21", ref: "DISP-91", note: "duplicate of R03" },
-      { id: "R07", vendor: "Unknown stall", invoice: "INV-3001", amount: "n/a", date: "20 Aug", ref: "DISP-12", note: "non-numeric amount" },
-      { id: "R08", vendor: "BH Armada Sdn Bhd", invoice: "INV-0771", amount: "1,080", date: "19/08/2026", ref: "DISP-70", note: "ok" }
+      { id: "R07", vendor: "Unknown stall", invoice: "INV-3001", amount: "n/a", date: "20 Aug", ref: "DISP-12", note: "unknown vendor" },
+      { id: "R08", vendor: "BH Armada Sdn Bhd", invoice: "INV-0771", amount: "1,080", date: "19/08/2026", ref: "DISP-70", note: "ok" },
+      { id: "R09", vendor: "PEN EXPRESS", invoice: "INV-1190", amount: "RM 320.00", date: "18.08.2026", ref: "DISP-61", note: "RM prefix" },
+      { id: "R10", vendor: "interocean  penang", invoice: "INV-2110", amount: "1.205,50", date: "17 Aug 2026", ref: "DISP-55", note: "EU decimal" },
+      { id: "R11", vendor: "WESTPORTS MY", invoice: "INV-4401", amount: "2100", date: "16/08/2026", ref: "DISP-50", note: "not in alias table" },
+      { id: "R12", vendor: "Pen Express Sdn. Bhd.", invoice: "INV-1199", amount: "640", date: "15-08-26", ref: "DISP-48", note: "ok" },
+      { id: "R13", vendor: "BH-ARMADA", invoice: "INV-0771", amount: "1080.00", date: "2026-08-19", ref: "DISP-70", note: "duplicate of R08" },
+      { id: "R14", vendor: "InterOcean Penang", invoice: "INV-2114", amount: "", date: "14/08/2026", ref: "DISP-41", note: "missing amount" },
+      { id: "R15", vendor: "pen express", invoice: "INV-1201", amount: "90.25", date: "13/08/2026", ref: "DISP-39", note: "ok" },
+      { id: "R16", vendor: "NORTHPORT", invoice: "INV-8802", amount: "450", date: "32/08/2026", ref: "DISP-33", note: "impossible date" },
+      { id: "R17", vendor: "PEN EXPRESS SDN BHD", invoice: "INV-1208", amount: "1 480.00", date: "12 Aug 2026", ref: "DISP-30", note: "space thousands" },
+      { id: "R18", vendor: "Inter ocean png", invoice: "INV-2120", amount: "220.00", date: "2026-08-11", ref: "", note: "blank ref" },
+      { id: "R19", vendor: "BH Armada", invoice: "INV-0788", amount: "2,400.00", date: "10/08/2026", ref: "DISP-22", note: "ok" },
+      { id: "R20", vendor: "random cafe", invoice: "INV-9", amount: "12", date: "yesterday", ref: "", note: "junk row" }
     ];
     const rules = [
       "Trim whitespace and collapse repeated spaces.",
-      "Map known vendor aliases to a canonical name.",
-      "Parse amounts; reject blank or non-numeric values.",
-      "Parse dates to ISO; reject incomplete dates.",
-      "Require invoice number plus amount plus date to keep a row.",
+      "Map known vendor aliases; park unknown names.",
+      "Parse MYR amounts, including RM prefixes and EU decimals.",
+      "Parse dates to ISO; reject incomplete or impossible days.",
+      "Keep a row only with invoice + amount + date + known vendor.",
       "Drop later exact matches on vendor + invoice + amount + date."
     ];
 
     function parseAmount(value) {
-      const n = Number(String(value).replace(/,/g, "").trim());
+      let text = String(value).trim().replace(/^RM\s*/i, "").replace(/\s/g, "");
+      if (!text) return null;
+      if (/^\d{1,3}(\.\d{3})+,\d{2}$/.test(text)) text = text.replace(/\./g, "").replace(",", ".");
+      else text = text.replace(/,/g, "");
+      const n = Number(text);
       return Number.isFinite(n) ? n : null;
     }
     function parseDate(value) {
       const text = String(value).trim();
       const iso = text.match(/^(\d{4})-(\d{2})-(\d{2})$/);
-      if (iso) return text;
-      const slash = text.match(/^(\d{1,2})[\/-](\d{1,2})[\/-](\d{2,4})$/);
+      if (iso) return validIso(iso[1], iso[2], iso[3]);
+      const ymd = text.match(/^(\d{4})\/(\d{2})\/(\d{2})$/);
+      if (ymd) return validIso(ymd[1], ymd[2], ymd[3]);
+      const slash = text.match(/^(\d{1,2})[\/.-](\d{1,2})[\/.-](\d{2,4})$/);
       if (slash) {
         const year = slash[3].length === 2 ? "20" + slash[3] : slash[3];
-        return year + "-" + slash[2].padStart(2, "0") + "-" + slash[1].padStart(2, "0");
+        return validIso(year, slash[2], slash[1]);
       }
       const named = text.match(/^(\d{1,2})\s+Aug(?:ust)?(?:\s+(\d{4}))?$/i);
-      if (named && named[2]) return named[2] + "-08-" + named[1].padStart(2, "0");
-      const ymd = text.match(/^(\d{4})\/(\d{2})\/(\d{2})$/);
-      if (ymd) return ymd[1] + "-" + ymd[2] + "-" + ymd[3];
+      if (named && named[2]) return validIso(named[2], "08", named[1]);
       return null;
+    }
+    function validIso(year, month, day) {
+      const y = Number(year);
+      const m = Number(month);
+      const d = Number(day);
+      const dt = new Date(Date.UTC(y, m - 1, d));
+      if (dt.getUTCFullYear() !== y || dt.getUTCMonth() !== m - 1 || dt.getUTCDate() !== d) return null;
+      return y + "-" + String(m).padStart(2, "0") + "-" + String(d).padStart(2, "0");
     }
     function canonVendor(value) {
       const key = String(value).trim().replace(/\s+/g, " ").toLowerCase();
       return aliases[key] || null;
     }
 
-    const exceptions = [];
+    const quality = [];
+    const duplicates = [];
     const cleaned = [];
     const seen = new Map();
     raw.forEach((row) => {
       const vendor = canonVendor(row.vendor);
       const amount = parseAmount(row.amount);
       const date = parseDate(row.date);
-      const invoice = row.invoice.trim();
+      const invoice = String(row.invoice || "").trim();
       const reasons = [];
       if (!vendor) reasons.push("unknown vendor alias");
       if (amount === null) reasons.push("amount not numeric");
       if (!date) reasons.push("date not parseable");
       if (!invoice) reasons.push("invoice missing");
       if (reasons.length) {
-        exceptions.push({ id: row.id, reasons: reasons.join("; "), raw: row });
+        quality.push({ id: row.id, reasons: reasons.join("; "), raw: row });
         return;
       }
       const key = vendor + "|" + invoice + "|" + amount.toFixed(2) + "|" + date;
       if (seen.has(key)) {
-        seen.get(key).from.push(row.id);
-        seen.get(key).rule = "duplicate dropped; first row kept";
-        exceptions.push({ id: row.id, reasons: "exact duplicate of " + seen.get(key).id, raw: row });
+        const first = seen.get(key);
+        first.from.push(row.id);
+        first.rule = "duplicate dropped; first row kept";
+        duplicates.push({ id: row.id, reasons: "exact duplicate of " + first.id, raw: row, of: first.id });
         return;
       }
-      const kept = { id: "C" + String(cleaned.length + 1).padStart(2, "0"), vendor, invoice, amount, date, ref: row.ref || "UNSET", from: [row.id], rule: "kept after parse" };
+      const kept = {
+        id: "C" + String(cleaned.length + 1).padStart(2, "0"),
+        vendor,
+        invoice,
+        amount,
+        date,
+        ref: String(row.ref || "").trim() || "UNSET",
+        from: [row.id],
+        rule: "kept after parse"
+      };
       seen.set(key, kept);
       cleaned.push(kept);
     });
+    const exceptions = quality.concat(duplicates);
+    const vendors = {};
+    cleaned.forEach((row) => {
+      if (!vendors[row.vendor]) vendors[row.vendor] = { vendor: row.vendor, rows: 0, amount: 0, invoices: [] };
+      vendors[row.vendor].rows += 1;
+      vendors[row.vendor].amount += row.amount;
+      vendors[row.vendor].invoices.push(row.invoice);
+    });
+    const vendorList = Object.keys(vendors).sort().map((key) => vendors[key]);
+    const cleanedSum = cleaned.reduce((sum, row) => sum + row.amount, 0);
+    const keepRate = Math.round((cleaned.length / raw.length) * 100);
+    const dupRate = Math.round((duplicates.length / raw.length) * 100);
+    const exRate = Math.round((quality.length / raw.length) * 100);
 
     let selected = cleaned[0] ? cleaned[0].id : null;
     const rawTable = document.getElementById("raw-table");
     const cleanTable = document.getElementById("clean-table");
+    const exTable = document.getElementById("ex-table");
+    const vendorTable = document.getElementById("vendor-table");
     const lineage = document.getElementById("lineage");
     const result = document.getElementById("result");
 
     document.getElementById("n-raw").textContent = String(raw.length);
     document.getElementById("n-clean").textContent = String(cleaned.length);
-    document.getElementById("n-dup").textContent = String(exceptions.filter((item) => item.reasons.indexOf("duplicate") !== -1).length);
-    document.getElementById("n-ex").textContent = String(exceptions.length);
+    document.getElementById("n-dup").textContent = String(duplicates.length);
+    document.getElementById("n-ex").textContent = String(quality.length);
+    document.getElementById("n-rate").textContent = keepRate + "%";
+    document.getElementById("n-sum").textContent = money(cleanedSum);
+    document.getElementById("p-keep").textContent = keepRate + "%";
+    document.getElementById("p-dup").textContent = dupRate + "%";
+    document.getElementById("p-ex").textContent = exRate + "%";
+    document.getElementById("b-keep").style.width = keepRate + "%";
+    document.getElementById("b-dup").style.width = dupRate + "%";
+    document.getElementById("b-ex").style.width = exRate + "%";
+    document.getElementById("schema").innerHTML = schema.map((item) => "<div class=\"field\"><b>" + item[0] + "</b><span>" + item[1] + "</span></div>").join("");
     document.getElementById("pipe").innerHTML = rules.map((rule, i) => "<div class=\"step\"><b>Step " + (i + 1) + "</b><span>" + rule + "</span></div>").join("");
 
     function money(n) { return "RM " + n.toFixed(2); }
+    function parked(id) { return exceptions.some((item) => item.id === id); }
     function renderRaw() {
       rawTable.innerHTML = "<thead><tr><th>ID</th><th>Vendor</th><th>Invoice</th><th>Amount</th><th>Date</th><th>Ref</th></tr></thead><tbody>" +
-        raw.map((row) => {
-          const failed = exceptions.some((item) => item.id === row.id);
-          return "<tr data-raw=\"" + row.id + "\" class=\"" + (failed ? "flag" : "") + "\"><td class=\"mono\">" + row.id + "</td><td>" + row.vendor + "</td><td>" + (row.invoice || "-") + "</td><td>" + row.amount + "</td><td>" + row.date + "</td><td>" + (row.ref || "-") + "</td></tr>";
-        }).join("") + "</tbody>";
+        raw.map((row) => "<tr data-raw=\"" + row.id + "\" class=\"" + (parked(row.id) ? "flag" : "") + "\"><td class=\"mono\">" + row.id + "</td><td>" + row.vendor + "</td><td>" + (row.invoice || "-") + "</td><td>" + (row.amount || "-") + "</td><td>" + row.date + "</td><td>" + (row.ref || "-") + "</td></tr>").join("") + "</tbody>";
       rawTable.querySelectorAll("[data-raw]").forEach((row) => row.addEventListener("click", () => showRaw(row.dataset.raw)));
     }
     function renderClean() {
@@ -376,11 +486,24 @@
         showClean(selected);
       }));
     }
+    function renderEx() {
+      exTable.innerHTML = "<thead><tr><th>ID</th><th>Reason</th></tr></thead><tbody>" +
+        exceptions.map((item) => "<tr data-raw=\"" + item.id + "\" class=\"flag\"><td class=\"mono\">" + item.id + "</td><td>" + item.reasons + "</td></tr>").join("") + "</tbody>";
+      exTable.querySelectorAll("[data-raw]").forEach((row) => row.addEventListener("click", () => showRaw(row.dataset.raw)));
+    }
+    function renderVendors() {
+      vendorTable.innerHTML = "<thead><tr><th>Vendor</th><th>Rows</th><th>Total</th><th>Invoices</th></tr></thead><tbody>" +
+        vendorList.map((item) => "<tr data-vendor=\"" + item.vendor + "\"><td>" + item.vendor + "</td><td>" + item.rows + "</td><td>" + money(item.amount) + "</td><td class=\"mono\">" + item.invoices.join(", ") + "</td></tr>").join("") + "</tbody>";
+      vendorTable.querySelectorAll("[data-vendor]").forEach((row) => row.addEventListener("click", () => {
+        const item = vendors[row.dataset.vendor];
+        lineage.innerHTML = "<p><b class=\"ok\">" + item.vendor + "</b></p><p>" + item.rows + " cleaned rows totalling " + money(item.amount) + ".</p><p>Invoices: " + item.invoices.join(", ") + "</p>";
+      }));
+    }
     function showRaw(id) {
       const row = raw.find((item) => item.id === id);
       const ex = exceptions.find((item) => item.id === id);
       const kept = cleaned.find((item) => item.from.indexOf(id) !== -1);
-      lineage.innerHTML = "<p><b class=\"ok\">Raw " + id + "</b></p><p>Vendor in file: " + row.vendor + "</p><p>" + (ex ? ("Parked: " + ex.reasons) : ("Kept as " + kept.id + ". " + kept.rule)) + "</p>";
+      lineage.innerHTML = "<p><b class=\"" + (ex ? "flag" : "ok") + "\">Raw " + id + "</b></p><p>Vendor in file: " + row.vendor + "</p><p>" + (ex ? ("Parked: " + ex.reasons) : ("Kept as " + kept.id + ". " + kept.rule)) + "</p>";
     }
     function showClean(id) {
       const row = cleaned.find((item) => item.id === id);
@@ -395,32 +518,38 @@
     }
     function answer(question) {
       const q = question.trim().toLowerCase();
-      if (!q) return { text: "Ask about failed rows, vendor aliases, duplicates, or a cleaned vendor total.", no: true, cites: [] };
+      if (!q) return { text: "Ask about keep rate, failed rows, vendor aliases, duplicates, or a cleaned vendor total.", no: true, cites: [] };
+      if (q.indexOf("keep rate") !== -1 || q.indexOf("quality") !== -1) {
+        return {
+          text: "Keep rate is " + keepRate + "% (" + cleaned.length + " of " + raw.length + "). Duplicates " + duplicates.length + ", quality exceptions " + quality.length + ", cleaned total " + money(cleanedSum) + ".",
+          cites: cleaned.flatMap((item) => item.from.slice(0, 1))
+        };
+      }
       if (q.indexOf("fail") !== -1 || q.indexOf("exception") !== -1) {
         return {
-          text: exceptions.length + " rows were parked: " + exceptions.map((item) => item.id + " (" + item.reasons + ")").join("; ") + ".",
-          cites: exceptions.map((item) => item.id)
+          text: quality.length + " quality exceptions: " + quality.map((item) => item.id + " (" + item.reasons + ")").join("; ") + ".",
+          cites: quality.map((item) => item.id)
         };
       }
       if (q.indexOf("vendor") !== -1 || q.indexOf("alias") !== -1 || q.indexOf("canon") !== -1) {
         return {
-          text: "Known aliases collapse to PEN EXPRESS, INTEROCEAN PENANG, and BH ARMADA. Unknown stall stays in exceptions.",
-          cites: ["R01", "R03", "R05", "R08"]
+          text: "Alias table keeps PEN EXPRESS, INTEROCEAN PENANG, and BH ARMADA. WESTPORTS MY, NORTHPORT, Unknown stall, and random cafe stay in exceptions.",
+          cites: ["R01", "R03", "R08", "R11", "R16", "R20"]
         };
       }
       if (q.indexOf("dup") !== -1) {
-        const dups = exceptions.filter((item) => item.reasons.indexOf("duplicate") !== -1);
         return {
-          text: dups.length ? ("Dropped " + dups.map((item) => item.id + " because " + item.reasons).join("; ") + ".") : "No duplicates in this extract.",
-          cites: dups.map((item) => item.id)
+          text: duplicates.length ? ("Dropped " + duplicates.map((item) => item.id + " because " + item.reasons).join("; ") + ".") : "No duplicates in this extract.",
+          cites: duplicates.map((item) => item.id)
         };
       }
-      if (q.indexOf("pen express") !== -1 || q.indexOf("total") !== -1) {
-        const rows = cleaned.filter((item) => item.vendor === "PEN EXPRESS");
-        const total = rows.reduce((sum, item) => sum + item.amount, 0);
+      const hit = vendorList.find((item) => q.indexOf(item.vendor.toLowerCase()) !== -1) || (q.indexOf("pen express") !== -1 ? vendors["PEN EXPRESS"] : null);
+      if (hit || q.indexOf("total") !== -1) {
+        const item = hit || vendors["PEN EXPRESS"];
+        if (!item) return { text: "No matching cleaned vendor total in this extract.", no: true, cites: [] };
         return {
-          text: "Cleaned Pen Express total is " + money(total) + " from " + rows.map((item) => item.invoice).join(" and ") + ".",
-          cites: rows.flatMap((item) => item.from)
+          text: "Cleaned " + item.vendor + " total is " + money(item.amount) + " from " + item.invoices.join(" and ") + ".",
+          cites: cleaned.filter((row) => row.vendor === item.vendor).flatMap((row) => row.from)
         };
       }
       return { text: "No answer is available in this cleaned table. The job only reports cleaning outcomes and vendor totals present in the sample.", no: true, cites: [] };
@@ -430,7 +559,7 @@
       result.innerHTML = "<p class=\"answer" + (response.no ? " no" : "") + "\">" + response.text + "</p>" +
         (response.cites.length ? response.cites.map((id) => {
           const row = raw.find((item) => item.id === id);
-          return "<button class=\"cite\" type=\"button\" data-raw=\"" + id + "\"><b>" + id + "</b> " + row.vendor + " / " + (row.invoice || "no invoice") + " / " + row.amount + "</button>";
+          return "<button class=\"cite\" type=\"button\" data-raw=\"" + id + "\"><b>" + id + "</b> " + row.vendor + " / " + (row.invoice || "no invoice") + " / " + (row.amount || "no amount") + "</button>";
         }).join("") : "<p>No citation, because the table does not support that question.</p>");
       result.querySelectorAll("[data-raw]").forEach((button) => button.addEventListener("click", () => showRaw(button.dataset.raw)));
     }
@@ -450,8 +579,21 @@
     document.getElementById("export-ex").addEventListener("click", () => {
       download("exceptions.json", JSON.stringify(exceptions, null, 2), "application/json");
     });
+    document.getElementById("export-job").addEventListener("click", () => {
+      download("etl-job.json", JSON.stringify({
+        raw_rows: raw.length,
+        kept: cleaned.length,
+        duplicates: duplicates.length,
+        quality_exceptions: quality.length,
+        keep_rate: keepRate,
+        cleaned_total_myr: Number(cleanedSum.toFixed(2)),
+        vendors: vendorList
+      }, null, 2), "application/json");
+    });
     renderRaw();
     renderClean();
+    renderEx();
+    renderVendors();
     showClean(selected);
     renderAnswer("");
   </script>

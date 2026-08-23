@@ -23,7 +23,7 @@ What you get
 
 Public interfaces you can inspect before you buy
 - https://netie.ai/hire/ - real screenshot gallery and the same page craft offered here
-- https://netie.ai/hire/knowledge/ - fixed synthetic cited-answer prototype with local passages and an explicit no-answer state; no upload, model call, or public retrieval backend
+- https://netie.ai/hire/knowledge/ - local synthetic invoice ETL with vendor mapping, exceptions, lineage, and answers only from the cleaned table; no upload, model call, or public retrieval backend
 - https://netie.ai/hire/trace/ - synthetic workbook plus local source trace; download it, run it, and see both a traced figure and an honest refusal
 - https://netie.ai/hire/ops/ - synthetic browser-only operations-board prototype; no API, login, customer data, integration, or production workflow
 - https://netie-ai.github.io/constructor/ - browser-based process canvas; it does not call a production backend
