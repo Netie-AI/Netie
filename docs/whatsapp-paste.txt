@@ -4,6 +4,6 @@ If a report total is hard to explain, I can review an agreed Excel, CSV, PDF, or
 
 Fixed scope: RM 1,500. Before payment, we agree in writing on the decision, files, exclusions, and safe handoff.
 
-https://netie.ai/hire/
+https://netie.ai/hire/?scope=file-analysis#brief
 
 No software. No live-system login. Decision support only, not an audit, legal advice, or financial advice.

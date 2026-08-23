@@ -8,7 +8,7 @@ Canonical public hire page:
 Offer and checkout links:
 - Internal operations system, RM 20,000 after a written scope: https://buy.stripe.com/6oU28rdlk4KffUo06w9ws09 (`prod_V7ZigLN74TMIC7` / `price_1U7KYnFV5wcFod2fn9hDMBek`). Send this only after the buyer accepts the scope.
 - One-page business website, RM 500: https://buy.stripe.com/3cIcN54OO6SnaA4g5u9ws07
-- File analysis + presentation, RM 1,500: request a written scope at https://netie.ai/hire/#brief. Send Stripe checkout only after the scope is accepted (`prod_V7RdC64MzxgLHJ` / `price_1U7Ck9FV5wcFod2fTNu0EkOP`; buyer title: `Netie File Analysis + Presentation`).
+- File analysis + presentation, RM 1,500: request a written scope at https://netie.ai/hire/?scope=file-analysis#brief. Send Stripe checkout only after the scope is accepted (`prod_V7RdC64MzxgLHJ` / `price_1U7Ck9FV5wcFod2fTNu0EkOP`; buyer title: `Netie File Analysis + Presentation`).
 - Company-file search with citations and process map / decision prototype: written quote after a non-sensitive brief.
 
 Stripe is live. Invoice is on. Card, GrabPay, or Link are available. This is not a subscription. FPX remains off until enabled in Stripe Dashboard. `payouts_enabled=true` as of 22 Aug 2026; business-model form remains past due.

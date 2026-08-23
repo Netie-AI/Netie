@@ -453,6 +453,13 @@
     const copyBrief = document.getElementById("copy-brief");
     const mailBrief = document.getElementById("mail-brief");
     const copyStatus = document.getElementById("copy-status");
+    const jobForScope = {
+      "file-analysis": "File analysis and presentation - RM 1,500",
+      "company-file-search": "Company-file search with citations - quote",
+      "process-map": "Process map and decision prototype - quote",
+      "operations": "Internal operations system - RM 20,000 after scope",
+      "website": "One-page static website - RM 500"
+    };
 
     function value(id) {
       return document.getElementById(id).value.trim();
@@ -524,6 +531,10 @@
         copyFallback();
       }
     });
+    const requestedScope = new URLSearchParams(window.location.search).get("scope");
+    if (jobForScope[requestedScope]) {
+      jobField.value = jobForScope[requestedScope];
+    }
     updateWhatsApp();
   </script>
 </body>
