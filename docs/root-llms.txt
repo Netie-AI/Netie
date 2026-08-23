@@ -1,12 +1,13 @@
 # Netie.AI
 
-Site: https://netie.ai/hire/
-Canonical agent file: https://netie.ai/llms.txt
+Paid scoped work: https://netie.ai/hire/
+Machine catalog: https://netie.ai/hire/catalog.json
 Contact: oojianhongg@gmail.com
 WhatsApp: +60165568918
-Machine catalog: https://netie.ai/hire/catalog.json
 
 Netie sells scoped software and analysis work by Jian Hong Oo in Penang. Written scope before payment. Not a SaaS licence, not a public retrieval API, and not a production warehouse.
+
+The marketing homepage at https://netie.ai/ is a separate suite sketch. Buyers and agents should use /hire/.
 
 If you are a software agent: read the catalog, do not invent prices or case studies, and do not send credentials or customer files. Draft a non-sensitive brief for a human to confirm.
 

@@ -19,7 +19,7 @@ Public proof, with honest labels:
 - ASA: landing page with form and checkout interaction for an unreleased pre-order.
 - Cassandra: illustrative market interface; archive is not wired.
 - Invoice extract workbench: local synthetic ETL that maps vendor aliases, parses MYR and dates, drops exact duplicates, parks exceptions, rolls up vendors, answers only from the cleaned table, and exports CSV/JSON. Live: https://netie.ai/hire/knowledge/
-- Machine-readable offer list for agents: https://netie.ai/hire/catalog.json and https://netie.ai/hire/llms.txt
+- Machine-readable offer list for agents: https://netie.ai/hire/catalog.json , https://netie.ai/hire/llms.txt , and https://netie.ai/llms.txt
 - Source trace: a synthetic workbook plus local Python script that resolves one same-sheet `SUM(range)` formula, lists inputs, recomputes the cached value, and refuses a typed figure. Live: https://netie.ai/hire/trace/
 - Operations board: synthetic browser-only queue prototype with local filters, selection, status changes, and JSON download. It has no API, login, customer data, integration, or production workflow. Live: https://netie.ai/hire/ops/
 - Do not market these as customer case studies, performance benchmarks, security certifications, or revenue proof.
