@@ -1,10 +1,12 @@
 # STATUS
 
-Updated: 2026-08-23 10:35 MYT. Success = live Stripe charge, then a payout.
+Updated: 2026-08-23 10:52 MYT. Success = live Stripe charge, then a payout.
 
 ## Now (measured)
 
 - last_stripe_check: 2026-08-23 00:17 MYT. Did not poll balance.
+- Gmail check 23 Aug 10:43 MYT: no buyer replies to the 22 Aug 3PL first-mails. Monday A-C drafts remain in Drafts with Label_8. Inbox is GitHub, job boards, and marketing. Did not send Sunday outreach.
+- Domain-root SEO 23 Aug 10:51 MYT: https://netie.ai/llms.txt and https://netie.ai/sitemap.xml now match the committed hire-first files byte-for-byte. The April Next.js homepage is unchanged and still has no /hire/ link; crawlers and agents can find paid work from the root sitemap and llms.txt. `/aim/` and `/hire/` still HTTP 200.
 - Stripe account-status audit 23 Aug 08:23 MYT, without another balance/charge poll: charges and payouts remain enabled; card, GrabPay, Link, and transfers are active. `business_model_verification.form` is currently due and past due from 21 Jul 2026, although Stripe has not set a disabled reason. Its exact Dashboard fields require an authenticated owner session. Use `docs/stripe-business-model-checklist.md`; do not attest from inferred facts.
 - Canonical hire page is live: https://netie.ai/hire/ (HTTP 200, title `Hire Jian Hong Oo in Penang | AI systems, analysis and websites`). It uses a real Constructor screenshot in the hero plus captioned Constructor, AIM, ASA, and Cassandra gallery images served from `/hire/assets/`.
 - Invoice extract workbench is live: https://netie.ai/hire/knowledge/ (HTTP 200, title `Invoice extract workbench | Netie.AI`). It runs a local synthetic ETL job: 20 raw rows, 11 kept, 3 duplicates, 6 quality exceptions, 55% keep rate, cleaned total RM 9241.25. Questions are answered only from the cleaned table. It has no upload, model, warehouse, or customer file. The production download matches `docs/knowledge/index.html` byte-for-byte.

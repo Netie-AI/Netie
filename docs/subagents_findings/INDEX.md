@@ -19,3 +19,4 @@ This index records reusable findings from focused subagent reviews.
 | [2026-08-23-website-proof-link-deploy.md](2026-08-23-website-proof-link-deploy.md) | ASA, website demo, page craft, public proof, mirrors | The RM500 website offer links to an honestly labelled live page-craft demo. |
 | [2026-08-23-mobile-lead-flow.md](2026-08-23-mobile-lead-flow.md) | mobile, 320px, file analysis, brief form, responsive | The RM1,500 lead handoff stays usable and correctly scoped at phone widths. |
 | [2026-08-23-etl-workbench-deploy.md](2026-08-23-etl-workbench-deploy.md) | ETL, invoice cleaning, lineage, File Manager, viewport, catalog.json | Live knowledge page is a full-width synthetic cleaning job with agent-readable offers. |
+| [2026-08-23-root-seo-llms.md](2026-08-23-root-seo-llms.md) | sitemap, llms.txt, document root, SEO, agent catalog | Root sitemap and llms.txt now point crawlers at payable /hire/ work. |
