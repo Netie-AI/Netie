@@ -27,7 +27,7 @@ Service-card proof mapping on `https://netie.ai/hire/`:
 - Company-file search: linked cited-answer prototype and AIM public intake sample. Neither is a retrieval backend.
 - Process map and decision prototype: linked Constructor browser canvas with sample records. It has no live integration.
 - Internal operations system: linked synthetic operations-board prototype, not a claimed production system.
-- One-page website: linked public-work gallery only, not a claimed website case study.
+- One-page website: linked ASA pre-order landing-page demo. It is an unreleased page-craft sample, not a customer case study or delivered client website.
 - File analysis + presentation: linked reproducible source trace with synthetic data.
 
 Public mirrors:
