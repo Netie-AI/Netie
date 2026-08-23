@@ -1,10 +1,11 @@
 # STATUS
 
-Updated: 2026-08-23 08:12 MYT. Success = live Stripe charge, then a payout.
+Updated: 2026-08-23 08:23 MYT. Success = live Stripe charge, then a payout.
 
 ## Now (measured)
 
 - last_stripe_check: 2026-08-23 00:17 MYT. Did not poll balance.
+- Stripe account-status audit 23 Aug 08:23 MYT, without another balance/charge poll: charges and payouts remain enabled; card, GrabPay, Link, and transfers are active. `business_model_verification.form` is currently due and past due from 21 Jul 2026, although Stripe has not set a disabled reason. Its exact Dashboard fields require an authenticated owner session. Use `docs/stripe-business-model-checklist.md`; do not attest from inferred facts.
 - Canonical hire page is live: https://netie.ai/hire/ (HTTP 200, title `Hire Jian Hong Oo in Penang | AI systems, analysis and websites`). It uses a real Constructor screenshot in the hero plus captioned Constructor, AIM, ASA, and Cassandra gallery images served from `/hire/assets/`.
 - Synthetic cited-answer prototype is live: https://netie.ai/hire/knowledge/ (HTTP 200, title `Synthetic cited-answer prototype | Netie.AI`). It returns preset answers and local citations from a fixed synthetic source set, or an explicit no-answer state. It has no file upload, model call, embedding, public retrieval backend, customer data, login, analytics, or network request. The production download matches `docs/knowledge/index.html` byte-for-byte.
 - Reproducible source trace is live: https://netie.ai/hire/trace/ (HTTP 200, title `One figure, traced to its source | Netie.AI`). It serves a synthetic workbook, local Python script, exact traced output, and exact refusal output. Downloading the production files and running them locally reproduced both outputs byte-for-byte at 05:20 MYT.
