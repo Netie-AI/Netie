@@ -11,7 +11,9 @@
 - PeoplePerHour: logged in; seller application needs a paid plan. Did not buy.
 - Freelancer.com: credentials accepted, repeated reCAPTCHA failed.
 - Twine: https://www.twine.net/jianhong live, available, application_credits=0, inbox empty. Did not buy credits.
-- Truelancer: service submitted 23 Aug. Seller URL https://truelancer.com/freelance-service/i-will-build-an-ai-product-landing-page-from-your-copy-655675 titled for INR 10000 (~USD 120). Status pending moderator approval. Profile city set to George Town, Penang, Malaysia. Constructor screenshot uploaded. Honest Penang copy. No Stripe on the listing.
+- Truelancer: service still pending 23 Aug 14:25 MYT. Seller URL https://truelancer.com/freelance-service/i-will-build-an-ai-product-landing-page-from-your-copy-655675 INR 10000. 0 sold. Bidding blocked on mobile OTP; did not request SMS. Country field locked to India at account level. Image re-upload did not persist through Update Service (Please Try Again).
+- Mastodon: public seeking-work post https://mastodon.social/@jianhongpg/117143382421294576 verified via statuses API. Proof and Twine links present. 0 boosts at post time.
+
 - Guru: login failed.
 - Gumroad: password in the VM file is rejected. Did not reset.
 - Workana: account was created with Facebook; email/password login refused.

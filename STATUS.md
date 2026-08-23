@@ -1,12 +1,12 @@
 # STATUS
 
-Updated: 2026-08-23 14:16 MYT. Success = live Stripe charge, then a payout.
+Updated: 2026-08-23 14:25 MYT. Success = live Stripe charge, then a payout.
 
 ## Now (measured)
 
 - last_stripe_check: 2026-08-23 00:17 MYT. Did not poll balance. Did not poll Gmail again after the owner said stop checking mail.
 - Owner follow-up: forget further landing-page edits until files are uploaded; earn on registered job/freelance accounts.
-- Freelance channels 23 Aug 14:16 MYT: Truelancer service submitted and pending approval at https://truelancer.com/freelance-service/i-will-build-an-ai-product-landing-page-from-your-copy-655675 (INR 10000 landing page, Penang copy, constructor screenshot). Twine https://www.twine.net/jianhong still live, inbox empty, application_credits=0. Fiverr, Guru, and Gumroad passwords fail (did not reset). PeoplePerHour still needs a paid seller plan (not bought). Freelancer.com captcha-blocked. Workana requires Facebook. wantstobehired is a HN aggregator only. HN user jianhongpg has karma 1 so no freelance-thread comment. No marketplace order. Did not poll Stripe.
+- Freelance channels 23 Aug 14:25 MYT: Truelancer service still pending moderator approval at https://truelancer.com/freelance-service/i-will-build-an-ai-product-landing-page-from-your-copy-655675 (0 sold). Bidding needs mobile OTP; did not request SMS. Account country is locked to India; city text is George Town, Penang, Malaysia. Twine https://www.twine.net/jianhong HTTP 200, inbox empty. Public seeking-work post: https://mastodon.social/@jianhongpg/117143382421294576 (API-confirmed public, 0 boosts). Fiverr Google login asked for a password; stopped. No marketplace order. Did not poll Stripe.
 - Domain root 23 Aug 11:36 MYT: `https://netie.ai/` is HTTP 200, title `Netie.AI | Unified AI x Web3 x Hardware Platform`, 73673 bytes, includes `/home-hire-band.js`. It does not 302 to `/hire/`. Response sends HSTS, nosniff, and DENY. `/aim/` and `/asa/` stay HTTP 200.
 - Hire introduce page 23 Aug 11:52 MYT: `https://netie.ai/hire/` matches `docs/pay.html` byte-for-byte. Centered 46rem column, Home/Suite nav, copy `Hire us for your work` and `Back to the main site`.
 - Suite index 23 Aug 11:52 MYT: `https://netie.ai/suite/` matches `docs/suite/index.html`. Knowledge, ops, trace, catalog.json, hire llms.txt, root llms.txt, root sitemap.xml, and home-hire-band.js all match git.

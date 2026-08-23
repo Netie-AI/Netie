@@ -52,6 +52,7 @@ Older Fiverr paste (litterbox vs14br): https://docs.google.com/document/d/1z2pWH
 Upwork catalog paste (on-platform USD 70, no Stripe on Upwork): `docs/upwork-catalog.md`
 Twine freelancer profile (measured 23 Aug 02:16 MYT, HTTP 200): https://www.twine.net/jianhong
 Truelancer landing-page service (submitted 23 Aug, pending moderator approval, not a paid order): https://truelancer.com/freelance-service/i-will-build-an-ai-product-landing-page-from-your-copy-655675
+Public seeking-work post (Mastodon, measured 23 Aug 14:25 MYT): https://mastodon.social/@jianhongpg/117143382421294576
 Display name Jian Hong Oo. Roles AI Engineer + Web Developer. day_rate 18000 USD cents ($180/day). Sector Information Technology. has_resume=true (PDF uploaded to Twine; source `docs/resume.md`).
 Work: Jumpwin Technologies Application Engineer (May 2026-Present); Netie.AI AI Engineer (Jul 2021-May 2026). Education: Universiti Malaya BEng Electrical (Dean List), Oct 2022-Jul 2026.
 Skills (resume parse, accepted): Python, Prompt Engineering, API, Large Language Model, Docker, SQL, Cassandra, HTML5, JavaScript, React JS, Microsoft Excel. Freelance Gig removed.
