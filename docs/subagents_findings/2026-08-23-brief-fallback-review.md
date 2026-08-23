@@ -26,3 +26,23 @@
 - The generated email route must be a link rather than an automatic mail-client navigation.
 - Copy feedback must only claim success when copying succeeds; otherwise it must explain manual selection.
 - Canonical, BrewPage, and Surge must be re-published from the same source and tested without sending a brief.
+
+## Canonical deployment return
+
+- Agent: computerUse
+- Keywords: Spaceship, File Manager, native validation, prepared brief, mailto, clipboard
+- Main idea: The canonical page exposes the visible fallback only after valid input and never opens an email app automatically.
+- Spaceship File Manager uploaded `docs/pay.html` to `/hire/index.html`; no account, domain, billing, or Stripe settings changed.
+- Native browser validation kept the panel hidden for an empty submission.
+- With synthetic test data and the file-analysis CTA, the panel showed all nine brief fields and `Need: File analysis and presentation - RM 1,500`.
+- The `mailto:` link existed but was not clicked. Copy showed a success message after a clipboard operation; no brief was pasted, sent, or uploaded.
+
+## Mirror verification return
+
+- Agent: computerUse
+- Keywords: BrewPage, Surge, prepared brief, copy fallback, mailto, no submission
+- Main idea: Both full-page mirrors provide the same locally prepared brief and truthful no-send state as the canonical page.
+- Hard-refreshed BrewPage and Surge passed the synthetic file-analysis brief flow.
+- Each panel displayed `Your brief is ready to send`, stated nothing was sent or uploaded, and included all synthetic form fields.
+- Both `Open my email app` controls were verified as `mailto:` links without being clicked.
+- Copy feedback was visible, and no form submission, file upload, checkout, email, or WhatsApp route occurred during testing.
