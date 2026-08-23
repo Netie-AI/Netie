@@ -1,5 +1,11 @@
 # Send the domain root to payable hire work.
 # Keep /aim/, /asa/, /projects/, /hire/, and Next.js assets on their own URLs.
+# Restore the security headers that were on the previous document-root .htaccess.
+<IfModule mod_headers.c>
+Header always set Strict-Transport-Security "max-age=31536000"
+Header always set X-Content-Type-Options "nosniff"
+Header always set X-Frame-Options "DENY"
+</IfModule>
 <IfModule mod_rewrite.c>
 RewriteEngine On
 RewriteCond %{REQUEST_URI} ^/$
