@@ -17,7 +17,7 @@
       --danger: #efae9f;
     }
     * { box-sizing: border-box; }
-    html { scroll-behavior: smooth; }
+    html { width: 100%; scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
     body {
       margin: 0;
       background: radial-gradient(circle at top right, #123543 0, transparent 34rem), var(--bg);
@@ -27,7 +27,7 @@
     a { color: var(--cyan); }
     a:focus-visible { outline: 3px solid var(--gold); outline-offset: 3px; }
     code, pre { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; }
-    .wrap { width: min(1040px, calc(100% - 2.4rem)); margin: 0 auto; }
+    .wrap { width: min(96vw, 1480px); margin: 0 auto; }
     nav {
       display: flex;
       align-items: center;

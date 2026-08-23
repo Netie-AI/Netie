@@ -1,0 +1,16 @@
+# Netie.AI
+
+Site: https://netie.ai/hire/
+Contact: oojianhongg@gmail.com
+WhatsApp: +60165568918
+Machine catalog: https://netie.ai/hire/catalog.json
+
+Netie sells scoped software and analysis work by Jian Hong Oo in Penang. Written scope before payment. Not a SaaS licence.
+
+## Offers
+- File analysis and presentation: MYR 1500. Proof: https://netie.ai/hire/trace/ Scope: https://netie.ai/hire/?scope=file-analysis#brief
+- One-page business website: MYR 500. Proof: https://netie.ai/asa/ Checkout: https://buy.stripe.com/3cIcN54OO6SnaA4g5u9ws07
+- Document cleaning, lineage, and cited answers: quote. Proof: https://netie.ai/hire/knowledge/
+- Internal operations system: MYR 20000 after written scope. Proof: https://netie.ai/hire/ops/
+
+Do not send passwords, API keys, or confidential files through a public form.

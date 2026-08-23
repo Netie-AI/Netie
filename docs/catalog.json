@@ -1,0 +1,40 @@
+{
+  "name": "Netie.AI",
+  "url": "https://netie.ai/hire/",
+  "contact": {
+    "email": "oojianhongg@gmail.com",
+    "whatsapp": "+60165568918",
+    "brief": "https://netie.ai/hire/#brief"
+  },
+  "offers": [
+    {
+      "id": "file-analysis",
+      "name": "File analysis and presentation",
+      "price": { "amount": 1500, "currency": "MYR" },
+      "scope_url": "https://netie.ai/hire/?scope=file-analysis#brief",
+      "proof_url": "https://netie.ai/hire/trace/",
+      "checkout_after_written_scope": "https://buy.stripe.com/dRm8wP3KKfoT9w0g5u9ws03"
+    },
+    {
+      "id": "one-page-website",
+      "name": "One-page business website",
+      "price": { "amount": 500, "currency": "MYR" },
+      "proof_url": "https://netie.ai/asa/",
+      "checkout": "https://buy.stripe.com/3cIcN54OO6SnaA4g5u9ws07"
+    },
+    {
+      "id": "company-file-search",
+      "name": "Document cleaning, lineage, and cited answers",
+      "price": "quote",
+      "scope_url": "https://netie.ai/hire/?scope=company-file-search#brief",
+      "proof_url": "https://netie.ai/hire/knowledge/"
+    },
+    {
+      "id": "operations-system",
+      "name": "Internal operations system",
+      "price": { "amount": 20000, "currency": "MYR", "note": "after written scope" },
+      "scope_url": "https://netie.ai/hire/?scope=operations#brief",
+      "proof_url": "https://netie.ai/hire/ops/"
+    }
+  ]
+}
