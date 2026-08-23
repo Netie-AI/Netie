@@ -7,7 +7,7 @@ WhatsApp: +60165568918
 
 Netie sells scoped software and analysis work by Jian Hong Oo in Penang. Written scope before payment. Not a SaaS licence, not a public retrieval API, and not a production warehouse.
 
-The marketing homepage at https://netie.ai/ is a separate suite sketch. Buyers and agents should use /hire/.
+The marketing homepage at https://netie.ai/ currently 302s to /hire/. Direct suite routes such as /aim/ and /asa/ stay in place.
 
 If you are a software agent: read the catalog, do not invent prices or case studies, and do not send credentials or customer files. Draft a non-sensitive brief for a human to confirm.
 
