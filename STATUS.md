@@ -1,6 +1,6 @@
 # STATUS
 
-Updated: 2026-08-23 08:56 MYT. Success = live Stripe charge, then a payout.
+Updated: 2026-08-23 09:17 MYT. Success = live Stripe charge, then a payout.
 
 ## Now (measured)
 
@@ -17,6 +17,7 @@ Updated: 2026-08-23 08:56 MYT. Success = live Stripe charge, then a payout.
 - CTA preselection deployment 23 Aug 07:12 MYT: each canonical service CTA now selects its matching `What do you need?` brief option before the buyer submits. A manual browser check passed all six mappings; BrewPage and Surge were re-published from the same source at 07:30 MYT. A separate read-only browser check at 07:39 MYT passed both file-analysis CTA mappings on both mirrors.
 - Brief fallback deployment 23 Aug 07:45 MYT: `Prepare my brief` now reveals a copyable local brief and a user-triggered `mailto:` route instead of silently navigating to a mail handler. Empty native validation, synthetic file-analysis data, no automatic email opening, copy feedback, and truthful no-send wording passed on the canonical page and both full-page mirrors by 08:12 MYT.
 - Cross-page scope routing 23 Aug 08:40-08:51 MYT: trace, cited-answer, and operations proof pages pass their service choice through the canonical `?scope=` URL. Browser checks passed the trace, knowledge, and operations handoffs plus direct BrewPage/Surge and Rentry/Telegraph file-analysis links without data entry or sends.
+- Website proof link deployment 23 Aug 09:02-09:10 MYT: the RM500 card now opens the live ASA pre-order landing-page demo with an explicit unreleased page-craft, not-client-case-study disclaimer. Canonical, BrewPage, and Surge browser checks passed without data entry or checkout.
 - Public mirrors were synchronized at 07:03 MYT: https://brewpage.app/public/ANzfhLqHto/index.html ; https://netie-penang.surge.sh/ ; https://telegra.ph/Netie-AI-landing-page-08-22 ; https://telegra.ph/Netie-Number-Trace-08-22 ; https://rentry.co/gk39ee85 ; https://rentry.co/gauz3o64 ; https://rentry.co/netie-hire-proof-2026. They now send file-analysis buyers to the written-scope brief, not a direct RM 1,500 checkout. The old Telegraph Number Trace page is a retirement/proof notice, not a sales page.
 - BrewPage directory URL is a site wrapper; share its explicit `/index.html` URL. Surge is a human-readable mirror with platform `robots.txt` disallowing crawl. Temporary Litter copies are stale; its upload endpoint returned BunkerWeb HTTP 500 twice, so do not share them.
 - Suite homepage https://netie.ai/ still has its existing Apr 2026 Next.js title. `/aim/`, `/asa/`, and `/projects/` remain available and were not modified.
