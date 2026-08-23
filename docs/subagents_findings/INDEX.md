@@ -17,3 +17,4 @@ This index records reusable findings from focused subagent reviews.
 | [2026-08-23-stripe-business-model-audit.md](2026-08-23-stripe-business-model-audit.md) | Stripe, business model verification, compliance, owner attestation | Payments work today, but the past-due business-model requirement needs owner-controlled answers. |
 | [2026-08-23-cross-page-scope-deploy.md](2026-08-23-cross-page-scope-deploy.md) | query parameter, scope routing, proof links, public mirrors | Public proof links retain the intended brief option across pages and mirrors. |
 | [2026-08-23-website-proof-link-deploy.md](2026-08-23-website-proof-link-deploy.md) | ASA, website demo, page craft, public proof, mirrors | The RM500 website offer links to an honestly labelled live page-craft demo. |
+| [2026-08-23-mobile-lead-flow.md](2026-08-23-mobile-lead-flow.md) | mobile, 320px, file analysis, brief form, responsive | The RM1,500 lead handoff stays usable and correctly scoped at phone widths. |
