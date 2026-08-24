@@ -283,5 +283,16 @@ If a buyer expresses interest, use `docs/file-analysis-scope-template.md` before
 - Ask: RM 500, one revision, page written from their published text. No Stripe link in the first mail.
 - Not 3PL. Did not mail Intergrated Freighters today. Did not poll Stripe.
 - Do not mail BrightAir again unless they reply.
-- Held unused this pass (Coming Soon still live, not mailed): SKL Metal Systems homepage `info@sklmetal.com.my`.
+
+### SKL Metal Systems -- SENT 24 Aug 2026 10:42 MYT
+
+- To: info@sklmetal.com.my (homepage mailto on https://www.sklmetal.com/). One inbox.
+- Source: live https://www.sklmetal.com/services/ HTTP 200 still shows Coming Soon. Homepage lists heavy-duty racking, mezzanine floors, pallet and cantilever racks, and the company established in 2007. SSM 200701022592 (780607-U).
+- `in:sent` to info@sklmetal.com.my was empty before send. Not in existing `docs/*-services.html` drafts.
+- Thread: `1a031a551d6b9d01`
+- Message: `1a031a551d6b9d01`
+- Subject: SKL Metal services page
+- Ask: RM 500, one revision, page written from their published text. No Stripe link in the first mail.
+- Not 3PL. Did not mail Intergrated Freighters today. Did not poll Stripe.
+- Do not mail SKL Metal again unless they reply.
 
