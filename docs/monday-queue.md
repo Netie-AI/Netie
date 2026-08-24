@@ -388,6 +388,7 @@ Owner order 24 Aug 18:14 MYT: clean out other job applies. Do not apply to Evabo
 - Ask: RM 500, one revision, page written from their published text. No Stripe link in the first mail.
 - Not 3PL. Did not mail Intergrated Freighters today. Did not poll Stripe.
 - Do not mail CF Trading again unless they reply.
+- Hostable draft: `docs/proposals/cf-trading-services.html`. Honor RM 500. Send only if they reply. Do not Surge-publish until they ask.
 - Did not mail Kinoro `sales@kinoroengineering.com.my` (same firm already mailed 22 Aug at kinoroengineering@yahoo.com).
 
 ### 3D Bintang Kejuruteraan -- SENT 24 Aug 2026 11:09 MYT
@@ -401,6 +402,7 @@ Owner order 24 Aug 18:14 MYT: clean out other job applies. Do not apply to Evabo
 - Ask: RM 500, one revision, page written from their published text. No Stripe link in the first mail.
 - Not 3PL. Did not mail Intergrated Freighters today. Did not poll Stripe.
 - Do not mail 3D Bintang again unless they reply.
+- Hostable draft: `docs/proposals/3d-bintang-services.html`. Honor RM 500. Send only if they reply. Do not Surge-publish until they ask.
 - Skipped this pass: Innotec `/services/` is filled (not Coming Soon). Fuji Master has no `/services/` Coming Soon page.
 
 ### Pangraph Industrial Supplies -- SENT 24 Aug 2026 11:16 MYT
@@ -426,6 +428,7 @@ Owner order 24 Aug 18:14 MYT: clean out other job applies. Do not apply to Evabo
 - Ask: RM 500, one revision, page written from their published text. No Stripe link in the first mail.
 - Not 3PL. Did not mail Intergrated Freighters today. Did not poll Stripe.
 - Do not mail Onehome again unless they reply.
+- Hostable draft: `docs/proposals/onehome-services.html`. Honor RM 500. Send only if they reply. Do not Surge-publish until they ask.
 
 ### Power Wind Engineering -- SENT 24 Aug 2026 11:33 MYT
 
@@ -474,6 +477,7 @@ Owner order 24 Aug 18:14 MYT: clean out other job applies. Do not apply to Evabo
 - Ask: RM 500, one revision, page written from their published text. No Stripe link in the first mail.
 - Not 3PL. Did not mail Intergrated Freighters today. Did not poll Stripe.
 - Do not mail Zipper Resources again unless they reply.
+- Hostable draft: `docs/proposals/zipper-resources-services.html`. Honor RM 500. Send only if they reply. Do not Surge-publish until they ask. Do not mail kennygo / shipping / purchasing / warehouse.
 
 ### Oryx Plastic -- SENT 24 Aug 2026 12:11 MYT
 
@@ -499,6 +503,7 @@ Owner order 24 Aug 18:14 MYT: clean out other job applies. Do not apply to Evabo
 - Ask: RM 500, one revision, page written from their published text. No Stripe link in the first mail.
 - Not 3PL. Did not mail Intergrated Freighters today. Did not poll Stripe.
 - Do not mail Amazon Net again unless they reply.
+- Hostable draft: `docs/proposals/amazon-net-services.html`. Honor RM 500. Send only if they reply. Do not Surge-publish until they ask.
 
 ### Aerial Mix -- SENT 24 Aug 2026 12:16 MYT
 
@@ -728,6 +733,7 @@ Owner order 24 Aug 18:14 MYT: clean out other job applies. Do not apply to Evabo
 - Ask: RM 1,000 to RM 5,000 after looking at how much copy they need. Draft first. No Stripe. No hire-page link.
 - Not 3PL. Did not mail Intergrated Freighters today. Did not poll Stripe.
 - File: `docs/proposals/anko-hardware.md`.
+- Hostable draft: `docs/proposals/anko-hardware-services.html`. Honor RM 1,000-5,000. Send only if they reply. Do not Surge-publish until they ask.
 - Do not mail ANKO Hardware again unless they reply.
 - Skipped this pass: JSG Machinery, Hexo, ESTAR/bubblewrap, IT2, and Green Energy Automation `/services/` pages are filled, not Coming Soon. AMP tiles services page is a category page, not the Coming Soon placeholder. Netie-AI/dms CI mail is private (404 from this token); did not request access. Steven has not replied to the 14:05 draft.
 

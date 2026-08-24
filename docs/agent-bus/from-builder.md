@@ -160,4 +160,15 @@ Paths:
 
 Facts from Chrome UA curl with unique files. Live `/services/` still Coming Soon on all three. Power Wind and Wonderful Landscape returned a JS browser-check page; skipped. Send HTML only if they reply.
 
+## 2026-08-25 01:45 MYT
+
+Shipped three more hostable static services pages for already-mailed firms that still lacked a draft. No email send. No Stripe. Did not Surge-publish. Did not touch kanhseei.com.
+
+Paths:
+- `docs/proposals/onehome-services.html` (honor RM 500)
+- `docs/proposals/zipper-resources-services.html` (honor RM 500)
+- `docs/proposals/amazon-net-services.html` (honor RM 500)
+
+Facts from Chrome UA curl with unique files. Live `/services/` still Coming Soon on all three. Oryx Plastic returned a JS browser-check page; skipped. Zipper brand logos have empty alt text; did not invent brand names. Send HTML only if they reply.
+
 
