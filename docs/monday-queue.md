@@ -913,6 +913,8 @@ Berjaya and Jin He Jia now go on the same Tuesday timer after the first three, i
 
 ## Queued after the Tue 09:00 five-send (do not send before those five, and not after hours)
 
+Timer `netie-tue-extra-websites-2026-08-25-0920-myt` (`sub_45c60c2e-f97e-4d71-9acf-00d76a35514a`, once, Tue 25 Aug 09:20 MYT). Send existing Gmail drafts only after live `/services/` Coming Soon and empty `in:sent`. Five extras: Leatat, Craft Perfect Tools, Lan Hoe, Pro Helper, KM Super HQ. Not an email-watch loop. No Stripe. One inbox. RM 1,000-5,000. Label `Label_8` after send. Do not Surge-publish until after SENT.
+
 ### Leatat Heavy Transport -- QUEUED draft 25 Aug 2026 00:25 MYT
 
 - To: info@leatat.com.my (contact-page mailto on https://www.leatat.com.my/contactus/). One inbox.

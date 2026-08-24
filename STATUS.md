@@ -1,9 +1,10 @@
 # STATUS
 
-Updated: 2026-08-25 00:40 MYT. Success = live Stripe charge, then a payout.
+Updated: 2026-08-25 00:42 MYT. Success = live Stripe charge, then a payout.
 
 ## Now (measured)
 
+- After hours 25 Aug 00:42 MYT: set once-timer `netie-tue-extra-websites-2026-08-25-0920-myt` (`sub_45c60c2e-f97e-4d71-9acf-00d76a35514a`) to send Leatat plus Craft Perfect, Lan Hoe, Pro Helper, and KM Super HQ after the 09:00 five-send. Did not send tonight. No new Kanhseei / Huawei / Avows mail. Did not nag. Did not poll Stripe. No paid charge yet.
 - After hours 25 Aug 00:40 MYT: hostable Services HTML from live homepage facts for the five extra queued firms (Leatat, Craft Perfect Tools, Lan Hoe, Pro Helper, KM Super HQ). No Stripe. Do not Surge-publish until after they are mailed. Send HTML only if they reply. No new buyer mail. Did not nag Kanhseei. Did not send first-mails. No paid charge yet.
 - After hours 25 Aug 00:35 MYT: queued four more Coming Soon first-mails for after the Tue 09:00 five-send. Craft Perfect Tools `craftperfecttools@gmail.com` draft `r502446274827151328`; Lan Hoe `online@lanhoe.com.my` draft `r-1298835960975874667`; Pro Helper `prohelper99@gmail.com` draft `r3672895988313459318`; KM Super HQ `kmsuperkmsuper@gmail.com` draft `r8774885238944427350` (did not mail Bangi or Mawar). All four live `/services/` Coming Soon, firm-owned mailto, empty `in:sent`. RM 1,000-5,000. No Stripe. Did not send. Did not poll Stripe. No paid charge yet.
 - After hours 25 Aug 00:26 MYT: queued one extra Coming Soon first-mail for after the Tue 09:00 five-send. Leatat Heavy Transport, Butterworth, `info@leatat.com.my` (firm `/contactus/` mailto). Live `/services/` still Coming Soon. Draft `r4406214204731782560`, thread `1a034976325e7aa8`, subject Telok Air Tawar transport page. RM 1,000-5,000. No Stripe. Not a 3PL invoice follow-up. Did not send. UKAI `/services/` is Coming Soon but contact is JSON-LD-only `sales@ukai.com.my`; skipped. KDSOFT and SY Metal Works still NXDOMAIN. Did not nag. No paid charge yet.
