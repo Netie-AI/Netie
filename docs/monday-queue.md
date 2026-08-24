@@ -1038,7 +1038,7 @@ Timer `netie-tue-afternoon-websites-2026-08-25-0940-myt` (`sub_e5ee26e9-1745-4c0
 
 ## Queued after the Tue 09:40 afternoon four-send (do not send before those four, and not after hours)
 
-Timer `netie-tue-mhaus-website-2026-08-25-1000-myt` (`sub_4b45bb99-cf99-44d1-bad2-5137ae0a11c5`, once, Tue 25 Aug 10:00 MYT). Send existing Gmail draft only after live `/services/` Coming Soon and empty `in:sent`. First extra: M Haus Furniture, then the Johor four, then Digno, Paperbaked, F.J. Machinery, HH Metal, Presti, SKH 88, Pro Tent, Hydro Air, WH Bespoke, Teknik Alir, MAC-TECH, Heap Soon, Sinaran, Dilooma, REXOIL, KenHai, Little Hana Florist, Paint Master DIY, and Kossen. Not an email-watch loop. No Stripe. One inbox. RM 1,000-5,000. Label `Label_8` after send. Do not Surge-publish until after SENT. If Kanhseei writes, answer first and honor RM 500. Do not poll Stripe (already done 25 Aug MYT). If the 09:00, 09:20, or 09:40 drafts are still DRAFT at 10:00, send those first after the same live checks. A sixth once-timer was refused (`invalid_argument`); extras share this timer.
+Timer `netie-tue-mhaus-website-2026-08-25-1000-myt` (`sub_4c3643b2-fe2e-49c2-adbe-519e4063088d`, once, Tue 25 Aug 10:00 MYT). Send existing Gmail draft only after live `/services/` Coming Soon and empty `in:sent`. First extra: M Haus Furniture, then the Johor four, then Digno, Paperbaked, F.J. Machinery, HH Metal, Presti, SKH 88, Pro Tent, Hydro Air, WH Bespoke, Teknik Alir, MAC-TECH, Heap Soon, Sinaran, Dilooma, REXOIL, KenHai, Little Hana Florist, Paint Master DIY, and Kossen. Not an email-watch loop. No Stripe. One inbox. RM 1,000-5,000. Label `Label_8` after send. Do not Surge-publish until after SENT. If Kanhseei writes, answer first and honor RM 500. Do not poll Stripe (already done 25 Aug MYT). If the 09:00, 09:20, or 09:40 drafts are still DRAFT at 10:00, send those first after the same live checks. A sixth once-timer was refused (`invalid_argument`); extras share this timer.
 
 ### M Haus Furniture -- QUEUED draft 25 Aug 2026 01:13 MYT
 
@@ -1050,7 +1050,7 @@ Timer `netie-tue-mhaus-website-2026-08-25-1000-myt` (`sub_4b45bb99-cf99-44d1-bad
 
 ## Queued on the same Tue 10:00 M Haus timer (do not send before 10:00, and not after hours)
 
-Same timer `netie-tue-mhaus-website-2026-08-25-1000-myt` (`sub_4b45bb99-cf99-44d1-bad2-5137ae0a11c5`). Send after M Haus if live `/services/` Coming Soon and empty `in:sent`. Four Johor extras: Brilliant Supplies, Top Creative Steel, Loh Cross Border, Jump Belly, then Digno, Paperbaked, F.J. Machinery, HH Metal, Presti, SKH 88, Pro Tent, Hydro Air, WH Bespoke, Teknik Alir, MAC-TECH, Heap Soon, Sinaran, Dilooma, REXOIL, KenHai, Little Hana Florist, Paint Master DIY, and Kossen. Not an email-watch loop. No Stripe. One inbox. RM 1,000-5,000. Label `Label_8` after send. Do not Surge-publish until after SENT. If Kanhseei writes, answer first and honor RM 500. Do not poll Stripe (already done 25 Aug MYT). Loh is a private-car page, not a Thursday 3PL follow-up. Do not mail Brilliant Melaka `stoneshopmelaka@gmail.com`. A separate 10:20 timer was refused (`invalid_argument`, likely a five-timer cap).
+Same timer `netie-tue-mhaus-website-2026-08-25-1000-myt` (`sub_4c3643b2-fe2e-49c2-adbe-519e4063088d`). Send after M Haus if live `/services/` Coming Soon and empty `in:sent`. Four Johor extras: Brilliant Supplies, Top Creative Steel, Loh Cross Border, Jump Belly, then Digno, Paperbaked, F.J. Machinery, HH Metal, Presti, SKH 88, Pro Tent, Hydro Air, WH Bespoke, Teknik Alir, MAC-TECH, Heap Soon, Sinaran, Dilooma, REXOIL, KenHai, Little Hana Florist, Paint Master DIY, and Kossen. Not an email-watch loop. No Stripe. One inbox. RM 1,000-5,000. Label `Label_8` after send. Do not Surge-publish until after SENT. If Kanhseei writes, answer first and honor RM 500. Do not poll Stripe (already done 25 Aug MYT). Loh is a private-car page, not a Thursday 3PL follow-up. Do not mail Brilliant Melaka `stoneshopmelaka@gmail.com`. A separate 10:20 timer was refused (`invalid_argument`, likely a five-timer cap).
 
 ### Brilliant Supplies -- QUEUED draft 25 Aug 2026 01:27 MYT
 
@@ -1265,6 +1265,47 @@ Same timer `netie-tue-mhaus-website-2026-08-25-1000-myt` (`sub_4b45bb99-cf99-44d
 - Draft: `r-6016903420704367907`. Thread: `1a035b01efb46607`. Subject: Klang interior-design page.
 - File: `docs/proposals/deseo-creativo.md`. Hostable draft: `docs/proposals/deseo-creativo-services.html`.
 - Website-page offer, RM 1,000-5,000. No Stripe. Send on the same Tue 10:00 timer after YEEFIXX.
-- Skipped this pass: Berjaya Table and Chair already queued. myofficesupply.com.my mailto is still info@tetrix.com.my. Othentic `/services/` Coming Soon but mailto is enquiry@otts.com.my (domain mismatch). Guangzhou ZEBO is a China hotel-linen maker. Pro Tent, Hydro Air, and HH Metal already queued. Parallel curl HTTP 000 is a VM flake. Do not send before 09:00 MYT.
+
+### RNA Engineering & Trading Sdn Bhd -- QUEUED draft 25 Aug 2026 05:45 MYT
+
+- To: sales@rna.com.my (contact Email Address on https://www.rna.com.my/contactus/). One inbox. Do not mail administrator@rna.com.my.
+- Source: live https://www.rna.com.my/services/ HTTP 200 still Coming Soon (`min-height:440px`). Homepage lists ENGINEERING MALAYSIA'S COOLING INDUSTRY SINCE 1975 and Beijer Ref from Miles Cheras, No. 2, Jalan 4/91A, Taman Shamelin Perkasa, 56100 Kuala Lumpur. SSM 199101014621 (224933-A).
+- Draft: `r1642595948662311907`. Thread: `1a035bc234993175`. Subject: Miles Cheras HVACR page.
+- File: `docs/proposals/rna-engineering.md`. Hostable draft: `docs/proposals/rna-engineering-services.html`.
+- Website-page offer, RM 1,000-5,000. No Stripe. Send on the same Tue 10:00 timer after Deseo Creativo.
+
+### ERCBOX PACKAGING SDN BHD -- QUEUED draft 25 Aug 2026 05:45 MYT
+
+- To: sales@ercbox.com (contact Email Address on https://www.ercbox.com/contactus/). One inbox.
+- Source: live https://www.ercbox.com/services/ HTTP 200 still Coming Soon (`min-height:440px`). Homepage lists Side Lock Cake Box and Tulip Boxes. Contact prints No.35 Jalan P10/16, Taman Industri Selaman, 43650 Bandar Baru Bangi, plus a showroom at 61-2 Jalan Bs 1/1, Pusat Perniagaan Olive Hill, 43300 Seri Kembangan. SSM 1372030-M.
+- Draft: `r8091196469486283017`. Thread: `1a035bc25c01c9ff`. Subject: Bangi carton-box page.
+- File: `docs/proposals/ercbox-packaging.md`. Hostable draft: `docs/proposals/ercbox-packaging-services.html`.
+- Website-page offer, RM 1,000-5,000. No Stripe. Send on the same Tue 10:00 timer after RNA Engineering.
+
+### Sui Design Sdn Bhd -- QUEUED draft 25 Aug 2026 05:45 MYT
+
+- To: marketing@suidesign.my (homepage and `/contactus/` mailto on https://www.suidesign.my/). One inbox.
+- Source: live https://www.suidesign.my/services/ HTTP 200 still Coming Soon (`min-height:440px`). Homepage lists Create Beautiful Spaces That Inspire and Understanding Before Designing from 18, Persiaran Sungai Ara 2, Sungai Ara, 11900 Bayan Lepas, Pulau Pinang. SSM 202101030397 (1430697-A).
+- Draft: `r5717743609495481784`. Thread: `1a035bc245af965a`. Subject: Bayan Lepas interior page.
+- File: `docs/proposals/sui-design.md`. Hostable draft: `docs/proposals/sui-design-services.html`.
+- Website-page offer, RM 1,000-5,000. No Stripe. Send on the same Tue 10:00 timer after ERCBOX.
+
+### VISUALUXE MEDIA -- QUEUED draft 25 Aug 2026 05:45 MYT
+
+- To: visualuxemedia@gmail.com (homepage and `/contactus/` mailto on https://www.visualuxe.com.my/). One inbox.
+- Source: live https://www.visualuxe.com.my/services/ HTTP 200 still Coming Soon (`min-height:440px`); the services title prints Our Portfolio. Homepage lists Your Vision, Our LED! and PRECISION LED DISPLAY TECHNOLOGY. Contact prints JB, Malaysia, with no street. SSM 202403207151 (SA0619059-W).
+- Draft: `r956119582485222594`. Thread: `1a035bc4b2dd8e35`. Subject: Johor Bahru LED page.
+- File: `docs/proposals/visualuxe-media.md`. Hostable draft: `docs/proposals/visualuxe-media-services.html`.
+- Website-page offer, RM 1,000-5,000. No Stripe. Send on the same Tue 10:00 timer after Sui Design.
+
+### Best Kampung Foods Sdn Bhd -- QUEUED draft 25 Aug 2026 05:45 MYT
+
+- To: bestkampung24@gmail.com (homepage and `/contactus/` mailto on https://www.bestkampung.com/). One inbox.
+- Source: live https://www.bestkampung.com/services/ HTTP 200 still Coming Soon (`min-height:440px`). Homepage lists Authentic Kampung Taste and Gegulung Ayam Lima Rempah from 3394, Jalan Pekeliling Tanjung 27/2, Indahpura Industrial Park, 81000 Kulai, Johor. SSM 202401029645 (1575493-V).
+- Draft: `r3766898410558903312`. Thread: `1a035bc273d26c6c`. Subject: Kulai frozen-food page.
+- File: `docs/proposals/best-kampung-foods.md`. Hostable draft: `docs/proposals/best-kampung-foods-services.html`.
+- Website-page offer, RM 1,000-5,000. No Stripe. Send on the same Tue 10:00 timer after VISUALUXE MEDIA.
+- Skipped this pass: Berjaya Table and Chair already queued. myofficesupply.com.my mailto is still info@tetrix.com.my. Othentic `/services/` Coming Soon but mailto is enquiry@otts.com.my (domain mismatch). Guangzhou ZEBO is a China hotel-linen maker. Pro Tent, Hydro Air, and HH Metal already queued. RNA uses sales@ only, not administrator@. Visualuxe `/services/` title is Our Portfolio but body is still Coming Soon. Parallel curl HTTP 000 is a VM flake. Do not send before 09:00 MYT.
+
 
 
