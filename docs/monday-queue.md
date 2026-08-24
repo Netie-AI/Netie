@@ -1456,6 +1456,23 @@ Same timer `netie-tue-mhaus-website-2026-08-25-1000-myt` (`sub_b2d918dd-837e-41a
 - Website-page offer, RM 1,000-5,000. Not a Thursday 3PL follow-up. No Stripe. Send on the same Tue 10:00 timer after VIP Billion Milestone.
 - Skipped this pass: leftover unused classified timeline IDs 5/10/14/16/17/19/21-24/26/28 now 404, including previously working location IDs. NEWPAGES homepage still lists hosts. creativointerior.com already queued as Deseo Creativo. applequeenbeauty.com.sg is Singapore. sapbusinessone.com.my / sgmytransportmpv.com / spclube.com `/services/` 404. WAF still on weisionggroup.com, airborneproject.com.my, angelsbud.com, evhub.my, paradisefnb.com.my, ccsprinting.com.my, dwimakmur.com.my, kianpg.com, asliparts.com.my, hauhifi.com, jesubprinttech.my, mfcsb.com, nesttrend.com.my, onepowertech.com.my. Do not send before 09:00 MYT.
 
+### ELITE CONSULTANTS & TRAINING PLT -- QUEUED draft 25 Aug 2026 07:48 MYT
+
+- To: michelle@elitemanagement.com.my (homepage and `/contactus/` mailto on https://www.elitemanagement.com.my/). One inbox.
+- Source: live https://www.elitemanagement.com.my/services/ HTTP 200 still Coming Soon (`min-height:440px`). Title: Our Services | ELITE CONSULTANTS & TRAINING PLT. Homepage lists Your Pathway to ISO Compliance Starts Here and Enhancing Value Through Strategic ISO & Grant Integration from 51-2, Jalan Sierra 10/2, Bandar 16 Sierra, 47120 Puchong. Title also prints ISO Consultancy Malaysia / ISO Training Services Selangor / Management Training Consultant Kuala Lumpur (KL). SSM LLP0010071-LGN (LLP0010071-LGN). Printed news line QUALITY MANGEMENT SYSTEMS – REQUIRMENTS copied as printed.
+- Draft: `r-2402372785825049534`. Thread: `1a0362c7b2e5f40b`. Subject: Puchong ISO page.
+- File: `docs/proposals/elite-consultants.md`. Hostable draft: `docs/proposals/elite-consultants-services.html`.
+- Website-page offer, RM 1,000-5,000. No Stripe. Send on the same Tue 10:00 timer after MI PACIFIC.
+
+### Mitalee Carpet & Furnishing Sdn Bhd -- QUEUED draft 25 Aug 2026 07:48 MYT
+
+- To: jack@mitalee.com.my (contact-page mailto on https://www.mitalee.com.my/contactus/). One inbox. HQ mailbox only.
+- Source: live https://www.mitalee.com.my/services/ HTTP 200 still Coming Soon (`min-height:440px`). Title: Our Services | Mitalee Carpet & Furnishing Sdn Bhd. Homepage lists FLOORMART carpet and Owclee Contract carpet tiles, and says largest distributor and stockist in the Southern Region of Malaysia. Title prints Carpet & Wallpaper Supplier Malaysia, Johor Bahru (JB), Selangor, Kuala Lumpur (KL) while contact prints HQ 28 & 30,32, Jalan Seroja 45, Taman Johor Jaya, 81100 Johor Bahru. Warehouses in Semenyih, Permas, and SILC print phones only. Footer also prints stockiest and Owlcee. SSM 199401022024 (307703-M).
+- Draft: `r2880132312699073321`. Thread: `1a0362c7da452fa5`. Subject: Johor Jaya carpet page.
+- File: `docs/proposals/mitalee.md`. Hostable draft: `docs/proposals/mitalee-services.html`.
+- Website-page offer, RM 1,000-5,000. No Stripe. Send on the same Tue 10:00 timer after Elite Consultants.
+- Skipped this pass: leftover opening.newpages.com.my hosts with filled `/services/`, 404, HTTP 000, or WAF. weisionggroup.com later unique dumps were WAF after one leftover CS file. Do not send before 09:00 MYT.
+
 
 
 

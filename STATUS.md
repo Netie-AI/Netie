@@ -1,8 +1,10 @@
 # STATUS
 
-Updated: 2026-08-25 07:38 MYT. Success = live Stripe charge, then a payout.
+Updated: 2026-08-25 07:48 MYT. Success = live Stripe charge, then a payout.
 
 ## Now (measured)
+
+- After hours 25 Aug 07:48 MYT: queued two more Coming Soon first-mails on the Tue 10:00 M Haus timer (`sub_8a200fe9-a27f-41a4-bfba-b32e5934c9a5`; previous 10:00 id unsubscribed). Elite Consultants `michelle@elitemanagement.com.my` draft `r-2402372785825049534` (Your Pathway to ISO Compliance Starts Here / Enhancing Value Through Strategic ISO & Grant Integration, Puchong). Mitalee `jack@mitalee.com.my` draft `r2880132312699073321` (FLOORMART carpet / Owclee Contract carpet tiles, Johor Jaya HQ). Both live `/services/` Coming Soon (`min-height:440px`), firm-owned mailto, empty `in:sent`. Hostable HTML from published text only. No Stripe. RM 1,000-5,000. opening.newpages.com.my still lists unused hosts; classified/location timelines 404. Inbox this pass is not a buyer. Did not apply. Kanhseei still ends at SENT `1a0338bc74fae0b4`. Did not send. Did not nag. Did not poll Stripe. No paid charge yet.
 
 - After hours 25 Aug 07:38 MYT: queued one more Coming Soon first-mail on the Tue 10:00 M Haus timer (`sub_aea5c457-2c0f-4b70-83f9-0fec13b45140`; previous 10:00 id unsubscribed). MI PACIFIC SDN BHD `carrental.mi@gmail.com` draft `r-5086820966452328407` (Premium MPV Travel Solutions / Toyota Alphard and Vellfire, Seri Kembangan). Live `/services/` Coming Soon (`min-height:440px`), firm-owned mailto, empty `in:sent`. Hostable HTML from published text only. Website page, not a Thursday 3PL follow-up. No Stripe. RM 1,000-5,000. NEWPAGES classified/location timelines now 404; homepage still lists hosts. Inbox this pass is not a buyer. Did not apply. Kanhseei still ends at SENT `1a0338bc74fae0b4`. Did not send. Did not nag. Did not poll Stripe. No paid charge yet.
 
