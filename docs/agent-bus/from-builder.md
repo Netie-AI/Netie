@@ -237,4 +237,15 @@ Paths:
 
 Live `/services/` still Coming Soon on all three. Afford Thailand address is on the contact page; HQ mailbox only. KT Ware printed lines kept. SPLT 2016 vs 1997 both copied. Send HTML only if they reply.
 
+## 2026-08-25 02:28 MYT
+
+Shipped three more hostable static services pages for already-mailed firms. No email send. No Stripe. Did not Surge-publish. Did not touch kanhseei.com.
+
+Paths:
+- `docs/proposals/siddex-services.html` (honor RM 500)
+- `docs/proposals/nattest-lab-services.html` (honor RM 500)
+- `docs/proposals/arena-business-services.html` (honor RM 500)
+
+Siddex live curl was a 1703-byte check page; facts from earlier same-night dump. Nattest sales@ only. Copy Arena aCompact Body as printed. Send HTML only if they reply.
+
 

@@ -532,6 +532,8 @@ Owner order 24 Aug 18:14 MYT: clean out other job applies. Do not apply to Evabo
 - Subject: Damansara packaging page
 - Ask: RM 500, one revision, page written from their published text. No Stripe link in the first mail.
 - Not 3PL. Did not mail Intergrated Freighters today. Did not poll Stripe.
+- File: `docs/proposals/siddex.md`.
+- Hostable draft: `docs/proposals/siddex-services.html`. Honor RM 500. Send only if they reply. Do not Surge-publish until they ask. Later same-night live curls returned a 1703-byte browser-check page; draft uses the earlier readable homepage dump.
 - Do not mail Siddex Technologies again unless they reply.
 
 ### Nattest Lab -- SENT 24 Aug 2026 12:18 MYT
@@ -544,6 +546,8 @@ Owner order 24 Aug 18:14 MYT: clean out other job applies. Do not apply to Evabo
 - Subject: Sungai Besi testing page
 - Ask: RM 500, one revision, page written from their published text. No Stripe link in the first mail.
 - Not 3PL. Did not mail Intergrated Freighters today. Did not poll Stripe.
+- File: `docs/proposals/nattest-lab.md`.
+- Hostable draft: `docs/proposals/nattest-lab-services.html`. Honor RM 500. Send only if they reply. Do not Surge-publish until they ask. Sales inbox only.
 - Do not mail Nattest Lab again unless they reply.
 
 ### Arena Business Solutions -- SENT 24 Aug 2026 12:18 MYT
@@ -556,6 +560,8 @@ Owner order 24 Aug 18:14 MYT: clean out other job applies. Do not apply to Evabo
 - Subject: Klang office systems page
 - Ask: RM 500, one revision, page written from their published text. No Stripe link in the first mail.
 - Not 3PL. Did not mail Intergrated Freighters today. Did not poll Stripe.
+- File: `docs/proposals/arena-business.md`.
+- Hostable draft: `docs/proposals/arena-business-services.html`. Honor RM 500. Send only if they reply. Do not Surge-publish until they ask. Copy aCompact Body as printed.
 - Do not mail Arena Business Solutions again unless they reply.
 
 ### Kanhseei Teckh -- SENT 24 Aug 2026 12:21 MYT
