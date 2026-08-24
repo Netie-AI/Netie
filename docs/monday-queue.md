@@ -1038,7 +1038,7 @@ Timer `netie-tue-afternoon-websites-2026-08-25-0940-myt` (`sub_e5ee26e9-1745-4c0
 
 ## Queued after the Tue 09:40 afternoon four-send (do not send before those four, and not after hours)
 
-Timer `netie-tue-mhaus-website-2026-08-25-1000-myt` (`sub_16a4a0a5-2945-42fb-99b0-8102240646b0`, once, Tue 25 Aug 10:00 MYT). Send existing Gmail draft only after live `/services/` Coming Soon and empty `in:sent`. First extra: M Haus Furniture, then the Johor four, then Digno, Paperbaked, F.J. Machinery, HH Metal, Presti, SKH 88, Pro Tent, Hydro Air, WH Bespoke, Teknik Alir, MAC-TECH, Heap Soon, Sinaran, Dilooma, REXOIL, KenHai, Little Hana Florist, Paint Master DIY, and Kossen. Not an email-watch loop. No Stripe. One inbox. RM 1,000-5,000. Label `Label_8` after send. Do not Surge-publish until after SENT. If Kanhseei writes, answer first and honor RM 500. Do not poll Stripe (already done 25 Aug MYT). If the 09:00, 09:20, or 09:40 drafts are still DRAFT at 10:00, send those first after the same live checks. A sixth once-timer was refused (`invalid_argument`); extras share this timer.
+Timer `netie-tue-mhaus-website-2026-08-25-1000-myt` (`sub_26af1a49-c00f-47b4-9add-134c50898965`, once, Tue 25 Aug 10:00 MYT). Send existing Gmail draft only after live `/services/` Coming Soon and empty `in:sent`. First extra: M Haus Furniture, then the Johor four, then Digno, Paperbaked, F.J. Machinery, HH Metal, Presti, SKH 88, Pro Tent, Hydro Air, WH Bespoke, Teknik Alir, MAC-TECH, Heap Soon, Sinaran, Dilooma, REXOIL, KenHai, Little Hana Florist, Paint Master DIY, and Kossen. Not an email-watch loop. No Stripe. One inbox. RM 1,000-5,000. Label `Label_8` after send. Do not Surge-publish until after SENT. If Kanhseei writes, answer first and honor RM 500. Do not poll Stripe (already done 25 Aug MYT). If the 09:00, 09:20, or 09:40 drafts are still DRAFT at 10:00, send those first after the same live checks. A sixth once-timer was refused (`invalid_argument`); extras share this timer.
 
 ### M Haus Furniture -- QUEUED draft 25 Aug 2026 01:13 MYT
 
@@ -1050,7 +1050,7 @@ Timer `netie-tue-mhaus-website-2026-08-25-1000-myt` (`sub_16a4a0a5-2945-42fb-99b
 
 ## Queued on the same Tue 10:00 M Haus timer (do not send before 10:00, and not after hours)
 
-Same timer `netie-tue-mhaus-website-2026-08-25-1000-myt` (`sub_16a4a0a5-2945-42fb-99b0-8102240646b0`). Send after M Haus if live `/services/` Coming Soon and empty `in:sent`. Four Johor extras: Brilliant Supplies, Top Creative Steel, Loh Cross Border, Jump Belly, then Digno, Paperbaked, F.J. Machinery, HH Metal, Presti, SKH 88, Pro Tent, Hydro Air, WH Bespoke, Teknik Alir, MAC-TECH, Heap Soon, Sinaran, Dilooma, REXOIL, KenHai, Little Hana Florist, Paint Master DIY, and Kossen. Not an email-watch loop. No Stripe. One inbox. RM 1,000-5,000. Label `Label_8` after send. Do not Surge-publish until after SENT. If Kanhseei writes, answer first and honor RM 500. Do not poll Stripe (already done 25 Aug MYT). Loh is a private-car page, not a Thursday 3PL follow-up. Do not mail Brilliant Melaka `stoneshopmelaka@gmail.com`. A separate 10:20 timer was refused (`invalid_argument`, likely a five-timer cap).
+Same timer `netie-tue-mhaus-website-2026-08-25-1000-myt` (`sub_26af1a49-c00f-47b4-9add-134c50898965`). Send after M Haus if live `/services/` Coming Soon and empty `in:sent`. Four Johor extras: Brilliant Supplies, Top Creative Steel, Loh Cross Border, Jump Belly, then Digno, Paperbaked, F.J. Machinery, HH Metal, Presti, SKH 88, Pro Tent, Hydro Air, WH Bespoke, Teknik Alir, MAC-TECH, Heap Soon, Sinaran, Dilooma, REXOIL, KenHai, Little Hana Florist, Paint Master DIY, and Kossen. Not an email-watch loop. No Stripe. One inbox. RM 1,000-5,000. Label `Label_8` after send. Do not Surge-publish until after SENT. If Kanhseei writes, answer first and honor RM 500. Do not poll Stripe (already done 25 Aug MYT). Loh is a private-car page, not a Thursday 3PL follow-up. Do not mail Brilliant Melaka `stoneshopmelaka@gmail.com`. A separate 10:20 timer was refused (`invalid_argument`, likely a five-timer cap).
 
 ### Brilliant Supplies -- QUEUED draft 25 Aug 2026 01:27 MYT
 
@@ -1321,7 +1321,48 @@ Same timer `netie-tue-mhaus-website-2026-08-25-1000-myt` (`sub_16a4a0a5-2945-42f
 - Draft: `r8635684385642882977`. Thread: `1a035c74a78aa8b7`. Subject: Seremban printing-display page.
 - File: `docs/proposals/city-explorer.md`. Hostable draft: `docs/proposals/city-explorer-services.html`.
 - Website-page offer, RM 1,000-5,000. No Stripe. Send on the same Tue 10:00 timer after The Cake Hunter.
-- Skipped this pass: mycustomstickers.com.my already queued as Ninety Three. Most leftover NEWPAGES `/services/` pages are filled or 404, not Coming Soon. RNA uses sales@ only. Visualuxe `/services/` title is Our Portfolio but body is still Coming Soon. Do not send before 09:00 MYT.
+
+### CM JOHOR PROPERTY -- QUEUED draft 25 Aug 2026 06:22 MYT
+
+- To: hongtrading88@gmail.com (homepage and `/contactus/` mailto on https://www.cmjbproperty.com/). One inbox.
+- Source: live https://www.cmjbproperty.com/services/ HTTP 200 still Coming Soon (`min-height:440px`). Homepage lists PROPERTY . INTERIOR . CURTAIN . FLOORING and From Property to Perfect Living from 68, Jalan Pahlawan 2, Taman Ungku Tun Aminah, 81300 Johor Bahru. Contact copies the printed Pratical Guidiance heading. SSM 201703376783 (JM0827990-X).
+- Draft: `r-6449333155660813786`. Thread: `1a035dda592a6f12`. Subject: Tun Aminah property-interior page.
+- File: `docs/proposals/cm-johor-property.md`. Hostable draft: `docs/proposals/cm-johor-property-services.html`.
+- Website-page offer, RM 1,000-5,000. No Stripe. Send on the same Tue 10:00 timer after City Explorer.
+
+### LUNAA & SIX SDN BHD -- QUEUED draft 25 Aug 2026 06:22 MYT
+
+- To: lunaawomencare@gmail.com (homepage and `/contactus/` mailto on https://www.lunaawomencare.com/). One inbox.
+- Source: live https://www.lunaawomencare.com/services/ HTTP 200 still Coming Soon (`min-height:440px`). Homepage lists Malaysia's first feminine intimate care brand combining 130 million years of rainforest herbal heritage and Probiotic Intimate Care from 76, Jalan Kulim, Taman Tenang, 14000 Bukit Mertajam. SSM 202301044131 (1538047-T).
+- Draft: `r2225112047431278513`. Thread: `1a035dda6276db5b`. Subject: Bukit Mertajam intimate-care page.
+- File: `docs/proposals/lunaa-womencare.md`. Hostable draft: `docs/proposals/lunaa-womencare-services.html`.
+- Website-page offer, RM 1,000-5,000. No Stripe. Send on the same Tue 10:00 timer after CM JOHOR PROPERTY.
+
+### Luxiiigon Studio Sdn Bhd -- QUEUED draft 25 Aug 2026 06:22 MYT
+
+- To: luxiiigon.studio@gmail.com (contact Email Address on https://www.luxiiigonstudio.com/contactus/). One inbox. Do not mail luxiigon.studio@gmail.com.
+- Source: live https://www.luxiiigonstudio.com/services/ HTTP 200 still Coming Soon (`min-height:440px`). Homepage lists REFINED HOMES, THOUGHFULLY DESIGNED and Eco Ardence Aeres, Setia Alam from A-5-8, Medan Connaught, Jalan 3/144A, Taman Bukit Cheras, 56000 Cheras. SSM 201801046578 (1308610-X).
+- Draft: `r4626032946459116636`. Thread: `1a035dda76809e00`. Subject: Cheras feng-shui interior page.
+- File: `docs/proposals/luxiiigon-studio.md`. Hostable draft: `docs/proposals/luxiiigon-studio-services.html`.
+- Website-page offer, RM 1,000-5,000. No Stripe. Send on the same Tue 10:00 timer after LUNAA.
+
+### KLINIK PERGIGIAN RAKYAT DENTAL -- QUEUED draft 25 Aug 2026 06:22 MYT
+
+- To: rakyatdental9@gmail.com (contact-page mailto on https://www.rakyatdental.com/contactus/). One inbox.
+- Source: live https://www.rakyatdental.com/services/ HTTP 200 still Coming Soon (`min-height:440px`). Homepage lists Johor Bahru's Trusted Family Dentist Since 1986 and Dr Ashwin Rajah Vikneswaran from 91A & 93A, Jalan Rawa, Taman Perling, plus Tampoi at No 41-01, Jalan Persiaran Tanjung Susur 1. Clinic no 230102-04402-12.
+- Draft: `r1747599321561340451`. Thread: `1a035dda8e45cadb`. Subject: Perling Tampoi dental page.
+- File: `docs/proposals/rakyat-dental.md`. Hostable draft: `docs/proposals/rakyat-dental-services.html`.
+- Website-page offer, RM 1,000-5,000. No Stripe. Send on the same Tue 10:00 timer after Luxiiigon Studio.
+
+### TechHaus Sdn Bhd -- QUEUED draft 25 Aug 2026 06:22 MYT
+
+- To: enquiry@techhaus.advpg.com (contact Email Address on https://www.techhaus.advpg.com/contactus/). One inbox. HQ mailbox only.
+- Source: live https://www.techhaus.advpg.com/services/ HTTP 200 still Coming Soon (`min-height:440px`). Homepage lists Yellow Jacket, Kanomax, and Frascold from No.16, Jalan Sungai Jeluh 32/192, Nouvelle Kemuning Industrial Park, Seksyen 32, 40460 Shah Alam. SSM 793973-V.
+- Draft: `r9046917530825658721`. Thread: `1a035dda8035f1c1`. Subject: Shah Alam test-instrument page.
+- File: `docs/proposals/techhaus.md`. Hostable draft: `docs/proposals/techhaus-services.html`.
+- Website-page offer, RM 1,000-5,000. No Stripe. Send on the same Tue 10:00 timer after Rakyat Dental.
+- Skipped this pass: gzzebo.com (China), othentic.com.my (enquiry@otts.com.my domain mismatch), myofficesupply.com.my (info@tetrix.com.my domain mismatch), myscienzo.com (1521-byte NEWPAGES stub). Luxiiigon: do not mail luxiigon.studio@. Do not send before 09:00 MYT.
+
 
 
 
