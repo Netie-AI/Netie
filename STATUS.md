@@ -65,7 +65,7 @@ Updated: 2026-08-24 11:46 MYT. Success = live Stripe charge, then a payout.
 
 ## Next
 
-1. Watch the three Monday 3PL threads plus Evaboot `1a0315b3b9066766`, Strello `1a031611e3cda323`, Coder `1a03169a22c21947`, Windmere `1a031752837eab0f`, Seng Kong `1a0319178cc583cc`, IGB Metal `1a0319a7214bf9da`, BrightAir `1a031a145e952beb`, SKL Metal `1a031a551d6b9d01`, Inti Packaging `1a031ade4d8809ae`, Wonderful Landscape `1a031b3e38eef413`, CF Trading `1a031b796c7856af`, 3D Bintang `1a031be4dcef8b70`, Pangraph `1a031c4b32f8af59`, Onehome `1a031c57a402e621`, and Power Wind `1a031d4ce0a950ba`. Do not send a second address at the same firm. Do not mail Intergrated Freighters today.
+1. Watch the three Monday 3PL threads plus Evaboot `1a0315b3b9066766`, Strello `1a031611e3cda323`, Coder `1a03169a22c21947`, Windmere `1a031752837eab0f`, Seng Kong `1a0319178cc583cc`, IGB Metal `1a0319a7214bf9da`, BrightAir `1a031a145e952beb`, SKL Metal `1a031a551d6b9d01`, Inti Packaging `1a031ade4d8809ae`, Wonderful Landscape `1a031b3e38eef413`, CF Trading `1a031b796c7856af`, 3D Bintang `1a031be4dcef8b70`, Pangraph `1a031c4b32f8af59`, Onehome `1a031c57a402e621`, Power Wind `1a031d4ce0a950ba`, and KA Bina `1a031e0e71f9edb6`. Do not send a second address at the same firm. Do not mail Intergrated Freighters today.
 2. Founder: log into Fiverr on the laptop and paste Gig A from `docs/fiverr-gig.md`. Do not send the cloud agent a password or OTP.
 3. Wait for Truelancer moderator approval on the INR 10000 landing-page service, then take platform pay if a buyer appears. Do not also Stripe the same hour.
 4. Thu 27 Aug 09:00 MYT: if a Monday 3PL thread still has no reply, send only that thread's approved follow-up from `docs/monday-queue.md`. Stop if they replied.
