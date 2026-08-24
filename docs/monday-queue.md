@@ -738,5 +738,69 @@ If a buyer expresses interest, use `docs/file-analysis-scope-template.md` before
 - Not 3PL. Did not mail Intergrated Freighters today. Did not poll Stripe.
 - File: `docs/proposals/lentix-solution.md`.
 - Do not mail Lentix again unless they reply.
-- Skipped this pass: PAC Testing, VH Industrial, MJ Works, Soon Huat, TNC, Yu Chin Metal, Cooler Engineering, ATUZ, Pure Cooling, Maxcon, Questa, Yao Teng, Microx, WPK Construction, KH Building Inspection, Reseat, Aumloha, and Mokea `/services/` pages are filled, not Coming Soon. SSE Industries, JIT Pro, Fettmann, Octagon Tech, Pallet Kia, Bagan Printers, STD Parts, AOHA Designs, Parts Papa, and Capital Gardens `/services/` 404. CKL Brother bot-checked. SUNNY Packaging, Key Power, IFAST Printing, Tiek Hup, and Megacold had no Official Website on NEWPAGES. Steven has not replied to the 14:05 draft; did not nag.
+
+### IDEAL HOME JR -- SENT 24 Aug 2026 15:36 MYT
+
+- To: idealhomejr.packagingsolution@gmail.com (homepage mailto on https://www.idealhomejr.com.my/). One inbox.
+- Source: live https://www.idealhomejr.com.my/services/ HTTP 200 still shows Coming Soon (`min-height:440px`). Homepage lists disposable food packaging from 32G, Jalan Puteri 1/4, Bandar Puteri Puchong. SSM 202501007879 (1609293-H).
+- Thread: `1a032b671c09949d`
+- Subject: Puchong packaging page
+- Ask: RM 1,000 to RM 5,000. Draft first. No Stripe. No hire-page link.
+- File: `docs/proposals/ideal-home-jr.md`.
+- Do not mail IDEAL HOME JR again unless they reply.
+
+### UMS Safety -- SENT 24 Aug 2026 15:36 MYT
+
+- To: umssafetyequipment@gmail.com (homepage mailto on https://www.umssafety.com.my/). One inbox.
+- Source: live https://www.umssafety.com.my/services/ Coming Soon. Aluminium scaffold from Jalan Perusahaan 3, Kawasan Perusahaan Beranang. SSM 201801042038 (1304070-H).
+- Thread: `1a032b6733bdc6d2`
+- Subject: Beranang scaffold page
+- File: `docs/proposals/ums-safety.md`.
+- Do not mail UMS Safety again unless they reply.
+
+### Airblock -- SENT 24 Aug 2026 15:36 MYT
+
+- To: enquiry@airblock.com.my (homepage mailto on https://www.airblock.com.my/). One inbox.
+- Source: live https://www.airblock.com.my/services/ Coming Soon. Ventilation / breeze blocks from 5081, Lorong Bagan Vista, Jalan Telaga Air, Butterworth. SSM 202601000524 (1662622-A).
+- Thread: `1a032b674491892d`
+- Subject: Butterworth breeze-block page
+- File: `docs/proposals/airblock.md`.
+- Do not mail Airblock again unless they reply.
+
+### KMK Hardware -- SENT 24 Aug 2026 15:36 MYT
+
+- To: keemkmachinery@gmail.com (homepage mailto on https://www.kmkhardware.com/). One inbox.
+- Source: live https://www.kmkhardware.com/services/ Coming Soon. Machinery hardware and industrial bearings. Contact page names Johor Bahru. SSM 202203203492 (TR0269410-V).
+- Thread: `1a032b6740727edb`
+- Subject: Industrial bearing page
+- File: `docs/proposals/kmk-hardware.md`.
+- Do not mail KMK Hardware again unless they reply.
+
+### Afford Engineering Plastic -- SENT 24 Aug 2026 15:36 MYT
+
+- To: affordengplc@gmail.com (homepage mailto on https://www.affordengineeringplastic.com.my/). One inbox.
+- Source: live https://www.affordengineeringplastic.com.my/services/ Coming Soon. Engineering plastic and rubber sheets from Kawasan Industri Ringan Asas Jaya, Simpang Ampat. SSM 200701041546 (799578-D).
+- Thread: `1a032b677d825689`
+- Subject: Simpang Ampat plastic page
+- File: `docs/proposals/afford-engineering-plastic.md`.
+- Do not mail Afford Engineering Plastic again unless they reply.
+
+### KT Ware -- SENT 24 Aug 2026 15:36 MYT
+
+- To: ktware2021@gmail.com (homepage mailto on https://www.ktware.com.my/). One inbox.
+- Source: live https://www.ktware.com.my/services/ Coming Soon. Household and kitchenware from Lot 1920, Block C, Batu 7, Jalan Bukit Kemuning, Shah Alam. SSM 202101029626 (1429926-H).
+- Thread: `1a032b679fb47558`
+- Subject: Shah Alam kitchenware page
+- File: `docs/proposals/kt-ware.md`.
+- Do not mail KT Ware again unless they reply.
+
+### SPLT -- SENT 24 Aug 2026 15:36 MYT
+
+- To: sales-splt@outlook.com (homepage mailto on https://www.spltgroup.com.my/). One inbox.
+- Source: live https://www.spltgroup.com.my/services/ Coming Soon. Industrial and automation valves from 38, Jalan Sutera Merah 2, Taman Sutera, Johor Bahru. SSM 201601031599 (1202540-A).
+- Thread: `1a032b6791249a04`
+- Subject: Taman Sutera valve page
+- File: `docs/proposals/splt-group.md`.
+- Do not mail SPLT again unless they reply.
+- Skipped this pass: Metafert, Willy Manufacturing, and GWG already mailed 22 Aug. Do not remmail. Benchmark Paper, Aerosol Maker, NBH, YHK Rubber, Chee Kuan, YK Pipe, Kepala Batas Bihun `/services/` 404 or filled. Steven has not replied to the 14:05 draft; did not nag.
 

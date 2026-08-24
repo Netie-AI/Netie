@@ -15,5 +15,12 @@ Write one file here before a priced reply. Keep claims inside live public pages 
 | `daya-banding-token.md` | Sent 24 Aug. RM 1,000-5,000. No Stripe. |
 | `xuan-huat-food.md` | Sent 24 Aug. RM 1,000-5,000. No Stripe. |
 | `lentix-solution.md` | Sent 24 Aug. RM 1,000-5,000. No Stripe. |
+| `ideal-home-jr.md` | Sent 24 Aug. RM 1,000-5,000. No Stripe. |
+| `ums-safety.md` | Sent 24 Aug. RM 1,000-5,000. No Stripe. |
+| `airblock.md` | Sent 24 Aug. RM 1,000-5,000. No Stripe. |
+| `kmk-hardware.md` | Sent 24 Aug. RM 1,000-5,000. No Stripe. |
+| `afford-engineering-plastic.md` | Sent 24 Aug. RM 1,000-5,000. No Stripe. |
+| `kt-ware.md` | Sent 24 Aug. RM 1,000-5,000. No Stripe. |
+| `splt-group.md` | Sent 24 Aug. RM 1,000-5,000. No Stripe. |
 
 Do not put Stripe in a first website mail. Do not raise a price already named in the same thread.
