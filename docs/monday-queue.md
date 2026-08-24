@@ -418,3 +418,16 @@ If a buyer expresses interest, use `docs/file-analysis-scope-template.md` before
 - Not 3PL. Did not mail Intergrated Freighters today. Did not poll Stripe.
 - Do not mail Zipper Resources again unless they reply.
 
+### Oryx Plastic -- SENT 24 Aug 2026 12:11 MYT
+
+- To: lowck@oryxplastic.my (contact-page mailto on https://www.oryxplastic.my/contactus/). One inbox.
+- Source: live https://www.oryxplastic.my/services/ HTTP 200 still shows Coming Soon. Homepage lists dessert cups, pizza lids, and tepung pelita moulds from 125, Jalan Tiaj 1/4, Taman Industri Alam Jaya, Bandar Puncak Alam. SSM 202201005061 (1450758-H).
+- `in:sent` to lowck@oryxplastic.my was empty before send. Not in existing `docs/*-services.html` drafts.
+- Thread: `1a031f75ee1d9139`
+- Message: `1a031f75ee1d9139`
+- Subject: Puncak Alam packaging page
+- Ask: RM 500, one revision, page written from their published text. No Stripe link in the first mail.
+- Not 3PL. Did not mail Intergrated Freighters today. Did not poll Stripe.
+- Do not mail Oryx Plastic again unless they reply.
+- Skipped this pass: KDSOFT www hostname NXDOMAIN this check. SY Metal /services/ HTTP 503. EA Global already in `in:sent`.
+

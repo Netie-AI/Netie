@@ -1,6 +1,6 @@
 # STATUS
 
-Updated: 2026-08-24 12:04 MYT. Success = live Stripe charge, then a payout.
+Updated: 2026-08-24 12:11 MYT. Success = live Stripe charge, then a payout.
 
 ## Now (measured)
 
