@@ -674,6 +674,7 @@ Owner order 24 Aug 18:14 MYT: clean out other job applies. Do not apply to Evabo
 - Ask: RM 500, one revision, page written from their published text. No Stripe link in the first mail.
 - Not 3PL. Did not mail Intergrated Freighters today. Did not poll Stripe.
 - Do not mail Chang Rubbers again unless they reply.
+- Hostable draft: `docs/proposals/chang-rubbers-services.html`. Honor RM 500. Unique: KUBAH 13BLK2X3 / Pathum Thani 2016. Send HTML only if they reply.
 - Skipped this pass: JC Machinery `jcmkt6298@gmail.com` already in `in:sent` on 22 Aug. Best Tune Auto `/services/` is filled. EC2 Marketing and Creative Tech `/services/` 404.
 
 ### Leong Insulation -- SENT 24 Aug 2026 12:54 MYT
@@ -687,6 +688,7 @@ Owner order 24 Aug 18:14 MYT: clean out other job applies. Do not apply to Evabo
 - Ask: RM 500, one revision, page written from their published text. No Stripe link in the first mail.
 - Not 3PL. Did not mail Intergrated Freighters today. Did not poll Stripe.
 - Do not mail Leong Insulation again unless they reply.
+- Hostable draft: `docs/proposals/leong-insulation-services.html`. Honor RM 500. Unique: Calcium Silicate / Fiberglass tape / Scaffolding. Send HTML only if they reply.
 
 ### Johan Multitrade -- SENT 24 Aug 2026 12:54 MYT
 
@@ -699,6 +701,7 @@ Owner order 24 Aug 18:14 MYT: clean out other job applies. Do not apply to Evabo
 - Ask: RM 500, one revision, page written from their published text. No Stripe link in the first mail.
 - Not 3PL. Did not mail Intergrated Freighters today. Did not poll Stripe.
 - Do not mail Johan Multitrade again unless they reply.
+- Hostable draft: `docs/proposals/johan-multitrade-services.html`. Honor RM 500. Unique: Refurbish Laptop / Tech Treasure Hunt. Send HTML only if they reply. Live `/services/` was readable this pass after an earlier 1703-byte check.
 
 ### DIMTECH -- SENT 24 Aug 2026 13:13 MYT
 
@@ -711,6 +714,7 @@ Owner order 24 Aug 18:14 MYT: clean out other job applies. Do not apply to Evabo
 - Ask: RM 500, one revision, page written from their published text. No Stripe link in the first mail.
 - Not 3PL. Did not mail Intergrated Freighters today. Did not poll Stripe.
 - Do not mail DIMTECH again unless they reply.
+- Hostable draft: `docs/proposals/dimtech-services.html`. Honor RM 500. Unique: SOLID 30V Pneumatic Hydraulic Riveter Gun. Send HTML only if they reply.
 
 ### LT Megamas -- SENT 24 Aug 2026 13:28 MYT
 
@@ -723,6 +727,7 @@ Owner order 24 Aug 18:14 MYT: clean out other job applies. Do not apply to Evabo
 - Ask: RM 500, one revision, page written from their published text. No Stripe link in the first mail.
 - Not 3PL. Did not mail Intergrated Freighters today. Did not poll Stripe.
 - Do not mail LT Megamas again unless they reply.
+- Hostable draft: `docs/proposals/lt-megamas-services.html`. Honor RM 500. Unique: Double Curb STM / Paper Clip / Ms. Nikki Goh. Contact card has no street line. Send HTML only if they reply.
 
 ### Yes Packaging -- SENT 24 Aug 2026 14:28 MYT
 
