@@ -1038,7 +1038,7 @@ Timer `netie-tue-afternoon-websites-2026-08-25-0940-myt` (`sub_e5ee26e9-1745-4c0
 
 ## Queued after the Tue 09:40 afternoon four-send (do not send before those four, and not after hours)
 
-Timer `netie-tue-mhaus-website-2026-08-25-1000-myt` (`sub_26af1a49-c00f-47b4-9add-134c50898965`, once, Tue 25 Aug 10:00 MYT). Send existing Gmail draft only after live `/services/` Coming Soon and empty `in:sent`. First extra: M Haus Furniture, then the Johor four, then Digno, Paperbaked, F.J. Machinery, HH Metal, Presti, SKH 88, Pro Tent, Hydro Air, WH Bespoke, Teknik Alir, MAC-TECH, Heap Soon, Sinaran, Dilooma, REXOIL, KenHai, Little Hana Florist, Paint Master DIY, and Kossen. Not an email-watch loop. No Stripe. One inbox. RM 1,000-5,000. Label `Label_8` after send. Do not Surge-publish until after SENT. If Kanhseei writes, answer first and honor RM 500. Do not poll Stripe (already done 25 Aug MYT). If the 09:00, 09:20, or 09:40 drafts are still DRAFT at 10:00, send those first after the same live checks. A sixth once-timer was refused (`invalid_argument`); extras share this timer.
+Timer `netie-tue-mhaus-website-2026-08-25-1000-myt` (`sub_2a94f713-8e7c-4b46-a8d8-89e9cd8a5bcc`, once, Tue 25 Aug 10:00 MYT). Send existing Gmail draft only after live `/services/` Coming Soon and empty `in:sent`. First extra: M Haus Furniture, then the Johor four, then Digno, Paperbaked, F.J. Machinery, HH Metal, Presti, SKH 88, Pro Tent, Hydro Air, WH Bespoke, Teknik Alir, MAC-TECH, Heap Soon, Sinaran, Dilooma, REXOIL, KenHai, Little Hana Florist, Paint Master DIY, and Kossen. Not an email-watch loop. No Stripe. One inbox. RM 1,000-5,000. Label `Label_8` after send. Do not Surge-publish until after SENT. If Kanhseei writes, answer first and honor RM 500. Do not poll Stripe (already done 25 Aug MYT). If the 09:00, 09:20, or 09:40 drafts are still DRAFT at 10:00, send those first after the same live checks. A sixth once-timer was refused (`invalid_argument`); extras share this timer.
 
 ### M Haus Furniture -- QUEUED draft 25 Aug 2026 01:13 MYT
 
@@ -1050,7 +1050,7 @@ Timer `netie-tue-mhaus-website-2026-08-25-1000-myt` (`sub_26af1a49-c00f-47b4-9ad
 
 ## Queued on the same Tue 10:00 M Haus timer (do not send before 10:00, and not after hours)
 
-Same timer `netie-tue-mhaus-website-2026-08-25-1000-myt` (`sub_26af1a49-c00f-47b4-9add-134c50898965`). Send after M Haus if live `/services/` Coming Soon and empty `in:sent`. Four Johor extras: Brilliant Supplies, Top Creative Steel, Loh Cross Border, Jump Belly, then Digno, Paperbaked, F.J. Machinery, HH Metal, Presti, SKH 88, Pro Tent, Hydro Air, WH Bespoke, Teknik Alir, MAC-TECH, Heap Soon, Sinaran, Dilooma, REXOIL, KenHai, Little Hana Florist, Paint Master DIY, and Kossen. Not an email-watch loop. No Stripe. One inbox. RM 1,000-5,000. Label `Label_8` after send. Do not Surge-publish until after SENT. If Kanhseei writes, answer first and honor RM 500. Do not poll Stripe (already done 25 Aug MYT). Loh is a private-car page, not a Thursday 3PL follow-up. Do not mail Brilliant Melaka `stoneshopmelaka@gmail.com`. A separate 10:20 timer was refused (`invalid_argument`, likely a five-timer cap).
+Same timer `netie-tue-mhaus-website-2026-08-25-1000-myt` (`sub_2a94f713-8e7c-4b46-a8d8-89e9cd8a5bcc`). Send after M Haus if live `/services/` Coming Soon and empty `in:sent`. Four Johor extras: Brilliant Supplies, Top Creative Steel, Loh Cross Border, Jump Belly, then Digno, Paperbaked, F.J. Machinery, HH Metal, Presti, SKH 88, Pro Tent, Hydro Air, WH Bespoke, Teknik Alir, MAC-TECH, Heap Soon, Sinaran, Dilooma, REXOIL, KenHai, Little Hana Florist, Paint Master DIY, and Kossen. Not an email-watch loop. No Stripe. One inbox. RM 1,000-5,000. Label `Label_8` after send. Do not Surge-publish until after SENT. If Kanhseei writes, answer first and honor RM 500. Do not poll Stripe (already done 25 Aug MYT). Loh is a private-car page, not a Thursday 3PL follow-up. Do not mail Brilliant Melaka `stoneshopmelaka@gmail.com`. A separate 10:20 timer was refused (`invalid_argument`, likely a five-timer cap).
 
 ### Brilliant Supplies -- QUEUED draft 25 Aug 2026 01:27 MYT
 
@@ -1361,7 +1361,40 @@ Same timer `netie-tue-mhaus-website-2026-08-25-1000-myt` (`sub_26af1a49-c00f-47b
 - Draft: `r9046917530825658721`. Thread: `1a035dda8035f1c1`. Subject: Shah Alam test-instrument page.
 - File: `docs/proposals/techhaus.md`. Hostable draft: `docs/proposals/techhaus-services.html`.
 - Website-page offer, RM 1,000-5,000. No Stripe. Send on the same Tue 10:00 timer after Rakyat Dental.
-- Skipped this pass: gzzebo.com (China), othentic.com.my (enquiry@otts.com.my domain mismatch), myofficesupply.com.my (info@tetrix.com.my domain mismatch), myscienzo.com (1521-byte NEWPAGES stub). Luxiiigon: do not mail luxiigon.studio@. Do not send before 09:00 MYT.
+
+### Focus Education -- QUEUED draft 25 Aug 2026 06:37 MYT
+
+- To: focus.education12@gmail.com (contact Email Address on https://www.focuseducation.com.my/contactus/). One inbox. Do not mail joanne.beh96@gmail.com.
+- Source: live https://www.focuseducation.com.my/services/ HTTP 200 still Coming Soon (`min-height:440px`). Homepage lists established in 2009 and more than 100 local and overseas universities and colleges from 12, 1st Floor, Jalan Permatang Gedung, Taman Sejati Indah, 08000 Sungai Petani. SSM 200903218105 (AS0322092-P).
+- Draft: `r1414046011283131122`. Thread: `1a035eb6149df2f8`. Subject: Sungai Petani study-abroad page.
+- File: `docs/proposals/focus-education.md`. Hostable draft: `docs/proposals/focus-education-services.html`.
+- Website-page offer, RM 1,000-5,000. No Stripe. Send on the same Tue 10:00 timer after TechHaus.
+
+### LKSoft Solutions (M) Sdn Bhd -- QUEUED draft 25 Aug 2026 06:37 MYT
+
+- To: steven@lksoft.com.my (homepage and `/contactus/` mailto on https://www.lksoft.com.my/). One inbox. HQ mailbox only.
+- Source: live https://www.lksoft.com.my/services/ HTTP 200 still Coming Soon (`min-height:440px`). Homepage lists Empower Your Store. Streamline Your Sales., Trusted by 400+ Customer, and Zywell ZY906 from 37, Jalan Ros Merah 2/7, Taman Johor Jaya, 81100 Johor Bahru. Established in 2011. SSM 201701021213 (1235379-T).
+- Draft: `r2643949822634435142`. Thread: `1a035eb61a28b2e9`. Subject: Johor Jaya POS page.
+- File: `docs/proposals/lksoft.md`. Hostable draft: `docs/proposals/lksoft-services.html`.
+- Website-page offer, RM 1,000-5,000. No Stripe. Send on the same Tue 10:00 timer after Focus Education.
+
+### RAPIDKILL PEST CONTROL (KL) SDN BHD -- QUEUED draft 25 Aug 2026 06:37 MYT
+
+- To: shawn992399@gmail.com (homepage and `/contactus/` mailto on https://www.rapidkill.my/). One inbox. HQ mailbox only.
+- Source: live https://www.rapidkill.my/services/ HTTP 200 still Coming Soon (`min-height:440px`). Homepage lists 22839 + Termite Colonies, Over 20 Years of Pest Control Experience, and SPI Product Insert from 27, Jalan Budiman, Budiman Business Park, 43000 Kajang. SSM 201401002104 (1078178-W).
+- Draft: `r-7446328822150468223`. Thread: `1a035eb63ef7193e`. Subject: Kajang termite-control page.
+- File: `docs/proposals/rapidkill.md`. Hostable draft: `docs/proposals/rapidkill-services.html`.
+- Website-page offer, RM 1,000-5,000. No Stripe. Send on the same Tue 10:00 timer after LKSOFT.
+
+### Success Emblem Sdn Bhd -- QUEUED draft 25 Aug 2026 06:37 MYT
+
+- To: successemblem@hotmail.com (contact-page mailto on https://www.successemblemhardware.com/contactus/). One inbox.
+- Source: live https://www.successemblemhardware.com/services/ HTTP 200 still Coming Soon (`min-height:440px`). Homepage lists High-Performance Screws, Hardware and Building Materials for Every Project and over 2,000 products from 2, Jalan Seroja 39, Taman Johor Jaya, 81100 Johor Bahru. SSM 200601029316 (749073-M).
+- Draft: `r-5119437525656795650`. Thread: `1a035eb6214faba6`. Subject: Johor Jaya fastener page.
+- File: `docs/proposals/success-emblem.md`. Hostable draft: `docs/proposals/success-emblem-services.html`.
+- Website-page offer, RM 1,000-5,000. No Stripe. Send on the same Tue 10:00 timer after RAPIDKILL.
+- Skipped this pass: gzzebo.com (China), othentic.com.my (enquiry@otts.com.my domain mismatch), myofficesupply.com.my (info@tetrix.com.my domain mismatch), myscienzo.com (1521-byte NEWPAGES stub). Focus: do not mail joanne.beh96@. onesync.my aliases are not firm sites. Do not send before 09:00 MYT.
+
 
 
 
