@@ -221,7 +221,16 @@ If a buyer expresses interest, use `docs/file-analysis-scope-template.md` before
 - Thread: `1a0315b3b9066766`
 - Honest: mid-level Python RAG at Jumpwin, Penang/MY. Uses coding agents; has not shipped production SDR agents or AWS agent observability. Expected USD 48-70k, low end of their 70-120k band. Jumpwin is current employer.
 - Skipped this round: Adzuna (must be within 2h of London), Kyra/Senzing/GovStar/Solution Street (US-only), Albert (principal/distinguished), Bactrix (early equity), Micro1 (personal Gmail listing), JB Martyn (Chicago, no telecommute).
-- Do not mail again unless they reply. HN also lists a Google form; do not double-submit unless they ask.
+- They replied 16:29 MYT. See next section. Do not nag Francine unless she writes again.
+
+### Evaboot -- REPLY 24 Aug 2026 16:29 MYT, confirm sent 17:20 MYT
+
+- Inbound: Francine Gautier, francine@evaboot.com, message `1a032e1cfe06a105`. Asked to submit https://forms.gle/NM9BLJyuS8FNitYc8
+- Canonical form: https://docs.google.com/forms/d/e/1FAIpQLSdFodL_S_8EvCOI_DuNnDey6KBwDnRmycRxXpI2RBUcTm-72A/viewform
+- Measured: Google sign-in wall (curl 401 / browser Sign in). Did not enter password. Did not request SMS.
+- Confirm SENT 17:20 MYT, message `1a0330d65df6ccdb`, same thread `1a0315b3b9066766`. Told her the email application stands; form will be filled when signed in.
+- Owner action: sign in as oojianhongg@gmail.com and paste `docs/proposals/evaboot-form-answers.md`. Do not nag Francine again unless she writes.
+- Expected USD 48-70k if hired. Not a Stripe charge.
 
 ### Strello Health -- SENT 24 Aug 2026 09:27 MYT
 
