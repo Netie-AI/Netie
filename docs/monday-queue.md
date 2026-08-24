@@ -646,5 +646,32 @@ If a buyer expresses interest, use `docs/file-analysis-scope-template.md` before
 - Ask: RM 500, one revision, page written from their published text. No Stripe link in the first mail.
 - Not 3PL. Did not mail Intergrated Freighters today. Did not poll Stripe.
 - Do not mail LT Megamas again unless they reply.
+
+### Yes Packaging -- SENT 24 Aug 2026 14:28 MYT
+
+- To: general@yespackaging.com.my (contact-page mailto on https://www.yespackaging.com.my/contactus/). One inbox.
+- Source: live https://www.yespackaging.com.my/services/ HTTP 200 still shows Coming Soon (`min-height:440px`). Homepage lists plastic bags and shrink wrap for food, electronics, and retail from 93, Jalan Sinergi 5, Taman Perindustrian Sinergi, 81400 Senai, Johor. SSM 202201029992 (1475689-H).
+- `in:sent` to general@yespackaging.com.my was empty before send.
+- Thread: `1a03273c0a56f6da`
+- Message: `1a03273c0a56f6da`
+- Subject: Senai shrink wrap page
+- Ask: RM 1,000 to RM 5,000 after looking at how much copy they need. Draft first. No Stripe. No hire-page link (canonical `/hire/` still shows the old RM 500 page).
+- Not 3PL. Did not mail Intergrated Freighters today. Did not poll Stripe.
+- File: `docs/proposals/yes-packaging.md`.
+- Do not mail Yes Packaging again unless they reply.
+
+### ANKO Hardware -- SENT 24 Aug 2026 14:28 MYT
+
+- To: info@ankohardware.com (homepage mailto on https://www.ankohardware.com/). One inbox.
+- Source: live https://www.ankohardware.com/services/ HTTP 200 still shows Coming Soon (`min-height:440px`). Homepage lists industrial hardware, hand tools, and SPC flooring from No.1302-01, Jalan Baru, Taman Chai Leng, 13700 Perai, Penang.
+- `in:sent` to info@ankohardware.com was empty before send.
+- Thread: `1a03273c0a4ec98d`
+- Message: `1a03273c0a4ec98d`
+- Subject: Perai hardware page
+- Ask: RM 1,000 to RM 5,000 after looking at how much copy they need. Draft first. No Stripe. No hire-page link.
+- Not 3PL. Did not mail Intergrated Freighters today. Did not poll Stripe.
+- File: `docs/proposals/anko-hardware.md`.
+- Do not mail ANKO Hardware again unless they reply.
+- Skipped this pass: JSG Machinery, Hexo, ESTAR/bubblewrap, IT2, and Green Energy Automation `/services/` pages are filled, not Coming Soon. AMP tiles services page is a category page, not the Coming Soon placeholder. Netie-AI/dms CI mail is private (404 from this token); did not request access. Steven has not replied to the 14:05 draft.
 - Skipped this pass: PAC Testing, VH Industrial, MJ Works, Soon Huat, TNC, Yu Chin Metal, Cooler Engineering, ATUZ, Pure Cooling, Maxcon, Questa, Yao Teng, Microx, WPK Construction, KH Building Inspection, Reseat, Aumloha, and Mokea `/services/` pages are filled, not Coming Soon. SSE Industries, JIT Pro, Fettmann, Octagon Tech, Pallet Kia, Bagan Printers, STD Parts, AOHA Designs, Parts Papa, and Capital Gardens `/services/` 404. CKL Brother bot-checked. SUNNY Packaging, Key Power, IFAST Printing, Tiek Hup, and Megacold had no Official Website on NEWPAGES.
 
