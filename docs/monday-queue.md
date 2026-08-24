@@ -405,5 +405,16 @@ If a buyer expresses interest, use `docs/file-analysis-scope-template.md` before
 - Ask: RM 500, one revision, page written from their published text. No Stripe link in the first mail.
 - Not 3PL. Did not mail Intergrated Freighters today. Did not poll Stripe.
 - Do not mail Promix again unless they reply.
-- Skipped this pass: Hung Print `/services/` 404. Concept Software `/services/` 404. Metropolimer `/services/` 404. Karfu and Kim Sheng `/services/` 404. Prosper Peace `/services/` 404 on the rebuilt shop. SNEW, ZYRC, Kinoro, Eightfold, and Perdana Grafik already in `in:sent`. NCT is 3PL, not mailed today.
+
+### Zipper Resources -- SENT 24 Aug 2026 12:04 MYT
+
+- To: inquiry@zipperresources.com (contact-page mailto on https://www.zipperresources.com/contactus/). One inbox. Do not also mail kennygo / shipping / purchasing / warehouse the same day.
+- Source: live https://www.zipperresources.com/services/ HTTP 200 still shows Coming Soon. Homepage lists medical equipment, disposable supplies, and surgical instruments from No.15, Jalan Industri 9, Taman Perindustrian Pekan Nenas 2, Pekan Nanas, Johor. SSM 201401023006 (1099093-X).
+- `in:sent` to inquiry@zipperresources.com was empty before send. Not in existing `docs/*-services.html` drafts.
+- Thread: `1a031f13f83b7de2`
+- Message: `1a031f13f83b7de2`
+- Subject: Pekan Nanas medical page
+- Ask: RM 500, one revision, page written from their published text. No Stripe link in the first mail.
+- Not 3PL. Did not mail Intergrated Freighters today. Did not poll Stripe.
+- Do not mail Zipper Resources again unless they reply.
 
