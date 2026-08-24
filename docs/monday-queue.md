@@ -370,3 +370,16 @@ If a buyer expresses interest, use `docs/file-analysis-scope-template.md` before
 - Not 3PL. Did not mail Intergrated Freighters today. Did not poll Stripe.
 - Do not mail Onehome again unless they reply.
 
+### Power Wind Engineering -- SENT 24 Aug 2026 11:33 MYT
+
+- To: jeffpwe@gmail.com (homepage mailto on https://www.powerwind.com.my/). One inbox.
+- Source: live https://www.powerwind.com.my/services/ HTTP 200 still shows Coming Soon. Homepage lists Ceccato North Malaysia authorised distributor, air compressors, air dryers, and 24-hour breakdown service from 57, Tingkat Binjai 2, Taman Sri Rambai, Bukit Mertajam. SSM 200601004334 (724082-W). Incorporated 2006.
+- `in:sent` to jeffpwe@gmail.com was empty before send. Not in existing `docs/*-services.html` drafts.
+- Thread: `1a031d4ce0a950ba`
+- Message: `1a031d4ce0a950ba`
+- Subject: Bukit Mertajam compressor page
+- Ask: RM 500, one revision, page written from their published text. No Stripe link in the first mail.
+- Not 3PL. Did not mail Intergrated Freighters today. Did not poll Stripe.
+- Do not mail Power Wind again unless they reply.
+- Skipped this pass: OS Jutze `/services/` is 404 not Coming Soon. Apply Industrial `/services/` is 404. Liqgas `/services/` is 404. SNEW and Perdana Grafik already in `in:sent`. NCT ground-handling is 3PL, not mailed today.
+
