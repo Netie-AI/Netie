@@ -1,0 +1,13 @@
+---
+description: Every agent reads STATUS.md and the skill index before acting.
+alwaysApply: true
+---
+
+# Netie awareness
+
+1. Read `STATUS.md` first. That is the watchdog. Do not create a second status file.
+2. Read `.cursor/AGENTS.md`. Load only the skill that matches this turn.
+3. If you invent a method that worked, distill it with `.cursor/skills/distill-into-skills/SKILL.md` into `.cursor/skills/<name>/SKILL.md` and add a row to `.cursor/AGENTS.md`.
+4. Other cloud agents see the same GitHub files after push. Leave facts in `STATUS.md`, not in chat.
+5. Do not host a parallel MCP catalog. Skills live in `.cursor/skills/`. Cloudflare/Higgsfield MCP stay unauthenticated until Jian signs them in.
+6. Laptop-ASCII in corpus and STATUS. No em dash, no curly quotes.

@@ -1,21 +1,18 @@
 # STATUS
 
-Updated: 2026-08-24 18:05 UTC. Lane: Truelancer side-hustle. Watchdog for all agents.
+Updated: 2026-08-24 19:00 UTC. Lane: Truelancer side-hustle + shared skills. Watchdog for all agents.
 
 ## Now
 
-- Agent: Cursor Easy cloud run **Truelancer proposal system**. Owner Gmail/Drive: `oojianhongg@gmail.com`.
-- Gmail is live. Samuel invite mail is **not** in this inbox. Source of truth: pasted listing (Vite/React OS-like UI, $60 fixed, 8 proposals, UK client 91 posted / 10 paid / 1% / $397).
-- Bid: **$60**. All talk on Truelancer. Refuse off-platform deposit. Paid-to-posted ratio is a warning, not an auto-skip.
-- Proof (no invented AirGPT/DMS shots): https://netie.ai/hire/ , knowledge/trace/ops demos, https://netie.ai/aim/ , GitHub `Netie-AI`.
-- Proposal text: `docs/side-hustle/proposal-samuel-vite-react.md`. Job log: `docs/side-hustle/truelancer.md`. Drive Doc: https://docs.google.com/document/d/1kfzjBV8VApf_Rh-7p6YgcDLCzp3zelZEw7-SQnrSQwg/edit
-- Gmail sweep 2026-08-24: 1 thread from truelancer.com. No job invites. Samuel still pasted-only.
-- Live job (browser, 2026-08-24): https://www.truelancer.com/freelance-project/need-vitereact-app-completed-655856 — $60, 10 proposals, 25 views, UK company 91/10/1%/ $397. Send Proposal opened a login wall.
-- Google Sign-in started as `oojianhongg@gmail.com`; stopped on Google password challenge. Jian must finish that sign-in. Do not store passwords in git.
-- Submit state: **awaiting** (login). Proposal is drafted. Not sent. All later chat stays on Truelancer.
+- Owner Gmail/Drive: `oojianhongg@gmail.com`. Deep Gmail sweep (inbox, anywhere, spam/trash query, promotions, invite phrasing): **1** mail from truelancer.com, the PRO $1.50 pitch. No Samuel invite. No other Truelancer job mail. Nearby freelance mail is Kwork welcome/verify and Upwork login codes (skip; do not log OTPs).
+- Samuel job is still the pasted listing + live page: https://www.truelancer.com/freelance-project/need-vitereact-app-completed-655856 ($60, 10 proposals). Bid drafted. **Not sent.** Google password wall. Sibling agents idle. Jian must finish Google sign-in.
+- Shared skill host is this GitHub tree: `.cursor/AGENTS.md` + `.cursor/skills/`. That is the D:\Netie / Claude / cloud catalog. No second bus. Live remote MCP skill server is **not** up (Cloudflare + Higgsfield MCP still need auth).
+- Gmail label `Truelancer` (Label_9) created. Filter create was 403 (missing Gmail filter scope).
+- Proof: https://netie.ai/hire/ https://netie.ai/hire/ops/ https://netie.ai/aim/ https://github.com/Netie-AI
+- Drive proposal: https://docs.google.com/document/d/1kfzjBV8VApf_Rh-7p6YgcDLCzp3zelZEw7-SQnrSQwg/edit
 
 ## Next
 
-1. Jian finishes Google sign-in on Truelancer. Agent pastes proposal, sends, sets job to `sent`.
-2. Re-sweep `from:truelancer.com` when new mail arrives; draft only fit jobs.
-3. After send, all client chat stays in Truelancer Workstream. Keep this file `sent | awaiting | awarded | skip`.
+1. Jian finishes Google sign-in. Agent sends the $60 Samuel bid on Truelancer, sets job `sent`.
+2. Other agents: read this file + `.cursor/AGENTS.md` before bidding or chatting.
+3. Do not stand up a parallel ISS/MCP host until Cloudflare MCP is signed in.

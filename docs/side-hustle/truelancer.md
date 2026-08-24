@@ -1,29 +1,29 @@
 # Truelancer job log
 
-Watchdog copy of the side-hustle lane. Canonical snapshot lives in `STATUS.md`.
-Do not pay or chat off-platform. Do not store passwords here.
+Canonical snapshot: `STATUS.md`. Skills: `.cursor/AGENTS.md`.
 
-Gmail/Drive account: `oojianhongg@gmail.com`
-Sweep query: `from:truelancer.com`
+Gmail: `oojianhongg@gmail.com`. Label: `Truelancer` (Label_9).
 
 ## Jobs
 
-| id | source | title | budget | client | screen | state | notes |
-|---|---|---|---|---|---|---|---|
-| samuel-vite-react | pasted listing + live page (invite mail missing from Gmail) | need vite/react app completed | $60 fixed | UK company, 91 posted / 10 paid / 1 feedback / 1% / $397 spent | warning: paid-to-posted ratio; scope may exceed a short panel-fix | awaiting (login) | Live URL: https://www.truelancer.com/freelance-project/need-vitereact-app-completed-655856 (10 proposals, 25 views). Send Proposal -> Google password challenge for oojianhongg@gmail.com. Bid $60 ready. Not sent. Proposal: `proposal-samuel-vite-react.md`. Drive: https://docs.google.com/document/d/1kfzjBV8VApf_Rh-7p6YgcDLCzp3zelZEw7-SQnrSQwg/edit |
+| id | source | title | budget | screen | state | notes |
+|---|---|---|---|---|---|---|
+| samuel-vite-react | pasted + live page; invite **not** in Gmail | need vite/react app completed | $60 | warning: 91 posted / 10 paid / 1% | awaiting (login) | https://www.truelancer.com/freelance-project/need-vitereact-app-completed-655856 Bid in `proposal-samuel-vite-react.md`. Drive Doc ready. Not sent. |
 
-## Gmail sweep (2026-08-24 18:06 UTC)
+## Gmail deep sweep (2026-08-24 19:00 UTC)
 
-Inbox: `oojianhongg@gmail.com`. Query: `from:truelancer.com` plus `from:ma.truelancer.com` and invite phrasing. 1 thread.
+Queries: `from:truelancer.com`, `in:anywhere from:truelancer.com`, invite phrasing, spam/trash, promotions/updates, `from:truelancer.com OR freelancer.com OR fiverr.com OR upwork.com OR kwork.com`.
 
 | date | from | subject | kind | state |
 |---|---|---|---|---|
-| 2026-08-22 | jiya.singh@truelancer.com | Your 90% PRO Discount Expiring in 3 Hours! | marketing / PRO $1.50 | skip |
+| 2026-08-22 | jiya.singh@truelancer.com | Your 90% PRO Discount Expiring in 3 Hours! | marketing | skip (labeled Truelancer) |
+| 2026-08-22 | news@kwork.com / info@kwork.com | welcome + verify email | account | skip |
+| 2026-08-22 | donotreply@upwork.com | security question + login verify | account / OTP | skip; do not store codes |
 
-No "invited to send proposal" / Samuel / vite-react job mail in this inbox. Do not spray bids. Re-sweep when new Truelancer mail arrives.
+No other Truelancer job invites in this mailbox. If Jian sees more on the phone, they are not in `oojianhongg@gmail.com` (wrong box, Truelancer site inbox, or a filter this API cannot see). Re-sweep after sign-in.
 
 ## Rules
 
-- Fit: Vite/React/UI/panel work we can prove with public hire/ops/AIM links.
-- Skip: SEO, data-entry, "pay a deposit", off-platform payment, or scope that cannot be evidenced.
-- After send: Workstream only. Update `state` to `sent | awaiting | awarded | skip`.
+- Fit: Vite/React/UI we can prove with hire/ops/AIM.
+- Skip: SEO, data-entry, deposit, off-platform pay, OTP mail.
+- After send: Workstream only. `sent | awaiting | awarded | skip`.
