@@ -6,7 +6,7 @@ Updated: 2026-08-25 02:51 MYT.
 
 ## In flight
 
-- Builder: Canonical https://netie.ai/hire/ and Surge https://netie-penang.surge.sh/ both byte-match `docs/pay.html` (copy/records/docs). Homepage not redirected.
+- Builder: Reply-ready RM 500 HTML for KST, ATX, Ace, Lotus, Fair Trade, Top Com. Do not Surge until they reply. Canonical hire already matches copy titles.
 - Researcher: Freelancing.my buyer inboxes are hidden. Smart Investor mailto is a part-time interview seat; do not apply. PPH About replacement is `docs/pph-about.txt`.
 - Orchestrator: Katalisjiwa still queued Tue 09:00. Kanhseei wait. Do not poll Stripe until 26 Aug MYT.
 

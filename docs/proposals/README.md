@@ -42,6 +42,12 @@ Write one file here before a priced reply. Keep claims inside live public pages 
 | `pro-helper-services.html` | Hostable draft from prohelper.com.my published facts. Send HTML only if they reply. |
 | `km-super.md` | Queued after Tue 09:00 five-send. HQ inbox only. RM 1,000-5,000. No Stripe. |
 | `km-super-services.html` | Hostable draft from kmsuper.com.my published facts. HQ inbox only. Send HTML only if they reply. |
+| `kst-star-services.html` | Already mailed. Honor RM 500. Send HTML only if they reply. Unique: Plug Coil, Clock Spring. |
+| `atx-engineering-services.html` | Already mailed. Honor RM 500. Send HTML only if they reply. Unique: Peti Surat, Police Box. |
+| `ace-readymix-services.html` | Already mailed. Honor RM 500. Send HTML only if they reply. Unique: batching plant setup, Merlimau. |
+| `lotus-stamas-services.html` | Already mailed. Honor RM 500. Send HTML only if they reply. Unique: Wall & Ceiling Fan. |
+| `fair-trade-resources-services.html` | Already mailed. Honor RM 500. Send HTML only if they reply. Unique: We also service more than we can do. |
+| `top-com-resources-services.html` | Already mailed. Honor RM 500. Send HTML only if they reply. Unique: WE WILL CUSTOM MADE RUBBER FOR YOU. |
 | `windmere-services.html` | Already mailed. Honor RM 500. Reply-only URL: https://netie-penang.surge.sh/drafts/windmere-services.html |
 | `sk-shutter-services.html` | Already mailed. Honor RM 500. Reply-only URL: https://netie-penang.surge.sh/drafts/sk-shutter-services.html |
 | `igb-metal-services.html` | Already mailed. Honor RM 500. Reply-only URL: https://netie-penang.surge.sh/drafts/igb-metal-services.html |

@@ -595,6 +595,7 @@ Owner order 24 Aug 18:14 MYT: clean out other job applies. Do not apply to Evabo
 - Ask: RM 500, one revision, page written from their published text. No Stripe link in the first mail.
 - Not 3PL. Did not mail Intergrated Freighters today. Did not poll Stripe.
 - Do not mail KST Star again unless they reply.
+- Hostable draft: `docs/proposals/kst-star-services.html`. Honor RM 500. Unique: Plug Coil, Clock Spring. Send HTML only if they reply.
 
 ### ATX Engineering -- SENT 24 Aug 2026 12:23 MYT
 
@@ -607,6 +608,7 @@ Owner order 24 Aug 18:14 MYT: clean out other job applies. Do not apply to Evabo
 - Ask: RM 500, one revision, page written from their published text. No Stripe link in the first mail.
 - Not 3PL. Did not mail Intergrated Freighters today. Did not poll Stripe.
 - Do not mail ATX Engineering again unless they reply.
+- Hostable draft: `docs/proposals/atx-engineering-services.html`. Honor RM 500. Unique: Peti Surat, Police Box. Send HTML only if they reply.
 
 ### Ace Readymix Concrete -- SENT 24 Aug 2026 12:25 MYT
 
@@ -619,6 +621,7 @@ Owner order 24 Aug 18:14 MYT: clean out other job applies. Do not apply to Evabo
 - Ask: RM 500, one revision, page written from their published text. No Stripe link in the first mail.
 - Not 3PL. Did not mail Intergrated Freighters today. Did not poll Stripe.
 - Do not mail Ace Readymix again unless they reply.
+- Hostable draft: `docs/proposals/ace-readymix-services.html`. Honor RM 500. Unique: in-house batching plant setup, Merlimau. Send HTML only if they reply.
 - Skipped this pass: Great Sign Penang `/services/` is filled. Terjaya `/services/` is filled. Dynaair `/services/` is not Coming Soon. SV Engineering NXDOMAIN. ACL Agency services page is filled.
 
 ### Lotus-Stamas -- SENT 24 Aug 2026 12:26 MYT
@@ -632,6 +635,7 @@ Owner order 24 Aug 18:14 MYT: clean out other job applies. Do not apply to Evabo
 - Ask: RM 500, one revision, page written from their published text. No Stripe link in the first mail.
 - Not 3PL. Did not mail Intergrated Freighters today. Did not poll Stripe.
 - Do not mail Lotus-Stamas again unless they reply.
+- Hostable draft: `docs/proposals/lotus-stamas-services.html`. Honor RM 500. Unique: Wall & Ceiling Fan. Send HTML only if they reply.
 
 ### Fair Trade Resources -- SENT 24 Aug 2026 12:26 MYT
 
@@ -644,6 +648,7 @@ Owner order 24 Aug 18:14 MYT: clean out other job applies. Do not apply to Evabo
 - Ask: RM 500, one revision, page written from their published text. No Stripe link in the first mail.
 - Not 3PL. Did not mail Intergrated Freighters today. Did not poll Stripe.
 - Do not mail Fair Trade Resources again unless they reply.
+- Hostable draft: `docs/proposals/fair-trade-resources-services.html`. Honor RM 500. Unique: We also service more than we can do. Send HTML only if they reply.
 
 ### Top Com Resources -- SENT 24 Aug 2026 12:26 MYT
 
@@ -656,6 +661,7 @@ Owner order 24 Aug 18:14 MYT: clean out other job applies. Do not apply to Evabo
 - Ask: RM 500, one revision, page written from their published text. No Stripe link in the first mail.
 - Not 3PL. Did not mail Intergrated Freighters today. Did not poll Stripe.
 - Do not mail Top Com Resources again unless they reply.
+- Hostable draft: `docs/proposals/top-com-resources-services.html`. Honor RM 500. Unique: WE WILL CUSTOM MADE RUBBER FOR YOU. Send HTML only if they reply.
 
 ### Chang Rubbers -- SENT 24 Aug 2026 12:54 MYT
 
