@@ -1473,6 +1473,23 @@ Same timer `netie-tue-mhaus-website-2026-08-25-1000-myt` (`sub_b2d918dd-837e-41a
 - Website-page offer, RM 1,000-5,000. No Stripe. Send on the same Tue 10:00 timer after Elite Consultants.
 - Skipped this pass: leftover opening.newpages.com.my hosts with filled `/services/`, 404, HTTP 000, or WAF. weisionggroup.com later unique dumps were WAF after one leftover CS file. Do not send before 09:00 MYT.
 
+### Hotali Printing -- QUEUED draft 25 Aug 2026 07:57 MYT
+
+- To: hotaliprinting@gmail.com (contact-page mailto on https://www.hotaliprinting.com.my/contactus/). One inbox.
+- Source: live https://www.hotaliprinting.com.my/services/ HTTP 200 still Coming Soon (`min-height:440px`). Title: Our Services | Hotali Printing. Homepage lists ONE STOP SERVICES FROM DESIGNS TO PRINTING END PRODUCTS and Injek Printing from 74, Jalan Kebudayaan 6, Taman Universiti, 81300 Skudai. Title also prints Digital Printing, Injek Printing, Offset Printing Services JB. Established in 2007. Footer also prints Inkjek Printing and Calendar & Dairy Book. SSM JM0621426-K.
+- Draft: `r-3332857387999753896`. Thread: `1a036356f5755578`. Subject: Skudai print page.
+- File: `docs/proposals/hotali-printing.md`. Hostable draft: `docs/proposals/hotali-printing-services.html`.
+- Website-page offer, RM 1,000-5,000. No Stripe. Send on the same Tue 10:00 timer after Mitalee.
+
+### MyESG.online -- QUEUED draft 25 Aug 2026 07:57 MYT
+
+- To: contact@myesg.online (homepage and `/contactus/` mailto on https://www.myesg.online/). One inbox.
+- Source: live https://www.myesg.online/services/ HTTP 200 still Coming Soon (`min-height:440px`). Title: Our Services | MyESG.online. Homepage lists Streamline ESG Reporting, Drive Sustainable Impact and DJSI, FTSE4Good, CDP, GRI. Title prints MyESG | ESG Assessment & Management Platform. Contact prints contact@myesg.online and tel +60-127847001. No street printed. Printed line Advance Impact Calculators copied as printed. SSM 201001006060 (890679-X).
+- Draft: `r4782701001165637108`. Thread: `1a036356fc019f7a`. Subject: ESG platform page.
+- File: `docs/proposals/myesg.md`. Hostable draft: `docs/proposals/myesg-services.html`.
+- Website-page offer, RM 1,000-5,000. No Stripe. Send on the same Tue 10:00 timer after Hotali Printing.
+- Skipped this pass: leftover opening.newpages HTTP 000 hosts still do not resolve on apex or www. sinkwangaircond.com.my and techniquhairstudio.com `/services/` filled. uniqueexpired.com not Coming Soon. Do not send before 09:00 MYT.
+
 
 
 
