@@ -863,13 +863,13 @@ Owner order 24 Aug 18:14 MYT: clean out other job applies. Do not apply to Evabo
 
 ## Queued for Tue 25 Aug 2026 09:00 MYT (do not send after 17:00 MYT 24 Aug)
 
-Timer `netie-tue-queued-websites-2026-08-25-0900-myt` (`sub_0c304477-2566-440b-823c-78d8ae9c7a2f`, once). Send existing Gmail drafts only after live `/services/` Coming Soon and empty `in:sent`. Five drafts: Prints Buddy, TNT Crane, Dream House, then Berjaya, Jin He Jia. Not an email-watch loop. No Stripe. One inbox. RM 1,000-5,000. Label `Label_8` after send.
+Timer `netie-tue-queued-websites-2026-08-25-0900-myt` (`sub_0c304477-2566-440b-823c-78d8ae9c7a2f`, once). Send existing Gmail drafts only after live `/services/` Coming Soon and empty `in:sent`. Five drafts: Prints Buddy, TNT Crane, Dream House, then Berjaya, Jin He Jia. Not an email-watch loop. No Stripe. One inbox. RM 1,000-5,000. Label `Label_8` after send. Rechecked 24 Aug 21:32 MYT: all five still DRAFT with the same draft ids; send with `draftId` only (Gmail stores an auto html wrap; bodies have no URLs). Public checkout pages HTTP 200. Not a Stripe account poll.
 
 ### Prints Buddy -- QUEUED draft 24 Aug 2026 19:35 MYT
 
 - To: order@printsbuddy.com.my (homepage mailto on https://www.printsbuddy.com.my/). One inbox.
 - Source: live https://www.printsbuddy.com.my/services/ HTTP 200 still Coming Soon (`min-height:440px`). Homepage lists digital printing, custom stickers, and finishing from Wangsa Delima, Wangsa Maju. SSM 202501038566 (1639975-H).
-- Draft: `r5576372032492267601`. Thread: `1a0338de9760e1da`. Subject: Wangsa Maju print page.
+- Draft: `r5576372032492267601`. Thread: `1a033f91222ed276`. Subject: Wangsa Maju print page.
 - File: `docs/proposals/prints-buddy.md`. Hostable draft: `docs/proposals/prints-buddy-services.html`.
 - Do not mail a second inbox. Do not remmail ZYRC or EETA.
 
@@ -877,14 +877,14 @@ Timer `netie-tue-queued-websites-2026-08-25-0900-myt` (`sub_0c304477-2566-440b-8
 
 - To: marketing@tntcrane.com.my (homepage mailto on https://www.tntcrane.com.my/). One inbox.
 - Source: live https://www.tntcrane.com.my/services/ HTTP 200 still Coming Soon (`min-height:440px`). Homepage lists mobile crane, crawler crane, and skylift from 55B, Jalan Pusat Perniagaan Raja Uda 4, Butterworth. Established 2011. SSM 201101038063 (966197-A).
-- Draft: `r7715596559068711037`. Thread: `1a0338dea92a49bd`. Subject: Butterworth crane page.
+- Draft: `r7715596559068711037`. Thread: `1a033f913f8b8118`. Subject: Butterworth crane page.
 - File: `docs/proposals/tnt-crane.md`. Hostable draft: `docs/proposals/tnt-crane-services.html`.
 
 ### Dream House Sanitary Ware -- QUEUED draft 24 Aug 2026 19:35 MYT
 
 - To: dream.house.sw.sb@gmail.com (homepage mailto on https://www.dreamhouse.com.my/). One inbox.
 - Source: live https://www.dreamhouse.com.my/services/ HTTP 200 still Coming Soon (`min-height:440px`). Homepage lists toilets, basins, and MINI cabinet basins from Taman Berjaya Setia, Bukit Mertajam. Since 2010. SSM 201201042836 (1027312-X).
-- Draft: `r-7065746014145915944`. Thread: `1a0338dee3d3fb58`. Subject: Bukit Mertajam sanitary page.
+- Draft: `r-7065746014145915944`. Thread: `1a033f91408579ef`. Subject: Bukit Mertajam sanitary page.
 - File: `docs/proposals/dream-house-sanitary.md`. Hostable draft: `docs/proposals/dream-house-services.html`.
 
 ### Kanhseei -- wait (not queued)
@@ -899,7 +899,7 @@ Berjaya and Jin He Jia now go on the same Tuesday timer after the first three, i
 
 - To: enquiry.berjaya@gmail.com (homepage mailto on https://www.berjayatableandchair.com/). Footer name: Success Table & Chair Sdn Bhd. One inbox.
 - Source: live https://www.berjayatableandchair.com/services/ HTTP 200 still Coming Soon (`min-height:440px`). Homepage lists stainless canteen sets and Isotop restaurant tables from Sungai Balak, Balakong, Kajang. SSM 202501013794 (1615208-T).
-- Draft: `r8087702750161109889`. Thread: `1a033a139cb42e65`. Subject: Balakong canteen page.
+- Draft: `r8087702750161109889`. Thread: `1a033f9195a509a9`. Subject: Balakong canteen page.
 - File: `docs/proposals/berjaya-table-chair.md`. Hostable draft: `docs/proposals/berjaya-table-chair-services.html`.
 - Send on the Tue 09:00 MYT timer after Prints Buddy / TNT / Dream House, if live Coming Soon and empty `in:sent`.
 
@@ -907,7 +907,7 @@ Berjaya and Jin He Jia now go on the same Tuesday timer after the first three, i
 
 - To: enquiry@jinhejia.com.my (homepage mailto on https://www.jinhejia.com.my/). One inbox.
 - Source: live https://www.jinhejia.com.my/services/ HTTP 200 still Coming Soon (`min-height:440px`). Homepage lists household wholesale and export to Australia and New Zealand from Persiaran Kerapu, Butterworth. SSM 202101042528 (1442828-U).
-- Draft: `r2276372326674085603`. Thread: `1a033a13be60dd22`. Subject: Butterworth grocery page.
+- Draft: `r2276372326674085603`. Thread: `1a033f91202d5497`. Subject: Butterworth grocery page.
 - File: `docs/proposals/jin-he-jia.md`. Hostable draft: `docs/proposals/jin-he-jia-services.html`.
 - Send on the Tue 09:00 MYT timer after Prints Buddy / TNT / Dream House, if live Coming Soon and empty `in:sent`.
 

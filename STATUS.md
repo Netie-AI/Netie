@@ -1,9 +1,10 @@
 # STATUS
 
-Updated: 2026-08-24 21:15 MYT. Success = live Stripe charge, then a payout.
+Updated: 2026-08-24 21:32 MYT. Success = live Stripe charge, then a payout.
 
 ## Now (measured)
 
+- After hours 24 Aug 21:32 MYT: no new Huawei / Avows / Kanhseei mail. Mastodon seeking-work still 0 replies. Truelancer listing still pending approval; Upwork logged out. Did not send first-mails. Did not nag. Tuesday five drafts still DRAFT with the same draft ids (thread ids refreshed after a plaintext rewrite). Public Stripe payment pages HTTP 200 for file-analysis, honor RM 500, and ops checkouts. That is not an account balance poll. Hire https://netie.ai/hire/ HTTP 200. No paid charge yet.
 - After hours 24 Aug 21:15 MYT: no new Huawei / Avows / Kanhseei / IGB / BrightAir / Windmere / SK / SKL mail. Lokesh clarification is in-thread SENT `1a0338bc74fae0b4` (19:33 MYT). Did not nag. Did not send first-mails. Truelancer session logged in, messages empty, listing still pending approval; did not request SMS. Twine and Fiverr logged out; did not type passwords. Hostable RM 500 draft for already-mailed SKL Metal: `docs/proposals/skl-metal-services.html`, from live sklmetal.com facts (Chrome UA curl). Send HTML only if they reply. Honor RM 500. Live `/services/` still Coming Soon. Sungai Lokan cluster is now IGB, BrightAir, SKL. Stop more client HTML tonight. No paid charge yet.
 - After hours 24 Aug 21:00 MYT: no new Huawei / Avows / Kanhseei / IGB / BrightAir / Windmere / SK Shutter mail. Did not nag. Did not send first-mails. Hostable RM 500 drafts committed for two already-mailed Butterworth firms: `docs/proposals/igb-metal-services.html` and `docs/proposals/brightair-services.html`, from live igbmetal.com / brightair.com.my facts (Chrome UA curl). Send those HTML files only if they reply. Honor RM 500. Live `/services/` still Coming Soon on both. Hire https://netie.ai/hire/ HTTP 200. Stop building more client HTML tonight. No paid charge yet.
 - After hours 24 Aug 20:50 MYT: hostable RM 500 drafts written for IGB Metal and BrightAir. Morning Penang/Butterworth RM 500 cluster now has drafts for Windmere, SK Shutter, IGB, BrightAir.

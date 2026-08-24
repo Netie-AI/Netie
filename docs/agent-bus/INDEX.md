@@ -2,7 +2,7 @@
 
 Channel for orchestrator <-> builder <-> researcher. Read `.cursor/skills/agent-bus/SKILL.md`.
 
-Updated: 2026-08-24 21:15 MYT.
+Updated: 2026-08-24 21:32 MYT.
 
 ## In flight
 
