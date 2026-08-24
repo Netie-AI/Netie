@@ -1038,7 +1038,7 @@ Timer `netie-tue-afternoon-websites-2026-08-25-0940-myt` (`sub_e5ee26e9-1745-4c0
 
 ## Queued after the Tue 09:40 afternoon four-send (do not send before those four, and not after hours)
 
-Timer `netie-tue-mhaus-website-2026-08-25-1000-myt` (`sub_4c3643b2-fe2e-49c2-adbe-519e4063088d`, once, Tue 25 Aug 10:00 MYT). Send existing Gmail draft only after live `/services/` Coming Soon and empty `in:sent`. First extra: M Haus Furniture, then the Johor four, then Digno, Paperbaked, F.J. Machinery, HH Metal, Presti, SKH 88, Pro Tent, Hydro Air, WH Bespoke, Teknik Alir, MAC-TECH, Heap Soon, Sinaran, Dilooma, REXOIL, KenHai, Little Hana Florist, Paint Master DIY, and Kossen. Not an email-watch loop. No Stripe. One inbox. RM 1,000-5,000. Label `Label_8` after send. Do not Surge-publish until after SENT. If Kanhseei writes, answer first and honor RM 500. Do not poll Stripe (already done 25 Aug MYT). If the 09:00, 09:20, or 09:40 drafts are still DRAFT at 10:00, send those first after the same live checks. A sixth once-timer was refused (`invalid_argument`); extras share this timer.
+Timer `netie-tue-mhaus-website-2026-08-25-1000-myt` (`sub_16a4a0a5-2945-42fb-99b0-8102240646b0`, once, Tue 25 Aug 10:00 MYT). Send existing Gmail draft only after live `/services/` Coming Soon and empty `in:sent`. First extra: M Haus Furniture, then the Johor four, then Digno, Paperbaked, F.J. Machinery, HH Metal, Presti, SKH 88, Pro Tent, Hydro Air, WH Bespoke, Teknik Alir, MAC-TECH, Heap Soon, Sinaran, Dilooma, REXOIL, KenHai, Little Hana Florist, Paint Master DIY, and Kossen. Not an email-watch loop. No Stripe. One inbox. RM 1,000-5,000. Label `Label_8` after send. Do not Surge-publish until after SENT. If Kanhseei writes, answer first and honor RM 500. Do not poll Stripe (already done 25 Aug MYT). If the 09:00, 09:20, or 09:40 drafts are still DRAFT at 10:00, send those first after the same live checks. A sixth once-timer was refused (`invalid_argument`); extras share this timer.
 
 ### M Haus Furniture -- QUEUED draft 25 Aug 2026 01:13 MYT
 
@@ -1050,7 +1050,7 @@ Timer `netie-tue-mhaus-website-2026-08-25-1000-myt` (`sub_4c3643b2-fe2e-49c2-adb
 
 ## Queued on the same Tue 10:00 M Haus timer (do not send before 10:00, and not after hours)
 
-Same timer `netie-tue-mhaus-website-2026-08-25-1000-myt` (`sub_4c3643b2-fe2e-49c2-adbe-519e4063088d`). Send after M Haus if live `/services/` Coming Soon and empty `in:sent`. Four Johor extras: Brilliant Supplies, Top Creative Steel, Loh Cross Border, Jump Belly, then Digno, Paperbaked, F.J. Machinery, HH Metal, Presti, SKH 88, Pro Tent, Hydro Air, WH Bespoke, Teknik Alir, MAC-TECH, Heap Soon, Sinaran, Dilooma, REXOIL, KenHai, Little Hana Florist, Paint Master DIY, and Kossen. Not an email-watch loop. No Stripe. One inbox. RM 1,000-5,000. Label `Label_8` after send. Do not Surge-publish until after SENT. If Kanhseei writes, answer first and honor RM 500. Do not poll Stripe (already done 25 Aug MYT). Loh is a private-car page, not a Thursday 3PL follow-up. Do not mail Brilliant Melaka `stoneshopmelaka@gmail.com`. A separate 10:20 timer was refused (`invalid_argument`, likely a five-timer cap).
+Same timer `netie-tue-mhaus-website-2026-08-25-1000-myt` (`sub_16a4a0a5-2945-42fb-99b0-8102240646b0`). Send after M Haus if live `/services/` Coming Soon and empty `in:sent`. Four Johor extras: Brilliant Supplies, Top Creative Steel, Loh Cross Border, Jump Belly, then Digno, Paperbaked, F.J. Machinery, HH Metal, Presti, SKH 88, Pro Tent, Hydro Air, WH Bespoke, Teknik Alir, MAC-TECH, Heap Soon, Sinaran, Dilooma, REXOIL, KenHai, Little Hana Florist, Paint Master DIY, and Kossen. Not an email-watch loop. No Stripe. One inbox. RM 1,000-5,000. Label `Label_8` after send. Do not Surge-publish until after SENT. If Kanhseei writes, answer first and honor RM 500. Do not poll Stripe (already done 25 Aug MYT). Loh is a private-car page, not a Thursday 3PL follow-up. Do not mail Brilliant Melaka `stoneshopmelaka@gmail.com`. A separate 10:20 timer was refused (`invalid_argument`, likely a five-timer cap).
 
 ### Brilliant Supplies -- QUEUED draft 25 Aug 2026 01:27 MYT
 
@@ -1305,7 +1305,23 @@ Same timer `netie-tue-mhaus-website-2026-08-25-1000-myt` (`sub_4c3643b2-fe2e-49c
 - Draft: `r3766898410558903312`. Thread: `1a035bc273d26c6c`. Subject: Kulai frozen-food page.
 - File: `docs/proposals/best-kampung-foods.md`. Hostable draft: `docs/proposals/best-kampung-foods-services.html`.
 - Website-page offer, RM 1,000-5,000. No Stripe. Send on the same Tue 10:00 timer after VISUALUXE MEDIA.
-- Skipped this pass: Berjaya Table and Chair already queued. myofficesupply.com.my mailto is still info@tetrix.com.my. Othentic `/services/` Coming Soon but mailto is enquiry@otts.com.my (domain mismatch). Guangzhou ZEBO is a China hotel-linen maker. Pro Tent, Hydro Air, and HH Metal already queued. RNA uses sales@ only, not administrator@. Visualuxe `/services/` title is Our Portfolio but body is still Coming Soon. Parallel curl HTTP 000 is a VM flake. Do not send before 09:00 MYT.
+
+### The Cake Hunter Sdn Bhd -- QUEUED draft 25 Aug 2026 05:57 MYT
+
+- To: thecakehunter91@gmail.com (homepage and `/contactus/` mailto on https://www.thecakehunter.com.my/). One inbox.
+- Source: live https://www.thecakehunter.com.my/services/ HTTP 200 still Coming Soon (`min-height:440px`). Homepage lists Malaysia Books of Record The Biggest Rotating Castle Wedding Cake and Musang King Durian Cake from 41, Jalan Puteri 4/1, Bandar Puteri, 47100 Puchong. SSM 202201003833 (1449530-M).
+- Draft: `r-966671456700195244`. Thread: `1a035c7487144da5`. Subject: Puchong wedding-cake page.
+- File: `docs/proposals/the-cake-hunter.md`. Hostable draft: `docs/proposals/the-cake-hunter-services.html`.
+- Website-page offer, RM 1,000-5,000. No Stripe. Send on the same Tue 10:00 timer after Best Kampung Foods.
+
+### City Explorer Sdn Bhd -- QUEUED draft 25 Aug 2026 05:57 MYT
+
+- To: cityexplorer2010@gmail.com (homepage and `/contactus/` mailto on https://www.cityexplorer.com.my/). One inbox.
+- Source: live https://www.cityexplorer.com.my/services/ HTTP 200 still Coming Soon (`min-height:440px`). Homepage lists ONE STOP PRINTING & DISPLAY CENTRE and Glass/Window Sticker Printing & Installation @ D'Tempat Sendayan, Negeri Sembilan from Wisma City Explorer, D13-4, Persiaran Utama S2-1, Central Park, 70300 Seremban. SSM 200201028033 (595696-K).
+- Draft: `r8635684385642882977`. Thread: `1a035c74a78aa8b7`. Subject: Seremban printing-display page.
+- File: `docs/proposals/city-explorer.md`. Hostable draft: `docs/proposals/city-explorer-services.html`.
+- Website-page offer, RM 1,000-5,000. No Stripe. Send on the same Tue 10:00 timer after The Cake Hunter.
+- Skipped this pass: mycustomstickers.com.my already queued as Ninety Three. Most leftover NEWPAGES `/services/` pages are filled or 404, not Coming Soon. RNA uses sales@ only. Visualuxe `/services/` title is Our Portfolio but body is still Coming Soon. Do not send before 09:00 MYT.
 
 
 
