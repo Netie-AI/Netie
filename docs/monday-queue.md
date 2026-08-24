@@ -673,5 +673,70 @@ If a buyer expresses interest, use `docs/file-analysis-scope-template.md` before
 - File: `docs/proposals/anko-hardware.md`.
 - Do not mail ANKO Hardware again unless they reply.
 - Skipped this pass: JSG Machinery, Hexo, ESTAR/bubblewrap, IT2, and Green Energy Automation `/services/` pages are filled, not Coming Soon. AMP tiles services page is a category page, not the Coming Soon placeholder. Netie-AI/dms CI mail is private (404 from this token); did not request access. Steven has not replied to the 14:05 draft.
-- Skipped this pass: PAC Testing, VH Industrial, MJ Works, Soon Huat, TNC, Yu Chin Metal, Cooler Engineering, ATUZ, Pure Cooling, Maxcon, Questa, Yao Teng, Microx, WPK Construction, KH Building Inspection, Reseat, Aumloha, and Mokea `/services/` pages are filled, not Coming Soon. SSE Industries, JIT Pro, Fettmann, Octagon Tech, Pallet Kia, Bagan Printers, STD Parts, AOHA Designs, Parts Papa, and Capital Gardens `/services/` 404. CKL Brother bot-checked. SUNNY Packaging, Key Power, IFAST Printing, Tiek Hup, and Megacold had no Official Website on NEWPAGES.
+
+### MBOND Manufacturer -- SENT 24 Aug 2026 15:06 MYT
+
+- To: marketing@mbond.com.my (contact-page mailto on https://www.mbondacp.com/contactus/). One inbox.
+- Source: live https://www.mbondacp.com/services/ HTTP 200 still shows Coming Soon (`min-height:440px`). Homepage lists aluminium composite panels from 9, Jalan TPP 3, Taman Perindustrian Putra, 47130 Puchong, with MS2571:2017 and CIDB PPS. SSM 201401001401 (1077474-A).
+- `in:sent` to marketing@mbond.com.my was empty before send.
+- Thread: `1a03299c8768e763`
+- Message: `1a03299c8768e763`
+- Subject: Puchong ACP page
+- Ask: RM 1,000 to RM 5,000 after looking at how much copy they need. Draft first. No Stripe. No hire-page link.
+- Not 3PL. Did not mail Intergrated Freighters today. Did not poll Stripe.
+- File: `docs/proposals/mbond-manufacturer.md`.
+- Do not mail MBOND again unless they reply.
+
+### South Island Furniture -- SENT 24 Aug 2026 15:06 MYT
+
+- To: sales@southislandfurniture.com.my (visible contact-page mailto on https://www.southislandfurniture.com.my/contactus/). One inbox.
+- Source: live https://www.southislandfurniture.com.my/services/ HTTP 200 still shows Coming Soon (`min-height:440px`). Homepage lists office workstations, conference tables, and ergonomic chairs from 2-2, Jalan BK 5A/2C, Bandar Kinrara, 47180 Puchong. SSM 200801033685 (835023-K).
+- `in:sent` to sales@southislandfurniture.com.my was empty before send.
+- Thread: `1a03299cab93c95c`
+- Message: `1a03299cab93c95c`
+- Subject: Kinrara furniture page
+- Ask: RM 1,000 to RM 5,000 after looking at how much copy they need. Draft first. No Stripe. No hire-page link.
+- Not 3PL. Did not mail Intergrated Freighters today. Did not poll Stripe.
+- File: `docs/proposals/south-island-furniture.md`.
+- Do not mail South Island Furniture again unless they reply.
+
+### Daya Banding / TOKEN KING -- SENT 24 Aug 2026 15:06 MYT
+
+- To: enquiry@tokenwheels.com.my (visible contact-page mailto on https://www.tokenwheels.com.my/contactus/). One inbox.
+- Source: live https://www.tokenwheels.com.my/services/ HTTP 200 still shows Coming Soon (`min-height:440px`). Homepage lists TOKEN KING and PRO TOKEN forklift, truck, and OTR wheel rims from Kawasan Industri Rimba Panjang, Sungai Siput, Perak. SSM 201101037436 (965570-P).
+- `in:sent` to enquiry@tokenwheels.com.my was empty before send.
+- Thread: `1a03299cc879ef37`
+- Message: `1a03299cc879ef37`
+- Subject: Sungai Siput rim page
+- Ask: RM 1,000 to RM 5,000 after looking at how much copy they need. Draft first. No Stripe. No hire-page link.
+- Not 3PL. Did not mail Intergrated Freighters today. Did not poll Stripe.
+- File: `docs/proposals/daya-banding-token.md`.
+- Do not mail Daya Banding again unless they reply.
+
+### Xuan Huat Food Equipment -- SENT 24 Aug 2026 15:06 MYT
+
+- To: sales@my-combi-oven.com (visible contact-page mailto on https://www.my-combi-oven.com/contactus/). One inbox.
+- Source: live https://www.my-combi-oven.com/services/ HTTP 200 still shows Coming Soon (`min-height:440px`). Homepage lists combi ovens plus kitchen planning and installation from 15 & 15-01, Jalan Rosemerah 2/1, Taman Johor Jaya, 81100 Johor Bahru. SSM 201401042072 (1118239-X).
+- `in:sent` to sales@my-combi-oven.com was empty before send.
+- Thread: `1a03299ccd77266b`
+- Message: `1a03299ccd77266b`
+- Subject: Johor Jaya oven page
+- Ask: RM 1,000 to RM 5,000 after looking at how much copy they need. Draft first. No Stripe. No hire-page link.
+- Not 3PL. Did not mail Intergrated Freighters today. Did not poll Stripe.
+- File: `docs/proposals/xuan-huat-food.md`.
+- Do not mail Xuan Huat again unless they reply.
+
+### Lentix Solution -- SENT 24 Aug 2026 15:06 MYT
+
+- To: inquiry@lentix.com.my (visible contact-page mailto on https://www.lentix.com.my/contactus/). One inbox.
+- Source: live https://www.lentix.com.my/services/ HTTP 200 still shows Coming Soon (`min-height:440px`). Homepage lists pogo pins, dispensing, and UV curing from 3S-11-06, Setia Triangle, Persiaran Kelicap, 11900 Bayan Lepas, Penang. SSM 201201034932 (1019414-A).
+- `in:sent` to inquiry@lentix.com.my was empty before send.
+- Thread: `1a03299cee927b7e`
+- Message: `1a03299cee927b7e`
+- Subject: Bayan Lepas dispensing page
+- Ask: RM 1,000 to RM 5,000 after looking at how much copy they need. Draft first. No Stripe. No hire-page link.
+- Not 3PL. Did not mail Intergrated Freighters today. Did not poll Stripe.
+- File: `docs/proposals/lentix-solution.md`.
+- Do not mail Lentix again unless they reply.
+- Skipped this pass: PAC Testing, VH Industrial, MJ Works, Soon Huat, TNC, Yu Chin Metal, Cooler Engineering, ATUZ, Pure Cooling, Maxcon, Questa, Yao Teng, Microx, WPK Construction, KH Building Inspection, Reseat, Aumloha, and Mokea `/services/` pages are filled, not Coming Soon. SSE Industries, JIT Pro, Fettmann, Octagon Tech, Pallet Kia, Bagan Printers, STD Parts, AOHA Designs, Parts Papa, and Capital Gardens `/services/` 404. CKL Brother bot-checked. SUNNY Packaging, Key Power, IFAST Printing, Tiek Hup, and Megacold had no Official Website on NEWPAGES. Steven has not replied to the 14:05 draft; did not nag.
 

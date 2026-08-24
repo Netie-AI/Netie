@@ -8,5 +8,12 @@ Write one file here before a priced reply. Keep claims inside live public pages 
 | `engineering-help-template.md` | CI/CD, PR review, scoped bugs, RM 1,000-5,000 |
 | `kanhseei-teckh.md` | Live buyer thread. Honor RM 500 for the Services page already quoted. |
 | `kanhseei-services-draft.html` | Draft page from kanhseei.com published facts only |
+| `yes-packaging.md` | Sent 24 Aug. RM 1,000-5,000. No Stripe. |
+| `anko-hardware.md` | Sent 24 Aug. RM 1,000-5,000. No Stripe. |
+| `mbond-manufacturer.md` | Sent 24 Aug. RM 1,000-5,000. No Stripe. |
+| `south-island-furniture.md` | Sent 24 Aug. RM 1,000-5,000. No Stripe. |
+| `daya-banding-token.md` | Sent 24 Aug. RM 1,000-5,000. No Stripe. |
+| `xuan-huat-food.md` | Sent 24 Aug. RM 1,000-5,000. No Stripe. |
+| `lentix-solution.md` | Sent 24 Aug. RM 1,000-5,000. No Stripe. |
 
 Do not put Stripe in a first website mail. Do not raise a price already named in the same thread.

@@ -23,3 +23,4 @@ This index records reusable findings from focused subagent reviews.
 | [2026-08-23-restore-homepage.md](2026-08-23-restore-homepage.md) | homepage, 302, suite, hire band, File Manager | Restore the April netie.ai landing; hire is a smaller linked introduce page. |
 | [2026-08-23-freelance-channel-logins.md](2026-08-23-freelance-channel-logins.md) | Fiverr, Twine, Truelancer, PPH, Freelancer | Twine is live; Fiverr password fails; PPH wants a paid plan. |
 | [2026-08-24-warm-offer-scope.md](2026-08-24-warm-offer-scope.md) | outreach tone, RM1000-5000, proposals, ASA, AIM, CI-Doctor | New work is quoted after research; honor any price already named in the thread. |
+| [2026-08-24-coming-soon-mailto.md](2026-08-24-coming-soon-mailto.md) | NEWPAGES, contact mailto, Coming Soon, curl UA | Firm `/contactus/` mailto plus live Coming Soon `/services/` is enough; do not mail directory-only addresses. |
