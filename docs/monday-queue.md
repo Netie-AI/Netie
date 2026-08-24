@@ -210,3 +210,12 @@ If a buyer expresses interest, use `docs/file-analysis-scope-template.md` before
 - Skipped this round: Adzuna (must be within 2h of London), Kyra/Senzing/GovStar/Solution Street (US-only), Albert (principal/distinguished), Bactrix (early equity), Micro1 (personal Gmail listing), JB Martyn (Chicago, no telecommute).
 - Do not mail again unless they reply. HN also lists a Google form; do not double-submit unless they ask.
 
+### Strello Health -- SENT 24 Aug 2026 09:27 MYT
+
+- To: jobs@strello.health
+- Source: Ask HN Who is hiring August 2026. Founding Software Engineer, hybrid remote Toronto/GTA, hiring across levels. Site https://strello.health measured HTTP 200.
+- Thread: `1a031611e3cda323`
+- Honest: Penang/MY, not Toronto. Mid-level Python/JS at Jumpwin. No production WebRTC/telephony. Expected USD 48k. Asked them to skip if the seat is Toronto-only.
+- Skipped this round: MixRank junior (Dover/YC form, no public apply inbox), ActivePrime (requires prior US-company employment), Adzuna (within 2h of London), Bactrix (equity/pre-funding).
+- Do not mail again unless they reply.
+
