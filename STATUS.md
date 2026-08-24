@@ -1,10 +1,11 @@
 # STATUS
 
-Updated: 2026-08-24 20:30 MYT. Success = live Stripe charge, then a payout.
+Updated: 2026-08-24 21:00 MYT. Success = live Stripe charge, then a payout.
 
 ## Now (measured)
 
-- After hours 24 Aug 20:30 MYT: no new Huawei / Avows / Kanhseei / Windmere / SK Shutter mail. Did not nag. Did not send first-mails. Hostable RM 500 drafts shipped for two already-mailed Penang firms: `docs/proposals/windmere-services.html` and `docs/proposals/sk-shutter-services.html`. Send those HTML files only if they reply. Honor RM 500. No paid charge yet.
+- After hours 24 Aug 21:00 MYT: no new Huawei / Avows / Kanhseei / IGB / BrightAir / Windmere / SK Shutter mail. Did not nag. Did not send first-mails. Hostable RM 500 drafts committed for two already-mailed Butterworth firms: `docs/proposals/igb-metal-services.html` and `docs/proposals/brightair-services.html`, from live igbmetal.com / brightair.com.my facts (Chrome UA curl). Send those HTML files only if they reply. Honor RM 500. Live `/services/` still Coming Soon on both. Hire https://netie.ai/hire/ HTTP 200. Stop building more client HTML tonight. No paid charge yet.
+- After hours 24 Aug 20:50 MYT: hostable RM 500 drafts written for IGB Metal and BrightAir. Morning Penang/Butterworth RM 500 cluster now has drafts for Windmere, SK Shutter, IGB, BrightAir.
 - After hours 24 Aug 20:14 MYT: no new Huawei / Avows / Kanhseei mail. Hire https://netie.ai/hire/ HTTP 200. Twine https://www.twine.net/jianhong HTTP 200. Truelancer service URL HTTP 429 (Vercel checkpoint). Did not buy Truelancer PRO. Did not reset Fiverr. Tuesday send timer covers five drafts: `netie-tue-queued-websites-2026-08-25-0900-myt` (`sub_0c304477-2566-440b-823c-78d8ae9c7a2f`).
 - Kanhseei buyer reply 24 Aug 19:18 MYT: Lokesh (`lokesh@kanhseei.com`) asked who authorised website changes and to stop until internal confirmation. Clarification SENT 19:33 MYT, message `1a0338bc74fae0b4`, thread `1a03200b47b3aebe`, to Lokesh, CC Sara and Steven. Live https://www.kanhseei.com/services/ still Coming Soon. Nobody authorised live-site work; nothing published; RM 500 is a quote not a bill. Wait. Do not nag. Do not touch kanhseei.com.
 - Queued office-hours first-mails (do not send tonight): Prints Buddy `order@printsbuddy.com.my` draft `r5576372032492267601`; TNT Crane `marketing@tntcrane.com.my` draft `r7715596559068711037`; Dream House `dream.house.sw.sb@gmail.com` draft `r-7065746014145915944`; Berjaya `enquiry.berjaya@gmail.com` draft `r8087702750161109889`; Jin He Jia `enquiry@jinhejia.com.my` draft `r2276372326674085603`. Timer `netie-tue-queued-websites-2026-08-25-0900-myt` (`sub_0c304477-2566-440b-823c-78d8ae9c7a2f`, once, Tue 25 Aug 09:00 MYT) sends those five after re-check. This is not an email-watch loop.

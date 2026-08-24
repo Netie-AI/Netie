@@ -325,6 +325,7 @@ Owner order 24 Aug 18:14 MYT: clean out other job applies. Do not apply to Evabo
 - Ask: RM 500, one revision, page written from their published text. No Stripe link in the first mail.
 - Not 3PL. Did not mail Intergrated Freighters today. Did not poll Stripe.
 - Do not mail IGB Metal again unless they reply.
+- Hostable draft: `docs/proposals/igb-metal-services.html`. Honor RM 500. Send only if they reply.
 
 ### BrightAir Engineering -- SENT 24 Aug 2026 10:37 MYT
 
@@ -337,6 +338,7 @@ Owner order 24 Aug 18:14 MYT: clean out other job applies. Do not apply to Evabo
 - Ask: RM 500, one revision, page written from their published text. No Stripe link in the first mail.
 - Not 3PL. Did not mail Intergrated Freighters today. Did not poll Stripe.
 - Do not mail BrightAir again unless they reply.
+- Hostable draft: `docs/proposals/brightair-services.html`. Honor RM 500. Send only if they reply.
 
 ### SKL Metal Systems -- SENT 24 Aug 2026 10:42 MYT
 

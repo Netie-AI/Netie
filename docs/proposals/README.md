@@ -34,5 +34,7 @@ Write one file here before a priced reply. Keep claims inside live public pages 
 | `jin-he-jia-services.html` | Hostable draft from jinhejia.com.my published facts |
 | `windmere-services.html` | Already mailed. Honor RM 500. Send HTML only if they reply. |
 | `sk-shutter-services.html` | Already mailed. Honor RM 500. Send HTML only if they reply. |
+| `igb-metal-services.html` | Already mailed. Honor RM 500. Send HTML only if they reply. |
+| `brightair-services.html` | Already mailed. Honor RM 500. Send HTML only if they reply. |
 
 Do not put Stripe in a first website mail. Do not raise a price already named in the same thread.
