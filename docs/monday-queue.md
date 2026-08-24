@@ -873,16 +873,34 @@ Timer `netie-tue-queued-websites-2026-08-25-0900-myt` (`sub_d2cddda5-5d3c-4c9f-8
 - To: marketing@tntcrane.com.my (homepage mailto on https://www.tntcrane.com.my/). One inbox.
 - Source: live https://www.tntcrane.com.my/services/ HTTP 200 still Coming Soon (`min-height:440px`). Homepage lists mobile crane, crawler crane, and skylift from 55B, Jalan Pusat Perniagaan Raja Uda 4, Butterworth. Established 2011. SSM 201101038063 (966197-A).
 - Draft: `r7715596559068711037`. Thread: `1a0338dea92a49bd`. Subject: Butterworth crane page.
-- File: `docs/proposals/tnt-crane.md`.
+- File: `docs/proposals/tnt-crane.md`. Hostable draft: `docs/proposals/tnt-crane-services.html`.
 
 ### Dream House Sanitary Ware -- QUEUED draft 24 Aug 2026 19:35 MYT
 
 - To: dream.house.sw.sb@gmail.com (homepage mailto on https://www.dreamhouse.com.my/). One inbox.
 - Source: live https://www.dreamhouse.com.my/services/ HTTP 200 still Coming Soon (`min-height:440px`). Homepage lists toilets, basins, and MINI cabinet basins from Taman Berjaya Setia, Bukit Mertajam. Since 2010. SSM 201201042836 (1027312-X).
 - Draft: `r-7065746014145915944`. Thread: `1a0338dee3d3fb58`. Subject: Bukit Mertajam sanitary page.
-- File: `docs/proposals/dream-house-sanitary.md`.
+- File: `docs/proposals/dream-house-sanitary.md`. Hostable draft: `docs/proposals/dream-house-services.html`.
 
 ### Kanhseei -- wait (not queued)
 
 - Thread `1a03200b47b3aebe`. Lokesh clarification SENT 19:33 MYT, message `1a0338bc74fae0b4`. Do not nag. Do not send the hostable HTML unless they ask. Honor RM 500.
+
+## Queued after Tue 09:00 three-send (do not send 24 Aug; not on that timer)
+
+### Berjaya Table & Chair -- QUEUED draft 24 Aug 2026 19:56 MYT
+
+- To: enquiry.berjaya@gmail.com (homepage mailto on https://www.berjayatableandchair.com/). Footer name: Success Table & Chair Sdn Bhd. One inbox.
+- Source: live https://www.berjayatableandchair.com/services/ HTTP 200 still Coming Soon (`min-height:440px`). Homepage lists stainless canteen sets and Isotop restaurant tables from Sungai Balak, Balakong, Kajang. SSM 202501013794 (1615208-T).
+- Draft: `r8087702750161109889`. Thread: `1a033a139cb42e65`. Subject: Balakong canteen page.
+- File: `docs/proposals/berjaya-table-chair.md`.
+- Send only after the Tue 09:00 three-send, in office hours, after live Coming Soon and empty `in:sent`.
+
+### Jin He Jia -- QUEUED draft 24 Aug 2026 19:56 MYT
+
+- To: enquiry@jinhejia.com.my (homepage mailto on https://www.jinhejia.com.my/). One inbox.
+- Source: live https://www.jinhejia.com.my/services/ HTTP 200 still Coming Soon (`min-height:440px`). Homepage lists household wholesale and export to Australia and New Zealand from Persiaran Kerapu, Butterworth. SSM 202101042528 (1442828-U).
+- Draft: `r2276372326674085603`. Thread: `1a033a13be60dd22`. Subject: Butterworth grocery page.
+- File: `docs/proposals/jin-he-jia.md`.
+- Send only after the Tue 09:00 three-send, in office hours, after live Coming Soon and empty `in:sent`.
 

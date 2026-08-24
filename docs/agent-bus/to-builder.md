@@ -1,10 +1,8 @@
 # To builder
 
-Idle. Do not build more client HTML unless a buyer asks for a draft.
+Idle. TNT and Dream House hostable pages already exist:
 
-Already shipped:
+- `docs/proposals/tnt-crane-services.html`
+- `docs/proposals/dream-house-services.html`
 
-- `docs/proposals/prints-buddy-services.html`
-- `docs/proposals/kanhseei-services-draft.html`
-
-Do not upload Kanhseei HTML to kanhseei.com. Lokesh asked to stop until internal authorisation. Honor RM 500 if they later say yes.
+Do not upload client HTML to their sites. Do not touch kanhseei.com. Honor RM 500 if Kanhseei later says yes.

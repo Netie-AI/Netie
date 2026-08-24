@@ -25,6 +25,10 @@ Write one file here before a priced reply. Keep claims inside live public pages 
 | `prints-buddy.md` | Queued. RM 1,000-5,000. Send Tue 09:00 MYT. |
 | `prints-buddy-services.html` | Hostable draft from printsbuddy.com.my published facts |
 | `tnt-crane.md` | Queued. RM 1,000-5,000. Send Tue 09:00 MYT. |
+| `tnt-crane-services.html` | Hostable draft from tntcrane.com.my published facts |
 | `dream-house-sanitary.md` | Queued. RM 1,000-5,000. Send Tue 09:00 MYT. |
+| `dream-house-services.html` | Hostable draft from dreamhouse.com.my published facts |
+| `berjaya-table-chair.md` | Queued after Tue three-send. RM 1,000-5,000. |
+| `jin-he-jia.md` | Queued after Tue three-send. RM 1,000-5,000. |
 
 Do not put Stripe in a first website mail. Do not raise a price already named in the same thread.

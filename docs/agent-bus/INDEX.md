@@ -2,13 +2,13 @@
 
 Channel for orchestrator <-> builder <-> researcher. Read `.cursor/skills/agent-bus/SKILL.md`.
 
-Updated: 2026-08-24 19:36 MYT.
+Updated: 2026-08-24 19:57 MYT.
 
 ## In flight
 
-- Builder: none. Hostable Kanhseei and Prints Buddy pages already exist. Do not publish Kanhseei HTML to their site.
-- Researcher: none. TNT Crane and Dream House facts are in `from-researcher.md` and proposal files.
-- Orchestrator: Kanhseei wait after Lokesh clarification SENT `1a0338bc74fae0b4`. Tuesday 09:00 MYT send of three queued drafts. Employment keep-only (Huawei, Avows/Avanade). Thursday 3PL follow-up stays.
+- Builder: none. TNT and Dream House hostable pages exist. Do not publish client HTML to their sites. Do not touch kanhseei.com.
+- Researcher: none. Berjaya and Jin He Jia are queued as drafts for after the Tue 09:00 three-send.
+- Orchestrator: Kanhseei wait after Lokesh clarification SENT `1a0338bc74fae0b4`. Tuesday 09:00 MYT send of three queued drafts. Then Berjaya and Jin He Jia if checks pass. Employment keep-only (Huawei, Avows/Avanade). Thursday 3PL follow-up stays.
 
 ## How to leave a message
 

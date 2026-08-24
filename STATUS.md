@@ -1,9 +1,10 @@
 # STATUS
 
-Updated: 2026-08-24 19:36 MYT. Success = live Stripe charge, then a payout.
+Updated: 2026-08-24 19:57 MYT. Success = live Stripe charge, then a payout.
 
 ## Now (measured)
 
+- After hours 24 Aug 19:57 MYT: no new Huawei / Avows / NextAL mail. No new Kanhseei mail after Lokesh. Did not nag. Did not send first-mails. Hostable TNT and Dream House pages shipped. Two more Coming Soon firms queued as drafts for after Tue 09:00 send: Berjaya Table & Chair `enquiry.berjaya@gmail.com` draft `r8087702750161109889`; Jin He Jia `enquiry@jinhejia.com.my` draft `r2276372326674085603`. Do not add them to the Tuesday timer. No paid charge yet.
 - Kanhseei buyer reply 24 Aug 19:18 MYT: Lokesh (`lokesh@kanhseei.com`) asked who authorised website changes and to stop until internal confirmation. Clarification SENT 19:33 MYT, message `1a0338bc74fae0b4`, thread `1a03200b47b3aebe`, to Lokesh, CC Sara and Steven. Live https://www.kanhseei.com/services/ still Coming Soon. Nobody authorised live-site work; nothing published; RM 500 is a quote not a bill. Wait. Do not nag. Do not touch kanhseei.com.
 - Queued office-hours first-mails (do not send tonight): Prints Buddy `order@printsbuddy.com.my` draft `r5576372032492267601`; TNT Crane `marketing@tntcrane.com.my` draft `r7715596559068711037`; Dream House `dream.house.sw.sb@gmail.com` draft `r-7065746014145915944`. All three `/services/` still Coming Soon at 19:33 MYT. `in:sent` empty. Timer `netie-tue-queued-websites-2026-08-25-0900-myt` (`sub_d2cddda5-5d3c-4c9f-872c-875bd51fdf45`, once, Tue 25 Aug 09:00 MYT) sends those three drafts only after re-check. This is not an email-watch loop.
 - last_stripe_check: 2026-08-24 09:07 MYT. Live account `acct_1RMx9FFV5wcFod2f`, display NETIE, livemode true. Did not poll balance, charges, or products. Did not alter Stripe products. Do not poll Stripe again this MYT day.
@@ -118,7 +119,7 @@ Updated: 2026-08-24 19:36 MYT. Success = live Stripe charge, then a payout.
 ## Next
 
 1. Huawei: wait for Hannah on the FAE salary-offer stage. Avows / Avanade: wait for Nischitha or Polyanna on the contractor role. NextAL: wait if they write. Do not apply to any other job.
-2. Tue 25 Aug 09:00 MYT: send the three queued website drafts only (Prints Buddy, TNT Crane, Dream House) after live Coming Soon and empty `in:sent` checks. Timer `netie-tue-queued-websites-2026-08-25-0900-myt`.
+2. Tue 25 Aug 09:00 MYT: send the three queued website drafts only (Prints Buddy, TNT Crane, Dream House) after live Coming Soon and empty `in:sent` checks. Timer `netie-tue-queued-websites-2026-08-25-0900-myt`. After those three go out, send Berjaya and Jin He Jia drafts the same office-hours window only if checks pass.
 3. Watch Kanhseei `1a03200b47b3aebe` only if Lokesh, Steven, or Sara writes. Do not nag. Do not touch kanhseei.com. Do not mail Kanhseei `sales@` or `info@`. Honor RM 500. Direct links only. Plaintext mail.
 4. Fiverr gig paste still needs the owner logged in. Outlier Persona KYC is owner-only. Prompt a login window when a password is required; do not reset passwords.
 5. Thu 27 Aug 09:00 MYT: 3PL follow-up only, from `docs/monday-queue.md`, if still no reply.
