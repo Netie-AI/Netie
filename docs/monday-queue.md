@@ -381,5 +381,17 @@ If a buyer expresses interest, use `docs/file-analysis-scope-template.md` before
 - Ask: RM 500, one revision, page written from their published text. No Stripe link in the first mail.
 - Not 3PL. Did not mail Intergrated Freighters today. Did not poll Stripe.
 - Do not mail Power Wind again unless they reply.
-- Skipped this pass: OS Jutze `/services/` is 404 not Coming Soon. Apply Industrial `/services/` is 404. Liqgas `/services/` is 404. SNEW and Perdana Grafik already in `in:sent`. NCT ground-handling is 3PL, not mailed today.
+
+### KA Bina Consultancy Group -- SENT 24 Aug 2026 11:46 MYT
+
+- To: admin@kabina.com.my (contact-page address on https://kabina.com.my/contact-us/). One inbox.
+- Source: live https://kabina.com.my/services/ HTTP 200 still shows Coming Soon. Homepage lists COBOD 3D construction printers, diesel and gas generators, and engineering work from UNIT C-1 & C-2, Lot 886, Jalan Subang 9, Taman Perindustrian Subang.
+- `in:sent` to admin@kabina.com.my was empty before send. Not in existing `docs/*-services.html` drafts.
+- Thread: `1a031e0e71f9edb6`
+- Message: `1a031e0e71f9edb6`
+- Subject: Subang 3D printer page
+- Ask: RM 500, one revision, page written from their published text. No Stripe link in the first mail.
+- Not 3PL. Did not mail Intergrated Freighters today. Did not poll Stripe.
+- Do not mail KA Bina again unless they reply.
+- Skipped this pass: Prosper Peace `/services/` now 404 on the rebuilt shop site. Karfu and Kim Sheng `/services/` are 404. OS Jutze, Apply Industrial, and Liqgas `/services/` are 404. SNEW and Perdana Grafik already in `in:sent`. NCT is 3PL, not mailed today.
 
