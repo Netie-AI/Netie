@@ -19,9 +19,10 @@
 - Workana: account was created with Facebook; email/password login refused.
 - wantstobehired.com: login works; it only aggregates HN seeker posts, no seller gigs.
 - Hacker News: logged in as jianhongpg, karma 1, too new for a top-level freelance-thread comment. Profile email and about saved in the logged-in browser session. This datacenter IP gets `Sorry.` on the public user page, so public HN HTML was not re-fetched here.
+- Reddit r/forhire 24 Aug 20:17 MYT: datacenter IP blocked ("network security"), then login wall. No existing session. Did not type a password or request SMS. Paste is `docs/reddit-paste.txt`. Do not spam a second subreddit.
 
 ## Do not
 
-- Reset Fiverr, Guru, or Gumroad.
+- Reset Fiverr, Guru, Gumroad, or Reddit.
 - Buy Twine Pro, PPH plans, or bid packs.
 - Treat a pending Truelancer review or a live Twine profile as a Stripe charge.
