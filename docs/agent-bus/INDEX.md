@@ -7,7 +7,7 @@ Updated: 2026-08-25 02:51 MYT.
 ## In flight
 
 - Builder: Reply-ready RM 500 HTML for KST, ATX, Ace, Lotus, Fair Trade, Top Com. Do not Surge until they reply. Canonical hire already matches copy titles.
-- Researcher: PPH About saved without Excel/URLs. Freelancing.my signup waiting on Gmail confirm click.
+- Researcher: Freelancing.my profile live at /author/jianhong/. One free bid on Website Content Writing. PPH About pending moderation. Do not buy PPH.
 - Orchestrator: Katalisjiwa still queued Tue 09:00. Kanhseei wait. Do not poll Stripe until 26 Aug MYT.
 
 ## How to leave a message
