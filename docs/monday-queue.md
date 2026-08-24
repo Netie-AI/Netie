@@ -351,6 +351,7 @@ Owner order 24 Aug 18:14 MYT: clean out other job applies. Do not apply to Evabo
 - Ask: RM 500, one revision, page written from their published text. No Stripe link in the first mail.
 - Not 3PL. Did not mail Intergrated Freighters today. Did not poll Stripe.
 - Do not mail SKL Metal again unless they reply.
+- Hostable draft: `docs/proposals/skl-metal-services.html`. Honor RM 500. Send only if they reply.
 
 ### Inti Packaging -- SENT 24 Aug 2026 10:52 MYT
 

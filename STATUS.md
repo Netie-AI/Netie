@@ -1,9 +1,10 @@
 # STATUS
 
-Updated: 2026-08-24 21:00 MYT. Success = live Stripe charge, then a payout.
+Updated: 2026-08-24 21:15 MYT. Success = live Stripe charge, then a payout.
 
 ## Now (measured)
 
+- After hours 24 Aug 21:15 MYT: no new Huawei / Avows / Kanhseei / IGB / BrightAir / Windmere / SK / SKL mail. Lokesh clarification is in-thread SENT `1a0338bc74fae0b4` (19:33 MYT). Did not nag. Did not send first-mails. Truelancer session logged in, messages empty, listing still pending approval; did not request SMS. Twine and Fiverr logged out; did not type passwords. Hostable RM 500 draft for already-mailed SKL Metal: `docs/proposals/skl-metal-services.html`, from live sklmetal.com facts (Chrome UA curl). Send HTML only if they reply. Honor RM 500. Live `/services/` still Coming Soon. Sungai Lokan cluster is now IGB, BrightAir, SKL. Stop more client HTML tonight. No paid charge yet.
 - After hours 24 Aug 21:00 MYT: no new Huawei / Avows / Kanhseei / IGB / BrightAir / Windmere / SK Shutter mail. Did not nag. Did not send first-mails. Hostable RM 500 drafts committed for two already-mailed Butterworth firms: `docs/proposals/igb-metal-services.html` and `docs/proposals/brightair-services.html`, from live igbmetal.com / brightair.com.my facts (Chrome UA curl). Send those HTML files only if they reply. Honor RM 500. Live `/services/` still Coming Soon on both. Hire https://netie.ai/hire/ HTTP 200. Stop building more client HTML tonight. No paid charge yet.
 - After hours 24 Aug 20:50 MYT: hostable RM 500 drafts written for IGB Metal and BrightAir. Morning Penang/Butterworth RM 500 cluster now has drafts for Windmere, SK Shutter, IGB, BrightAir.
 - After hours 24 Aug 20:14 MYT: no new Huawei / Avows / Kanhseei mail. Hire https://netie.ai/hire/ HTTP 200. Twine https://www.twine.net/jianhong HTTP 200. Truelancer service URL HTTP 429 (Vercel checkpoint). Did not buy Truelancer PRO. Did not reset Fiverr. Tuesday send timer covers five drafts: `netie-tue-queued-websites-2026-08-25-0900-myt` (`sub_0c304477-2566-440b-823c-78d8ae9c7a2f`).
