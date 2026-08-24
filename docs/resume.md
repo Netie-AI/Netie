@@ -57,7 +57,7 @@ Languages: English, Malay, Mandarin.
 
 1. DBMS / operations system. RM 20,000. Scoped schema + admin. DMS-class document systems are quoted after written scope.
 2. Website / landing from your published facts. RM 1,000 to RM 5,000 after looking at the live site. Honor RM 500 only where already quoted.
-3. File analytics + presentation. RM 1,500.
-4. CI, pull request, and scoped bug help. RM 1,000 to RM 5,000 after looking at the repo. Public tool: https://github.com/Netie-AI/CI-Doctor
-5. Cortex crew / agent coordination, in-house LLM (AirGPT-class), and Vanguard / Closer / Cortex enterprise agents. Quoted after written scope. Public proof: https://netie.ai/#cortex and https://netie.ai/projects/. Jumpwin customer records are not a hire demo.
+3. Catalogue and website copywriting. RM 1,000 to RM 5,000.
+4. Records operations and data capture. RM 1,000 to RM 5,000. Not an Excel find-the-cell hunt.
+5. Software documentation, CI/PR help, Cortex crew, in-house LLM. Quoted after looking or after written scope. Public tool: https://github.com/Netie-AI/CI-Doctor
 AirGPT is Jumpwin internal inference. We can build the same class of private LLM for other companies. Do not paste Jumpwin screenshots.

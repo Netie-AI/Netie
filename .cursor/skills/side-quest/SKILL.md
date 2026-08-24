@@ -17,7 +17,7 @@ An agent can research, draft, build, and hand off:
 - Code or a small system with a written boundary
 - CI triage with CI-Doctor on a public repo
 
-Quote after looking. Website page: RM 1,000 to RM 5,000. Honor RM 500 only where already quoted. File analysis RM 1,500 after scope. Ops RM 20,000 after scope.
+Quote after looking. Website page, copy, records capture, and documentation: RM 1,000 to RM 5,000. Honor RM 500 only where already quoted. Ops RM 20,000 after scope. Do not pitch the retired Excel find-data / source-trace product on new first-mails.
 
 ## Where to find it
 

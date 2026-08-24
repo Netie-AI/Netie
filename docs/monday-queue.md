@@ -143,11 +143,9 @@ oojianhongg@gmail.com
 
 ### Follow-up, only after three business days and only if there is no reply
 
-One detail I should have included: the scope, exclusions, price, and files needed are agreed in writing before I start. If one report needs a source map and short decision presentation, reply and I will send the scope. If not, I will not write again.
+One detail I should have included: I also write a one-page services rewrite from your published text, or type and clean an agreed product list. RM 1,000 to RM 5,000 after I look at the page. If that would help, reply. If not, I will not write again.
 
-The sent first-touches did not include a proof link. For any no-reply follow-up, add this one link after the first sentence: `Synthetic local example: https://netie.ai/hire/trace/`. One link only.
-
-If a buyer expresses interest, use `docs/file-analysis-scope-template.md` before sending the RM 1,500 checkout link. Do not promise a delivery date or ask for sensitive files until the decision question, included files, exclusions, and handoff method are agreed.
+Do not send the retired Excel source-trace / RM 1,500 file-analysis pitch. Do not send a Stripe link until they confirm.
 
 ### Hold (do not mail 24 Aug; still unsent)
 
@@ -893,7 +891,7 @@ Owner order 24 Aug 18:14 MYT: clean out other job applies. Do not apply to Evabo
 
 ## Queued for Tue 25 Aug 2026 09:00 MYT (do not send after 17:00 MYT 24 Aug)
 
-Timer `netie-tue-queued-websites-2026-08-25-0900-myt` (`sub_0c304477-2566-440b-823c-78d8ae9c7a2f`, once). Send existing Gmail drafts only after live `/services/` Coming Soon and empty `in:sent`. Five drafts: Prints Buddy, TNT Crane, Dream House, then Berjaya, Jin He Jia. Not an email-watch loop. No Stripe. One inbox. RM 1,000-5,000. Label `Label_8` after send. Rechecked 25 Aug 00:15 MYT: all five still DRAFT with the same draft ids; `in:sent` to those five To: addresses empty; Chrome UA curl still Coming Soon on all five `/services/`. Send with `draftId` only (Gmail stores an auto html wrap; bodies have no URLs). Live Stripe 00:12 MYT was MYR 0; do not poll again until 26 Aug MYT. Public checkout pages HTTP 200.
+Timer `netie-tue-queued-websites-2026-08-25-0900-myt` (`sub_ce24c806-64bc-424d-97f6-1ea25d3953bb`, once). Send existing Gmail drafts only after live `/services/` Coming Soon and empty `in:sent`. Five website drafts: Prints Buddy, TNT Crane, Dream House, then Berjaya, Jin He Jia, then Katalisjiwa copy draft. Not an email-watch loop. No Stripe. One inbox. Do not pitch Excel find-data. Type raw URLs. Label `Label_8` after send. Rechecked 25 Aug 00:15 MYT: the five website drafts still DRAFT; `in:sent` empty; Chrome UA curl still Coming Soon. Katalisjiwa draft `r-7973407251167373553` queued 02:19 MYT. Live Stripe 00:12 MYT was MYR 0; do not poll again until 26 Aug MYT.
 
 ### Prints Buddy -- QUEUED draft 24 Aug 2026 19:35 MYT
 
@@ -940,6 +938,15 @@ Berjaya and Jin He Jia now go on the same Tuesday timer after the first three, i
 - Draft: `r2276372326674085603`. Thread: `1a033f91202d5497`. Subject: Butterworth grocery page.
 - File: `docs/proposals/jin-he-jia.md`. Hostable draft: `docs/proposals/jin-he-jia-services.html`.
 - Send on the Tue 09:00 MYT timer after Prints Buddy / TNT / Dream House, if live Coming Soon and empty `in:sent`.
+
+### Katalisjiwa Agency -- QUEUED draft 25 Aug 2026 02:19 MYT
+
+- To: hello@katalisjiwa.com (public hiring email). One inbox.
+- Freelance catalogue / website copy. Honest: English first, not BM-first social scripts.
+- Draft: `r-7973407251167373553`. Thread: `1a034ffb78591205`. Subject: Penang catalogue copy.
+- GitHub in body: https://github.com/Netie-AI (raw, no Google wrap).
+- Send on the Tue 09:00 MYT timer after the five website drafts, if still DRAFT and empty `in:sent`.
+- Do not mail najihah.hussin@vfive.com.my.
 
 ## Queued after the Tue 09:00 five-send (do not send before those five, and not after hours)
 

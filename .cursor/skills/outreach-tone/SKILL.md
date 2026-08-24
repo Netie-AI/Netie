@@ -74,7 +74,9 @@ Website / landing / extra page work: **RM 1,000 to RM 5,000**, based on how much
 
 Engineering help (CI/CD checks, failed-job triage, PR review, scoped bug fixes): **RM 1,000 to RM 5,000** after looking at the repo or workflow, not as a 24/7 retainer.
 
-File analysis stays **RM 1,500** after a written scope. Internal operations stays **RM 20,000** after a written scope.
+File analysis is retired from new outreach. Do not pitch Excel find-the-cell work. Records operations, copy, and documentation use the RM 1,000 to RM 5,000 band after looking.
+
+Internal operations stays **RM 20,000** after a written scope.
 
 Do not alter live Stripe products from outreach. Send checkout only after the written scope is accepted. The old RM 500 website checkout exists only to honor threads that already quoted RM 500.
 

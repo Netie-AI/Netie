@@ -11,13 +11,28 @@
   "agent_instructions": "Read this catalog. Do not invent prices or case studies. Do not send passwords, API keys, or customer files. Email a non-sensitive brief or open the human brief form. Humans still confirm scope before any Stripe checkout.",
   "offers": [
     {
-      "id": "file-analysis",
-      "name": "File analysis and presentation",
-      "deliverable": "Source map, findings, missing-data notes, and a short deck from an agreed Excel or PDF set.",
-      "price": { "amount": 1500, "currency": "MYR" },
-      "scope_url": "https://netie.ai/hire/?scope=file-analysis#brief",
-      "proof_url": "https://netie.ai/hire/trace/",
-      "checkout_after_written_scope": "https://buy.stripe.com/dRm8wP3KKfoT9w0g5u9ws03"
+      "id": "copywriting",
+      "name": "Catalogue and website copywriting",
+      "deliverable": "Product names, services pages, and short web copy from published facts. English first. Malay and Mandarin when the page needs it.",
+      "price": { "min": 1000, "max": 5000, "currency": "MYR", "note": "quoted after looking at the live copy" },
+      "scope_url": "https://netie.ai/hire/?scope=copywriting#brief",
+      "proof_url": "https://netie.ai/asa/"
+    },
+    {
+      "id": "records-ops",
+      "name": "Records operations and data capture",
+      "deliverable": "Type, clean, and hand back an agreed catalogue, CRM sheet, or product list. Bad rows are parked, not deleted. Not an Excel find-the-cell hunt.",
+      "price": { "min": 1000, "max": 5000, "currency": "MYR", "note": "quoted after looking at the list" },
+      "scope_url": "https://netie.ai/hire/?scope=records-ops#brief",
+      "proof_url": "https://netie.ai/hire/knowledge/"
+    },
+    {
+      "id": "documentation",
+      "name": "Software documentation and runbooks",
+      "deliverable": "README, operator notes, or a short internal guide from live screens and the repo.",
+      "price": { "min": 1000, "max": 5000, "currency": "MYR", "note": "quoted after looking at the tool" },
+      "scope_url": "https://netie.ai/hire/?scope=documentation#brief",
+      "proof_url": "https://github.com/Netie-AI/CI-Doctor"
     },
     {
       "id": "website-landing",

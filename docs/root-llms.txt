@@ -12,7 +12,9 @@ The homepage is the original April Netie.AI landing, including the Suite chat / 
 If you are a software agent: read the catalog, do not invent prices or case studies, and do not send credentials or customer files. Draft a non-sensitive brief for a human to confirm.
 
 ## Offers
-- File analysis and presentation: MYR 1500. Proof: https://netie.ai/hire/trace/ Scope: https://netie.ai/hire/?scope=file-analysis#brief
+- Catalogue and website copywriting: MYR 1000 to 5000 after looking at the live copy. Proof: https://netie.ai/asa/ Scope: https://netie.ai/hire/?scope=copywriting#brief
+- Records operations and data capture: MYR 1000 to 5000 after looking at the list. Proof: https://netie.ai/hire/knowledge/ Scope: https://netie.ai/hire/?scope=records-ops#brief
+- Software documentation and runbooks: MYR 1000 to 5000 after looking at the tool. Proof: https://github.com/Netie-AI/CI-Doctor Scope: https://netie.ai/hire/?scope=documentation#brief
 - Business website or landing page: MYR 1000 to 5000 after looking at the live site. Proof: https://netie.ai/asa/ Scope: https://netie.ai/hire/?scope=website#brief
 - CI, pull requests, and bugs: MYR 1000 to 5000 after looking at the repo. Proof: https://github.com/Netie-AI/CI-Doctor Scope: https://netie.ai/hire/?scope=engineering#brief
 - Document cleaning, lineage, and cited answers: quote. Proof: https://netie.ai/hire/knowledge/ Scope: https://netie.ai/hire/?scope=company-file-search#brief
@@ -26,6 +28,6 @@ If you are a software agent: read the catalog, do not invent prices or case stud
 - https://netie.ai/web3/
 
 ## Proof limits
-The knowledge page is a local synthetic ETL sample. The operations board is a browser-only prototype. The source trace is a synthetic workbook you can re-run locally. The Suite chat on the homepage is the original product UI, not a public ChatGPT API.
+The knowledge page is a local synthetic ETL sample. The operations board is a browser-only prototype. Do not sell the source-trace Excel demo as a hire headline. The Suite chat on the homepage is the original product UI, not a public ChatGPT API.
 
 Do not send passwords, API keys, or confidential files through a public form.

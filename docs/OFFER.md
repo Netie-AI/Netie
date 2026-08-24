@@ -10,7 +10,10 @@ Offer and checkout links:
 - Internal operations system, RM 20,000 after a written scope: https://buy.stripe.com/6oU28rdlk4KffUo06w9ws09 (`prod_V7ZigLN74TMIC7` / `price_1U7KYnFV5wcFod2fn9hDMBek`). Send this only after the buyer accepts the scope.
 - Business website or landing page, RM 1,000 to RM 5,000 after looking at the live site. Scope: https://netie.ai/hire/?scope=website#brief. Do not send a Stripe link in the first website mail. Do not alter live Stripe products from outreach.
 - Honor-only: older threads that already quoted RM 500 for a one-page services rewrite may still use https://buy.stripe.com/3cIcN54OO6SnaA4g5u9ws07 after they confirm. Do not put this price on new first-mails or on the hire page.
-- File analysis + presentation, RM 1,500: request a written scope at https://netie.ai/hire/?scope=file-analysis#brief. Send Stripe checkout only after the scope is accepted (`prod_V7RdC64MzxgLHJ` / `price_1U7Ck9FV5wcFod2fTNu0EkOP`; buyer title: `Netie File Analysis + Presentation`).
+- Catalogue and website copywriting, RM 1,000 to RM 5,000 after looking at the live copy. Scope: https://netie.ai/hire/?scope=copywriting#brief
+- Records operations and data capture, RM 1,000 to RM 5,000 after looking at the list. Scope: https://netie.ai/hire/?scope=records-ops#brief. Not an Excel find-the-cell project.
+- Software documentation and runbooks, RM 1,000 to RM 5,000 after looking at the tool. Scope: https://netie.ai/hire/?scope=documentation#brief
+- Retired from new outreach: File analysis + presentation RM 1,500 / source-trace Excel demo. Do not pitch it. The old Stripe checkout `https://buy.stripe.com/dRm8wP3KKfoT9w0g5u9ws03` stays in the account; do not alter the live product; do not send it on new first-mails.
 - CI, pull requests, and bugs, RM 1,000 to RM 5,000 after looking at the repo. Scope: https://netie.ai/hire/?scope=engineering#brief. Proof: https://github.com/Netie-AI/CI-Doctor (public CLI, not a hosted desk).
 - Company-file search with citations and process map / decision prototype: written quote after a non-sensitive brief.
 - Cortex crew and agent coordination: quoted after written scope. Public proof is https://netie.ai/#cortex and https://netie.ai/projects/. `app.netie.ai/cortex` is 404; this is not a hosted live-agent API. If the agreed job is one internal workflow, the RM 20,000 operations checkout can follow that scope. Do not invent a new Stripe product.
@@ -28,7 +31,7 @@ Public proof, with honest labels:
 - Suite agents: Vanguard, Closer, and Cortex panels on https://netie.ai/ plus the same three on https://netie.ai/projects/ and IntroVid.mp4. Published product UI. Not a hosted live-agent API (`app.netie.ai/cortex` 404). Cortex / AirGPT / DMS GitHub 404 or private from this token.
 - Invoice extract workbench: local synthetic ETL that maps vendor aliases, parses MYR and dates, drops exact duplicates, parks exceptions, rolls up vendors, answers only from the cleaned table, and exports CSV/JSON. Live: https://netie.ai/hire/knowledge/
 - Machine-readable offer list for agents: https://netie.ai/hire/catalog.json , https://netie.ai/hire/llms.txt , and https://netie.ai/llms.txt
-- Source trace: a synthetic workbook plus local Python script that resolves one same-sheet `SUM(range)` formula, lists inputs, recomputes the cached value, and refuses a typed figure. Live: https://netie.ai/hire/trace/
+- Source trace: a local synthetic workbook demo only. Retired as a hire headline. Live: https://netie.ai/hire/trace/
 - Operations board: synthetic browser-only queue prototype with local filters, selection, status changes, and JSON download. It has no API, login, customer data, integration, or production workflow. Live: https://netie.ai/hire/ops/
 - Do not market these as customer case studies, performance benchmarks, security certifications, or revenue proof.
 
@@ -42,7 +45,9 @@ Service-card proof mapping on `https://netie.ai/hire/`:
 - Enterprise agent suite: linked Suite Vanguard / Closer / Cortex panels, /projects/, and IntroVid.mp4.
 - One-page website: linked ASA pre-order landing-page demo, plus the homepage Suite chat UI. Unreleased page-craft samples, not a customer case study.
 - CI / PR / bugs: linked public CI-Doctor CLI. A triage tool, not a managed support product.
-- File analysis + presentation: linked reproducible source trace with synthetic data.
+- Copywriting: linked ASA landing.
+- Records operations: linked invoice workbench. Not the Excel source-trace headline.
+- Documentation: linked CI-Doctor README.
 
 Public mirrors:
 - Telegraph: https://telegra.ph/Netie-AI-landing-page-08-22
@@ -75,15 +80,15 @@ WhatsApp one-liner: `docs/whatsapp-paste.txt`.
 
 Internal operations system (RM 20,000 after scope): scoped schema, APIs, admin, and team screens for one defined workflow.
 Website (RM 1,000 to RM 5,000 after looking at the site): one services or landing page from approved published facts. Extra page or small FAQ/chat at the top of the band. One revision. Honor RM 500 only where that price was already quoted.
-File analytics + presentation (RM 1,500): source map, findings, missing-data notes, and a short deck from agreed files. The public source-trace sample is a reproducible example of one per-figure evidence block, not an audit.
+Catalogue and website copywriting (RM 1,000 to RM 5,000): product names and page copy from published facts.
+Records operations and data capture (RM 1,000 to RM 5,000): type, clean, and hand back an agreed list. Not an Excel find-the-cell hunt.
+Software documentation and runbooks (RM 1,000 to RM 5,000): README or operator notes from live screens.
 CI, pull requests, and bugs (RM 1,000 to RM 5,000 after looking at the repo): written triage and an agreed patch. CI-Doctor is the public CLI used to read failed Actions logs.
 Company-file search with citations and process map / decision prototype: quoted after a non-sensitive brief.
 Cortex crew, in-house LLM (AirGPT-class), DMS-class document system, and Vanguard / Closer / Cortex enterprise agents: quoted after written scope. Public proof is Suite / projects / synthetic hire demos, not Jumpwin files.
 Public proof is the captioned Constructor, AIM professional-twin intake, ASA landing, Cassandra, Suite agents, and homepage Suite chat gallery on `netie.ai/hire/` and `netie.ai`, plus the downloadable synthetic source trace at `netie.ai/hire/trace/`.
 
-For an interested file-analysis buyer, use `docs/file-analysis-scope-template.md` before sending checkout. It requires a named decision question, named agreed files, written exclusions, and an agreed handoff for any sensitive material.
-
-`docs/number-trace-deliverable.md` is the local-file source-trace template. It is not a separate headline product or public price list.
+For an interested records or copy buyer, agree the list or page in writing before sending checkout. Do not pitch the retired Excel source-trace product on new first-mails.
 
 ## What we do not claim
 
