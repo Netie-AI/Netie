@@ -1,4 +1,4 @@
-# Jin He Jia International - queued first mail (do not send 24 Aug; not on Tue 09:00 timer)
+# Jin He Jia International - queued first mail (Tue 25 Aug 09:00 MYT five-send)
 
 To: enquiry@jinhejia.com.my (homepage mailto on https://www.jinhejia.com.my/). One inbox.
 
@@ -8,7 +8,7 @@ Measured 24 Aug 19:55 MYT. `in:sent` to enquiry@jinhejia.com.my empty. Not 3PL. 
 
 Quoted band: RM 1,000 to RM 5,000 after looking at how much copy they want. No Stripe in first mail.
 
-Send only after the Tue 25 Aug 09:00 MYT Prints Buddy / TNT / Dream House drafts go out, and only in Malaysia office hours. Re-check live `/services/` Coming Soon and empty `in:sent` before send.
+Send on the Tue 25 Aug 09:00 MYT timer after Prints Buddy / TNT / Dream House. Re-check live `/services/` Coming Soon and empty `in:sent` before send.
 
 Draft subject: Butterworth grocery page
 

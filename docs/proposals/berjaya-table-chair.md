@@ -1,4 +1,4 @@
-# Berjaya Table & Chair - queued first mail (do not send 24 Aug; not on Tue 09:00 timer)
+# Berjaya Table & Chair - queued first mail (Tue 25 Aug 09:00 MYT five-send)
 
 To: enquiry.berjaya@gmail.com (homepage mailto on https://www.berjayatableandchair.com/). One inbox. Firm name on footer: Success Table & Chair Sdn Bhd.
 
@@ -8,7 +8,7 @@ Measured 24 Aug 19:55 MYT. `in:sent` to enquiry.berjaya@gmail.com empty. Not 3PL
 
 Quoted band: RM 1,000 to RM 5,000 after looking at how much copy they want. No Stripe in first mail.
 
-Send only after the Tue 25 Aug 09:00 MYT Prints Buddy / TNT / Dream House drafts go out, and only in Malaysia office hours. Re-check live `/services/` Coming Soon and empty `in:sent` before send.
+Send on the Tue 25 Aug 09:00 MYT timer after Prints Buddy / TNT / Dream House. Re-check live `/services/` Coming Soon and empty `in:sent` before send.
 
 Draft subject: Balakong canteen page
 
