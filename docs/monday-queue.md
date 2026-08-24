@@ -364,6 +364,7 @@ Owner order 24 Aug 18:14 MYT: clean out other job applies. Do not apply to Evabo
 - Ask: RM 500, one revision, page written from their published text. No Stripe link in the first mail.
 - Not 3PL. Not a second inbox at a mailed firm. Did not mail Intergrated Freighters today. Did not poll Stripe.
 - Do not mail Inti Packaging again unless they reply.
+- Hostable draft: `docs/proposals/inti-packaging-services.html`. Honor RM 500. Send only if they reply. Do not Surge-publish until they ask.
 
 ### Wonderful Landscape -- SENT 24 Aug 2026 10:58 MYT
 
@@ -416,6 +417,7 @@ Owner order 24 Aug 18:14 MYT: clean out other job applies. Do not apply to Evabo
 - Ask: RM 500, one revision, page written from their published text. No Stripe link in the first mail.
 - Not 3PL. Did not mail Intergrated Freighters today. Did not poll Stripe.
 - Do not mail Pangraph again unless they reply.
+- Hostable draft: `docs/proposals/pangraph-services.html`. Honor RM 500. Send only if they reply. Do not Surge-publish until they ask.
 
 ### Onehome Management -- SENT 24 Aug 2026 11:17 MYT
 
@@ -516,6 +518,7 @@ Owner order 24 Aug 18:14 MYT: clean out other job applies. Do not apply to Evabo
 - Ask: RM 500, one revision, page written from their published text. No Stripe link in the first mail.
 - Not 3PL. Did not mail Intergrated Freighters today. Did not poll Stripe.
 - Do not mail Aerial Mix again unless they reply.
+- Hostable draft: `docs/proposals/aerial-mix-services.html`. Honor RM 500. Send only if they reply. Do not Surge-publish until they ask. Do not mail `aerialmixsb@gmail.com`.
 
 ### Siddex Technologies -- SENT 24 Aug 2026 12:16 MYT
 

@@ -171,4 +171,15 @@ Paths:
 
 Facts from Chrome UA curl with unique files. Live `/services/` still Coming Soon on all three. Oryx Plastic returned a JS browser-check page; skipped. Zipper brand logos have empty alt text; did not invent brand names. Send HTML only if they reply.
 
+## 2026-08-25 01:50 MYT
+
+Shipped three more hostable static services pages for already-mailed firms. No email send. No Stripe. Did not Surge-publish. Did not touch kanhseei.com.
+
+Paths:
+- `docs/proposals/inti-packaging-services.html` (honor RM 500)
+- `docs/proposals/pangraph-services.html` (honor RM 500)
+- `docs/proposals/aerial-mix-services.html` (honor RM 500)
+
+Aerial Mix `/services/` still Coming Soon on a fresh unique curl. Inti and Pangraph later curls hit a 1703-byte browser-check; used the earlier same-night dumps. Did not invent an ISO number. Did not mail aerialmixsb@. Send HTML only if they reply.
+
 
