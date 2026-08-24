@@ -15,6 +15,18 @@ Invites Jian pasted (Vanish, Shruthi) are **not** in this Gmail API inbox. Found
 
 Send Proposal on all three opened signup/login. 0 sent.
 
+## Marketing mail (2026-08-24)
+
+Truelancer promo cards are **samples**, not live jobs. Exact titles returned nothing usable.
+
+| card | listed | live? | action |
+|---|---|---|---|
+| Social media content creator, tech startup | USD 180 | no live match; copywriting not evidenced | skip |
+| Python scripting expert | USD 300+ | no live match | bid text ready: `proposal-python-script.md` Drive https://docs.google.com/document/d/1BgJ-C0B-Gy_-BRp-ECxbzKBO6gnrGNThJwBvEevceoo/edit |
+| Ecom website redesign | USD 600 | no live match; closest live analog is Shruthi USD 600 | bid text ready: `proposal-ecom-redesign.md` Drive https://docs.google.com/document/d/1-vTLVncpkDws59ukZ7yYSOW_73tyVmPbuz2QfE5UJkE/edit |
+
+Larger web / order-mgmt / DBMS ($10k–$100k+) listings on Truelancer were either closed, INR-small, or login-gated. Do not spray SEO.
+
 ## High-pay lane (USD / EUR / GBP)
 
 See `high-pay-ai-jobs.md`. Floor USD 150k or EUR/GBP 80k. Cover: `cover-ai-engineer.md` Drive https://docs.google.com/document/d/193UdbUwSmbLGyYO78JV6cK8fl-3-5kSfwJCWpY70_CU/edit

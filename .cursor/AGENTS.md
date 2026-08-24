@@ -9,6 +9,7 @@ Live snapshot of what is in flight: `STATUS.md` (one file, all agents).
 |---|---|
 | Any session | `STATUS.md` then this file |
 | Freelance bid or proposal | `.cursor/skills/proposal/SKILL.md` |
+| HN / recruiter email | `docs/side-hustle/outreach-starbridge.md` + proposal skill (plain URLs, no gap dump) |
 | Customer / client chat | `.cursor/skills/customer-chat/SKILL.md` |
 | Casual / human talk | `.cursor/skills/casual-chat/SKILL.md` |
 | Slides / pptx / deck | `.cursor/skills/pptx/SKILL.md` |
