@@ -1447,6 +1447,15 @@ Same timer `netie-tue-mhaus-website-2026-08-25-1000-myt` (`sub_b2d918dd-837e-41a
 - Website-page offer, RM 1,000-5,000. Not a Thursday 3PL follow-up. No Stripe. Send on the same Tue 10:00 timer after EXC Electrical.
 - Skipped leftover hosts this pass with filled `/services/` or 404. WAF still on weisionggroup.com, airborneproject.com.my, angelsbud.com, evhub.my, paradisefnb.com.my, ccsprinting.com.my, dwimakmur.com.my. kianpg.com `/services/` is 404. Do not send before 09:00 MYT.
 
+### MI PACIFIC SDN BHD -- QUEUED draft 25 Aug 2026 07:38 MYT
+
+- To: carrental.mi@gmail.com (homepage and `/contactus/` mailto on https://www.mimpvrental.com/). One inbox.
+- Source: live https://www.mimpvrental.com/services/ HTTP 200 still Coming Soon (`min-height:440px`). Title: Our Services | MI PACIFIC SDN BHD. Homepage lists Premium MPV Travel Solutions and Toyota Alphard and Vellfire. Also known as Mi MPV Car Rental Services / Mi MPV Transportation. Title prints MPV Car Rental Selangor, Chauffeur Services KL while contact prints G-12, 31, Jalan Pinggiran Putra, Taman Pinggiran Putra, 43300 Seri Kembangan. SSM 202201030809 (1476506-X).
+- Draft: `r-5086820966452328407`. Thread: `1a0362391f793e0b`. Subject: Seri Kembangan MPV page.
+- File: `docs/proposals/mi-pacific.md`. Hostable draft: `docs/proposals/mi-pacific-services.html`.
+- Website-page offer, RM 1,000-5,000. Not a Thursday 3PL follow-up. No Stripe. Send on the same Tue 10:00 timer after VIP Billion Milestone.
+- Skipped this pass: leftover unused classified timeline IDs 5/10/14/16/17/19/21-24/26/28 now 404, including previously working location IDs. NEWPAGES homepage still lists hosts. creativointerior.com already queued as Deseo Creativo. applequeenbeauty.com.sg is Singapore. sapbusinessone.com.my / sgmytransportmpv.com / spclube.com `/services/` 404. WAF still on weisionggroup.com, airborneproject.com.my, angelsbud.com, evhub.my, paradisefnb.com.my, ccsprinting.com.my, dwimakmur.com.my, kianpg.com, asliparts.com.my, hauhifi.com, jesubprinttech.my, mfcsb.com, nesttrend.com.my, onepowertech.com.my. Do not send before 09:00 MYT.
+
 
 
 

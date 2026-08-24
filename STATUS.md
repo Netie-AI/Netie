@@ -1,8 +1,10 @@
 # STATUS
 
-Updated: 2026-08-25 07:26 MYT. Success = live Stripe charge, then a payout.
+Updated: 2026-08-25 07:38 MYT. Success = live Stripe charge, then a payout.
 
 ## Now (measured)
+
+- After hours 25 Aug 07:38 MYT: queued one more Coming Soon first-mail on the Tue 10:00 M Haus timer (`sub_aea5c457-2c0f-4b70-83f9-0fec13b45140`; previous 10:00 id unsubscribed). MI PACIFIC SDN BHD `carrental.mi@gmail.com` draft `r-5086820966452328407` (Premium MPV Travel Solutions / Toyota Alphard and Vellfire, Seri Kembangan). Live `/services/` Coming Soon (`min-height:440px`), firm-owned mailto, empty `in:sent`. Hostable HTML from published text only. Website page, not a Thursday 3PL follow-up. No Stripe. RM 1,000-5,000. NEWPAGES classified/location timelines now 404; homepage still lists hosts. Inbox this pass is not a buyer. Did not apply. Kanhseei still ends at SENT `1a0338bc74fae0b4`. Did not send. Did not nag. Did not poll Stripe. No paid charge yet.
 
 - After hours 25 Aug 07:26 MYT: queued one more Coming Soon first-mail on the Tue 10:00 M Haus timer (`sub_b2d918dd-837e-41a9-ae9f-0d898bf97226`). VIP Billion Milestone Travel `info.vipbm@gmail.com` draft `r588815565297507930` (Premium VIP Chauffeur Transport in Malaysia / KL to Port Dickson Private Driver, Semenyih). Live `/services/` Coming Soon (`min-height:440px`), firm-owned mailto, empty `in:sent`. Hostable HTML from published text only. Website page, not a Thursday 3PL follow-up. No Stripe. RM 1,000-5,000. Inbox this pass is TourRadar / Foundit / Bloomberg, not a buyer. Did not apply. Kanhseei still ends at SENT `1a0338bc74fae0b4`. Did not send. Did not nag. Did not poll Stripe. No paid charge yet.
 
