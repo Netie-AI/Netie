@@ -333,3 +333,40 @@ If a buyer expresses interest, use `docs/file-analysis-scope-template.md` before
 - Do not mail CF Trading again unless they reply.
 - Did not mail Kinoro `sales@kinoroengineering.com.my` (same firm already mailed 22 Aug at kinoroengineering@yahoo.com).
 
+### 3D Bintang Kejuruteraan -- SENT 24 Aug 2026 11:09 MYT
+
+- To: 3dbintang27@gmail.com (homepage mailto on https://www.3dbintang.com/). One inbox.
+- Source: live https://www.3dbintang.com/services/ HTTP 200 still shows Coming Soon. Homepage lists signboard, laser cut, plasma cut, engraving, flyer, and packing-box work from 31, Lorong Perda Utama7, Bandar Perda, Bukit Mertajam. SSM 201001008791 (893419-X).
+- `in:sent` to 3dbintang27@gmail.com was empty before send. Not in existing `docs/*-services.html` drafts.
+- Thread: `1a031be4dcef8b70`
+- Message: `1a031be4dcef8b70`
+- Subject: Bukit Mertajam signboard page
+- Ask: RM 500, one revision, page written from their published text. No Stripe link in the first mail.
+- Not 3PL. Did not mail Intergrated Freighters today. Did not poll Stripe.
+- Do not mail 3D Bintang again unless they reply.
+- Skipped this pass: Innotec `/services/` is filled (not Coming Soon). Fuji Master has no `/services/` Coming Soon page.
+
+### Pangraph Industrial Supplies -- SENT 24 Aug 2026 11:16 MYT
+
+- To: sales1@pangraph.com.my (homepage mailto on https://www.pangraph.com.my/). One inbox.
+- Source: live https://www.pangraph.com.my/services/ HTTP 200 still shows Coming Soon. Homepage lists Diagraph marking tools, TOYOX industrial hoses, and Threebond liquid gasket from 37, Jalan Cenderai, Kawasan Perindustrian Kota Putri, Masai. SSM 199901000297 (475197X). Incorporated 1999.
+- `in:sent` to sales1@pangraph.com.my was empty before send. Not in existing `docs/*-services.html` drafts.
+- Thread: `1a031c4b32f8af59`
+- Message: `1a031c4b32f8af59`
+- Subject: Masai industrial supplies page
+- Ask: RM 500, one revision, page written from their published text. No Stripe link in the first mail.
+- Not 3PL. Did not mail Intergrated Freighters today. Did not poll Stripe.
+- Do not mail Pangraph again unless they reply.
+
+### Onehome Management -- SENT 24 Aug 2026 11:17 MYT
+
+- To: leisurehomestayyy@gmail.com (homepage mailto on https://www.leisuregreen.com.my/). One inbox.
+- Source: live https://www.leisuregreen.com.my/services/ HTTP 200 still shows Coming Soon. Homepage lists tenant management, property maintenance, financial reporting, and Green Haven stays from Jalan Mersawa 16, Taman Cahaya Kota Puteri, Kota Lindungan Hijau, Masai. SSM 202401043072 (1588918-W).
+- `in:sent` to leisurehomestayyy@gmail.com was empty before send. Not in existing `docs/*-services.html` drafts.
+- Thread: `1a031c57a402e621`
+- Message: `1a031c57a402e621`
+- Subject: Green Haven property page
+- Ask: RM 500, one revision, page written from their published text. No Stripe link in the first mail.
+- Not 3PL. Did not mail Intergrated Freighters today. Did not poll Stripe.
+- Do not mail Onehome again unless they reply.
+
