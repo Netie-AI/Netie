@@ -33,10 +33,15 @@ Write one file here before a priced reply. Keep claims inside live public pages 
 | `jin-he-jia.md` | Queued Tue 09:00 MYT with the five-send. RM 1,000-5,000. |
 | `jin-he-jia-services.html` | Hostable draft from jinhejia.com.my published facts |
 | `leatat-heavy-transport.md` | Queued after Tue 09:00 five-send. RM 1,000-5,000. No Stripe. |
+| `leatat-services.html` | Hostable draft from leatat.com.my published facts. Send HTML only if they reply. |
 | `craft-perfect-tools.md` | Queued after Tue 09:00 five-send. RM 1,000-5,000. No Stripe. |
+| `craft-perfect-tools-services.html` | Hostable draft from cptools.com.my published facts. Send HTML only if they reply. |
 | `lan-hoe.md` | Queued after Tue 09:00 five-send. RM 1,000-5,000. No Stripe. |
+| `lan-hoe-services.html` | Hostable draft from lanhoe.com.my published facts. Send HTML only if they reply. |
 | `pro-helper.md` | Queued after Tue 09:00 five-send. RM 1,000-5,000. No Stripe. |
+| `pro-helper-services.html` | Hostable draft from prohelper.com.my published facts. Send HTML only if they reply. |
 | `km-super.md` | Queued after Tue 09:00 five-send. HQ inbox only. RM 1,000-5,000. No Stripe. |
+| `km-super-services.html` | Hostable draft from kmsuper.com.my published facts. HQ inbox only. Send HTML only if they reply. |
 | `windmere-services.html` | Already mailed. Honor RM 500. Reply-only URL: https://netie-penang.surge.sh/drafts/windmere-services.html |
 | `sk-shutter-services.html` | Already mailed. Honor RM 500. Reply-only URL: https://netie-penang.surge.sh/drafts/sk-shutter-services.html |
 | `igb-metal-services.html` | Already mailed. Honor RM 500. Reply-only URL: https://netie-penang.surge.sh/drafts/igb-metal-services.html |

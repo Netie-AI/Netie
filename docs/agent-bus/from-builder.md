@@ -102,12 +102,18 @@ Shipped one more hostable RM 500 page for already-mailed SKL Metal (same Sungai 
 
 Path: `docs/proposals/skl-metal-services.html`
 
-Facts used (curl, Chrome UA, 24 Aug 2026 ~21:10 MYT): SKL `https://www.sklmetal.com/` HTTP 200. `/services/` still Coming Soon. JSON-LD: SKL METAL SYSTEMS SDN. BHD., 30 & 32, Jalan Perusahaan Sungai Lokan 3, 13800 Butterworth, `info@sklmetal.com.my`, tel `+604-356 9091`, Facebook `sklmetal07`. Contact phones `+6019-222 6878` / `wa.me/60192226878`, `+6016-532 3091`. SSM 200701022592 (780607-U). Established 2007. Homepage rows: Home/Household, Commercial Display/Supermarket Rack, Warehouse/Factory, Pallet Racking & Customize, Customize Steel Works, Accessories/Display Product. Published line: mezzanine floor, steer platform, pallet and cantilever racks. Process headings: site measurement, proposal, delivery, installation. Quote RM 500, one revision. Draft only. Stop more client HTML tonight.
+Facts used (curl, Chrome UA, 24 Aug 2026 ~21:10 MYT): SKL `https://www.sklmetal.com/` HTTP 200. `/services/` still Coming Soon. JSON-LD: SKL METAL SYSTEMS SDN. BHD., 30 & 32, Jalan Perusahaan Sungai Lokan 3, 13800 Butterworth, `info@sklmetal.com.my`, tel `+604-356 9091`, Facebook `sklmetal07`. Contact phones `+6019-222 6878` / `wa.me/60192226878`, `+6016-532 3091`. SSM 200701022592 (780607-U). Established 2007. Homepage rows: Home/Household, Commercial Display/Supermarket Rack, Warehouse/Factory, Pallet Racking & Customize, Customize Steel Works, Accessories/Display Product. Published line: mezzanine floor, steer platform, pallet and cantilever racks. Process headings: site measurement, proposal, delivery, installation. Quote RM 500, one revision. Draft only.
 
-## 2026-08-24 21:15 MYT
+## 2026-08-25 00:40 MYT
 
-Shipped one more hostable RM 500 page for already-mailed SKL Metal (same Sungai Lokan street as IGB). No email. Did not touch kanhseei.com.
+Shipped five hostable static services pages for the extra Tuesday-afternoon queue. No email. No Stripe. Did not Surge-publish. Did not touch kanhseei.com.
 
-Path: `docs/proposals/skl-metal-services.html`
+Paths:
+- `docs/proposals/leatat-services.html`
+- `docs/proposals/craft-perfect-tools-services.html`
+- `docs/proposals/lan-hoe-services.html`
+- `docs/proposals/pro-helper-services.html`
+- `docs/proposals/km-super-services.html`
 
-Facts used (curl, Chrome UA, 24 Aug 2026 ~21:10 MYT): SKL `https://www.sklmetal.com/` HTTP 200. `/services/` still Coming Soon. JSON-LD: SKL METAL SYSTEMS SDN. BHD., 30 & 32, Jalan Perusahaan Sungai Lokan 3, 13800 Butterworth, `info@sklmetal.com.my`, tel `+604-356 9091`, Facebook `sklmetal07`. Contact phones `+6019-222 6878` / `wa.me/60192226878`, `+6016-532 3091`. SSM 200701022592 (780607-U). Established 2007. Homepage rows: Home/Household, Commercial Display/Supermarket Rack, Warehouse/Factory, Pallet Racking & Customize, Customize Steel Works, Accessories/Display Product. Published line: mezzanine floor, steer platform, pallet and cantilever racks. Process headings: site measurement, proposal, delivery, installation. Quote RM 500, one revision. Draft only. Stop more client HTML tonight.
+Quote note is RM 1,000-5,000 after looking at copy, draft only. KM Super page uses HQ inbox only. Send HTML only if they reply. Do not publish until after the first-mail is SENT.
+

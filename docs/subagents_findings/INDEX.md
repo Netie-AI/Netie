@@ -42,3 +42,4 @@ This index records reusable findings from focused subagent reviews.
 | [2026-08-25-live-stripe-myr0.md](2026-08-25-live-stripe-myr0.md) | Stripe, livemode, charges, balance, MYR 0 | 25 Aug MYT poll: empty charges, empty payment intents, available and pending MYR 0. |
 | [2026-08-25-leatat-coming-soon.md](2026-08-25-leatat-coming-soon.md) | Leatat, Telok Air Tawar, Coming Soon mailto, RM1000-5000 | Extra website first-mail queued after the Tue 09:00 five-send. Not a 3PL follow-up. |
 | [2026-08-25-four-coming-soon-queue.md](2026-08-25-four-coming-soon-queue.md) | Craft Perfect, Lan Hoe, Pro Helper, KM Super, Coming Soon | Four more after-hours drafts for Tuesday afternoon. HQ-only at KM Super. |
+| [2026-08-25-extra-queue-html.md](2026-08-25-extra-queue-html.md) | hostable HTML, Leatat, Craft Perfect, Lan Hoe, Pro Helper, KM Super | Reply-ready Services pages from live facts. No Stripe. Do not Surge until mailed. |
