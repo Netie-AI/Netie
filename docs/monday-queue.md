@@ -1038,7 +1038,7 @@ Timer `netie-tue-afternoon-websites-2026-08-25-0940-myt` (`sub_e5ee26e9-1745-4c0
 
 ## Queued after the Tue 09:40 afternoon four-send (do not send before those four, and not after hours)
 
-Timer `netie-tue-mhaus-website-2026-08-25-1000-myt` (`sub_b5844efa-ffa9-4021-8c9f-4b7c0f513306`, once, Tue 25 Aug 10:00 MYT). Send existing Gmail draft only after live `/services/` Coming Soon and empty `in:sent`. First extra: M Haus Furniture, then the Johor four, then Digno, Paperbaked, F.J. Machinery, HH Metal, and Presti. Not an email-watch loop. No Stripe. One inbox. RM 1,000-5,000. Label `Label_8` after send. Do not Surge-publish until after SENT. If Kanhseei writes, answer first and honor RM 500. Do not poll Stripe (already done 25 Aug MYT). If the 09:00, 09:20, or 09:40 drafts are still DRAFT at 10:00, send those first after the same live checks. A sixth once-timer was refused (`invalid_argument`); extras share this timer.
+Timer `netie-tue-mhaus-website-2026-08-25-1000-myt` (`sub_60ebff2c-cdc1-483c-9dc4-58b4bb91f3d2`, once, Tue 25 Aug 10:00 MYT). Send existing Gmail draft only after live `/services/` Coming Soon and empty `in:sent`. First extra: M Haus Furniture, then the Johor four, then Digno, Paperbaked, F.J. Machinery, HH Metal, Presti, SKH 88, Pro Tent, Hydro Air, and WH Bespoke. Not an email-watch loop. No Stripe. One inbox. RM 1,000-5,000. Label `Label_8` after send. Do not Surge-publish until after SENT. If Kanhseei writes, answer first and honor RM 500. Do not poll Stripe (already done 25 Aug MYT). If the 09:00, 09:20, or 09:40 drafts are still DRAFT at 10:00, send those first after the same live checks. A sixth once-timer was refused (`invalid_argument`); extras share this timer.
 
 ### M Haus Furniture -- QUEUED draft 25 Aug 2026 01:13 MYT
 
@@ -1050,7 +1050,7 @@ Timer `netie-tue-mhaus-website-2026-08-25-1000-myt` (`sub_b5844efa-ffa9-4021-8c9
 
 ## Queued on the same Tue 10:00 M Haus timer (do not send before 10:00, and not after hours)
 
-Same timer `netie-tue-mhaus-website-2026-08-25-1000-myt` (`sub_b5844efa-ffa9-4021-8c9f-4b7c0f513306`). Send after M Haus if live `/services/` Coming Soon and empty `in:sent`. Four Johor extras: Brilliant Supplies, Top Creative Steel, Loh Cross Border, Jump Belly, then Digno, Paperbaked, F.J. Machinery, HH Metal, and Presti. Not an email-watch loop. No Stripe. One inbox. RM 1,000-5,000. Label `Label_8` after send. Do not Surge-publish until after SENT. If Kanhseei writes, answer first and honor RM 500. Do not poll Stripe (already done 25 Aug MYT). Loh is a private-car page, not a Thursday 3PL follow-up. Do not mail Brilliant Melaka `stoneshopmelaka@gmail.com`. A separate 10:20 timer was refused (`invalid_argument`, likely a five-timer cap).
+Same timer `netie-tue-mhaus-website-2026-08-25-1000-myt` (`sub_60ebff2c-cdc1-483c-9dc4-58b4bb91f3d2`). Send after M Haus if live `/services/` Coming Soon and empty `in:sent`. Four Johor extras: Brilliant Supplies, Top Creative Steel, Loh Cross Border, Jump Belly, then Digno, Paperbaked, F.J. Machinery, HH Metal, Presti, SKH 88, Pro Tent, Hydro Air, and WH Bespoke. Not an email-watch loop. No Stripe. One inbox. RM 1,000-5,000. Label `Label_8` after send. Do not Surge-publish until after SENT. If Kanhseei writes, answer first and honor RM 500. Do not poll Stripe (already done 25 Aug MYT). Loh is a private-car page, not a Thursday 3PL follow-up. Do not mail Brilliant Melaka `stoneshopmelaka@gmail.com`. A separate 10:20 timer was refused (`invalid_argument`, likely a five-timer cap).
 
 ### Brilliant Supplies -- QUEUED draft 25 Aug 2026 01:27 MYT
 
@@ -1121,5 +1121,37 @@ Same timer `netie-tue-mhaus-website-2026-08-25-1000-myt` (`sub_b5844efa-ffa9-402
 - Draft: `r-7500208116724969242`. Thread: `1a03560d597ac234`. Subject: Klang press-machine page.
 - File: `docs/proposals/presti-machinery.md`. Hostable draft: `docs/proposals/presti-machinery-services.html`.
 - Website-page offer, RM 1,000-5,000. No Stripe. Send on the same Tue 10:00 timer after HH Metal.
-- Skipped this pass: UKAI still JSON-LD / Cloudflare-obfuscated contact, not a visible mailto. GWG Manufacturing already SENT 22 Aug. KA Bina already SENT. KDSOFT NXDOMAIN. SY Metal NXDOMAIN. Do not send before 09:00 MYT.
+
+### SKH 88 Auto Parts Trading Enterprise -- QUEUED draft 25 Aug 2026 04:25 MYT
+
+- To: skh88autopart@gmail.com (homepage and `/contactus/` mailto on https://www.skh88autoparts.com.my/). One inbox.
+- Source: live https://www.skh88autoparts.com.my/services/ HTTP 200 still Coming Soon (`min-height:440px`). Homepage lists used auto parts, engines, transmissions, and body panels. Contact prints Lot 7. Lot 5411, Jalan Rawang, 48000, Rawang. Homepage also prints Located in Batu Caves, Selangor. SSM 202603004959 (JR0186086-T).
+- Draft: `r-2148382564417180155`. Thread: `1a0357454c7f3e93`. Subject: Rawang used-parts page.
+- File: `docs/proposals/skh-88-auto-parts.md`. Hostable draft: `docs/proposals/skh-88-auto-parts-services.html`.
+- Website-page offer, RM 1,000-5,000. No Stripe. Send on the Tue 10:00 M Haus timer after Presti.
+
+### Pro Tent Technologies -- QUEUED draft 25 Aug 2026 04:25 MYT
+
+- To: protenttechnologies@gmail.com (homepage and `/contactus/` mailto on https://www.tentsuppliermalaysia.com.my/). One inbox.
+- Source: live https://www.tentsuppliermalaysia.com.my/services/ HTTP 200 still Coming Soon (`min-height:440px`). Homepage lists tensile membrane structures, lorry canvas, and canvas replacement from Lot 132 PT 35824 , Batu 20, Jalan Semenyih, 43500 Semenyih. SSM 201203165330 (002141780-H).
+- Draft: `r8545215493500263156`. Thread: `1a03574566e9a49c`. Subject: Semenyih canopy page.
+- File: `docs/proposals/pro-tent-technologies.md`. Hostable draft: `docs/proposals/pro-tent-technologies-services.html`.
+- Website-page offer, RM 1,000-5,000. No Stripe. Send on the same Tue 10:00 timer after SKH 88.
+
+### Hydro Air Process Instruments Sdn Bhd -- QUEUED draft 25 Aug 2026 04:25 MYT
+
+- To: sales@hydroair-instruments.com (homepage and `/contactus/` mailto on https://www.hydroair-instruments.com/). One inbox.
+- Source: live https://www.hydroair-instruments.com/services/ HTTP 200 still Coming Soon (`min-height:440px`). Homepage lists water and wastewater monitoring and 20 years in the water industry from 100, Jalan Pusat Perniagaan 1, Pusat Perniagaan Raja Uda, 12300 Butterworth. SSM 202201042496 (1488193-D).
+- Draft: `r5715184187139666325`. Thread: `1a03574589b19d25`. Subject: Butterworth water-monitor page.
+- File: `docs/proposals/hydro-air.md`. Hostable draft: `docs/proposals/hydro-air-services.html`.
+- Website-page offer, RM 1,000-5,000. No Stripe. Send on the same Tue 10:00 timer after Pro Tent.
+
+### WH Bespoke Tailoring -- QUEUED draft 25 Aug 2026 04:25 MYT
+
+- To: bespokewh@gmail.com (homepage and `/contactus/` mailto on https://www.whbespoke.com.my/). One inbox.
+- Source: live https://www.whbespoke.com.my/services/ HTTP 200 still Coming Soon (`min-height:440px`). Homepage lists The Bespoke Travel Jacket, made-to-measure suits, and 11 YEARS from M17A, Mezzanine Floor, Wisma UOA 2, Jalan Pinang, 50450 Kuala Lumpur. SSM 201703233583 (002678942-H).
+- Draft: `r-2555399501377877313`. Thread: `1a03574588ea1589`. Subject: Pinang menswear page.
+- File: `docs/proposals/wh-bespoke.md`. Hostable draft: `docs/proposals/wh-bespoke-services.html`.
+- Website-page offer, RM 1,000-5,000. No Stripe. Send on the same Tue 10:00 timer after Hydro Air.
+- Skipped this pass: UKAI still JSON-LD / Cloudflare-obfuscated contact, not a visible mailto. GWG Manufacturing already SENT 22 Aug. KA Bina already SENT. KDSOFT NXDOMAIN. SY Metal NXDOMAIN. ESTAR/bubblewrap `/services/` filled. JSON-LD-only still skip. Do not send before 09:00 MYT.
 
