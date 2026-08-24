@@ -232,6 +232,14 @@ If a buyer expresses interest, use `docs/file-analysis-scope-template.md` before
 - Owner action: sign in as oojianhongg@gmail.com and paste `docs/proposals/evaboot-form-answers.md`. Do not nag Francine again unless she writes.
 - Expected USD 48-70k if hired. Not a Stripe charge.
 
+### Earn check 24 Aug 2026 17:30 MYT (no Stripe poll)
+
+- Canonical `/hire/` File Manager: FTP 530. Spaceship login for netiejh rejected stored VM password. Did not reset. Owner must upload `docs/pay.html` to `/hire/index.html`. Surge still current.
+- Twine: `application_credits=0`. Did not buy Pro. Cookie session 404/403. Missive/WhatsApp job stays on Twine; do not off-platform the London ENT Clinic.
+- Foundit auto-login: Esol Pte Ltd downloaded resume. Avensys Consulting contacted on-platform. No apply button in notifications. CAPTCHA blocked job search. Did not mail SG on-site recruiter inboxes.
+- Outlier identity verification still needs owner Persona KYC. Do not complete ID from this agent.
+- Do not nag Francine, Steven, or the three 3PL firms.
+
 ### Strello Health -- SENT 24 Aug 2026 09:27 MYT
 
 - To: jobs@strello.health
