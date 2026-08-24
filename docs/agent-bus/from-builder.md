@@ -204,4 +204,15 @@ Paths:
 
 Live `/services/` still Coming Soon on all three. MBOND HQ inbox only. TOKEN KING prints experty. Lentix unique SKUs include Semi Auto Wafer Taper and 5331 Platform. Send HTML only if they reply.
 
+## 2026-08-25 02:05 MYT
+
+Shipped three more hostable static services pages for already-mailed firms. No email send. No Stripe. Did not Surge-publish. Did not touch kanhseei.com.
+
+Paths:
+- `docs/proposals/south-island-furniture-services.html` (honor RM 1,000-5,000)
+- `docs/proposals/xuan-huat-services.html` (honor RM 1,000-5,000)
+- `docs/proposals/ideal-home-jr-services.html` (honor RM 1,000-5,000)
+
+Live `/services/` still Coming Soon on all three. Did not copy SIF shop prices. Xuan Huat factory address is published at Gelang Patah; sales@ only. Send HTML only if they reply.
+
 

@@ -54,3 +54,4 @@ This index records reusable findings from focused subagent reviews.
 | [2026-08-25-inti-pangraph-aerial-html.md](2026-08-25-inti-pangraph-aerial-html.md) | Inti, Pangraph, Aerial Mix, RM 500 honor | Reply-ready HTML for three more already-mailed firms. WAF 1703-byte trap. |
 | [2026-08-25-yes-promix-kabina-html.md](2026-08-25-yes-promix-kabina-html.md) | Yes Packaging, Promix, KA Bina | Reply-ready HTML. Honor quoted band. BOD not COBOD on live homepage. |
 | [2026-08-25-lentix-mbond-token-html.md](2026-08-25-lentix-mbond-token-html.md) | Lentix, MBOND, TOKEN KING | Reply-ready HTML. Honor RM 1,000-5,000. HQ-only at MBOND. |
+| [2026-08-25-sif-xuan-ideal-html.md](2026-08-25-sif-xuan-ideal-html.md) | SIF, Xuan Huat, IDEAL HOME JR | Reply-ready HTML. Honor RM 1,000-5,000. Do not copy SIF prices. |
