@@ -271,5 +271,17 @@ If a buyer expresses interest, use `docs/file-analysis-scope-template.md` before
 - Ask: RM 500, one revision, page written from their published text. No Stripe link in the first mail.
 - Not 3PL. Did not mail Intergrated Freighters today. Did not poll Stripe.
 - Do not mail IGB Metal again unless they reply.
-- Held unused this pass (Coming Soon still live, not mailed): BrightAir Engineering `infoba@brightair.com.my`; SKL Metal Systems homepage `info@sklmetal.com.my`.
+
+### BrightAir Engineering -- SENT 24 Aug 2026 10:37 MYT
+
+- To: infoba@brightair.com.my (homepage mailto on https://www.brightair.com.my/). One inbox.
+- Source: live https://www.brightair.com.my/services/ HTTP 200 still shows Coming Soon. Homepage lists ventilation, ducting, pollution control, air conditioning, piping, fiberglass, and plant mechanical work from 17, Lorong Perusahaan Sg. Lokan 3/4, Butterworth, since June 2001. SSM 200101013712 (549469-M).
+- `in:sent` to infoba@brightair.com.my was empty before send. Not in existing `docs/*-services.html` drafts.
+- Thread: `1a031a145e952beb`
+- Message: `1a031a145e952beb`
+- Subject: BrightAir services page
+- Ask: RM 500, one revision, page written from their published text. No Stripe link in the first mail.
+- Not 3PL. Did not mail Intergrated Freighters today. Did not poll Stripe.
+- Do not mail BrightAir again unless they reply.
+- Held unused this pass (Coming Soon still live, not mailed): SKL Metal Systems homepage `info@sklmetal.com.my`.
 
