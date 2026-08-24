@@ -260,3 +260,16 @@ If a buyer expresses interest, use `docs/file-analysis-scope-template.md` before
 - Not 3PL. Did not mail Intergrated Freighters today. Did not poll Stripe.
 - Do not mail Seng Kong again unless they reply.
 
+### IGB Metal Engineering -- SENT 24 Aug 2026 10:30 MYT
+
+- To: sales@igbmetal.com (homepage mailto on https://www.igbmetal.com/). One inbox.
+- Source: live https://www.igbmetal.com/services/ HTTP 200 still shows Coming Soon. Homepage lists CIDB Malaysia, NIOSH OGSP, and NIOSH Confined Space certified metal fabrication, construction supply, and ventilation from 12, Jalan Perusahaan Sungai Lokan 3, Butterworth. SSM 202403145622 (JM1007310-H).
+- `in:sent` to sales@igbmetal.com was empty before send. Not in existing `docs/*-services.html` drafts.
+- Thread: `1a0319a7214bf9da`
+- Message: `1a0319a7214bf9da`
+- Subject: IGB Metal services page
+- Ask: RM 500, one revision, page written from their published text. No Stripe link in the first mail.
+- Not 3PL. Did not mail Intergrated Freighters today. Did not poll Stripe.
+- Do not mail IGB Metal again unless they reply.
+- Held unused this pass (Coming Soon still live, not mailed): BrightAir Engineering `infoba@brightair.com.my`; SKL Metal Systems homepage `info@sklmetal.com.my`.
+
