@@ -78,14 +78,16 @@ Use live public screens, not generated mockups and not invented client case stud
 - AIM professional-twin intake (resume / chat export): https://netie.ai/aim/
 - Constructor process canvas: https://netie-ai.github.io/constructor/
 - CI-Doctor (public GitHub CLI that reads Actions failures and writes a triage report): https://github.com/Netie-AI/CI-Doctor
+- Suite agents: https://netie.ai/#vanguard , https://netie.ai/#closer , https://netie.ai/#cortex
+- Projects + IntroVid: https://netie.ai/projects/ and https://netie.ai/IntroVid.mp4
 
 Say what each screen is. Do not call them customer case studies, production backends, or proof of revenue.
 
-AirGPT is Jumpwin internal LLM work. Do not send a public screenshot of it. Do not claim it is a Netie hire demo.
+AirGPT is Jumpwin internal LLM work. Do not send a Jumpwin screenshot or customer file. We can still quote an AirGPT-class in-house LLM for other companies after written scope. Same rule for DMS: no private repo URL from this token; quote the class of build; point at the public invoice workbench and ops board.
 
 ## Offer, if they ask what else
 
-Website and landing pages from their published facts. Small site chat or FAQ after agreed copy. AIM-style intake if they need a form, not a magic twin. File analytics is a map plus a short deck. CI/CD, PR, and bug help is scoped against one repo. Cortex/Constructor/ASA/AIM are public interfaces on netie.ai. DBMS is a scoped build.
+Website and landing pages from their published facts. Small site chat or FAQ after agreed copy. AIM-style intake if they need a form, not a magic twin. File analytics is a map plus a short deck. CI/CD, PR, and bug help is scoped against one repo. Cortex crews and Vanguard / Closer / Cortex-class agents can be built in-house for them after written scope. AirGPT-class private LLM and DMS-class document systems too. Public proof is Suite / projects / hire demos, not Jumpwin files. Do not invent a new Stripe product. If the job is one internal workflow, RM 20,000 operations checkout can follow that written scope.
 
 ## Cadence
 

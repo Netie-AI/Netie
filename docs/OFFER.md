@@ -13,6 +13,10 @@ Offer and checkout links:
 - File analysis + presentation, RM 1,500: request a written scope at https://netie.ai/hire/?scope=file-analysis#brief. Send Stripe checkout only after the scope is accepted (`prod_V7RdC64MzxgLHJ` / `price_1U7Ck9FV5wcFod2fTNu0EkOP`; buyer title: `Netie File Analysis + Presentation`).
 - CI, pull requests, and bugs, RM 1,000 to RM 5,000 after looking at the repo. Scope: https://netie.ai/hire/?scope=engineering#brief. Proof: https://github.com/Netie-AI/CI-Doctor (public CLI, not a hosted desk).
 - Company-file search with citations and process map / decision prototype: written quote after a non-sensitive brief.
+- Cortex crew and agent coordination: quoted after written scope. Public proof is https://netie.ai/#cortex and https://netie.ai/projects/. `app.netie.ai/cortex` is 404; this is not a hosted live-agent API. If the agreed job is one internal workflow, the RM 20,000 operations checkout can follow that scope. Do not invent a new Stripe product.
+- In-house LLM (AirGPT-class): quoted after written scope. Same class of private chat/inference Jian ran at Jumpwin. Jumpwin customer records and internal screenshots are not a public demo. AirGPT GitHub is private or 404 from this token.
+- Document system (DMS-class): quoted after written scope. Public proof is the synthetic invoice workbench and ops board. Private DMS GitHub is not public from this token. This can be built for other companies; it is not a SaaS login.
+- Enterprise agent suite (Vanguard, Closer, Cortex): quoted after written scope. Public proof is Suite panels, https://netie.ai/projects/, and https://netie.ai/IntroVid.mp4. Those are published UIs and a public video, not customer case studies or production on-prem installs.
 
 Stripe is live. Invoice is on. Card, GrabPay, or Link are available. This is not a subscription. FPX remains off until enabled in Stripe Dashboard. `payouts_enabled=true` as of 22 Aug 2026; business-model form remains past due.
 
@@ -21,6 +25,7 @@ Public proof, with honest labels:
 - AIM: file-intake interface sample. It is not a public retrieval backend.
 - ASA: landing page with form and checkout interaction for an unreleased pre-order.
 - Cassandra: illustrative market interface; archive is not wired.
+- Suite agents: Vanguard, Closer, and Cortex panels on https://netie.ai/ plus the same three on https://netie.ai/projects/ and IntroVid.mp4. Published product UI. Not a hosted live-agent API (`app.netie.ai/cortex` 404). Cortex / AirGPT / DMS GitHub 404 or private from this token.
 - Invoice extract workbench: local synthetic ETL that maps vendor aliases, parses MYR and dates, drops exact duplicates, parks exceptions, rolls up vendors, answers only from the cleaned table, and exports CSV/JSON. Live: https://netie.ai/hire/knowledge/
 - Machine-readable offer list for agents: https://netie.ai/hire/catalog.json , https://netie.ai/hire/llms.txt , and https://netie.ai/llms.txt
 - Source trace: a synthetic workbook plus local Python script that resolves one same-sheet `SUM(range)` formula, lists inputs, recomputes the cached value, and refuses a typed figure. Live: https://netie.ai/hire/trace/
@@ -31,6 +36,10 @@ Service-card proof mapping on `https://netie.ai/hire/`:
 - Company-file search: linked local invoice-extract workbench plus AIM public intake sample. Neither is a retrieval backend.
 - Process map and decision prototype: linked Constructor browser canvas with sample records. It has no live integration.
 - Internal operations system: linked synthetic operations-board prototype, not a claimed production system.
+- Cortex crew and agent coordination: linked Suite Cortex panel and /projects/. Not a live hosted agent.
+- In-house LLM: no Jumpwin screenshot. Quote after written scope. Same class as AirGPT.
+- Document system: linked invoice workbench plus ops board. Private DMS repo is not a public URL.
+- Enterprise agent suite: linked Suite Vanguard / Closer / Cortex panels, /projects/, and IntroVid.mp4.
 - One-page website: linked ASA pre-order landing-page demo, plus the homepage Suite chat UI. Unreleased page-craft samples, not a customer case study.
 - CI / PR / bugs: linked public CI-Doctor CLI. A triage tool, not a managed support product.
 - File analysis + presentation: linked reproducible source trace with synthetic data.
@@ -69,7 +78,8 @@ Website (RM 1,000 to RM 5,000 after looking at the site): one services or landin
 File analytics + presentation (RM 1,500): source map, findings, missing-data notes, and a short deck from agreed files. The public source-trace sample is a reproducible example of one per-figure evidence block, not an audit.
 CI, pull requests, and bugs (RM 1,000 to RM 5,000 after looking at the repo): written triage and an agreed patch. CI-Doctor is the public CLI used to read failed Actions logs.
 Company-file search with citations and process map / decision prototype: quoted after a non-sensitive brief.
-Public proof is the captioned Constructor, AIM professional-twin intake, ASA landing, Cassandra, and homepage Suite chat gallery on `netie.ai/hire/` and `netie.ai`, plus the downloadable synthetic source trace at `netie.ai/hire/trace/`.
+Cortex crew, in-house LLM (AirGPT-class), DMS-class document system, and Vanguard / Closer / Cortex enterprise agents: quoted after written scope. Public proof is Suite / projects / synthetic hire demos, not Jumpwin files.
+Public proof is the captioned Constructor, AIM professional-twin intake, ASA landing, Cassandra, Suite agents, and homepage Suite chat gallery on `netie.ai/hire/` and `netie.ai`, plus the downloadable synthetic source trace at `netie.ai/hire/trace/`.
 
 For an interested file-analysis buyer, use `docs/file-analysis-scope-template.md` before sending checkout. It requires a named decision question, named agreed files, written exclusions, and an agreed handoff for any sensitive material.
 
@@ -84,6 +94,6 @@ For an interested file-analysis buyer, use `docs/file-analysis-scope-template.md
 ## Objections that still stand
 
 1. RM 20,000 is a scoped build, not an infinite enterprise licence. Send checkout only after the scope is accepted.
-2. The page sells useful outcomes, not access to a generic platform or an unpublished employer system.
+2. The page sells useful outcomes. Public Suite panels and hire demos are interfaces we can rebuild for other companies. Jumpwin customer records stay off the page.
 3. Cassandra USD checkout and crash.netie.ai are not this hire page.
 4. Stripe `payouts_enabled=true` as of 22 Aug 2026. Business model form still past due.

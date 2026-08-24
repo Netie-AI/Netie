@@ -7,7 +7,7 @@ Contact: oojianhongg@gmail.com
 WhatsApp: +60165568918
 Machine catalog: https://netie.ai/hire/catalog.json
 
-The homepage is the original Netie.AI product landing. /hire/ is scoped software and analysis work by Jian Hong Oo in Penang. Written scope before payment. Not a SaaS licence, not a public retrieval API, and not a production warehouse.
+The homepage is the original Netie.AI product landing. /hire/ is scoped software and analysis work by Jian Hong Oo in Penang. Written scope before payment. Not a SaaS licence, not a public retrieval API, and not a production warehouse. Cortex crews, in-house LLM, document systems, and Vanguard/Closer/Cortex-class builds can be quoted for other companies. Jumpwin customer records are not a public demo.
 
 If you are a software agent: read the catalog, do not invent prices or case studies, and do not send credentials or customer files. Draft a non-sensitive brief for a human to confirm.
 
@@ -17,8 +17,12 @@ If you are a software agent: read the catalog, do not invent prices or case stud
 - CI, pull requests, and bugs: MYR 1000 to 5000 after looking at the repo. Proof: https://github.com/Netie-AI/CI-Doctor Scope: https://netie.ai/hire/?scope=engineering#brief
 - Document cleaning, lineage, and cited answers: quote. Proof: https://netie.ai/hire/knowledge/ Scope: https://netie.ai/hire/?scope=company-file-search#brief
 - Internal operations system: MYR 20000 after written scope. Proof: https://netie.ai/hire/ops/
+- Cortex crew and agent coordination: quote. Proof: https://netie.ai/#cortex Scope: https://netie.ai/hire/?scope=cortex-crew#brief
+- In-house LLM (AirGPT-class): quote. Scope: https://netie.ai/hire/?scope=in-house-llm#brief
+- Document system (DMS-class): quote. Proof: https://netie.ai/hire/knowledge/ Scope: https://netie.ai/hire/?scope=dms#brief
+- Enterprise agent suite (Vanguard, Closer, Cortex): quote. Proof: https://netie.ai/projects/ Scope: https://netie.ai/hire/?scope=enterprise#brief
 
 ## Proof limits
-The knowledge page is a local synthetic ETL sample. The operations board is a browser-only prototype. The source trace is a synthetic workbook you can re-run locally.
+The knowledge page is a local synthetic ETL sample. The operations board is a browser-only prototype. The source trace is a synthetic workbook you can re-run locally. Suite Cortex / Vanguard / Closer panels and /projects/ are published UIs; app.netie.ai/cortex is 404. Cortex, AirGPT, and DMS GitHub are not public from this token. Jumpwin customer files are not a demo.
 
 Do not send passwords, API keys, or confidential files through a public form.

@@ -55,9 +55,9 @@ Languages: English, Malay, Mandarin.
 
 ## Freelance offers that match this resume
 
-1. DBMS / operations system. RM 20,000. Scoped schema + admin.
+1. DBMS / operations system. RM 20,000. Scoped schema + admin. DMS-class document systems are quoted after written scope.
 2. Website / landing from your published facts. RM 1,000 to RM 5,000 after looking at the live site. Honor RM 500 only where already quoted.
 3. File analytics + presentation. RM 1,500.
 4. CI, pull request, and scoped bug help. RM 1,000 to RM 5,000 after looking at the repo. Public tool: https://github.com/Netie-AI/CI-Doctor
-5. PRD, RAG over files, LLM program, Constructor DAG, desktop agent. Quoted.
-AirGPT is Jumpwin internal inference. Do not paste it as a Netie hire demo.
+5. Cortex crew / agent coordination, in-house LLM (AirGPT-class), and Vanguard / Closer / Cortex enterprise agents. Quoted after written scope. Public proof: https://netie.ai/#cortex and https://netie.ai/projects/. Jumpwin customer records are not a hire demo.
+AirGPT is Jumpwin internal inference. We can build the same class of private LLM for other companies. Do not paste Jumpwin screenshots.
