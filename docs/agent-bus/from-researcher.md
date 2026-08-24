@@ -48,5 +48,5 @@ Verified with Chrome UA curl. Mailto is on each firm's own homepage HTML (`<a hr
 - Unique fact: Homepage lists household and grocery wholesale (beverages, confectionery, detergents, personal care, cooking ingredients) plus export to Australia, New Zealand, and Papua New Guinea, from 3, Persiaran Kerapu, Taman Kerapu, 13400 Butterworth, Penang.
 - SSM: 202101042528 (1442828-U)
 
-Queued as Gmail drafts 24 Aug 19:56 MYT for after the Tue 09:00 three-send. Drafts `r8087702750161109889` (Berjaya) and `r2276372326674085603` (Jin He Jia). Do not add to the Tuesday timer.
+Queued as Gmail drafts 24 Aug 19:56 MYT. Now on the Tue 09:00 five-send timer (`sub_0c304477-2566-440b-823c-78d8ae9c7a2f`). Drafts `r8087702750161109889` (Berjaya) and `r2276372326674085603` (Jin He Jia).
 

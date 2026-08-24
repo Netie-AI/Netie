@@ -28,9 +28,9 @@ Write one file here before a priced reply. Keep claims inside live public pages 
 | `tnt-crane-services.html` | Hostable draft from tntcrane.com.my published facts |
 | `dream-house-sanitary.md` | Queued. RM 1,000-5,000. Send Tue 09:00 MYT. |
 | `dream-house-services.html` | Hostable draft from dreamhouse.com.my published facts |
-| `berjaya-table-chair.md` | Queued after Tue three-send. RM 1,000-5,000. |
+| `berjaya-table-chair.md` | Queued Tue 09:00 MYT with the five-send. RM 1,000-5,000. |
 | `berjaya-table-chair-services.html` | Hostable draft from berjayatableandchair.com published facts |
-| `jin-he-jia.md` | Queued after Tue three-send. RM 1,000-5,000. |
+| `jin-he-jia.md` | Queued Tue 09:00 MYT with the five-send. RM 1,000-5,000. |
 | `jin-he-jia-services.html` | Hostable draft from jinhejia.com.my published facts |
 
 Do not put Stripe in a first website mail. Do not raise a price already named in the same thread.

@@ -858,7 +858,7 @@ Owner order 24 Aug 18:14 MYT: clean out other job applies. Do not apply to Evabo
 
 ## Queued for Tue 25 Aug 2026 09:00 MYT (do not send after 17:00 MYT 24 Aug)
 
-Timer `netie-tue-queued-websites-2026-08-25-0900-myt` (`sub_d2cddda5-5d3c-4c9f-872c-875bd51fdf45`, once). Send existing Gmail drafts only after live `/services/` Coming Soon and empty `in:sent`. Not an email-watch loop. No Stripe. One inbox. RM 1,000-5,000. Label `Label_8` after send.
+Timer `netie-tue-queued-websites-2026-08-25-0900-myt` (`sub_0c304477-2566-440b-823c-78d8ae9c7a2f`, once). Send existing Gmail drafts only after live `/services/` Coming Soon and empty `in:sent`. Five drafts: Prints Buddy, TNT Crane, Dream House, then Berjaya, Jin He Jia. Not an email-watch loop. No Stripe. One inbox. RM 1,000-5,000. Label `Label_8` after send.
 
 ### Prints Buddy -- QUEUED draft 24 Aug 2026 19:35 MYT
 
@@ -886,7 +886,9 @@ Timer `netie-tue-queued-websites-2026-08-25-0900-myt` (`sub_d2cddda5-5d3c-4c9f-8
 
 - Thread `1a03200b47b3aebe`. Lokesh clarification SENT 19:33 MYT, message `1a0338bc74fae0b4`. Do not nag. Do not send the hostable HTML unless they ask. Honor RM 500.
 
-## Queued after Tue 09:00 three-send (do not send 24 Aug; not on that timer)
+## Queued with the Tue 09:00 MYT send (do not send 24 Aug)
+
+Berjaya and Jin He Jia now go on the same Tuesday timer after the first three, if live checks pass.
 
 ### Berjaya Table & Chair -- QUEUED draft 24 Aug 2026 19:56 MYT
 
@@ -894,7 +896,7 @@ Timer `netie-tue-queued-websites-2026-08-25-0900-myt` (`sub_d2cddda5-5d3c-4c9f-8
 - Source: live https://www.berjayatableandchair.com/services/ HTTP 200 still Coming Soon (`min-height:440px`). Homepage lists stainless canteen sets and Isotop restaurant tables from Sungai Balak, Balakong, Kajang. SSM 202501013794 (1615208-T).
 - Draft: `r8087702750161109889`. Thread: `1a033a139cb42e65`. Subject: Balakong canteen page.
 - File: `docs/proposals/berjaya-table-chair.md`. Hostable draft: `docs/proposals/berjaya-table-chair-services.html`.
-- Send only after the Tue 09:00 three-send, in office hours, after live Coming Soon and empty `in:sent`.
+- Send on the Tue 09:00 MYT timer after Prints Buddy / TNT / Dream House, if live Coming Soon and empty `in:sent`.
 
 ### Jin He Jia -- QUEUED draft 24 Aug 2026 19:56 MYT
 
@@ -902,5 +904,5 @@ Timer `netie-tue-queued-websites-2026-08-25-0900-myt` (`sub_d2cddda5-5d3c-4c9f-8
 - Source: live https://www.jinhejia.com.my/services/ HTTP 200 still Coming Soon (`min-height:440px`). Homepage lists household wholesale and export to Australia and New Zealand from Persiaran Kerapu, Butterworth. SSM 202101042528 (1442828-U).
 - Draft: `r2276372326674085603`. Thread: `1a033a13be60dd22`. Subject: Butterworth grocery page.
 - File: `docs/proposals/jin-he-jia.md`. Hostable draft: `docs/proposals/jin-he-jia-services.html`.
-- Send only after the Tue 09:00 three-send, in office hours, after live Coming Soon and empty `in:sent`.
+- Send on the Tue 09:00 MYT timer after Prints Buddy / TNT / Dream House, if live Coming Soon and empty `in:sent`.
 
