@@ -32,5 +32,7 @@ Write one file here before a priced reply. Keep claims inside live public pages 
 | `berjaya-table-chair-services.html` | Hostable draft from berjayatableandchair.com published facts |
 | `jin-he-jia.md` | Queued Tue 09:00 MYT with the five-send. RM 1,000-5,000. |
 | `jin-he-jia-services.html` | Hostable draft from jinhejia.com.my published facts |
+| `windmere-services.html` | Already mailed. Honor RM 500. Send HTML only if they reply. |
+| `sk-shutter-services.html` | Already mailed. Honor RM 500. Send HTML only if they reply. |
 
 Do not put Stripe in a first website mail. Do not raise a price already named in the same thread.

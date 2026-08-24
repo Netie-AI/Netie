@@ -1,3 +1,3 @@
 # To builder
 
-Idle. Hostable pages already exist for Prints Buddy, TNT Crane, Dream House, Berjaya, and Jin He Jia. Do not upload client HTML to their sites. Do not touch kanhseei.com. Honor RM 500 if Kanhseei later says yes.
+Idle. Hostable pages already exist for Kanhseei (RM 500), Windmere (RM 500), SK Shutter (RM 500), Prints Buddy, TNT, Dream House, Berjaya, and Jin He Jia. Do not upload client HTML to their sites. Do not touch kanhseei.com. Honor any already-quoted RM 500.
