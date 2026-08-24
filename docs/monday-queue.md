@@ -754,6 +754,7 @@ Owner order 24 Aug 18:14 MYT: clean out other job applies. Do not apply to Evabo
 - Ask: RM 1,000 to RM 5,000 after looking at how much copy they need. Draft first. No Stripe. No hire-page link.
 - Not 3PL. Did not mail Intergrated Freighters today. Did not poll Stripe.
 - File: `docs/proposals/mbond-manufacturer.md`.
+- Hostable draft: `docs/proposals/mbond-services.html`. Honor RM 1,000-5,000. Send only if they reply. Do not Surge-publish until they ask. HQ inbox only.
 - Do not mail MBOND again unless they reply.
 
 ### South Island Furniture -- SENT 24 Aug 2026 15:06 MYT
@@ -780,6 +781,7 @@ Owner order 24 Aug 18:14 MYT: clean out other job applies. Do not apply to Evabo
 - Ask: RM 1,000 to RM 5,000 after looking at how much copy they need. Draft first. No Stripe. No hire-page link.
 - Not 3PL. Did not mail Intergrated Freighters today. Did not poll Stripe.
 - File: `docs/proposals/daya-banding-token.md`.
+- Hostable draft: `docs/proposals/token-king-services.html`. Honor RM 1,000-5,000. Send only if they reply. Do not Surge-publish until they ask.
 - Do not mail Daya Banding again unless they reply.
 
 ### Xuan Huat Food Equipment -- SENT 24 Aug 2026 15:06 MYT
@@ -806,6 +808,7 @@ Owner order 24 Aug 18:14 MYT: clean out other job applies. Do not apply to Evabo
 - Ask: RM 1,000 to RM 5,000 after looking at how much copy they need. Draft first. No Stripe. No hire-page link.
 - Not 3PL. Did not mail Intergrated Freighters today. Did not poll Stripe.
 - File: `docs/proposals/lentix-solution.md`.
+- Hostable draft: `docs/proposals/lentix-services.html`. Honor RM 1,000-5,000. Send only if they reply. Do not Surge-publish until they ask.
 - Do not mail Lentix again unless they reply.
 
 ### IDEAL HOME JR -- SENT 24 Aug 2026 15:36 MYT

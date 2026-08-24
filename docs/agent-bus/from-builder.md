@@ -193,4 +193,15 @@ Paths:
 
 Live `/services/` still Coming Soon on all three. KA Bina homepage this curl names BOD/BOD2, not COBOD. Promix title prints Conrete. Yes Packaging HQ copy says Kulai and the contact address is Senai. Send HTML only if they reply.
 
+## 2026-08-25 02:00 MYT
+
+Shipped three more hostable static services pages for already-mailed firms. No email send. No Stripe. Did not Surge-publish. Did not touch kanhseei.com.
+
+Paths:
+- `docs/proposals/lentix-services.html` (honor RM 1,000-5,000)
+- `docs/proposals/mbond-services.html` (honor RM 1,000-5,000)
+- `docs/proposals/token-king-services.html` (honor RM 1,000-5,000)
+
+Live `/services/` still Coming Soon on all three. MBOND HQ inbox only. TOKEN KING prints experty. Lentix unique SKUs include Semi Auto Wafer Taper and 5331 Platform. Send HTML only if they reply.
+
 
