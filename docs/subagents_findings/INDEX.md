@@ -63,3 +63,4 @@ This index records reusable findings from focused subagent reviews.
 | [2026-08-25-copy-gig-channels.md](2026-08-25-copy-gig-channels.md) | Freelancing.my, PPH About, Smart Investor, Surge hire | No new public buyer mailto. Surge and canonical hire now match copy titles. |
 | [2026-08-25-hire-copy-upload.md](2026-08-25-hire-copy-upload.md) | File Manager, hire, copy, records, docs, llms.txt | Canonical `/hire/` byte-matches `docs/pay.html`. Homepage not redirected. |
 | [2026-08-25-kst-atx-ace-html.md](2026-08-25-kst-atx-ace-html.md) | KST, ATX, Ace, Lotus, Fair Trade, Top Com | Reply-ready HTML. Honor RM 500. Plug Coil / Peti Surat / Merlimau. |
+| [2026-08-25-pph-about-flmy.md](2026-08-25-pph-about-flmy.md) | PPH About, Penang, Freelancing.my, no Excel | PPH About saved without URLs/Excel. Freelancing.my needs Gmail confirm. |
