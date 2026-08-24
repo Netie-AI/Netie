@@ -201,3 +201,12 @@ If a buyer expresses interest, use `docs/file-analysis-scope-template.md` before
 - Watch `oojianhongg@gmail.com`. Do not re-apply. Do not mail jobs@flywheel.bz unless they ask.
 - Skipped this round: Enveritas (Greenhouse captcha; they say do not apply via jobs@), FlexMade (5+ years), Railway/Everis Ashby forms.
 
+### Evaboot -- SENT 24 Aug 2026 09:21 MYT
+
+- To: francine@evaboot.com
+- Source: Python.org job 8125, Agentic Python Engineer, remote worldwide. Also HN item 49270021 and https://zrobinz.github.io/evaboot-jobs/. Site https://evaboot.com measured HTTP 200.
+- Thread: `1a0315b3b9066766`
+- Honest: mid-level Python RAG at Jumpwin, Penang/MY. Uses coding agents; has not shipped production SDR agents or AWS agent observability. Expected USD 48-70k, low end of their 70-120k band. Jumpwin is current employer.
+- Skipped this round: Adzuna (must be within 2h of London), Kyra/Senzing/GovStar/Solution Street (US-only), Albert (principal/distinguished), Bactrix (early equity), Micro1 (personal Gmail listing), JB Martyn (Chicago, no telecommute).
+- Do not mail again unless they reply. HN also lists a Google form; do not double-submit unless they ask.
+

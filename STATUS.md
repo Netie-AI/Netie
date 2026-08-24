@@ -1,12 +1,14 @@
 # STATUS
 
-Updated: 2026-08-24 09:07 MYT. Success = live Stripe charge, then a payout.
+Updated: 2026-08-24 09:21 MYT. Success = live Stripe charge, then a payout.
 
 ## Now (measured)
 
 - last_stripe_check: 2026-08-24 09:07 MYT. Live account `acct_1RMx9FFV5wcFod2f`, display NETIE, livemode true. Did not poll balance, charges, or products. Did not alter Stripe products. Do not poll Stripe again this MYT day.
 - Monday 24 Aug 09:07 MYT send: all three approved first-touch drafts were still DRAFT, with no inbox replies and no prior `in:sent` mail to those three addresses. Live prospect facts still matched. Sent only those three. Did not send Intergrated Freighters, the Fiverr self-note, or any other prospect.
 - Owner follow-up: forget further landing-page edits until files are uploaded; earn on registered job/freelance accounts.
+- Bounce/reply check 24 Aug 09:18 MYT: no mailer-daemon bounces and no inbox mail from penexpressgroup.com, interocean.com.my, or bharmada.com. Did not poll Stripe again.
+- Job apply 24 Aug 09:21 MYT: Evaboot Agentic Python Engineer. To `francine@evaboot.com`. Thread `1a0315b3b9066766`. Python.org job 8125, live site HTTP 200. Honest mid-level Python at Jumpwin, not a power-user agentic hire. Expected USD 48-70k. Did not apply to US-only, London-timezone, or equity-only listings this pass. Truelancer listing still unreadable from this IP (HTTP 429).
 - Freelance channels 23 Aug 14:25 MYT: Truelancer service still pending moderator approval at https://truelancer.com/freelance-service/i-will-build-an-ai-product-landing-page-from-your-copy-655675 (0 sold). Bidding needs mobile OTP; did not request SMS. Account country is locked to India; city text is George Town, Penang, Malaysia. Twine https://www.twine.net/jianhong HTTP 200, inbox empty. Public seeking-work post: https://mastodon.social/@jianhongpg/117143382421294576 (API-confirmed public, 0 boosts). Fiverr Google login asked for a password; stopped. No marketplace order. Did not poll Stripe.
 - Domain root 23 Aug 11:36 MYT: `https://netie.ai/` is HTTP 200, title `Netie.AI | Unified AI x Web3 x Hardware Platform`, 73673 bytes, includes `/home-hire-band.js`. It does not 302 to `/hire/`. Response sends HSTS, nosniff, and DENY. `/aim/` and `/asa/` stay HTTP 200.
 - Hire introduce page 23 Aug 11:52 MYT: `https://netie.ai/hire/` matches `docs/pay.html` byte-for-byte. Centered 46rem column, Home/Suite nav, copy `Hire us for your work` and `Back to the main site`.
@@ -47,7 +49,7 @@ Updated: 2026-08-24 09:07 MYT. Success = live Stripe charge, then a payout.
 
 ## Next
 
-1. Watch the three Monday threads for replies. Do not send a second address at the same firm. Do not mail Intergrated Freighters this morning.
+1. Watch the three Monday 3PL threads plus Evaboot `1a0315b3b9066766`. Do not send a second address at the same firm. Do not mail Intergrated Freighters today.
 2. Founder: log into Fiverr on the laptop and paste Gig A from `docs/fiverr-gig.md`. Do not send the cloud agent a password or OTP.
 3. Wait for Truelancer moderator approval on the INR 10000 landing-page service, then take platform pay if a buyer appears. Do not also Stripe the same hour.
-4. Thu 27 Aug 09:00 MYT: if a Monday thread still has no reply, send only that thread's approved follow-up from `docs/monday-queue.md`. Stop if they replied.
+4. Thu 27 Aug 09:00 MYT: if a Monday 3PL thread still has no reply, send only that thread's approved follow-up from `docs/monday-queue.md`. Stop if they replied.
