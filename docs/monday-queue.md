@@ -51,7 +51,20 @@ Pre-send checks 24 Aug 09:05-09:07 MYT:
 - BH Armada contact page still lists Wisma Yew Chye Seng, 5203 Jalan Mak Mandin.
 - Live Stripe once: `acct_1RMx9FFV5wcFod2f`, display NETIE, livemode true. Did not poll balance. Did not alter products.
 
-Gmail monitoring label: `Netie/2026-08-24 Monday outreach` (`Label_8`) is attached to the three sent threads so future replies stay labeled. Same-day reply watch (no send): `netie-monday-reply-check-2026-08-24-1700-myt`. Follow-up watch: `netie-monday-followup-2026-08-27-0900-myt`.
+Gmail monitoring label: `Netie/2026-08-24 Monday outreach` (`Label_8`) is attached to the three sent threads so future replies stay labeled. Same-day reply watch (no send): `netie-monday-reply-check-2026-08-24-1700-myt` -- FIRED 17:00 MYT, no replies. Follow-up watch: `netie-monday-followup-2026-08-27-0900-myt`. Do not recreate the 17:00 watch.
+
+### Reply check 24 Aug 2026 17:00 MYT (no send)
+
+Timer `netie-monday-reply-check-2026-08-24-1700-myt`. Did not send mail. Did not poll Stripe. Did not alter Stripe products.
+
+- Pen Express thread `1a02cf1666de8224`: 1 message only. SENT `1a0314e8a8c4d65b` from oojianhongg@gmail.com to info@penexpressgroup.com, 2026-08-24T01:07:05Z, labels SENT + Label_8. No reply.
+- InterOcean Penang thread `1a02cf14f16dd76b`: 1 message only. SENT `1a0314ecee9673ae` from oojianhongg@gmail.com to export.pen@interocean.com.my, 2026-08-24T01:07:23Z, labels SENT + Label_8. No reply.
+- BH Armada thread `1a02cf15dabfbf86`: 1 message only. SENT `1a0314ef1254a5db` from oojianhongg@gmail.com to info@bharmada.com, 2026-08-24T01:07:32Z, labels SENT + Label_8. No reply.
+- `from:(penexpressgroup.com OR interocean.com.my OR bharmada.com)`: empty.
+- `label:Label_8 from:(penexpressgroup.com OR interocean.com.my OR bharmada.com)`: empty.
+- Bounce search `(from:mailer-daemon OR from:postmaster OR subject:undelivered) (penexpressgroup.com OR interocean.com.my OR bharmada.com)`: empty.
+
+Thursday 27 Aug 09:00 MYT follow-up plan unchanged (silent 3PL only, one proof link, only if still no reply). Do not follow up these three today.
 
 ### A. Pen Express -- SENT 24 Aug 2026 09:07 MYT
 

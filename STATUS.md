@@ -1,10 +1,11 @@
 # STATUS
 
-Updated: 2026-08-24 17:05 MYT. Success = live Stripe charge, then a payout.
+Updated: 2026-08-24 17:10 MYT. Success = live Stripe charge, then a payout.
 
 ## Now (measured)
 
 - last_stripe_check: 2026-08-24 09:07 MYT. Live account `acct_1RMx9FFV5wcFod2f`, display NETIE, livemode true. Did not poll balance, charges, or products. Did not alter Stripe products. Do not poll Stripe again this MYT day.
+- Reply check 24 Aug 17:00 MYT (timer `netie-monday-reply-check-2026-08-24-1700-myt`, no send): Pen Express thread `1a02cf1666de8224` still one SENT message (`1a0314e8a8c4d65b` from oojianhongg@gmail.com to info@penexpressgroup.com). InterOcean thread `1a02cf14f16dd76b` still one SENT message (`1a0314ecee9673ae` to export.pen@interocean.com.my). BH Armada thread `1a02cf15dabfbf86` still one SENT message (`1a0314ef1254a5db` to info@bharmada.com). `from:(penexpressgroup.com OR interocean.com.my OR bharmada.com)` empty. `label:Label_8 from:(those domains)` empty. Mailer-daemon/postmaster bounce search for those domains empty. Thursday 27 Aug 09:00 MYT follow-up plan unchanged. Did not send mail. Did not poll Stripe. No paid charge yet.
 - Monday 24 Aug 09:07 MYT send: all three approved first-touch drafts were still DRAFT, with no inbox replies and no prior `in:sent` mail to those three addresses. Live prospect facts still matched. Sent only those three. Did not send Intergrated Freighters, the Fiverr self-note, or any other prospect.
 - Owner follow-up: forget further landing-page edits until files are uploaded; earn on registered job/freelance accounts.
 - Bounce/reply check 24 Aug 09:18 MYT: no mailer-daemon bounces and no inbox mail from penexpressgroup.com, interocean.com.my, or bharmada.com. Did not poll Stripe again.
