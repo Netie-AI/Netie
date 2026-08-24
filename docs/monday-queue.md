@@ -1038,7 +1038,7 @@ Timer `netie-tue-afternoon-websites-2026-08-25-0940-myt` (`sub_e5ee26e9-1745-4c0
 
 ## Queued after the Tue 09:40 afternoon four-send (do not send before those four, and not after hours)
 
-Timer `netie-tue-mhaus-website-2026-08-25-1000-myt` (`sub_046d1dfb-eb92-4c9a-91ee-dbf58d9b333e`, once, Tue 25 Aug 10:00 MYT). Send existing Gmail draft only after live `/services/` Coming Soon and empty `in:sent`. First extra: M Haus Furniture, then the Johor four, then Digno, Paperbaked, F.J. Machinery, HH Metal, Presti, SKH 88, Pro Tent, Hydro Air, WH Bespoke, Teknik Alir, MAC-TECH, Heap Soon, Sinaran, Dilooma, REXOIL, KenHai, Little Hana Florist, Paint Master DIY, and Kossen. Not an email-watch loop. No Stripe. One inbox. RM 1,000-5,000. Label `Label_8` after send. Do not Surge-publish until after SENT. If Kanhseei writes, answer first and honor RM 500. Do not poll Stripe (already done 25 Aug MYT). If the 09:00, 09:20, or 09:40 drafts are still DRAFT at 10:00, send those first after the same live checks. A sixth once-timer was refused (`invalid_argument`); extras share this timer.
+Timer `netie-tue-mhaus-website-2026-08-25-1000-myt` (`sub_7c01b678-68bc-40ad-b67b-7579ff573ac0`, once, Tue 25 Aug 10:00 MYT). Send existing Gmail draft only after live `/services/` Coming Soon and empty `in:sent`. First extra: M Haus Furniture, then the Johor four, then Digno, Paperbaked, F.J. Machinery, HH Metal, Presti, SKH 88, Pro Tent, Hydro Air, WH Bespoke, Teknik Alir, MAC-TECH, Heap Soon, Sinaran, Dilooma, REXOIL, KenHai, Little Hana Florist, Paint Master DIY, and Kossen. Not an email-watch loop. No Stripe. One inbox. RM 1,000-5,000. Label `Label_8` after send. Do not Surge-publish until after SENT. If Kanhseei writes, answer first and honor RM 500. Do not poll Stripe (already done 25 Aug MYT). If the 09:00, 09:20, or 09:40 drafts are still DRAFT at 10:00, send those first after the same live checks. A sixth once-timer was refused (`invalid_argument`); extras share this timer.
 
 ### M Haus Furniture -- QUEUED draft 25 Aug 2026 01:13 MYT
 
@@ -1050,7 +1050,7 @@ Timer `netie-tue-mhaus-website-2026-08-25-1000-myt` (`sub_046d1dfb-eb92-4c9a-91e
 
 ## Queued on the same Tue 10:00 M Haus timer (do not send before 10:00, and not after hours)
 
-Same timer `netie-tue-mhaus-website-2026-08-25-1000-myt` (`sub_046d1dfb-eb92-4c9a-91ee-dbf58d9b333e`). Send after M Haus if live `/services/` Coming Soon and empty `in:sent`. Four Johor extras: Brilliant Supplies, Top Creative Steel, Loh Cross Border, Jump Belly, then Digno, Paperbaked, F.J. Machinery, HH Metal, Presti, SKH 88, Pro Tent, Hydro Air, WH Bespoke, Teknik Alir, MAC-TECH, Heap Soon, Sinaran, Dilooma, REXOIL, KenHai, Little Hana Florist, Paint Master DIY, and Kossen. Not an email-watch loop. No Stripe. One inbox. RM 1,000-5,000. Label `Label_8` after send. Do not Surge-publish until after SENT. If Kanhseei writes, answer first and honor RM 500. Do not poll Stripe (already done 25 Aug MYT). Loh is a private-car page, not a Thursday 3PL follow-up. Do not mail Brilliant Melaka `stoneshopmelaka@gmail.com`. A separate 10:20 timer was refused (`invalid_argument`, likely a five-timer cap).
+Same timer `netie-tue-mhaus-website-2026-08-25-1000-myt` (`sub_7c01b678-68bc-40ad-b67b-7579ff573ac0`). Send after M Haus if live `/services/` Coming Soon and empty `in:sent`. Four Johor extras: Brilliant Supplies, Top Creative Steel, Loh Cross Border, Jump Belly, then Digno, Paperbaked, F.J. Machinery, HH Metal, Presti, SKH 88, Pro Tent, Hydro Air, WH Bespoke, Teknik Alir, MAC-TECH, Heap Soon, Sinaran, Dilooma, REXOIL, KenHai, Little Hana Florist, Paint Master DIY, and Kossen. Not an email-watch loop. No Stripe. One inbox. RM 1,000-5,000. Label `Label_8` after send. Do not Surge-publish until after SENT. If Kanhseei writes, answer first and honor RM 500. Do not poll Stripe (already done 25 Aug MYT). Loh is a private-car page, not a Thursday 3PL follow-up. Do not mail Brilliant Melaka `stoneshopmelaka@gmail.com`. A separate 10:20 timer was refused (`invalid_argument`, likely a five-timer cap).
 
 ### Brilliant Supplies -- QUEUED draft 25 Aug 2026 01:27 MYT
 
@@ -1419,6 +1419,15 @@ Same timer `netie-tue-mhaus-website-2026-08-25-1000-myt` (`sub_046d1dfb-eb92-4c9
 - File: `docs/proposals/dddg-sport-hub.md`. Hostable draft: `docs/proposals/dddg-sport-hub-services.html`.
 - Website-page offer, RM 1,000-5,000. No Stripe. Send on the same Tue 10:00 timer after KM Animal Clinic.
 - Skipped leftover guessed packing/pallet hosts this pass (DNS/SSL fail or `/services/` 404). cksafetystore.com.my `/services/` was a 1703-byte WAF check, not Coming Soon. NEWPAGES homepage firms with a live site but filled `/services/` (not Coming Soon) or 404: sigma.com.my, dinowork.com.my, khhousevpinspection.com.my, industrialstores.com.my, masterframe.com.my, onestoppaintcentre.com.my, queensfloor.com, mentasupplies.com, agilenesshome.com.my, superprosolution.com.my, vinylflooring.com.my, hairwigsking.com, kpltools.com, 21garagemotorsport.com, remotify.com.my, mtmpre.com.my. artworldestore.com `/services/` was a 1703-byte WAF check. Do not send before 09:00 MYT.
+
+### TS Audio Electrical -- QUEUED draft 25 Aug 2026 07:15 MYT
+
+- To: tsaudioarau@gmail.com (homepage and `/contactus/` mailto on https://www.tselectrical.com.my/). One inbox. Do not invent a Kodiang mail inbox.
+- Source: live https://www.tselectrical.com.my/services/ HTTP 200 still Coming Soon (`min-height:440px`). Title: Our Services | TS Audio Electrical (M) Sdn. Bhd. Homepage lists PENGHANTARAN PERCUMA DI SELURUH NEGERI PERLIS and Pembelian Sebelum 5pm akan dihantar pada hari yang sama from HQ 25, 27, 29, Kompleks Tok Arau, Jalan Satu, 02600 Arau, Perlis. SSM 202101043344 (1443644-A). First `/services/` dump was a 1703-byte WAF check; later unique-file dump is the real Coming Soon page.
+- Draft: `r-4406099745964296127`. Thread: `1a0360d148fd17e1`. Subject: Arau electrical page.
+- File: `docs/proposals/ts-audio-electrical.md`. Hostable draft: `docs/proposals/ts-audio-electrical-services.html`.
+- Website-page offer, RM 1,000-5,000. No Stripe. Send on the same Tue 10:00 timer after DDDG Sport Hub.
+- Skipped this pass: remaining NEWPAGES homepage and location firms with filled `/services/` or 404. WAF still blocking unique dumps for ccsprinting.com.my, dwimakmur.com.my, hnkflooring.com.my (later filled), klcparts.com.my, lkmmachinery.com.my, plugandplay88.com.my, signboardpenang.com. Do not send before 09:00 MYT.
 
 
 
