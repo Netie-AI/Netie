@@ -51,7 +51,7 @@ Pre-send checks 24 Aug 09:05-09:07 MYT:
 - BH Armada contact page still lists Wisma Yew Chye Seng, 5203 Jalan Mak Mandin.
 - Live Stripe once: `acct_1RMx9FFV5wcFod2f`, display NETIE, livemode true. Did not poll balance. Did not alter products.
 
-Gmail monitoring label: `Netie/2026-08-24 Monday outreach` (`Label_8`) is attached to the three sent threads so future replies stay labeled. Same-day reply watch (no send): `netie-monday-reply-check-2026-08-24-1700-myt` -- FIRED 17:00 MYT, no replies. Follow-up watch: `netie-monday-followup-2026-08-27-0900-myt`. Do not recreate the 17:00 watch.
+Gmail monitoring label: `Netie/2026-08-24 Monday outreach` (`Label_8`) is attached to the three sent threads so future replies stay labeled. Same-day reply watch (no send): `netie-monday-reply-check-2026-08-24-1700-myt` -- FIRED 17:00 MYT, no replies. Follow-up watch: `netie-monday-followup-2026-08-27-0900-myt`. Tuesday office-hours earn: `netie-tue-office-hours-2026-08-25-0900-myt` (`sub_b6aa989b-afde-417f-815c-e561619c474e`). Do not recreate the 17:00 watch.
 
 ### Reply check 24 Aug 2026 17:00 MYT (no send)
 
@@ -229,8 +229,25 @@ If a buyer expresses interest, use `docs/file-analysis-scope-template.md` before
 - Canonical form: https://docs.google.com/forms/d/e/1FAIpQLSdFodL_S_8EvCOI_DuNnDey6KBwDnRmycRxXpI2RBUcTm-72A/viewform
 - Measured: Google sign-in wall (curl 401 / browser Sign in). Did not enter password. Did not request SMS.
 - Confirm SENT 17:20 MYT, message `1a0330d65df6ccdb`, same thread `1a0315b3b9066766`. Told her the email application stands; form will be filled when signed in.
-- Owner action: sign in as oojianhongg@gmail.com and paste `docs/proposals/evaboot-form-answers.md`. Do not nag Francine again unless she writes.
+- CEO-form inbound 17:28 MYT, message `1a033179ab198768`: "Email is not enough, the correct way to move forward it will be via form as it's not me who decide, it will be the CEO."
+- Ack SENT 18:08 MYT, message `1a0332cf21af507a`. Confirmed the Google form will be submitted for the CEO. Did not argue that email is enough. Label `Label_8` on the thread.
+- Owner action: sign in as oojianhongg@gmail.com and paste `docs/proposals/evaboot-form-answers.md`. Do not nag Francine again.
 - Expected USD 48-70k if hired. Not a Stripe charge.
+
+### Foundit Lenovo -- APPLIED 24 Aug 2026 18:00 MYT
+
+- Source: Foundit invite `1a033159c0af4a71` from opportunities@foundit.my. Job 34969035, Data and AI Engineer, Petaling Jaya, 4-7 years, Chinese + English.
+- Auto-login Quick Apply succeeded. Confirmation: "You have successfully applied to Data and AI Engineer at Lenovo". Existing profile only. No password, no SMS, no purchase.
+- Honest: mid-level Python/RAG, Penang home base, Jumpwin Cyberjaya since May 2026, Netie 2021-2026. Did not invent 4-7 years of enterprise Data & AI platform delivery.
+- Later CAPTCHA blocked a job-page revisit. Did not solve it. Did not mail recruiter inboxes off-platform.
+
+### Prints Buddy -- QUEUED for Tue 25 Aug 2026 09:00 MYT (not sent 18:08 MYT)
+
+- To: order@printsbuddy.com.my (homepage and contact-page mailto). One inbox.
+- Live https://www.printsbuddy.com.my/services/ HTTP 200 still Coming Soon (`min-height:440px`). Homepage lists digital printing, custom stickers, and finishing from Wangsa Delima, Wangsa Maju, KL. SSM 202501038566 (1639975-H).
+- `in:sent` empty at 18:08 MYT. Past 17:00 MYT office-hour cutoff, so do not send tonight. File: `docs/proposals/prints-buddy.md`.
+- Skipped remmail: Kinoro, SNEW, ZYRC, EETA (SENT 22 Aug). Sceptre and D3 Innovation `/services/` pages are filled.
+- Tuesday timer `netie-tue-office-hours-2026-08-25-0900-myt` should re-check live Coming Soon and empty `in:sent` before send. No Stripe. No hire-page link. Not 3PL.
 
 ### Earn check 24 Aug 2026 17:30 MYT (no Stripe poll)
 
