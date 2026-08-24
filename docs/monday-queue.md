@@ -1233,5 +1233,38 @@ Same timer `netie-tue-mhaus-website-2026-08-25-1000-myt` (`sub_4b45bb99-cf99-44d
 - Draft: `r3372230658570210417`. Thread: `1a035a6c2a25292b`. Subject: Klang industrial-glove page.
 - File: `docs/proposals/kossen-industries.md`. Hostable draft: `docs/proposals/kossen-industries-services.html`.
 - Website-page offer, RM 1,000-5,000. No Stripe. Send on the same Tue 10:00 timer after Paint Master DIY.
-- Skipped this pass: Berjaya Table and Chair already queued. myofficesupply.com.my mailto is still info@tetrix.com.my (domain mismatch). Gayheng and Copierworld `/services/` filled. Parallel curl HTTP 000 is a VM flake; sequential unique-file curl works. UKAI still JSON-LD / Cloudflare-obfuscated contact. GWG Manufacturing already SENT 22 Aug. KA Bina already SENT. JSON-LD-only still skip. Do not send before 09:00 MYT.
+
+### NINETY THREE CUSTOM STICKERS -- QUEUED draft 25 Aug 2026 05:32 MYT
+
+- To: princecustomade@gmail.com (homepage and `/contactus/` mailto on https://www.mycustomstickers.com.my/). One inbox.
+- Source: live https://www.mycustomstickers.com.my/services/ HTTP 200 still Coming Soon (`min-height:440px`). Homepage lists custom stickers, t-shirt printing, bunting, and banners, and From Stickers to Banners We've Got You Covered from 6-4-2 Block D, Diamond Square, Jalan Semarak Api 3 Off Jalan Gombak, 53300 Kuala Lumpur. SSM 202103117433 (LA0031285-D).
+- Draft: `r-9073539578953474700`. Thread: `1a035b01c70f8265`. Subject: Gombak sticker-banner page.
+- File: `docs/proposals/ninety-three-custom-stickers.md`. Hostable draft: `docs/proposals/ninety-three-custom-stickers-services.html`.
+- Website-page offer, RM 1,000-5,000. No Stripe. Send on the same Tue 10:00 timer after Kossen.
+
+### Wider Health & Beauty (M) Sdn Bhd (SYRINX) -- QUEUED draft 25 Aug 2026 05:32 MYT
+
+- To: my@syrinx.com.my (homepage and `/contactus/` mailto on https://www.syrinx.com.my/). One inbox. Do not mail tanjhui8@gmail.com.
+- Source: live https://www.syrinx.com.my/services/ HTTP 200 still Coming Soon (`min-height:440px`). Homepage lists SYRINX Probiotic Fermented Fruit & Veggie Powder and official distributor of SYRINX, a brand by Yuexuantang, from No.65-2, Jalan Seri Utara 1, Seri Utara Off Jalan Ipoh, 68100 Kuala Lumpur. SSM 202201003336 (1449033-W).
+- Draft: `r-821741393769654594`. Thread: `1a035b01d3aa75af`. Subject: Jalan Ipoh SYRINX page.
+- File: `docs/proposals/syrinx.md`. Hostable draft: `docs/proposals/syrinx-services.html`.
+- Website-page offer, RM 1,000-5,000. No Stripe. Send on the same Tue 10:00 timer after Ninety Three Custom Stickers.
+
+### YEEFIXX TOOLS AND PARTS SUPPLY -- QUEUED draft 25 Aug 2026 05:32 MYT
+
+- To: yeefixxtool@gmail.com (homepage and `/contactus/` mailto on https://www.yeefixx.com/). One inbox.
+- Source: live https://www.yeefixx.com/services/ HTTP 200 still Coming Soon (`min-height:440px`). Homepage lists air-conditioner parts, refrigerator tools, and Warehouse And Headquartered In Pahang, Malaysia from 15, Jalan Dahlia Indah 1, Taman Dahlia, 28340 Mengkuang, Pahang. SSM 202403210867 (JR0166713-T).
+- Draft: `r-1912181311126177737`. Thread: `1a035b01e6b9ee0a`. Subject: Pahang aircond-parts page.
+- File: `docs/proposals/yeefixx.md`. Hostable draft: `docs/proposals/yeefixx-services.html`.
+- Website-page offer, RM 1,000-5,000. No Stripe. Send on the same Tue 10:00 timer after SYRINX.
+
+### Deseo Creativo Interior Design Sdn Bhd -- QUEUED draft 25 Aug 2026 05:32 MYT
+
+- To: creativo.design@yahoo.com (homepage and `/contactus/` mailto on https://www.creativointerior.com/). One inbox.
+- Source: live https://www.creativointerior.com/services/ HTTP 200 still Coming Soon (`min-height:440px`). Homepage lists THE BEST INTERIOR DESIGN COMPANY SINCE 2007 and Botanic Semi-D @ Mark Residence - Setia Eco Park, Shah Alam from 123-1 & 2, Jalan Permata 1/KS09, Pusat Perniagaan Bestari, Taman Perindustrian Air Hitam, 42000 Klang. SSM 1063097-K.
+- Draft: `r-6016903420704367907`. Thread: `1a035b01efb46607`. Subject: Klang interior-design page.
+- File: `docs/proposals/deseo-creativo.md`. Hostable draft: `docs/proposals/deseo-creativo-services.html`.
+- Website-page offer, RM 1,000-5,000. No Stripe. Send on the same Tue 10:00 timer after YEEFIXX.
+- Skipped this pass: Berjaya Table and Chair already queued. myofficesupply.com.my mailto is still info@tetrix.com.my. Othentic `/services/` Coming Soon but mailto is enquiry@otts.com.my (domain mismatch). Guangzhou ZEBO is a China hotel-linen maker. Pro Tent, Hydro Air, and HH Metal already queued. Parallel curl HTTP 000 is a VM flake. Do not send before 09:00 MYT.
+
 
