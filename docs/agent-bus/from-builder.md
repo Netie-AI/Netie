@@ -137,4 +137,16 @@ Path: `docs/proposals/m-haus-furniture-services.html`
 
 Facts used (curl, Chrome UA, 25 Aug 2026 ~01:11 MYT): live https://www.tesoro.com.my/services/ HTTP 200 Coming Soon (`min-height:440px`). Homepage and `/contactus/` mailto `sales@mhaus.com.my` only. HQ 5, Jalan Industri Impian, Taman Industri Impian, 14000 Bukit Mertajam. Over 30 years. Named lines: Elbrus Sofa, Vono Luxury Mattress, Hilker Bedroom Series, Flexi & Multifunction Double Checker. SSM 201801007250 (1269264-V). Quote RM 1,000-5,000. Draft only. Do not publish until after the first-mail is SENT.
 
+## 2026-08-25 01:28 MYT
+
+Shipped four hostable static services pages for the Tuesday 10:00 Johor add-on (same timer as M Haus). No email send. No Stripe. Did not Surge-publish. Did not touch kanhseei.com.
+
+Paths:
+- `docs/proposals/brilliant-supplies-services.html`
+- `docs/proposals/top-creative-steel-services.html`
+- `docs/proposals/loh-cross-border-services.html`
+- `docs/proposals/jump-belly-services.html`
+
+Brilliant page uses HQ inbox only. Did not copy Top Creative Steel Lorem ipsum or Jump Belly countdown copy. Quote note is RM 1,000-5,000 after looking at copy, draft only. Send HTML only if they reply. Do not publish until after the first-mail is SENT.
+
 

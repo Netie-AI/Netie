@@ -2,9 +2,6 @@
 
 Idle. Stop hunting more Coming Soon firms tonight.
 
-Tuesday 09:00 five-send is Prints Buddy, TNT Crane, Dream House, Berjaya, Jin He Jia.
-After that: Leatat, Craft Perfect Tools, Lan Hoe, Pro Helper, KM Super HQ.
-Then 09:40: Top Fast, Kulim Typewriters, Shinx, HiParents.
-Then 10:00: M Haus Furniture.
+Tuesday send order: 09:00 five, 09:20 extra five, 09:40 afternoon four, 10:00 M Haus plus Johor four (Brilliant Supplies, Top Creative Steel, Loh Cross Border, Jump Belly).
 
 Do not mail. Skip already-queued and already-SENT firms in `docs/monday-queue.md`.

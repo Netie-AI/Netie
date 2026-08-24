@@ -165,4 +165,46 @@ Verified with Chrome UA curl. Mailto is on the firm's own homepage and `/contact
 
 Skipped extra hunt this pass: t2odesign `/services/` not Coming Soon. NEWPAGES directory URLs 404. HTTP 000 curl must not reuse leftover `/tmp/*.html`.
 
+## 2026-08-25 01:28 MYT — four Johor Coming Soon firms (queue after 10:00 M Haus send)
+
+Verified with Chrome UA curl and unique output files. Mailto is on each firm's own homepage or `/contactus/` HTML. Not in monday-queue SENT. Did not send mail.
+
+### 1. Brilliant Supplies Sdn Bhd
+
+- URL: https://www.bestagro.com.my/
+- `/services/`: HTTP 200, still Coming Soon (`min-height:440px`)
+- Mailto: marketing@bestagro.com.my (contactus HQ). Do not mail stoneshopmelaka@gmail.com.
+- Unique fact: 20 years, organic fertilizer and polyaspartic flake coating from Bandar Seri Alam, Johor Bahru.
+- SSM: 200801032489 (833824-U)
+- Draft: `r5384028546429775072`
+
+### 2. Top Creative Steel Sdn Bhd
+
+- URL: https://www.tcsteel.com.my/
+- `/services/`: HTTP 200, still Coming Soon (`min-height:440px`)
+- Mailto: sales.tcsteel@gmail.com
+- Unique fact: fire hose reel manufacture plus stainless fabrication and commercial kitchen equipment from Taman Perniagaan Setia, Johor Bahru.
+- SSM: 201601040516 (1211457-K)
+- Draft: `r960721427623673424`
+
+### 3. Loh Cross Border Transport
+
+- URL: https://www.sgjbtransport.com.my/
+- `/services/`: HTTP 200, still Coming Soon (`min-height:440px`)
+- Mailto: sunny_loo2011@hotmail.com (contactus)
+- Unique fact: Singapore-Johor private car and Changi Airport transfers from Taman Skudai Baru. Not 3PL.
+- SSM: 201203197768 (JM0631668-A)
+- Draft: `r-7026569135275344020`
+
+### 4. Jump Belly Amusement (M) Sdn Bhd
+
+- URL: https://www.jumpbelly.com.my/
+- `/services/`: HTTP 200, still Coming Soon (`min-height:440px`)
+- Mailto: enquiries@jumpbelly.com.my
+- Unique fact: inflatable playgrounds plus named Teddy Belly and Browny Belly from Ulu Tiram.
+- SSM: 202201000040 (1445737-H)
+- Draft: `r6860404133156483454`
+
+Skipped: Kinoro / ZYRC / ATX / Pangraph already SENT. EKG / HA-Co / Soiltechnics `/services/` filled. SY Metal HTTP 000. NCR Resources filled.
+
 

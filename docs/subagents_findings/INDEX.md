@@ -47,3 +47,5 @@ This index records reusable findings from focused subagent reviews.
 | [2026-08-25-afternoon-queue-html.md](2026-08-25-afternoon-queue-html.md) | hostable HTML, Top Fast, Kulim Typewriters, Shinx, HiParents | Reply-ready Services pages from live facts. No Stripe. Do not Surge until mailed. |
 | [2026-08-25-mhaus-queue.md](2026-08-25-mhaus-queue.md) | M Haus, Tesoro, Bukit Mertajam, Coming Soon | One more after-hours draft for after the 09:40 afternoon four-send. One inbox. |
 | [2026-08-25-mhaus-queue-html.md](2026-08-25-mhaus-queue-html.md) | hostable HTML, M Haus, Tesoro, Elbrus Sofa | Reply-ready Services page from live facts. No Stripe. Do not Surge until mailed. |
+| [2026-08-25-jb-queue.md](2026-08-25-jb-queue.md) | Brilliant Supplies, Top Creative Steel, Loh, Jump Belly, Coming Soon | Four more after-hours drafts on the 10:00 M Haus timer. HQ-only at Brilliant. |
+| [2026-08-25-jb-queue-html.md](2026-08-25-jb-queue-html.md) | hostable HTML, Brilliant, TC Steel, Loh, Jump Belly | Reply-ready Services pages from live facts. No Stripe. Do not Surge until mailed. |

@@ -987,7 +987,7 @@ Timer `netie-tue-afternoon-websites-2026-08-25-0940-myt` (`sub_e5ee26e9-1745-4c0
 
 ## Queued after the Tue 09:40 afternoon four-send (do not send before those four, and not after hours)
 
-Timer `netie-tue-mhaus-website-2026-08-25-1000-myt` (`sub_1c38bad3-203e-44ab-ae07-40372ed4c836`, once, Tue 25 Aug 10:00 MYT). Send existing Gmail draft only after live `/services/` Coming Soon and empty `in:sent`. One extra: M Haus Furniture. Not an email-watch loop. No Stripe. One inbox. RM 1,000-5,000. Label `Label_8` after send. Do not Surge-publish until after SENT. If Kanhseei writes, answer first and honor RM 500. Do not poll Stripe (already done 25 Aug MYT). If the 09:00, 09:20, or 09:40 drafts are still DRAFT at 10:00, send those first after the same live checks.
+Timer `netie-tue-mhaus-website-2026-08-25-1000-myt` (`sub_6b618b7a-f9f3-4fc7-b559-a05dd48b3558`, once, Tue 25 Aug 10:00 MYT). Send existing Gmail draft only after live `/services/` Coming Soon and empty `in:sent`. First extra: M Haus Furniture, then the Johor four below. Not an email-watch loop. No Stripe. One inbox. RM 1,000-5,000. Label `Label_8` after send. Do not Surge-publish until after SENT. If Kanhseei writes, answer first and honor RM 500. Do not poll Stripe (already done 25 Aug MYT). If the 09:00, 09:20, or 09:40 drafts are still DRAFT at 10:00, send those first after the same live checks. A sixth once-timer was refused (`invalid_argument`); Johor four share this timer.
 
 ### M Haus Furniture -- QUEUED draft 25 Aug 2026 01:13 MYT
 
@@ -996,4 +996,38 @@ Timer `netie-tue-mhaus-website-2026-08-25-1000-myt` (`sub_1c38bad3-203e-44ab-ae0
 - Draft: `r4639565706916679309`. Thread: `1a034c34fab5ccb5`. Subject: Bukit Mertajam furniture page.
 - File: `docs/proposals/m-haus-furniture.md`. Hostable draft: `docs/proposals/m-haus-furniture-services.html`.
 - Website-page offer, RM 1,000-5,000. No Stripe. Send only after the Tue 09:40 four-send, in office hours, if still Coming Soon and `in:sent` empty.
+
+## Queued on the same Tue 10:00 M Haus timer (do not send before 10:00, and not after hours)
+
+Same timer `netie-tue-mhaus-website-2026-08-25-1000-myt` (`sub_6b618b7a-f9f3-4fc7-b559-a05dd48b3558`). Send after M Haus if live `/services/` Coming Soon and empty `in:sent`. Four Johor extras: Brilliant Supplies, Top Creative Steel, Loh Cross Border, Jump Belly. Not an email-watch loop. No Stripe. One inbox. RM 1,000-5,000. Label `Label_8` after send. Do not Surge-publish until after SENT. If Kanhseei writes, answer first and honor RM 500. Do not poll Stripe (already done 25 Aug MYT). Loh is a private-car page, not a Thursday 3PL follow-up. Do not mail Brilliant Melaka `stoneshopmelaka@gmail.com`. A separate 10:20 timer was refused (`invalid_argument`, likely a five-timer cap).
+
+### Brilliant Supplies -- QUEUED draft 25 Aug 2026 01:27 MYT
+
+- To: marketing@bestagro.com.my (contact-page mailto on https://www.bestagro.com.my/contactus/). One inbox. Do not mail stoneshopmelaka@gmail.com.
+- Source: live https://www.bestagro.com.my/services/ HTTP 200 still Coming Soon (`min-height:440px`). Homepage lists organic fertilizer, polyaspartic flake coating, landscaping, and stone from Bandar Seri Alam, Johor Bahru. 20 years. SSM 200801032489 (833824-U).
+- Draft: `r5384028546429775072`. Thread: `1a034cfd61889352`. Subject: Seri Alam gardening page.
+- File: `docs/proposals/brilliant-supplies.md`. Hostable draft: `docs/proposals/brilliant-supplies-services.html`.
+
+### Top Creative Steel -- QUEUED draft 25 Aug 2026 01:27 MYT
+
+- To: sales.tcsteel@gmail.com (homepage mailto on https://www.tcsteel.com.my/). One inbox.
+- Source: live https://www.tcsteel.com.my/services/ HTTP 200 still Coming Soon (`min-height:440px`). Homepage lists fire hose reels, stainless fabrication, and commercial kitchen equipment from Taman Perniagaan Setia, Johor Bahru. SSM 201601040516 (1211457-K).
+- Draft: `r960721427623673424`. Thread: `1a034cffbf4cab9b`. Subject: Johor Bahru fire hose page.
+- File: `docs/proposals/top-creative-steel.md`. Hostable draft: `docs/proposals/top-creative-steel-services.html`.
+
+### Loh Cross Border Transport -- QUEUED draft 25 Aug 2026 01:27 MYT
+
+- To: sunny_loo2011@hotmail.com (contact-page mailto on https://www.sgjbtransport.com.my/contactus/). One inbox.
+- Source: live https://www.sgjbtransport.com.my/services/ HTTP 200 still Coming Soon (`min-height:440px`). Homepage lists Singapore-Johor private car and Changi Airport transfers from Taman Skudai Baru. SSM 201203197768 (JM0631668-A).
+- Draft: `r-7026569135275344020`. Thread: `1a034cfd6899930c`. Subject: Skudai Singapore transfer page.
+- File: `docs/proposals/loh-cross-border.md`. Hostable draft: `docs/proposals/loh-cross-border-services.html`.
+- Website-page offer, not a Thursday 3PL invoice follow-up.
+
+### Jump Belly Amusement -- QUEUED draft 25 Aug 2026 01:27 MYT
+
+- To: enquiries@jumpbelly.com.my (homepage mailto on https://www.jumpbelly.com.my/). One inbox.
+- Source: live https://www.jumpbelly.com.my/services/ HTTP 200 still Coming Soon (`min-height:440px`). Homepage lists inflatable playgrounds, Teddy Belly, and canopy tents from Ulu Tiram. SSM 202201000040 (1445737-H).
+- Draft: `r6860404133156483454`. Thread: `1a034cfd8214bd0f`. Subject: Ulu Tiram inflatable page.
+- File: `docs/proposals/jump-belly.md`. Hostable draft: `docs/proposals/jump-belly-services.html`.
+- Skipped this pass: Kinoro / ZYRC / ATX / Pangraph already SENT. EKG / HA-Co / Soiltechnics `/services/` filled. SY Metal still HTTP 000 from this VM. NCR Resources `/services/` filled. Do not mail Brilliant Melaka.
 
