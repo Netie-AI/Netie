@@ -375,6 +375,7 @@ Owner order 24 Aug 18:14 MYT: clean out other job applies. Do not apply to Evabo
 - Ask: RM 500, one revision, page written from their published text. No Stripe link in the first mail.
 - Not 3PL. Did not mail Intergrated Freighters today. Did not poll Stripe.
 - Do not mail Wonderful Landscape again unless they reply.
+- Hostable draft: `docs/proposals/wonderful-landscape-services.html`. Honor RM 500. Unique: Meet the green revolutions / Water Features. Send HTML only if they reply. Live `/services/` was readable this pass after an earlier 1703-byte check.
 
 ### CF Trading & Engineering -- SENT 24 Aug 2026 11:02 MYT
 
@@ -441,6 +442,7 @@ Owner order 24 Aug 18:14 MYT: clean out other job applies. Do not apply to Evabo
 - Ask: RM 500, one revision, page written from their published text. No Stripe link in the first mail.
 - Not 3PL. Did not mail Intergrated Freighters today. Did not poll Stripe.
 - Do not mail Power Wind again unless they reply.
+- Hostable draft: `docs/proposals/power-wind-services.html`. Honor RM 500. Unique: CECCATO NORTH MALAYSIA / printed air dyer. Send HTML only if they reply. Live `/services/` was readable this pass after an earlier 1703-byte check.
 
 ### KA Bina Consultancy Group -- SENT 24 Aug 2026 11:46 MYT
 
@@ -492,6 +494,7 @@ Owner order 24 Aug 18:14 MYT: clean out other job applies. Do not apply to Evabo
 - Ask: RM 500, one revision, page written from their published text. No Stripe link in the first mail.
 - Not 3PL. Did not mail Intergrated Freighters today. Did not poll Stripe.
 - Do not mail Oryx Plastic again unless they reply.
+- Hostable draft: `docs/proposals/oryx-plastic-services.html`. Honor RM 500. Unique: Acuan Puding Mini / Tepung Pelita / FSSC 22000 Feb 2023. Send HTML only if they reply. Live `/services/` was readable this pass after an earlier 1703-byte check.
 - Skipped this pass: KDSOFT www hostname NXDOMAIN this check. SY Metal /services/ HTTP 503. EA Global already in `in:sent`.
 
 ### Amazon Net -- SENT 24 Aug 2026 12:15 MYT
