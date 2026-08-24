@@ -308,3 +308,16 @@ If a buyer expresses interest, use `docs/file-analysis-scope-template.md` before
 - Not 3PL. Not a second inbox at a mailed firm. Did not mail Intergrated Freighters today. Did not poll Stripe.
 - Do not mail Inti Packaging again unless they reply.
 
+### Wonderful Landscape -- SENT 24 Aug 2026 10:58 MYT
+
+- To: wonderful.landscape.sb@gmail.com (contact-page mailto on https://www.wonderfullandscape.com.my/services). One inbox.
+- Source: live https://www.wonderfullandscape.com.my/services HTTP 200 still shows Coming Soon. Homepage lists landscape design, landscape maintenance, and landscape works from 48, Jalan SME 2, Kawasan Perindustrial SME, Bandar Indahpura, Kulai. SSM 202101012464 (1412763-V).
+- `in:sent` to wonderful.landscape.sb@gmail.com was empty before send. Not in existing `docs/*-services.html` drafts.
+- Thread: `1a031b3e38eef413`
+- Message: `1a031b3e38eef413`
+- Subject: Kulai landscape page
+- Ask: RM 500, one revision, page written from their published text. No Stripe link in the first mail.
+- Not 3PL. Did not mail Intergrated Freighters today. Did not poll Stripe.
+- Do not mail Wonderful Landscape again unless they reply.
+- Held unused this pass (Coming Soon still live, not mailed): CF Trading & Engineering `sales@cf-traengineering.com.my`. Did not mail Kinoro `sales@kinoroengineering.com.my` (same firm already mailed 22 Aug at kinoroengineering@yahoo.com).
+
