@@ -861,6 +861,7 @@ Owner order 24 Aug 18:14 MYT: clean out other job applies. Do not apply to Evabo
 - Thread: `1a032b677d825689`
 - Subject: Simpang Ampat plastic page
 - File: `docs/proposals/afford-engineering-plastic.md`.
+- Hostable draft: `docs/proposals/afford-engineering-plastic-services.html`. Honor RM 1,000-5,000. Send only if they reply. Do not Surge-publish until they ask. Do not mail a Thailand inbox.
 - Do not mail Afford Engineering Plastic again unless they reply.
 
 ### KT Ware -- SENT 24 Aug 2026 15:36 MYT
@@ -870,6 +871,7 @@ Owner order 24 Aug 18:14 MYT: clean out other job applies. Do not apply to Evabo
 - Thread: `1a032b679fb47558`
 - Subject: Shah Alam kitchenware page
 - File: `docs/proposals/kt-ware.md`.
+- Hostable draft: `docs/proposals/kt-ware-services.html`. Honor RM 1,000-5,000. Send only if they reply. Do not Surge-publish until they ask.
 - Do not mail KT Ware again unless they reply.
 
 ### SPLT -- SENT 24 Aug 2026 15:36 MYT
@@ -879,6 +881,7 @@ Owner order 24 Aug 18:14 MYT: clean out other job applies. Do not apply to Evabo
 - Thread: `1a032b6791249a04`
 - Subject: Taman Sutera valve page
 - File: `docs/proposals/splt-group.md`.
+- Hostable draft: `docs/proposals/splt-group-services.html`. Honor RM 1,000-5,000. Send only if they reply. Do not Surge-publish until they ask. HQ mailbox only; Johor Jaya and Subang Jaya are published addresses, not extra inboxes.
 - Do not mail SPLT again unless they reply.
 - Skipped this pass: Metafert, Willy Manufacturing, and GWG already mailed 22 Aug. Do not remmail. Benchmark Paper, Aerosol Maker, NBH, YHK Rubber, Chee Kuan, YK Pipe, Kepala Batas Bihun `/services/` 404 or filled. Steven has not replied to the 14:05 draft; did not nag.
 

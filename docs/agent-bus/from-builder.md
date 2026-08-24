@@ -226,4 +226,15 @@ Paths:
 
 Live `/services/` still Coming Soon on all three. KMK contact has no street. Copy Oiless Bushing as printed. Send HTML only if they reply.
 
+## 2026-08-25 02:20 MYT
+
+Shipped three more hostable static services pages for already-mailed firms. No email send. No Stripe. Did not Surge-publish. Did not touch kanhseei.com.
+
+Paths:
+- `docs/proposals/afford-engineering-plastic-services.html` (honor RM 1,000-5,000)
+- `docs/proposals/kt-ware-services.html` (honor RM 1,000-5,000)
+- `docs/proposals/splt-group-services.html` (honor RM 1,000-5,000)
+
+Live `/services/` still Coming Soon on all three. Afford Thailand address is on the contact page; HQ mailbox only. KT Ware printed lines kept. SPLT 2016 vs 1997 both copied. Send HTML only if they reply.
+
 

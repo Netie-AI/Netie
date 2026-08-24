@@ -56,3 +56,4 @@ This index records reusable findings from focused subagent reviews.
 | [2026-08-25-lentix-mbond-token-html.md](2026-08-25-lentix-mbond-token-html.md) | Lentix, MBOND, TOKEN KING | Reply-ready HTML. Honor RM 1,000-5,000. HQ-only at MBOND. |
 | [2026-08-25-sif-xuan-ideal-html.md](2026-08-25-sif-xuan-ideal-html.md) | SIF, Xuan Huat, IDEAL HOME JR | Reply-ready HTML. Honor RM 1,000-5,000. Do not copy SIF prices. |
 | [2026-08-25-ums-airblock-kmk-html.md](2026-08-25-ums-airblock-kmk-html.md) | UMS, Airblock, KMK | Reply-ready HTML. Honor RM 1,000-5,000. Oiless Bushing / no KMK street. |
+| [2026-08-25-afford-kt-splt-html.md](2026-08-25-afford-kt-splt-html.md) | Afford, KT Ware, SPLT | Reply-ready HTML. Honor RM 1,000-5,000. Pomolux / printed KT lines / 2016 vs 1997. |
