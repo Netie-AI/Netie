@@ -217,5 +217,27 @@ If a buyer expresses interest, use `docs/file-analysis-scope-template.md` before
 - Thread: `1a031611e3cda323`
 - Honest: Penang/MY, not Toronto. Mid-level Python/JS at Jumpwin. No production WebRTC/telephony. Expected USD 48k. Asked them to skip if the seat is Toronto-only.
 - Skipped this round: MixRank junior (Dover/YC form, no public apply inbox), ActivePrime (requires prior US-company employment), Adzuna (within 2h of London), Bactrix (equity/pre-funding).
-- Do not mail again unless they reply.
+- Do not mail Strello again unless they reply.
+
+### Coder -- SENT 24 Aug 2026 09:36 MYT
+
+- To: careers@coder.com
+- Source: Ask HN Who is hiring August 2026. Site https://coder.com and https://coder.com/careers measured HTTP 200. Listed IC seats: AU/SG, UK/PL, US.
+- Thread: `1a03169a22c21947`
+- Message: `1a03169a22c21947`
+- Subject: Remote IC engineering from Malaysia
+- Honest: eligibility question only. Penang/MY. Expected USD 48k. No resume until they name a Malaysia-eligible IC seat.
+- If they name a seat: use the listed careers form. Do not guess a second inbox.
+- Do not mail Coder again unless they reply.
+
+### Windmere Products -- SENT 24 Aug 2026 09:49 MYT
+
+- To: windmereproducts@gmail.com (homepage mailto). Do not also mail windmerebusiness@gmail.com the same day.
+- Source: live https://www.windmere1.com/services/ HTTP 200 still shows Coming Soon. Homepage lists 3M tapes, adhesives, cleanroom, ESD, and precision die cutting from 6&8, Jalan Industri Cherok Tokun, Bukit Mertajam, Penang. SSM 199201016889 (248393-M).
+- Thread: `1a031752837eab0f`
+- Message: `1a031752837eab0f`
+- Subject: Windmere services page
+- Ask: RM 500, one revision, page written from their published text. No Stripe link in the first mail.
+- Not 3PL. Do not mail Intergrated Freighters today.
+- Do not mail Windmere again unless they reply.
 

@@ -1,6 +1,6 @@
 # STATUS
 
-Updated: 2026-08-24 09:21 MYT. Success = live Stripe charge, then a payout.
+Updated: 2026-08-24 09:49 MYT. Success = live Stripe charge, then a payout.
 
 ## Now (measured)
 
@@ -9,7 +9,9 @@ Updated: 2026-08-24 09:21 MYT. Success = live Stripe charge, then a payout.
 - Owner follow-up: forget further landing-page edits until files are uploaded; earn on registered job/freelance accounts.
 - Bounce/reply check 24 Aug 09:18 MYT: no mailer-daemon bounces and no inbox mail from penexpressgroup.com, interocean.com.my, or bharmada.com. Did not poll Stripe again.
 - Job apply 24 Aug 09:21 MYT: Evaboot Agentic Python Engineer. To `francine@evaboot.com`. Thread `1a0315b3b9066766`. Python.org job 8125, live site HTTP 200. Honest mid-level Python at Jumpwin, not a power-user agentic hire. Expected USD 48-70k.
-- Job apply 24 Aug 09:27 MYT: Strello Health Founding Software Engineer. To `jobs@strello.health`. Thread `1a031611e3cda323`. HN August hiring, live site HTTP 200. Honest: Penang not Toronto hybrid; no production WebRTC. Expected USD 48k. Skipped MixRank (Dover/YC form only), ActivePrime (requires prior US-company job), Adzuna (London timezone), US-only and equity-only listings. Did not poll Stripe again. Did not mail Intergrated Freighters.
+- Job apply 24 Aug 09:27 MYT: Strello Health Founding Software Engineer. To `jobs@strello.health`. Thread `1a031611e3cda323`. HN August hiring, live site HTTP 200. Honest: Penang not Toronto hybrid; no production WebRTC. Expected USD 48k.
+- Job ask 24 Aug 09:36 MYT: Coder careers. To `careers@coder.com`. Thread `1a03169a22c21947`. HN said questions go there; listed IC seats are AU/SG, UK/PL, or US. Asked if any IC engineering seat can include Malaysia; will use the careers form only if they name one. Site HTTP 200. Expected USD 48k. Skipped MixRank (Dover/YC form + Turnstile), Enveritas (Ashby form), ActivePrime (needs prior US-company job), WWR Django/Next roles (account wall), Azumo (LATAM-only). Did not poll Stripe again. Did not mail Intergrated Freighters.
+- Website offer 24 Aug 09:49 MYT: Windmere Products, Bukit Mertajam. To `windmereproducts@gmail.com`. Thread `1a031752837eab0f`. Live https://www.windmere1.com/services/ still Coming Soon; homepage already lists 3M tapes, adhesives, cleanroom, ESD, die cutting. RM 500, one revision, no checkout link in the first mail. Not 3PL. Did not mail `windmerebusiness@gmail.com`. Did not mail Intergrated Freighters. Did not poll Stripe. No paid charge yet.
 - Freelance channels 23 Aug 14:25 MYT: Truelancer service still pending moderator approval at https://truelancer.com/freelance-service/i-will-build-an-ai-product-landing-page-from-your-copy-655675 (0 sold). Bidding needs mobile OTP; did not request SMS. Account country is locked to India; city text is George Town, Penang, Malaysia. Twine https://www.twine.net/jianhong HTTP 200, inbox empty. Public seeking-work post: https://mastodon.social/@jianhongpg/117143382421294576 (API-confirmed public, 0 boosts). Fiverr Google login asked for a password; stopped. No marketplace order. Did not poll Stripe.
 - Domain root 23 Aug 11:36 MYT: `https://netie.ai/` is HTTP 200, title `Netie.AI | Unified AI x Web3 x Hardware Platform`, 73673 bytes, includes `/home-hire-band.js`. It does not 302 to `/hire/`. Response sends HSTS, nosniff, and DENY. `/aim/` and `/asa/` stay HTTP 200.
 - Hire introduce page 23 Aug 11:52 MYT: `https://netie.ai/hire/` matches `docs/pay.html` byte-for-byte. Centered 46rem column, Home/Suite nav, copy `Hire us for your work` and `Back to the main site`.
@@ -50,7 +52,7 @@ Updated: 2026-08-24 09:21 MYT. Success = live Stripe charge, then a payout.
 
 ## Next
 
-1. Watch the three Monday 3PL threads plus Evaboot `1a0315b3b9066766` and Strello `1a031611e3cda323`. Do not send a second address at the same firm. Do not mail Intergrated Freighters today.
+1. Watch the three Monday 3PL threads plus Evaboot `1a0315b3b9066766`, Strello `1a031611e3cda323`, Coder `1a03169a22c21947`, and Windmere `1a031752837eab0f`. Do not send a second address at the same firm. Do not mail Intergrated Freighters today.
 2. Founder: log into Fiverr on the laptop and paste Gig A from `docs/fiverr-gig.md`. Do not send the cloud agent a password or OTP.
 3. Wait for Truelancer moderator approval on the INR 10000 landing-page service, then take platform pay if a buyer appears. Do not also Stripe the same hour.
 4. Thu 27 Aug 09:00 MYT: if a Monday 3PL thread still has no reply, send only that thread's approved follow-up from `docs/monday-queue.md`. Stop if they replied.
