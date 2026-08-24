@@ -22,3 +22,4 @@ This index records reusable findings from focused subagent reviews.
 | [2026-08-23-root-seo-llms.md](2026-08-23-root-seo-llms.md) | sitemap, llms.txt, document root, SEO, agent catalog | Root sitemap and llms.txt now point crawlers at payable /hire/ work. |
 | [2026-08-23-restore-homepage.md](2026-08-23-restore-homepage.md) | homepage, 302, suite, hire band, File Manager | Restore the April netie.ai landing; hire is a smaller linked introduce page. |
 | [2026-08-23-freelance-channel-logins.md](2026-08-23-freelance-channel-logins.md) | Fiverr, Twine, Truelancer, PPH, Freelancer | Twine is live; Fiverr password fails; PPH wants a paid plan. |
+| [2026-08-24-warm-offer-scope.md](2026-08-24-warm-offer-scope.md) | outreach tone, RM1000-5000, proposals, ASA, AIM, CI-Doctor | New work is quoted after research; honor any price already named in the thread. |
