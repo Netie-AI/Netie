@@ -1038,7 +1038,7 @@ Timer `netie-tue-afternoon-websites-2026-08-25-0940-myt` (`sub_e5ee26e9-1745-4c0
 
 ## Queued after the Tue 09:40 afternoon four-send (do not send before those four, and not after hours)
 
-Timer `netie-tue-mhaus-website-2026-08-25-1000-myt` (`sub_6b618b7a-f9f3-4fc7-b559-a05dd48b3558`, once, Tue 25 Aug 10:00 MYT). Send existing Gmail draft only after live `/services/` Coming Soon and empty `in:sent`. First extra: M Haus Furniture, then the Johor four below. Not an email-watch loop. No Stripe. One inbox. RM 1,000-5,000. Label `Label_8` after send. Do not Surge-publish until after SENT. If Kanhseei writes, answer first and honor RM 500. Do not poll Stripe (already done 25 Aug MYT). If the 09:00, 09:20, or 09:40 drafts are still DRAFT at 10:00, send those first after the same live checks. A sixth once-timer was refused (`invalid_argument`); Johor four share this timer.
+Timer `netie-tue-mhaus-website-2026-08-25-1000-myt` (`sub_31a6ce3e-ec81-4ca2-a279-27f223fb1d81`, once, Tue 25 Aug 10:00 MYT). Send existing Gmail draft only after live `/services/` Coming Soon and empty `in:sent`. First extra: M Haus Furniture, then the Johor four, then Digno and Paperbaked. Not an email-watch loop. No Stripe. One inbox. RM 1,000-5,000. Label `Label_8` after send. Do not Surge-publish until after SENT. If Kanhseei writes, answer first and honor RM 500. Do not poll Stripe (already done 25 Aug MYT). If the 09:00, 09:20, or 09:40 drafts are still DRAFT at 10:00, send those first after the same live checks. A sixth once-timer was refused (`invalid_argument`); extras share this timer.
 
 ### M Haus Furniture -- QUEUED draft 25 Aug 2026 01:13 MYT
 
@@ -1050,7 +1050,7 @@ Timer `netie-tue-mhaus-website-2026-08-25-1000-myt` (`sub_6b618b7a-f9f3-4fc7-b55
 
 ## Queued on the same Tue 10:00 M Haus timer (do not send before 10:00, and not after hours)
 
-Same timer `netie-tue-mhaus-website-2026-08-25-1000-myt` (`sub_6b618b7a-f9f3-4fc7-b559-a05dd48b3558`). Send after M Haus if live `/services/` Coming Soon and empty `in:sent`. Four Johor extras: Brilliant Supplies, Top Creative Steel, Loh Cross Border, Jump Belly. Not an email-watch loop. No Stripe. One inbox. RM 1,000-5,000. Label `Label_8` after send. Do not Surge-publish until after SENT. If Kanhseei writes, answer first and honor RM 500. Do not poll Stripe (already done 25 Aug MYT). Loh is a private-car page, not a Thursday 3PL follow-up. Do not mail Brilliant Melaka `stoneshopmelaka@gmail.com`. A separate 10:20 timer was refused (`invalid_argument`, likely a five-timer cap).
+Same timer `netie-tue-mhaus-website-2026-08-25-1000-myt` (`sub_31a6ce3e-ec81-4ca2-a279-27f223fb1d81`). Send after M Haus if live `/services/` Coming Soon and empty `in:sent`. Four Johor extras: Brilliant Supplies, Top Creative Steel, Loh Cross Border, Jump Belly, then Digno and Paperbaked. Not an email-watch loop. No Stripe. One inbox. RM 1,000-5,000. Label `Label_8` after send. Do not Surge-publish until after SENT. If Kanhseei writes, answer first and honor RM 500. Do not poll Stripe (already done 25 Aug MYT). Loh is a private-car page, not a Thursday 3PL follow-up. Do not mail Brilliant Melaka `stoneshopmelaka@gmail.com`. A separate 10:20 timer was refused (`invalid_argument`, likely a five-timer cap).
 
 ### Brilliant Supplies -- QUEUED draft 25 Aug 2026 01:27 MYT
 
@@ -1081,4 +1081,21 @@ Same timer `netie-tue-mhaus-website-2026-08-25-1000-myt` (`sub_6b618b7a-f9f3-4fc
 - Draft: `r6860404133156483454`. Thread: `1a034cfd8214bd0f`. Subject: Ulu Tiram inflatable page.
 - File: `docs/proposals/jump-belly.md`. Hostable draft: `docs/proposals/jump-belly-services.html`.
 - Skipped this pass: Kinoro / ZYRC / ATX / Pangraph already SENT. EKG / HA-Co / Soiltechnics `/services/` filled. SY Metal still HTTP 000 from this VM. NCR Resources `/services/` filled. Do not mail Brilliant Melaka.
+
+### Digno Enterprise -- QUEUED draft 25 Aug 2026 03:54 MYT
+
+- To: digno_seremban@hotmail.com (homepage and `/contactus/` mailto on https://www.dignoenterprise.com.my/). One inbox.
+- Source: live https://www.dignoenterprise.com.my/services/ HTTP 200 still Coming Soon (`min-height:440px`). Homepage lists tempered shower screens, folding doors, and aluminium sliding doors from 5, Jalan TBK 5/2 C28 Business, Taman Bukit Kepayang, 70200 Seremban. Contact widget prints JESS. SSM 201403043679 (NS0126681-M).
+- Draft: `r2174716251212248055`. Thread: `1a035599fa7fa55a`. Subject: Seremban glass page.
+- File: `docs/proposals/digno-enterprise.md`. Hostable draft: `docs/proposals/digno-enterprise-services.html`.
+- Website-page offer, RM 1,000-5,000. No Stripe. Send on the Tue 10:00 M Haus timer after the Johor four.
+
+### Paperbaked Enterprise -- QUEUED draft 25 Aug 2026 03:54 MYT
+
+- To: paperbaked@gmail.com (homepage and `/contactus/` mailto on https://www.paperbaked.com.my/). One inbox.
+- Source: live https://www.paperbaked.com.my/services/ HTTP 200 still Coming Soon (`min-height:440px`). Homepage lists custom cakes, dessert bouquets, and the printed 温柔系蝴蝶兰蛋糕 from 150-01, Jalan Adda 7, Adda Heights, 81100 Johor Bahru, plus Join Member Now & Get RM5 off! SSM 202103092778 (003253720-P).
+- Draft: `r6118493077971778942`. Thread: `1a03559a14483146`. Subject: Adda Heights cake page.
+- File: `docs/proposals/paperbaked.md`. Hostable draft: `docs/proposals/paperbaked-services.html`.
+- Website copy from published cake names. RM 1,000-5,000. No Stripe. Send on the same Tue 10:00 timer after Digno.
+- Skipped this pass: UKAI still JSON-LD / Cloudflare-obfuscated contact, not a visible mailto. GWG Manufacturing already SENT 22 Aug. KA Bina already SENT. KDSOFT NXDOMAIN. SY Metal NXDOMAIN. Do not send before 09:00 MYT.
 
