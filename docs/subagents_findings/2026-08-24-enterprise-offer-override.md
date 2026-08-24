@@ -7,7 +7,7 @@
   - `app.netie.ai/cortex` is 404. Suite "Chat with Cortex" is a published UI, not a hosted live-agent API.
   - Cortex, AirGPT, DMS, Vanguard, Closer GitHub are 404 or private from this token. Jianhong user logins 404 from this token.
   - Do not paste Jumpwin screenshots. Do not invent Stripe prices. RM 20,000 ops checkout only after written scope if the job is one internal workflow.
-  - Canonical https://netie.ai/hire/ still needs Spaceship File Manager upload.
+- Canonical `/hire/` now matches `docs/pay.html` after the 24 Aug 18:29 MYT File Manager upload.
 
 ## Hunt (measured this pass)
 

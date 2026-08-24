@@ -5,9 +5,9 @@ alwaysApply: true
 
 # Tone
 
-Read `.cursor/skills/outreach-tone/SKILL.md` before any buyer email, WhatsApp paste, or marketplace copy.
+Read `.cursor/skills/outreach-tone/SKILL.md` and `.cursor/skills/chat-voice/SKILL.md` before any buyer email, WhatsApp paste, or marketplace copy.
 
-Write as Jian Hong in Penang. Short. Polite. One fact about them. One ask. One link.
+Write as Jian Hong in Penang. Short. Polite. One fact about them. One ask. One real link. Plaintext only. Never htmlBody (Gmail wraps those into google.com/url).
 
 Do not send scraper-tone mail: no JSON, vCard, mailto, live HTML, NEWPAGES SSM, "72h host", or "your page still says coming soon" as the hook.
 

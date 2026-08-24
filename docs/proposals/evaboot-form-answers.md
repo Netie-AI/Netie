@@ -2,8 +2,7 @@
 
 Francine asked 24 Aug 2026 16:29 MYT to submit https://forms.gle/NM9BLJyuS8FNitYc8
 Canonical: https://docs.google.com/forms/d/e/1FAIpQLSdFodL_S_8EvCOI_DuNnDey6KBwDnRmycRxXpI2RBUcTm-72A/viewform
-CEO-form reply 24 Aug 17:28 MYT (`1a033179ab198768`): email is not enough; the CEO reviews the form. Ack SENT 18:08 MYT, message `1a0332cf21af507a`. Do not nag Francine again. Do not argue that email is enough.
-The form requires a Google sign-in. This cloud browser hit the login wall. Did not type a password or request SMS. Owner: open the link while signed in as oojianhongg@gmail.com and paste below. That is the only remaining Evaboot step.
+CEO-form reply 24 Aug 17:28 MYT (`1a033179ab198768`): email is not enough; the CEO reviews the form. Path closed 18:14 MYT per owner (employment keep-only). Do not submit this form. Do not nag Francine.
 
 Role: Agentic Python Engineer (Python.org job 8125).
 

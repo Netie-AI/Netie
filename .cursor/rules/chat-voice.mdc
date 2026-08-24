@@ -1,0 +1,10 @@
+---
+description: Human chat and plaintext direct links. No Google URL wrappers.
+alwaysApply: true
+---
+
+# Voice and links
+
+Read `.cursor/skills/chat-voice/SKILL.md` before outbound mail.
+
+Send Gmail as plaintext `body` only. Never `htmlBody` for outreach. Paste real URLs such as https://netie.ai/hire/ or https://www.python.org/jobs/8125/ never https://www.google.com/url?q=...
