@@ -893,7 +893,7 @@ Timer `netie-tue-queued-websites-2026-08-25-0900-myt` (`sub_d2cddda5-5d3c-4c9f-8
 - To: enquiry.berjaya@gmail.com (homepage mailto on https://www.berjayatableandchair.com/). Footer name: Success Table & Chair Sdn Bhd. One inbox.
 - Source: live https://www.berjayatableandchair.com/services/ HTTP 200 still Coming Soon (`min-height:440px`). Homepage lists stainless canteen sets and Isotop restaurant tables from Sungai Balak, Balakong, Kajang. SSM 202501013794 (1615208-T).
 - Draft: `r8087702750161109889`. Thread: `1a033a139cb42e65`. Subject: Balakong canteen page.
-- File: `docs/proposals/berjaya-table-chair.md`.
+- File: `docs/proposals/berjaya-table-chair.md`. Hostable draft: `docs/proposals/berjaya-table-chair-services.html`.
 - Send only after the Tue 09:00 three-send, in office hours, after live Coming Soon and empty `in:sent`.
 
 ### Jin He Jia -- QUEUED draft 24 Aug 2026 19:56 MYT
@@ -901,6 +901,6 @@ Timer `netie-tue-queued-websites-2026-08-25-0900-myt` (`sub_d2cddda5-5d3c-4c9f-8
 - To: enquiry@jinhejia.com.my (homepage mailto on https://www.jinhejia.com.my/). One inbox.
 - Source: live https://www.jinhejia.com.my/services/ HTTP 200 still Coming Soon (`min-height:440px`). Homepage lists household wholesale and export to Australia and New Zealand from Persiaran Kerapu, Butterworth. SSM 202101042528 (1442828-U).
 - Draft: `r2276372326674085603`. Thread: `1a033a13be60dd22`. Subject: Butterworth grocery page.
-- File: `docs/proposals/jin-he-jia.md`.
+- File: `docs/proposals/jin-he-jia.md`. Hostable draft: `docs/proposals/jin-he-jia-services.html`.
 - Send only after the Tue 09:00 three-send, in office hours, after live Coming Soon and empty `in:sent`.
 

@@ -1,10 +1,10 @@
 # STATUS
 
-Updated: 2026-08-24 19:57 MYT. Success = live Stripe charge, then a payout.
+Updated: 2026-08-24 20:12 MYT. Success = live Stripe charge, then a payout.
 
 ## Now (measured)
 
-- After hours 24 Aug 19:57 MYT: no new Huawei / Avows / NextAL mail. No new Kanhseei mail after Lokesh. Did not nag. Did not send first-mails. Hostable TNT and Dream House pages shipped. Two more Coming Soon firms queued as drafts for after Tue 09:00 send: Berjaya Table & Chair `enquiry.berjaya@gmail.com` draft `r8087702750161109889`; Jin He Jia `enquiry@jinhejia.com.my` draft `r2276372326674085603`. Do not add them to the Tuesday timer. No paid charge yet.
+- After hours 24 Aug 20:12 MYT: no new Huawei / Avows / NextAL mail. No new Kanhseei mail after the 19:33 clarification. No mailer-daemon bounces newer than 1d. Foundit Lenovo invite ignored (keep-only). Did not nag. Did not send first-mails. Hostable Berjaya and Jin He Jia pages shipped (`docs/proposals/berjaya-table-chair-services.html`, `docs/proposals/jin-he-jia-services.html`). Drafts stay queued after Tue 09:00 three-send: Berjaya `r8087702750161109889`, Jin He Jia `r2276372326674085603`. No paid charge yet.
 - Kanhseei buyer reply 24 Aug 19:18 MYT: Lokesh (`lokesh@kanhseei.com`) asked who authorised website changes and to stop until internal confirmation. Clarification SENT 19:33 MYT, message `1a0338bc74fae0b4`, thread `1a03200b47b3aebe`, to Lokesh, CC Sara and Steven. Live https://www.kanhseei.com/services/ still Coming Soon. Nobody authorised live-site work; nothing published; RM 500 is a quote not a bill. Wait. Do not nag. Do not touch kanhseei.com.
 - Queued office-hours first-mails (do not send tonight): Prints Buddy `order@printsbuddy.com.my` draft `r5576372032492267601`; TNT Crane `marketing@tntcrane.com.my` draft `r7715596559068711037`; Dream House `dream.house.sw.sb@gmail.com` draft `r-7065746014145915944`. All three `/services/` still Coming Soon at 19:33 MYT. `in:sent` empty. Timer `netie-tue-queued-websites-2026-08-25-0900-myt` (`sub_d2cddda5-5d3c-4c9f-872c-875bd51fdf45`, once, Tue 25 Aug 09:00 MYT) sends those three drafts only after re-check. This is not an email-watch loop.
 - last_stripe_check: 2026-08-24 09:07 MYT. Live account `acct_1RMx9FFV5wcFod2f`, display NETIE, livemode true. Did not poll balance, charges, or products. Did not alter Stripe products. Do not poll Stripe again this MYT day.
