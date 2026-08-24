@@ -215,4 +215,15 @@ Paths:
 
 Live `/services/` still Coming Soon on all three. Did not copy SIF shop prices. Xuan Huat factory address is published at Gelang Patah; sales@ only. Send HTML only if they reply.
 
+## 2026-08-25 02:10 MYT
+
+Shipped three more hostable static services pages for already-mailed firms. No email send. No Stripe. Did not Surge-publish. Did not touch kanhseei.com.
+
+Paths:
+- `docs/proposals/ums-safety-services.html` (honor RM 1,000-5,000)
+- `docs/proposals/airblock-services.html` (honor RM 1,000-5,000)
+- `docs/proposals/kmk-hardware-services.html` (honor RM 1,000-5,000)
+
+Live `/services/` still Coming Soon on all three. KMK contact has no street. Copy Oiless Bushing as printed. Send HTML only if they reply.
+
 

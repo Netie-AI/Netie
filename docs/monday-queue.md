@@ -831,6 +831,7 @@ Owner order 24 Aug 18:14 MYT: clean out other job applies. Do not apply to Evabo
 - Thread: `1a032b6733bdc6d2`
 - Subject: Beranang scaffold page
 - File: `docs/proposals/ums-safety.md`.
+- Hostable draft: `docs/proposals/ums-safety-services.html`. Honor RM 1,000-5,000. Send only if they reply. Do not Surge-publish until they ask.
 - Do not mail UMS Safety again unless they reply.
 
 ### Airblock -- SENT 24 Aug 2026 15:36 MYT
@@ -840,6 +841,7 @@ Owner order 24 Aug 18:14 MYT: clean out other job applies. Do not apply to Evabo
 - Thread: `1a032b674491892d`
 - Subject: Butterworth breeze-block page
 - File: `docs/proposals/airblock.md`.
+- Hostable draft: `docs/proposals/airblock-services.html`. Honor RM 1,000-5,000. Send only if they reply. Do not Surge-publish until they ask.
 - Do not mail Airblock again unless they reply.
 
 ### KMK Hardware -- SENT 24 Aug 2026 15:36 MYT
@@ -849,6 +851,7 @@ Owner order 24 Aug 18:14 MYT: clean out other job applies. Do not apply to Evabo
 - Thread: `1a032b6740727edb`
 - Subject: Industrial bearing page
 - File: `docs/proposals/kmk-hardware.md`.
+- Hostable draft: `docs/proposals/kmk-hardware-services.html`. Honor RM 1,000-5,000. Send only if they reply. Do not Surge-publish until they ask. Contact page has no street line.
 - Do not mail KMK Hardware again unless they reply.
 
 ### Afford Engineering Plastic -- SENT 24 Aug 2026 15:36 MYT

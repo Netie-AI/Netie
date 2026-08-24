@@ -6,4 +6,4 @@ Live https://www.kmkhardware.com/services/ HTTP 200 still Coming Soon (`min-heig
 
 Not 3PL. Do not mail a second inbox.
 
-Quoted band: RM 1,000 to RM 5,000 after looking at how much copy they want. No Stripe in first mail. No hire-page link until canonical `/hire/` is updated.
+Quoted band: RM 1,000 to RM 5,000 after looking at how much copy they want. No Stripe. Hostable draft: `docs/proposals/kmk-hardware-services.html`. Send only if they reply.
