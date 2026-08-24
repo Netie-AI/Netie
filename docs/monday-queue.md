@@ -1038,7 +1038,7 @@ Timer `netie-tue-afternoon-websites-2026-08-25-0940-myt` (`sub_e5ee26e9-1745-4c0
 
 ## Queued after the Tue 09:40 afternoon four-send (do not send before those four, and not after hours)
 
-Timer `netie-tue-mhaus-website-2026-08-25-1000-myt` (`sub_95b52de6-3d98-4934-b56d-0b2964744a89`, once, Tue 25 Aug 10:00 MYT). Send existing Gmail draft only after live `/services/` Coming Soon and empty `in:sent`. First extra: M Haus Furniture, then the Johor four, then Digno, Paperbaked, F.J. Machinery, HH Metal, Presti, SKH 88, Pro Tent, Hydro Air, WH Bespoke, Teknik Alir, MAC-TECH, Heap Soon, Sinaran, Dilooma, REXOIL, KenHai, Little Hana Florist, Paint Master DIY, and Kossen. Not an email-watch loop. No Stripe. One inbox. RM 1,000-5,000. Label `Label_8` after send. Do not Surge-publish until after SENT. If Kanhseei writes, answer first and honor RM 500. Do not poll Stripe (already done 25 Aug MYT). If the 09:00, 09:20, or 09:40 drafts are still DRAFT at 10:00, send those first after the same live checks. A sixth once-timer was refused (`invalid_argument`); extras share this timer.
+Timer `netie-tue-mhaus-website-2026-08-25-1000-myt` (`sub_b2d918dd-837e-41a9-ae9f-0d898bf97226`, once, Tue 25 Aug 10:00 MYT). Send existing Gmail draft only after live `/services/` Coming Soon and empty `in:sent`. First extra: M Haus Furniture, then the Johor four, then Digno, Paperbaked, F.J. Machinery, HH Metal, Presti, SKH 88, Pro Tent, Hydro Air, WH Bespoke, Teknik Alir, MAC-TECH, Heap Soon, Sinaran, Dilooma, REXOIL, KenHai, Little Hana Florist, Paint Master DIY, and Kossen. Not an email-watch loop. No Stripe. One inbox. RM 1,000-5,000. Label `Label_8` after send. Do not Surge-publish until after SENT. If Kanhseei writes, answer first and honor RM 500. Do not poll Stripe (already done 25 Aug MYT). If the 09:00, 09:20, or 09:40 drafts are still DRAFT at 10:00, send those first after the same live checks. A sixth once-timer was refused (`invalid_argument`); extras share this timer.
 
 ### M Haus Furniture -- QUEUED draft 25 Aug 2026 01:13 MYT
 
@@ -1050,7 +1050,7 @@ Timer `netie-tue-mhaus-website-2026-08-25-1000-myt` (`sub_95b52de6-3d98-4934-b56
 
 ## Queued on the same Tue 10:00 M Haus timer (do not send before 10:00, and not after hours)
 
-Same timer `netie-tue-mhaus-website-2026-08-25-1000-myt` (`sub_95b52de6-3d98-4934-b56d-0b2964744a89`). Send after M Haus if live `/services/` Coming Soon and empty `in:sent`. Four Johor extras: Brilliant Supplies, Top Creative Steel, Loh Cross Border, Jump Belly, then Digno, Paperbaked, F.J. Machinery, HH Metal, Presti, SKH 88, Pro Tent, Hydro Air, WH Bespoke, Teknik Alir, MAC-TECH, Heap Soon, Sinaran, Dilooma, REXOIL, KenHai, Little Hana Florist, Paint Master DIY, and Kossen. Not an email-watch loop. No Stripe. One inbox. RM 1,000-5,000. Label `Label_8` after send. Do not Surge-publish until after SENT. If Kanhseei writes, answer first and honor RM 500. Do not poll Stripe (already done 25 Aug MYT). Loh is a private-car page, not a Thursday 3PL follow-up. Do not mail Brilliant Melaka `stoneshopmelaka@gmail.com`. A separate 10:20 timer was refused (`invalid_argument`, likely a five-timer cap).
+Same timer `netie-tue-mhaus-website-2026-08-25-1000-myt` (`sub_b2d918dd-837e-41a9-ae9f-0d898bf97226`). Send after M Haus if live `/services/` Coming Soon and empty `in:sent`. Four Johor extras: Brilliant Supplies, Top Creative Steel, Loh Cross Border, Jump Belly, then Digno, Paperbaked, F.J. Machinery, HH Metal, Presti, SKH 88, Pro Tent, Hydro Air, WH Bespoke, Teknik Alir, MAC-TECH, Heap Soon, Sinaran, Dilooma, REXOIL, KenHai, Little Hana Florist, Paint Master DIY, and Kossen. Not an email-watch loop. No Stripe. One inbox. RM 1,000-5,000. Label `Label_8` after send. Do not Surge-publish until after SENT. If Kanhseei writes, answer first and honor RM 500. Do not poll Stripe (already done 25 Aug MYT). Loh is a private-car page, not a Thursday 3PL follow-up. Do not mail Brilliant Melaka `stoneshopmelaka@gmail.com`. A separate 10:20 timer was refused (`invalid_argument`, likely a five-timer cap).
 
 ### Brilliant Supplies -- QUEUED draft 25 Aug 2026 01:27 MYT
 
@@ -1437,6 +1437,15 @@ Same timer `netie-tue-mhaus-website-2026-08-25-1000-myt` (`sub_95b52de6-3d98-493
 - File: `docs/proposals/exc-electrical.md`. Hostable draft: `docs/proposals/exc-electrical-services.html`.
 - Website-page offer, RM 1,000-5,000. No Stripe. Send on the same Tue 10:00 timer after TS Audio Electrical.
 - Skipped leftover classified hosts this pass with filled `/services/` or 404. WAF still on kianpg.com, weisionggroup.com, airborneproject.com.my, angelsbud.com, evhub.my, paradisefnb.com.my. Do not send before 09:00 MYT.
+
+### VIP Billion Milestone Travel -- QUEUED draft 25 Aug 2026 07:26 MYT
+
+- To: info.vipbm@gmail.com (homepage and `/contactus/` mailto on https://www.vipbmtt.com/). One inbox.
+- Source: live https://www.vipbmtt.com/services/ HTTP 200 still Coming Soon (`min-height:440px`). Title: Our Services | VIP BILLION MILESTONE TRAVEL & TOURS SDN BHD. Homepage lists Premium VIP Chauffeur Transport in Malaysia and KL to Port Dickson Private Driver for Resort Trips and Family Luggage. Title also prints Chauffeur Services Kuala Lumpur (KL) while contact prints TyAB-S2-37(1), Ascotte Boulevard, Jalan Bandar Rinching 6/1, Bandar Rinching, 43500 Semenyih. SSM 202501049497 (1650905-V).
+- Draft: `r588815565297507930`. Thread: `1a036190c4f693c5`. Subject: Semenyih chauffeur page.
+- File: `docs/proposals/vip-billion-milestone.md`. Hostable draft: `docs/proposals/vip-billion-milestone-services.html`.
+- Website-page offer, RM 1,000-5,000. Not a Thursday 3PL follow-up. No Stripe. Send on the same Tue 10:00 timer after EXC Electrical.
+- Skipped leftover hosts this pass with filled `/services/` or 404. WAF still on weisionggroup.com, airborneproject.com.my, angelsbud.com, evhub.my, paradisefnb.com.my, ccsprinting.com.my, dwimakmur.com.my. kianpg.com `/services/` is 404. Do not send before 09:00 MYT.
 
 
 
