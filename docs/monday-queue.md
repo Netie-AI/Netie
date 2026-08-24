@@ -856,3 +856,33 @@ Owner order 24 Aug 18:14 MYT: clean out other job applies. Do not apply to Evabo
 - Do not mail SPLT again unless they reply.
 - Skipped this pass: Metafert, Willy Manufacturing, and GWG already mailed 22 Aug. Do not remmail. Benchmark Paper, Aerosol Maker, NBH, YHK Rubber, Chee Kuan, YK Pipe, Kepala Batas Bihun `/services/` 404 or filled. Steven has not replied to the 14:05 draft; did not nag.
 
+## Queued for Tue 25 Aug 2026 09:00 MYT (do not send after 17:00 MYT 24 Aug)
+
+Timer `netie-tue-queued-websites-2026-08-25-0900-myt` (`sub_d2cddda5-5d3c-4c9f-872c-875bd51fdf45`, once). Send existing Gmail drafts only after live `/services/` Coming Soon and empty `in:sent`. Not an email-watch loop. No Stripe. One inbox. RM 1,000-5,000. Label `Label_8` after send.
+
+### Prints Buddy -- QUEUED draft 24 Aug 2026 19:35 MYT
+
+- To: order@printsbuddy.com.my (homepage mailto on https://www.printsbuddy.com.my/). One inbox.
+- Source: live https://www.printsbuddy.com.my/services/ HTTP 200 still Coming Soon (`min-height:440px`). Homepage lists digital printing, custom stickers, and finishing from Wangsa Delima, Wangsa Maju. SSM 202501038566 (1639975-H).
+- Draft: `r5576372032492267601`. Thread: `1a0338de9760e1da`. Subject: Wangsa Maju print page.
+- File: `docs/proposals/prints-buddy.md`. Hostable draft: `docs/proposals/prints-buddy-services.html`.
+- Do not mail a second inbox. Do not remmail ZYRC or EETA.
+
+### TNT Crane -- QUEUED draft 24 Aug 2026 19:35 MYT
+
+- To: marketing@tntcrane.com.my (homepage mailto on https://www.tntcrane.com.my/). One inbox.
+- Source: live https://www.tntcrane.com.my/services/ HTTP 200 still Coming Soon (`min-height:440px`). Homepage lists mobile crane, crawler crane, and skylift from 55B, Jalan Pusat Perniagaan Raja Uda 4, Butterworth. Established 2011. SSM 201101038063 (966197-A).
+- Draft: `r7715596559068711037`. Thread: `1a0338dea92a49bd`. Subject: Butterworth crane page.
+- File: `docs/proposals/tnt-crane.md`.
+
+### Dream House Sanitary Ware -- QUEUED draft 24 Aug 2026 19:35 MYT
+
+- To: dream.house.sw.sb@gmail.com (homepage mailto on https://www.dreamhouse.com.my/). One inbox.
+- Source: live https://www.dreamhouse.com.my/services/ HTTP 200 still Coming Soon (`min-height:440px`). Homepage lists toilets, basins, and MINI cabinet basins from Taman Berjaya Setia, Bukit Mertajam. Since 2010. SSM 201201042836 (1027312-X).
+- Draft: `r-7065746014145915944`. Thread: `1a0338dee3d3fb58`. Subject: Bukit Mertajam sanitary page.
+- File: `docs/proposals/dream-house-sanitary.md`.
+
+### Kanhseei -- wait (not queued)
+
+- Thread `1a03200b47b3aebe`. Lokesh clarification SENT 19:33 MYT, message `1a0338bc74fae0b4`. Do not nag. Do not send the hostable HTML unless they ask. Honor RM 500.
+

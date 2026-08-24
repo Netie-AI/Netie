@@ -22,5 +22,9 @@ Write one file here before a priced reply. Keep claims inside live public pages 
 | `afford-engineering-plastic.md` | Sent 24 Aug. RM 1,000-5,000. No Stripe. |
 | `kt-ware.md` | Sent 24 Aug. RM 1,000-5,000. No Stripe. |
 | `splt-group.md` | Sent 24 Aug. RM 1,000-5,000. No Stripe. |
+| `prints-buddy.md` | Queued. RM 1,000-5,000. Send Tue 09:00 MYT. |
+| `prints-buddy-services.html` | Hostable draft from printsbuddy.com.my published facts |
+| `tnt-crane.md` | Queued. RM 1,000-5,000. Send Tue 09:00 MYT. |
+| `dream-house-sanitary.md` | Queued. RM 1,000-5,000. Send Tue 09:00 MYT. |
 
 Do not put Stripe in a first website mail. Do not raise a price already named in the same thread.

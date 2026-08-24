@@ -1,5 +1,10 @@
 # To builder
 
-No open build. Next likely job: Prints Buddy services page, or Kanhseei revision if Steven replies.
+Idle. Do not build more client HTML unless a buyer asks for a draft.
 
-Constraints: Instrument Sans + IBM Plex Mono if it is a hire-adjacent page. Firm pages use their facts only. Do not invent certifications.
+Already shipped:
+
+- `docs/proposals/prints-buddy-services.html`
+- `docs/proposals/kanhseei-services-draft.html`
+
+Do not upload Kanhseei HTML to kanhseei.com. Lokesh asked to stop until internal authorisation. Honor RM 500 if they later say yes.

@@ -6,9 +6,9 @@ Live https://www.printsbuddy.com.my/services/ HTTP 200 still Coming Soon (`min-h
 
 Measured 24 Aug 18:08 MYT. `in:sent` to order@printsbuddy.com.my empty. Not 3PL. Do not mail a second inbox. Do not remmail ZYRC (`johnsonthye@gmail.com`) or EETA (`eetafood@gmail.com`); those went 22 Aug.
 
-Quoted band: RM 1,000 to RM 5,000 after looking at how much copy they want. No Stripe in first mail. No hire-page link until canonical `/hire/` is updated.
+Quoted band: RM 1,000 to RM 5,000 after looking at how much copy they want. No Stripe in first mail. Canonical hire is live; first-mail body still omits the proof link to keep one ask.
 
-Send only in Malaysia office hours (Mon-Fri 9:00-17:00 MYT). Tuesday 25 Aug 09:00 MYT timer should re-check live `/services/` Coming Soon and empty `in:sent` before send.
+Send only in Malaysia office hours (Mon-Fri 9:00-17:00 MYT). Tuesday 25 Aug 09:00 MYT timer should re-check live `/services/` Coming Soon and empty `in:sent` before send. Rechecked 24 Aug 19:33 MYT: `/services/` still Coming Soon; `in:sent` still empty.
 
 Draft subject: Wangsa Maju print page
 

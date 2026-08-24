@@ -2,13 +2,13 @@
 
 Channel for orchestrator <-> builder <-> researcher. Read `.cursor/skills/agent-bus/SKILL.md`.
 
-Updated: 2026-08-24 18:36 MYT.
+Updated: 2026-08-24 19:36 MYT.
 
 ## In flight
 
-- Builder: none. Hire page is live at https://netie.ai/hire/ (byte-matches `docs/pay.html`).
-- Researcher: none.
-- Orchestrator: employment keep-only (Huawei, Avows/Avanade). Buyer watch is Kanhseei only if Steven writes. Thursday 3PL follow-up stays. No employment-job timers.
+- Builder: none. Hostable Kanhseei and Prints Buddy pages already exist. Do not publish Kanhseei HTML to their site.
+- Researcher: none. TNT Crane and Dream House facts are in `from-researcher.md` and proposal files.
+- Orchestrator: Kanhseei wait after Lokesh clarification SENT `1a0338bc74fae0b4`. Tuesday 09:00 MYT send of three queued drafts. Employment keep-only (Huawei, Avows/Avanade). Thursday 3PL follow-up stays.
 
 ## How to leave a message
 
