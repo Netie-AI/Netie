@@ -491,3 +491,40 @@ If a buyer expresses interest, use `docs/file-analysis-scope-template.md` before
 - Not 3PL. Did not mail Intergrated Freighters today. Did not poll Stripe.
 - Do not mail Arena Business Solutions again unless they reply.
 
+### Kanhseei Teckh -- SENT 24 Aug 2026 12:21 MYT
+
+- To: Steven@kanhseei.com (homepage mailto on https://www.kanhseei.com/). One inbox. Do not also mail sales@ or info@ (Singapore office listing).
+- Source: live https://www.kanhseei.com/services/ HTTP 200 still shows Coming Soon (`min-height:440px`). Homepage lists toroidal transformers, wire harnesses, and inductors from 10, Jalan Ekoperniagaan 1/30, Taman Ekoperniagaan, 81100 Johor Bahru.
+- `in:sent` to Steven@kanhseei.com was empty before send. Not in existing `docs/*-services.html` drafts.
+- Thread: `1a03200b47b3aebe`
+- Message: `1a03200b47b3aebe`
+- Subject: Johor Bahru transformer page
+- Ask: RM 500, one revision, page written from their published text. No Stripe link in the first mail.
+- Not 3PL. Did not mail Intergrated Freighters today. Did not poll Stripe.
+- Do not mail Kanhseei again unless they reply.
+- Skipped this pass: SY Metal Works www hostname NXDOMAIN. NCR Resources `/services/` is filled (Eco Nesh), not Coming Soon.
+
+### KST Star -- SENT 24 Aug 2026 12:21 MYT
+
+- To: kststar88@gmail.com (homepage and contact-page mailto on https://www.kststar.com.my/). One inbox.
+- Source: live https://www.kststar.com.my/services/ HTTP 200 still shows Coming Soon (`min-height:440px`). Homepage lists ignition coils, wiper blades, and fuel pumps from 2A Jalan 13/33B, Kawasan Perusahaan Kepong, 52100 Kuala Lumpur. SSM 201801020520 (1282539-T).
+- `in:sent` to kststar88@gmail.com was empty before send. Not in existing `docs/*-services.html` drafts.
+- Thread: `1a03200b5fe4d4d9`
+- Message: `1a03200b5fe4d4d9`
+- Subject: Kepong spare parts page
+- Ask: RM 500, one revision, page written from their published text. No Stripe link in the first mail.
+- Not 3PL. Did not mail Intergrated Freighters today. Did not poll Stripe.
+- Do not mail KST Star again unless they reply.
+
+### ATX Engineering -- SENT 24 Aug 2026 12:23 MYT
+
+- To: atxeng2015@gmail.com (homepage mailto on https://www.atxengineering.com.my/). One inbox.
+- Source: live https://www.atxengineering.com.my/services/ HTTP 200 still shows Coming Soon (`min-height:440px`). Homepage lists mailboxes, parcel boxes, and house number plates from E-03-13, Block E, Jalan Prima 5/3, Taman Puchong Prima, 47100 Puchong. SSM 201501015475 (1140808-W).
+- `in:sent` to atxeng2015@gmail.com was empty before send. Not in existing `docs/*-services.html` drafts.
+- Thread: `1a03201e00c2038a`
+- Message: `1a03201e00c2038a`
+- Subject: Puchong mailbox page
+- Ask: RM 500, one revision, page written from their published text. No Stripe link in the first mail.
+- Not 3PL. Did not mail Intergrated Freighters today. Did not poll Stripe.
+- Do not mail ATX Engineering again unless they reply.
+
