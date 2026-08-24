@@ -950,5 +950,38 @@ Timer `netie-tue-extra-websites-2026-08-25-0920-myt` (`sub_45c60c2e-f97e-4d71-9a
 - Source: live https://www.kmsuper.com.my/services/ HTTP 200 still Coming Soon (`min-height:440px`). Homepage lists HANBELL screw compressors and PUR PIR cold-room panels from A-G-2, Jalan Kasturi 10, Taman Kasturi, 43200 Balakong. SSM 201001038447 (922371-W).
 - Draft: `r8774885238944427350`. Thread: `1a0349f7204ba4dd`. Subject: Balakong cold-room page.
 - File: `docs/proposals/km-super.md`. Hostable draft: `docs/proposals/km-super-services.html`.
-- Skipped this pass: UKAI JSON-LD-only email. KDSOFT NXDOMAIN. Aenon / Standco `/services/` filled. Top Fast spa Coming Soon left unqueued.
+- Skipped this pass: UKAI JSON-LD-only email. KDSOFT NXDOMAIN. Aenon / Standco `/services/` filled. Top Fast spa Coming Soon left unqueued at that pass; queued 25 Aug 01:00 MYT below.
+
+## Queued after the Tue 09:20 extra five-send (do not send before those five, and not after hours)
+
+Timer `netie-tue-afternoon-websites-2026-08-25-0940-myt` (`sub_e5ee26e9-1745-4c06-bbb7-da0447a73a9a`, once, Tue 25 Aug 09:40 MYT). Send existing Gmail drafts only after live `/services/` Coming Soon and empty `in:sent`. Four afternoon extras: Top Fast, Kulim Typewriters, Shinx Malaysia, HiParents. Not an email-watch loop. No Stripe. One inbox. RM 1,000-5,000. Label `Label_8` after send. Do not Surge-publish until after SENT. If Kanhseei writes, answer first and honor RM 500. Do not poll Stripe (already done 25 Aug MYT).
+
+### Top Fast Management -- QUEUED draft 25 Aug 2026 01:00 MYT
+
+- To: dspa_dtempat@hotmail.com (contact-page mailto on https://www.totalpro-dspa.com.my/contactus/). One inbox.
+- Source: live https://www.totalpro-dspa.com.my/services/ HTTP 200 still Coming Soon (`min-height:440px`). Homepage lists Thai massage, reflexology, and d'SPA at d'Tempat Country Club Sendayan, plus Keningau. SSM 201501002663 (1127995-U).
+- Draft: `r-722885990140598036`. Thread: `1a034b72b739f1d0`. Subject: Sendayan spa page.
+- File: `docs/proposals/top-fast.md`. Hostable draft: `docs/proposals/top-fast-services.html`.
+
+### Kulim Typewriters -- QUEUED draft 25 Aug 2026 01:00 MYT
+
+- To: enquiry@kulimtypewriters.com.my (homepage mailto on https://www.kulimtypewriters.com.my/). One inbox.
+- Source: live https://www.kulimtypewriters.com.my/services/ HTTP 200 still Coming Soon (`min-height:440px`). Homepage lists office furniture, Olympia CM80 Plus ECR, and used Olivetti typewriters from 28A, Jalan Raya, Kulim. Established 1982. SSM 198203051744 (AS0030472-D).
+- Draft: `r-3060553097144810017`. Thread: `1a034b72cdce87e8`. Subject: Kulim office page.
+- File: `docs/proposals/kulim-typewriters.md`. Hostable draft: `docs/proposals/kulim-typewriters-services.html`.
+
+### Shinx Malaysia -- QUEUED draft 25 Aug 2026 01:00 MYT
+
+- To: sales@shinx.com.my (homepage mailto on https://www.shinx.com.my/). One inbox.
+- Source: live https://www.shinx.com.my/services/ HTTP 200 still Coming Soon (`min-height:440px`). Homepage lists aluminium plate plus 4-face and 6-face milling from Kulim Hi-Tech Park. SSM 202201024649 (1470346-H).
+- Draft: `r3409439640270351846`. Thread: `1a034b72c1671f8d`. Subject: Kulim Hi-Tech plate page.
+- File: `docs/proposals/shinx-malaysia.md`. Hostable draft: `docs/proposals/shinx-malaysia-services.html`.
+
+### HIPARENTS MARKETING SOLUTIONS -- QUEUED draft 25 Aug 2026 01:00 MYT
+
+- To: hiparents1.0@gmail.com (homepage mailto on https://www.hiparents.com.my/). One inbox.
+- Source: live https://www.hiparents.com.my/services/ HTTP 200 still Coming Soon (`min-height:440px`). English homepage lists kids enrichment classes, kindergartens, and family restaurants from Bandar Putra, Kulai. SSM 202403144218 (003607460-D).
+- Draft: `r-4083780995783271467`. Thread: `1a034b72ff0d02e3`. Subject: Kulai parent page.
+- File: `docs/proposals/hiparents.md`. Hostable draft: `docs/proposals/hiparents-services.html`.
+- Skipped this pass: Finapack website suspended. Keong Huat / Steelix / Capital Gardens `/services/` 404. MGlobe / HAG Solar `/services/` filled. Shenion services not Coming Soon. Southern Optometry / LM Equipment timeout. WCM Parts SSL fail. UKAI JSON-LD-only. Standco / Egida / Carte Kitchen `/services/` filled. Airblock already SENT. Do not mail KM Super Bangi or Mawar.
 

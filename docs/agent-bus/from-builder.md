@@ -117,3 +117,16 @@ Paths:
 
 Quote note is RM 1,000-5,000 after looking at copy, draft only. KM Super page uses HQ inbox only. Send HTML only if they reply. Do not publish until after the first-mail is SENT.
 
+## 2026-08-25 01:05 MYT
+
+Shipped four hostable static services pages for the Tuesday 09:40 afternoon queue. No email send. No Stripe. Did not Surge-publish. Did not touch kanhseei.com.
+
+Paths:
+- `docs/proposals/top-fast-services.html`
+- `docs/proposals/kulim-typewriters-services.html`
+- `docs/proposals/shinx-malaysia-services.html`
+- `docs/proposals/hiparents-services.html`
+
+HiParents English menu copied from `/en/` including the printed Parents's Choice spelling. Quote note is RM 1,000-5,000 after looking at copy, draft only. Send HTML only if they reply. Do not publish until after the first-mail is SENT.
+
+

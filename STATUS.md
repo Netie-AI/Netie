@@ -1,9 +1,10 @@
 # STATUS
 
-Updated: 2026-08-25 00:42 MYT. Success = live Stripe charge, then a payout.
+Updated: 2026-08-25 01:05 MYT. Success = live Stripe charge, then a payout.
 
 ## Now (measured)
 
+- After hours 25 Aug 01:05 MYT: queued four more Coming Soon first-mails for after the Tue 09:20 extra five-send. Top Fast `dspa_dtempat@hotmail.com` draft `r-722885990140598036`; Kulim Typewriters `enquiry@kulimtypewriters.com.my` draft `r-3060553097144810017`; Shinx Malaysia `sales@shinx.com.my` draft `r3409439640270351846`; HiParents `hiparents1.0@gmail.com` draft `r-4083780995783271467`. Timer `netie-tue-afternoon-websites-2026-08-25-0940-myt` (`sub_e5ee26e9-1745-4c06-bbb7-da0447a73a9a`). All four live `/services/` Coming Soon, firm-owned mailto, empty `in:sent`. Hostable HTML in `docs/proposals/` with no Stripe. RM 1,000-5,000. Did not send. Did not nag Kanhseei. Did not poll Stripe. No paid charge yet.
 - After hours 25 Aug 00:42 MYT: set once-timer `netie-tue-extra-websites-2026-08-25-0920-myt` (`sub_45c60c2e-f97e-4d71-9acf-00d76a35514a`) to send Leatat plus Craft Perfect, Lan Hoe, Pro Helper, and KM Super HQ after the 09:00 five-send. Did not send tonight. No new Kanhseei / Huawei / Avows mail. Did not nag. Did not poll Stripe. No paid charge yet.
 - After hours 25 Aug 00:40 MYT: hostable Services HTML from live homepage facts for the five extra queued firms (Leatat, Craft Perfect Tools, Lan Hoe, Pro Helper, KM Super HQ). No Stripe. Do not Surge-publish until after they are mailed. Send HTML only if they reply. No new buyer mail. Did not nag Kanhseei. Did not send first-mails. No paid charge yet.
 - After hours 25 Aug 00:35 MYT: queued four more Coming Soon first-mails for after the Tue 09:00 five-send. Craft Perfect Tools `craftperfecttools@gmail.com` draft `r502446274827151328`; Lan Hoe `online@lanhoe.com.my` draft `r-1298835960975874667`; Pro Helper `prohelper99@gmail.com` draft `r3672895988313459318`; KM Super HQ `kmsuperkmsuper@gmail.com` draft `r8774885238944427350` (did not mail Bangi or Mawar). All four live `/services/` Coming Soon, firm-owned mailto, empty `in:sent`. RM 1,000-5,000. No Stripe. Did not send. Did not poll Stripe. No paid charge yet.

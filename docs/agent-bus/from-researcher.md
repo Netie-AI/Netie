@@ -106,5 +106,48 @@ Verified with Chrome UA curl. Mailto is on each firm's own homepage or `/contact
 - SSM: 201001038447 (922371-W)
 - Draft: `r8774885238944427350`
 
-Skipped: UKAI JSON-LD-only. Top Fast spa left unqueued. Aenon / Standco filled.
+Skipped: UKAI JSON-LD-only. Aenon / Standco filled.
+
+## 2026-08-25 01:00 MYT — four afternoon Coming Soon firms (queue after 09:20 extra five-send)
+
+Verified with Chrome UA curl. Mailto is on each firm's own homepage or `/contactus/` HTML. Not in monday-queue SENT. Did not send mail.
+
+### 1. Top Fast Management Sdn Bhd
+
+- URL: https://www.totalpro-dspa.com.my/
+- `/services/`: HTTP 200, still Coming Soon (`min-height:440px`)
+- Mailto: dspa_dtempat@hotmail.com (contactus)
+- Unique fact: d'SPA at d'Tempat Country Club Sendayan plus a Keningau, Sabah outlet; Thai massage and reflexology.
+- SSM: 201501002663 (1127995-U)
+- Draft: `r-722885990140598036`
+
+### 2. Kulim Typewriters
+
+- URL: https://www.kulimtypewriters.com.my/
+- `/services/`: HTTP 200, still Coming Soon (`min-height:440px`)
+- Mailto: enquiry@kulimtypewriters.com.my
+- Unique fact: established 1982 at 28A, Jalan Raya, Kulim; still lists used Olivetti typewriters plus Olympia CM80 Plus ECR.
+- SSM: 198203051744 (AS0030472-D)
+- Draft: `r-3060553097144810017`
+
+### 3. Shinx Malaysia Sdn Bhd
+
+- URL: https://www.shinx.com.my/
+- `/services/`: HTTP 200, still Coming Soon (`min-height:440px`)
+- Mailto: sales@shinx.com.my
+- Unique fact: 4-face and 6-face milling plus Aljade A5052P-H112 from Kulim Hi-Tech Park; Japan HQ named on the homepage.
+- SSM: 202201024649 (1470346-H)
+- Draft: `r3409439640270351846`
+
+### 4. HIPARENTS MARKETING SOLUTIONS
+
+- URL: https://www.hiparents.com.my/
+- `/services/`: HTTP 200, still Coming Soon (`min-height:440px`)
+- Mailto: hiparents1.0@gmail.com
+- Unique fact: 陪乐 / HiParents parent platform from Bandar Putra, Kulai; English menu lists Art Course, STEM Course, Preschool.
+- SSM: 202403144218 (003607460-D)
+- Draft: `r-4083780995783271467`
+
+Skipped: Finapack suspended. Keong Huat / Steelix / Capital Gardens `/services/` 404. MGlobe / HAG Solar / Egida / Carte Kitchen / Standco filled. Southern Optometry / LM Equipment timeout. WCM Parts SSL fail.
+
 
