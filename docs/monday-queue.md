@@ -467,3 +467,27 @@ If a buyer expresses interest, use `docs/file-analysis-scope-template.md` before
 - Not 3PL. Did not mail Intergrated Freighters today. Did not poll Stripe.
 - Do not mail Siddex Technologies again unless they reply.
 
+### Nattest Lab -- SENT 24 Aug 2026 12:18 MYT
+
+- To: sales@nationaltestlab.com (homepage mailto on https://www.nationaltestlab.com/). One inbox. Do not also mail adminkl@ or sales1@ branch inboxes.
+- Source: live https://www.nationaltestlab.com/services/ HTTP 200 still shows Coming Soon (`min-height:440px`). Homepage lists concrete, aggregate, and geotechnical testing from No. 16, Jalan 5/108C, Taman Sungai Besi, 57100 Kuala Lumpur. SSM 201601003328 (1174254-A).
+- `in:sent` to sales@nationaltestlab.com was empty before send. Not in existing `docs/*-services.html` drafts.
+- Thread: `1a031fdb83b8a2f5`
+- Message: `1a031fdb83b8a2f5`
+- Subject: Sungai Besi testing page
+- Ask: RM 500, one revision, page written from their published text. No Stripe link in the first mail.
+- Not 3PL. Did not mail Intergrated Freighters today. Did not poll Stripe.
+- Do not mail Nattest Lab again unless they reply.
+
+### Arena Business Solutions -- SENT 24 Aug 2026 12:18 MYT
+
+- To: sales@arenabusiness.com.my (contact-page mailto on https://www.arenabusiness.com.my/contactus/). One inbox.
+- Source: live https://www.arenabusiness.com.my/services/ HTTP 200 still shows Coming Soon (`min-height:440px`). Homepage lists Panasonic keyphone systems, CCTV cameras, and video intercom from 115, Pusat Perniagaan NBC, Jalan Meru, 41050 Klang. SSM 200301017036 (619456-H).
+- `in:sent` to sales@arenabusiness.com.my was empty before send. Not in existing `docs/*-services.html` drafts.
+- Thread: `1a031fdb800b0443`
+- Message: `1a031fdb800b0443`
+- Subject: Klang office systems page
+- Ask: RM 500, one revision, page written from their published text. No Stripe link in the first mail.
+- Not 3PL. Did not mail Intergrated Freighters today. Did not poll Stripe.
+- Do not mail Arena Business Solutions again unless they reply.
+
