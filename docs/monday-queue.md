@@ -241,3 +241,10 @@ If a buyer expresses interest, use `docs/file-analysis-scope-template.md` before
 - Not 3PL. Do not mail Intergrated Freighters today.
 - Do not mail Windmere again unless they reply.
 
+### Morning 24 Aug 10:04 MYT (no send)
+
+- Searched inbox for replies/bounces from Pen Express, InterOcean, BH Armada, Evaboot, Strello, Coder, and Windmere: empty.
+- Did not mail Intergrated Freighters. Did not mail `windmerebusiness@gmail.com`.
+- Did not start a second Coming Soon mail: remaining `docs/*-services.html` inboxes were already in `in:sent` on 22 Aug.
+- Skipped this pass: WWR/Huzzle (account wall), Toptal RAG seat (8+ yrs production RAG), ActivePrime internal-tools (prior US-company job), Reef lead (5+ yrs plus team lead), EPAM Malaysia-listed senior Python (no public apply inbox in the live listing).
+

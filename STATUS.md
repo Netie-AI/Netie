@@ -1,6 +1,6 @@
 # STATUS
 
-Updated: 2026-08-24 09:49 MYT. Success = live Stripe charge, then a payout.
+Updated: 2026-08-24 10:04 MYT. Success = live Stripe charge, then a payout.
 
 ## Now (measured)
 
@@ -12,6 +12,7 @@ Updated: 2026-08-24 09:49 MYT. Success = live Stripe charge, then a payout.
 - Job apply 24 Aug 09:27 MYT: Strello Health Founding Software Engineer. To `jobs@strello.health`. Thread `1a031611e3cda323`. HN August hiring, live site HTTP 200. Honest: Penang not Toronto hybrid; no production WebRTC. Expected USD 48k.
 - Job ask 24 Aug 09:36 MYT: Coder careers. To `careers@coder.com`. Thread `1a03169a22c21947`. HN said questions go there; listed IC seats are AU/SG, UK/PL, or US. Asked if any IC engineering seat can include Malaysia; will use the careers form only if they name one. Site HTTP 200. Expected USD 48k. Skipped MixRank (Dover/YC form + Turnstile), Enveritas (Ashby form), ActivePrime (needs prior US-company job), WWR Django/Next roles (account wall), Azumo (LATAM-only). Did not poll Stripe again. Did not mail Intergrated Freighters.
 - Website offer 24 Aug 09:49 MYT: Windmere Products, Bukit Mertajam. To `windmereproducts@gmail.com`. Thread `1a031752837eab0f`. Live https://www.windmere1.com/services/ still Coming Soon; homepage already lists 3M tapes, adhesives, cleanroom, ESD, die cutting. RM 500, one revision, no checkout link in the first mail. Not 3PL. Did not mail `windmerebusiness@gmail.com`. Did not mail Intergrated Freighters. Did not poll Stripe. No paid charge yet.
+- Reply/path check 24 Aug 10:04 MYT: still no inbox mail or bounces from the Monday 3PL firms, Evaboot, Strello, Coder, or Windmere. Did not poll Stripe. Did not mail Intergrated Freighters. Did not mail a second inbox at any mailed firm. All existing Coming Soon HTML drafts in `docs/` were already mailed 22 Aug. We Work Remotely apply buttons need a job-seeker account. Python.org leftover remote posts are already mailed, US-only, senior, LATAM, Germany-based, or personal-Gmail listings. Truelancer service URL returned HTTP 429 this pass. No live Stripe charge.
 - Freelance channels 23 Aug 14:25 MYT: Truelancer service still pending moderator approval at https://truelancer.com/freelance-service/i-will-build-an-ai-product-landing-page-from-your-copy-655675 (0 sold). Bidding needs mobile OTP; did not request SMS. Account country is locked to India; city text is George Town, Penang, Malaysia. Twine https://www.twine.net/jianhong HTTP 200, inbox empty. Public seeking-work post: https://mastodon.social/@jianhongpg/117143382421294576 (API-confirmed public, 0 boosts). Fiverr Google login asked for a password; stopped. No marketplace order. Did not poll Stripe.
 - Domain root 23 Aug 11:36 MYT: `https://netie.ai/` is HTTP 200, title `Netie.AI | Unified AI x Web3 x Hardware Platform`, 73673 bytes, includes `/home-hire-band.js`. It does not 302 to `/hire/`. Response sends HSTS, nosniff, and DENY. `/aim/` and `/asa/` stay HTTP 200.
 - Hire introduce page 23 Aug 11:52 MYT: `https://netie.ai/hire/` matches `docs/pay.html` byte-for-byte. Centered 46rem column, Home/Suite nav, copy `Hire us for your work` and `Back to the main site`.
