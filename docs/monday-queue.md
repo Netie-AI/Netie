@@ -1038,7 +1038,7 @@ Timer `netie-tue-afternoon-websites-2026-08-25-0940-myt` (`sub_e5ee26e9-1745-4c0
 
 ## Queued after the Tue 09:40 afternoon four-send (do not send before those four, and not after hours)
 
-Timer `netie-tue-mhaus-website-2026-08-25-1000-myt` (`sub_60ebff2c-cdc1-483c-9dc4-58b4bb91f3d2`, once, Tue 25 Aug 10:00 MYT). Send existing Gmail draft only after live `/services/` Coming Soon and empty `in:sent`. First extra: M Haus Furniture, then the Johor four, then Digno, Paperbaked, F.J. Machinery, HH Metal, Presti, SKH 88, Pro Tent, Hydro Air, and WH Bespoke. Not an email-watch loop. No Stripe. One inbox. RM 1,000-5,000. Label `Label_8` after send. Do not Surge-publish until after SENT. If Kanhseei writes, answer first and honor RM 500. Do not poll Stripe (already done 25 Aug MYT). If the 09:00, 09:20, or 09:40 drafts are still DRAFT at 10:00, send those first after the same live checks. A sixth once-timer was refused (`invalid_argument`); extras share this timer.
+Timer `netie-tue-mhaus-website-2026-08-25-1000-myt` (`sub_f962864b-a184-4019-ba40-66882e0e2211`, once, Tue 25 Aug 10:00 MYT). Send existing Gmail draft only after live `/services/` Coming Soon and empty `in:sent`. First extra: M Haus Furniture, then the Johor four, then Digno, Paperbaked, F.J. Machinery, HH Metal, Presti, SKH 88, Pro Tent, Hydro Air, WH Bespoke, Teknik Alir, MAC-TECH, Heap Soon, and Sinaran. Not an email-watch loop. No Stripe. One inbox. RM 1,000-5,000. Label `Label_8` after send. Do not Surge-publish until after SENT. If Kanhseei writes, answer first and honor RM 500. Do not poll Stripe (already done 25 Aug MYT). If the 09:00, 09:20, or 09:40 drafts are still DRAFT at 10:00, send those first after the same live checks. A sixth once-timer was refused (`invalid_argument`); extras share this timer.
 
 ### M Haus Furniture -- QUEUED draft 25 Aug 2026 01:13 MYT
 
@@ -1050,7 +1050,7 @@ Timer `netie-tue-mhaus-website-2026-08-25-1000-myt` (`sub_60ebff2c-cdc1-483c-9dc
 
 ## Queued on the same Tue 10:00 M Haus timer (do not send before 10:00, and not after hours)
 
-Same timer `netie-tue-mhaus-website-2026-08-25-1000-myt` (`sub_60ebff2c-cdc1-483c-9dc4-58b4bb91f3d2`). Send after M Haus if live `/services/` Coming Soon and empty `in:sent`. Four Johor extras: Brilliant Supplies, Top Creative Steel, Loh Cross Border, Jump Belly, then Digno, Paperbaked, F.J. Machinery, HH Metal, Presti, SKH 88, Pro Tent, Hydro Air, and WH Bespoke. Not an email-watch loop. No Stripe. One inbox. RM 1,000-5,000. Label `Label_8` after send. Do not Surge-publish until after SENT. If Kanhseei writes, answer first and honor RM 500. Do not poll Stripe (already done 25 Aug MYT). Loh is a private-car page, not a Thursday 3PL follow-up. Do not mail Brilliant Melaka `stoneshopmelaka@gmail.com`. A separate 10:20 timer was refused (`invalid_argument`, likely a five-timer cap).
+Same timer `netie-tue-mhaus-website-2026-08-25-1000-myt` (`sub_f962864b-a184-4019-ba40-66882e0e2211`). Send after M Haus if live `/services/` Coming Soon and empty `in:sent`. Four Johor extras: Brilliant Supplies, Top Creative Steel, Loh Cross Border, Jump Belly, then Digno, Paperbaked, F.J. Machinery, HH Metal, Presti, SKH 88, Pro Tent, Hydro Air, WH Bespoke, Teknik Alir, MAC-TECH, Heap Soon, and Sinaran. Not an email-watch loop. No Stripe. One inbox. RM 1,000-5,000. Label `Label_8` after send. Do not Surge-publish until after SENT. If Kanhseei writes, answer first and honor RM 500. Do not poll Stripe (already done 25 Aug MYT). Loh is a private-car page, not a Thursday 3PL follow-up. Do not mail Brilliant Melaka `stoneshopmelaka@gmail.com`. A separate 10:20 timer was refused (`invalid_argument`, likely a five-timer cap).
 
 ### Brilliant Supplies -- QUEUED draft 25 Aug 2026 01:27 MYT
 
@@ -1153,5 +1153,37 @@ Same timer `netie-tue-mhaus-website-2026-08-25-1000-myt` (`sub_60ebff2c-cdc1-483
 - Draft: `r-2555399501377877313`. Thread: `1a03574588ea1589`. Subject: Pinang menswear page.
 - File: `docs/proposals/wh-bespoke.md`. Hostable draft: `docs/proposals/wh-bespoke-services.html`.
 - Website-page offer, RM 1,000-5,000. No Stripe. Send on the same Tue 10:00 timer after Hydro Air.
-- Skipped this pass: UKAI still JSON-LD / Cloudflare-obfuscated contact, not a visible mailto. GWG Manufacturing already SENT 22 Aug. KA Bina already SENT. KDSOFT NXDOMAIN. SY Metal NXDOMAIN. ESTAR/bubblewrap `/services/` filled. JSON-LD-only still skip. Do not send before 09:00 MYT.
+
+### Teknik Alir Sdn. Bhd. -- QUEUED draft 25 Aug 2026 04:38 MYT
+
+- To: info@teknikalir.com (homepage and `/contactus/` mailto on https://www.teknikalir.com.my/). One inbox.
+- Source: live https://www.teknikalir.com.my/services/ HTTP 200 still Coming Soon (`min-height:440px`). Homepage lists ARO, Wilden, Graco diaphragm pumps, Aluminium / Plastic / Stainless Steel Diaphragm Pump, SandPiper, and Blagdon from A2-23-13A, Arcoris, Jalan Kiara, Mont Kiara, 50480 Kuala Lumpur. SSM 201801022533 (1284552-X).
+- Draft: `r7057834145850490975`. Thread: `1a0357eb0dd726bc`. Subject: Mont Kiara pump page.
+- File: `docs/proposals/teknik-alir.md`. Hostable draft: `docs/proposals/teknik-alir-services.html`.
+- Website-page offer, RM 1,000-5,000. No Stripe. Send on the same Tue 10:00 timer after WH Bespoke.
+
+### MAC-TECH ENGINEERING SDN. BHD. -- QUEUED draft 25 Aug 2026 04:38 MYT
+
+- To: enquiry@mac-tech.com.my (homepage and `/contactus/` mailto on https://www.mac-tech.my/). One inbox.
+- Source: live https://www.mac-tech.my/services/ HTTP 200 still Coming Soon (`min-height:440px`). Homepage lists Founded on 17th October 1986, over 35 years, domestic and industrial water pump solutions, air conditioning / fire protection / cold and hot water from 21 & 23, Jalan 3/118C, Desa Tun Razak Industrial Park, 56000 Cheras. SSM 198601007687 (156877-M). Tel +603-9173 2606.
+- Draft: `r-4364597719798709692`. Thread: `1a0357eb2679d110`. Subject: Cheras water-pump page.
+- File: `docs/proposals/mac-tech-engineering.md`. Hostable draft: `docs/proposals/mac-tech-engineering-services.html`.
+- Website-page offer, RM 1,000-5,000. No Stripe. Send on the same Tue 10:00 timer after Teknik Alir.
+
+### Heap Soon Hardware Machinery Sdn Bhd -- QUEUED draft 25 Aug 2026 04:38 MYT
+
+- To: sales@heapsoon.com.my (homepage and `/contactus/` mailto on https://www.heapsoon.com.my/). One inbox.
+- Source: live https://www.heapsoon.com.my/services/ HTTP 200 still Coming Soon (`min-height:440px`). Homepage lists YOUR TRUSTED MACHINERY & HARDWARE PARTNER, Electric Fencing Products, and agricultural machinery from 23, 25 & 27, Jalan Bandar, Pekan Teluk Intan, 36000 Teluk Intan, Perak. SSM 199601038098 (410451-K). Tel +6017-5511 922.
+- Draft: `r-3086720862559207433`. Thread: `1a0357eb4d77322c`. Subject: Teluk Intan machinery page.
+- File: `docs/proposals/heap-soon-hardware.md`. Hostable draft: `docs/proposals/heap-soon-hardware-services.html`.
+- Website-page offer, RM 1,000-5,000. No Stripe. Send on the same Tue 10:00 timer after MAC-TECH.
+
+### Sinaran Office Supply Sdn Bhd -- QUEUED draft 25 Aug 2026 04:38 MYT
+
+- To: sinaran.sos@gmail.com (homepage mailto on https://www.sinaranoffice.com.my/). One inbox. Do not mail edwin.moo@gmail.com.
+- Source: live https://www.sinaranoffice.com.my/services/ HTTP 200 still Coming Soon (`min-height:440px`). Homepage lists Crafting Workspaces with Purpose and Precision, founded May 2013 by Edwin Moo and Ailee Khoo, and family store Pusat Buku Sinaran from 163-1, Jalan Komersial Saujana 5, Pusat Komersial Saujana, Seremban 2, 70300 Seremban. SSM 201301016884 (1046717-X).
+- Draft: `r-942639377208421412`. Thread: `1a0357eb46daf2a9`. Subject: Seremban 2 office page.
+- File: `docs/proposals/sinaran-office-supply.md`. Hostable draft: `docs/proposals/sinaran-office-supply-services.html`.
+- Website-page offer, RM 1,000-5,000. No Stripe. Send on the same Tue 10:00 timer after Heap Soon.
+- Skipped this pass: UKAI still JSON-LD / Cloudflare-obfuscated contact, not a visible mailto. GWG Manufacturing already SENT 22 Aug. KA Bina already SENT. KDSOFT NXDOMAIN. SY Metal NXDOMAIN. ESTAR/bubblewrap `/services/` filled. JSON-LD-only still skip. myofficesupply.com.my mailto is info@tetrix.com.my (domain mismatch). Dilooma and Ultimate Power / REXOIL are valid Coming Soon hits, not queued yet. Do not send before 09:00 MYT.
 

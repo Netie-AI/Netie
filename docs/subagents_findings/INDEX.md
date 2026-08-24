@@ -4,6 +4,7 @@ This index records reusable findings from focused subagent reviews.
 
 | File | Keywords | Main idea |
 |---|---|---|
+| [2026-08-25-teknik-mac-heap-sinaran-queue.md](2026-08-25-teknik-mac-heap-sinaran-queue.md) | Teknik Alir, MAC-TECH, Heap Soon, Sinaran, Coming Soon mailto, Mont Kiara, Cheras, Teluk Intan, Seremban 2 | Four more unmailed Coming Soon drafts on the Tue 10:00 timer. ARO Wilden Graco / 17 Oct 1986 / Electric Fencing Products / Pusat Buku Sinaran. |
 | [2026-08-25-skh-tent-hydro-wh-queue.md](2026-08-25-skh-tent-hydro-wh-queue.md) | SKH 88, Pro Tent, Hydro Air, WH Bespoke, Coming Soon mailto, Rawang, Semenyih, Butterworth, Pinang | Four more unmailed Coming Soon drafts on the Tue 10:00 timer. Used auto parts / tensile membrane / 20 years water / The Bespoke Travel Jacket. |
 | [2026-08-25-fj-hh-presti-queue.md](2026-08-25-fj-hh-presti-queue.md) | F.J. Machinery, HH Metal, Presti, Coming Soon mailto, Segambut, Johor Jaya, Klang | Three more unmailed Coming Soon drafts on the Tue 10:00 timer. MAHLE IZUMI TD27 / Butterfly valve / YADON Schuler. HH has no printed SSM. |
 | [2026-08-25-digno-paperbaked-queue.md](2026-08-25-digno-paperbaked-queue.md) | Digno, Paperbaked, Coming Soon mailto, Seremban, Adda Heights | Two more unmailed Coming Soon drafts on the Tue 10:00 timer. Tempered shower screens / 温柔系蝴蝶兰蛋糕. |
