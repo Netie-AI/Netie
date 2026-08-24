@@ -150,4 +150,19 @@ Verified with Chrome UA curl. Mailto is on each firm's own homepage or `/contact
 
 Skipped: Finapack suspended. Keong Huat / Steelix / Capital Gardens `/services/` 404. MGlobe / HAG Solar / Egida / Carte Kitchen / Standco filled. Southern Optometry / LM Equipment timeout. WCM Parts SSL fail.
 
+## 2026-08-25 01:14 MYT — one more Coming Soon firm (queue after 09:40 afternoon four-send)
+
+Verified with Chrome UA curl. Mailto is on the firm's own homepage and `/contactus/` HTML. Not in monday-queue SENT. Did not send mail.
+
+### 1. M Haus Furniture Sdn. Bhd.
+
+- URL: https://www.tesoro.com.my/
+- `/services/`: HTTP 200, still Coming Soon (`min-height:440px`)
+- Mailto: sales@mhaus.com.my (homepage and contactus; same inbox on every published branch block)
+- Unique fact: Tesoro site, over 30 years, Elbrus Sofa plus Vono Luxury Mattress from Taman Industri Impian, Bukit Mertajam.
+- SSM: 201801007250 (1269264-V)
+- Draft: `r4639565706916679309`
+
+Skipped extra hunt this pass: t2odesign `/services/` not Coming Soon. NEWPAGES directory URLs 404. HTTP 000 curl must not reuse leftover `/tmp/*.html`.
+
 

@@ -985,3 +985,15 @@ Timer `netie-tue-afternoon-websites-2026-08-25-0940-myt` (`sub_e5ee26e9-1745-4c0
 - File: `docs/proposals/hiparents.md`. Hostable draft: `docs/proposals/hiparents-services.html`.
 - Skipped this pass: Finapack website suspended. Keong Huat / Steelix / Capital Gardens `/services/` 404. MGlobe / HAG Solar `/services/` filled. Shenion services not Coming Soon. Southern Optometry / LM Equipment timeout. WCM Parts SSL fail. UKAI JSON-LD-only. Standco / Egida / Carte Kitchen `/services/` filled. Airblock already SENT. Do not mail KM Super Bangi or Mawar.
 
+## Queued after the Tue 09:40 afternoon four-send (do not send before those four, and not after hours)
+
+Timer `netie-tue-mhaus-website-2026-08-25-1000-myt` (`sub_1c38bad3-203e-44ab-ae07-40372ed4c836`, once, Tue 25 Aug 10:00 MYT). Send existing Gmail draft only after live `/services/` Coming Soon and empty `in:sent`. One extra: M Haus Furniture. Not an email-watch loop. No Stripe. One inbox. RM 1,000-5,000. Label `Label_8` after send. Do not Surge-publish until after SENT. If Kanhseei writes, answer first and honor RM 500. Do not poll Stripe (already done 25 Aug MYT). If the 09:00, 09:20, or 09:40 drafts are still DRAFT at 10:00, send those first after the same live checks.
+
+### M Haus Furniture -- QUEUED draft 25 Aug 2026 01:13 MYT
+
+- To: sales@mhaus.com.my (homepage and contact-page mailto on https://www.tesoro.com.my/). One inbox. Same address on every published branch block.
+- Source: live https://www.tesoro.com.my/services/ HTTP 200 still Coming Soon (`min-height:440px`). Homepage lists mattresses, sofas, beds, wardrobes, Elbrus Sofa, Vono Luxury Mattress, and Hilker Bedroom Series from 5, Jalan Industri Impian, Taman Industri Impian, 14000 Bukit Mertajam. Over 30 years. SSM 201801007250 (1269264-V).
+- Draft: `r4639565706916679309`. Thread: `1a034c34fab5ccb5`. Subject: Bukit Mertajam furniture page.
+- File: `docs/proposals/m-haus-furniture.md`. Hostable draft: `docs/proposals/m-haus-furniture-services.html`.
+- Website-page offer, RM 1,000-5,000. No Stripe. Send only after the Tue 09:40 four-send, in office hours, if still Coming Soon and `in:sent` empty.
+
