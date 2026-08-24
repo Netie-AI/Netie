@@ -8,7 +8,7 @@
 ## Measured
 
 - Fiverr: wrong username or password for oojianhongg@gmail.com. Did not reset.
-- PeoplePerHour: logged in; seller application needs a paid plan. Did not buy.
+- PeoplePerHour: logged in; seller application needs a paid plan. Did not buy. 24 Aug 22:20 MYT recheck: SEND PROPOSAL is visible on buyer projects, but the next page still asks for a paid plan (£11.95/month, 12-month). Proposal credits 0. Profile title/about/location can be saved without paying; location had geolocated to Ashburn, VA and was corrected to George Town, Penang (pending moderation).
 - Freelancer.com: credentials accepted, repeated reCAPTCHA failed.
 - Twine: https://www.twine.net/jianhong live, available, application_credits=0, inbox empty. Did not buy credits.
 - Truelancer: service still pending 23 Aug 14:25 MYT. Seller URL https://truelancer.com/freelance-service/i-will-build-an-ai-product-landing-page-from-your-copy-655675 INR 10000. 0 sold. Bidding blocked on mobile OTP; did not request SMS. Country field locked to India at account level. Image re-upload did not persist through Update Service (Please Try Again).

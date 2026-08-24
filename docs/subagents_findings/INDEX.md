@@ -22,6 +22,7 @@ This index records reusable findings from focused subagent reviews.
 | [2026-08-23-root-seo-llms.md](2026-08-23-root-seo-llms.md) | sitemap, llms.txt, document root, SEO, agent catalog | Root sitemap and llms.txt now point crawlers at payable /hire/ work. |
 | [2026-08-23-restore-homepage.md](2026-08-23-restore-homepage.md) | homepage, 302, suite, hire band, File Manager | Restore the April netie.ai landing; hire is a smaller linked introduce page. |
 | [2026-08-23-freelance-channel-logins.md](2026-08-23-freelance-channel-logins.md) | Fiverr, Twine, Truelancer, PPH, Freelancer | Twine is live; Fiverr password fails; PPH wants a paid plan. |
+| [2026-08-24-pph-proposal-paywall.md](2026-08-24-pph-proposal-paywall.md) | PeoplePerHour, SEND PROPOSAL, paid plan, Penang | Visible proposal button is not a free send. Profile edits save without paying. Do not buy PPH. |
 | [2026-08-24-reddit-forhire-wall.md](2026-08-24-reddit-forhire-wall.md) | Reddit, r/forhire, datacenter block, password wall | One forhire paste is ready; this VM cannot post. Owner must log in from a normal network. |
 | [2026-08-24-windmere-sk-shutter-html.md](2026-08-24-windmere-sk-shutter-html.md) | Windmere, SK Shutter, RM 500 honor, hostable HTML, already mailed | RM 500 drafts for two already-mailed Penang firms. Send HTML only if they reply. |
 | [2026-08-24-igb-brightair-html.md](2026-08-24-igb-brightair-html.md) | IGB Metal, BrightAir, RM 500 honor, Butterworth, already mailed | RM 500 drafts for two Butterworth firms. Then stop more client HTML tonight. |
