@@ -21,4 +21,4 @@ GitHub MCP namespace errored; used `gh` CLI.
 
 ## What shipped in source
 
-`docs/pay.html` now lists Cortex crew, AirGPT-class LLM, DMS-class document system, and enterprise Suite agents as quoted offers. Dock tabs: Suite agents, Projects. Brief `?scope=` keys: cortex-crew, in-house-llm, dms, enterprise.
+`docs/pay.html` now lists Cortex crew, AirGPT-class LLM, DMS-class document system, and enterprise Suite agents as quoted offers. Dock tabs: Suite agents, Projects. Brief `?scope=` keys: cortex-crew, in-house-llm, dms, enterprise. Local browser check passed. Surge https://netie-penang.surge.sh/ republished 17:05 MYT and byte-matches source. Canonical `/hire/` still needs File Manager.
