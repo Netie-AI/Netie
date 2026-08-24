@@ -431,3 +431,39 @@ If a buyer expresses interest, use `docs/file-analysis-scope-template.md` before
 - Do not mail Oryx Plastic again unless they reply.
 - Skipped this pass: KDSOFT www hostname NXDOMAIN this check. SY Metal /services/ HTTP 503. EA Global already in `in:sent`.
 
+### Amazon Net -- SENT 24 Aug 2026 12:15 MYT
+
+- To: amazonnet.jb@gmail.com (homepage mailto on https://www.amazonnet.com.my/). One inbox.
+- Source: live https://www.amazonnet.com.my/services/ HTTP 200 still shows Coming Soon (`min-height:440px`). Homepage lists smart home design, high-speed internet installation, and portable powerbank rental from 6G, Jalan Bestari 4/2, Taman Nusa Bestari, 79150 Nusajaya, plus No 9, Bandar Jaya Putra, Jalan Jaya Putra 7/3, 81100 Johor Bahru. SSM 202201016922 (1462619-T).
+- `in:sent` to amazonnet.jb@gmail.com was empty before send. Not in existing `docs/*-services.html` drafts.
+- Thread: `1a031fb6ece3d83c`
+- Message: `1a031fb6ece3d83c`
+- Subject: Nusa Bestari smart-home page
+- Ask: RM 500, one revision, page written from their published text. No Stripe link in the first mail.
+- Not 3PL. Did not mail Intergrated Freighters today. Did not poll Stripe.
+- Do not mail Amazon Net again unless they reply.
+
+### Aerial Mix -- SENT 24 Aug 2026 12:16 MYT
+
+- To: aerialmixoffice@gmail.com (contact-page mailto on https://www.aerialmix.com.my/contactus/; homepage labels it Sales enquiry). One inbox. Do not also mail aerialmixsb@gmail.com (labelled E-invoicing HQ).
+- Source: live https://www.aerialmix.com.my/services/ HTTP 200 still shows Coming Soon (`min-height:440px`). Homepage lists ready-mix concrete, mobile crane rental, and concrete pump rental from 20-1, Jalan Sri Pinang 1, Taman Sri Pinang, 70200 Seremban. SSM 200301004442 (606862-V).
+- `in:sent` to aerialmixoffice@gmail.com was empty before send. Not in existing `docs/*-services.html` drafts.
+- Thread: `1a031fbdd94baca8`
+- Message: `1a031fbdd94baca8`
+- Subject: Seremban ready-mix page
+- Ask: RM 500, one revision, page written from their published text. No Stripe link in the first mail.
+- Not 3PL. Did not mail Intergrated Freighters today. Did not poll Stripe.
+- Do not mail Aerial Mix again unless they reply.
+
+### Siddex Technologies -- SENT 24 Aug 2026 12:16 MYT
+
+- To: siddextechnologies@gmail.com (homepage mailto on https://www.siddextechnologies.com/). One inbox.
+- Source: live https://www.siddextechnologies.com/services/ HTTP 200 still shows Coming Soon (`min-height:440px`). Homepage lists industrial tapes, foam, and ESD products from Lot 955, Jalan Anggerik, Kg. Kayu Ara, Damansara Utama, 47400 Petaling Jaya. SSM 200201020933 (588596-T).
+- `in:sent` to siddextechnologies@gmail.com was empty before send. Not in existing `docs/*-services.html` drafts.
+- Thread: `1a031fbde01a81e6`
+- Message: `1a031fbde01a81e6`
+- Subject: Damansara packaging page
+- Ask: RM 500, one revision, page written from their published text. No Stripe link in the first mail.
+- Not 3PL. Did not mail Intergrated Freighters today. Did not poll Stripe.
+- Do not mail Siddex Technologies again unless they reply.
+
