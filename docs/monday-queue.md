@@ -248,3 +248,15 @@ If a buyer expresses interest, use `docs/file-analysis-scope-template.md` before
 - Did not start a second Coming Soon mail: remaining `docs/*-services.html` inboxes were already in `in:sent` on 22 Aug.
 - Skipped this pass: WWR/Huzzle (account wall), Toptal RAG seat (8+ yrs production RAG), ActivePrime internal-tools (prior US-company job), Reef lead (5+ yrs plus team lead), EPAM Malaysia-listed senior Python (no public apply inbox in the live listing).
 
+### Seng Kong Shutter Industries -- SENT 24 Aug 2026 10:20 MYT
+
+- To: info@sk-shutter.com (homepage mailto on https://www.sk-shutters.com/). One inbox.
+- Source: live https://www.sk-shutters.com/services/ HTTP 200 still shows Coming Soon. Homepage lists BOMBA Malaysia, SIRIM Malaysia, and Bodycote Warrington certified roller shutters, metal roofing, and the polycarbonate transparent roller shutter. SSM 199301002174 (256911-V). NEWPAGES Penang.
+- `in:sent` to info@sk-shutter.com was empty before send. Not in existing `docs/*-services.html` drafts.
+- Thread: `1a0319178cc583cc`
+- Message: `1a0319178cc583cc`
+- Subject: Seng Kong services page
+- Ask: RM 500, one revision, page written from their published text. No Stripe link in the first mail.
+- Not 3PL. Did not mail Intergrated Freighters today. Did not poll Stripe.
+- Do not mail Seng Kong again unless they reply.
+
