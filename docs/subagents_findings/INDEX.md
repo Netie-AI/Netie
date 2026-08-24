@@ -52,3 +52,4 @@ This index records reusable findings from focused subagent reviews.
 | [2026-08-25-mailed-reply-html.md](2026-08-25-mailed-reply-html.md) | 3D Bintang, ANKO, CF Trading, RM 500 honor | Reply-ready HTML for three already-mailed firms. Send only if they reply. |
 | [2026-08-25-onehome-zipper-amazon-html.md](2026-08-25-onehome-zipper-amazon-html.md) | Onehome, Zipper, Amazon Net, RM 500 honor | Reply-ready HTML for three more already-mailed firms. Send only if they reply. |
 | [2026-08-25-inti-pangraph-aerial-html.md](2026-08-25-inti-pangraph-aerial-html.md) | Inti, Pangraph, Aerial Mix, RM 500 honor | Reply-ready HTML for three more already-mailed firms. WAF 1703-byte trap. |
+| [2026-08-25-yes-promix-kabina-html.md](2026-08-25-yes-promix-kabina-html.md) | Yes Packaging, Promix, KA Bina | Reply-ready HTML. Honor quoted band. BOD not COBOD on live homepage. |

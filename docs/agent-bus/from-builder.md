@@ -182,4 +182,15 @@ Paths:
 
 Aerial Mix `/services/` still Coming Soon on a fresh unique curl. Inti and Pangraph later curls hit a 1703-byte browser-check; used the earlier same-night dumps. Did not invent an ISO number. Did not mail aerialmixsb@. Send HTML only if they reply.
 
+## 2026-08-25 01:55 MYT
+
+Shipped three more hostable static services pages for already-mailed firms. No email send. No Stripe. Did not Surge-publish. Did not touch kanhseei.com.
+
+Paths:
+- `docs/proposals/yes-packaging-services.html` (honor RM 1,000-5,000)
+- `docs/proposals/promix-services.html` (honor RM 500)
+- `docs/proposals/ka-bina-services.html` (honor RM 500)
+
+Live `/services/` still Coming Soon on all three. KA Bina homepage this curl names BOD/BOD2, not COBOD. Promix title prints Conrete. Yes Packaging HQ copy says Kulai and the contact address is Senai. Send HTML only if they reply.
+
 

@@ -455,6 +455,7 @@ Owner order 24 Aug 18:14 MYT: clean out other job applies. Do not apply to Evabo
 - Ask: RM 500, one revision, page written from their published text. No Stripe link in the first mail.
 - Not 3PL. Did not mail Intergrated Freighters today. Did not poll Stripe.
 - Do not mail KA Bina again unless they reply.
+- Hostable draft: `docs/proposals/ka-bina-services.html`. Honor RM 500. Send only if they reply. Do not Surge-publish until they ask. Do not invent a printer brand that is not on the live homepage.
 
 ### Promix Concrete -- SENT 24 Aug 2026 11:59 MYT
 
@@ -467,6 +468,7 @@ Owner order 24 Aug 18:14 MYT: clean out other job applies. Do not apply to Evabo
 - Ask: RM 500, one revision, page written from their published text. No Stripe link in the first mail.
 - Not 3PL. Did not mail Intergrated Freighters today. Did not poll Stripe.
 - Do not mail Promix again unless they reply.
+- Hostable draft: `docs/proposals/promix-services.html`. Honor RM 500. Send only if they reply. Do not Surge-publish until they ask.
 
 ### Zipper Resources -- SENT 24 Aug 2026 12:04 MYT
 
@@ -723,6 +725,7 @@ Owner order 24 Aug 18:14 MYT: clean out other job applies. Do not apply to Evabo
 - Ask: RM 1,000 to RM 5,000 after looking at how much copy they need. Draft first. No Stripe. No hire-page link (canonical `/hire/` still shows the old RM 500 page).
 - Not 3PL. Did not mail Intergrated Freighters today. Did not poll Stripe.
 - File: `docs/proposals/yes-packaging.md`.
+- Hostable draft: `docs/proposals/yes-packaging-services.html`. Honor RM 1,000-5,000. Send only if they reply. Do not Surge-publish until they ask.
 - Do not mail Yes Packaging again unless they reply.
 
 ### ANKO Hardware -- SENT 24 Aug 2026 14:28 MYT
