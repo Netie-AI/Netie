@@ -50,3 +50,19 @@ Verified with Chrome UA curl. Mailto is on each firm's own homepage HTML (`<a hr
 
 Queued as Gmail drafts 24 Aug 19:56 MYT. Now on the Tue 09:00 five-send timer (`sub_0c304477-2566-440b-823c-78d8ae9c7a2f`). Drafts `r8087702750161109889` (Berjaya) and `r2276372326674085603` (Jin He Jia).
 
+## 2026-08-25 00:25 MYT — one extra Coming Soon firm (queue after five-send)
+
+Verified with Chrome UA curl. Mailto is on the firm's own `/contactus/` HTML (`<a href="mailto:info@leatat.com.my">`), not NEWPAGES-only. Not in monday-queue SENT. Did not send mail.
+
+### Leatat Heavy Transport Agency Sdn Bhd
+
+- URL: https://www.leatat.com.my/
+- `/services/`: https://www.leatat.com.my/services/ HTTP 200, still `Coming Soon!` with `min-height:440px`
+- Mailto (contactus): info@leatat.com.my
+- Unique fact: Homepage lists heavy transportation, container haulage, and leasing of trucks and forklifts for oversized cargo including fibre tanks and industrial machinery from 6991, Lot 2544, Mukim 7, Telok Air Tawar, 13050 Butterworth, with operations across Peninsular Malaysia, Singapore, and Thailand.
+- SSM: 199701018852 (434349-A)
+
+Skipped: UKAI Coming Soon but JSON-LD-only email. KDSOFT / SY Metal Works NXDOMAIN. Aenon and Standco `/services/` filled.
+
+Draft `r4406214204731782560`. Do not send until after the Tue 09:00 five-send.
+

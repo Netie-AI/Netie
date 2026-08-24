@@ -911,3 +911,14 @@ Berjaya and Jin He Jia now go on the same Tuesday timer after the first three, i
 - File: `docs/proposals/jin-he-jia.md`. Hostable draft: `docs/proposals/jin-he-jia-services.html`.
 - Send on the Tue 09:00 MYT timer after Prints Buddy / TNT / Dream House, if live Coming Soon and empty `in:sent`.
 
+## Queued after the Tue 09:00 five-send (do not send before those five, and not after hours)
+
+### Leatat Heavy Transport -- QUEUED draft 25 Aug 2026 00:25 MYT
+
+- To: info@leatat.com.my (contact-page mailto on https://www.leatat.com.my/contactus/). One inbox.
+- Source: live https://www.leatat.com.my/services/ HTTP 200 still Coming Soon (`min-height:440px`). Homepage lists heavy transport for fibre tanks and industrial machinery, container haulage, and truck/forklift leasing from 6991, Lot 2544, Mukim 7, Telok Air Tawar, 13050 Butterworth, with runs across Peninsular Malaysia, Singapore, and Thailand. SSM 199701018852 (434349-A).
+- Draft: `r4406214204731782560`. Thread: `1a034976325e7aa8`. Subject: Telok Air Tawar transport page.
+- File: `docs/proposals/leatat-heavy-transport.md`.
+- Website-page offer, RM 1,000-5,000. No Stripe. Not a Thursday 3PL follow-up. Send only after the Tue 09:00 five-send, in office hours, if still Coming Soon and `in:sent` empty.
+- Skipped this pass: UKAI `/services/` Coming Soon but email is JSON-LD-only. KDSOFT and SY Metal Works still NXDOMAIN. Aenon / Standco `/services/` pages are filled.
+

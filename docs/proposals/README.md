@@ -32,6 +32,7 @@ Write one file here before a priced reply. Keep claims inside live public pages 
 | `berjaya-table-chair-services.html` | Hostable draft from berjayatableandchair.com published facts |
 | `jin-he-jia.md` | Queued Tue 09:00 MYT with the five-send. RM 1,000-5,000. |
 | `jin-he-jia-services.html` | Hostable draft from jinhejia.com.my published facts |
+| `leatat-heavy-transport.md` | Queued after Tue 09:00 five-send. RM 1,000-5,000. No Stripe. |
 | `windmere-services.html` | Already mailed. Honor RM 500. Reply-only URL: https://netie-penang.surge.sh/drafts/windmere-services.html |
 | `sk-shutter-services.html` | Already mailed. Honor RM 500. Reply-only URL: https://netie-penang.surge.sh/drafts/sk-shutter-services.html |
 | `igb-metal-services.html` | Already mailed. Honor RM 500. Reply-only URL: https://netie-penang.surge.sh/drafts/igb-metal-services.html |
