@@ -87,7 +87,7 @@ For an interested file-analysis buyer, use `docs/file-analysis-scope-template.md
 
 ## What we do not claim
 
-- We do not claim a live Stripe charge has landed. last_stripe_check 23 Aug 00:17 MYT was MYR 0.
+- We do not claim a live Stripe charge has landed. last_stripe_check 25 Aug 00:12 MYT was MYR 0 (empty charges, empty payment intents, available and pending MYR 0).
 - We do not claim USD 200k client revenue.
 - We do not invent reviews. Screens prove the published interface only, not production execution, client adoption, performance, security, or revenue.
 

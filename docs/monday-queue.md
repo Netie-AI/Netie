@@ -863,7 +863,7 @@ Owner order 24 Aug 18:14 MYT: clean out other job applies. Do not apply to Evabo
 
 ## Queued for Tue 25 Aug 2026 09:00 MYT (do not send after 17:00 MYT 24 Aug)
 
-Timer `netie-tue-queued-websites-2026-08-25-0900-myt` (`sub_0c304477-2566-440b-823c-78d8ae9c7a2f`, once). Send existing Gmail drafts only after live `/services/` Coming Soon and empty `in:sent`. Five drafts: Prints Buddy, TNT Crane, Dream House, then Berjaya, Jin He Jia. Not an email-watch loop. No Stripe. One inbox. RM 1,000-5,000. Label `Label_8` after send. Rechecked 24 Aug 21:32 MYT: all five still DRAFT with the same draft ids; send with `draftId` only (Gmail stores an auto html wrap; bodies have no URLs). Public checkout pages HTTP 200. Not a Stripe account poll.
+Timer `netie-tue-queued-websites-2026-08-25-0900-myt` (`sub_0c304477-2566-440b-823c-78d8ae9c7a2f`, once). Send existing Gmail drafts only after live `/services/` Coming Soon and empty `in:sent`. Five drafts: Prints Buddy, TNT Crane, Dream House, then Berjaya, Jin He Jia. Not an email-watch loop. No Stripe. One inbox. RM 1,000-5,000. Label `Label_8` after send. Rechecked 25 Aug 00:15 MYT: all five still DRAFT with the same draft ids; `in:sent` to those five To: addresses empty; Chrome UA curl still Coming Soon on all five `/services/`. Send with `draftId` only (Gmail stores an auto html wrap; bodies have no URLs). Live Stripe 00:12 MYT was MYR 0; do not poll again until 26 Aug MYT. Public checkout pages HTTP 200.
 
 ### Prints Buddy -- QUEUED draft 24 Aug 2026 19:35 MYT
 
