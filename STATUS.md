@@ -1,10 +1,11 @@
 # STATUS
 
-Updated: 2026-08-23 14:25 MYT. Success = live Stripe charge, then a payout.
+Updated: 2026-08-24 09:07 MYT. Success = live Stripe charge, then a payout.
 
 ## Now (measured)
 
-- last_stripe_check: 2026-08-23 00:17 MYT. Did not poll balance. Did not poll Gmail again after the owner said stop checking mail.
+- last_stripe_check: 2026-08-24 09:07 MYT. Live account `acct_1RMx9FFV5wcFod2f`, display NETIE, livemode true. Did not poll balance, charges, or products. Did not alter Stripe products. Do not poll Stripe again this MYT day.
+- Monday 24 Aug 09:07 MYT send: all three approved first-touch drafts were still DRAFT, with no inbox replies and no prior `in:sent` mail to those three addresses. Live prospect facts still matched. Sent only those three. Did not send Intergrated Freighters, the Fiverr self-note, or any other prospect.
 - Owner follow-up: forget further landing-page edits until files are uploaded; earn on registered job/freelance accounts.
 - Freelance channels 23 Aug 14:25 MYT: Truelancer service still pending moderator approval at https://truelancer.com/freelance-service/i-will-build-an-ai-product-landing-page-from-your-copy-655675 (0 sold). Bidding needs mobile OTP; did not request SMS. Account country is locked to India; city text is George Town, Penang, Malaysia. Twine https://www.twine.net/jianhong HTTP 200, inbox empty. Public seeking-work post: https://mastodon.social/@jianhongpg/117143382421294576 (API-confirmed public, 0 boosts). Fiverr Google login asked for a password; stopped. No marketplace order. Did not poll Stripe.
 - Domain root 23 Aug 11:36 MYT: `https://netie.ai/` is HTTP 200, title `Netie.AI | Unified AI x Web3 x Hardware Platform`, 73673 bytes, includes `/home-hire-band.js`. It does not 302 to `/hire/`. Response sends HSTS, nosniff, and DENY. `/aim/` and `/asa/` stay HTTP 200.
@@ -33,15 +34,20 @@ Updated: 2026-08-23 14:25 MYT. Success = live Stripe charge, then a payout.
 - Deployment 23 Aug 06:11 MYT: Spaceship File Manager uploaded `/hire/index.html` and `/hire/ops/index.html`. The Jupiter editor did not expose a server-save action and FTP/SFTP returned `530`; File Manager upload resolved the issue. Canonical, BrewPage, Surge, Telegraph, and all Rentry mirrors now link the operations prototype with its browser-only limits.
 - Deployment 23 Aug 06:29 MYT: Spaceship File Manager uploaded `/hire/index.html` and `/hire/knowledge/index.html` for the earlier cited-answer prototype. That page was replaced at 10:30 MYT.
 - Deployment 23 Aug 10:30 MYT: Spaceship File Manager uploaded `/hire/index.html`, `/hire/knowledge/index.html`, `/hire/ops/index.html`, `/hire/trace/index.html`, `/hire/catalog.json`, `/hire/llms.txt`, `/hire/robots.txt`, and `/hire/sitemap.xml`. Public downloads matched the committed files byte-for-byte. Hire, knowledge, and ops fill the viewport instead of a capped column. Browser checks passed Failed rows, Duplicates, Pen Express RM 3855.25, and the unknown-question no-answer state. BrewPage, Surge, Telegraph, and all three Rentry mirrors now point at the invoice extract workbench.
-- Monday 24 Aug queue was rewritten against freshly checked prospect pages. Three Gmail drafts for Pen Express, InterOcean Penang, and BH Armada were created but not sent; their draft/thread IDs are in `docs/monday-queue.md`. Gmail `ListDrafts` returned all three with the `DRAFT` label. Direct thread read-back is denied by the current Gmail scope. Do not send before 09:00 MYT Monday.
-- Gmail label `Netie/2026-08-24 Monday outreach` (`Label_8`) is attached to the three approved draft threads. `ListDrafts` metadata shows `DRAFT` and `Label_8` for each; future replies will remain in those labeled threads.
-- A one-time subscription `netie-monday-outreach-2026-08-24-0900-myt` is queued for Monday 24 Aug 09:00 MYT. It must re-check draft status and conflicting replies before sending only the three approved first touches, then check Stripe once for the new MYT day.
-- Removed the stale two-hour `loop-earn-usd` timer because it still referenced retired RM 300 copy and outdated mirror rules. The guarded Monday subscription is now the only active revenue timer.
+- Monday 24 Aug 09:07 MYT: the 09:00 MYT timer sent the three approved first-touch drafts after re-checking DRAFT status, empty reply search, empty `in:sent`, and live prospect pages. Exact outcomes are in `docs/monday-queue.md`.
+  - Pen Express `info@penexpressgroup.com` SENT 09:07 MYT. Message `1a0314e8a8c4d65b`. Thread `1a02cf1666de8224`. Subject: Free Commercial Zone weekly invoices.
+  - InterOcean Penang `export.pen@interocean.com.my` SENT 09:07 MYT. Message `1a0314ecee9673ae`. Thread `1a02cf14f16dd76b`. Subject: Wisma Leader export invoices.
+  - BH Armada `info@bharmada.com` SENT 09:07 MYT. Message `1a0314ef1254a5db`. Thread `1a02cf15dabfbf86`. Subject: Mak Mandin warehouse invoices.
+  - After send, `ListDrafts` for those three To: addresses was empty. `in:sent` showed the three SENT messages only. Do not mail them again unless they reply. Follow-up only after three business days and only if there is no reply.
+- Gmail label `Netie/2026-08-24 Monday outreach` (`Label_8`) is attached to all three SENT threads (`SENT` + `Label_8`). Future replies in those threads should keep the label.
+- The one-time send-check subscription `netie-monday-outreach-2026-08-24-0900-myt` has fired. Do not recreate it. Same-day reply watch: `netie-monday-reply-check-2026-08-24-1700-myt` (`sub_6845e4ab-86f8-435b-adc2-cc212e96ebd3`, once, ~17:00 MYT, reply check only). Follow-up watch: `netie-monday-followup-2026-08-27-0900-myt` (`sub_3211a6d4-55fc-41d4-ada8-5593b56f628a`, once, Thu 27 Aug 09:00 MYT).
+- Removed the stale two-hour `loop-earn-usd` timer because it still referenced retired RM 300 copy and outdated mirror rules.
 - Laptop Drive 22 Aug docs were still Number Trace. New Drive doc: https://docs.google.com/document/d/1siVTp9MYgB3jatoUecjkfakQ86tkWkt06ZxMoiJwx1k/edit
 - Spaceship Hosting Manager login worked after Gmail recovery (username netiejh). Hosting Essential still expired; File Manager still uploaded /hire/. Password for that login lives only in this VM tmp, not in git.
 
 ## Next
 
-1. Founder: log into Fiverr on the laptop and paste Gig A from `docs/fiverr-gig.md`. Do not send the cloud agent a password or OTP.
-2. Wait for Truelancer moderator approval on the INR 10000 landing-page service, then take platform pay if a buyer appears. Do not also Stripe the same hour.
-3. Mon 24 Aug 9:00 MYT: monday-queue A-C. Stripe once.
+1. Watch the three Monday threads for replies. Do not send a second address at the same firm. Do not mail Intergrated Freighters this morning.
+2. Founder: log into Fiverr on the laptop and paste Gig A from `docs/fiverr-gig.md`. Do not send the cloud agent a password or OTP.
+3. Wait for Truelancer moderator approval on the INR 10000 landing-page service, then take platform pay if a buyer appears. Do not also Stripe the same hour.
+4. Thu 27 Aug 09:00 MYT: if a Monday thread still has no reply, send only that thread's approved follow-up from `docs/monday-queue.md`. Stop if they replied.

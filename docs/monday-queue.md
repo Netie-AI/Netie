@@ -36,35 +36,41 @@ Tone: `.cursor/skills/outreach-tone/SKILL.md`
 - Site form: phone field rejected input. Do not mail export1/export2 the same day.
 - Do not mail again unless they reply.
 
-## Monday 24 Aug 2026 first-mails (do not send before 9:00 MYT)
+## Monday 24 Aug 2026 first-mails -- SENT 09:07 MYT
 
-Tone: `.cursor/skills/outreach-tone/SKILL.md`. One inbox. One fact. One ask. At most one proof link. Not Hengxing / Easyway / Centrolink / the five above.
+Tone: `.cursor/skills/outreach-tone/SKILL.md`. One inbox. One fact. One ask. Not Hengxing / Easyway / Centrolink / the five above.
 
-Gmail drafts were created 23 Aug 05:25 MYT and are not sent:
-- Pen Express: draft `r4883945163701155217`, thread `1a02b5d6f585f332`
-- InterOcean Penang: draft `r-8192599428649523972`, thread `1a02b5d71cbddc92`
-- BH Armada: draft `r-8439203117394069842`, thread `1a02b5d7160bc074`
-- Gmail monitoring label: `Netie/2026-08-24 Monday outreach` (`Label_8`) is attached to all three threads and will label future replies in those threads.
-- One-time send-check subscription: `netie-monday-outreach-2026-08-24-0900-myt` at 09:00 MYT. It must stop if a draft is missing, a reply or send conflict exists, or any prospect fact contradicts this queue.
+09:00 MYT timer re-checked live Gmail and prospect pages, then sent the three existing drafts as-is. Did not recreate bodies. Did not send Intergrated Freighters or any other prospect.
 
-### A. Pen Express -- NOT SENT
+Pre-send checks 24 Aug 09:05-09:07 MYT:
+- All three still had the `DRAFT` label.
+- `from:(penexpressgroup.com OR interocean.com.my OR bharmada.com)` returned empty.
+- `in:sent` to the three To: addresses returned empty.
+- Pen Express logistics page still lists Free Commercial Zone at MAS KARGO Agents Complex, Penang International Airport.
+- InterOcean offices page still lists Wisma Leader, Jalan Larut, plus Northport and Westport warehouses.
+- BH Armada contact page still lists Wisma Yew Chye Seng, 5203 Jalan Mak Mandin.
+- Live Stripe once: `acct_1RMx9FFV5wcFod2f`, display NETIE, livemode true. Did not poll balance. Did not alter products.
+
+Gmail monitoring label: `Netie/2026-08-24 Monday outreach` (`Label_8`) is attached to the three sent threads so future replies stay labeled. Same-day reply watch (no send): `netie-monday-reply-check-2026-08-24-1700-myt`. Follow-up watch: `netie-monday-followup-2026-08-27-0900-myt`.
+
+### A. Pen Express -- SENT 24 Aug 2026 09:07 MYT
 
 - To: info@penexpressgroup.com
-- Fact rechecked 23 Aug on https://www.penexpressgroup.com/logistics-company-in-penang/ : warehouse in the Free Commercial Zone at the MAS Kargo Agents Complex, Penang International Airport.
+- Fact rechecked 24 Aug on https://www.penexpressgroup.com/logistics-company-in-penang/ : warehouse in the Free Commercial Zone at the MAS Kargo Agents Complex, Penang International Airport.
 - One inbox. Do not also mail cs.air / cs.ocean / warehouse@ the same day.
-- Gmail draft: `r4883945163701155217` (not sent).
-- Subject: Free Commercial Zone weekly totals
-- Draft:
+- Message: `1a0314e8a8c4d65b`
+- Thread: `1a02cf1666de8224`
+- Former draft: `r4883945163701155217` (now gone; ListDrafts empty)
+- Subject: Free Commercial Zone weekly invoices
+- Sent body:
 
 Dear Pen Express team,
 
-I am Jian Hong, writing from Penang. I found this inbox on your Penang logistics page.
+I'm Jian Hong, writing from Penang. I found this inbox on your Penang logistics page.
 
-Your Penang warehouse is listed in the Free Commercial Zone at the MAS Kargo Agents Complex. If a weekly carton, charge, or stock total needs a clear file trail, I do fixed-scope file analysis from records you agree to share: source map, findings, missing-data notes, and a short presentation. RM 1,500, decision support only, not an audit.
+Your Penang warehouse is listed in the Free Commercial Zone at the MAS Kargo Agents Complex. If weekly carton, charge, or stock totals still live as invoices and a messy spreadsheet, I turn an agreed set of PDFs into a clean Excel file and keep every number tied to its source cell. Bad rows are set aside, not deleted. RM 1,500 after a short written plan.
 
-Here is a synthetic local example of one figure being traced: https://netie.ai/hire/trace/
-
-Would a short written scope for one report be useful?
+Would a written scope for one week's invoices be useful?
 
 If not, no need to reply.
 
@@ -72,22 +78,24 @@ Jian Hong
 Netie, Penang
 oojianhongg@gmail.com
 
-### B. InterOcean Penang -- NOT SENT
+### B. InterOcean Penang -- SENT 24 Aug 2026 09:07 MYT
 
 - To: export.pen@interocean.com.my
-- Fact rechecked 23 Aug on https://interocean.com.my/office-facilities/ : Penang export office at Unit 3A-01, Wisma Leader, No. 8 Jalan Larut; Northport and Westport warehouses are listed separately.
+- Fact rechecked 24 Aug on https://interocean.com.my/office-facilities/ : Penang export office at Unit 3A-01, Wisma Leader, No. 8 Jalan Larut; Northport and Westport warehouses are listed separately.
 - One inbox. Do not also mail sales@ / export@ / import.pen@ the same day.
-- Gmail draft: `r-8192599428649523972` (not sent).
-- Subject: Wisma Leader export sheet
-- Draft:
+- Message: `1a0314ecee9673ae`
+- Thread: `1a02cf14f16dd76b`
+- Former draft: `r-8192599428649523972` (now gone; ListDrafts empty)
+- Subject: Wisma Leader export invoices
+- Sent body:
 
 Dear InterOcean Penang team,
 
-I am Jian Hong, writing from Penang. I found this inbox on your offices page.
+I'm Jian Hong, writing from Penang. I found this inbox on your offices page.
 
-Your Penang export office is listed at Wisma Leader on Jalan Larut, while Northport and Westport warehouses are listed separately. If an export report needs a clearer trail from a total to its source, I do fixed-scope file analysis from records you agree to share: source map, findings, missing-data notes, and a short presentation. RM 1,500, decision support only, not an audit.
+Your Penang export office is listed at Wisma Leader on Jalan Larut, with Northport and Westport warehouses listed separately. If export invoices or PDFs still get typed into Excel by hand, I turn an agreed set into a clean spreadsheet and keep every number tied to its source cell. Bad rows are set aside, not deleted. RM 1,500 after a short written plan.
 
-Would a short written scope for one report be useful?
+Would a written scope for one export file be useful?
 
 If not, no need to reply.
 
@@ -95,22 +103,24 @@ Jian Hong
 Netie, Penang
 oojianhongg@gmail.com
 
-### C. BH Armada -- NOT SENT
+### C. BH Armada -- SENT 24 Aug 2026 09:07 MYT
 
 - To: info@bharmada.com
-- Fact rechecked 23 Aug on https://www.bharmada.com/contact.html : Wisma Yew Chye Seng, 5203 Jalan Mak Mandin, Butterworth.
+- Fact rechecked 24 Aug on https://www.bharmada.com/contact.html : Wisma Yew Chye Seng, 5203 Jalan Mak Mandin, Butterworth.
 - One inbox.
-- Gmail draft: `r-8439203117394069842` (not sent).
-- Subject: Mak Mandin warehouse sheet
-- Draft:
+- Message: `1a0314ef1254a5db`
+- Thread: `1a02cf15dabfbf86`
+- Former draft: `r-8439203117394069842` (now gone; ListDrafts empty)
+- Subject: Mak Mandin warehouse invoices
+- Sent body:
 
 Dear BH Armada team,
 
-I am Jian Hong, writing from Penang. I found this inbox on your contact page.
+I'm Jian Hong, writing from Penang. I found this inbox on your contact page.
 
-Your Butterworth office is listed at Wisma Yew Chye Seng, 5203 Jalan Mak Mandin. If a monthly haulage or warehouse total needs a clear file trail, I do fixed-scope file analysis from records you agree to share: source map, findings, missing-data notes, and a short presentation. RM 1,500, decision support only, not an audit.
+Your Butterworth office is listed at Wisma Yew Chye Seng, 5203 Jalan Mak Mandin. If haulage or warehouse invoices still pile up as PDFs and a messy Excel file, I turn an agreed set into a clean spreadsheet and keep every number tied to its source cell. Bad rows are set aside, not deleted. RM 1,500 after a short written plan.
 
-Would a short written scope for one report be useful?
+Would a written scope for one month's invoices be useful?
 
 If not, no need to reply.
 
@@ -122,11 +132,11 @@ oojianhongg@gmail.com
 
 One detail I should have included: the scope, exclusions, price, and files needed are agreed in writing before I start. If one report needs a source map and short decision presentation, reply and I will send the scope. If not, I will not write again.
 
-For InterOcean and BH Armada only, add this one link after the first sentence: `Synthetic local example: https://netie.ai/hire/trace/`. Do not add another link to Pen Express's follow-up because it already received the proof link.
+The sent first-touches did not include a proof link. For any no-reply follow-up, add this one link after the first sentence: `Synthetic local example: https://netie.ai/hire/trace/`. One link only.
 
 If a buyer expresses interest, use `docs/file-analysis-scope-template.md` before sending the RM 1,500 checkout link. Do not promise a delivery date or ask for sensitive files until the decision question, included files, exclusions, and handoff method are agreed.
 
-### Hold (do not mail the same morning as A-C)
+### Hold (do not mail 24 Aug; still unsent)
 
 - Intergrated Freighters Penang: enquiry@ifsb-pen.com.my from https://www.intergratedfreighters.com.my/contact.htm (Cloudflare-obfuscated; decoded). MAS Cargo Agent Building, Penang International Airport. Do not also mail enquiry@ifsb-kul.com.my the same day.
 
