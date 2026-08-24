@@ -15,6 +15,7 @@ Live snapshot of what is in flight: `STATUS.md` (one file, all agents).
 | Laptop, browser, MCP plugins | `.cursor/skills/laptop-mcp/SKILL.md` |
 | Pass work to another agent | `.cursor/skills/agent-bus/SKILL.md` |
 | A method worked and should survive | `.cursor/skills/distill-into-skills/SKILL.md` |
+| High-pay US/EU AI jobs | `docs/side-hustle/high-pay-ai-jobs.md` + `cover-ai-engineer.md` |
 
 Job log for Truelancer: `docs/side-hustle/truelancer.md`.
 

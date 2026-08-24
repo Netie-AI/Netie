@@ -3,27 +3,31 @@
 Canonical snapshot: `STATUS.md`. Skills: `.cursor/AGENTS.md`.
 
 Gmail: `oojianhongg@gmail.com`. Label: `Truelancer` (Label_9).
+Invites Jian pasted (Vanish, Shruthi) are **not** in this Gmail API inbox. Found live on truelancer.com.
 
 ## Jobs
 
 | id | source | title | budget | screen | state | notes |
 |---|---|---|---|---|---|---|
-| samuel-vite-react | pasted + live page; invite **not** in Gmail | need vite/react app completed | $60 | warning: 91 posted / 10 paid / 1% | awaiting (login) | https://www.truelancer.com/freelance-project/need-vitereact-app-completed-655856 Bid in `proposal-samuel-vite-react.md`. Drive Doc ready. Not sent. |
+| vanish-horizons | pasted invite 2026-08-23 + live page | Customization of Existing Hostinger Horizons Website | INR 3000 (~USD 36) | no Horizons portfolio; client India, 0 paid; 17 bids | awaiting (login) | https://www.truelancer.com/freelance-project/customization-of-existing-hostinger-horizons-website-655672 Bid listed INR. Honest gap in bid. `proposal-vanish-hostinger-horizons.md` Drive https://docs.google.com/document/d/1TbXs1gbLB_VgmSpsXfy9n0gz5agJaAgR6TSqP09hOCA/edit |
+| shruthi-edu | pasted invite 2026-08-23 + live page | Freelance Web Developer for Interactive Educational Website | USD 600 | prefers India; Jian is MY; client UAE, 0 paid; 72 bids | awaiting (login) | https://www.truelancer.com/freelance-project/freelance-web-developer-for-interactive-educational-website-655708 `proposal-shruthi-edu-site.md` Drive https://docs.google.com/document/d/1bEx8Fwxf9sg7Q4M50mobZyChYLxBdQmCtLtRTtnGaXA/edit |
+| samuel-vite-react | pasted + live page; invite not in Gmail | need vite/react app completed | USD 60 | 91 posted / 10 paid / 1%; 19 bids | awaiting (login) | https://www.truelancer.com/freelance-project/need-vitereact-app-completed-655856 `proposal-samuel-vite-react.md` |
 
-## Gmail deep sweep (2026-08-24 19:00 UTC)
+Send Proposal on all three opened signup/login. 0 sent.
 
-Queries: `from:truelancer.com`, `in:anywhere from:truelancer.com`, invite phrasing, spam/trash, promotions/updates, `from:truelancer.com OR freelancer.com OR fiverr.com OR upwork.com OR kwork.com`.
+## High-pay lane (USD / EUR / GBP)
 
-| date | from | subject | kind | state |
-|---|---|---|---|---|
-| 2026-08-22 | jiya.singh@truelancer.com | Your 90% PRO Discount Expiring in 3 Hours! | marketing | skip (labeled Truelancer) |
-| 2026-08-22 | news@kwork.com / info@kwork.com | welcome + verify email | account | skip |
-| 2026-08-22 | donotreply@upwork.com | security question + login verify | account / OTP | skip; do not store codes |
+See `high-pay-ai-jobs.md`. Floor USD 150k or EUR/GBP 80k. Cover: `cover-ai-engineer.md` Drive https://docs.google.com/document/d/193UdbUwSmbLGyYO78JV6cK8fl-3-5kSfwJCWpY70_CU/edit
+Resume: https://drive.google.com/file/d/1SWRGhTt8QLFCWGNjm3uxmg6Q0ct65gsG/view
+US-only boards (TRM Labs USD 200-275k) not submitted: Jian is in Malaysia. Do not fake US address.
 
-No other Truelancer job invites in this mailbox. If Jian sees more on the phone, they are not in `oojianhongg@gmail.com` (wrong box, Truelancer site inbox, or a filter this API cannot see). Re-sweep after sign-in.
+## Gmail (2026-08-24 20:40 UTC)
+
+Still no Vanish/Shruthi threads in `oojianhongg@gmail.com`. Extra Truelancer mail: marketing "You're One Click Away from Your First Earning" (2026-08-24) skip.
 
 ## Rules
 
-- Fit: Vite/React/UI we can prove with hire/ops/AIM.
-- Skip: SEO, data-entry, deposit, off-platform pay, OTP mail.
-- After send: Workstream only. `sent | awaiting | awarded | skip`.
+- Bid listed currency on Truelancer. Career target is USD/EUR/GBP jobs, not INR 3k.
+- Fit: Vite/React/UI/Horizons customize we can prove.
+- Skip: fake Horizons portfolio, fake US work auth, OTP mail.
+- After send: Workstream only.
