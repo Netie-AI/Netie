@@ -12,26 +12,37 @@
   <meta property="og:description" content="Landing pages, chat/intake UI, file analysis, and scoped CI/PR help. Written scope before payment.">
   <meta property="og:url" content="https://netie.ai/hire/">
   <meta property="og:type" content="website">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Instrument+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap">
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"ProfessionalService","name":"Netie.AI","url":"https://netie.ai/hire/","email":"oojianhongg@gmail.com","telephone":"+60165568918","areaServed":"MY","address":{"@type":"PostalAddress","addressLocality":"Penang","addressCountry":"MY"},"hasOfferCatalog":{"@type":"OfferCatalog","name":"Netie scoped work","url":"https://netie.ai/hire/catalog.json","itemListElement":[{"@type":"Offer","name":"File analysis and presentation","price":"1500","priceCurrency":"MYR","url":"https://netie.ai/hire/?scope=file-analysis#brief"},{"@type":"Offer","name":"Business website or landing page","price":"1000","priceCurrency":"MYR","url":"https://netie.ai/hire/?scope=website#brief"},{"@type":"Offer","name":"CI, pull request, and bug help","price":"1000","priceCurrency":"MYR","url":"https://netie.ai/hire/?scope=engineering#brief"},{"@type":"Offer","name":"Document cleaning, lineage, and cited answers","url":"https://netie.ai/hire/?scope=company-file-search#brief"},{"@type":"Offer","name":"Internal operations system","price":"20000","priceCurrency":"MYR","url":"https://netie.ai/hire/?scope=operations#brief"}]}}</script>
   <style>
     :root {
-      --bg: #07090e;
-      --panel: #0f141d;
-      --ink: #f1f5f9;
-      --muted: #9ba9ba;
-      --line: #263448;
+      --bg: #0b0c0e;
+      --panel: #111316;
+      --ink: #f4f5f6;
+      --muted: #9aa3ad;
+      --line: #2a2e33;
       --cyan: #50dfc6;
       --cyan-dark: #0f332e;
       --gold: #d9b36c;
-      --soft: #101923;
+      --soft: #14161a;
+      --font-sans: "Instrument Sans", ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      --font-mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      --wrap-copy: 46rem;
+      --wrap-stage: 72rem;
+      --tap: 44px;
+      --radius: 2px;
+      --radius-panel: 4px;
     }
     * { box-sizing: border-box; }
     html { width: 100%; scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
     body {
       margin: 0;
-      background: radial-gradient(circle at top right, #122936 0, transparent 32rem), var(--bg);
+      min-width: 320px;
+      background: var(--bg);
       color: var(--ink);
-      font: 17px/1.55 ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      font: 17px/1.55 var(--font-sans);
     }
     a { color: var(--cyan); }
     a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-visible {
@@ -41,7 +52,13 @@
     img { display: block; max-width: 100%; }
     .wrap {
       width: 100%;
-      max-width: 46rem;
+      max-width: var(--wrap-copy);
+      margin: 0 auto;
+      padding: 0 1.15rem;
+    }
+    .wrap-stage {
+      width: 100%;
+      max-width: var(--wrap-stage);
       margin: 0 auto;
       padding: 0 1.15rem;
     }
@@ -59,8 +76,10 @@
       gap: .6rem;
       color: var(--ink);
       text-decoration: none;
-      font-weight: 850;
-      letter-spacing: .1em;
+      font-size: .625rem;
+      font-weight: 600;
+      letter-spacing: .12em;
+      text-transform: uppercase;
       white-space: nowrap;
     }
     .brand-mark {
@@ -71,77 +90,66 @@
       border: 1px solid var(--cyan);
       border-radius: 50%;
       color: var(--cyan);
-      font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+      font-family: var(--font-mono);
       font-size: 1rem;
       letter-spacing: 0;
+      text-transform: none;
     }
     .nav-links { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: .85rem; }
     .nav-links a { color: var(--muted); text-decoration: none; font-size: .88rem; }
     .nav-links a:hover { color: var(--cyan); }
-    .hero {
-      display: grid;
-      gap: 1.4rem;
-      padding: 2.2rem 0 1.4rem;
-      align-items: start;
-    }
-    .kicker {
+    .hero { padding: 2.6rem 0 1.4rem; }
+    .kicker, .eyebrow {
       color: var(--gold);
-      letter-spacing: .14em;
+      letter-spacing: .05em;
       text-transform: uppercase;
-      font-size: .72rem;
-      font-weight: 760;
+      font-size: .625rem;
+      font-weight: 500;
     }
     h1 {
       max-width: 14ch;
       margin: .4rem 0 1rem;
-      font-size: clamp(2.05rem, 8vw, 2.85rem);
-      line-height: 1.05;
+      font-size: clamp(2.15rem, 7vw, 3.25rem);
+      font-weight: 500;
+      line-height: 1.04;
       letter-spacing: -.04em;
     }
     h1 span { color: var(--cyan); }
     h2 {
       max-width: 18ch;
       margin: .25rem 0 .8rem;
-      font-size: clamp(1.45rem, 4.5vw, 1.9rem);
-      line-height: 1.15;
+      font-size: clamp(1.5rem, 4vw, 2rem);
+      font-weight: 500;
+      line-height: 1.12;
       letter-spacing: -.03em;
     }
-    h3 { margin: .3rem 0 .6rem; font-size: 1.14rem; line-height: 1.25; }
+    h3 { margin: .3rem 0 .6rem; font-size: 1.125rem; font-weight: 600; letter-spacing: -.02em; }
     p { margin: 0; }
     .lede { max-width: 42rem; color: var(--muted); font-size: 1.08rem; }
     .proof-line { margin-top: 1rem; color: var(--muted); font-size: .9rem; }
     .cta { display: flex; flex-wrap: wrap; gap: .65rem; margin-top: 1.3rem; }
     .btn {
       display: inline-flex;
-      min-height: 44px;
+      min-height: var(--tap);
       align-items: center;
       justify-content: center;
       padding: .68rem 1rem;
       border: 1px solid var(--cyan);
-      border-radius: 8px;
+      border-radius: var(--radius);
       background: var(--cyan);
       color: #03130f;
-      font-weight: 800;
+      font-weight: 600;
       text-align: center;
       text-decoration: none;
       cursor: pointer;
     }
     .btn:hover { filter: brightness(1.08); }
     .btn.ghost { background: transparent; color: var(--ink); border-color: var(--line); }
-    .hero-shot, .screen-card, .service, .step, form, .contact-card {
+    .service, .step, form, .contact-card, .dock {
       border: 1px solid var(--line);
-      border-radius: 14px;
-      background: rgba(15, 20, 29, .88);
+      border-radius: var(--radius-panel);
+      background: rgba(17, 19, 22, .92);
     }
-    .hero-shot {
-      overflow: hidden;
-      color: inherit;
-      text-decoration: none;
-      box-shadow: 0 20px 70px rgba(0, 0, 0, .3);
-    }
-    .hero-shot img { width: 100%; aspect-ratio: 1440 / 1000; object-fit: cover; }
-    .shot-caption { padding: .75rem .9rem .85rem; color: var(--muted); font-size: .85rem; }
-    .shot-caption b { display: block; margin-bottom: .1rem; color: var(--ink); }
     .facts {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
@@ -152,7 +160,7 @@
       min-width: 0;
       padding: .7rem .75rem;
       border: 1px solid var(--line);
-      border-radius: 9px;
+      border-radius: var(--radius-panel);
       background: var(--soft);
       color: var(--muted);
       font-size: .82rem;
@@ -160,7 +168,7 @@
     .fact b { display: block; color: var(--ink); font-size: .92rem; }
     main { padding: 2.6rem 0 0; }
     section { scroll-margin-top: 1rem; }
-    section + section { margin-top: 5rem; }
+    .wrap section + section, .stage-block { margin-top: 5rem; }
     .section-copy { max-width: 45rem; color: var(--muted); }
     .grid { display: grid; gap: 1rem; }
     .services { grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); margin-top: 1.4rem; }
@@ -170,20 +178,7 @@
     .service .scope { margin-top: .85rem; font-size: .88rem; }
     .service .cta { margin-top: auto; padding-top: 1rem; }
     .service .btn { width: 100%; }
-    .eyebrow { color: var(--gold); font-size: .74rem; font-weight: 760; letter-spacing: .1em; text-transform: uppercase; }
-    .price { margin: .75rem 0 .35rem; color: var(--cyan); font-size: 1.12rem; font-weight: 850; }
-    .screens { grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); margin-top: 1.4rem; }
-    .screen-card {
-      overflow: hidden;
-      color: inherit;
-      text-decoration: none;
-      transition: border-color .15s ease, transform .15s ease;
-    }
-    .screen-card:hover { border-color: var(--cyan); transform: translateY(-2px); }
-    .screen-card img { width: 100%; aspect-ratio: 1440 / 1000; object-fit: cover; border-bottom: 1px solid var(--line); }
-    .screen-copy { padding: .95rem; }
-    .screen-copy p { color: var(--muted); font-size: .9rem; }
-    .screen-url { display: block; margin-top: .7rem; color: var(--cyan); font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: .72rem; overflow-wrap: anywhere; }
+    .price { margin: .75rem 0 .35rem; color: var(--cyan); font-size: 1.12rem; font-weight: 600; }
     .notice {
       max-width: 58rem;
       margin-top: 1rem;
@@ -192,6 +187,62 @@
       background: #16150f;
       color: #d5c9ad;
       font-size: .9rem;
+    }
+    .dock { margin-top: 1.4rem; overflow: hidden; }
+    .dock-tablist {
+      display: flex;
+      gap: 0;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      border-bottom: 1px solid var(--line);
+      scrollbar-width: thin;
+    }
+    .dock-tab {
+      flex: 0 0 auto;
+      min-height: var(--tap);
+      padding: 0 .9rem;
+      border: 0;
+      border-bottom: 1px solid transparent;
+      margin-bottom: -1px;
+      background: transparent;
+      color: var(--muted);
+      cursor: pointer;
+      white-space: nowrap;
+      font: inherit;
+      font-size: .625rem;
+      font-weight: 500;
+      letter-spacing: .05em;
+      text-transform: uppercase;
+    }
+    .dock-tab[aria-selected="true"] {
+      color: var(--cyan);
+      border-bottom-color: var(--cyan);
+    }
+    .dock-tab:hover { color: var(--ink); }
+    .dock-panel { display: none; }
+    .dock-panel.is-active { display: grid; }
+    .dock-shot { display: block; color: inherit; text-decoration: none; }
+    .dock-shot img {
+      width: 100%;
+      aspect-ratio: 1440 / 1000;
+      object-fit: cover;
+      border-bottom: 1px solid var(--line);
+    }
+    .dock-caption, .dock-text {
+      padding: 1.1rem 1.15rem 1.25rem;
+    }
+    .dock-caption p, .dock-text p {
+      margin: 0 0 .45rem;
+      color: var(--muted);
+      font-size: .9rem;
+    }
+    .dock-url {
+      display: block;
+      margin: .85rem 0;
+      color: var(--cyan);
+      font-family: var(--font-mono);
+      font-size: .72rem;
+      overflow-wrap: anywhere;
     }
     .steps { grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); margin-top: 1.3rem; counter-reset: step; }
     .step { position: relative; padding: 1.1rem 1.1rem 1.1rem 3.6rem; }
@@ -206,20 +257,20 @@
       color: #03130f;
       counter-increment: step;
       content: counter(step);
-      font-weight: 850;
+      font-weight: 600;
       line-height: 1.7rem;
       text-align: center;
     }
     .step p { color: var(--muted); font-size: .92rem; }
     .contact { grid-template-columns: minmax(0, 1.3fr) minmax(260px, .7fr); align-items: start; }
     form, .contact-card { padding: 1.15rem; }
-    label { display: block; margin: .85rem 0 .28rem; color: var(--ink); font-size: .9rem; font-weight: 670; }
+    label { display: block; margin: .85rem 0 .28rem; color: var(--ink); font-size: .9rem; font-weight: 600; }
     input, select, textarea {
       width: 100%;
       min-height: 44px;
       padding: .65rem .75rem;
       border: 1px solid var(--line);
-      border-radius: 8px;
+      border-radius: var(--radius);
       background: #090d14;
       color: var(--ink);
       font: inherit;
@@ -232,7 +283,7 @@
       margin-top: 1.2rem;
       padding: 1rem;
       border: 1px solid var(--cyan);
-      border-radius: 10px;
+      border-radius: var(--radius-panel);
       background: var(--soft);
     }
     .brief-ready h3 { margin-top: 0; }
@@ -240,19 +291,26 @@
     .brief-ready textarea {
       min-height: 11rem;
       margin-top: .75rem;
-      font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+      font-family: var(--font-mono);
       font-size: .85rem;
     }
     button.btn { border: 0; font: inherit; }
     .contact-card p { margin-top: .7rem; color: var(--muted); }
     .contact-card a { overflow-wrap: anywhere; }
     footer { margin-top: 4rem; padding: 2rem 0 3rem; border-top: 1px solid var(--line); color: var(--muted); font-size: .9rem; }
+    @media (min-width: 900px) {
+      .dock-panel.is-active {
+        grid-template-columns: minmax(0, 1.6fr) minmax(16rem, .7fr);
+        align-items: start;
+      }
+      .dock-shot img { border-bottom: 0; border-right: 1px solid var(--line); }
+    }
     @media (max-width: 700px) {
       nav { align-items: flex-start; flex-direction: column; }
       .nav-links { justify-content: flex-start; gap: .65rem 1rem; }
       .hero { padding-top: 2.5rem; }
       .facts, .form-grid, .contact { grid-template-columns: 1fr; }
-      section + section { margin-top: 3.6rem; }
+      .wrap section + section, .stage-block { margin-top: 3.6rem; }
     }
   </style>
 </head>
@@ -270,28 +328,24 @@
     </nav>
 
     <header class="hero" id="top">
-      <div>
-        <p class="kicker">Hire / introduce - Penang, Malaysia - Jian Hong Oo</p>
-        <h1>Hire us for<br><span>your work.</span></h1>
-        <p class="lede">This is the scoped-work page, not the product landing. The Suite chat and cinematic site stay at netie.ai. Here: landing pages, a small site chat or intake form, file analysis, and help with CI, pull requests, and bugs. I look at your public pages first, then send a written plan. Written scope before payment. If we already quoted you a price in email, that price stands.</p>
-        <div class="cta">
-          <a class="btn" href="#brief" data-brief-job="Not sure - help me scope it">Request a written scope</a>
-          <a class="btn ghost" href="https://netie.ai/">Back to the main site</a>
-        </div>
-        <p class="proof-line">Everything below links to a public interface. One source trace can be downloaded and re-run without a backend.</p>
-        <div class="facts" aria-label="Jian's delivery profile">
-          <div class="fact"><b>One engineer</b>Jian scopes and ships the work.</div>
-          <div class="fact"><b>Practical stack</b>Python, FastAPI, React, SQL.</div>
-          <div class="fact"><b>Handoff</b>You receive the agreed files and notes.</div>
-        </div>
+      <p class="kicker">Hire / introduce - Penang, Malaysia - Jian Hong Oo</p>
+      <h1>Hire us for<br><span>your work.</span></h1>
+      <p class="lede">This is the scoped-work page, not the product landing. The Suite chat and cinematic site stay at netie.ai. Here: landing pages, a small site chat or intake form, file analysis, and help with CI, pull requests, and bugs. I look at your public pages first, then send a written plan. Written scope before payment. If we already quoted you a price in email, that price stands.</p>
+      <div class="cta">
+        <a class="btn" href="#brief" data-brief-job="Not sure - help me scope it">Request a written scope</a>
+        <a class="btn ghost" href="#work">See public demos</a>
       </div>
-      <a class="hero-shot" href="https://netie-ai.github.io/constructor/" target="_blank" rel="noopener">
-        <img src="https://netie.ai/hire/assets/constructor.webp" width="1440" height="1000" alt="Constructor public browser canvas with a connected process graph">
-        <span class="shot-caption"><b>Constructor - public browser sketch</b>Drag nodes, rewire the path, and export JSON. This screen makes no production backend call.</span>
-      </a>
+      <p class="proof-line">The dock below switches live public interfaces. One source trace can be downloaded and re-run without a backend. Employer-internal systems are not shown.</p>
+      <div class="facts" aria-label="Jian's delivery profile">
+        <div class="fact"><b>One engineer</b>Jian scopes and ships the work.</div>
+        <div class="fact"><b>Practical stack</b>Python, FastAPI, React, SQL.</div>
+        <div class="fact"><b>Handoff</b>You receive the agreed files and notes.</div>
+      </div>
     </header>
+  </div>
 
-    <main>
+  <main>
+    <div class="wrap">
       <section id="proof">
         <p class="kicker">Reproducible proof</p>
         <h2>One figure, traced to its source.</h2>
@@ -327,7 +381,7 @@
             <h3>Internal operations system</h3>
             <p>Replace one defined spreadsheet or manual workflow with an agreed data model, API, admin area, and team screens.</p>
             <p class="price">RM 20,000 after written scope</p>
-            <p class="scope"><a href="https://netie.ai/hire/ops/">Open the synthetic operations-board prototype</a>. It has no API, customer data, integration, or production deployment. Migration, AI features, hosting, and support are separate unless included in the scope.</p>
+            <p class="scope"><a href="https://netie.ai/hire/ops/">Open the synthetic operations-board prototype</a>. It has no API, customer data, integration, or production deployment. Migration, AI features, hosting, and support are separate unless included in the scope. A private document-management repo is not a public demo; this board is the honest stand-in.</p>
             <div class="cta"><a class="btn ghost" href="#brief" data-brief-job="Internal operations system - RM 20,000 after scope">Discuss the system</a></div>
           </article>
           <article class="service">
@@ -357,32 +411,165 @@
           </article>
         </div>
       </section>
+    </div>
 
-      <section id="work">
+    <section class="stage-block" id="work">
+      <div class="wrap">
         <p class="kicker">Public work</p>
         <h2>Real screens. Plain captions.</h2>
-        <p class="section-copy">These are public interfaces Jian has published. They are not customer case studies, production benchmarks, security certifications, or evidence of revenue.</p>
-        <div class="notice">A screenshot should prove a screen, not a promise. Each card links to the live page and says what that page does not prove.</div>
-        <div class="grid screens">
-          <a class="screen-card" href="https://netie-ai.github.io/constructor/" target="_blank" rel="noopener">
-            <img src="https://netie.ai/hire/assets/constructor.webp" width="1440" height="1000" loading="lazy" alt="Constructor browser canvas with linked process nodes and an audit side panel">
-            <div class="screen-copy"><h3>Constructor</h3><p>Browser-based process canvas. Drag nodes, rewire the path, and export JSON. This public sketch makes no production backend call.</p><span class="screen-url">netie-ai.github.io/constructor/</span></div>
-          </a>
-          <a class="screen-card" href="https://netie.ai/aim/" target="_blank" rel="noopener">
-            <img src="https://netie.ai/hire/assets/aim.webp" width="1440" height="1000" loading="lazy" alt="Netie AIM professional-twin intake with resume and chat-export upload">
-            <div class="screen-copy"><h3>AIM professional twin</h3><p>Public intake for a professional-twin profile: resume PDF and chat export. It is a front-end sample, not a live customer twin or retrieval backend.</p><span class="screen-url">netie.ai/aim/</span></div>
-          </a>
-          <a class="screen-card" href="https://netie.ai/asa/" target="_blank" rel="noopener">
-            <img src="https://netie.ai/hire/assets/asa.webp" width="1440" height="1000" loading="lazy" alt="Netie ASA pre-order landing page with an email, phone, and Stripe button">
-            <div class="screen-copy"><h3>ASA landing page</h3><p>Live form and checkout interaction for an unreleased pre-order. It is a page-craft sample, not a record of customer delivery.</p><span class="screen-url">netie.ai/asa/</span></div>
-          </a>
-          <a class="screen-card" href="https://netie-ai.github.io/Cassandra/" target="_blank" rel="noopener">
-            <img src="https://netie.ai/hire/assets/cassandra.webp" width="1440" height="1000" loading="lazy" alt="Cassandra illustrative market interface">
-            <div class="screen-copy"><h3>Cassandra</h3><p>Illustrative market interface published on GitHub Pages. Its public archive is not wired, so it is not an analytics case study.</p><span class="screen-url">netie-ai.github.io/Cassandra/</span></div>
-          </a>
-        </div>
-      </section>
+        <p class="section-copy">Switch the dock to open Constructor, AIM, ASA, the invoice workbench, the ops board, the source trace, Suite chat, and CI-Doctor. These are public interfaces Jian has published. They are not customer case studies, production backends, or evidence of revenue. Employer-internal inference is not on this page.</p>
+        <div class="notice">A screenshot should prove a screen, not a promise. Tabs without a still on file use a live link instead of a drawn mockup. Arrow keys move the selected tab.</div>
+      </div>
+      <div class="wrap-stage">
+        <div class="dock" data-dock>
+          <div class="dock-tablist" role="tablist" aria-label="Public demos">
+            <button type="button" class="dock-tab" role="tab" id="tab-constructor" aria-controls="panel-constructor" aria-selected="true" tabindex="0">Constructor</button>
+            <button type="button" class="dock-tab" role="tab" id="tab-aim" aria-controls="panel-aim" aria-selected="false" tabindex="-1">AIM</button>
+            <button type="button" class="dock-tab" role="tab" id="tab-asa" aria-controls="panel-asa" aria-selected="false" tabindex="-1">ASA</button>
+            <button type="button" class="dock-tab" role="tab" id="tab-cassandra" aria-controls="panel-cassandra" aria-selected="false" tabindex="-1">Cassandra</button>
+            <button type="button" class="dock-tab" role="tab" id="tab-knowledge" aria-controls="panel-knowledge" aria-selected="false" tabindex="-1">Invoice ETL</button>
+            <button type="button" class="dock-tab" role="tab" id="tab-ops" aria-controls="panel-ops" aria-selected="false" tabindex="-1">Ops board</button>
+            <button type="button" class="dock-tab" role="tab" id="tab-trace" aria-controls="panel-trace" aria-selected="false" tabindex="-1">Source trace</button>
+            <button type="button" class="dock-tab" role="tab" id="tab-suite" aria-controls="panel-suite" aria-selected="false" tabindex="-1">Suite chat</button>
+            <button type="button" class="dock-tab" role="tab" id="tab-cidoctor" aria-controls="panel-cidoctor" aria-selected="false" tabindex="-1">CI-Doctor</button>
+            <button type="button" class="dock-tab" role="tab" id="tab-more" aria-controls="panel-more" aria-selected="false" tabindex="-1">More pages</button>
+          </div>
 
+          <div class="dock-panel is-active" role="tabpanel" id="panel-constructor" aria-labelledby="tab-constructor">
+            <a class="dock-shot" href="https://netie-ai.github.io/constructor/" target="_blank" rel="noopener">
+              <img src="https://netie.ai/hire/assets/constructor.webp" width="1440" height="1000" alt="Constructor public browser canvas with a connected process graph">
+            </a>
+            <div class="dock-caption">
+              <h3>Constructor</h3>
+              <p>Public browser process canvas. Drag nodes, rewire the path, and export JSON. Sample records only.</p>
+              <p>This sketch makes no production backend call. Not a workflow engine, migration, or customer case study.</p>
+              <a class="dock-url" href="https://netie-ai.github.io/constructor/" target="_blank" rel="noopener">netie-ai.github.io/constructor/</a>
+              <a class="btn ghost" href="#brief" data-brief-job="Process map and decision prototype - quote">Map one process</a>
+            </div>
+          </div>
+
+          <div class="dock-panel" role="tabpanel" id="panel-aim" aria-labelledby="tab-aim" hidden>
+            <a class="dock-shot" href="https://netie.ai/aim/" target="_blank" rel="noopener">
+              <img src="https://netie.ai/hire/assets/aim.webp" width="1440" height="1000" loading="lazy" alt="Netie AIM professional-twin intake with resume and chat-export upload">
+            </a>
+            <div class="dock-caption">
+              <h3>AIM professional twin</h3>
+              <p>Public intake: resume PDF and chat export. Front-end sample, not a live customer twin or retrieval backend.</p>
+              <p>Separate from the invoice ETL workbench. Not a record of a paid delivery.</p>
+              <a class="dock-url" href="https://netie.ai/aim/" target="_blank" rel="noopener">netie.ai/aim/</a>
+              <a class="btn ghost" href="#brief" data-brief-job="Company-file search with citations - quote">Request a scope</a>
+            </div>
+          </div>
+
+          <div class="dock-panel" role="tabpanel" id="panel-asa" aria-labelledby="tab-asa" hidden>
+            <a class="dock-shot" href="https://netie.ai/asa/" target="_blank" rel="noopener">
+              <img src="https://netie.ai/hire/assets/asa.webp" width="1440" height="1000" loading="lazy" alt="Netie ASA pre-order landing page with an email, phone, and Stripe button">
+            </a>
+            <div class="dock-caption">
+              <h3>ASA landing page</h3>
+              <p>Live form and checkout interaction for an unreleased pre-order. Page-craft sample for website work.</p>
+              <p>Not a client case study. Domain, hosting, photography, and logo stay extra on paid jobs.</p>
+              <a class="dock-url" href="https://netie.ai/asa/" target="_blank" rel="noopener">netie.ai/asa/</a>
+              <a class="btn ghost" href="#brief" data-brief-job="Business website or landing page - RM 1,000 to RM 5,000">Request a written scope</a>
+            </div>
+          </div>
+
+          <div class="dock-panel" role="tabpanel" id="panel-cassandra" aria-labelledby="tab-cassandra" hidden>
+            <a class="dock-shot" href="https://netie-ai.github.io/Cassandra/" target="_blank" rel="noopener">
+              <img src="https://netie.ai/hire/assets/cassandra.webp" width="1440" height="1000" loading="lazy" alt="Cassandra illustrative market interface">
+            </a>
+            <div class="dock-caption">
+              <h3>Cassandra</h3>
+              <p>Illustrative market interface on GitHub Pages. The public archive is not wired.</p>
+              <p>Not an analytics case study, live data feed, or hire price. The still proves a published UI only.</p>
+              <a class="dock-url" href="https://netie-ai.github.io/Cassandra/" target="_blank" rel="noopener">netie-ai.github.io/Cassandra/</a>
+            </div>
+          </div>
+
+          <div class="dock-panel" role="tabpanel" id="panel-knowledge" aria-labelledby="tab-knowledge" hidden>
+            <div class="dock-text">
+              <p class="kicker">Live page, no still on file</p>
+              <h3>Invoice extract workbench</h3>
+              <p>Browser ETL on a synthetic invoice extract: vendor aliases, MYR, dates, duplicate drop, parked exceptions, answers only from the cleaned table.</p>
+              <p>No upload, model call, warehouse, or customer file. This is the public document-cleaning demo. A private DMS repo is not shown.</p>
+              <div class="cta">
+                <a class="btn" href="https://netie.ai/hire/knowledge/">Open the live workbench</a>
+                <a class="btn ghost" href="#brief" data-brief-job="Company-file search with citations - quote">Request a scope</a>
+              </div>
+              <a class="dock-url" href="https://netie.ai/hire/knowledge/">netie.ai/hire/knowledge/</a>
+            </div>
+          </div>
+
+          <div class="dock-panel" role="tabpanel" id="panel-ops" aria-labelledby="tab-ops" hidden>
+            <div class="dock-text">
+              <p class="kicker">Live page, no still on file</p>
+              <h3>Synthetic operations board</h3>
+              <p>Browser-only queue with filters, selection, local status changes, and JSON download.</p>
+              <p>No API, login, customer data, or production deployment. Honest stand-in for a scoped internal system, including document-style ops work, after written scope.</p>
+              <div class="cta">
+                <a class="btn" href="https://netie.ai/hire/ops/">Open the ops prototype</a>
+                <a class="btn ghost" href="#brief" data-brief-job="Internal operations system - RM 20,000 after scope">Discuss the system</a>
+              </div>
+              <a class="dock-url" href="https://netie.ai/hire/ops/">netie.ai/hire/ops/</a>
+            </div>
+          </div>
+
+          <div class="dock-panel" role="tabpanel" id="panel-trace" aria-labelledby="tab-trace" hidden>
+            <div class="dock-text">
+              <p class="kicker">Live page, no still on file</p>
+              <h3>Source trace</h3>
+              <p>Download a synthetic workbook and a local Python script. One figure traces to source cells; another typed figure is refused.</p>
+              <p>No client file, no public upload, no backend. Decision support for the RM 1,500 file-analysis service, not an audit.</p>
+              <div class="cta">
+                <a class="btn" href="https://netie.ai/hire/trace/">Open the source trace</a>
+                <a class="btn ghost" href="#brief" data-brief-job="File analysis and presentation - RM 1,500">Request a file-analysis scope</a>
+              </div>
+              <a class="dock-url" href="https://netie.ai/hire/trace/">netie.ai/hire/trace/</a>
+            </div>
+          </div>
+
+          <div class="dock-panel" role="tabpanel" id="panel-suite" aria-labelledby="tab-suite" hidden>
+            <div class="dock-text">
+              <p class="kicker">Live page, no still on file</p>
+              <h3>Suite chat on the product landing</h3>
+              <p>Original April homepage: Suite chat UI, orchestrator copy, and the cinematic site. Public interface, not a client case study.</p>
+              <p>Not a public ChatGPT backend. Hire stays on this page; the product UI stays at the root.</p>
+              <div class="cta">
+                <a class="btn" href="https://netie.ai/" target="_blank" rel="noopener">Open the homepage</a>
+                <a class="btn ghost" href="#brief" data-brief-job="Business website or landing page - RM 1,000 to RM 5,000">Request a written scope</a>
+              </div>
+              <a class="dock-url" href="https://netie.ai/">netie.ai/</a>
+            </div>
+          </div>
+
+          <div class="dock-panel" role="tabpanel" id="panel-cidoctor" aria-labelledby="tab-cidoctor" hidden>
+            <div class="dock-text">
+              <p class="kicker">Public CLI, no still on file</p>
+              <h3>CI-Doctor</h3>
+              <p>Public GitHub CLI that reads failed Actions logs and writes a triage report. The tool used on CI, pull-request, and scoped-bug jobs.</p>
+              <p>Not a hosted 24/7 desk. Secrets, production deploys, and weakening tests to go green are out of scope.</p>
+              <div class="cta">
+                <a class="btn" href="https://github.com/Netie-AI/CI-Doctor" target="_blank" rel="noopener">Open the repository</a>
+                <a class="btn ghost" href="#brief" data-brief-job="CI, pull requests, and bugs - RM 1,000 to RM 5,000">Request a written scope</a>
+              </div>
+              <a class="dock-url" href="https://github.com/Netie-AI/CI-Doctor" target="_blank" rel="noopener">github.com/Netie-AI/CI-Doctor</a>
+            </div>
+          </div>
+
+          <div class="dock-panel" role="tabpanel" id="panel-more" aria-labelledby="tab-more" hidden>
+            <div class="dock-text">
+              <p class="kicker">More public pages</p>
+              <h3>Projects, Talkie, Web3, suite index</h3>
+              <p>Side routes from the same original site and GitHub org. They are public pages, not hire case studies.</p>
+              <p><a href="https://netie.ai/projects/" target="_blank" rel="noopener">netie.ai/projects/</a> · <a href="https://netie.ai/talkie/" target="_blank" rel="noopener">/talkie/</a> · <a href="https://netie.ai/web3/" target="_blank" rel="noopener">/web3/</a> · <a href="https://netie.ai/suite/" target="_blank" rel="noopener">/suite/</a> · <a href="https://github.com/Netie-AI/OpenHBM" target="_blank" rel="noopener">OpenHBM</a></p>
+              <p>Employer-internal inference is not listed here.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="wrap">
       <section id="how">
         <p class="kicker">How it works</p>
         <h2>Scope first. Build second.</h2>
@@ -457,16 +644,16 @@
           </aside>
         </div>
       </section>
-    </main>
 
-    <footer>
-      Netie.AI - Jian Hong Oo - Penang - Written scope before payment -
-      <a href="https://netie.ai/">Home</a> -
-      <a href="https://netie.ai/suite/">Suite</a> -
-      <a href="https://netie.ai/hire/catalog.json">catalog.json</a> -
-      <a href="https://netie.ai/hire/llms.txt">llms.txt</a>
-    </footer>
-  </div>
+      <footer>
+        Netie.AI - Jian Hong Oo - Penang - Written scope before payment -
+        <a href="https://netie.ai/">Home</a> -
+        <a href="https://netie.ai/suite/">Suite</a> -
+        <a href="https://netie.ai/hire/catalog.json">catalog.json</a> -
+        <a href="https://netie.ai/hire/llms.txt">llms.txt</a>
+      </footer>
+    </div>
+  </main>
   <script>
     const briefForm = document.getElementById("brief");
     const jobField = document.getElementById("job");
@@ -561,6 +748,40 @@
       jobField.value = jobForScope[requestedScope];
     }
     updateWhatsApp();
+
+    (function () {
+      var dock = document.querySelector("[data-dock]");
+      if (!dock) return;
+      var tabs = Array.prototype.slice.call(dock.querySelectorAll('[role="tab"]'));
+      var panels = Array.prototype.slice.call(dock.querySelectorAll('[role="tabpanel"]'));
+
+      function selectTab(next, fromKeyboard) {
+        tabs.forEach(function (tab, i) {
+          var on = tab === next;
+          tab.setAttribute("aria-selected", on ? "true" : "false");
+          tab.tabIndex = on ? 0 : -1;
+          panels[i].classList.toggle("is-active", on);
+          if (on) panels[i].removeAttribute("hidden");
+          else panels[i].setAttribute("hidden", "");
+        });
+        if (fromKeyboard) next.focus();
+      }
+
+      tabs.forEach(function (tab) {
+        tab.addEventListener("click", function () { selectTab(tab, false); });
+        tab.addEventListener("keydown", function (e) {
+          var i = tabs.indexOf(tab);
+          var dest = -1;
+          if (e.key === "ArrowRight") dest = (i + 1) % tabs.length;
+          if (e.key === "ArrowLeft") dest = (i - 1 + tabs.length) % tabs.length;
+          if (e.key === "Home") dest = 0;
+          if (e.key === "End") dest = tabs.length - 1;
+          if (dest === -1) return;
+          e.preventDefault();
+          selectTab(tabs[dest], true);
+        });
+      });
+    })();
   </script>
 </body>
 </html>
