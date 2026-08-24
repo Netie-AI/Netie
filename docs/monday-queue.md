@@ -296,3 +296,15 @@ If a buyer expresses interest, use `docs/file-analysis-scope-template.md` before
 - Not 3PL. Did not mail Intergrated Freighters today. Did not poll Stripe.
 - Do not mail SKL Metal again unless they reply.
 
+### Inti Packaging -- SENT 24 Aug 2026 10:52 MYT
+
+- To: inti_packaging@yahoo.com (homepage mailto on https://www.intipackaging.com/). One inbox.
+- Source: live https://www.intipackaging.com/services/ HTTP 200 still shows Coming Soon. Homepage lists palletized packaging, packing services, and electrical, automotive, furniture, pharmaceutical, and food customers from No.18, Jalan Raja BOT 35/134, Alam Impian, Section 35, Shah Alam. SSM 200301035399 (637820-K).
+- `in:sent` to inti_packaging@yahoo.com was empty before send. Not in existing `docs/*-services.html` drafts.
+- Thread: `1a031ade4d8809ae`
+- Message: `1a031ade4d8809ae`
+- Subject: Inti Packaging services page
+- Ask: RM 500, one revision, page written from their published text. No Stripe link in the first mail.
+- Not 3PL. Not a second inbox at a mailed firm. Did not mail Intergrated Freighters today. Did not poll Stripe.
+- Do not mail Inti Packaging again unless they reply.
+
