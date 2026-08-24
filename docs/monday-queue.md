@@ -504,6 +504,13 @@ If a buyer expresses interest, use `docs/file-analysis-scope-template.md` before
 - Do not mail Kanhseei again unless they reply.
 - Skipped this pass: SY Metal Works www hostname NXDOMAIN. NCR Resources `/services/` is filled (Eco Nesh), not Coming Soon.
 
+### Kanhseei Teckh -- REPLY 24 Aug 2026 12:28 MYT, contact sent 13:10 MYT
+
+- Steven@kanhseei.com replied in-thread at 12:28 MYT: `Hi Jian Hong / Can I have your contact details / Steven`. CC: sara@, lokesh@, wong.sweeheng@kanhseei.com. Message `1a0320693b135d2d`.
+- Reply-all SENT 13:10 MYT. Message `1a0322db4f9851b4`. Thread still `1a03200b47b3aebe`. Label `Label_8`.
+- Gave WhatsApp/call `+60 16-556 8918` and this Gmail. Offered to send the services-page draft this afternoon from their published toroidal transformer, wire harness, and inductor text. RM 500, one revision. No Stripe link.
+- Do not mail sales@ or info@ (Singapore listings). Do not send a second new thread. Wait for Steven before sending the draft or a checkout link.
+
 ### KST Star -- SENT 24 Aug 2026 12:21 MYT
 
 - To: kststar88@gmail.com (homepage and contact-page mailto on https://www.kststar.com.my/). One inbox.
@@ -613,4 +620,29 @@ If a buyer expresses interest, use `docs/file-analysis-scope-template.md` before
 - Ask: RM 500, one revision, page written from their published text. No Stripe link in the first mail.
 - Not 3PL. Did not mail Intergrated Freighters today. Did not poll Stripe.
 - Do not mail Johan Multitrade again unless they reply.
+
+### DIMTECH -- SENT 24 Aug 2026 13:13 MYT
+
+- To: solidmetalindustries@gmail.com (visible contact-page mailto and email text on https://www.blindrivet.com.my/contactus/). One inbox. Homepage JSON-LD also lists this address; did not treat JSON-LD as enough on its own.
+- Source: live https://www.blindrivet.com.my/services/ HTTP 200 still shows Coming Soon (`min-height:440px`). Homepage lists top-quality blind rivets and fastening under the SOLID brand from 388, Jalan Nilai 3/24, Kawasan Perindustrian Nilai 3, 71800 Negeri Sembilan. SSM 199601017649 (390000-A). Over 20 years.
+- `in:sent` to solidmetalindustries@gmail.com was empty before send. Not in existing `docs/*-services.html` drafts.
+- Thread: `1a0322fe9dcf6dd9`
+- Message: `1a0322fe9dcf6dd9`
+- Subject: Nilai blind rivet page
+- Ask: RM 500, one revision, page written from their published text. No Stripe link in the first mail.
+- Not 3PL. Did not mail Intergrated Freighters today. Did not poll Stripe.
+- Do not mail DIMTECH again unless they reply.
+
+### LT Megamas -- SENT 24 Aug 2026 13:28 MYT
+
+- To: enquiry@ltmegamas.com (homepage mailto on https://www.ltmegamas.com/). One inbox.
+- Source: live https://www.ltmegamas.com/services/ HTTP 200 still shows Coming Soon (`min-height:440px`). Homepage lists 22K gold jewellery manufacture from Perai, Seberang Jaya, Penang, with double curb, triple curb, and paper-clip chains since 1993. SSM 201101032494 (960629-H). Contact page names Ms. Nikki Goh.
+- `in:sent` to enquiry@ltmegamas.com was empty before send. Not in existing `docs/*-services.html` drafts.
+- Thread: `1a0323de4b2afa7a`
+- Message: `1a0323de4b2afa7a`
+- Subject: Perai 22K gold page
+- Ask: RM 500, one revision, page written from their published text. No Stripe link in the first mail.
+- Not 3PL. Did not mail Intergrated Freighters today. Did not poll Stripe.
+- Do not mail LT Megamas again unless they reply.
+- Skipped this pass: PAC Testing, VH Industrial, MJ Works, Soon Huat, TNC, Yu Chin Metal, Cooler Engineering, ATUZ, Pure Cooling, Maxcon, Questa, Yao Teng, Microx, WPK Construction, KH Building Inspection, Reseat, Aumloha, and Mokea `/services/` pages are filled, not Coming Soon. SSE Industries, JIT Pro, Fettmann, Octagon Tech, Pallet Kia, Bagan Printers, STD Parts, AOHA Designs, Parts Papa, and Capital Gardens `/services/` 404. CKL Brother bot-checked. SUNNY Packaging, Key Power, IFAST Printing, Tiek Hup, and Megacold had no Official Website on NEWPAGES.
 
