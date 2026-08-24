@@ -528,3 +528,52 @@ If a buyer expresses interest, use `docs/file-analysis-scope-template.md` before
 - Not 3PL. Did not mail Intergrated Freighters today. Did not poll Stripe.
 - Do not mail ATX Engineering again unless they reply.
 
+### Ace Readymix Concrete -- SENT 24 Aug 2026 12:25 MYT
+
+- To: maryn.george@gmail.com (homepage mailto on https://www.acereadymix.com.my/). One inbox.
+- Source: live https://www.acereadymix.com.my/services/ HTTP 200 still shows Coming Soon (`min-height:440px`). Homepage lists ready-mix delivery, pump truck service, and crane rental from 3835, 1st Floor, Jalan RJ 6/8, Taman Rasah Jaya, 70300 Seremban. SSM 202003148347 (TR0215807-H).
+- `in:sent` to maryn.george@gmail.com was empty before send. Not in existing `docs/*-services.html` drafts.
+- Thread: `1a032046a28ce302`
+- Message: `1a032046a28ce302`
+- Subject: Rasah Jaya concrete page
+- Ask: RM 500, one revision, page written from their published text. No Stripe link in the first mail.
+- Not 3PL. Did not mail Intergrated Freighters today. Did not poll Stripe.
+- Do not mail Ace Readymix again unless they reply.
+- Skipped this pass: Great Sign Penang `/services/` is filled. Terjaya `/services/` is filled. Dynaair `/services/` is not Coming Soon. SV Engineering NXDOMAIN. ACL Agency services page is filled.
+
+### Lotus-Stamas -- SENT 24 Aug 2026 12:26 MYT
+
+- To: lotus_stamas@yahoo.com (homepage mailto on https://www.lotus-stamas.com/). One inbox.
+- Source: live https://www.lotus-stamas.com/services/ HTTP 200 still shows Coming Soon (`min-height:440px`). Homepage lists sanitary ware, kitchen wares, and tap fittings from 76E, Jalan Tan Sri Teh Ewe Lim, Taman Koperasi Jelutong, 11600 Jelutong. SSM 199401042837 (328525-W). Established 1994.
+- `in:sent` to lotus_stamas@yahoo.com was empty before send. Not in existing `docs/*-services.html` drafts.
+- Thread: `1a032054aac4a59f`
+- Message: `1a032054aac4a59f`
+- Subject: Jelutong sanitary ware page
+- Ask: RM 500, one revision, page written from their published text. No Stripe link in the first mail.
+- Not 3PL. Did not mail Intergrated Freighters today. Did not poll Stripe.
+- Do not mail Lotus-Stamas again unless they reply.
+
+### Fair Trade Resources -- SENT 24 Aug 2026 12:26 MYT
+
+- To: qsbeh_ftp@yahoo.com (visible homepage email on https://www.tissue.com.my/). One inbox.
+- Source: live https://www.tissue.com.my/services/ HTTP 200 still shows Coming Soon (`min-height:440px`). Homepage lists tissue, hygiene products, and cleaning equipment from 18, Jalan Asa 8, Taman Asa Jaya, 43000 Kajang. SSM 200701018622 (776633-T).
+- `in:sent` to qsbeh_ftp@yahoo.com was empty before send. Not in existing `docs/*-services.html` drafts.
+- Thread: `1a032054d3b8ab31`
+- Message: `1a032054d3b8ab31`
+- Subject: Kajang hygiene products page
+- Ask: RM 500, one revision, page written from their published text. No Stripe link in the first mail.
+- Not 3PL. Did not mail Intergrated Freighters today. Did not poll Stripe.
+- Do not mail Fair Trade Resources again unless they reply.
+
+### Top Com Resources -- SENT 24 Aug 2026 12:26 MYT
+
+- To: enquiry@topcom.com.my (homepage mailto on https://www.topcom.com.my/). One inbox.
+- Source: live https://www.topcom.com.my/services/ HTTP 200 still shows Coming Soon (`min-height:440px`). Homepage lists fridge door rubber, wine-chiller door rubber, and commercial freezer seals from 50, Jalan Seroja 39, Taman Johor Jaya, 81100 Johor Bahru. SSM 202401018593 (1564442-W).
+- `in:sent` to enquiry@topcom.com.my was empty before send. Not in existing `docs/*-services.html` drafts.
+- Thread: `1a032054cbeefaca`
+- Message: `1a032054cbeefaca`
+- Subject: Johor Jaya fridge-seal page
+- Ask: RM 500, one revision, page written from their published text. No Stripe link in the first mail.
+- Not 3PL. Did not mail Intergrated Freighters today. Did not poll Stripe.
+- Do not mail Top Com Resources again unless they reply.
+
