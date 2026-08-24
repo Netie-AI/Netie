@@ -509,7 +509,9 @@ If a buyer expresses interest, use `docs/file-analysis-scope-template.md` before
 - Steven@kanhseei.com replied in-thread at 12:28 MYT: `Hi Jian Hong / Can I have your contact details / Steven`. CC: sara@, lokesh@, wong.sweeheng@kanhseei.com. Message `1a0320693b135d2d`.
 - Reply-all SENT 13:10 MYT. Message `1a0322db4f9851b4`. Thread still `1a03200b47b3aebe`. Label `Label_8`.
 - Gave WhatsApp/call `+60 16-556 8918` and this Gmail. Offered to send the services-page draft this afternoon from their published toroidal transformer, wire harness, and inductor text. RM 500, one revision. No Stripe link.
-- Do not mail sales@ or info@ (Singapore listings). Do not send a second new thread. Wait for Steven before sending the draft or a checkout link.
+- Draft SENT 14:05 MYT. Message `1a0325eba8bf9508`. Reply-all. Researched live homepage, products, and contact. Draft names JB address, toroidal/EI/current transformers to 3000VA, inductors, harness, fan assembly, and Steven's published numbers. Honored RM 500, one revision. One proof link: https://netie.ai/hire/. No Stripe. Did not raise the quoted price. Extra landing/chat/CI work offered only as a later written quote.
+- Professional files: `docs/proposals/kanhseei-teckh.md` and `docs/proposals/kanhseei-services-draft.html`.
+- Do not mail sales@ or info@ (Singapore listings). Do not send a second new thread. Do not send checkout until Steven confirms the draft.
 
 ### KST Star -- SENT 24 Aug 2026 12:21 MYT
 
