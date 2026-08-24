@@ -20,12 +20,20 @@
       "checkout_after_written_scope": "https://buy.stripe.com/dRm8wP3KKfoT9w0g5u9ws03"
     },
     {
-      "id": "one-page-website",
-      "name": "One-page business website",
-      "deliverable": "One responsive static HTML page from approved facts, plus one revision.",
-      "price": { "amount": 500, "currency": "MYR" },
-      "proof_url": "https://netie.ai/asa/",
-      "checkout": "https://buy.stripe.com/3cIcN54OO6SnaA4g5u9ws07"
+      "id": "website-landing",
+      "name": "Business website or landing page",
+      "deliverable": "A services or landing page from approved published facts. Band depends on how much copy, layout, and extra page or small chat is required.",
+      "price": { "min": 1000, "max": 5000, "currency": "MYR", "note": "quoted after looking at the live site" },
+      "scope_url": "https://netie.ai/hire/?scope=website#brief",
+      "proof_url": "https://netie.ai/asa/"
+    },
+    {
+      "id": "engineering-help",
+      "name": "CI, pull requests, and bugs",
+      "deliverable": "Read a failing GitHub Action, a pull request, or a scoped bug. Written triage, then an agreed patch if that is in the same job.",
+      "price": { "min": 1000, "max": 5000, "currency": "MYR", "note": "quoted after looking at the repo or workflow" },
+      "scope_url": "https://netie.ai/hire/?scope=engineering#brief",
+      "proof_url": "https://github.com/Netie-AI/CI-Doctor"
     },
     {
       "id": "company-file-search",

@@ -8,8 +8,10 @@ Canonical public pages:
 
 Offer and checkout links:
 - Internal operations system, RM 20,000 after a written scope: https://buy.stripe.com/6oU28rdlk4KffUo06w9ws09 (`prod_V7ZigLN74TMIC7` / `price_1U7KYnFV5wcFod2fn9hDMBek`). Send this only after the buyer accepts the scope.
-- One-page business website, RM 500: https://buy.stripe.com/3cIcN54OO6SnaA4g5u9ws07
+- Business website or landing page, RM 1,000 to RM 5,000 after looking at the live site. Scope: https://netie.ai/hire/?scope=website#brief. Do not send a Stripe link in the first website mail. Do not alter live Stripe products from outreach.
+- Honor-only: older threads that already quoted RM 500 for a one-page services rewrite may still use https://buy.stripe.com/3cIcN54OO6SnaA4g5u9ws07 after they confirm. Do not put this price on new first-mails or on the hire page.
 - File analysis + presentation, RM 1,500: request a written scope at https://netie.ai/hire/?scope=file-analysis#brief. Send Stripe checkout only after the scope is accepted (`prod_V7RdC64MzxgLHJ` / `price_1U7Ck9FV5wcFod2fTNu0EkOP`; buyer title: `Netie File Analysis + Presentation`).
+- CI, pull requests, and bugs, RM 1,000 to RM 5,000 after looking at the repo. Scope: https://netie.ai/hire/?scope=engineering#brief. Proof: https://github.com/Netie-AI/CI-Doctor (public CLI, not a hosted desk).
 - Company-file search with citations and process map / decision prototype: written quote after a non-sensitive brief.
 
 Stripe is live. Invoice is on. Card, GrabPay, or Link are available. This is not a subscription. FPX remains off until enabled in Stripe Dashboard. `payouts_enabled=true` as of 22 Aug 2026; business-model form remains past due.
@@ -29,7 +31,8 @@ Service-card proof mapping on `https://netie.ai/hire/`:
 - Company-file search: linked local invoice-extract workbench plus AIM public intake sample. Neither is a retrieval backend.
 - Process map and decision prototype: linked Constructor browser canvas with sample records. It has no live integration.
 - Internal operations system: linked synthetic operations-board prototype, not a claimed production system.
-- One-page website: linked ASA pre-order landing-page demo. It is an unreleased page-craft sample, not a customer case study or delivered client website.
+- One-page website: linked ASA pre-order landing-page demo, plus the homepage Suite chat UI. Unreleased page-craft samples, not a customer case study.
+- CI / PR / bugs: linked public CI-Doctor CLI. A triage tool, not a managed support product.
 - File analysis + presentation: linked reproducible source trace with synthetic data.
 
 Public mirrors:
@@ -62,10 +65,11 @@ WhatsApp one-liner: `docs/whatsapp-paste.txt`.
 ## What the buyer gets
 
 Internal operations system (RM 20,000 after scope): scoped schema, APIs, admin, and team screens for one defined workflow.
-Website (RM 500): one responsive HTML page from approved published facts. One revision.
+Website (RM 1,000 to RM 5,000 after looking at the site): one services or landing page from approved published facts. Extra page or small FAQ/chat at the top of the band. One revision. Honor RM 500 only where that price was already quoted.
 File analytics + presentation (RM 1,500): source map, findings, missing-data notes, and a short deck from agreed files. The public source-trace sample is a reproducible example of one per-figure evidence block, not an audit.
+CI, pull requests, and bugs (RM 1,000 to RM 5,000 after looking at the repo): written triage and an agreed patch. CI-Doctor is the public CLI used to read failed Actions logs.
 Company-file search with citations and process map / decision prototype: quoted after a non-sensitive brief.
-Public proof is the captioned Constructor, AIM, ASA, and Cassandra interface gallery on `netie.ai/hire/`, plus the downloadable synthetic source trace at `netie.ai/hire/trace/`.
+Public proof is the captioned Constructor, AIM professional-twin intake, ASA landing, Cassandra, and homepage Suite chat gallery on `netie.ai/hire/` and `netie.ai`, plus the downloadable synthetic source trace at `netie.ai/hire/trace/`.
 
 For an interested file-analysis buyer, use `docs/file-analysis-scope-template.md` before sending checkout. It requires a named decision question, named agreed files, written exclusions, and an agreed handoff for any sensitive material.
 

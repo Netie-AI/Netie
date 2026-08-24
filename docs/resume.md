@@ -56,6 +56,8 @@ Languages: English, Malay, Mandarin.
 ## Freelance offers that match this resume
 
 1. DBMS / operations system. RM 20,000. Scoped schema + admin.
-2. Website / AI landing from your copy. RM 500. HTML files. One revision.
+2. Website / landing from your published facts. RM 1,000 to RM 5,000 after looking at the live site. Honor RM 500 only where already quoted.
 3. File analytics + presentation. RM 1,500.
-4. PRD, RAG over files, LLM program, Constructor DAG, desktop agent. Quoted.
+4. CI, pull request, and scoped bug help. RM 1,000 to RM 5,000 after looking at the repo. Public tool: https://github.com/Netie-AI/CI-Doctor
+5. PRD, RAG over files, LLM program, Constructor DAG, desktop agent. Quoted.
+AirGPT is Jumpwin internal inference. Do not paste it as a Netie hire demo.

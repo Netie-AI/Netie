@@ -27,13 +27,13 @@ Public interfaces you can inspect before you buy
 - https://netie.ai/hire/trace/ - synthetic workbook plus local source trace; download it, run it, and see both a traced figure and an honest refusal
 - https://netie.ai/hire/ops/ - synthetic browser-only operations-board prototype; no API, login, customer data, integration, or production workflow
 - https://netie-ai.github.io/constructor/ - browser-based process canvas; it does not call a production backend
-- https://netie.ai/aim/ - file-intake interface sample, not a public retrieval backend
+- https://netie.ai/aim/ - AIM professional-twin intake (resume / chat export), not a live customer twin
 - https://netie.ai/asa/ - landing page with a form and checkout interaction for an unreleased pre-order
 - https://github.com/Netie-AI - public code and hardware/tooling work
 
 Packages
-- Basic: one landing page, files, one revision
-- Standard: landing page plus a scoped file-intake or process-prototype interface
+- Basic: one landing or services page from your published facts, files, one revision. Quoted RM 1,000 to RM 5,000 on the hire page after looking at the work.
+- Standard: landing page plus a scoped intake, FAQ/chat, or process-prototype interface
 
 Email: oojianhongg@gmail.com
 WhatsApp: +60 16-556 8918

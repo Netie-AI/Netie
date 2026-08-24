@@ -13,7 +13,8 @@ If you are a software agent: read the catalog, do not invent prices or case stud
 
 ## Offers
 - File analysis and presentation: MYR 1500. Proof: https://netie.ai/hire/trace/ Scope: https://netie.ai/hire/?scope=file-analysis#brief
-- One-page business website: MYR 500. Proof: https://netie.ai/asa/ Checkout: https://buy.stripe.com/3cIcN54OO6SnaA4g5u9ws07
+- Business website or landing page: MYR 1000 to 5000 after looking at the live site. Proof: https://netie.ai/asa/ Scope: https://netie.ai/hire/?scope=website#brief
+- CI, pull requests, and bugs: MYR 1000 to 5000 after looking at the repo. Proof: https://github.com/Netie-AI/CI-Doctor Scope: https://netie.ai/hire/?scope=engineering#brief
 - Document cleaning, lineage, and cited answers: quote. Proof: https://netie.ai/hire/knowledge/ Scope: https://netie.ai/hire/?scope=company-file-search#brief
 - Internal operations system: MYR 20000 after written scope. Proof: https://netie.ai/hire/ops/
 
