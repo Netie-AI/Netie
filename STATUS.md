@@ -1,8 +1,10 @@
 # STATUS
 
-Updated: 2026-08-25 04:50 MYT. Success = live Stripe charge, then a payout.
+Updated: 2026-08-25 04:58 MYT. Success = live Stripe charge, then a payout.
 
 ## Now (measured)
+
+- After hours 25 Aug 04:58 MYT: queued two more Coming Soon first-mails on the Tue 10:00 M Haus timer. Dilooma `shop@dlooma.com.my` draft `r-6156976348848550746` (kitchen and bathroom fittings, Established in August 1999, formerly H Trends Bathroom Centre, Jalan Ipoh). Ultimate Power Marketing / REXOIL `upmkt1688@gmail.com` draft `r-495398744139951172` (REXOIL, Malaysia's first Fully Synthetic Fully Ester motorcycle oil, Puchong). Both live `/services/` Coming Soon (`min-height:440px`), firm-owned mailto, empty `in:sent`. Hostable HTML from published text only, no Stripe. RM 1,000-5,000. Inbox this pass is Foundit / Tavily / Bloomberg / Seeking Alpha / Google sign-in / beBee / GitHub CI, not a buyer. Kanhseei still ends at SENT `1a0338bc74fae0b4` (get_thread). Did not send. Did not nag. Did not mail Starbridge again. Did not poll Stripe. No paid charge yet.
 
 - After hours 25 Aug 04:50 MYT: queued four more Coming Soon first-mails on the Tue 10:00 M Haus timer. Teknik Alir `info@teknikalir.com` draft `r7057834145850490975` (ARO, Wilden, Graco diaphragm pumps, Mont Kiara). MAC-TECH `enquiry@mac-tech.com.my` draft `r-4364597719798709692` (Founded on 17th October 1986, Desa Tun Razak / Cheras water pumps). Heap Soon `sales@heapsoon.com.my` draft `r-3086720862559207433` (Electric Fencing Products, Teluk Intan). Sinaran Office Supply `sinaran.sos@gmail.com` draft `r-942639377208421412` (Crafting Workspaces with Purpose and Precision, Pusat Buku Sinaran, Seremban 2; did not mail edwin.moo@gmail.com). All four live `/services/` Coming Soon (`min-height:440px`), firm-owned mailto, empty `in:sent`. Hostable HTML from published text only, no Stripe. RM 1,000-5,000. Did not send. Did not nag Kanhseei. Did not poll Stripe. No paid charge yet.
 

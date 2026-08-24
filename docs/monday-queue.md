@@ -1038,7 +1038,7 @@ Timer `netie-tue-afternoon-websites-2026-08-25-0940-myt` (`sub_e5ee26e9-1745-4c0
 
 ## Queued after the Tue 09:40 afternoon four-send (do not send before those four, and not after hours)
 
-Timer `netie-tue-mhaus-website-2026-08-25-1000-myt` (`sub_f962864b-a184-4019-ba40-66882e0e2211`, once, Tue 25 Aug 10:00 MYT). Send existing Gmail draft only after live `/services/` Coming Soon and empty `in:sent`. First extra: M Haus Furniture, then the Johor four, then Digno, Paperbaked, F.J. Machinery, HH Metal, Presti, SKH 88, Pro Tent, Hydro Air, WH Bespoke, Teknik Alir, MAC-TECH, Heap Soon, and Sinaran. Not an email-watch loop. No Stripe. One inbox. RM 1,000-5,000. Label `Label_8` after send. Do not Surge-publish until after SENT. If Kanhseei writes, answer first and honor RM 500. Do not poll Stripe (already done 25 Aug MYT). If the 09:00, 09:20, or 09:40 drafts are still DRAFT at 10:00, send those first after the same live checks. A sixth once-timer was refused (`invalid_argument`); extras share this timer.
+Timer `netie-tue-mhaus-website-2026-08-25-1000-myt` (`sub_43fbab3a-c9af-40e3-94ea-bb06f3145c34`, once, Tue 25 Aug 10:00 MYT). Send existing Gmail draft only after live `/services/` Coming Soon and empty `in:sent`. First extra: M Haus Furniture, then the Johor four, then Digno, Paperbaked, F.J. Machinery, HH Metal, Presti, SKH 88, Pro Tent, Hydro Air, WH Bespoke, Teknik Alir, MAC-TECH, Heap Soon, Sinaran, Dilooma, and REXOIL. Not an email-watch loop. No Stripe. One inbox. RM 1,000-5,000. Label `Label_8` after send. Do not Surge-publish until after SENT. If Kanhseei writes, answer first and honor RM 500. Do not poll Stripe (already done 25 Aug MYT). If the 09:00, 09:20, or 09:40 drafts are still DRAFT at 10:00, send those first after the same live checks. A sixth once-timer was refused (`invalid_argument`); extras share this timer.
 
 ### M Haus Furniture -- QUEUED draft 25 Aug 2026 01:13 MYT
 
@@ -1050,7 +1050,7 @@ Timer `netie-tue-mhaus-website-2026-08-25-1000-myt` (`sub_f962864b-a184-4019-ba4
 
 ## Queued on the same Tue 10:00 M Haus timer (do not send before 10:00, and not after hours)
 
-Same timer `netie-tue-mhaus-website-2026-08-25-1000-myt` (`sub_f962864b-a184-4019-ba40-66882e0e2211`). Send after M Haus if live `/services/` Coming Soon and empty `in:sent`. Four Johor extras: Brilliant Supplies, Top Creative Steel, Loh Cross Border, Jump Belly, then Digno, Paperbaked, F.J. Machinery, HH Metal, Presti, SKH 88, Pro Tent, Hydro Air, WH Bespoke, Teknik Alir, MAC-TECH, Heap Soon, and Sinaran. Not an email-watch loop. No Stripe. One inbox. RM 1,000-5,000. Label `Label_8` after send. Do not Surge-publish until after SENT. If Kanhseei writes, answer first and honor RM 500. Do not poll Stripe (already done 25 Aug MYT). Loh is a private-car page, not a Thursday 3PL follow-up. Do not mail Brilliant Melaka `stoneshopmelaka@gmail.com`. A separate 10:20 timer was refused (`invalid_argument`, likely a five-timer cap).
+Same timer `netie-tue-mhaus-website-2026-08-25-1000-myt` (`sub_43fbab3a-c9af-40e3-94ea-bb06f3145c34`). Send after M Haus if live `/services/` Coming Soon and empty `in:sent`. Four Johor extras: Brilliant Supplies, Top Creative Steel, Loh Cross Border, Jump Belly, then Digno, Paperbaked, F.J. Machinery, HH Metal, Presti, SKH 88, Pro Tent, Hydro Air, WH Bespoke, Teknik Alir, MAC-TECH, Heap Soon, Sinaran, Dilooma, and REXOIL. Not an email-watch loop. No Stripe. One inbox. RM 1,000-5,000. Label `Label_8` after send. Do not Surge-publish until after SENT. If Kanhseei writes, answer first and honor RM 500. Do not poll Stripe (already done 25 Aug MYT). Loh is a private-car page, not a Thursday 3PL follow-up. Do not mail Brilliant Melaka `stoneshopmelaka@gmail.com`. A separate 10:20 timer was refused (`invalid_argument`, likely a five-timer cap).
 
 ### Brilliant Supplies -- QUEUED draft 25 Aug 2026 01:27 MYT
 
@@ -1185,5 +1185,21 @@ Same timer `netie-tue-mhaus-website-2026-08-25-1000-myt` (`sub_f962864b-a184-401
 - Draft: `r-942639377208421412`. Thread: `1a0357eb46daf2a9`. Subject: Seremban 2 office page.
 - File: `docs/proposals/sinaran-office-supply.md`. Hostable draft: `docs/proposals/sinaran-office-supply-services.html`.
 - Website-page offer, RM 1,000-5,000. No Stripe. Send on the same Tue 10:00 timer after Heap Soon.
-- Skipped this pass: UKAI still JSON-LD / Cloudflare-obfuscated contact, not a visible mailto. GWG Manufacturing already SENT 22 Aug. KA Bina already SENT. KDSOFT NXDOMAIN. SY Metal NXDOMAIN. ESTAR/bubblewrap `/services/` filled. JSON-LD-only still skip. myofficesupply.com.my mailto is info@tetrix.com.my (domain mismatch). Dilooma and Ultimate Power / REXOIL are valid Coming Soon hits, not queued yet. Do not send before 09:00 MYT.
+
+### Dilooma Sdn Bhd -- QUEUED draft 25 Aug 2026 04:58 MYT
+
+- To: shop@dlooma.com.my (homepage and `/contactus/` mailto on https://www.dlooma.com.my/). One inbox.
+- Source: live https://www.dlooma.com.my/services/ HTTP 200 still Coming Soon (`min-height:440px`). Homepage lists kitchen, bathroom, household, and laundry fittings, Established in August 1999, and formerly H Trends Bathroom Centre Sdn Bhd from 238 & 240, Batu 2, Jalan Sultan Azlan Shah, Jalan Ipoh, 51200 Kuala Lumpur. SSM 199901017553 (492453-X).
+- Draft: `r-6156976348848550746`. Thread: `1a03595f9b932f6b`. Subject: Jalan Ipoh kitchen-bath page.
+- File: `docs/proposals/dilooma.md`. Hostable draft: `docs/proposals/dilooma-services.html`.
+- Website-page offer, RM 1,000-5,000. No Stripe. Send on the same Tue 10:00 timer after Sinaran.
+
+### Ultimate Power Marketing (REXOIL) -- QUEUED draft 25 Aug 2026 04:58 MYT
+
+- To: upmkt1688@gmail.com (homepage and `/contactus/` mailto on https://www.rexoil.com.my/). One inbox.
+- Source: live https://www.rexoil.com.my/services/ HTTP 200 still Coming Soon (`min-height:440px`). Homepage lists REXOIL and Malaysia's first Fully Synthetic Fully Ester motorcycle oil from 3-CG, Lingkaran Dagang Mas, Taman Mas, 47130 Puchong. SSM 202203143285 (MA0286479-M).
+- Draft: `r-495398744139951172`. Thread: `1a03595fb83f78b6`. Subject: Puchong motorcycle-oil page.
+- File: `docs/proposals/rexoil.md`. Hostable draft: `docs/proposals/rexoil-services.html`.
+- Website-page offer, RM 1,000-5,000. No Stripe. Send on the same Tue 10:00 timer after Dilooma.
+- Skipped this pass: UKAI still JSON-LD / Cloudflare-obfuscated contact, not a visible mailto. GWG Manufacturing already SENT 22 Aug. KA Bina already SENT. KDSOFT NXDOMAIN. SY Metal NXDOMAIN. ESTAR/bubblewrap `/services/` filled. JSON-LD-only still skip. myofficesupply.com.my mailto is info@tetrix.com.my (domain mismatch). Boom lift `/services/` is not Coming Soon. Do not send before 09:00 MYT.
 
