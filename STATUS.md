@@ -1,9 +1,10 @@
 # STATUS
 
-Updated: 2026-08-24 23:45 MYT. Success = live Stripe charge, then a payout.
+Updated: 2026-08-25 00:06 MYT. Success = live Stripe charge, then a payout.
 
 ## Now (measured)
 
+- After hours 25 Aug 00:06 MYT: canonical https://netie.ai/llms.txt was still the 23 Aug RM 500 file with `buy.stripe.com`. File Manager overwrote true-root `/llms.txt` from `docs/root-llms.txt`. Live HTTP 200, 1949 bytes, last-modified 16:02 GMT, sha256 matches git. Website line is now MYR 1000-5000 after looking, no Stripe. Homepage, `/hire/`, and `/page/` pointer unchanged. No new buyer mail. No paid charge yet.
 - After hours 24 Aug 23:45 MYT: GitHub org blog https://netie.ai/page was a 775-byte JS stub. File Manager uploaded `docs/page/index.html` to `/page/index.html` (last-modified 15:42 GMT). Live https://netie.ai/page/ HTTP 200, 518 bytes, sha256 matches source, meta-refresh to https://netie.ai/hire/. Homepage still HTTP 200 and does not 302 to `/hire/`. Hire still 53810 bytes. Did not change DNS. Did not overwrite `/` or `/hire/`. No new buyer mail. No paid charge yet.
 - After hours 24 Aug 23:38 MYT: no new Huawei / Avows / Kanhseei / Stripe mail. Truelancer listing still pending moderator approval, 0 sold (browser). GitHub org `blog` is https://netie.ai/page (JS stub, not hire); this token cannot PATCH org/repo homepage (403). Added repo `README.md` pointing at https://netie.ai/hire/. Tuesday timer still set. Did not buy PPH. Did not send first-mails. No paid charge yet.
 - After hours 24 Aug 23:05 MYT: PeoplePerHour accepted the profile changes (mail `1a03446c89f38b89`, 22:57 MYT, "Your Profile has been accepted"). SEND PROPOSAL still does not open a form. Exact wall: `Your application is currently under review` plus dashboard `choose a payment option on the next page`. Did not buy the £11.95 plan. Twine session cookies 403; last readable inbox dump was empty and `application_credits=0`. Freelancer.com login still reCAPTCHA-blocked. Bluesky password in this VM is rejected; did not reset. Kanhseei unchanged. Did not nag. Did not send first-mails. No paid charge yet.
