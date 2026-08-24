@@ -1,9 +1,10 @@
 # STATUS
 
-Updated: 2026-08-24 23:38 MYT. Success = live Stripe charge, then a payout.
+Updated: 2026-08-24 23:45 MYT. Success = live Stripe charge, then a payout.
 
 ## Now (measured)
 
+- After hours 24 Aug 23:45 MYT: GitHub org blog https://netie.ai/page was a 775-byte JS stub. File Manager uploaded `docs/page/index.html` to `/page/index.html` (last-modified 15:42 GMT). Live https://netie.ai/page/ HTTP 200, 518 bytes, sha256 matches source, meta-refresh to https://netie.ai/hire/. Homepage still HTTP 200 and does not 302 to `/hire/`. Hire still 53810 bytes. Did not change DNS. Did not overwrite `/` or `/hire/`. No new buyer mail. No paid charge yet.
 - After hours 24 Aug 23:38 MYT: no new Huawei / Avows / Kanhseei / Stripe mail. Truelancer listing still pending moderator approval, 0 sold (browser). GitHub org `blog` is https://netie.ai/page (JS stub, not hire); this token cannot PATCH org/repo homepage (403). Added repo `README.md` pointing at https://netie.ai/hire/. Tuesday timer still set. Did not buy PPH. Did not send first-mails. No paid charge yet.
 - After hours 24 Aug 23:05 MYT: PeoplePerHour accepted the profile changes (mail `1a03446c89f38b89`, 22:57 MYT, "Your Profile has been accepted"). SEND PROPOSAL still does not open a form. Exact wall: `Your application is currently under review` plus dashboard `choose a payment option on the next page`. Did not buy the £11.95 plan. Twine session cookies 403; last readable inbox dump was empty and `application_credits=0`. Freelancer.com login still reCAPTCHA-blocked. Bluesky password in this VM is rejected; did not reset. Kanhseei unchanged. Did not nag. Did not send first-mails. No paid charge yet.
 - After hours 24 Aug 22:48 MYT: PeoplePerHour mailed `info@peopleperhour.com` thread `1a03435ff3b35224` asking to remove website URLs from About me so the profile can be accepted. Saved URL-free About on the free edit form: `Jian Hong, Penang. I build hand-coded landing pages from approved copy, Excel source maps, and scoped Python or CI work.` Save banner: updates public once moderation approves. Did not buy a plan. SEND PROPOSAL on a landing-page project still shows `Your application is currently under review` / wait for freelancer application approval. No proposal form. No paid charge yet. Kanhseei thread still ends at our 19:33 MYT clarification. Did not nag. Did not send first-mails.
