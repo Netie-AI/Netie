@@ -319,5 +319,17 @@ If a buyer expresses interest, use `docs/file-analysis-scope-template.md` before
 - Ask: RM 500, one revision, page written from their published text. No Stripe link in the first mail.
 - Not 3PL. Did not mail Intergrated Freighters today. Did not poll Stripe.
 - Do not mail Wonderful Landscape again unless they reply.
-- Held unused this pass (Coming Soon still live, not mailed): CF Trading & Engineering `sales@cf-traengineering.com.my`. Did not mail Kinoro `sales@kinoroengineering.com.my` (same firm already mailed 22 Aug at kinoroengineering@yahoo.com).
+
+### CF Trading & Engineering -- SENT 24 Aug 2026 11:02 MYT
+
+- To: sales@cf-traengineering.com.my (homepage mailto on https://www.cf-traengineering.com.my/). One inbox.
+- Source: live https://www.cf-traengineering.com.my/services/ HTTP 200 still shows Coming Soon. Homepage lists rubber fenders, quick release hooks, bollards, UHMW PE pads, and chain accessories for docking and mooring from Johor Bahru. SSM 201803230887 (JM0871159-H).
+- `in:sent` to sales@cf-traengineering.com.my was empty before send. Not in existing `docs/*-services.html` drafts.
+- Thread: `1a031b796c7856af`
+- Message: `1a031b796c7856af`
+- Subject: JB marine equipment page
+- Ask: RM 500, one revision, page written from their published text. No Stripe link in the first mail.
+- Not 3PL. Did not mail Intergrated Freighters today. Did not poll Stripe.
+- Do not mail CF Trading again unless they reply.
+- Did not mail Kinoro `sales@kinoroengineering.com.my` (same firm already mailed 22 Aug at kinoroengineering@yahoo.com).
 
