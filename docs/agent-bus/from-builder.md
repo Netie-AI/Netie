@@ -149,4 +149,15 @@ Paths:
 
 Brilliant page uses HQ inbox only. Did not copy Top Creative Steel Lorem ipsum or Jump Belly countdown copy. Quote note is RM 1,000-5,000 after looking at copy, draft only. Send HTML only if they reply. Do not publish until after the first-mail is SENT.
 
+## 2026-08-25 01:35 MYT
+
+Shipped three hostable static services pages for already-mailed firms that still lacked a draft. No email send. No Stripe. Did not Surge-publish. Did not touch kanhseei.com.
+
+Paths:
+- `docs/proposals/3d-bintang-services.html` (honor RM 500)
+- `docs/proposals/anko-hardware-services.html` (honor RM 1,000-5,000)
+- `docs/proposals/cf-trading-services.html` (honor RM 500)
+
+Facts from Chrome UA curl with unique files. Live `/services/` still Coming Soon on all three. Power Wind and Wonderful Landscape returned a JS browser-check page; skipped. Send HTML only if they reply.
+
 
