@@ -1038,7 +1038,7 @@ Timer `netie-tue-afternoon-websites-2026-08-25-0940-myt` (`sub_e5ee26e9-1745-4c0
 
 ## Queued after the Tue 09:40 afternoon four-send (do not send before those four, and not after hours)
 
-Timer `netie-tue-mhaus-website-2026-08-25-1000-myt` (`sub_31a6ce3e-ec81-4ca2-a279-27f223fb1d81`, once, Tue 25 Aug 10:00 MYT). Send existing Gmail draft only after live `/services/` Coming Soon and empty `in:sent`. First extra: M Haus Furniture, then the Johor four, then Digno and Paperbaked. Not an email-watch loop. No Stripe. One inbox. RM 1,000-5,000. Label `Label_8` after send. Do not Surge-publish until after SENT. If Kanhseei writes, answer first and honor RM 500. Do not poll Stripe (already done 25 Aug MYT). If the 09:00, 09:20, or 09:40 drafts are still DRAFT at 10:00, send those first after the same live checks. A sixth once-timer was refused (`invalid_argument`); extras share this timer.
+Timer `netie-tue-mhaus-website-2026-08-25-1000-myt` (`sub_b5844efa-ffa9-4021-8c9f-4b7c0f513306`, once, Tue 25 Aug 10:00 MYT). Send existing Gmail draft only after live `/services/` Coming Soon and empty `in:sent`. First extra: M Haus Furniture, then the Johor four, then Digno, Paperbaked, F.J. Machinery, HH Metal, and Presti. Not an email-watch loop. No Stripe. One inbox. RM 1,000-5,000. Label `Label_8` after send. Do not Surge-publish until after SENT. If Kanhseei writes, answer first and honor RM 500. Do not poll Stripe (already done 25 Aug MYT). If the 09:00, 09:20, or 09:40 drafts are still DRAFT at 10:00, send those first after the same live checks. A sixth once-timer was refused (`invalid_argument`); extras share this timer.
 
 ### M Haus Furniture -- QUEUED draft 25 Aug 2026 01:13 MYT
 
@@ -1050,7 +1050,7 @@ Timer `netie-tue-mhaus-website-2026-08-25-1000-myt` (`sub_31a6ce3e-ec81-4ca2-a27
 
 ## Queued on the same Tue 10:00 M Haus timer (do not send before 10:00, and not after hours)
 
-Same timer `netie-tue-mhaus-website-2026-08-25-1000-myt` (`sub_31a6ce3e-ec81-4ca2-a279-27f223fb1d81`). Send after M Haus if live `/services/` Coming Soon and empty `in:sent`. Four Johor extras: Brilliant Supplies, Top Creative Steel, Loh Cross Border, Jump Belly, then Digno and Paperbaked. Not an email-watch loop. No Stripe. One inbox. RM 1,000-5,000. Label `Label_8` after send. Do not Surge-publish until after SENT. If Kanhseei writes, answer first and honor RM 500. Do not poll Stripe (already done 25 Aug MYT). Loh is a private-car page, not a Thursday 3PL follow-up. Do not mail Brilliant Melaka `stoneshopmelaka@gmail.com`. A separate 10:20 timer was refused (`invalid_argument`, likely a five-timer cap).
+Same timer `netie-tue-mhaus-website-2026-08-25-1000-myt` (`sub_b5844efa-ffa9-4021-8c9f-4b7c0f513306`). Send after M Haus if live `/services/` Coming Soon and empty `in:sent`. Four Johor extras: Brilliant Supplies, Top Creative Steel, Loh Cross Border, Jump Belly, then Digno, Paperbaked, F.J. Machinery, HH Metal, and Presti. Not an email-watch loop. No Stripe. One inbox. RM 1,000-5,000. Label `Label_8` after send. Do not Surge-publish until after SENT. If Kanhseei writes, answer first and honor RM 500. Do not poll Stripe (already done 25 Aug MYT). Loh is a private-car page, not a Thursday 3PL follow-up. Do not mail Brilliant Melaka `stoneshopmelaka@gmail.com`. A separate 10:20 timer was refused (`invalid_argument`, likely a five-timer cap).
 
 ### Brilliant Supplies -- QUEUED draft 25 Aug 2026 01:27 MYT
 
@@ -1097,5 +1097,29 @@ Same timer `netie-tue-mhaus-website-2026-08-25-1000-myt` (`sub_31a6ce3e-ec81-4ca
 - Draft: `r6118493077971778942`. Thread: `1a03559a14483146`. Subject: Adda Heights cake page.
 - File: `docs/proposals/paperbaked.md`. Hostable draft: `docs/proposals/paperbaked-services.html`.
 - Website copy from published cake names. RM 1,000-5,000. No Stripe. Send on the same Tue 10:00 timer after Digno.
+
+### F.J. Machinery Sdn Bhd -- QUEUED draft 25 Aug 2026 04:11 MYT
+
+- To: sales@fjmachinery.com.my (homepage and `/contactus/` mailto on https://www.fjmachinery.com.my/). One inbox.
+- Source: live https://www.fjmachinery.com.my/services/ HTTP 200 still Coming Soon (`min-height:440px`). Homepage lists lorry engine parts and MAHLE IZUMI - NISSAN TD27 / TD42 - NDPS5D0000 from 7F, Jalan 1/57D, Off Jalan Segambut, 51200 Kuala Lumpur. 10 branches. Malaysia and Brunei. SSM 199501012084 (341286-T).
+- Draft: `r3086863431245642762`. Thread: `1a03560d2cfd752c`. Subject: Segambut engine-parts page.
+- File: `docs/proposals/fj-machinery.md`. Hostable draft: `docs/proposals/fj-machinery-services.html`.
+- Website-page offer, RM 1,000-5,000. No Stripe. Send on the Tue 10:00 M Haus timer after Paperbaked.
+
+### HH Metal Sdn Bhd -- QUEUED draft 25 Aug 2026 04:11 MYT
+
+- To: sales@hhmetaljb.com (homepage and `/contactus/` mailto on https://www.hhmetaljb.com/). One inbox.
+- Source: live https://www.hhmetaljb.com/services/ HTTP 200 still Coming Soon (`min-height:440px`). Homepage lists marine valves and Butterfly global gate angle valve from 114, Jalan Rosmerah 2/17, Taman Johor Jaya, 81100 Johor Bahru. Material:- FC,CS,BS SUS 304&316. No SSM printed on contact; do not invent one.
+- Draft: `r-4698492612897208360`. Thread: `1a03560d394c73e5`. Subject: Johor Jaya marine page.
+- File: `docs/proposals/hh-metal.md`. Hostable draft: `docs/proposals/hh-metal-services.html`.
+- Website-page offer, RM 1,000-5,000. No Stripe. Send on the same Tue 10:00 timer after F.J. Machinery.
+
+### PRESTI MACHINERY & SERVICES (M) SDN BHD -- QUEUED draft 25 Aug 2026 04:11 MYT
+
+- To: prestimachinery@gmail.com (homepage and `/contactus/` mailto on https://www.prestimachinery.com/). One inbox.
+- Source: live https://www.prestimachinery.com/services/ HTTP 200 still Coming Soon (`min-height:440px`). Homepage lists press machines and YADON – Powered by Schuler Technology from 83B, JALAN RENGAS, SOUTHERN PARK, 41200 KLANG. Knuckle Precision Press. HUZHOU hydraulic. SSM 202301047096 (1541010-A). Established 2020.
+- Draft: `r-7500208116724969242`. Thread: `1a03560d597ac234`. Subject: Klang press-machine page.
+- File: `docs/proposals/presti-machinery.md`. Hostable draft: `docs/proposals/presti-machinery-services.html`.
+- Website-page offer, RM 1,000-5,000. No Stripe. Send on the same Tue 10:00 timer after HH Metal.
 - Skipped this pass: UKAI still JSON-LD / Cloudflare-obfuscated contact, not a visible mailto. GWG Manufacturing already SENT 22 Aug. KA Bina already SENT. KDSOFT NXDOMAIN. SY Metal NXDOMAIN. Do not send before 09:00 MYT.
 

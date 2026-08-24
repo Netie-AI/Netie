@@ -4,6 +4,7 @@ This index records reusable findings from focused subagent reviews.
 
 | File | Keywords | Main idea |
 |---|---|---|
+| [2026-08-25-fj-hh-presti-queue.md](2026-08-25-fj-hh-presti-queue.md) | F.J. Machinery, HH Metal, Presti, Coming Soon mailto, Segambut, Johor Jaya, Klang | Three more unmailed Coming Soon drafts on the Tue 10:00 timer. MAHLE IZUMI TD27 / Butterfly valve / YADON Schuler. HH has no printed SSM. |
 | [2026-08-25-digno-paperbaked-queue.md](2026-08-25-digno-paperbaked-queue.md) | Digno, Paperbaked, Coming Soon mailto, Seremban, Adda Heights | Two more unmailed Coming Soon drafts on the Tue 10:00 timer. Tempered shower screens / 温柔系蝴蝶兰蛋糕. |
 | [2026-08-25-wonderful-powerwind-oryx-html.md](2026-08-25-wonderful-powerwind-oryx-html.md) | Wonderful Landscape, Power Wind, Oryx Plastic | Reply-ready HTML. Honor RM 500. 1703-byte check then later real dump. Water Features / air dyer / Acuan Puding Mini. |
 | [2026-08-25-chang-leong-dimtech-html.md](2026-08-25-chang-leong-dimtech-html.md) | Chang, Leong, Johan, DIMTECH, LT Megamas | Reply-ready HTML. Honor RM 500. KUBAH / Fiberglass tape / SOLID 30V. Johan WAF then readable dump. |
