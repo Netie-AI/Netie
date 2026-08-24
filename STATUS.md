@@ -1,8 +1,10 @@
 # STATUS
 
-Updated: 2026-08-25 04:58 MYT. Success = live Stripe charge, then a payout.
+Updated: 2026-08-25 05:21 MYT. Success = live Stripe charge, then a payout.
 
 ## Now (measured)
+
+- After hours 25 Aug 05:21 MYT: queued four more Coming Soon first-mails on the Tue 10:00 M Haus timer. KenHai `kenhai666@gmail.com` draft `r2522677085844228373` (sand and aggregates, Founded in 1992, formerly Ulika Transport, Kulai). Little Hana Florist `littlehanaflorist@gmail.com` draft `r4516075780908128897` (wedding floristry, Handmade Crochet, Let Flowers Speak for You, Ipoh). Paint Master DIY `paintmasterdiy18@gmail.com` draft `r-4871945950633443678` (paints and hardware, Founded in 2012, Dulux Jotun Nippon Paint Bosch, Shah Alam). Kossen Industries Supplies `kossenindustries@gmail.com` draft `r3372230658570210417` (industrial gloves, Hyprez Diamond Compound, established 1996, Klang; did not mail aplabrasive1@ or kossen89@). All four live `/services/` Coming Soon (`min-height:440px`), firm-owned mailto, empty `in:sent`. Hostable HTML from published text only, no Stripe. RM 1,000-5,000. Parallel NEWPAGES curls returned HTTP 000; sequential unique-file curls worked. Inbox this pass is Devpost / Foundit / Tavily / Bloomberg / Seeking Alpha / Google sign-in, not a buyer. Kanhseei still ends at SENT `1a0338bc74fae0b4` (get_thread). Did not send. Did not nag. Did not mail Starbridge again. Did not poll Stripe. No paid charge yet.
 
 - After hours 25 Aug 04:58 MYT: queued two more Coming Soon first-mails on the Tue 10:00 M Haus timer. Dilooma `shop@dlooma.com.my` draft `r-6156976348848550746` (kitchen and bathroom fittings, Established in August 1999, formerly H Trends Bathroom Centre, Jalan Ipoh). Ultimate Power Marketing / REXOIL `upmkt1688@gmail.com` draft `r-495398744139951172` (REXOIL, Malaysia's first Fully Synthetic Fully Ester motorcycle oil, Puchong). Both live `/services/` Coming Soon (`min-height:440px`), firm-owned mailto, empty `in:sent`. Hostable HTML from published text only, no Stripe. RM 1,000-5,000. Inbox this pass is Foundit / Tavily / Bloomberg / Seeking Alpha / Google sign-in / beBee / GitHub CI, not a buyer. Kanhseei still ends at SENT `1a0338bc74fae0b4` (get_thread). Did not send. Did not nag. Did not mail Starbridge again. Did not poll Stripe. No paid charge yet.
 

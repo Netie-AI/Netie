@@ -1038,7 +1038,7 @@ Timer `netie-tue-afternoon-websites-2026-08-25-0940-myt` (`sub_e5ee26e9-1745-4c0
 
 ## Queued after the Tue 09:40 afternoon four-send (do not send before those four, and not after hours)
 
-Timer `netie-tue-mhaus-website-2026-08-25-1000-myt` (`sub_43fbab3a-c9af-40e3-94ea-bb06f3145c34`, once, Tue 25 Aug 10:00 MYT). Send existing Gmail draft only after live `/services/` Coming Soon and empty `in:sent`. First extra: M Haus Furniture, then the Johor four, then Digno, Paperbaked, F.J. Machinery, HH Metal, Presti, SKH 88, Pro Tent, Hydro Air, WH Bespoke, Teknik Alir, MAC-TECH, Heap Soon, Sinaran, Dilooma, and REXOIL. Not an email-watch loop. No Stripe. One inbox. RM 1,000-5,000. Label `Label_8` after send. Do not Surge-publish until after SENT. If Kanhseei writes, answer first and honor RM 500. Do not poll Stripe (already done 25 Aug MYT). If the 09:00, 09:20, or 09:40 drafts are still DRAFT at 10:00, send those first after the same live checks. A sixth once-timer was refused (`invalid_argument`); extras share this timer.
+Timer `netie-tue-mhaus-website-2026-08-25-1000-myt` (`sub_4b45bb99-cf99-44d1-bad2-5137ae0a11c5`, once, Tue 25 Aug 10:00 MYT). Send existing Gmail draft only after live `/services/` Coming Soon and empty `in:sent`. First extra: M Haus Furniture, then the Johor four, then Digno, Paperbaked, F.J. Machinery, HH Metal, Presti, SKH 88, Pro Tent, Hydro Air, WH Bespoke, Teknik Alir, MAC-TECH, Heap Soon, Sinaran, Dilooma, REXOIL, KenHai, Little Hana Florist, Paint Master DIY, and Kossen. Not an email-watch loop. No Stripe. One inbox. RM 1,000-5,000. Label `Label_8` after send. Do not Surge-publish until after SENT. If Kanhseei writes, answer first and honor RM 500. Do not poll Stripe (already done 25 Aug MYT). If the 09:00, 09:20, or 09:40 drafts are still DRAFT at 10:00, send those first after the same live checks. A sixth once-timer was refused (`invalid_argument`); extras share this timer.
 
 ### M Haus Furniture -- QUEUED draft 25 Aug 2026 01:13 MYT
 
@@ -1050,7 +1050,7 @@ Timer `netie-tue-mhaus-website-2026-08-25-1000-myt` (`sub_43fbab3a-c9af-40e3-94e
 
 ## Queued on the same Tue 10:00 M Haus timer (do not send before 10:00, and not after hours)
 
-Same timer `netie-tue-mhaus-website-2026-08-25-1000-myt` (`sub_43fbab3a-c9af-40e3-94ea-bb06f3145c34`). Send after M Haus if live `/services/` Coming Soon and empty `in:sent`. Four Johor extras: Brilliant Supplies, Top Creative Steel, Loh Cross Border, Jump Belly, then Digno, Paperbaked, F.J. Machinery, HH Metal, Presti, SKH 88, Pro Tent, Hydro Air, WH Bespoke, Teknik Alir, MAC-TECH, Heap Soon, Sinaran, Dilooma, and REXOIL. Not an email-watch loop. No Stripe. One inbox. RM 1,000-5,000. Label `Label_8` after send. Do not Surge-publish until after SENT. If Kanhseei writes, answer first and honor RM 500. Do not poll Stripe (already done 25 Aug MYT). Loh is a private-car page, not a Thursday 3PL follow-up. Do not mail Brilliant Melaka `stoneshopmelaka@gmail.com`. A separate 10:20 timer was refused (`invalid_argument`, likely a five-timer cap).
+Same timer `netie-tue-mhaus-website-2026-08-25-1000-myt` (`sub_4b45bb99-cf99-44d1-bad2-5137ae0a11c5`). Send after M Haus if live `/services/` Coming Soon and empty `in:sent`. Four Johor extras: Brilliant Supplies, Top Creative Steel, Loh Cross Border, Jump Belly, then Digno, Paperbaked, F.J. Machinery, HH Metal, Presti, SKH 88, Pro Tent, Hydro Air, WH Bespoke, Teknik Alir, MAC-TECH, Heap Soon, Sinaran, Dilooma, REXOIL, KenHai, Little Hana Florist, Paint Master DIY, and Kossen. Not an email-watch loop. No Stripe. One inbox. RM 1,000-5,000. Label `Label_8` after send. Do not Surge-publish until after SENT. If Kanhseei writes, answer first and honor RM 500. Do not poll Stripe (already done 25 Aug MYT). Loh is a private-car page, not a Thursday 3PL follow-up. Do not mail Brilliant Melaka `stoneshopmelaka@gmail.com`. A separate 10:20 timer was refused (`invalid_argument`, likely a five-timer cap).
 
 ### Brilliant Supplies -- QUEUED draft 25 Aug 2026 01:27 MYT
 
@@ -1201,5 +1201,37 @@ Same timer `netie-tue-mhaus-website-2026-08-25-1000-myt` (`sub_43fbab3a-c9af-40e
 - Draft: `r-495398744139951172`. Thread: `1a03595fb83f78b6`. Subject: Puchong motorcycle-oil page.
 - File: `docs/proposals/rexoil.md`. Hostable draft: `docs/proposals/rexoil-services.html`.
 - Website-page offer, RM 1,000-5,000. No Stripe. Send on the same Tue 10:00 timer after Dilooma.
-- Skipped this pass: UKAI still JSON-LD / Cloudflare-obfuscated contact, not a visible mailto. GWG Manufacturing already SENT 22 Aug. KA Bina already SENT. KDSOFT NXDOMAIN. SY Metal NXDOMAIN. ESTAR/bubblewrap `/services/` filled. JSON-LD-only still skip. myofficesupply.com.my mailto is info@tetrix.com.my (domain mismatch). Boom lift `/services/` is not Coming Soon. Do not send before 09:00 MYT.
+
+### KenHai Sdn Bhd -- QUEUED draft 25 Aug 2026 05:21 MYT
+
+- To: kenhai666@gmail.com (homepage and `/contactus/` mailto on https://www.kenhai.com.my/). One inbox.
+- Source: live https://www.kenhai.com.my/services/ HTTP 200 still Coming Soon (`min-height:440px`). Homepage lists sand, aggregates, building materials, and cargo transportation, Founded in 1992, and formerly Ulika Transport Sdn Bhd from 1695A, Jalan Sri Putri 4/1, Taman Putri Kulai, 81100 Kulaijaya, Johor. Contact also prints a Kulai branch at PTD 59654, Jalan Permai 4, Taman Permai, 81000 Kulai. SSM 587418-W.
+- Draft: `r2522677085844228373`. Thread: `1a035a61e0a810af`. Subject: Kulai sand-aggregate page.
+- File: `docs/proposals/kenhai.md`. Hostable draft: `docs/proposals/kenhai-services.html`.
+- Website-page offer, RM 1,000-5,000. No Stripe. Send on the same Tue 10:00 timer after REXOIL.
+
+### Little Hana Florist -- QUEUED draft 25 Aug 2026 05:21 MYT
+
+- To: littlehanaflorist@gmail.com (homepage and `/contactus/` mailto on https://www.littlehanaflorist.com.my/). One inbox.
+- Source: live https://www.littlehanaflorist.com.my/services/ HTTP 200 still Coming Soon (`min-height:440px`). Homepage lists wedding floristry, Handmade Crochet, and Let Flowers Speak for You from 76, Laluan Perajurit 1, Taman Ipoh Timur, 31400 Ipoh, Perak. SSM 201903305587 (IP0531445-U).
+- Draft: `r4516075780908128897`. Thread: `1a035a621962ceda`. Subject: Ipoh wedding-flower page.
+- File: `docs/proposals/little-hana-florist.md`. Hostable draft: `docs/proposals/little-hana-florist-services.html`.
+- Website-page offer, RM 1,000-5,000. No Stripe. Send on the same Tue 10:00 timer after KenHai.
+
+### Paint Master DIY -- QUEUED draft 25 Aug 2026 05:21 MYT
+
+- To: paintmasterdiy18@gmail.com (homepage and `/contactus/` mailto on https://www.paintmasterdiy.com.my/). One inbox.
+- Source: live https://www.paintmasterdiy.com.my/services/ HTTP 200 still Coming Soon (`min-height:440px`). Homepage lists paints, hardware, power tools, and construction materials, Founded in 2012, and Dulux, Jotun, Nippon Paint and Bosch from 21 & 23, Pusat Perdagangan Suri Puteri, Persiaran Jubli Perak Seksyen 20, 40300 Shah Alam, Selangor. SSM 201203141443 (SA0225436-V).
+- Draft: `r-4871945950633443678`. Thread: `1a035a6203a7aab0`. Subject: Shah Alam paint-hardware page.
+- File: `docs/proposals/paint-master-diy.md`. Hostable draft: `docs/proposals/paint-master-diy-services.html`.
+- Website-page offer, RM 1,000-5,000. No Stripe. Send on the same Tue 10:00 timer after Little Hana Florist.
+
+### Kossen Industries Supplies Sdn. Bhd. -- QUEUED draft 25 Aug 2026 05:21 MYT
+
+- To: kossenindustries@gmail.com (homepage header mailto on https://www.kossenglove.com.my/). One inbox. Do not mail aplabrasive1@gmail.com or kossen89@hotmail.com.
+- Source: live https://www.kossenglove.com.my/services/ HTTP 200 still Coming Soon (`min-height:440px`). Homepage lists industrial gloves, Hyprez Diamond Compound, stretch film, and packaging tape, established in 1996, from 39, Lorong Haji Abdul Manan 1A/KU8, Kawasan Perindustrian Meru Selatan, 42200 Klang, Selangor. SSM 200701037228 (795257-P).
+- Draft: `r3372230658570210417`. Thread: `1a035a6c2a25292b`. Subject: Klang industrial-glove page.
+- File: `docs/proposals/kossen-industries.md`. Hostable draft: `docs/proposals/kossen-industries-services.html`.
+- Website-page offer, RM 1,000-5,000. No Stripe. Send on the same Tue 10:00 timer after Paint Master DIY.
+- Skipped this pass: Berjaya Table and Chair already queued. myofficesupply.com.my mailto is still info@tetrix.com.my (domain mismatch). Gayheng and Copierworld `/services/` filled. Parallel curl HTTP 000 is a VM flake; sequential unique-file curl works. UKAI still JSON-LD / Cloudflare-obfuscated contact. GWG Manufacturing already SENT 22 Aug. KA Bina already SENT. JSON-LD-only still skip. Do not send before 09:00 MYT.
 
