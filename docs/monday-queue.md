@@ -577,3 +577,40 @@ If a buyer expresses interest, use `docs/file-analysis-scope-template.md` before
 - Not 3PL. Did not mail Intergrated Freighters today. Did not poll Stripe.
 - Do not mail Top Com Resources again unless they reply.
 
+### Chang Rubbers -- SENT 24 Aug 2026 12:54 MYT
+
+- To: sales@abvsb.com (homepage mailto on https://www.changrubbers.com.my/). One inbox.
+- Source: live https://www.changrubbers.com.my/services/ HTTP 200 still shows Coming Soon (`min-height:440px`). Homepage lists anti-slip rubber sheets, EPDM sheets, and NR sheets from 109, Jalan Iks Juru, Taman Perindustrian Ringan Juru, 14100 Simpang Ampat. SSM 202301017864 (1511786-X).
+- `in:sent` to sales@abvsb.com was empty before send. Not in existing `docs/*-services.html` drafts.
+- Thread: `1a0321e7e5cae011`
+- Message: `1a0321e7e5cae011`
+- Subject: Juru rubber sheet page
+- Ask: RM 500, one revision, page written from their published text. No Stripe link in the first mail.
+- Not 3PL. Did not mail Intergrated Freighters today. Did not poll Stripe.
+- Do not mail Chang Rubbers again unless they reply.
+- Skipped this pass: JC Machinery `jcmkt6298@gmail.com` already in `in:sent` on 22 Aug. Best Tune Auto `/services/` is filled. EC2 Marketing and Creative Tech `/services/` 404.
+
+### Leong Insulation -- SENT 24 Aug 2026 12:54 MYT
+
+- To: leong_72@live.com (homepage mailto on https://www.leonginsulation.com/). One inbox.
+- Source: live https://www.leonginsulation.com/services/ HTTP 200 still shows Coming Soon (`min-height:440px`). Homepage lists thermal and acoustic insulation plus refractory lining from 16, Jalan Asas Murni, Kawasan Perniagaan Asas Murni, 14100 Simpang Ampat. SSM 201401031441 (1107525-A).
+- `in:sent` to leong_72@live.com was empty before send. Not in existing `docs/*-services.html` drafts.
+- Thread: `1a0321e7e3fd0804`
+- Message: `1a0321e7e3fd0804`
+- Subject: Asas Murni insulation page
+- Ask: RM 500, one revision, page written from their published text. No Stripe link in the first mail.
+- Not 3PL. Did not mail Intergrated Freighters today. Did not poll Stripe.
+- Do not mail Leong Insulation again unless they reply.
+
+### Johan Multitrade -- SENT 24 Aug 2026 12:54 MYT
+
+- To: sales@techmudah.com (visible homepage email on https://www.techmudah.com/). One inbox.
+- Source: live https://www.techmudah.com/services/ HTTP 200 still shows Coming Soon (`min-height:440px`). Homepage lists refurbished electronics and used electronic components from No.9-3, Jalan Anggun City 1, Pusat Komersial Anggun City, 48000 Rawang. SSM 202201005052 (1450749-U).
+- `in:sent` to sales@techmudah.com was empty before send. Not in existing `docs/*-services.html` drafts.
+- Thread: `1a0321e800009a0a`
+- Message: `1a0321e800009a0a`
+- Subject: Rawang refurbished-tech page
+- Ask: RM 500, one revision, page written from their published text. No Stripe link in the first mail.
+- Not 3PL. Did not mail Intergrated Freighters today. Did not poll Stripe.
+- Do not mail Johan Multitrade again unless they reply.
+
