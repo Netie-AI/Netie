@@ -10,7 +10,7 @@ Sweep query: `from:truelancer.com`
 
 | id | source | title | budget | client | screen | state | notes |
 |---|---|---|---|---|---|---|---|
-| samuel-vite-react | pasted listing (invite mail missing from Gmail) | need vite/react app completed | $60 fixed | UK company, 91 posted / 10 paid / 1 feedback / 1% / $397 spent | warning: paid-to-posted ratio; scope may exceed a short panel-fix | draft | Bid listed $60. $60 covers panel accuracy + wiring on existing Vite/React OS-like UI. Extra scope = change request. Proof: netie.ai/hire, /hire/ops, /aim, GitHub Netie-AI. Proposal: `proposal-samuel-vite-react.md`. Drive: https://docs.google.com/document/d/1kfzjBV8VApf_Rh-7p6YgcDLCzp3zelZEw7-SQnrSQwg/edit |
+| samuel-vite-react | pasted listing + live page (invite mail missing from Gmail) | need vite/react app completed | $60 fixed | UK company, 91 posted / 10 paid / 1 feedback / 1% / $397 spent | warning: paid-to-posted ratio; scope may exceed a short panel-fix | awaiting (login) | Live URL: https://www.truelancer.com/freelance-project/need-vitereact-app-completed-655856 (10 proposals, 25 views). Send Proposal -> Google password challenge for oojianhongg@gmail.com. Bid $60 ready. Not sent. Proposal: `proposal-samuel-vite-react.md`. Drive: https://docs.google.com/document/d/1kfzjBV8VApf_Rh-7p6YgcDLCzp3zelZEw7-SQnrSQwg/edit |
 
 ## Gmail sweep (2026-08-24 18:06 UTC)
 
