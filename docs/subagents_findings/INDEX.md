@@ -58,3 +58,4 @@ This index records reusable findings from focused subagent reviews.
 | [2026-08-25-ums-airblock-kmk-html.md](2026-08-25-ums-airblock-kmk-html.md) | UMS, Airblock, KMK | Reply-ready HTML. Honor RM 1,000-5,000. Oiless Bushing / no KMK street. |
 | [2026-08-25-afford-kt-splt-html.md](2026-08-25-afford-kt-splt-html.md) | Afford, KT Ware, SPLT | Reply-ready HTML. Honor RM 1,000-5,000. Pomolux / printed KT lines / 2016 vs 1997. |
 | [2026-08-25-siddex-nattest-arena-html.md](2026-08-25-siddex-nattest-arena-html.md) | Siddex, Nattest, Arena | Reply-ready HTML. Honor RM 500. Siddex WAF dump. Nattest sales@ only. aCompact Body. |
+| [2026-08-25-direct-github-url.md](2026-08-25-direct-github-url.md) | Gmail, google.com/url, GitHub, plaintext | Type `https://github.com/Netie-AI` in body. Never a Google wrap. |
