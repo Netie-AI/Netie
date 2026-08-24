@@ -66,3 +66,45 @@ Skipped: UKAI Coming Soon but JSON-LD-only email. KDSOFT / SY Metal Works NXDOMA
 
 Draft `r4406214204731782560`. Do not send until after the Tue 09:00 five-send.
 
+## 2026-08-25 00:33 MYT — four more Coming Soon firms (queue after five-send)
+
+Verified with Chrome UA curl. Mailto is on each firm's own homepage or `/contactus/` HTML. Not in monday-queue SENT. Did not send mail.
+
+### 1. Craft Perfect Tools Sdn Bhd
+
+- URL: https://www.cptools.com.my/
+- `/services/`: HTTP 200, still Coming Soon (`min-height:440px`)
+- Mailto: craftperfecttools@gmail.com
+- Unique fact: K-Force air impact wrenches and a 2-ton hydraulic foldable engine crane from Kampung Baru Sungai Chua, Kajang.
+- SSM: 202001033568 (1389889-A)
+- Draft: `r502446274827151328`
+
+### 2. LAN HOE HOLDINGS (1979) SDN BHD
+
+- URL: https://www.lanhoe.com.my/
+- `/services/`: HTTP 200, still Coming Soon (`min-height:440px`)
+- Mailto: online@lanhoe.com.my
+- Unique fact: copper tube, blast freezers, and Maneurope compressors from Taman Shamelin Perkasa, Cheras.
+- SSM: 200501011711 (688759-H)
+- Draft: `r-1298835960975874667`
+
+### 3. Pro Helper Home Service Sdn Bhd
+
+- URL: https://www.prohelper.com.my/
+- `/services/`: HTTP 200, still Coming Soon (`min-height:440px`)
+- Mailto: prohelper99@gmail.com
+- Unique fact: insured aircond chemical wash, electrical, and plumbing from Bandar Mahkota Cheras.
+- SSM: 202401036175 (1582022-K)
+- Draft: `r3672895988313459318`
+
+### 4. KM Super Sdn Bhd (HQ only)
+
+- URL: https://www.kmsuper.com.my/
+- `/services/`: HTTP 200, still Coming Soon (`min-height:440px`)
+- Mailto: kmsuperkmsuper@gmail.com (HQ). Do not mail kmsuperbangisb@gmail.com or kmsupermawar@gmail.com.
+- Unique fact: HANBELL screw compressors and PUR PIR cold-room panels from Taman Kasturi, Balakong.
+- SSM: 201001038447 (922371-W)
+- Draft: `r8774885238944427350`
+
+Skipped: UKAI JSON-LD-only. Top Fast spa left unqueued. Aenon / Standco filled.
+
