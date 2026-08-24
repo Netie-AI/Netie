@@ -393,5 +393,17 @@ If a buyer expresses interest, use `docs/file-analysis-scope-template.md` before
 - Ask: RM 500, one revision, page written from their published text. No Stripe link in the first mail.
 - Not 3PL. Did not mail Intergrated Freighters today. Did not poll Stripe.
 - Do not mail KA Bina again unless they reply.
-- Skipped this pass: Prosper Peace `/services/` now 404 on the rebuilt shop site. Karfu and Kim Sheng `/services/` are 404. OS Jutze, Apply Industrial, and Liqgas `/services/` are 404. SNEW and Perdana Grafik already in `in:sent`. NCT is 3PL, not mailed today.
+
+### Promix Concrete -- SENT 24 Aug 2026 11:59 MYT
+
+- To: promix.css@gmail.com (homepage mailto on https://www.promixconcrete.my/). One inbox.
+- Source: live https://www.promixconcrete.my/services/ HTTP 200 still shows Coming Soon. Homepage lists ready-mix concrete, mobile crane rental, and concrete pump service from B-3-8, IOI Boulevard, Jalan Kenari 5, Bandar Puchong Jaya. SSM 202301050695 (1544609-X).
+- `in:sent` to promix.css@gmail.com was empty before send. Not in existing `docs/*-services.html` drafts.
+- Thread: `1a031ec6674f99c2`
+- Message: `1a031ec6674f99c2`
+- Subject: Puchong ready-mix page
+- Ask: RM 500, one revision, page written from their published text. No Stripe link in the first mail.
+- Not 3PL. Did not mail Intergrated Freighters today. Did not poll Stripe.
+- Do not mail Promix again unless they reply.
+- Skipped this pass: Hung Print `/services/` 404. Concept Software `/services/` 404. Metropolimer `/services/` 404. Karfu and Kim Sheng `/services/` 404. Prosper Peace `/services/` 404 on the rebuilt shop. SNEW, ZYRC, Kinoro, Eightfold, and Perdana Grafik already in `in:sent`. NCT is 3PL, not mailed today.
 
