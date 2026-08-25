@@ -2461,6 +2461,50 @@ Folded onto the same Wed 09:00 timer (`sub_de648320-a76e-4ad9-87ed-a53b215ed33b`
 - To: info@mesaled.my. Draft `r-3063136889413315810`. Thread `1a038808e1b593f6`. Subject: Puchong LED page. File: `docs/proposals/mesal-led.md`. Copy Brighten Your World / Let's Illuminate Your Space!
 - Next hunt: unused malaysiabrand hosts after line 1979. Do not send these before Wed 09:00 MYT.
 
+## Queued after hours 25 Aug 2026 18:51 MYT (do not send before Wed 09:00)
+
+Folded onto the same Wed 09:00 timer (`sub_40af1718-adb6-4434-9e79-15123396138c`, replaced `sub_de648320-a76e-4ad9-87ed-a53b215ed33b`). Thirteen extras from unused hosts 1980-2079. Empty `in:sent`. All thirteen `/services/` Coming Soon (`min-height:440px`). No Stripe. Skipped mezzaninefloormalaysia.com.my Kinoro mismatch. HQ Eco Palladium only at Mo Livehouse. HQ info@ only at Mr Carpet. Copy Get Accessed Now!, underlining skills, is company is involved extensively in:, Porfolio, lOOKING FOR pRINTING sERVICES?, floor solutions for resistance, commercial, Founded in 2004 Eco Palladium.
+
+### Metro Gold Creative Sdn Bhd -- QUEUED draft 25 Aug 2026 18:50 MYT
+- To: metrogold925@gmail.com. Draft `r-7930835097807277882`. Thread `1a03889032298130`. Subject: Penang silver page. File: `docs/proposals/metro-gold.md`. Copy Crafting Dreams in Silver.
+
+### Metro Power Enterprise -- QUEUED draft 25 Aug 2026 18:50 MYT
+- To: calvin.mpe@gmail.com. Draft `r-7254215699338547548`. Thread `1a0388921fec7845`. Subject: Puchong automation page. File: `docs/proposals/metro-power.md`. Copy The engineer's choice / existing in this industry since 1999.
+
+### MIE INDUSTRIAL SDN BHD -- QUEUED draft 25 Aug 2026 18:50 MYT
+- To: miekl@mie.com.my. Draft `r5577334419775076060`. Thread `1a03889360d22527`. Subject: Puchong EPCC page. File: `docs/proposals/mie-industrial.md`. Copy A Leading Local EPCC Player / Key of Success.
+
+### Million Glass Sdn Bhd -- QUEUED draft 25 Aug 2026 18:50 MYT
+- To: millionalumglass@gmail.com. Draft `r-7951380282123764396`. Thread `1a0388953f4dddb2`. Subject: Shah Alam glass page. File: `docs/proposals/million-glass.md`. Copy TRANSFORMING SPACES WITH PRECISION / is company is involved extensively in:.
+
+### Mind Crafters Sdn. Bhd. -- QUEUED draft 25 Aug 2026 18:50 MYT
+- To: hello@mindcrafters.my. Draft `r1547037206131857946`. Thread `1a0388973487470b`. Subject: Kota Damansara brain-training page. File: `docs/proposals/mind-crafters.md`. Copy Get Accessed Now! / underlining skills. Contact-page inbox.
+
+### Min Kang Dental Sdn. Bhd. -- QUEUED draft 25 Aug 2026 18:50 MYT
+- To: minkangdental@gmail.com. Draft `r-4029766871304500009`. Thread `1a0388984b94f9a9`. Subject: Kota Tinggi dental page. File: `docs/proposals/min-kang-dental.md`. Copy Caring for Every Smile, Where Technology Meets Gentle Care.
+
+### Miracle Hair Expert Sdn. Bhd. -- QUEUED draft 25 Aug 2026 18:50 MYT
+- To: info@miraclehairexpert.com.my. Draft `r-6031417553544729313`. Thread `1a038899e25baac4`. Subject: Damansara scalp page. File: `docs/proposals/miracle-hair.md`. Copy Why MiRACLE? / What is Follimites?.
+
+### M&J CREATION SDN BHD -- QUEUED draft 25 Aug 2026 18:51 MYT
+- To: info@mnjkitchen.com.my. Draft `r4936999498630868823`. Thread `1a03889bb1e84552`. Subject: Parkcity kitchen page. File: `docs/proposals/mnj-kitchen.md`. Copy Porfolio / More Than Cabinets Art Pieces for Your Living Space.
+
+### Moca Living Sdn Bhd -- QUEUED draft 25 Aug 2026 18:51 MYT
+- To: mocaliving24@gmail.com. Draft `r5427545314699312127`. Thread `1a03889dceec0e80`. Subject: Johor Jaya furniture page. File: `docs/proposals/moca-living.md`. Copy Not Perfect Just Beautiful / The Art of Wabi-Sabi. Contact-page inbox.
+
+### Mo Live House Sdn Bhd -- QUEUED draft 25 Aug 2026 18:51 MYT
+- To: livehousemo@gmail.com. Draft `r-4208754142193165857`. Thread `1a03889fe8680e11`. Subject: Eco Palladium livehouse page. File: `docs/proposals/mo-livehouse.md`. Copy authentic Hunan cuisine by day, live music by night / Founded in 2004 Eco Palladium. HQ Eco Palladium only. No phone printed.
+
+### Moza Design -- QUEUED draft 25 Aug 2026 18:51 MYT
+- To: edyxray@yahoo.com. Draft `r-3949212170282487079`. Thread `1a0388a11712c59d`. Subject: Taiping printing page. File: `docs/proposals/moza-design.md`. Copy lOOKING FOR pRINTING sERVICES?.
+
+### MR. CARPET FLOOR TRADING -- QUEUED draft 25 Aug 2026 18:51 MYT
+- To: info@mrcarpet.com.my. Draft `r-4884207857068497800`. Thread `1a0388a26526ccc4`. Subject: Klang carpet page. File: `docs/proposals/mr-carpet.md`. Copy floor solutions for resistance, commercial. HQ info@ only. Did not mail mrcarpetfloortrading@gmail.com.
+
+### Mr Curtain (M) Sdn Bhd -- QUEUED draft 25 Aug 2026 18:51 MYT
+- To: mrcurtain.my@gmail.com. Draft `r-3533092610818543435`. Thread `1a0388a53e08eaa6`. Subject: Muar curtain page. File: `docs/proposals/mr-curtain.md`. Copy Malaysia Premium Design Curtains and Blinds Solutions / Top Curtain Supplier in Malaysia.
+- Next hunt: unused malaysiabrand hosts after line 2079. Do not send these before Wed 09:00 MYT.
+
 
 
 
