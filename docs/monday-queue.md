@@ -2600,6 +2600,37 @@ Folded onto the same Wed 09:00 timer (`sub_4715e851-9f5c-4d29-b44e-8b81f4e307c3`
 - To: sales@promatics.com.my. Draft `r-6105110903753375318`. Thread `1a038ab2ba9d4b18`. Subject: Semenyih tank page. File: `docs/proposals/promatics.md`. Copy 100% Kalis Kakisan / maximize your organization's entire benefit. HQ sales@ only. Did not mail promatics.sales@gmail.com.
 - Next hunt: unused malaysiabrand hosts after line 2479. Do not send these before Wed 09:00 MYT.
 
+## Queued after hours 25 Aug 2026 19:35 MYT (do not send before Wed 09:00)
+
+Folded onto the same Wed 09:00 timer (`sub_4442a5b1-2eb1-42aa-8bbe-33a8db79b878`, replaced `sub_4715e851-9f5c-4d29-b44e-8b81f4e307c3`). Eight extras from unused hosts 2480-2579. Empty `in:sent`. All eight `/services/` Coming Soon (`min-height:440px`). No Stripe. HQ gmail only at Rakusaki Store. Copy various various types, UPVC. pipes, water conservancy, It’s the difference, It’s unique., We are "experiential designers" ., Product Abutting, ALL OF YOUR PACKAGING MACHINES NEEDS.
+
+### PS Power Signs Sdn Bhd -- QUEUED draft 25 Aug 2026 19:32 MYT
+- To: pspower2323@gmail.com. Draft `r-5567282599771057745`. Thread `1a038b1e4bf75d3d`. Subject: Puchong signboard page. File: `docs/proposals/ps-power-signs.md`. Copy REDEFINING SIGNAGE EXCELLENCE / various various types / Let’s Hear What They Say.
+
+### PS YOON Marketing Sdn Bhd -- QUEUED draft 25 Aug 2026 19:32 MYT
+- To: psyoonmarketingsb@gmail.com. Draft `r-3181581615709599191`. Thread `1a038b2173803225`. Subject: Sri Sentosa pipes page. File: `docs/proposals/ps-yoon.md`. Copy UPVC. pipes / Collaborative Supportive Very Responsive and Easy to Work with.
+
+### PRECISION WAVE INSTRUMENT SDN. BHD. -- QUEUED draft 25 Aug 2026 19:33 MYT
+- To: info@pwmeter.com.my. Draft `r8534909531381224721`. Thread `1a038b241c76c30c`. Subject: Butterworth analyser page. File: `docs/proposals/precision-wave.md`. Copy Innovative Solutions For Water Quality and Hydrology Needs / water conservancy.
+
+### Quarter Design Sdn Bhd -- QUEUED draft 25 Aug 2026 19:33 MYT
+- To: hey.quarterdesign@gmail.com. Draft `r-1117158335628212197`. Thread `1a038b27aafe383c`. Subject: Iskandar Puteri interior page. File: `docs/proposals/quarter-design.md`. Copy It’s the difference, It’s unique. / Interior Fengshui Master.
+
+### Radiant Expo Sdn Bhd -- QUEUED draft 25 Aug 2026 19:33 MYT
+- To: enquiry@radiant.my. Draft `r-8998696703776383337`. Thread `1a038b2987e9bffc`. Subject: Taman Gembira events page. File: `docs/proposals/radiant-expo.md`. Copy We are "experiential designers" . / we aim to WOW you.
+
+### Rakusaki Store Sdn Bhd -- QUEUED draft 25 Aug 2026 19:33 MYT
+- To: rakusakistore@gmail.com. Draft `r-3697583712296868846`. Thread `1a038b2b82af50c1`. Subject: Kluang machinery page. File: `docs/proposals/rakusaki-store.md`. Copy Top Innovator. HQ gmail only. Did not mail Ain/Andrew. Hours print Monday-Saturday Closed, Sunday 9:00 AM-6:00 PM.
+
+### RESTU IDEAL (M) SDN. BHD. -- QUEUED draft 25 Aug 2026 19:34 MYT
+- To: restuystan@gmail.com. Draft `r-3600949707261575166`. Thread `1a038b2eee39c99b`. Subject: Johor Jaya security page. File: `docs/proposals/restu-ideal.md`. Copy Your One-stop Anti-Counterfeit Solution / Product Abutting.
+
+### REVE MACHINERY SDN BHD -- QUEUED draft 25 Aug 2026 19:34 MYT
+- To: revetech3@gmail.com. Draft `r-7408094007803419946`. Thread `1a038b309f9c182c`. Subject: Simpang Ampat packing-machine page. File: `docs/proposals/reve-machinery.md`. Copy All of your Packaging Machine’s Needs / ALL OF YOUR PACKAGING MACHINES NEEDS.
+
+Skipped CS+mailto TLD mismatches: pztech.com.my `partzone@outlook.my`; richads.com.my `alvin@richadsmarketing.com`; ridgemonde.com.my `ridgemonde@tenco.com.my`.
+- Next hunt: unused malaysiabrand hosts after line 2579. Do not send these before Wed 09:00 MYT.
+
 
 
 

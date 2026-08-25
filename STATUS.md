@@ -1,8 +1,10 @@
 # STATUS
 
-Updated: 2026-08-25 19:26 MYT. Success = live Stripe charge, then a payout.
+Updated: 2026-08-25 19:35 MYT. Success = live Stripe charge, then a payout.
 
 ## Now (measured)
+
+- After hours 25 Aug 19:35 MYT: queued eight more Coming Soon first-mails from unused hosts 2480-2579 onto the Wed 26 Aug 09:00 timer (`sub_4442a5b1-2eb1-42aa-8bbe-33a8db79b878`, replaced `sub_4715e851-9f5c-4d29-b44e-8b81f4e307c3`, folded onto the previous 117 drafts for 125 total). PS Power Signs `pspower2323@gmail.com` draft `r-5567282599771057745`. PS YOON `psyoonmarketingsb@gmail.com` draft `r-3181581615709599191`. Precision Wave `info@pwmeter.com.my` draft `r8534909531381224721`. Quarter Design `hey.quarterdesign@gmail.com` draft `r-1117158335628212197`. Radiant Expo `enquiry@radiant.my` draft `r-8998696703776383337`. Rakusaki Store `rakusakistore@gmail.com` draft `r-3697583712296868846`. RESTU IDEAL `restuystan@gmail.com` draft `r-3600949707261575166`. REVE Machinery `revetech3@gmail.com` draft `r-7408094007803419946`. All eight `/services/` Coming Soon (`min-height:440px`). Empty `in:sent`. No Stripe. Skipped pztech partzone@outlook.my, richads alvin@richadsmarketing.com, and ridgemonde tenco.com.my. Did not send after 17:00. Next hunt: unused hosts after line 2579. Kanhseei still ends at SENT `1a0338bc74fae0b4`. Did not nag. Did not apply. Did not poll Stripe. No paid charge yet.
 
 - After hours 25 Aug 19:26 MYT: queued five more Coming Soon first-mails from unused hosts 2380-2479 onto the Wed 26 Aug 09:00 timer (`sub_4715e851-9f5c-4d29-b44e-8b81f4e307c3`, replaced `sub_07b3a558-65b4-4ead-a883-1bfab7265dd6`, folded onto the previous 112 drafts for 117 total). PGA Global `enquiry@pgaglobal.com.my` draft `r3956316449704191397`. PHAMMA `phamma.penang@gmail.com` draft `r5584607974150486957`. Bonus Setters `bonussettle33@gmail.com` draft `r420633661220653245`. Polyseals `lee@polyseals.com.my` draft `r2061768747645075077` (HQ KIN YANG only; no street printed). Promatics `sales@promatics.com.my` draft `r-6105110903753375318` (did not mail promatics.sales@gmail.com). All five `/services/` Coming Soon (`min-height:440px`). Empty `in:sent`. No Stripe. Did not send after 17:00. Next hunt: unused hosts after line 2479. Kanhseei still ends at SENT `1a0338bc74fae0b4`. Did not nag. Did not apply. Did not poll Stripe. No paid charge yet.
 
