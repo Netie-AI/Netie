@@ -2817,7 +2817,7 @@ Skipped CS-no-mailto: togetherkitchen.com.my, toolsguru.com.my, toptaste.com.my,
 
 ## Wed 26 Aug 11:00 extras (hosts 3180-3279)
 
-Timer `netie-wed-tsprint-website-2026-08-26-1100-myt` (`sub_d0f26d6d-02c1-4fd3-80a0-68ed99b738b4`). Ten extras. Do not send before 11:00 MYT. Do not fold onto the 09:00 168 or the 10:00 seven.
+Timer `netie-wed-tsprint-website-2026-08-26-1100-myt` (`sub_ce7c08bf-c743-481c-afbe-fe1db8bd6a92`). Ten extras plus seven batch-31 drafts folded onto this fire (five-timer cap; no separate 12:00). Do not send before 11:00 MYT. Do not fold onto the 09:00 168 or the 10:00 seven.
 
 ### TS PRINTING SDN. BHD. -- QUEUED draft 26 Aug 2026 04:02 MYT
 - To: marketing@tsprint.com.my. Draft `r3888511579076476959`. Thread `1a03a840ce949a48`. Subject: Muar sticker landing page. File: `docs/proposals/ts-print.md`. Copy established in Muar five years ago, on March 17, 2020 / 20 years of industry experience. Recreated after first draft used print page. Old thread `1a03a8282628bc72` trashed. Did not mail tsprint4u@gmail.com.
@@ -2851,6 +2851,34 @@ Timer `netie-wed-tsprint-website-2026-08-26-1100-myt` (`sub_d0f26d6d-02c1-4fd3-8
 
 Skipped CS-no-mailto: tukangrumah.com.my, ukai.com.my, unigrow.com.my, universalbolts.com.my.
 - Next hunt: unused malaysiabrand hosts after line 3279. Do not send these before Wed 11:00 MYT.
+
+## Wed 26 Aug 12:00 extras folded onto 11:00 (hosts 3280-3379)
+
+Five-timer cap: these seven ride `sub_ce7c08bf-c743-481c-afbe-fe1db8bd6a92` at 11:00 MYT with batch 30. Do not send before 11:00. Do not fold onto 09:00 or 10:00.
+
+### Wallmark Sdn Bhd -- QUEUED draft 26 Aug 2026 04:08 MYT
+- To: multigreenland@yahoo.com. Draft `r5578749130054465857`. Thread `1a03a8b55bfcfc5c`. Subject: Selangor panel landing page. File: `docs/proposals/wallmark.md`. Copy Bamboo Charcoal Fibre Board Selangor / UV Marble Board Supply. Selangor city-only. Yahoo is the printed inbox.
+
+### Walnut Cafe & Bar -- QUEUED draft 26 Aug 2026 04:08 MYT
+- To: walnutgroup8@gmail.com. Draft `r599979843778077650`. Thread `1a03a8b56926c134`. Subject: Puchong cafe landing page. File: `docs/proposals/walnut-cafe.md`. Copy signatured food and drinks. HQ Puchong PFCC only.
+
+### Nova Arte Sdn Bhd -- QUEUED draft 26 Aug 2026 04:08 MYT
+- To: sales@novaarte.net. Draft `r-2499890284555400434`. Thread `1a03a8b59032161a`. Subject: Penang panel landing page. File: `docs/proposals/nova-arte.md`. Copy Premium Wall & Ceiling Decor Solutions in Penang. Host wallpanelpenang.com.my; printed firm is Nova Arte. Penang / Simpang Ampat city-only.
+
+### VK CORPORATE SOLUTIONS SDN. BHD. -- QUEUED draft 26 Aug 2026 04:08 MYT
+- To: contact.vkcorporate@gmail.com. Draft `r-6757808064057544764`. Thread `1a03a8b597ab4d56`. Subject: Klang insurance landing page. File: `docs/proposals/vk-corporate.md`. Copy Simplifying Payroll, Empowering Businesses. HQ Klang Bandar Bukit Tinggi only.
+
+### WEHENG (M) SDN BHD -- QUEUED draft 26 Aug 2026 04:08 MYT
+- To: wehengmsb@gmail.com. Draft `r3965833376191711924`. Thread `1a03a8b5a02b39ad`. Subject: Johor Bahru packaging landing page. File: `docs/proposals/weheng.md`. Copy YOUR ONE STOP PACKAGING PRODUCTS SUPPLIER / SPECIALISE IN ALL KINDS. Johor Bahru / Skudai city-only.
+
+### VITA POS -- QUEUED draft 26 Aug 2026 04:08 MYT
+- To: edwin@aesoft.com.my. Draft `r-1206348006885048405`. Thread `1a03a8b5c45fd34b`. Subject: Klang POS landing page. File: `docs/proposals/vita-pos.md`. Copy professional POS hardware brand under Aesoft. Host vitapos.my. HQ Klang Bandar Botanic only.
+
+### Vital Plus Marketing Sdn. Bhd. -- QUEUED draft 26 Aug 2026 04:08 MYT
+- To: vitalplus98@gmail.com. Draft `r-7403245219236541372`. Thread `1a03a8b5d8a33743`. Subject: Seremban panel landing page. File: `docs/proposals/vital-plus.md`. Copy WHOLESALE, IMPORTER & DISTRIBUTOR OF BUILDING & FURNITURE MATERIAL. HQ Seremban Garden Homes only.
+
+Skipped CS-no-mailto: vibrant.com.my, vvpetshop.com.my, vetclinic.com.my, vplayonline.com.my.
+- Next hunt: unused malaysiabrand hosts after line 3379. Do not send these before Wed 11:00 MYT. Do not remmail windmere.com.my until checked against already-mailed Windmere Products (`windmereproducts@gmail.com` / windmere1.com).
 
 
 
