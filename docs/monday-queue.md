@@ -1941,7 +1941,7 @@ Same 10:00 send. Loh is a private-car page, not a Thursday 3PL follow-up. Do not
 
 ## Queued after the Tue 10:00 M Haus-through-CHILDHOOD T send (do not send before 11:00, and not after hours)
 
-Timer `netie-tue-centralsteel-website-2026-08-25-1100-myt` (once, Tue 25 Aug 11:00 MYT). Send existing Gmail drafts only after live `/services/` Coming Soon and empty `in:sent`. Seven extras from unused malaysiabrand hosts after line 479: Central Steel, REFORMA DESIGN, Chin Chun Hardware, City Sound Automart, Ci Yuan Rawang, C L F Construction, KUEN ENGINEERING. Not an email-watch loop. No Stripe. One inbox. RM 1,000-5,000. Label `Label_8` after send. Do not Surge-publish until after SENT. If Kanhseei writes, answer first and honor RM 500. Do not poll Stripe (already done 25 Aug MYT). Copy Intergrity as printed. Do not mail sales@chinchun.my. The 09:00, 09:20, 09:40, and 10:00 first-mails are already SENT; do not remmail.
+Timer `netie-tue-centralsteel-website-2026-08-25-1100-myt` (`sub_a8bf4e45-0915-4039-89c7-04d40d3b95ca`, once, Tue 25 Aug 11:00 MYT). Send existing Gmail drafts only after live `/services/` Coming Soon and empty `in:sent`. Seven extras from unused malaysiabrand hosts after line 479: Central Steel, REFORMA DESIGN, Chin Chun Hardware, City Sound Automart, Ci Yuan Rawang, C L F Construction, KUEN ENGINEERING. Not an email-watch loop. No Stripe. One inbox. RM 1,000-5,000. Label `Label_8` after send. Do not Surge-publish until after SENT. If Kanhseei writes, answer first and honor RM 500. Do not poll Stripe (already done 25 Aug MYT). Copy Intergrity as printed. Do not mail sales@chinchun.my. The 09:00, 09:20, 09:40, and 10:00 first-mails are already SENT; do not remmail.
 
 ### Central Steel Sdn Bhd -- QUEUED draft 25 Aug 2026 10:21 MYT
 
