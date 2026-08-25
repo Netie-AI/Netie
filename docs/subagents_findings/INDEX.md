@@ -4,6 +4,7 @@ This index records reusable findings from focused subagent reviews.
 
 | File | Keywords | Main idea |
 |---|---|---|
+| [2026-08-26-import-channels-pause-hunt.md](2026-08-26-import-channels-pause-hunt.md) | Facebook, Carousell, Prolific, Web3 suite, pause remain-host loop | Owner paused the filled-site hunt. Phone pastes use Jian Hong details. Live /web3/ exists. No token. Surveys are not income until PayPal. |
 | [2026-08-26-early-filled-horizon-infinite-queue.md](2026-08-26-early-filled-horizon-infinite-queue.md) | filled site, remain 1181-1280, Horizon Dental, Hybrid Print DTF, Ideal Office copier, skip cemetery | Twenty-eight filled first-mails folded onto Wed 11:00. Skip icarefuneralservices. DTF/copier subjects, never print page. |
 | [2026-08-26-early-filled-haco-honsen-queue.md](2026-08-26-early-filled-haco-honsen-queue.md) | filled site, remain 1081-1180, HA & CO, HAG Solar, HEUTIG, Heng Li Art security-door, Success Technic homogenizer, never print page | Twenty-four filled first-mails folded onto Wed 11:00. New landing-plus-marketing voice. Skip sampleemail and TLD mismatch. |
 | [2026-08-26-precise-offer-consulting-proposal.md](2026-08-26-precise-offer-consulting-proposal.md) | Golden Star Roofing, Coming Soon rewrite, Toon, proposal document, SCR, landing plus marketing, agent OCR DMS | Owner: name landing plus marketing, then agents. Client reply gets a proposal with figures. Toon files written, not sent. |
