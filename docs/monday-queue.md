@@ -2560,6 +2560,26 @@ Folded onto the same Wed 09:00 timer (`sub_6c8f0b11-d434-4373-8c1a-89399537ca56`
 - To: ensuremachinery@outlook.com. Draft `r1288820328846280053`. Thread `1a0389bb3a2be566`. Subject: Klang machinery page. File: `docs/proposals/okiyio.md`. Copy Empowering Industries with Precision & Reliability.
 - Next hunt: unused malaysiabrand hosts after line 2279. Do not send these before Wed 09:00 MYT.
 
+## Queued after hours 25 Aug 2026 19:21 MYT (do not send before Wed 09:00)
+
+Folded onto the same Wed 09:00 timer (`sub_07b3a558-65b4-4ead-a883-1bfab7265dd6`, replaced `sub_6c8f0b11-d434-4373-8c1a-89399537ca56`). Five extras from unused hosts 2280-2379. Empty `in:sent`. All five `/services/` Coming Soon (`min-height:440px`). No Stripe. HQ Machang Bubok only at Paint Master Penang. Copy joyous and exciting journey, The exising roof has many cracks, BOXUP SIGN SOLUTIONS, He offer a wide range of products, windscreen water mark remove.
+
+### PAINT MASTER SDN BHD -- QUEUED draft 25 Aug 2026 19:19 MYT
+- To: paintmaster.my@gmail.com. Draft `r-637980693415352651`. Thread `1a038a569c16ad1c`. Subject: Bukit Mertajam paint-shop page. File: `docs/proposals/paint-master-penang.md`. Copy joyous and exciting journey / archaic industry. HQ Machang Bubok only. Not Paint Master DIY.
+
+### Pan Asiatic Enterprise Sdn. Bhd. -- QUEUED draft 25 Aug 2026 19:19 MYT
+- To: panasiatic@live.com. Draft `r5724331816442689096`. Thread `1a038a59bb6e7e19`. Subject: Damansara Jaya waterproofing page. File: `docs/proposals/pan-asiatic.md`. Copy Built on long-term waterproofing performance. / The exising roof has many cracks.
+
+### Panda Signboard & Printing Sdn Bhd -- QUEUED draft 25 Aug 2026 19:19 MYT
+- To: pandasignboard@gmail.com. Draft `r2564808719607498060`. Thread `1a038a5c25e969dd`. Subject: Klang signboard page. File: `docs/proposals/panda-sign.md`. Copy Big Prints, Bold Statements / BOXUP SIGN SOLUTIONS.
+
+### PB PACKAGING (M) SDN BHD -- QUEUED draft 25 Aug 2026 19:19 MYT
+- To: pbpack@yahoo.com. Draft `r-6108805484129549930`. Thread `1a038a5d81f19818`. Subject: Ayer Keroh carton page. File: `docs/proposals/pb-packaging.md`. Copy He offer a wide range of products / Good quality of carton box!. No street number printed.
+
+### SHINE GUARD CAR PROTECTION (M) SDN. BHD. -- QUEUED draft 25 Aug 2026 19:19 MYT
+- To: shine_guard@hotmail.com. Draft `r4606053914592035133`. Thread `1a038a5eca81e355`. Subject: Bukit Mertajam car-coating page. File: `docs/proposals/shine-guard.md`. Copy Ultimate Car Paint Protection, Guaranteed / windscreen water mark remove. No street printed.
+- Next hunt: unused malaysiabrand hosts after line 2379. Do not send these before Wed 09:00 MYT.
+
 
 
 
