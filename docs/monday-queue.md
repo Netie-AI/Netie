@@ -1552,7 +1552,79 @@ Same timer `netie-tue-mhaus-website-2026-08-25-1000-myt` (`sub_b2d918dd-837e-41a
 - Draft: `r6273236465010385414`. Thread: `1a036423b68c8935`. Subject: Pandan Jaya glass page.
 - File: `docs/proposals/allglass.md`. Hostable draft: `docs/proposals/allglass-services.html`.
 - Website-page offer, RM 1,000-5,000. No Stripe. Send on the same Tue 10:00 timer after Advanced Inkjet.
-- Skipped this pass: 21hairsalon.com.my Coming Soon but no contact mailto. Leftover malaysiabrand CS hits still to queue later: advancevertexmotors, aeiou (contact@ only), agmbrake, akakoi, alphapets, amcoweld (sales@ only; not SG/ID), amptech, amtools, apexepoxy. Do not send before 09:00 MYT.
+
+### Advance Vertex Motors Sdn Bhd -- QUEUED draft 25 Aug 2026 08:20 MYT
+
+- To: advertexmotor@gmail.com (HQ Email Address on https://www.advancevertexmotors.com.my/contactus/). One inbox. Branches print phones only.
+- Source: live https://www.advancevertexmotors.com.my/services/ HTTP 200 still Coming Soon (`min-height:440px`). Homepage lists Yamaha Star Center Kuala Kangsar, established in 1982, and Yamaha 135LC Fi (20th Anniversary Limited Edition) from 16G, Lot 5397, Jalan Dato Sagor, 33000 Kuala Kangsar. SSM 200201023354 (591017-X).
+- Draft: `r8717690422767887500`. Thread: `1a0364a1e06007cf`. Subject: Kuala Kangsar Yamaha page.
+- File: `docs/proposals/advance-vertex-motors.md`. Hostable draft: `docs/proposals/advance-vertex-motors-services.html`.
+- Website-page offer, RM 1,000-5,000. No Stripe. Send on the same Tue 10:00 timer after Allglass.
+
+### AEIOU STUDIO SDN BHD -- QUEUED draft 25 Aug 2026 08:20 MYT
+
+- To: contact@aeiou.com.my (contact Email Address on https://www.aeiou.com.my/contactus/). One inbox. Do not mail lim@aeiou.com.my or willdavid@gmail.com.
+- Source: live https://www.aeiou.com.my/services/ HTTP 200 still Coming Soon (`min-height:440px`) after a first 1703-byte WAF dump. Homepage lists Moof Wrapping Paper (Hostamping) and GreenHillBlueOcean from 3, Jalan BA/3A, Kawasan Perindustrian Bukit Angkat 2, 43000 Kajang. SSM 199601016378 (388729-D). Do not copy live product prices.
+- Draft: `r2755351467904710217`. Thread: `1a03649d1711607c`. Subject: Kajang wrapping-paper page.
+- File: `docs/proposals/aeiou-studio.md`. Hostable draft: `docs/proposals/aeiou-studio-services.html`.
+- Website-page offer, RM 1,000-5,000. No Stripe. Send on the same Tue 10:00 timer after Advance Vertex.
+
+### AGM AUTO GALLERY SDN. BHD. -- QUEUED draft 25 Aug 2026 08:20 MYT
+
+- To: lykong09@yahoo.com (homepage and `/contactus/` mailto on https://www.agmbrake.com.my/). One inbox.
+- Source: live https://www.agmbrake.com.my/services/ HTTP 200 still Coming Soon (`min-height:440px`). Homepage lists Drive Beyond Limits, Command Precision and AP Racing, Brembo, and Alcon from 15, 17 Jalan Desa Aman 2, Taman Desa Aman, 56100 Cheras. SSM 201601001264 (1172190-W).
+- Draft: `r-2994698647141930377`. Thread: `1a03649d3560385a`. Subject: Cheras brake page.
+- File: `docs/proposals/agm-auto-gallery.md`. Hostable draft: `docs/proposals/agm-auto-gallery-services.html`.
+- Website-page offer, RM 1,000-5,000. No Stripe. Send on the same Tue 10:00 timer after AEIOU Studio.
+
+### AMTOOLS AUTOMOTIVE SDN BHD -- QUEUED draft 25 Aug 2026 08:20 MYT
+
+- To: amtoolmalaysia@hotmail.com (contact Email Address on https://www.amtools.com.my/contactus/). One inbox.
+- Source: live https://www.amtools.com.my/services/ HTTP 200 still Coming Soon (`min-height:440px`) after a first 1703-byte WAF dump. Homepage lists ADVANCED CAR DIAGNOSIS SYSTEMS and sole distributor of Autel from 31, Jalan Batai Laut 5, Taman Intan, 41300 Klang. Product cards print MaxiIM titles and MaxilM as printed. SSM 201101034778 (962911-D).
+- Draft: `r-404656677117099247`. Thread: `1a03649d33a8b532`. Subject: Klang diagnosis page.
+- File: `docs/proposals/amtools-automotive.md`. Hostable draft: `docs/proposals/amtools-automotive-services.html`.
+- Website-page offer, RM 1,000-5,000. No Stripe. Send on the same Tue 10:00 timer after AGM Auto Gallery.
+
+### Aka Koi Centre / Ben Koi Centre Sdn. Bhd. -- QUEUED draft 25 Aug 2026 08:20 MYT
+
+- To: benjamingoh8@gmail.com (homepage and `/contactus/` mailto on https://www.akakoi.com.my/). One inbox.
+- Source: live https://www.akakoi.com.my/services/ HTTP 200 still Coming Soon (`min-height:440px`). Homepage lists ASIA CUP KOI SHOW GRAND CHAMPION (2016) and Koi Pond Maintenance from 69, Jalan Choo Lip Kung, Taman Taynton View, 56000 Kuala Lumpur. Printed We offers copied as printed. SSM 202101004949 (1405248-A).
+- Draft: `r-3406234702335004194`. Thread: `1a03649d495c0745`. Subject: Taynton View koi page.
+- File: `docs/proposals/aka-koi.md`. Hostable draft: `docs/proposals/aka-koi-services.html`.
+- Website-page offer, RM 1,000-5,000. No Stripe. Send on the same Tue 10:00 timer after AMTOOLS.
+
+### Alpha Pets Sdn Bhd -- QUEUED draft 25 Aug 2026 08:20 MYT
+
+- To: anglingding@gmail.com (contact Email Address on https://www.alphapets.com.my/contactus/). One inbox.
+- Source: live https://www.alphapets.com.my/services/ HTTP 200 still Coming Soon (`min-height:440px`) after a first 1703-byte WAF dump. Homepage lists Malaysia's Leading Cat Litter Supplier and tofu cat litter from Taman Perindustrian Air Hitam Phase 1 & 2, No. 1, Jalan Permata 9/KS9, Bandar Parkland, 41200 Klang. SSM 202201038494 (1484191-V). Do not copy live product prices.
+- Draft: `r-8605311392803778748`. Thread: `1a03649d767d750b`. Subject: Klang pet-supply page.
+- File: `docs/proposals/alpha-pets.md`. Hostable draft: `docs/proposals/alpha-pets-services.html`.
+- Website-page offer, RM 1,000-5,000. No Stripe. Send on the same Tue 10:00 timer after Aka Koi.
+
+### Amcoweld (M) Sdn Bhd -- QUEUED draft 25 Aug 2026 08:20 MYT
+
+- To: sales@amcoweld.com.my (JB HQ Email Address on https://www.amcoweld.com.my/contactus/). One inbox. Do not mail amcoweld@singnet.com.sg, amcoweld_indo@yahoo.com, sales@amcotech.com.sg, or kl@amcoweld.com.my.
+- Source: live https://www.amcoweld.com.my/services/ HTTP 200 still Coming Soon (`min-height:440px`). Homepage lists Welding Solutions Across Asia, Hypertherm, and Years of Experiene from 16, Jalan Perniagaan Setia 7, Taman Perniagaan Setia, 81100 Johor Bahru. SSM 200201028896 (596559-D).
+- Draft: `r-3096787382770815094`. Thread: `1a03649d7a891e19`. Subject: Johor Bahru welding page.
+- File: `docs/proposals/amcoweld.md`. Hostable draft: `docs/proposals/amcoweld-services.html`.
+- Website-page offer, RM 1,000-5,000. No Stripe. Send on the same Tue 10:00 timer after Alpha Pets.
+
+### AMP TECH AUTOMATION SDN BHD -- QUEUED draft 25 Aug 2026 08:20 MYT
+
+- To: amptech99@gmail.com (contact Email Address on https://www.amptech-auto.com.my/contactus/). One inbox. Do not mail sales@amptech-auto.com.
+- Source: live https://www.amptech-auto.com.my/services/ HTTP 200 still Coming Soon (`min-height:440px`) after a first 1703-byte WAF dump. Homepage lists ABB Contactor and Warning Silen Alarm from 27, Jalan Indah 25/8, Taman Bukit Indah, 81200 Johor Bahru. SSM 201001024255 (908027-M).
+- Draft: `r-6917355750500261598`. Thread: `1a03649d802c56d6`. Subject: Johor Bahru automation page.
+- File: `docs/proposals/amp-tech-automation.md`. Hostable draft: `docs/proposals/amp-tech-automation-services.html`.
+- Website-page offer, RM 1,000-5,000. No Stripe. Send on the same Tue 10:00 timer after Amcoweld.
+
+### Apex Epoxy Solutions -- QUEUED draft 25 Aug 2026 08:20 MYT
+
+- To: info@apexepoxy.com.my (homepage and `/contactus/` mailto on https://www.apexepoxy.com.my/). One inbox.
+- Source: live https://www.apexepoxy.com.my/services/ HTTP 200 still Coming Soon (`min-height:440px`). Homepage lists Redefining Floors with Epoxy Excellence and PU MF Flooring System, Air Selangor Water Plant, Sungai Besi from 15-1, Tengkat Tong Shin, Bukit Bintang, 50200 Kuala Lumpur. SSM 202503212398 (003759871-A).
+- Draft: `r-6150179488808675692`. Thread: `1a03649d8ad603f5`. Subject: Bukit Bintang epoxy page.
+- File: `docs/proposals/apex-epoxy.md`. Hostable draft: `docs/proposals/apex-epoxy-services.html`.
+- Website-page offer, RM 1,000-5,000. No Stripe. Send on the same Tue 10:00 timer after AMP TECH.
+- Skipped this pass: 21hairsalon.com.my Coming Soon but no contact mailto. First 180 unused malaysiabrand `.com.my` CS+mailto leftovers are now queued. Next hunt: unused hosts after the first 180. Do not send before 09:00 MYT.
 
 
 
