@@ -1045,803 +1045,899 @@ Timer `netie-tue-afternoon-websites-2026-08-25-0940-myt` sent in-turn at 09:40 M
 - File: `docs/proposals/hiparents.md`. Hostable draft: `docs/proposals/hiparents-services.html`.
 - Do not mail again unless they reply. Skipped this pass: Finapack website suspended. Keong Huat / Steelix / Capital Gardens `/services/` 404. MGlobe / HAG Solar `/services/` filled. Shenion services not Coming Soon. Southern Optometry / LM Equipment timeout. WCM Parts SSL fail. UKAI JSON-LD-only. Standco / Egida / Carte Kitchen `/services/` filled. Airblock already SENT. Do not mail KM Super Bangi or Mawar.
 
-## Queued after the Tue 09:40 afternoon four-send (do not send before those four, and not after hours)
+## SENT Tue 25 Aug 2026 10:00 MYT M Haus through CHILDHOOD T
 
-Timer `netie-tue-mhaus-website-2026-08-25-1000-myt` (`sub_6af2d1da-c7f0-4f25-8e4a-b14db9021fcc`, once, Tue 25 Aug 10:00 MYT). Send existing Gmail drafts only after live `/services/` Coming Soon and empty `in:sent`. First extra: M Haus Furniture, then the Johor four, then Digno, Paperbaked, F.J. Machinery, HH Metal, Presti, SKH 88, Pro Tent, Hydro Air, WH Bespoke, Teknik Alir, MAC-TECH, Heap Soon, Sinaran, Dilooma, REXOIL, KenHai, Little Hana Florist, Paint Master DIY, Kossen, and later batches through CHILDHOOD T. Not an email-watch loop. No Stripe. One inbox. RM 1,000-5,000. Label `Label_8` after send. Do not Surge-publish until after SENT. If Kanhseei writes, answer first and honor RM 500. Do not poll Stripe (already done 25 Aug MYT). The 09:00, 09:20, and 09:40 first-mails are already SENT; do not remmail. A sixth once-timer was refused (`invalid_argument`); extras share this timer. Trust live Gmail `list_drafts` and this file for exact To addresses and draft IDs.
+Timer `netie-tue-mhaus-website-2026-08-25-1000-myt` sent in-turn at 10:00 MYT after live checks. All 98 `/services/` still Coming Soon (`min-height:440px`); ten first dumps were 1703-byte browser checks and recovered on unique retry. Empty `in:sent` before send. `draftId` only. Label_8. No Stripe. Do not remmail unless they reply. Timer `sub_6af2d1da-c7f0-4f25-8e4a-b14db9021fcc` gone. Thu 27 Aug 09:00 3PL follow-up timer stays.
 
-### M Haus Furniture -- QUEUED draft 25 Aug 2026 01:13 MYT
+### M Haus Furniture -- SENT 25 Aug 2026 10:00 MYT
 
 - To: sales@mhaus.com.my (homepage and contact-page mailto on https://www.tesoro.com.my/). One inbox. Same address on every published branch block.
 - Source: live https://www.tesoro.com.my/services/ HTTP 200 still Coming Soon (`min-height:440px`). Homepage lists mattresses, sofas, beds, wardrobes, Elbrus Sofa, Vono Luxury Mattress, and Hilker Bedroom Series from 5, Jalan Industri Impian, Taman Industri Impian, 14000 Bukit Mertajam. Over 30 years. SSM 201801007250 (1269264-V).
-- Draft: `r4639565706916679309`. Thread: `1a034c34fab5ccb5`. Subject: Bukit Mertajam furniture page.
+- SENT 25 Aug 2026 10:00 MYT. Message: `1a036a787e775b7a`. Thread: `1a034c34fab5ccb5`. Former draft: `r4639565706916679309`. Subject: Bukit Mertajam furniture page.
+- Do not mail again unless they reply.
 - File: `docs/proposals/m-haus-furniture.md`. Hostable draft: `docs/proposals/m-haus-furniture-services.html`.
-- Website-page offer, RM 1,000-5,000. No Stripe. Send only after the Tue 09:40 four-send, in office hours, if still Coming Soon and `in:sent` empty.
+- Website-page offer, RM 1,000-5,000. No Stripe. Do not mail again unless they reply.
 
-## Queued on the same Tue 10:00 M Haus timer (do not send before 10:00, and not after hours)
+Same 10:00 send. Loh is a private-car page, not a Thursday 3PL follow-up. Do not mail Brilliant Melaka `stoneshopmelaka@gmail.com`.
 
-Same timer `netie-tue-mhaus-website-2026-08-25-1000-myt` (`sub_b2d918dd-837e-41a9-ae9f-0d898bf97226`). Send after M Haus if live `/services/` Coming Soon and empty `in:sent`. Four Johor extras: Brilliant Supplies, Top Creative Steel, Loh Cross Border, Jump Belly, then Digno, Paperbaked, F.J. Machinery, HH Metal, Presti, SKH 88, Pro Tent, Hydro Air, WH Bespoke, Teknik Alir, MAC-TECH, Heap Soon, Sinaran, Dilooma, REXOIL, KenHai, Little Hana Florist, Paint Master DIY, and Kossen. Not an email-watch loop. No Stripe. One inbox. RM 1,000-5,000. Label `Label_8` after send. Do not Surge-publish until after SENT. If Kanhseei writes, answer first and honor RM 500. Do not poll Stripe (already done 25 Aug MYT). Loh is a private-car page, not a Thursday 3PL follow-up. Do not mail Brilliant Melaka `stoneshopmelaka@gmail.com`. A separate 10:20 timer was refused (`invalid_argument`, likely a five-timer cap).
-
-### Brilliant Supplies -- QUEUED draft 25 Aug 2026 01:27 MYT
+### Brilliant Supplies -- SENT 25 Aug 2026 10:00 MYT
 
 - To: marketing@bestagro.com.my (contact-page mailto on https://www.bestagro.com.my/contactus/). One inbox. Do not mail stoneshopmelaka@gmail.com.
 - Source: live https://www.bestagro.com.my/services/ HTTP 200 still Coming Soon (`min-height:440px`). Homepage lists organic fertilizer, polyaspartic flake coating, landscaping, and stone from Bandar Seri Alam, Johor Bahru. 20 years. SSM 200801032489 (833824-U).
-- Draft: `r5384028546429775072`. Thread: `1a034cfd61889352`. Subject: Seri Alam gardening page.
+- SENT 25 Aug 2026 10:00 MYT. Message: `1a036a788600c1c6`. Thread: `1a034cfd61889352`. Former draft: `r5384028546429775072`. Subject: Seri Alam gardening page.
+- Do not mail again unless they reply.
 - File: `docs/proposals/brilliant-supplies.md`. Hostable draft: `docs/proposals/brilliant-supplies-services.html`.
 
-### Top Creative Steel -- QUEUED draft 25 Aug 2026 01:27 MYT
+### Top Creative Steel -- SENT 25 Aug 2026 10:00 MYT
 
 - To: sales.tcsteel@gmail.com (homepage mailto on https://www.tcsteel.com.my/). One inbox.
 - Source: live https://www.tcsteel.com.my/services/ HTTP 200 still Coming Soon (`min-height:440px`). Homepage lists fire hose reels, stainless fabrication, and commercial kitchen equipment from Taman Perniagaan Setia, Johor Bahru. SSM 201601040516 (1211457-K).
-- Draft: `r960721427623673424`. Thread: `1a034cffbf4cab9b`. Subject: Johor Bahru fire hose page.
+- SENT 25 Aug 2026 10:00 MYT. Message: `1a036a78bf3b56dd`. Thread: `1a034cffbf4cab9b`. Former draft: `r960721427623673424`. Subject: Johor Bahru fire hose page.
+- Do not mail again unless they reply.
 - File: `docs/proposals/top-creative-steel.md`. Hostable draft: `docs/proposals/top-creative-steel-services.html`.
 
-### Loh Cross Border Transport -- QUEUED draft 25 Aug 2026 01:27 MYT
+### Loh Cross Border Transport -- SENT 25 Aug 2026 10:00 MYT
 
 - To: sunny_loo2011@hotmail.com (contact-page mailto on https://www.sgjbtransport.com.my/contactus/). One inbox.
 - Source: live https://www.sgjbtransport.com.my/services/ HTTP 200 still Coming Soon (`min-height:440px`). Homepage lists Singapore-Johor private car and Changi Airport transfers from Taman Skudai Baru. SSM 201203197768 (JM0631668-A).
-- Draft: `r-7026569135275344020`. Thread: `1a034cfd6899930c`. Subject: Skudai Singapore transfer page.
+- SENT 25 Aug 2026 10:00 MYT. Message: `1a036a78c3179e6e`. Thread: `1a034cfd6899930c`. Former draft: `r-7026569135275344020`. Subject: Skudai Singapore transfer page.
+- Do not mail again unless they reply.
 - File: `docs/proposals/loh-cross-border.md`. Hostable draft: `docs/proposals/loh-cross-border-services.html`.
 - Website-page offer, not a Thursday 3PL invoice follow-up.
 
-### Jump Belly Amusement -- QUEUED draft 25 Aug 2026 01:27 MYT
+### Jump Belly Amusement -- SENT 25 Aug 2026 10:00 MYT
 
 - To: enquiries@jumpbelly.com.my (homepage mailto on https://www.jumpbelly.com.my/). One inbox.
 - Source: live https://www.jumpbelly.com.my/services/ HTTP 200 still Coming Soon (`min-height:440px`). Homepage lists inflatable playgrounds, Teddy Belly, and canopy tents from Ulu Tiram. SSM 202201000040 (1445737-H).
-- Draft: `r6860404133156483454`. Thread: `1a034cfd8214bd0f`. Subject: Ulu Tiram inflatable page.
+- SENT 25 Aug 2026 10:00 MYT. Message: `1a036a78ed618d2f`. Thread: `1a034cfd8214bd0f`. Former draft: `r6860404133156483454`. Subject: Ulu Tiram inflatable page.
+- Do not mail again unless they reply.
 - File: `docs/proposals/jump-belly.md`. Hostable draft: `docs/proposals/jump-belly-services.html`.
 - Skipped this pass: Kinoro / ZYRC / ATX / Pangraph already SENT. EKG / HA-Co / Soiltechnics `/services/` filled. SY Metal still HTTP 000 from this VM. NCR Resources `/services/` filled. Do not mail Brilliant Melaka.
 
-### Digno Enterprise -- QUEUED draft 25 Aug 2026 03:54 MYT
+### Digno Enterprise -- SENT 25 Aug 2026 10:00 MYT
 
 - To: digno_seremban@hotmail.com (homepage and `/contactus/` mailto on https://www.dignoenterprise.com.my/). One inbox.
 - Source: live https://www.dignoenterprise.com.my/services/ HTTP 200 still Coming Soon (`min-height:440px`). Homepage lists tempered shower screens, folding doors, and aluminium sliding doors from 5, Jalan TBK 5/2 C28 Business, Taman Bukit Kepayang, 70200 Seremban. Contact widget prints JESS. SSM 201403043679 (NS0126681-M).
-- Draft: `r2174716251212248055`. Thread: `1a035599fa7fa55a`. Subject: Seremban glass page.
+- SENT 25 Aug 2026 10:00 MYT. Message: `1a036a791c35a15e`. Thread: `1a035599fa7fa55a`. Former draft: `r2174716251212248055`. Subject: Seremban glass page.
+- Do not mail again unless they reply.
 - File: `docs/proposals/digno-enterprise.md`. Hostable draft: `docs/proposals/digno-enterprise-services.html`.
-- Website-page offer, RM 1,000-5,000. No Stripe. Send on the Tue 10:00 M Haus timer after the Johor four.
+- Website-page offer, RM 1,000-5,000. No Stripe. Do not mail again unless they reply.
 
-### Paperbaked Enterprise -- QUEUED draft 25 Aug 2026 03:54 MYT
+### Paperbaked Enterprise -- SENT 25 Aug 2026 10:00 MYT
 
 - To: paperbaked@gmail.com (homepage and `/contactus/` mailto on https://www.paperbaked.com.my/). One inbox.
 - Source: live https://www.paperbaked.com.my/services/ HTTP 200 still Coming Soon (`min-height:440px`). Homepage lists custom cakes, dessert bouquets, and the printed 温柔系蝴蝶兰蛋糕 from 150-01, Jalan Adda 7, Adda Heights, 81100 Johor Bahru, plus Join Member Now & Get RM5 off! SSM 202103092778 (003253720-P).
-- Draft: `r6118493077971778942`. Thread: `1a03559a14483146`. Subject: Adda Heights cake page.
+- SENT 25 Aug 2026 10:00 MYT. Message: `1a036a79313dd8e4`. Thread: `1a03559a14483146`. Former draft: `r6118493077971778942`. Subject: Adda Heights cake page.
+- Do not mail again unless they reply.
 - File: `docs/proposals/paperbaked.md`. Hostable draft: `docs/proposals/paperbaked-services.html`.
-- Website copy from published cake names. RM 1,000-5,000. No Stripe. Send on the same Tue 10:00 timer after Digno.
+- Website copy from published cake names. RM 1,000-5,000. No Stripe. Do not mail again unless they reply.
 
-### F.J. Machinery Sdn Bhd -- QUEUED draft 25 Aug 2026 04:11 MYT
+### F.J. Machinery Sdn Bhd -- SENT 25 Aug 2026 10:00 MYT
 
 - To: sales@fjmachinery.com.my (homepage and `/contactus/` mailto on https://www.fjmachinery.com.my/). One inbox.
 - Source: live https://www.fjmachinery.com.my/services/ HTTP 200 still Coming Soon (`min-height:440px`). Homepage lists lorry engine parts and MAHLE IZUMI - NISSAN TD27 / TD42 - NDPS5D0000 from 7F, Jalan 1/57D, Off Jalan Segambut, 51200 Kuala Lumpur. 10 branches. Malaysia and Brunei. SSM 199501012084 (341286-T).
-- Draft: `r3086863431245642762`. Thread: `1a03560d2cfd752c`. Subject: Segambut engine-parts page.
+- SENT 25 Aug 2026 10:00 MYT. Message: `1a036a794b3025fd`. Thread: `1a03560d2cfd752c`. Former draft: `r3086863431245642762`. Subject: Segambut engine-parts page.
+- Do not mail again unless they reply.
 - File: `docs/proposals/fj-machinery.md`. Hostable draft: `docs/proposals/fj-machinery-services.html`.
-- Website-page offer, RM 1,000-5,000. No Stripe. Send on the Tue 10:00 M Haus timer after Paperbaked.
+- Website-page offer, RM 1,000-5,000. No Stripe. Do not mail again unless they reply.
 
-### HH Metal Sdn Bhd -- QUEUED draft 25 Aug 2026 04:11 MYT
+### HH Metal Sdn Bhd -- SENT 25 Aug 2026 10:00 MYT
 
 - To: sales@hhmetaljb.com (homepage and `/contactus/` mailto on https://www.hhmetaljb.com/). One inbox.
 - Source: live https://www.hhmetaljb.com/services/ HTTP 200 still Coming Soon (`min-height:440px`). Homepage lists marine valves and Butterfly global gate angle valve from 114, Jalan Rosmerah 2/17, Taman Johor Jaya, 81100 Johor Bahru. Material:- FC,CS,BS SUS 304&316. No SSM printed on contact; do not invent one.
-- Draft: `r-4698492612897208360`. Thread: `1a03560d394c73e5`. Subject: Johor Jaya marine page.
+- SENT 25 Aug 2026 10:00 MYT. Message: `1a036a794c7acee6`. Thread: `1a03560d394c73e5`. Former draft: `r-4698492612897208360`. Subject: Johor Jaya marine page.
+- Do not mail again unless they reply.
 - File: `docs/proposals/hh-metal.md`. Hostable draft: `docs/proposals/hh-metal-services.html`.
-- Website-page offer, RM 1,000-5,000. No Stripe. Send on the same Tue 10:00 timer after F.J. Machinery.
+- Website-page offer, RM 1,000-5,000. No Stripe. Do not mail again unless they reply.
 
-### PRESTI MACHINERY & SERVICES (M) SDN BHD -- QUEUED draft 25 Aug 2026 04:11 MYT
+### PRESTI MACHINERY & SERVICES (M) SDN BHD -- SENT 25 Aug 2026 10:00 MYT
 
 - To: prestimachinery@gmail.com (homepage and `/contactus/` mailto on https://www.prestimachinery.com/). One inbox.
 - Source: live https://www.prestimachinery.com/services/ HTTP 200 still Coming Soon (`min-height:440px`). Homepage lists press machines and YADON – Powered by Schuler Technology from 83B, JALAN RENGAS, SOUTHERN PARK, 41200 KLANG. Knuckle Precision Press. HUZHOU hydraulic. SSM 202301047096 (1541010-A). Established 2020.
-- Draft: `r-7500208116724969242`. Thread: `1a03560d597ac234`. Subject: Klang press-machine page.
+- SENT 25 Aug 2026 10:00 MYT. Message: `1a036a7ab4f1f372`. Thread: `1a03560d597ac234`. Former draft: `r-7500208116724969242`. Subject: Klang press-machine page.
+- Do not mail again unless they reply.
 - File: `docs/proposals/presti-machinery.md`. Hostable draft: `docs/proposals/presti-machinery-services.html`.
-- Website-page offer, RM 1,000-5,000. No Stripe. Send on the same Tue 10:00 timer after HH Metal.
+- Website-page offer, RM 1,000-5,000. No Stripe. Do not mail again unless they reply.
 
-### SKH 88 Auto Parts Trading Enterprise -- QUEUED draft 25 Aug 2026 04:25 MYT
+### SKH 88 Auto Parts Trading Enterprise -- SENT 25 Aug 2026 10:00 MYT
 
 - To: skh88autopart@gmail.com (homepage and `/contactus/` mailto on https://www.skh88autoparts.com.my/). One inbox.
 - Source: live https://www.skh88autoparts.com.my/services/ HTTP 200 still Coming Soon (`min-height:440px`). Homepage lists used auto parts, engines, transmissions, and body panels. Contact prints Lot 7. Lot 5411, Jalan Rawang, 48000, Rawang. Homepage also prints Located in Batu Caves, Selangor. SSM 202603004959 (JR0186086-T).
-- Draft: `r-2148382564417180155`. Thread: `1a0357454c7f3e93`. Subject: Rawang used-parts page.
+- SENT 25 Aug 2026 10:00 MYT. Message: `1a036a7e3d99fd32`. Thread: `1a0357454c7f3e93`. Former draft: `r-2148382564417180155`. Subject: Rawang used-parts page.
+- Do not mail again unless they reply.
 - File: `docs/proposals/skh-88-auto-parts.md`. Hostable draft: `docs/proposals/skh-88-auto-parts-services.html`.
-- Website-page offer, RM 1,000-5,000. No Stripe. Send on the Tue 10:00 M Haus timer after Presti.
+- Website-page offer, RM 1,000-5,000. No Stripe. Do not mail again unless they reply.
 
-### Pro Tent Technologies -- QUEUED draft 25 Aug 2026 04:25 MYT
+### Pro Tent Technologies -- SENT 25 Aug 2026 10:00 MYT
 
 - To: protenttechnologies@gmail.com (homepage and `/contactus/` mailto on https://www.tentsuppliermalaysia.com.my/). One inbox.
 - Source: live https://www.tentsuppliermalaysia.com.my/services/ HTTP 200 still Coming Soon (`min-height:440px`). Homepage lists tensile membrane structures, lorry canvas, and canvas replacement from Lot 132 PT 35824 , Batu 20, Jalan Semenyih, 43500 Semenyih. SSM 201203165330 (002141780-H).
-- Draft: `r8545215493500263156`. Thread: `1a03574566e9a49c`. Subject: Semenyih canopy page.
+- SENT 25 Aug 2026 10:00 MYT. Message: `1a036a7e6eb30f43`. Thread: `1a03574566e9a49c`. Former draft: `r8545215493500263156`. Subject: Semenyih canopy page.
+- Do not mail again unless they reply.
 - File: `docs/proposals/pro-tent-technologies.md`. Hostable draft: `docs/proposals/pro-tent-technologies-services.html`.
-- Website-page offer, RM 1,000-5,000. No Stripe. Send on the same Tue 10:00 timer after SKH 88.
+- Website-page offer, RM 1,000-5,000. No Stripe. Do not mail again unless they reply.
 
-### Hydro Air Process Instruments Sdn Bhd -- QUEUED draft 25 Aug 2026 04:25 MYT
+### Hydro Air Process Instruments Sdn Bhd -- SENT 25 Aug 2026 10:00 MYT
 
 - To: sales@hydroair-instruments.com (homepage and `/contactus/` mailto on https://www.hydroair-instruments.com/). One inbox.
 - Source: live https://www.hydroair-instruments.com/services/ HTTP 200 still Coming Soon (`min-height:440px`). Homepage lists water and wastewater monitoring and 20 years in the water industry from 100, Jalan Pusat Perniagaan 1, Pusat Perniagaan Raja Uda, 12300 Butterworth. SSM 202201042496 (1488193-D).
-- Draft: `r5715184187139666325`. Thread: `1a03574589b19d25`. Subject: Butterworth water-monitor page.
+- SENT 25 Aug 2026 10:00 MYT. Message: `1a036a7ebf97629c`. Thread: `1a03574589b19d25`. Former draft: `r5715184187139666325`. Subject: Butterworth water-monitor page.
+- Do not mail again unless they reply.
 - File: `docs/proposals/hydro-air.md`. Hostable draft: `docs/proposals/hydro-air-services.html`.
-- Website-page offer, RM 1,000-5,000. No Stripe. Send on the same Tue 10:00 timer after Pro Tent.
+- Website-page offer, RM 1,000-5,000. No Stripe. Do not mail again unless they reply.
 
-### WH Bespoke Tailoring -- QUEUED draft 25 Aug 2026 04:25 MYT
+### WH Bespoke Tailoring -- SENT 25 Aug 2026 10:00 MYT
 
 - To: bespokewh@gmail.com (homepage and `/contactus/` mailto on https://www.whbespoke.com.my/). One inbox.
 - Source: live https://www.whbespoke.com.my/services/ HTTP 200 still Coming Soon (`min-height:440px`). Homepage lists The Bespoke Travel Jacket, made-to-measure suits, and 11 YEARS from M17A, Mezzanine Floor, Wisma UOA 2, Jalan Pinang, 50450 Kuala Lumpur. SSM 201703233583 (002678942-H).
-- Draft: `r-2555399501377877313`. Thread: `1a03574588ea1589`. Subject: Pinang menswear page.
+- SENT 25 Aug 2026 10:00 MYT. Message: `1a036a80a3006beb`. Thread: `1a03574588ea1589`. Former draft: `r-2555399501377877313`. Subject: Pinang menswear page.
+- Do not mail again unless they reply.
 - File: `docs/proposals/wh-bespoke.md`. Hostable draft: `docs/proposals/wh-bespoke-services.html`.
-- Website-page offer, RM 1,000-5,000. No Stripe. Send on the same Tue 10:00 timer after Hydro Air.
+- Website-page offer, RM 1,000-5,000. No Stripe. Do not mail again unless they reply.
 
-### Teknik Alir Sdn. Bhd. -- QUEUED draft 25 Aug 2026 04:38 MYT
+### Teknik Alir Sdn. Bhd. -- SENT 25 Aug 2026 10:00 MYT
 
 - To: info@teknikalir.com (homepage and `/contactus/` mailto on https://www.teknikalir.com.my/). One inbox.
 - Source: live https://www.teknikalir.com.my/services/ HTTP 200 still Coming Soon (`min-height:440px`). Homepage lists ARO, Wilden, Graco diaphragm pumps, Aluminium / Plastic / Stainless Steel Diaphragm Pump, SandPiper, and Blagdon from A2-23-13A, Arcoris, Jalan Kiara, Mont Kiara, 50480 Kuala Lumpur. SSM 201801022533 (1284552-X).
-- Draft: `r7057834145850490975`. Thread: `1a0357eb0dd726bc`. Subject: Mont Kiara pump page.
+- SENT 25 Aug 2026 10:00 MYT. Message: `1a036a80c1d57259`. Thread: `1a0357eb0dd726bc`. Former draft: `r7057834145850490975`. Subject: Mont Kiara pump page.
+- Do not mail again unless they reply.
 - File: `docs/proposals/teknik-alir.md`. Hostable draft: `docs/proposals/teknik-alir-services.html`.
-- Website-page offer, RM 1,000-5,000. No Stripe. Send on the same Tue 10:00 timer after WH Bespoke.
+- Website-page offer, RM 1,000-5,000. No Stripe. Do not mail again unless they reply.
 
-### MAC-TECH ENGINEERING SDN. BHD. -- QUEUED draft 25 Aug 2026 04:38 MYT
+### MAC-TECH ENGINEERING SDN. BHD. -- SENT 25 Aug 2026 10:00 MYT
 
 - To: enquiry@mac-tech.com.my (homepage and `/contactus/` mailto on https://www.mac-tech.my/). One inbox.
 - Source: live https://www.mac-tech.my/services/ HTTP 200 still Coming Soon (`min-height:440px`). Homepage lists Founded on 17th October 1986, over 35 years, domestic and industrial water pump solutions, air conditioning / fire protection / cold and hot water from 21 & 23, Jalan 3/118C, Desa Tun Razak Industrial Park, 56000 Cheras. SSM 198601007687 (156877-M). Tel +603-9173 2606.
-- Draft: `r-4364597719798709692`. Thread: `1a0357eb2679d110`. Subject: Cheras water-pump page.
+- SENT 25 Aug 2026 10:00 MYT. Message: `1a036a813c6b93ab`. Thread: `1a0357eb2679d110`. Former draft: `r-4364597719798709692`. Subject: Cheras water-pump page.
+- Do not mail again unless they reply.
 - File: `docs/proposals/mac-tech-engineering.md`. Hostable draft: `docs/proposals/mac-tech-engineering-services.html`.
-- Website-page offer, RM 1,000-5,000. No Stripe. Send on the same Tue 10:00 timer after Teknik Alir.
+- Website-page offer, RM 1,000-5,000. No Stripe. Do not mail again unless they reply.
 
-### Heap Soon Hardware Machinery Sdn Bhd -- QUEUED draft 25 Aug 2026 04:38 MYT
+### Heap Soon Hardware Machinery Sdn Bhd -- SENT 25 Aug 2026 10:00 MYT
 
 - To: sales@heapsoon.com.my (homepage and `/contactus/` mailto on https://www.heapsoon.com.my/). One inbox.
 - Source: live https://www.heapsoon.com.my/services/ HTTP 200 still Coming Soon (`min-height:440px`). Homepage lists YOUR TRUSTED MACHINERY & HARDWARE PARTNER, Electric Fencing Products, and agricultural machinery from 23, 25 & 27, Jalan Bandar, Pekan Teluk Intan, 36000 Teluk Intan, Perak. SSM 199601038098 (410451-K). Tel +6017-5511 922.
-- Draft: `r-3086720862559207433`. Thread: `1a0357eb4d77322c`. Subject: Teluk Intan machinery page.
+- SENT 25 Aug 2026 10:00 MYT. Message: `1a036a826897ca9c`. Thread: `1a0357eb4d77322c`. Former draft: `r-3086720862559207433`. Subject: Teluk Intan machinery page.
+- Do not mail again unless they reply.
 - File: `docs/proposals/heap-soon-hardware.md`. Hostable draft: `docs/proposals/heap-soon-hardware-services.html`.
-- Website-page offer, RM 1,000-5,000. No Stripe. Send on the same Tue 10:00 timer after MAC-TECH.
+- Website-page offer, RM 1,000-5,000. No Stripe. Do not mail again unless they reply.
 
-### Sinaran Office Supply Sdn Bhd -- QUEUED draft 25 Aug 2026 04:38 MYT
+### Sinaran Office Supply Sdn Bhd -- SENT 25 Aug 2026 10:00 MYT
 
 - To: sinaran.sos@gmail.com (homepage mailto on https://www.sinaranoffice.com.my/). One inbox. Do not mail edwin.moo@gmail.com.
 - Source: live https://www.sinaranoffice.com.my/services/ HTTP 200 still Coming Soon (`min-height:440px`). Homepage lists Crafting Workspaces with Purpose and Precision, founded May 2013 by Edwin Moo and Ailee Khoo, and family store Pusat Buku Sinaran from 163-1, Jalan Komersial Saujana 5, Pusat Komersial Saujana, Seremban 2, 70300 Seremban. SSM 201301016884 (1046717-X).
-- Draft: `r-942639377208421412`. Thread: `1a0357eb46daf2a9`. Subject: Seremban 2 office page.
+- SENT 25 Aug 2026 10:00 MYT. Message: `1a036a838d23c918`. Thread: `1a0357eb46daf2a9`. Former draft: `r-942639377208421412`. Subject: Seremban 2 office page.
+- Do not mail again unless they reply.
 - File: `docs/proposals/sinaran-office-supply.md`. Hostable draft: `docs/proposals/sinaran-office-supply-services.html`.
-- Website-page offer, RM 1,000-5,000. No Stripe. Send on the same Tue 10:00 timer after Heap Soon.
+- Website-page offer, RM 1,000-5,000. No Stripe. Do not mail again unless they reply.
 
-### Dilooma Sdn Bhd -- QUEUED draft 25 Aug 2026 04:58 MYT
+### Dilooma Sdn Bhd -- SENT 25 Aug 2026 10:00 MYT
 
 - To: shop@dlooma.com.my (homepage and `/contactus/` mailto on https://www.dlooma.com.my/). One inbox.
 - Source: live https://www.dlooma.com.my/services/ HTTP 200 still Coming Soon (`min-height:440px`). Homepage lists kitchen, bathroom, household, and laundry fittings, Established in August 1999, and formerly H Trends Bathroom Centre Sdn Bhd from 238 & 240, Batu 2, Jalan Sultan Azlan Shah, Jalan Ipoh, 51200 Kuala Lumpur. SSM 199901017553 (492453-X).
-- Draft: `r-6156976348848550746`. Thread: `1a03595f9b932f6b`. Subject: Jalan Ipoh kitchen-bath page.
+- SENT 25 Aug 2026 10:00 MYT. Message: `1a036a84162aaaa3`. Thread: `1a03595f9b932f6b`. Former draft: `r-6156976348848550746`. Subject: Jalan Ipoh kitchen-bath page.
+- Do not mail again unless they reply.
 - File: `docs/proposals/dilooma.md`. Hostable draft: `docs/proposals/dilooma-services.html`.
-- Website-page offer, RM 1,000-5,000. No Stripe. Send on the same Tue 10:00 timer after Sinaran.
+- Website-page offer, RM 1,000-5,000. No Stripe. Do not mail again unless they reply.
 
-### Ultimate Power Marketing (REXOIL) -- QUEUED draft 25 Aug 2026 04:58 MYT
+### Ultimate Power Marketing (REXOIL) -- SENT 25 Aug 2026 10:00 MYT
 
 - To: upmkt1688@gmail.com (homepage and `/contactus/` mailto on https://www.rexoil.com.my/). One inbox.
 - Source: live https://www.rexoil.com.my/services/ HTTP 200 still Coming Soon (`min-height:440px`). Homepage lists REXOIL and Malaysia's first Fully Synthetic Fully Ester motorcycle oil from 3-CG, Lingkaran Dagang Mas, Taman Mas, 47130 Puchong. SSM 202203143285 (MA0286479-M).
-- Draft: `r-495398744139951172`. Thread: `1a03595fb83f78b6`. Subject: Puchong motorcycle-oil page.
+- SENT 25 Aug 2026 10:00 MYT. Message: `1a036a861a9297a4`. Thread: `1a03595fb83f78b6`. Former draft: `r-495398744139951172`. Subject: Puchong motorcycle-oil page.
+- Do not mail again unless they reply.
 - File: `docs/proposals/rexoil.md`. Hostable draft: `docs/proposals/rexoil-services.html`.
-- Website-page offer, RM 1,000-5,000. No Stripe. Send on the same Tue 10:00 timer after Dilooma.
+- Website-page offer, RM 1,000-5,000. No Stripe. Do not mail again unless they reply.
 
-### KenHai Sdn Bhd -- QUEUED draft 25 Aug 2026 05:21 MYT
+### KenHai Sdn Bhd -- SENT 25 Aug 2026 10:00 MYT
 
 - To: kenhai666@gmail.com (homepage and `/contactus/` mailto on https://www.kenhai.com.my/). One inbox.
 - Source: live https://www.kenhai.com.my/services/ HTTP 200 still Coming Soon (`min-height:440px`). Homepage lists sand, aggregates, building materials, and cargo transportation, Founded in 1992, and formerly Ulika Transport Sdn Bhd from 1695A, Jalan Sri Putri 4/1, Taman Putri Kulai, 81100 Kulaijaya, Johor. Contact also prints a Kulai branch at PTD 59654, Jalan Permai 4, Taman Permai, 81000 Kulai. SSM 587418-W.
-- Draft: `r2522677085844228373`. Thread: `1a035a61e0a810af`. Subject: Kulai sand-aggregate page.
+- SENT 25 Aug 2026 10:00 MYT. Message: `1a036a890e585b90`. Thread: `1a035a61e0a810af`. Former draft: `r2522677085844228373`. Subject: Kulai sand-aggregate page.
+- Do not mail again unless they reply.
 - File: `docs/proposals/kenhai.md`. Hostable draft: `docs/proposals/kenhai-services.html`.
-- Website-page offer, RM 1,000-5,000. No Stripe. Send on the same Tue 10:00 timer after REXOIL.
+- Website-page offer, RM 1,000-5,000. No Stripe. Do not mail again unless they reply.
 
-### Little Hana Florist -- QUEUED draft 25 Aug 2026 05:21 MYT
+### Little Hana Florist -- SENT 25 Aug 2026 10:00 MYT
 
 - To: littlehanaflorist@gmail.com (homepage and `/contactus/` mailto on https://www.littlehanaflorist.com.my/). One inbox.
 - Source: live https://www.littlehanaflorist.com.my/services/ HTTP 200 still Coming Soon (`min-height:440px`). Homepage lists wedding floristry, Handmade Crochet, and Let Flowers Speak for You from 76, Laluan Perajurit 1, Taman Ipoh Timur, 31400 Ipoh, Perak. SSM 201903305587 (IP0531445-U).
-- Draft: `r4516075780908128897`. Thread: `1a035a621962ceda`. Subject: Ipoh wedding-flower page.
+- SENT 25 Aug 2026 10:00 MYT. Message: `1a036a893ddc82d4`. Thread: `1a035a621962ceda`. Former draft: `r4516075780908128897`. Subject: Ipoh wedding-flower page.
+- Do not mail again unless they reply.
 - File: `docs/proposals/little-hana-florist.md`. Hostable draft: `docs/proposals/little-hana-florist-services.html`.
-- Website-page offer, RM 1,000-5,000. No Stripe. Send on the same Tue 10:00 timer after KenHai.
+- Website-page offer, RM 1,000-5,000. No Stripe. Do not mail again unless they reply.
 
-### Paint Master DIY -- QUEUED draft 25 Aug 2026 05:21 MYT
+### Paint Master DIY -- SENT 25 Aug 2026 10:00 MYT
 
 - To: paintmasterdiy18@gmail.com (homepage and `/contactus/` mailto on https://www.paintmasterdiy.com.my/). One inbox.
 - Source: live https://www.paintmasterdiy.com.my/services/ HTTP 200 still Coming Soon (`min-height:440px`). Homepage lists paints, hardware, power tools, and construction materials, Founded in 2012, and Dulux, Jotun, Nippon Paint and Bosch from 21 & 23, Pusat Perdagangan Suri Puteri, Persiaran Jubli Perak Seksyen 20, 40300 Shah Alam, Selangor. SSM 201203141443 (SA0225436-V).
-- Draft: `r-4871945950633443678`. Thread: `1a035a6203a7aab0`. Subject: Shah Alam paint-hardware page.
+- SENT 25 Aug 2026 10:00 MYT. Message: `1a036a8af4e13f19`. Thread: `1a035a6203a7aab0`. Former draft: `r-4871945950633443678`. Subject: Shah Alam paint-hardware page.
+- Do not mail again unless they reply.
 - File: `docs/proposals/paint-master-diy.md`. Hostable draft: `docs/proposals/paint-master-diy-services.html`.
-- Website-page offer, RM 1,000-5,000. No Stripe. Send on the same Tue 10:00 timer after Little Hana Florist.
+- Website-page offer, RM 1,000-5,000. No Stripe. Do not mail again unless they reply.
 
-### Kossen Industries Supplies Sdn. Bhd. -- QUEUED draft 25 Aug 2026 05:21 MYT
+### Kossen Industries Supplies Sdn. Bhd. -- SENT 25 Aug 2026 10:00 MYT
 
 - To: kossenindustries@gmail.com (homepage header mailto on https://www.kossenglove.com.my/). One inbox. Do not mail aplabrasive1@gmail.com or kossen89@hotmail.com.
 - Source: live https://www.kossenglove.com.my/services/ HTTP 200 still Coming Soon (`min-height:440px`). Homepage lists industrial gloves, Hyprez Diamond Compound, stretch film, and packaging tape, established in 1996, from 39, Lorong Haji Abdul Manan 1A/KU8, Kawasan Perindustrian Meru Selatan, 42200 Klang, Selangor. SSM 200701037228 (795257-P).
-- Draft: `r3372230658570210417`. Thread: `1a035a6c2a25292b`. Subject: Klang industrial-glove page.
+- SENT 25 Aug 2026 10:00 MYT. Message: `1a036a8b794dbbf6`. Thread: `1a035a6c2a25292b`. Former draft: `r3372230658570210417`. Subject: Klang industrial-glove page.
+- Do not mail again unless they reply.
 - File: `docs/proposals/kossen-industries.md`. Hostable draft: `docs/proposals/kossen-industries-services.html`.
-- Website-page offer, RM 1,000-5,000. No Stripe. Send on the same Tue 10:00 timer after Paint Master DIY.
+- Website-page offer, RM 1,000-5,000. No Stripe. Do not mail again unless they reply.
 
-### NINETY THREE CUSTOM STICKERS -- QUEUED draft 25 Aug 2026 05:32 MYT
+### NINETY THREE CUSTOM STICKERS -- SENT 25 Aug 2026 10:00 MYT
 
 - To: princecustomade@gmail.com (homepage and `/contactus/` mailto on https://www.mycustomstickers.com.my/). One inbox.
 - Source: live https://www.mycustomstickers.com.my/services/ HTTP 200 still Coming Soon (`min-height:440px`). Homepage lists custom stickers, t-shirt printing, bunting, and banners, and From Stickers to Banners We've Got You Covered from 6-4-2 Block D, Diamond Square, Jalan Semarak Api 3 Off Jalan Gombak, 53300 Kuala Lumpur. SSM 202103117433 (LA0031285-D).
-- Draft: `r-9073539578953474700`. Thread: `1a035b01c70f8265`. Subject: Gombak sticker-banner page.
+- SENT 25 Aug 2026 10:00 MYT. Message: `1a036a8ce8f77055`. Thread: `1a035b01c70f8265`. Former draft: `r-9073539578953474700`. Subject: Gombak sticker-banner page.
+- Do not mail again unless they reply.
 - File: `docs/proposals/ninety-three-custom-stickers.md`. Hostable draft: `docs/proposals/ninety-three-custom-stickers-services.html`.
-- Website-page offer, RM 1,000-5,000. No Stripe. Send on the same Tue 10:00 timer after Kossen.
+- Website-page offer, RM 1,000-5,000. No Stripe. Do not mail again unless they reply.
 
-### Wider Health & Beauty (M) Sdn Bhd (SYRINX) -- QUEUED draft 25 Aug 2026 05:32 MYT
+### Wider Health & Beauty (M) Sdn Bhd (SYRINX) -- SENT 25 Aug 2026 10:00 MYT
 
 - To: my@syrinx.com.my (homepage and `/contactus/` mailto on https://www.syrinx.com.my/). One inbox. Do not mail tanjhui8@gmail.com.
 - Source: live https://www.syrinx.com.my/services/ HTTP 200 still Coming Soon (`min-height:440px`). Homepage lists SYRINX Probiotic Fermented Fruit & Veggie Powder and official distributor of SYRINX, a brand by Yuexuantang, from No.65-2, Jalan Seri Utara 1, Seri Utara Off Jalan Ipoh, 68100 Kuala Lumpur. SSM 202201003336 (1449033-W).
-- Draft: `r-821741393769654594`. Thread: `1a035b01d3aa75af`. Subject: Jalan Ipoh SYRINX page.
+- SENT 25 Aug 2026 10:00 MYT. Message: `1a036a8e16230307`. Thread: `1a035b01d3aa75af`. Former draft: `r-821741393769654594`. Subject: Jalan Ipoh SYRINX page.
+- Do not mail again unless they reply.
 - File: `docs/proposals/syrinx.md`. Hostable draft: `docs/proposals/syrinx-services.html`.
-- Website-page offer, RM 1,000-5,000. No Stripe. Send on the same Tue 10:00 timer after Ninety Three Custom Stickers.
+- Website-page offer, RM 1,000-5,000. No Stripe. Do not mail again unless they reply.
 
-### YEEFIXX TOOLS AND PARTS SUPPLY -- QUEUED draft 25 Aug 2026 05:32 MYT
+### YEEFIXX TOOLS AND PARTS SUPPLY -- SENT 25 Aug 2026 10:00 MYT
 
 - To: yeefixxtool@gmail.com (homepage and `/contactus/` mailto on https://www.yeefixx.com/). One inbox.
 - Source: live https://www.yeefixx.com/services/ HTTP 200 still Coming Soon (`min-height:440px`). Homepage lists air-conditioner parts, refrigerator tools, and Warehouse And Headquartered In Pahang, Malaysia from 15, Jalan Dahlia Indah 1, Taman Dahlia, 28340 Mengkuang, Pahang. SSM 202403210867 (JR0166713-T).
-- Draft: `r-1912181311126177737`. Thread: `1a035b01e6b9ee0a`. Subject: Pahang aircond-parts page.
+- SENT 25 Aug 2026 10:00 MYT. Message: `1a036a8ea8227c9e`. Thread: `1a035b01e6b9ee0a`. Former draft: `r-1912181311126177737`. Subject: Pahang aircond-parts page.
+- Do not mail again unless they reply.
 - File: `docs/proposals/yeefixx.md`. Hostable draft: `docs/proposals/yeefixx-services.html`.
-- Website-page offer, RM 1,000-5,000. No Stripe. Send on the same Tue 10:00 timer after SYRINX.
+- Website-page offer, RM 1,000-5,000. No Stripe. Do not mail again unless they reply.
 
-### Deseo Creativo Interior Design Sdn Bhd -- QUEUED draft 25 Aug 2026 05:32 MYT
+### Deseo Creativo Interior Design Sdn Bhd -- SENT 25 Aug 2026 10:00 MYT
 
 - To: creativo.design@yahoo.com (homepage and `/contactus/` mailto on https://www.creativointerior.com/). One inbox.
 - Source: live https://www.creativointerior.com/services/ HTTP 200 still Coming Soon (`min-height:440px`). Homepage lists THE BEST INTERIOR DESIGN COMPANY SINCE 2007 and Botanic Semi-D @ Mark Residence - Setia Eco Park, Shah Alam from 123-1 & 2, Jalan Permata 1/KS09, Pusat Perniagaan Bestari, Taman Perindustrian Air Hitam, 42000 Klang. SSM 1063097-K.
-- Draft: `r-6016903420704367907`. Thread: `1a035b01efb46607`. Subject: Klang interior-design page.
+- SENT 25 Aug 2026 10:00 MYT. Message: `1a036a8f3b9d2c81`. Thread: `1a035b01efb46607`. Former draft: `r-6016903420704367907`. Subject: Klang interior-design page.
+- Do not mail again unless they reply.
 - File: `docs/proposals/deseo-creativo.md`. Hostable draft: `docs/proposals/deseo-creativo-services.html`.
-- Website-page offer, RM 1,000-5,000. No Stripe. Send on the same Tue 10:00 timer after YEEFIXX.
+- Website-page offer, RM 1,000-5,000. No Stripe. Do not mail again unless they reply.
 
-### RNA Engineering & Trading Sdn Bhd -- QUEUED draft 25 Aug 2026 05:45 MYT
+### RNA Engineering & Trading Sdn Bhd -- SENT 25 Aug 2026 10:00 MYT
 
 - To: sales@rna.com.my (contact Email Address on https://www.rna.com.my/contactus/). One inbox. Do not mail administrator@rna.com.my.
 - Source: live https://www.rna.com.my/services/ HTTP 200 still Coming Soon (`min-height:440px`). Homepage lists ENGINEERING MALAYSIA'S COOLING INDUSTRY SINCE 1975 and Beijer Ref from Miles Cheras, No. 2, Jalan 4/91A, Taman Shamelin Perkasa, 56100 Kuala Lumpur. SSM 199101014621 (224933-A).
-- Draft: `r1642595948662311907`. Thread: `1a035bc234993175`. Subject: Miles Cheras HVACR page.
+- SENT 25 Aug 2026 10:00 MYT. Message: `1a036a9067592c9d`. Thread: `1a035bc234993175`. Former draft: `r1642595948662311907`. Subject: Miles Cheras HVACR page.
+- Do not mail again unless they reply.
 - File: `docs/proposals/rna-engineering.md`. Hostable draft: `docs/proposals/rna-engineering-services.html`.
-- Website-page offer, RM 1,000-5,000. No Stripe. Send on the same Tue 10:00 timer after Deseo Creativo.
+- Website-page offer, RM 1,000-5,000. No Stripe. Do not mail again unless they reply.
 
-### ERCBOX PACKAGING SDN BHD -- QUEUED draft 25 Aug 2026 05:45 MYT
+### ERCBOX PACKAGING SDN BHD -- SENT 25 Aug 2026 10:00 MYT
 
 - To: sales@ercbox.com (contact Email Address on https://www.ercbox.com/contactus/). One inbox.
 - Source: live https://www.ercbox.com/services/ HTTP 200 still Coming Soon (`min-height:440px`). Homepage lists Side Lock Cake Box and Tulip Boxes. Contact prints No.35 Jalan P10/16, Taman Industri Selaman, 43650 Bandar Baru Bangi, plus a showroom at 61-2 Jalan Bs 1/1, Pusat Perniagaan Olive Hill, 43300 Seri Kembangan. SSM 1372030-M.
-- Draft: `r8091196469486283017`. Thread: `1a035bc25c01c9ff`. Subject: Bangi carton-box page.
+- SENT 25 Aug 2026 10:00 MYT. Message: `1a036a91400961db`. Thread: `1a035bc25c01c9ff`. Former draft: `r8091196469486283017`. Subject: Bangi carton-box page.
+- Do not mail again unless they reply.
 - File: `docs/proposals/ercbox-packaging.md`. Hostable draft: `docs/proposals/ercbox-packaging-services.html`.
-- Website-page offer, RM 1,000-5,000. No Stripe. Send on the same Tue 10:00 timer after RNA Engineering.
+- Website-page offer, RM 1,000-5,000. No Stripe. Do not mail again unless they reply.
 
-### Sui Design Sdn Bhd -- QUEUED draft 25 Aug 2026 05:45 MYT
+### Sui Design Sdn Bhd -- SENT 25 Aug 2026 10:00 MYT
 
 - To: marketing@suidesign.my (homepage and `/contactus/` mailto on https://www.suidesign.my/). One inbox.
 - Source: live https://www.suidesign.my/services/ HTTP 200 still Coming Soon (`min-height:440px`). Homepage lists Create Beautiful Spaces That Inspire and Understanding Before Designing from 18, Persiaran Sungai Ara 2, Sungai Ara, 11900 Bayan Lepas, Pulau Pinang. SSM 202101030397 (1430697-A).
-- Draft: `r5717743609495481784`. Thread: `1a035bc245af965a`. Subject: Bayan Lepas interior page.
+- SENT 25 Aug 2026 10:00 MYT. Message: `1a036a953524e9cd`. Thread: `1a035bc245af965a`. Former draft: `r5717743609495481784`. Subject: Bayan Lepas interior page.
+- Do not mail again unless they reply.
 - File: `docs/proposals/sui-design.md`. Hostable draft: `docs/proposals/sui-design-services.html`.
-- Website-page offer, RM 1,000-5,000. No Stripe. Send on the same Tue 10:00 timer after ERCBOX.
+- Website-page offer, RM 1,000-5,000. No Stripe. Do not mail again unless they reply.
 
-### VISUALUXE MEDIA -- QUEUED draft 25 Aug 2026 05:45 MYT
+### VISUALUXE MEDIA -- SENT 25 Aug 2026 10:00 MYT
 
 - To: visualuxemedia@gmail.com (homepage and `/contactus/` mailto on https://www.visualuxe.com.my/). One inbox.
 - Source: live https://www.visualuxe.com.my/services/ HTTP 200 still Coming Soon (`min-height:440px`); the services title prints Our Portfolio. Homepage lists Your Vision, Our LED! and PRECISION LED DISPLAY TECHNOLOGY. Contact prints JB, Malaysia, with no street. SSM 202403207151 (SA0619059-W).
-- Draft: `r956119582485222594`. Thread: `1a035bc4b2dd8e35`. Subject: Johor Bahru LED page.
+- SENT 25 Aug 2026 10:00 MYT. Message: `1a036a95aaa68b1e`. Thread: `1a035bc4b2dd8e35`. Former draft: `r956119582485222594`. Subject: Johor Bahru LED page.
+- Do not mail again unless they reply.
 - File: `docs/proposals/visualuxe-media.md`. Hostable draft: `docs/proposals/visualuxe-media-services.html`.
-- Website-page offer, RM 1,000-5,000. No Stripe. Send on the same Tue 10:00 timer after Sui Design.
+- Website-page offer, RM 1,000-5,000. No Stripe. Do not mail again unless they reply.
 
-### Best Kampung Foods Sdn Bhd -- QUEUED draft 25 Aug 2026 05:45 MYT
+### Best Kampung Foods Sdn Bhd -- SENT 25 Aug 2026 10:00 MYT
 
 - To: bestkampung24@gmail.com (homepage and `/contactus/` mailto on https://www.bestkampung.com/). One inbox.
 - Source: live https://www.bestkampung.com/services/ HTTP 200 still Coming Soon (`min-height:440px`). Homepage lists Authentic Kampung Taste and Gegulung Ayam Lima Rempah from 3394, Jalan Pekeliling Tanjung 27/2, Indahpura Industrial Park, 81000 Kulai, Johor. SSM 202401029645 (1575493-V).
-- Draft: `r3766898410558903312`. Thread: `1a035bc273d26c6c`. Subject: Kulai frozen-food page.
+- SENT 25 Aug 2026 10:00 MYT. Message: `1a036a967bae4d15`. Thread: `1a035bc273d26c6c`. Former draft: `r3766898410558903312`. Subject: Kulai frozen-food page.
+- Do not mail again unless they reply.
 - File: `docs/proposals/best-kampung-foods.md`. Hostable draft: `docs/proposals/best-kampung-foods-services.html`.
-- Website-page offer, RM 1,000-5,000. No Stripe. Send on the same Tue 10:00 timer after VISUALUXE MEDIA.
+- Website-page offer, RM 1,000-5,000. No Stripe. Do not mail again unless they reply.
 
-### The Cake Hunter Sdn Bhd -- QUEUED draft 25 Aug 2026 05:57 MYT
+### The Cake Hunter Sdn Bhd -- SENT 25 Aug 2026 10:00 MYT
 
 - To: thecakehunter91@gmail.com (homepage and `/contactus/` mailto on https://www.thecakehunter.com.my/). One inbox.
 - Source: live https://www.thecakehunter.com.my/services/ HTTP 200 still Coming Soon (`min-height:440px`). Homepage lists Malaysia Books of Record The Biggest Rotating Castle Wedding Cake and Musang King Durian Cake from 41, Jalan Puteri 4/1, Bandar Puteri, 47100 Puchong. SSM 202201003833 (1449530-M).
-- Draft: `r-966671456700195244`. Thread: `1a035c7487144da5`. Subject: Puchong wedding-cake page.
+- SENT 25 Aug 2026 10:00 MYT. Message: `1a036a97f7a77dfc`. Thread: `1a035c7487144da5`. Former draft: `r-966671456700195244`. Subject: Puchong wedding-cake page.
+- Do not mail again unless they reply.
 - File: `docs/proposals/the-cake-hunter.md`. Hostable draft: `docs/proposals/the-cake-hunter-services.html`.
-- Website-page offer, RM 1,000-5,000. No Stripe. Send on the same Tue 10:00 timer after Best Kampung Foods.
+- Website-page offer, RM 1,000-5,000. No Stripe. Do not mail again unless they reply.
 
-### City Explorer Sdn Bhd -- QUEUED draft 25 Aug 2026 05:57 MYT
+### City Explorer Sdn Bhd -- SENT 25 Aug 2026 10:00 MYT
 
 - To: cityexplorer2010@gmail.com (homepage and `/contactus/` mailto on https://www.cityexplorer.com.my/). One inbox.
 - Source: live https://www.cityexplorer.com.my/services/ HTTP 200 still Coming Soon (`min-height:440px`). Homepage lists ONE STOP PRINTING & DISPLAY CENTRE and Glass/Window Sticker Printing & Installation @ D'Tempat Sendayan, Negeri Sembilan from Wisma City Explorer, D13-4, Persiaran Utama S2-1, Central Park, 70300 Seremban. SSM 200201028033 (595696-K).
-- Draft: `r8635684385642882977`. Thread: `1a035c74a78aa8b7`. Subject: Seremban printing-display page.
+- SENT 25 Aug 2026 10:00 MYT. Message: `1a036a984cd3f9a2`. Thread: `1a035c74a78aa8b7`. Former draft: `r8635684385642882977`. Subject: Seremban printing-display page.
+- Do not mail again unless they reply.
 - File: `docs/proposals/city-explorer.md`. Hostable draft: `docs/proposals/city-explorer-services.html`.
-- Website-page offer, RM 1,000-5,000. No Stripe. Send on the same Tue 10:00 timer after The Cake Hunter.
+- Website-page offer, RM 1,000-5,000. No Stripe. Do not mail again unless they reply.
 
-### CM JOHOR PROPERTY -- QUEUED draft 25 Aug 2026 06:22 MYT
+### CM JOHOR PROPERTY -- SENT 25 Aug 2026 10:00 MYT
 
 - To: hongtrading88@gmail.com (homepage and `/contactus/` mailto on https://www.cmjbproperty.com/). One inbox.
 - Source: live https://www.cmjbproperty.com/services/ HTTP 200 still Coming Soon (`min-height:440px`). Homepage lists PROPERTY . INTERIOR . CURTAIN . FLOORING and From Property to Perfect Living from 68, Jalan Pahlawan 2, Taman Ungku Tun Aminah, 81300 Johor Bahru. Contact copies the printed Pratical Guidiance heading. SSM 201703376783 (JM0827990-X).
-- Draft: `r-6449333155660813786`. Thread: `1a035dda592a6f12`. Subject: Tun Aminah property-interior page.
+- SENT 25 Aug 2026 10:00 MYT. Message: `1a036a993effe73c`. Thread: `1a035dda592a6f12`. Former draft: `r-6449333155660813786`. Subject: Tun Aminah property-interior page.
+- Do not mail again unless they reply.
 - File: `docs/proposals/cm-johor-property.md`. Hostable draft: `docs/proposals/cm-johor-property-services.html`.
-- Website-page offer, RM 1,000-5,000. No Stripe. Send on the same Tue 10:00 timer after City Explorer.
+- Website-page offer, RM 1,000-5,000. No Stripe. Do not mail again unless they reply.
 
-### LUNAA & SIX SDN BHD -- QUEUED draft 25 Aug 2026 06:22 MYT
+### LUNAA & SIX SDN BHD -- SENT 25 Aug 2026 10:00 MYT
 
 - To: lunaawomencare@gmail.com (homepage and `/contactus/` mailto on https://www.lunaawomencare.com/). One inbox.
 - Source: live https://www.lunaawomencare.com/services/ HTTP 200 still Coming Soon (`min-height:440px`). Homepage lists Malaysia's first feminine intimate care brand combining 130 million years of rainforest herbal heritage and Probiotic Intimate Care from 76, Jalan Kulim, Taman Tenang, 14000 Bukit Mertajam. SSM 202301044131 (1538047-T).
-- Draft: `r2225112047431278513`. Thread: `1a035dda6276db5b`. Subject: Bukit Mertajam intimate-care page.
+- SENT 25 Aug 2026 10:00 MYT. Message: `1a036a9aa3c47cb5`. Thread: `1a035dda6276db5b`. Former draft: `r2225112047431278513`. Subject: Bukit Mertajam intimate-care page.
+- Do not mail again unless they reply.
 - File: `docs/proposals/lunaa-womencare.md`. Hostable draft: `docs/proposals/lunaa-womencare-services.html`.
-- Website-page offer, RM 1,000-5,000. No Stripe. Send on the same Tue 10:00 timer after CM JOHOR PROPERTY.
+- Website-page offer, RM 1,000-5,000. No Stripe. Do not mail again unless they reply.
 
-### Luxiiigon Studio Sdn Bhd -- QUEUED draft 25 Aug 2026 06:22 MYT
+### Luxiiigon Studio Sdn Bhd -- SENT 25 Aug 2026 10:00 MYT
 
 - To: luxiiigon.studio@gmail.com (contact Email Address on https://www.luxiiigonstudio.com/contactus/). One inbox. Do not mail luxiigon.studio@gmail.com.
 - Source: live https://www.luxiiigonstudio.com/services/ HTTP 200 still Coming Soon (`min-height:440px`). Homepage lists REFINED HOMES, THOUGHFULLY DESIGNED and Eco Ardence Aeres, Setia Alam from A-5-8, Medan Connaught, Jalan 3/144A, Taman Bukit Cheras, 56000 Cheras. SSM 201801046578 (1308610-X).
-- Draft: `r4626032946459116636`. Thread: `1a035dda76809e00`. Subject: Cheras feng-shui interior page.
+- SENT 25 Aug 2026 10:00 MYT. Message: `1a036a9b00974852`. Thread: `1a035dda76809e00`. Former draft: `r4626032946459116636`. Subject: Cheras feng-shui interior page.
+- Do not mail again unless they reply.
 - File: `docs/proposals/luxiiigon-studio.md`. Hostable draft: `docs/proposals/luxiiigon-studio-services.html`.
-- Website-page offer, RM 1,000-5,000. No Stripe. Send on the same Tue 10:00 timer after LUNAA.
+- Website-page offer, RM 1,000-5,000. No Stripe. Do not mail again unless they reply.
 
-### KLINIK PERGIGIAN RAKYAT DENTAL -- QUEUED draft 25 Aug 2026 06:22 MYT
+### KLINIK PERGIGIAN RAKYAT DENTAL -- SENT 25 Aug 2026 10:00 MYT
 
 - To: rakyatdental9@gmail.com (contact-page mailto on https://www.rakyatdental.com/contactus/). One inbox.
 - Source: live https://www.rakyatdental.com/services/ HTTP 200 still Coming Soon (`min-height:440px`). Homepage lists Johor Bahru's Trusted Family Dentist Since 1986 and Dr Ashwin Rajah Vikneswaran from 91A & 93A, Jalan Rawa, Taman Perling, plus Tampoi at No 41-01, Jalan Persiaran Tanjung Susur 1. Clinic no 230102-04402-12.
-- Draft: `r1747599321561340451`. Thread: `1a035dda8e45cadb`. Subject: Perling Tampoi dental page.
+- SENT 25 Aug 2026 10:00 MYT. Message: `1a036a9bf1f30e24`. Thread: `1a035dda8e45cadb`. Former draft: `r1747599321561340451`. Subject: Perling Tampoi dental page.
+- Do not mail again unless they reply.
 - File: `docs/proposals/rakyat-dental.md`. Hostable draft: `docs/proposals/rakyat-dental-services.html`.
-- Website-page offer, RM 1,000-5,000. No Stripe. Send on the same Tue 10:00 timer after Luxiiigon Studio.
+- Website-page offer, RM 1,000-5,000. No Stripe. Do not mail again unless they reply.
 
-### TechHaus Sdn Bhd -- QUEUED draft 25 Aug 2026 06:22 MYT
+### TechHaus Sdn Bhd -- SENT 25 Aug 2026 10:00 MYT
 
 - To: enquiry@techhaus.advpg.com (contact Email Address on https://www.techhaus.advpg.com/contactus/). One inbox. HQ mailbox only.
 - Source: live https://www.techhaus.advpg.com/services/ HTTP 200 still Coming Soon (`min-height:440px`). Homepage lists Yellow Jacket, Kanomax, and Frascold from No.16, Jalan Sungai Jeluh 32/192, Nouvelle Kemuning Industrial Park, Seksyen 32, 40460 Shah Alam. SSM 793973-V.
-- Draft: `r9046917530825658721`. Thread: `1a035dda8035f1c1`. Subject: Shah Alam test-instrument page.
+- SENT 25 Aug 2026 10:00 MYT. Message: `1a036a9cf7192f6b`. Thread: `1a035dda8035f1c1`. Former draft: `r9046917530825658721`. Subject: Shah Alam test-instrument page.
+- Do not mail again unless they reply.
 - File: `docs/proposals/techhaus.md`. Hostable draft: `docs/proposals/techhaus-services.html`.
-- Website-page offer, RM 1,000-5,000. No Stripe. Send on the same Tue 10:00 timer after Rakyat Dental.
+- Website-page offer, RM 1,000-5,000. No Stripe. Do not mail again unless they reply.
 
-### Focus Education -- QUEUED draft 25 Aug 2026 06:37 MYT
+### Focus Education -- SENT 25 Aug 2026 10:00 MYT
 
 - To: focus.education12@gmail.com (contact Email Address on https://www.focuseducation.com.my/contactus/). One inbox. Do not mail joanne.beh96@gmail.com.
 - Source: live https://www.focuseducation.com.my/services/ HTTP 200 still Coming Soon (`min-height:440px`). Homepage lists established in 2009 and more than 100 local and overseas universities and colleges from 12, 1st Floor, Jalan Permatang Gedung, Taman Sejati Indah, 08000 Sungai Petani. SSM 200903218105 (AS0322092-P).
-- Draft: `r1414046011283131122`. Thread: `1a035eb6149df2f8`. Subject: Sungai Petani study-abroad page.
+- SENT 25 Aug 2026 10:00 MYT. Message: `1a036a9fecb10f35`. Thread: `1a035eb6149df2f8`. Former draft: `r1414046011283131122`. Subject: Sungai Petani study-abroad page.
+- Do not mail again unless they reply.
 - File: `docs/proposals/focus-education.md`. Hostable draft: `docs/proposals/focus-education-services.html`.
-- Website-page offer, RM 1,000-5,000. No Stripe. Send on the same Tue 10:00 timer after TechHaus.
+- Website-page offer, RM 1,000-5,000. No Stripe. Do not mail again unless they reply.
 
-### LKSoft Solutions (M) Sdn Bhd -- QUEUED draft 25 Aug 2026 06:37 MYT
+### LKSoft Solutions (M) Sdn Bhd -- SENT 25 Aug 2026 10:00 MYT
 
 - To: steven@lksoft.com.my (homepage and `/contactus/` mailto on https://www.lksoft.com.my/). One inbox. HQ mailbox only.
 - Source: live https://www.lksoft.com.my/services/ HTTP 200 still Coming Soon (`min-height:440px`). Homepage lists Empower Your Store. Streamline Your Sales., Trusted by 400+ Customer, and Zywell ZY906 from 37, Jalan Ros Merah 2/7, Taman Johor Jaya, 81100 Johor Bahru. Established in 2011. SSM 201701021213 (1235379-T).
-- Draft: `r2643949822634435142`. Thread: `1a035eb61a28b2e9`. Subject: Johor Jaya POS page.
+- SENT 25 Aug 2026 10:00 MYT. Message: `1a036aa039d03ae9`. Thread: `1a035eb61a28b2e9`. Former draft: `r2643949822634435142`. Subject: Johor Jaya POS page.
+- Do not mail again unless they reply.
 - File: `docs/proposals/lksoft.md`. Hostable draft: `docs/proposals/lksoft-services.html`.
-- Website-page offer, RM 1,000-5,000. No Stripe. Send on the same Tue 10:00 timer after Focus Education.
+- Website-page offer, RM 1,000-5,000. No Stripe. Do not mail again unless they reply.
 
-### RAPIDKILL PEST CONTROL (KL) SDN BHD -- QUEUED draft 25 Aug 2026 06:37 MYT
+### RAPIDKILL PEST CONTROL (KL) SDN BHD -- SENT 25 Aug 2026 10:00 MYT
 
 - To: shawn992399@gmail.com (homepage and `/contactus/` mailto on https://www.rapidkill.my/). One inbox. HQ mailbox only.
 - Source: live https://www.rapidkill.my/services/ HTTP 200 still Coming Soon (`min-height:440px`). Homepage lists 22839 + Termite Colonies, Over 20 Years of Pest Control Experience, and SPI Product Insert from 27, Jalan Budiman, Budiman Business Park, 43000 Kajang. SSM 201401002104 (1078178-W).
-- Draft: `r-7446328822150468223`. Thread: `1a035eb63ef7193e`. Subject: Kajang termite-control page.
+- SENT 25 Aug 2026 10:00 MYT. Message: `1a036aa1a0cdea35`. Thread: `1a035eb63ef7193e`. Former draft: `r-7446328822150468223`. Subject: Kajang termite-control page.
+- Do not mail again unless they reply.
 - File: `docs/proposals/rapidkill.md`. Hostable draft: `docs/proposals/rapidkill-services.html`.
-- Website-page offer, RM 1,000-5,000. No Stripe. Send on the same Tue 10:00 timer after LKSOFT.
+- Website-page offer, RM 1,000-5,000. No Stripe. Do not mail again unless they reply.
 
-### Success Emblem Sdn Bhd -- QUEUED draft 25 Aug 2026 06:37 MYT
+### Success Emblem Sdn Bhd -- SENT 25 Aug 2026 10:00 MYT
 
 - To: successemblem@hotmail.com (contact-page mailto on https://www.successemblemhardware.com/contactus/). One inbox.
 - Source: live https://www.successemblemhardware.com/services/ HTTP 200 still Coming Soon (`min-height:440px`). Homepage lists High-Performance Screws, Hardware and Building Materials for Every Project and over 2,000 products from 2, Jalan Seroja 39, Taman Johor Jaya, 81100 Johor Bahru. SSM 200601029316 (749073-M).
-- Draft: `r-5119437525656795650`. Thread: `1a035eb6214faba6`. Subject: Johor Jaya fastener page.
+- SENT 25 Aug 2026 10:00 MYT. Message: `1a036aa233dea0b2`. Thread: `1a035eb6214faba6`. Former draft: `r-5119437525656795650`. Subject: Johor Jaya fastener page.
+- Do not mail again unless they reply.
 - File: `docs/proposals/success-emblem.md`. Hostable draft: `docs/proposals/success-emblem-services.html`.
-- Website-page offer, RM 1,000-5,000. No Stripe. Send on the same Tue 10:00 timer after RAPIDKILL.
+- Website-page offer, RM 1,000-5,000. No Stripe. Do not mail again unless they reply.
 
-### Lullabee -- QUEUED draft 25 Aug 2026 06:44 MYT
+### Lullabee -- SENT 25 Aug 2026 10:00 MYT
 
 - To: admin@lullabee.com.my (contact-page mailto on https://www.lullabee.com.my/contactus/). One inbox.
 - Source: live https://www.lullabee.com.my/services/ HTTP 200 still Coming Soon (`min-height:440px`). Homepage lists Guided by Love, Learning & Care, Baby Care (2 - 18 Months), and Early Intervention Program for Children in Puchong from 16, Jalan Kenari 1, Bandar Puchong Jaya, 47170 Puchong. SSM 201903243385 (003013304-U).
-- Draft: `r3262124602360174498`. Thread: `1a035f26a19dfb3b`. Subject: Puchong childcare page.
+- SENT 25 Aug 2026 10:00 MYT. Message: `1a036aa2e7ae7052`. Thread: `1a035f26a19dfb3b`. Former draft: `r3262124602360174498`. Subject: Puchong childcare page.
+- Do not mail again unless they reply.
 - File: `docs/proposals/lullabee.md`. Hostable draft: `docs/proposals/lullabee-services.html`.
-- Website-page offer, RM 1,000-5,000. No Stripe. Send on the same Tue 10:00 timer after Success Emblem.
+- Website-page offer, RM 1,000-5,000. No Stripe. Do not mail again unless they reply.
 
-### KM ANIMAL CLINIC AND SURGERY SDN BHD -- QUEUED draft 25 Aug 2026 06:44 MYT
+### KM ANIMAL CLINIC AND SURGERY SDN BHD -- SENT 25 Aug 2026 10:00 MYT
 
 - To: enquiry@vethospital.com.my (homepage and `/contactus/` mailto on https://www.vethospital.com.my/). One inbox. Do not mail kmanimalclinic@hotmail.com.
 - Source: live https://www.vethospital.com.my/services/ HTTP 200 still Coming Soon (`min-height:440px`). Homepage lists ISFM CAT FRIENDLY CLINIC and Dog Soft Tissue Surgery from 5, Jalan Industri Batu Caves 1/1, Taman Perindustrian Batu Caves, 68100 Batu Caves. SSM 201401002760 (1078834-D).
-- Draft: `r-6419739449602303714`. Thread: `1a035f26df681672`. Subject: Batu Caves vet page.
+- SENT 25 Aug 2026 10:00 MYT. Message: `1a036aa37e21ed66`. Thread: `1a035f26df681672`. Former draft: `r-6419739449602303714`. Subject: Batu Caves vet page.
+- Do not mail again unless they reply.
 - File: `docs/proposals/km-animal-clinic.md`. Hostable draft: `docs/proposals/km-animal-clinic-services.html`.
-- Website-page offer, RM 1,000-5,000. No Stripe. Send on the same Tue 10:00 timer after Lullabee.
+- Website-page offer, RM 1,000-5,000. No Stripe. Do not mail again unless they reply.
 - Skipped this pass: gzzebo.com (China), othentic.com.my (enquiry@otts.com.my domain mismatch), myofficesupply.com.my (info@tetrix.com.my domain mismatch), myscienzo.com (1521-byte NEWPAGES stub). Focus: do not mail joanne.beh96@. KM Animal Clinic: do not mail kmanimalclinic@hotmail.com. onesync.my aliases are not firm sites. Do not send before 09:00 MYT.
 
-### DDDG Sport Hub Enterprise -- QUEUED draft 25 Aug 2026 06:53 MYT
+### DDDG Sport Hub Enterprise -- SENT 25 Aug 2026 10:00 MYT
 
 - To: dddgsporthub@gmail.com (homepage and `/contactus/` mailto on https://www.dddgsport.com/). One inbox.
 - Source: live https://www.dddgsport.com/services/ HTTP 200 still Coming Soon (`min-height:440px`). Title: Our Services | DDDG Sport Hub Enterprise. Homepage lists Trusted Partner for Badminton and Beyond, YONEX and Maxx, and a Skudai-area title while contact prints 4A & 4B, Jalan Pendekar 11, Taman Ungku Tun Aminah, 81300 Johor Bahru. SSM 202303195149 (MA0304637-A).
-- Draft: `r7691605844726778237`. Thread: `1a035fa8d1eae7dd`. Subject: Skudai badminton page.
+- SENT 25 Aug 2026 10:00 MYT. Message: `1a036aa554c81a9d`. Thread: `1a035fa8d1eae7dd`. Former draft: `r7691605844726778237`. Subject: Skudai badminton page.
+- Do not mail again unless they reply.
 - File: `docs/proposals/dddg-sport-hub.md`. Hostable draft: `docs/proposals/dddg-sport-hub-services.html`.
-- Website-page offer, RM 1,000-5,000. No Stripe. Send on the same Tue 10:00 timer after KM Animal Clinic.
+- Website-page offer, RM 1,000-5,000. No Stripe. Do not mail again unless they reply.
 - Skipped leftover guessed packing/pallet hosts this pass (DNS/SSL fail or `/services/` 404). cksafetystore.com.my `/services/` was a 1703-byte WAF check, not Coming Soon. NEWPAGES homepage firms with a live site but filled `/services/` (not Coming Soon) or 404: sigma.com.my, dinowork.com.my, khhousevpinspection.com.my, industrialstores.com.my, masterframe.com.my, onestoppaintcentre.com.my, queensfloor.com, mentasupplies.com, agilenesshome.com.my, superprosolution.com.my, vinylflooring.com.my, hairwigsking.com, kpltools.com, 21garagemotorsport.com, remotify.com.my, mtmpre.com.my. artworldestore.com `/services/` was a 1703-byte WAF check. Do not send before 09:00 MYT.
 
-### TS Audio Electrical -- QUEUED draft 25 Aug 2026 07:15 MYT
+### TS Audio Electrical -- SENT 25 Aug 2026 10:00 MYT
 
 - To: tsaudioarau@gmail.com (homepage and `/contactus/` mailto on https://www.tselectrical.com.my/). One inbox. Do not invent a Kodiang mail inbox.
 - Source: live https://www.tselectrical.com.my/services/ HTTP 200 still Coming Soon (`min-height:440px`). Title: Our Services | TS Audio Electrical (M) Sdn. Bhd. Homepage lists PENGHANTARAN PERCUMA DI SELURUH NEGERI PERLIS and Pembelian Sebelum 5pm akan dihantar pada hari yang sama from HQ 25, 27, 29, Kompleks Tok Arau, Jalan Satu, 02600 Arau, Perlis. SSM 202101043344 (1443644-A). First `/services/` dump was a 1703-byte WAF check; later unique-file dump is the real Coming Soon page.
-- Draft: `r-4406099745964296127`. Thread: `1a0360d148fd17e1`. Subject: Arau electrical page.
+- SENT 25 Aug 2026 10:00 MYT. Message: `1a036aa5bf8a159e`. Thread: `1a0360d148fd17e1`. Former draft: `r-4406099745964296127`. Subject: Arau electrical page.
+- Do not mail again unless they reply.
 - File: `docs/proposals/ts-audio-electrical.md`. Hostable draft: `docs/proposals/ts-audio-electrical-services.html`.
-- Website-page offer, RM 1,000-5,000. No Stripe. Send on the same Tue 10:00 timer after DDDG Sport Hub.
+- Website-page offer, RM 1,000-5,000. No Stripe. Do not mail again unless they reply.
 - Skipped this pass: remaining NEWPAGES homepage and location firms with filled `/services/` or 404. WAF still blocking unique dumps for ccsprinting.com.my, dwimakmur.com.my, hnkflooring.com.my (later filled), klcparts.com.my, lkmmachinery.com.my, plugandplay88.com.my, signboardpenang.com. Do not send before 09:00 MYT.
 
-### EXC Electrical Trading -- QUEUED draft 25 Aug 2026 07:22 MYT
+### EXC Electrical Trading -- SENT 25 Aug 2026 10:00 MYT
 
 - To: excelectrical2024@gmail.com (homepage and `/contactus/` mailto on https://www.excelectrical.com.my/). One inbox.
 - Source: live https://www.excelectrical.com.my/services/ HTTP 200 still Coming Soon (`min-height:440px`). Title: Our Services | EXC Electrical Trading Sdn Bhd. Homepage lists SINCE 1985, LIGHT UP THE WORLD, and HIGH-QUALITY ELECTRICAL SOLUTIONS from 30-G & 32-G, Jalan Equine 1E, Taman Equine, 43300 Seri Kembangan. Printed line: Socket Cutlets / Switch. SSM 202401028082 (1573931-H).
-- Draft: `r3714714837256402400`. Thread: `1a03614cb7a17ac5`. Subject: Seri Kembangan electrical page.
+- SENT 25 Aug 2026 10:00 MYT. Message: `1a036aa760770612`. Thread: `1a03614cb7a17ac5`. Former draft: `r3714714837256402400`. Subject: Seri Kembangan electrical page.
+- Do not mail again unless they reply.
 - File: `docs/proposals/exc-electrical.md`. Hostable draft: `docs/proposals/exc-electrical-services.html`.
-- Website-page offer, RM 1,000-5,000. No Stripe. Send on the same Tue 10:00 timer after TS Audio Electrical.
+- Website-page offer, RM 1,000-5,000. No Stripe. Do not mail again unless they reply.
 - Skipped leftover classified hosts this pass with filled `/services/` or 404. WAF still on kianpg.com, weisionggroup.com, airborneproject.com.my, angelsbud.com, evhub.my, paradisefnb.com.my. Do not send before 09:00 MYT.
 
-### VIP Billion Milestone Travel -- QUEUED draft 25 Aug 2026 07:26 MYT
+### VIP Billion Milestone Travel -- SENT 25 Aug 2026 10:00 MYT
 
 - To: info.vipbm@gmail.com (homepage and `/contactus/` mailto on https://www.vipbmtt.com/). One inbox.
 - Source: live https://www.vipbmtt.com/services/ HTTP 200 still Coming Soon (`min-height:440px`). Title: Our Services | VIP BILLION MILESTONE TRAVEL & TOURS SDN BHD. Homepage lists Premium VIP Chauffeur Transport in Malaysia and KL to Port Dickson Private Driver for Resort Trips and Family Luggage. Title also prints Chauffeur Services Kuala Lumpur (KL) while contact prints TyAB-S2-37(1), Ascotte Boulevard, Jalan Bandar Rinching 6/1, Bandar Rinching, 43500 Semenyih. SSM 202501049497 (1650905-V).
-- Draft: `r588815565297507930`. Thread: `1a036190c4f693c5`. Subject: Semenyih chauffeur page.
+- SENT 25 Aug 2026 10:00 MYT. Message: `1a036aa7cd702a74`. Thread: `1a036190c4f693c5`. Former draft: `r588815565297507930`. Subject: Semenyih chauffeur page.
+- Do not mail again unless they reply.
 - File: `docs/proposals/vip-billion-milestone.md`. Hostable draft: `docs/proposals/vip-billion-milestone-services.html`.
-- Website-page offer, RM 1,000-5,000. Not a Thursday 3PL follow-up. No Stripe. Send on the same Tue 10:00 timer after EXC Electrical.
+- Website-page offer, RM 1,000-5,000. Not a Thursday 3PL follow-up. No Stripe. Do not mail again unless they reply.
 - Skipped leftover hosts this pass with filled `/services/` or 404. WAF still on weisionggroup.com, airborneproject.com.my, angelsbud.com, evhub.my, paradisefnb.com.my, ccsprinting.com.my, dwimakmur.com.my. kianpg.com `/services/` is 404. Do not send before 09:00 MYT.
 
-### MI PACIFIC SDN BHD -- QUEUED draft 25 Aug 2026 07:38 MYT
+### MI PACIFIC SDN BHD -- SENT 25 Aug 2026 10:00 MYT
 
 - To: carrental.mi@gmail.com (homepage and `/contactus/` mailto on https://www.mimpvrental.com/). One inbox.
 - Source: live https://www.mimpvrental.com/services/ HTTP 200 still Coming Soon (`min-height:440px`). Title: Our Services | MI PACIFIC SDN BHD. Homepage lists Premium MPV Travel Solutions and Toyota Alphard and Vellfire. Also known as Mi MPV Car Rental Services / Mi MPV Transportation. Title prints MPV Car Rental Selangor, Chauffeur Services KL while contact prints G-12, 31, Jalan Pinggiran Putra, Taman Pinggiran Putra, 43300 Seri Kembangan. SSM 202201030809 (1476506-X).
-- Draft: `r-5086820966452328407`. Thread: `1a0362391f793e0b`. Subject: Seri Kembangan MPV page.
+- SENT 25 Aug 2026 10:00 MYT. Message: `1a036aaae7fa3dae`. Thread: `1a0362391f793e0b`. Former draft: `r-5086820966452328407`. Subject: Seri Kembangan MPV page.
+- Do not mail again unless they reply.
 - File: `docs/proposals/mi-pacific.md`. Hostable draft: `docs/proposals/mi-pacific-services.html`.
-- Website-page offer, RM 1,000-5,000. Not a Thursday 3PL follow-up. No Stripe. Send on the same Tue 10:00 timer after VIP Billion Milestone.
+- Website-page offer, RM 1,000-5,000. Not a Thursday 3PL follow-up. No Stripe. Do not mail again unless they reply.
 - Skipped this pass: leftover unused classified timeline IDs 5/10/14/16/17/19/21-24/26/28 now 404, including previously working location IDs. NEWPAGES homepage still lists hosts. creativointerior.com already queued as Deseo Creativo. applequeenbeauty.com.sg is Singapore. sapbusinessone.com.my / sgmytransportmpv.com / spclube.com `/services/` 404. WAF still on weisionggroup.com, airborneproject.com.my, angelsbud.com, evhub.my, paradisefnb.com.my, ccsprinting.com.my, dwimakmur.com.my, kianpg.com, asliparts.com.my, hauhifi.com, jesubprinttech.my, mfcsb.com, nesttrend.com.my, onepowertech.com.my. Do not send before 09:00 MYT.
 
-### ELITE CONSULTANTS & TRAINING PLT -- QUEUED draft 25 Aug 2026 07:48 MYT
+### ELITE CONSULTANTS & TRAINING PLT -- SENT 25 Aug 2026 10:00 MYT
 
 - To: michelle@elitemanagement.com.my (homepage and `/contactus/` mailto on https://www.elitemanagement.com.my/). One inbox.
 - Source: live https://www.elitemanagement.com.my/services/ HTTP 200 still Coming Soon (`min-height:440px`). Title: Our Services | ELITE CONSULTANTS & TRAINING PLT. Homepage lists Your Pathway to ISO Compliance Starts Here and Enhancing Value Through Strategic ISO & Grant Integration from 51-2, Jalan Sierra 10/2, Bandar 16 Sierra, 47120 Puchong. Title also prints ISO Consultancy Malaysia / ISO Training Services Selangor / Management Training Consultant Kuala Lumpur (KL). SSM LLP0010071-LGN (LLP0010071-LGN). Printed news line QUALITY MANGEMENT SYSTEMS – REQUIRMENTS copied as printed.
-- Draft: `r-2402372785825049534`. Thread: `1a0362c7b2e5f40b`. Subject: Puchong ISO page.
+- SENT 25 Aug 2026 10:00 MYT. Message: `1a036aab23926cae`. Thread: `1a0362c7b2e5f40b`. Former draft: `r-2402372785825049534`. Subject: Puchong ISO page.
+- Do not mail again unless they reply.
 - File: `docs/proposals/elite-consultants.md`. Hostable draft: `docs/proposals/elite-consultants-services.html`.
-- Website-page offer, RM 1,000-5,000. No Stripe. Send on the same Tue 10:00 timer after MI PACIFIC.
+- Website-page offer, RM 1,000-5,000. No Stripe. Do not mail again unless they reply.
 
-### Mitalee Carpet & Furnishing Sdn Bhd -- QUEUED draft 25 Aug 2026 07:48 MYT
+### Mitalee Carpet & Furnishing Sdn Bhd -- SENT 25 Aug 2026 10:00 MYT
 
 - To: jack@mitalee.com.my (contact-page mailto on https://www.mitalee.com.my/contactus/). One inbox. HQ mailbox only.
 - Source: live https://www.mitalee.com.my/services/ HTTP 200 still Coming Soon (`min-height:440px`). Title: Our Services | Mitalee Carpet & Furnishing Sdn Bhd. Homepage lists FLOORMART carpet and Owclee Contract carpet tiles, and says largest distributor and stockist in the Southern Region of Malaysia. Title prints Carpet & Wallpaper Supplier Malaysia, Johor Bahru (JB), Selangor, Kuala Lumpur (KL) while contact prints HQ 28 & 30,32, Jalan Seroja 45, Taman Johor Jaya, 81100 Johor Bahru. Warehouses in Semenyih, Permas, and SILC print phones only. Footer also prints stockiest and Owlcee. SSM 199401022024 (307703-M).
-- Draft: `r2880132312699073321`. Thread: `1a0362c7da452fa5`. Subject: Johor Jaya carpet page.
+- SENT 25 Aug 2026 10:00 MYT. Message: `1a036aabaf6c6904`. Thread: `1a0362c7da452fa5`. Former draft: `r2880132312699073321`. Subject: Johor Jaya carpet page.
+- Do not mail again unless they reply.
 - File: `docs/proposals/mitalee.md`. Hostable draft: `docs/proposals/mitalee-services.html`.
-- Website-page offer, RM 1,000-5,000. No Stripe. Send on the same Tue 10:00 timer after Elite Consultants.
+- Website-page offer, RM 1,000-5,000. No Stripe. Do not mail again unless they reply.
 - Skipped this pass: leftover opening.newpages.com.my hosts with filled `/services/`, 404, HTTP 000, or WAF. weisionggroup.com later unique dumps were WAF after one leftover CS file. Do not send before 09:00 MYT.
 
-### Hotali Printing -- QUEUED draft 25 Aug 2026 07:57 MYT
+### Hotali Printing -- SENT 25 Aug 2026 10:00 MYT
 
 - To: hotaliprinting@gmail.com (contact-page mailto on https://www.hotaliprinting.com.my/contactus/). One inbox.
 - Source: live https://www.hotaliprinting.com.my/services/ HTTP 200 still Coming Soon (`min-height:440px`). Title: Our Services | Hotali Printing. Homepage lists ONE STOP SERVICES FROM DESIGNS TO PRINTING END PRODUCTS and Injek Printing from 74, Jalan Kebudayaan 6, Taman Universiti, 81300 Skudai. Title also prints Digital Printing, Injek Printing, Offset Printing Services JB. Established in 2007. Footer also prints Inkjek Printing and Calendar & Dairy Book. SSM JM0621426-K.
-- Draft: `r-3332857387999753896`. Thread: `1a036356f5755578`. Subject: Skudai print page.
+- SENT 25 Aug 2026 10:00 MYT. Message: `1a036aacf145a59f`. Thread: `1a036356f5755578`. Former draft: `r-3332857387999753896`. Subject: Skudai print page.
+- Do not mail again unless they reply.
 - File: `docs/proposals/hotali-printing.md`. Hostable draft: `docs/proposals/hotali-printing-services.html`.
-- Website-page offer, RM 1,000-5,000. No Stripe. Send on the same Tue 10:00 timer after Mitalee.
+- Website-page offer, RM 1,000-5,000. No Stripe. Do not mail again unless they reply.
 
-### MyESG.online -- QUEUED draft 25 Aug 2026 07:57 MYT
+### MyESG.online -- SENT 25 Aug 2026 10:00 MYT
 
 - To: contact@myesg.online (homepage and `/contactus/` mailto on https://www.myesg.online/). One inbox.
 - Source: live https://www.myesg.online/services/ HTTP 200 still Coming Soon (`min-height:440px`). Title: Our Services | MyESG.online. Homepage lists Streamline ESG Reporting, Drive Sustainable Impact and DJSI, FTSE4Good, CDP, GRI. Title prints MyESG | ESG Assessment & Management Platform. Contact prints contact@myesg.online and tel +60-127847001. No street printed. Printed line Advance Impact Calculators copied as printed. SSM 201001006060 (890679-X).
-- Draft: `r4782701001165637108`. Thread: `1a036356fc019f7a`. Subject: ESG platform page.
+- SENT 25 Aug 2026 10:00 MYT. Message: `1a036aaeb65a8833`. Thread: `1a036356fc019f7a`. Former draft: `r4782701001165637108`. Subject: ESG platform page.
+- Do not mail again unless they reply.
 - File: `docs/proposals/myesg.md`. Hostable draft: `docs/proposals/myesg-services.html`.
-- Website-page offer, RM 1,000-5,000. No Stripe. Send on the same Tue 10:00 timer after Hotali Printing.
+- Website-page offer, RM 1,000-5,000. No Stripe. Do not mail again unless they reply.
 
-### 3 Arts Studio Design -- QUEUED draft 25 Aug 2026 08:07 MYT
+### 3 Arts Studio Design -- SENT 25 Aug 2026 10:00 MYT
 
 - To: 3artsstudio.design@gmail.com (homepage and `/contactus/` mailto on https://www.3artsstudio.com.my/). One inbox.
 - Source: live https://www.3artsstudio.com.my/services/ HTTP 200 still Coming Soon (`min-height:440px`). Homepage lists TRANSFORMING HOUSES INTO DREAM HOMES and DESIGNING SPACES, ENRICHING LIVES from No.11, 1st Floor, Jalan Intan Setia 1, Taman Intan Setia, 08000 Sungai Petani. SSM 202103140127 (AS0430460-T).
-- Draft: `r-8528559331350786083`. Thread: `1a0363e93f94735a`. Subject: Sungai Petani interior page.
+- SENT 25 Aug 2026 10:00 MYT. Message: `1a036aaec29d0317`. Thread: `1a0363e93f94735a`. Former draft: `r-8528559331350786083`. Subject: Sungai Petani interior page.
+- Do not mail again unless they reply.
 - File: `docs/proposals/three-arts-studio.md`. Hostable draft: `docs/proposals/three-arts-studio-services.html`.
-- Website-page offer, RM 1,000-5,000. No Stripe. Send on the same Tue 10:00 timer after MyESG.
+- Website-page offer, RM 1,000-5,000. No Stripe. Do not mail again unless they reply.
 
-### Reman Tech (M) Sdn. Bhd. -- QUEUED draft 25 Aug 2026 08:07 MYT
+### Reman Tech (M) Sdn. Bhd. -- SENT 25 Aug 2026 10:00 MYT
 
 - To: remantech305@gmail.com (contact-page mailto on https://www.96turbo.com.my/contactus/). One inbox.
 - Source: live https://www.96turbo.com.my/services/ HTTP 200 still Coming Soon (`min-height:440px`). Homepage lists High-Performance Turbocharger Solutions for Every Application and TurboMaster CHRA from 305, Jalan Lahat, Taman Falim, 30200 Ipoh. Since 2016. SSM 201601036246 (1207187-P). Do not copy homepage Lorem ipsum lines.
-- Draft: `r-890629580311286052`. Thread: `1a0363e94c06e1d3`. Subject: Ipoh turbo page.
+- SENT 25 Aug 2026 10:00 MYT. Message: `1a036aaf0bb21a1c`. Thread: `1a0363e94c06e1d3`. Former draft: `r-890629580311286052`. Subject: Ipoh turbo page.
+- Do not mail again unless they reply.
 - File: `docs/proposals/reman-tech.md`. Hostable draft: `docs/proposals/reman-tech-services.html`.
-- Website-page offer, RM 1,000-5,000. No Stripe. Send on the same Tue 10:00 timer after 3 Arts Studio.
+- Website-page offer, RM 1,000-5,000. No Stripe. Do not mail again unless they reply.
 
-### 9One9 Timber Solid Door (M) Sdn Bhd -- QUEUED draft 25 Aug 2026 08:07 MYT
+### 9One9 Timber Solid Door (M) Sdn Bhd -- SENT 25 Aug 2026 10:00 MYT
 
 - To: 9one9tsdm@gmail.com (contact-page mailto on https://www.9one9timbersoliddoor.com.my/contactus/). One inbox. Do not invent a Singapore mail inbox.
 - Source: live https://www.9one9timbersoliddoor.com.my/services/ HTTP 200 still Coming Soon (`min-height:440px`). Homepage lists PREMIUM TIMBER & WOODEN DOOR SOLUTIONS and over 20 years of experience from 16, Jalan Ekoperniagaan 2/3, Taman Ekoperniagaan, 81100 Johor Bahru. Printed Conceal Door copied as printed. SSM 202501015720 (1617135-H).
-- Draft: `r794836244349866035`. Thread: `1a0363e97fe257d4`. Subject: Johor Bahru timber-door page.
+- SENT 25 Aug 2026 10:00 MYT. Message: `1a036ab1be35cd60`. Thread: `1a0363e97fe257d4`. Former draft: `r794836244349866035`. Subject: Johor Bahru timber-door page.
+- Do not mail again unless they reply.
 - File: `docs/proposals/nineone9-timber.md`. Hostable draft: `docs/proposals/nineone9-timber-services.html`.
-- Website-page offer, RM 1,000-5,000. No Stripe. Send on the same Tue 10:00 timer after Reman Tech.
+- Website-page offer, RM 1,000-5,000. No Stripe. Do not mail again unless they reply.
 
-### ACE LUBRICANTS & CHEMICALS SDN. BHD. -- QUEUED draft 25 Aug 2026 08:07 MYT
+### ACE LUBRICANTS & CHEMICALS SDN. BHD. -- SENT 25 Aug 2026 10:00 MYT
 
 - To: timothy.powerup@gmail.com (homepage and `/contactus/` mailto on https://www.acelubricants.com.my/). One inbox.
 - Source: live https://www.acelubricants.com.my/services/ HTTP 200 still Coming Soon (`min-height:440px`). Homepage lists Driving Excellence in Automotive Lubricants and TORENZOIL from HS(M) 3745, PTD 153751, Jalan Berjaya 8, Taman Perindustrian Berjaya, Kempas Lama, 81200 Johor Bahru. Printed MULTI-VECHICLE copied as printed. SSM 202301036198 (1530121-D).
-- Draft: `r-6187740688024410907`. Thread: `1a0363e976048a63`. Subject: Kempas Lama lubricant page.
+- SENT 25 Aug 2026 10:00 MYT. Message: `1a036ab1f0b58285`. Thread: `1a0363e976048a63`. Former draft: `r-6187740688024410907`. Subject: Kempas Lama lubricant page.
+- Do not mail again unless they reply.
 - File: `docs/proposals/ace-lubricants.md`. Hostable draft: `docs/proposals/ace-lubricants-services.html`.
-- Website-page offer, RM 1,000-5,000. No Stripe. Send on the same Tue 10:00 timer after 9One9 Timber.
+- Website-page offer, RM 1,000-5,000. No Stripe. Do not mail again unless they reply.
 
-### GC Precision Tools -- QUEUED draft 25 Aug 2026 08:11 MYT
+### GC Precision Tools -- SENT 25 Aug 2026 10:00 MYT
 
 - To: gcprecision1988@gmail.com (homepage and `/contactus/` mailto on https://www.accud.com.my/). One inbox.
 - Source: live https://www.accud.com.my/services/ HTTP 200 still Coming Soon (`min-height:440px`). Homepage lists authorized distributor for Accud Measuring Tools & Instruments and Caliper from 44-3-2, Block D, Jalan 2/101C, Cheras Business Centre, 56100 Kuala Lumpur. SSM 202303090910 (LA0056401-A).
-- Draft: `r156940417560241133`. Thread: `1a036423616cd99f`. Subject: Cheras measuring-tools page.
+- SENT 25 Aug 2026 10:00 MYT. Message: `1a036ab36c86d26f`. Thread: `1a036423616cd99f`. Former draft: `r156940417560241133`. Subject: Cheras measuring-tools page.
+- Do not mail again unless they reply.
 - File: `docs/proposals/gc-precision.md`. Hostable draft: `docs/proposals/gc-precision-services.html`.
-- Website-page offer, RM 1,000-5,000. No Stripe. Send on the same Tue 10:00 timer after ACE Lubricants.
+- Website-page offer, RM 1,000-5,000. No Stripe. Do not mail again unless they reply.
 
-### AC MORGAN SDN. BHD. / AC Living -- QUEUED draft 25 Aug 2026 08:11 MYT
+### AC MORGAN SDN. BHD. / AC Living -- SENT 25 Aug 2026 10:00 MYT
 
 - To: aconlinehome@gmail.com (homepage and `/contactus/` mailto on https://www.acliving.com.my/). One inbox.
 - Source: live https://www.acliving.com.my/services/ HTTP 200 still Coming Soon (`min-height:440px`). Homepage lists Table & Chair Solutions For Restaurants • Cafés • Food Courts • School from 119, Jalan Sentral 24, Taman Nusa Sentral, 79100 Nusajaya. SSM 202101044499 (1444799-W).
-- Draft: `r-7959629283690173805`. Thread: `1a0364238a66cb5e`. Subject: Nusajaya furniture page.
+- SENT 25 Aug 2026 10:00 MYT. Message: `1a036ab68c7effd3`. Thread: `1a0364238a66cb5e`. Former draft: `r-7959629283690173805`. Subject: Nusajaya furniture page.
+- Do not mail again unless they reply.
 - File: `docs/proposals/ac-living.md`. Hostable draft: `docs/proposals/ac-living-services.html`.
-- Website-page offer, RM 1,000-5,000. No Stripe. Send on the same Tue 10:00 timer after GC Precision.
+- Website-page offer, RM 1,000-5,000. No Stripe. Do not mail again unless they reply.
 
-### Advanced Inkjet Sdn Bhd -- QUEUED draft 25 Aug 2026 08:11 MYT
+### Advanced Inkjet Sdn Bhd -- SENT 25 Aug 2026 10:00 MYT
 
 - To: toon@advancedinkjet.com.my (contact Email Address on https://www.advancedinkjet.com.my/contactus/). One inbox. Do not mail toon@advancedingkjet.com.my.
 - Source: live https://www.advancedinkjet.com.my/services/ HTTP 200 still Coming Soon (`min-height:440px`). Homepage lists Every Idea Meant To Print Big and Window Glass Sticker from 21, Jalan PBI 2, Perindustrian Bukit Indah, 47000 Sungai Buloh. Established year 2017. SSM 201701023047 (1237213-H).
-- Draft: `r-7527642045958146954`. Thread: `1a03642393b091d6`. Subject: Sungai Buloh print page.
+- SENT 25 Aug 2026 10:00 MYT. Message: `1a036ab6f21c3ec2`. Thread: `1a03642393b091d6`. Former draft: `r-7527642045958146954`. Subject: Sungai Buloh print page.
+- Do not mail again unless they reply.
 - File: `docs/proposals/advanced-inkjet.md`. Hostable draft: `docs/proposals/advanced-inkjet-services.html`.
-- Website-page offer, RM 1,000-5,000. No Stripe. Send on the same Tue 10:00 timer after AC Living.
+- Website-page offer, RM 1,000-5,000. No Stripe. Do not mail again unless they reply.
 
-### ALLGLASS SDN BHD -- QUEUED draft 25 Aug 2026 08:11 MYT
+### ALLGLASS SDN BHD -- SENT 25 Aug 2026 10:00 MYT
 
 - To: info@allglass.com.my (contact-page mailto on https://www.allglass.com.my/contactus/). One inbox. HQ mailbox only.
 - Source: live https://www.allglass.com.my/services/ HTTP 200 still Coming Soon (`min-height:440px`). Homepage lists RELIABLE SPECIALISTS IN GLASS AND ALUMINIUM and OVER 30 YEARS OF EXPERIENCE. HQ 25, Jalan Pandan 2/2, Pandan Jaya, 55100 Kuala Lumpur. Factory at Desa Tun Razak prints phones only. SSM 216065-K.
-- Draft: `r6273236465010385414`. Thread: `1a036423b68c8935`. Subject: Pandan Jaya glass page.
+- SENT 25 Aug 2026 10:00 MYT. Message: `1a036ab7ce5aed76`. Thread: `1a036423b68c8935`. Former draft: `r6273236465010385414`. Subject: Pandan Jaya glass page.
+- Do not mail again unless they reply.
 - File: `docs/proposals/allglass.md`. Hostable draft: `docs/proposals/allglass-services.html`.
-- Website-page offer, RM 1,000-5,000. No Stripe. Send on the same Tue 10:00 timer after Advanced Inkjet.
+- Website-page offer, RM 1,000-5,000. No Stripe. Do not mail again unless they reply.
 
-### Advance Vertex Motors Sdn Bhd -- QUEUED draft 25 Aug 2026 08:20 MYT
+### Advance Vertex Motors Sdn Bhd -- SENT 25 Aug 2026 10:00 MYT
 
 - To: advertexmotor@gmail.com (HQ Email Address on https://www.advancevertexmotors.com.my/contactus/). One inbox. Branches print phones only.
 - Source: live https://www.advancevertexmotors.com.my/services/ HTTP 200 still Coming Soon (`min-height:440px`). Homepage lists Yamaha Star Center Kuala Kangsar, established in 1982, and Yamaha 135LC Fi (20th Anniversary Limited Edition) from 16G, Lot 5397, Jalan Dato Sagor, 33000 Kuala Kangsar. SSM 200201023354 (591017-X).
-- Draft: `r8717690422767887500`. Thread: `1a0364a1e06007cf`. Subject: Kuala Kangsar Yamaha page.
+- SENT 25 Aug 2026 10:00 MYT. Message: `1a036ab8d32fdd36`. Thread: `1a0364a1e06007cf`. Former draft: `r8717690422767887500`. Subject: Kuala Kangsar Yamaha page.
+- Do not mail again unless they reply.
 - File: `docs/proposals/advance-vertex-motors.md`. Hostable draft: `docs/proposals/advance-vertex-motors-services.html`.
-- Website-page offer, RM 1,000-5,000. No Stripe. Send on the same Tue 10:00 timer after Allglass.
+- Website-page offer, RM 1,000-5,000. No Stripe. Do not mail again unless they reply.
 
-### AEIOU STUDIO SDN BHD -- QUEUED draft 25 Aug 2026 08:20 MYT
+### AEIOU STUDIO SDN BHD -- SENT 25 Aug 2026 10:00 MYT
 
 - To: contact@aeiou.com.my (contact Email Address on https://www.aeiou.com.my/contactus/). One inbox. Do not mail lim@aeiou.com.my or willdavid@gmail.com.
 - Source: live https://www.aeiou.com.my/services/ HTTP 200 still Coming Soon (`min-height:440px`) after a first 1703-byte WAF dump. Homepage lists Moof Wrapping Paper (Hostamping) and GreenHillBlueOcean from 3, Jalan BA/3A, Kawasan Perindustrian Bukit Angkat 2, 43000 Kajang. SSM 199601016378 (388729-D). Do not copy live product prices.
-- Draft: `r2755351467904710217`. Thread: `1a03649d1711607c`. Subject: Kajang wrapping-paper page.
+- SENT 25 Aug 2026 10:00 MYT. Message: `1a036aba09849795`. Thread: `1a03649d1711607c`. Former draft: `r2755351467904710217`. Subject: Kajang wrapping-paper page.
+- Do not mail again unless they reply.
 - File: `docs/proposals/aeiou-studio.md`. Hostable draft: `docs/proposals/aeiou-studio-services.html`.
-- Website-page offer, RM 1,000-5,000. No Stripe. Send on the same Tue 10:00 timer after Advance Vertex.
+- Website-page offer, RM 1,000-5,000. No Stripe. Do not mail again unless they reply.
 
-### AGM AUTO GALLERY SDN. BHD. -- QUEUED draft 25 Aug 2026 08:20 MYT
+### AGM AUTO GALLERY SDN. BHD. -- SENT 25 Aug 2026 10:00 MYT
 
 - To: lykong09@yahoo.com (homepage and `/contactus/` mailto on https://www.agmbrake.com.my/). One inbox.
 - Source: live https://www.agmbrake.com.my/services/ HTTP 200 still Coming Soon (`min-height:440px`). Homepage lists Drive Beyond Limits, Command Precision and AP Racing, Brembo, and Alcon from 15, 17 Jalan Desa Aman 2, Taman Desa Aman, 56100 Cheras. SSM 201601001264 (1172190-W).
-- Draft: `r-2994698647141930377`. Thread: `1a03649d3560385a`. Subject: Cheras brake page.
+- SENT 25 Aug 2026 10:00 MYT. Message: `1a036aba5d5e9b79`. Thread: `1a03649d3560385a`. Former draft: `r-2994698647141930377`. Subject: Cheras brake page.
+- Do not mail again unless they reply.
 - File: `docs/proposals/agm-auto-gallery.md`. Hostable draft: `docs/proposals/agm-auto-gallery-services.html`.
-- Website-page offer, RM 1,000-5,000. No Stripe. Send on the same Tue 10:00 timer after AEIOU Studio.
+- Website-page offer, RM 1,000-5,000. No Stripe. Do not mail again unless they reply.
 
-### AMTOOLS AUTOMOTIVE SDN BHD -- QUEUED draft 25 Aug 2026 08:20 MYT
+### AMTOOLS AUTOMOTIVE SDN BHD -- SENT 25 Aug 2026 10:00 MYT
 
 - To: amtoolmalaysia@hotmail.com (contact Email Address on https://www.amtools.com.my/contactus/). One inbox.
 - Source: live https://www.amtools.com.my/services/ HTTP 200 still Coming Soon (`min-height:440px`) after a first 1703-byte WAF dump. Homepage lists ADVANCED CAR DIAGNOSIS SYSTEMS and sole distributor of Autel from 31, Jalan Batai Laut 5, Taman Intan, 41300 Klang. Product cards print MaxiIM titles and MaxilM as printed. SSM 201101034778 (962911-D).
-- Draft: `r-404656677117099247`. Thread: `1a03649d33a8b532`. Subject: Klang diagnosis page.
+- SENT 25 Aug 2026 10:00 MYT. Message: `1a036abb29d9127e`. Thread: `1a03649d33a8b532`. Former draft: `r-404656677117099247`. Subject: Klang diagnosis page.
+- Do not mail again unless they reply.
 - File: `docs/proposals/amtools-automotive.md`. Hostable draft: `docs/proposals/amtools-automotive-services.html`.
-- Website-page offer, RM 1,000-5,000. No Stripe. Send on the same Tue 10:00 timer after AGM Auto Gallery.
+- Website-page offer, RM 1,000-5,000. No Stripe. Do not mail again unless they reply.
 
-### Aka Koi Centre / Ben Koi Centre Sdn. Bhd. -- QUEUED draft 25 Aug 2026 08:20 MYT
+### Aka Koi Centre / Ben Koi Centre Sdn. Bhd. -- SENT 25 Aug 2026 10:00 MYT
 
 - To: benjamingoh8@gmail.com (homepage and `/contactus/` mailto on https://www.akakoi.com.my/). One inbox.
 - Source: live https://www.akakoi.com.my/services/ HTTP 200 still Coming Soon (`min-height:440px`). Homepage lists ASIA CUP KOI SHOW GRAND CHAMPION (2016) and Koi Pond Maintenance from 69, Jalan Choo Lip Kung, Taman Taynton View, 56000 Kuala Lumpur. Printed We offers copied as printed. SSM 202101004949 (1405248-A).
-- Draft: `r-3406234702335004194`. Thread: `1a03649d495c0745`. Subject: Taynton View koi page.
+- SENT 25 Aug 2026 10:00 MYT. Message: `1a036abd1a36b3cb`. Thread: `1a03649d495c0745`. Former draft: `r-3406234702335004194`. Subject: Taynton View koi page.
+- Do not mail again unless they reply.
 - File: `docs/proposals/aka-koi.md`. Hostable draft: `docs/proposals/aka-koi-services.html`.
-- Website-page offer, RM 1,000-5,000. No Stripe. Send on the same Tue 10:00 timer after AMTOOLS.
+- Website-page offer, RM 1,000-5,000. No Stripe. Do not mail again unless they reply.
 
-### Alpha Pets Sdn Bhd -- QUEUED draft 25 Aug 2026 08:20 MYT
+### Alpha Pets Sdn Bhd -- SENT 25 Aug 2026 10:00 MYT
 
 - To: anglingding@gmail.com (contact Email Address on https://www.alphapets.com.my/contactus/). One inbox.
 - Source: live https://www.alphapets.com.my/services/ HTTP 200 still Coming Soon (`min-height:440px`) after a first 1703-byte WAF dump. Homepage lists Malaysia's Leading Cat Litter Supplier and tofu cat litter from Taman Perindustrian Air Hitam Phase 1 & 2, No. 1, Jalan Permata 9/KS9, Bandar Parkland, 41200 Klang. SSM 202201038494 (1484191-V). Do not copy live product prices.
-- Draft: `r-8605311392803778748`. Thread: `1a03649d767d750b`. Subject: Klang pet-supply page.
+- SENT 25 Aug 2026 10:00 MYT. Message: `1a036abd2bb3e0c9`. Thread: `1a03649d767d750b`. Former draft: `r-8605311392803778748`. Subject: Klang pet-supply page.
+- Do not mail again unless they reply.
 - File: `docs/proposals/alpha-pets.md`. Hostable draft: `docs/proposals/alpha-pets-services.html`.
-- Website-page offer, RM 1,000-5,000. No Stripe. Send on the same Tue 10:00 timer after Aka Koi.
+- Website-page offer, RM 1,000-5,000. No Stripe. Do not mail again unless they reply.
 
-### Amcoweld (M) Sdn Bhd -- QUEUED draft 25 Aug 2026 08:20 MYT
+### Amcoweld (M) Sdn Bhd -- SENT 25 Aug 2026 10:00 MYT
 
 - To: sales@amcoweld.com.my (JB HQ Email Address on https://www.amcoweld.com.my/contactus/). One inbox. Do not mail amcoweld@singnet.com.sg, amcoweld_indo@yahoo.com, sales@amcotech.com.sg, or kl@amcoweld.com.my.
 - Source: live https://www.amcoweld.com.my/services/ HTTP 200 still Coming Soon (`min-height:440px`). Homepage lists Welding Solutions Across Asia, Hypertherm, and Years of Experiene from 16, Jalan Perniagaan Setia 7, Taman Perniagaan Setia, 81100 Johor Bahru. SSM 200201028896 (596559-D).
-- Draft: `r-3096787382770815094`. Thread: `1a03649d7a891e19`. Subject: Johor Bahru welding page.
+- SENT 25 Aug 2026 10:00 MYT. Message: `1a036abd7cade825`. Thread: `1a03649d7a891e19`. Former draft: `r-3096787382770815094`. Subject: Johor Bahru welding page.
+- Do not mail again unless they reply.
 - File: `docs/proposals/amcoweld.md`. Hostable draft: `docs/proposals/amcoweld-services.html`.
-- Website-page offer, RM 1,000-5,000. No Stripe. Send on the same Tue 10:00 timer after Alpha Pets.
+- Website-page offer, RM 1,000-5,000. No Stripe. Do not mail again unless they reply.
 
-### AMP TECH AUTOMATION SDN BHD -- QUEUED draft 25 Aug 2026 08:20 MYT
+### AMP TECH AUTOMATION SDN BHD -- SENT 25 Aug 2026 10:00 MYT
 
 - To: amptech99@gmail.com (contact Email Address on https://www.amptech-auto.com.my/contactus/). One inbox. Do not mail sales@amptech-auto.com.
 - Source: live https://www.amptech-auto.com.my/services/ HTTP 200 still Coming Soon (`min-height:440px`) after a first 1703-byte WAF dump. Homepage lists ABB Contactor and Warning Silen Alarm from 27, Jalan Indah 25/8, Taman Bukit Indah, 81200 Johor Bahru. SSM 201001024255 (908027-M).
-- Draft: `r-6917355750500261598`. Thread: `1a03649d802c56d6`. Subject: Johor Bahru automation page.
+- SENT 25 Aug 2026 10:00 MYT. Message: `1a036ac0a495e386`. Thread: `1a03649d802c56d6`. Former draft: `r-6917355750500261598`. Subject: Johor Bahru automation page.
+- Do not mail again unless they reply.
 - File: `docs/proposals/amp-tech-automation.md`. Hostable draft: `docs/proposals/amp-tech-automation-services.html`.
-- Website-page offer, RM 1,000-5,000. No Stripe. Send on the same Tue 10:00 timer after Amcoweld.
+- Website-page offer, RM 1,000-5,000. No Stripe. Do not mail again unless they reply.
 
-### Apex Epoxy Solutions -- QUEUED draft 25 Aug 2026 08:20 MYT
+### Apex Epoxy Solutions -- SENT 25 Aug 2026 10:00 MYT
 
 - To: info@apexepoxy.com.my (homepage and `/contactus/` mailto on https://www.apexepoxy.com.my/). One inbox.
 - Source: live https://www.apexepoxy.com.my/services/ HTTP 200 still Coming Soon (`min-height:440px`). Homepage lists Redefining Floors with Epoxy Excellence and PU MF Flooring System, Air Selangor Water Plant, Sungai Besi from 15-1, Tengkat Tong Shin, Bukit Bintang, 50200 Kuala Lumpur. SSM 202503212398 (003759871-A).
-- Draft: `r-6150179488808675692`. Thread: `1a03649d8ad603f5`. Subject: Bukit Bintang epoxy page.
+- SENT 25 Aug 2026 10:00 MYT. Message: `1a036ac10e1b8c45`. Thread: `1a03649d8ad603f5`. Former draft: `r-6150179488808675692`. Subject: Bukit Bintang epoxy page.
+- Do not mail again unless they reply.
 - File: `docs/proposals/apex-epoxy.md`. Hostable draft: `docs/proposals/apex-epoxy-services.html`.
-- Website-page offer, RM 1,000-5,000. No Stripe. Send on the same Tue 10:00 timer after AMP TECH.
+- Website-page offer, RM 1,000-5,000. No Stripe. Do not mail again unless they reply.
 
-### A PRO PLUMBER -- QUEUED draft 25 Aug 2026 08:28 MYT
+### A PRO PLUMBER -- SENT 25 Aug 2026 10:00 MYT
 
 - To: enquiry@aproplumber.com.my (homepage and `/contactus/` mailto on https://www.aproplumber.com.my/). One inbox.
 - Source: live https://www.aproplumber.com.my/services/ HTTP 200 still Coming Soon (`min-height:440px`). Homepage lists Your One-Stop Solution for Home & Building Services and Trusted by 100+ Customers. Contact prints Subang Jaya & Negeri Sembilan, Malaysia, with no street. SSM 202203257874 (MA0292240-X).
-- Draft: `r-1758257891382373045`. Thread: `1a03651ba6215707`. Subject: Subang Jaya plumbing page.
+- SENT 25 Aug 2026 10:00 MYT. Message: `1a036ac27ef0462e`. Thread: `1a03651ba6215707`. Former draft: `r-1758257891382373045`. Subject: Subang Jaya plumbing page.
+- Do not mail again unless they reply.
 - File: `docs/proposals/a-pro-plumber.md`. Hostable draft: `docs/proposals/a-pro-plumber-services.html`.
-- Website-page offer, RM 1,000-5,000. No Stripe. Send on the same Tue 10:00 timer after Apex Epoxy.
+- Website-page offer, RM 1,000-5,000. No Stripe. Do not mail again unless they reply.
 
-### AS AUTO GLASS WORLD SPECIALIST -- QUEUED draft 25 Aug 2026 08:28 MYT
+### AS AUTO GLASS WORLD SPECIALIST -- SENT 25 Aug 2026 10:00 MYT
 
 - To: asautoglass25@gmail.com (homepage and `/contactus/` mailto on https://www.asautoglass.com.my/). One inbox.
 - Source: live https://www.asautoglass.com.my/services/ HTTP 200 still Coming Soon (`min-height:440px`). Homepage lists Windscreen Replacement Specialist and Bulls Eye, Star, Combination, Half Moon, and Long Cracks from 8G, Jalan PJS 10/2, Taman Subang Indah, 46150 Petaling Jaya. SSM 201703134425 (002645597-M).
-- Draft: `r3254464783236443586`. Thread: `1a03651bd3531072`. Subject: Petaling Jaya windscreen page.
+- SENT 25 Aug 2026 10:00 MYT. Message: `1a036ac2b9b6055e`. Thread: `1a03651bd3531072`. Former draft: `r3254464783236443586`. Subject: Petaling Jaya windscreen page.
+- Do not mail again unless they reply.
 - File: `docs/proposals/as-auto-glass.md`. Hostable draft: `docs/proposals/as-auto-glass-services.html`.
-- Website-page offer, RM 1,000-5,000. No Stripe. Send on the same Tue 10:00 timer after A PRO PLUMBER.
+- Website-page offer, RM 1,000-5,000. No Stripe. Do not mail again unless they reply.
 
-### Asclepius Healthcare Clinic -- QUEUED draft 25 Aug 2026 08:28 MYT
+### Asclepius Healthcare Clinic -- SENT 25 Aug 2026 10:00 MYT
 
 - To: asclepius.hc@gmail.com (HQ Email Address on https://www.asclepiushealthcare.com.my/contactus/). One inbox. Do not mail asclepiuskulai@gmail.com or asclepiustebrau@gmail.com.
 - Source: live https://www.asclepiushealthcare.com.my/services/ HTTP 200 still Coming Soon (`min-height:440px`). Homepage lists BUILDING A HEALTHIER FUTURE TOGETHER and established in 2022 from 376, Jalan Simbang, Taman Perling, 81200 Johor Bahru. SSM 202201013770 (1459467-V).
-- Draft: `r1195072793912049023`. Thread: `1a03651bd5949d51`. Subject: Perling clinic page.
+- SENT 25 Aug 2026 10:00 MYT. Message: `1a036ac2e7619644`. Thread: `1a03651bd5949d51`. Former draft: `r1195072793912049023`. Subject: Perling clinic page.
+- Do not mail again unless they reply.
 - File: `docs/proposals/asclepius-healthcare.md`. Hostable draft: `docs/proposals/asclepius-healthcare-services.html`.
-- Website-page offer, RM 1,000-5,000. No Stripe. Send on the same Tue 10:00 timer after AS Auto Glass.
+- Website-page offer, RM 1,000-5,000. No Stripe. Do not mail again unless they reply.
 
-### ATG Realty -- QUEUED draft 25 Aug 2026 08:28 MYT
+### ATG Realty -- SENT 25 Aug 2026 10:00 MYT
 
 - To: info.atgrealty@gmail.com (homepage and `/contactus/` mailto on https://www.atgrealty.com.my/). One inbox.
 - Source: live https://www.atgrealty.com.my/services/ HTTP 200 still Coming Soon (`min-height:440px`). Homepage lists Your Industrial & Commercial Partner and Prime Industrial Real Estate in Klang. Contact prints 10-2F, Jalan Setia Perdana BF U13/BF, 40170 Shah Alam. Copy both cities as printed. SSM 202503305113 (003792651-T).
-- Draft: `r-1413237942235589981`. Thread: `1a03651bfb6925e4`. Subject: Klang industrial-property page.
+- SENT 25 Aug 2026 10:00 MYT. Message: `1a036ac5535d5b1d`. Thread: `1a03651bfb6925e4`. Former draft: `r-1413237942235589981`. Subject: Klang industrial-property page.
+- Do not mail again unless they reply.
 - File: `docs/proposals/atg-realty.md`. Hostable draft: `docs/proposals/atg-realty-services.html`.
-- Website-page offer, RM 1,000-5,000. No Stripe. Send on the same Tue 10:00 timer after Asclepius.
+- Website-page offer, RM 1,000-5,000. No Stripe. Do not mail again unless they reply.
 
-### Autolead Sdn Bhd -- QUEUED draft 25 Aug 2026 08:28 MYT
+### Autolead Sdn Bhd -- SENT 25 Aug 2026 10:00 MYT
 
 - To: autolead.motor_gan@hotmail.com (contact Email Address on https://www.autolead.com.my/contactus/). One inbox.
 - Source: live https://www.autolead.com.my/services/ HTTP 200 still Coming Soon (`min-height:440px`). Homepage lists Malaysia Motor Cover Set & Spare Part and kapcai motorcycle parts from 17, Jalan Raya Barat, 41100 Klang. SSM 199501030234 (359440-U). Do not copy live product prices.
-- Draft: `r4880374660190854347`. Thread: `1a03651c1552f098`. Subject: Klang kapcai-parts page.
+- SENT 25 Aug 2026 10:00 MYT. Message: `1a036ac590ad7c76`. Thread: `1a03651c1552f098`. Former draft: `r4880374660190854347`. Subject: Klang kapcai-parts page.
+- Do not mail again unless they reply.
 - File: `docs/proposals/autolead.md`. Hostable draft: `docs/proposals/autolead-services.html`.
-- Website-page offer, RM 1,000-5,000. No Stripe. Send on the same Tue 10:00 timer after ATG Realty.
+- Website-page offer, RM 1,000-5,000. No Stripe. Do not mail again unless they reply.
 
-### Autopista Holding Sdn Bhd -- QUEUED draft 25 Aug 2026 08:28 MYT
+### Autopista Holding Sdn Bhd -- SENT 25 Aug 2026 10:00 MYT
 
 - To: autopista7090@hotmail.com (homepage and `/contactus/` mailto on https://www.autopista.com.my/). One inbox.
 - Source: live https://www.autopista.com.my/services/ HTTP 200 still Coming Soon (`min-height:440px`). Homepage lists established in the year of 1994 and front skirt from 10, Jalan Kesuma 2/4, 43700 Mukim Beranang. SSM 715318-K.
-- Draft: `r7163012989326799641`. Thread: `1a03651c1b6060c1`. Subject: Beranang body-kit page.
+- SENT 25 Aug 2026 10:00 MYT. Message: `1a036ac6e0d0b12e`. Thread: `1a03651c1b6060c1`. Former draft: `r7163012989326799641`. Subject: Beranang body-kit page.
+- Do not mail again unless they reply.
 - File: `docs/proposals/autopista.md`. Hostable draft: `docs/proposals/autopista-services.html`.
-- Website-page offer, RM 1,000-5,000. No Stripe. Send on the same Tue 10:00 timer after Autolead.
+- Website-page offer, RM 1,000-5,000. No Stripe. Do not mail again unless they reply.
 
-### AVP Flooring Sdn Bhd -- QUEUED draft 25 Aug 2026 08:28 MYT
+### AVP Flooring Sdn Bhd -- SENT 25 Aug 2026 10:00 MYT
 
 - To: sales@avpflooring.com.my (homepage and `/contactus/` mailto on https://www.avpflooring.com.my/). One inbox.
 - Source: live https://www.avpflooring.com.my/services/ HTTP 200 still Coming Soon (`min-height:440px`). Homepage lists more than 20 years of experiences and Anti-Static (ESD) Flooring. Title prints Seri Kembangan. Contact prints Selangor, Malaysia, with no street. SSM 202001004379 (1360699-M).
-- Draft: `r-7123143933921864291`. Thread: `1a03651c27039fe5`. Subject: Seri Kembangan epoxy page.
+- SENT 25 Aug 2026 10:00 MYT. Message: `1a036ac74117f674`. Thread: `1a03651c27039fe5`. Former draft: `r-7123143933921864291`. Subject: Seri Kembangan epoxy page.
+- Do not mail again unless they reply.
 - File: `docs/proposals/avp-flooring.md`. Hostable draft: `docs/proposals/avp-flooring-services.html`.
-- Website-page offer, RM 1,000-5,000. No Stripe. Send on the same Tue 10:00 timer after Autopista.
+- Website-page offer, RM 1,000-5,000. No Stripe. Do not mail again unless they reply.
 
-### Beh Travel & Tours Sdn. Bhd. -- QUEUED draft 25 Aug 2026 08:37 MYT
+### Beh Travel & Tours Sdn. Bhd. -- SENT 25 Aug 2026 10:00 MYT
 
 - To: cpbeh_ent@hotmail.com (homepage and `/contactus/` mailto on https://www.behtravel.com.my/). One inbox.
 - Source: live https://www.behtravel.com.my/services/ HTTP 200 still Coming Soon (`min-height:440px`). Homepage lists Comfortable, Affordable Bus Trips to Penang, Genting & Hatyai and 30-seater single-deck buses from 33-G-15 Jalan Lim Chwee Leong, 10100 Georgetown. SSM 201201031196 (1015682-U).
-- Draft: `r-2684290586621871320`. Thread: `1a03659d627d3ec3`. Subject: Georgetown bus page.
+- SENT 25 Aug 2026 10:00 MYT. Message: `1a036ac791d59730`. Thread: `1a03659d627d3ec3`. Former draft: `r-2684290586621871320`. Subject: Georgetown bus page.
+- Do not mail again unless they reply.
 - File: `docs/proposals/beh-travel.md`. Hostable draft: `docs/proposals/beh-travel-services.html`.
-- Website-page offer, RM 1,000-5,000. No Stripe. Send on the same Tue 10:00 timer after AVP Flooring.
+- Website-page offer, RM 1,000-5,000. No Stripe. Do not mail again unless they reply.
 
-### Besstar Equipment Sdn Bhd -- QUEUED draft 25 Aug 2026 08:37 MYT
+### Besstar Equipment Sdn Bhd -- SENT 25 Aug 2026 10:00 MYT
 
 - To: besstarequipment@gmail.com (homepage and `/contactus/` mailto on https://www.besstar.com.my/). One inbox. Kota Kinabalu prints phones only.
 - Source: live https://www.besstar.com.my/services/ HTTP 200 still Coming Soon (`min-height:440px`). Homepage lists Commercial Refrigerator and Display & Storage Racking System from No. 10, Jalan PJS 1/30, Taman Petaling Utama, 46000 Petaling Jaya. SSM 202201021199 (1466896-X).
-- Draft: `r1603410649042745588`. Thread: `1a03659d6ff8a9ab`. Subject: Petaling Jaya kitchen-equipment page.
+- SENT 25 Aug 2026 10:00 MYT. Message: `1a036acc64ce0adb`. Thread: `1a03659d6ff8a9ab`. Former draft: `r1603410649042745588`. Subject: Petaling Jaya kitchen-equipment page.
+- Do not mail again unless they reply.
 - File: `docs/proposals/besstar-equipment.md`. Hostable draft: `docs/proposals/besstar-equipment-services.html`.
-- Website-page offer, RM 1,000-5,000. No Stripe. Send on the same Tue 10:00 timer after Beh Travel.
+- Website-page offer, RM 1,000-5,000. No Stripe. Do not mail again unless they reply.
 
-### Beyond Design & Build -- QUEUED draft 25 Aug 2026 08:37 MYT
+### Beyond Design & Build -- SENT 25 Aug 2026 10:00 MYT
 
 - To: info@beyonddesignbuild.com.my (homepage and `/contactus/` mailto on https://www.beyonddesignbuild.com.my/). One inbox.
 - Source: live https://www.beyonddesignbuild.com.my/services/ HTTP 200 still Coming Soon (`min-height:440px`). Homepage lists Are you ready to transform your house? from No. 35, Jalan Idaman 5/8, 79100 Iskandar Puteri. SSM 202003171830 (JM0940034-K).
-- Draft: `r1590751922373160440`. Thread: `1a03659d83b95be6`. Subject: Iskandar Puteri interior page.
+- SENT 25 Aug 2026 10:00 MYT. Message: `1a036acc88e70559`. Thread: `1a03659d83b95be6`. Former draft: `r1590751922373160440`. Subject: Iskandar Puteri interior page.
+- Do not mail again unless they reply.
 - File: `docs/proposals/beyond-design-build.md`. Hostable draft: `docs/proposals/beyond-design-build-services.html`.
-- Website-page offer, RM 1,000-5,000. No Stripe. Send on the same Tue 10:00 timer after Besstar.
+- Website-page offer, RM 1,000-5,000. No Stripe. Do not mail again unless they reply.
 
-### Big Sign Advertising -- QUEUED draft 25 Aug 2026 08:37 MYT
+### Big Sign Advertising -- SENT 25 Aug 2026 10:00 MYT
 
 - To: bigsignadvertising@gmail.com (homepage and `/contactus/` mailto on https://www.bigsignadvertising.com.my/). One inbox.
 - Source: live https://www.bigsignadvertising.com.my/services/ HTTP 200 still Coming Soon (`min-height:440px`). Homepage lists 3D Box Up with Frontlit LED and more than 10 years of experience from 6, Jalan Bagan Nira 26/8, 40400 Shah Alam. SSM 202003026812 (SA0540943-X).
-- Draft: `r-6809379164497393708`. Thread: `1a03659daaa2bba2`. Subject: Shah Alam signage page.
+- SENT 25 Aug 2026 10:00 MYT. Message: `1a036ace1c6cce28`. Thread: `1a03659daaa2bba2`. Former draft: `r-6809379164497393708`. Subject: Shah Alam signage page.
+- Do not mail again unless they reply.
 - File: `docs/proposals/big-sign-advertising.md`. Hostable draft: `docs/proposals/big-sign-advertising-services.html`.
-- Website-page offer, RM 1,000-5,000. No Stripe. Send on the same Tue 10:00 timer after Beyond Design.
+- Website-page offer, RM 1,000-5,000. No Stripe. Do not mail again unless they reply.
 
-### BIGSOYA SUPPLY (M) SDN BHD -- QUEUED draft 25 Aug 2026 08:37 MYT
+### BIGSOYA SUPPLY (M) SDN BHD -- SENT 25 Aug 2026 10:00 MYT
 
 - To: bigsoyamalaysia@gmail.com (homepage and `/contactus/` mailto on https://www.bigsoya.com.my/). One inbox.
 - Source: live https://www.bigsoya.com.my/services/ HTTP 200 still Coming Soon (`min-height:440px`). Homepage lists Every Sip, A Taste of Nature and Welcoming for Muslim from 32, Jalan USJ 1/1B, 46000 Subang Jaya. SSM 202401018241 (1564090-V).
-- Draft: `r1323680417232066538`. Thread: `1a03659db236cbfa`. Subject: Subang Jaya soy-milk page.
+- SENT 25 Aug 2026 10:00 MYT. Message: `1a036ace5d953808`. Thread: `1a03659db236cbfa`. Former draft: `r1323680417232066538`. Subject: Subang Jaya soy-milk page.
+- Do not mail again unless they reply.
 - File: `docs/proposals/bigsoya.md`. Hostable draft: `docs/proposals/bigsoya-services.html`.
-- Website-page offer, RM 1,000-5,000. No Stripe. Send on the same Tue 10:00 timer after Big Sign.
+- Website-page offer, RM 1,000-5,000. No Stripe. Do not mail again unless they reply.
 
-### BIG WOOD PALLET INDUSTRIES SDN BHD -- QUEUED draft 25 Aug 2026 08:37 MYT
+### BIG WOOD PALLET INDUSTRIES SDN BHD -- SENT 25 Aug 2026 10:00 MYT
 
 - To: bigwoodpallet33@gmail.com (contact Email Address on https://www.bigwoodpallet.com.my/contactus/). One inbox. Do not mail alvin.bigwood@gmail.com.
 - Source: live https://www.bigwoodpallet.com.my/services/ HTTP 200 still Coming Soon (`min-height:440px`) after a first 1703-byte WAF dump on home/contact. Homepage lists Specialist in New and Used Wooden Pallet and ISPM015 comphan from Jalan Kampung Jawa, 41000 Shah Alam, with no street number. SSM 201801008066 (1270080-P).
-- Draft: `r-7128608961261952365`. Thread: `1a03659dde30479a`. Subject: Shah Alam pallet page.
+- SENT 25 Aug 2026 10:00 MYT. Message: `1a036ace86208c0a`. Thread: `1a03659dde30479a`. Former draft: `r-7128608961261952365`. Subject: Shah Alam pallet page.
+- Do not mail again unless they reply.
 - File: `docs/proposals/big-wood-pallet.md`. Hostable draft: `docs/proposals/big-wood-pallet-services.html`.
-- Website-page offer, RM 1,000-5,000. No Stripe. Send on the same Tue 10:00 timer after Bigsoya.
+- Website-page offer, RM 1,000-5,000. No Stripe. Do not mail again unless they reply.
 
-### Biji Biji -- QUEUED draft 25 Aug 2026 08:37 MYT
+### Biji Biji -- SENT 25 Aug 2026 10:00 MYT
 
 - To: bijibijibeans@gmail.com (homepage and `/contactus/` mailto on https://www.biji-biji.com.my/). One inbox.
 - Source: live https://www.biji-biji.com.my/services/ HTTP 200 still Coming Soon (`min-height:440px`). Homepage lists Formerly Hillkoff Solutions and Coffee Beans Supplier Penang from 197, Jalan Macalister, 10450 George Town. SSM 201501008850 (1134185-U).
-- Draft: `r-5996496775009857051`. Thread: `1a03659dddf5d688`. Subject: George Town coffee page.
+- SENT 25 Aug 2026 10:00 MYT. Message: `1a036ad104712a2a`. Thread: `1a03659dddf5d688`. Former draft: `r-5996496775009857051`. Subject: George Town coffee page.
+- Do not mail again unless they reply.
 - File: `docs/proposals/biji-biji.md`. Hostable draft: `docs/proposals/biji-biji-services.html`.
-- Website-page offer, RM 1,000-5,000. No Stripe. Send on the same Tue 10:00 timer after Big Wood Pallet.
+- Website-page offer, RM 1,000-5,000. No Stripe. Do not mail again unless they reply.
 
-### BIZGIF MARKETING SDN BHD -- QUEUED draft 25 Aug 2026 08:37 MYT
+### BIZGIF MARKETING SDN BHD -- SENT 25 Aug 2026 10:00 MYT
 
 - To: info@bizgif.com.my (homepage and `/contactus/` mailto on https://www.bizgif.com.my/). One inbox.
 - Source: live https://www.bizgif.com.my/services/ HTTP 200 still Coming Soon (`min-height:440px`). Homepage lists Premium Corporate & Promotional Gifts Supplier and T-shirt printing (Silk Screen and Heat Transfer) from No. 8, Jalan Kiara, Mont Kiara 50480, Kuala Lumpur. Contact title also prints Cyberjaya. SSM 202401046588 (1592434-X).
-- Draft: `r8472742930844181571`. Thread: `1a03659dfda62467`. Subject: Mont Kiara gifts page.
+- SENT 25 Aug 2026 10:00 MYT. Message: `1a036ad162d104db`. Thread: `1a03659dfda62467`. Former draft: `r8472742930844181571`. Subject: Mont Kiara gifts page.
+- Do not mail again unless they reply.
 - File: `docs/proposals/bizgif.md`. Hostable draft: `docs/proposals/bizgif-services.html`.
-- Website-page offer, RM 1,000-5,000. No Stripe. Send on the same Tue 10:00 timer after Biji Biji.
+- Website-page offer, RM 1,000-5,000. No Stripe. Do not mail again unless they reply.
 
-### B & M Glass & Hardware Sdn Bhd -- QUEUED draft 25 Aug 2026 08:49 MYT
+### B & M Glass & Hardware Sdn Bhd -- SENT 25 Aug 2026 10:00 MYT
 
 - To: bmglass96@gmail.com (homepage mailto on https://www.bmglasshardware.com.my/). One inbox.
 - Source: live https://www.bmglasshardware.com.my/services/ HTTP 200 still Coming Soon (`min-height:440px`). Homepage lists Custom Aluminium Kitchen Cabinets and GLASS & ALUMINIUM SPECIALIST from 76, Jalan IMJ 1, Taman Industri Malim Jaya, 75250 Melaka. SSM 202001004926 (1361246-U).
-- Draft: `r1192886044604535361`. Thread: `1a036649abefd332`. Subject: Melaka glass-cabinet page.
+- SENT 25 Aug 2026 10:00 MYT. Message: `1a036ad304916c2e`. Thread: `1a036649abefd332`. Former draft: `r1192886044604535361`. Subject: Melaka glass-cabinet page.
+- Do not mail again unless they reply.
 - File: `docs/proposals/bm-glass-hardware.md`. Hostable draft: `docs/proposals/bm-glass-hardware-services.html`.
-- Website-page offer, RM 1,000-5,000. No Stripe. Send on the same Tue 10:00 timer after BIZGIF.
+- Website-page offer, RM 1,000-5,000. No Stripe. Do not mail again unless they reply.
 
-### Brightmount Trading Sdn Bhd -- QUEUED draft 25 Aug 2026 08:49 MYT
+### Brightmount Trading Sdn Bhd -- SENT 25 Aug 2026 10:00 MYT
 
 - To: inquiries@brightmount.com.my (homepage mailto on https://www.brightmount.com.my/). One inbox.
 - Source: live https://www.brightmount.com.my/services/ HTTP 200 still Coming Soon (`min-height:440px`). Homepage lists DRIVING COMFORT, POWERED BY PERFECTION and AC Blower Motor. Contact prints 41050 Klang only, no street. SSM 199101001077 (211387-A).
-- Draft: `r4814343267732752711`. Thread: `1a036649dde89a0e`. Subject: Klang car-AC page.
+- SENT 25 Aug 2026 10:00 MYT. Message: `1a036ad34649aeb6`. Thread: `1a036649dde89a0e`. Former draft: `r4814343267732752711`. Subject: Klang car-AC page.
+- Do not mail again unless they reply.
 - File: `docs/proposals/brightmount.md`. Hostable draft: `docs/proposals/brightmount-services.html`.
-- Website-page offer, RM 1,000-5,000. No Stripe. Send on the same Tue 10:00 timer after B & M Glass.
+- Website-page offer, RM 1,000-5,000. No Stripe. Do not mail again unless they reply.
 
-### BRIGHTPOINT MARKETING SDN. BHD. -- QUEUED draft 25 Aug 2026 08:49 MYT
+### BRIGHTPOINT MARKETING SDN. BHD. -- SENT 25 Aug 2026 10:00 MYT
 
 - To: sales@brightpoint.com.my (homepage mailto on https://www.brightpoint.com.my/). One inbox.
 - Source: live https://www.brightpoint.com.my/services/ HTTP 200 still Coming Soon (`min-height:440px`). Homepage lists OFFICE SUPPLIES SOLUTION and established in the year 2021 from 8, Lorong 4, Jalan Ensing Timur, 93250 Kuching. SSM 202101035509 (1435809-X).
-- Draft: `r-2567154214554005887`. Thread: `1a036649f1ffd410`. Subject: Kuching stationery page.
+- SENT 25 Aug 2026 10:00 MYT. Message: `1a036ad4ae0e5e75`. Thread: `1a036649f1ffd410`. Former draft: `r-2567154214554005887`. Subject: Kuching stationery page.
+- Do not mail again unless they reply.
 - File: `docs/proposals/brightpoint-marketing.md`. Hostable draft: `docs/proposals/brightpoint-marketing-services.html`.
-- Website-page offer, RM 1,000-5,000. No Stripe. Send on the same Tue 10:00 timer after Brightmount.
+- Website-page offer, RM 1,000-5,000. No Stripe. Do not mail again unless they reply.
 
-### Bright Success Electrical (M) Sdn. Bhd. -- QUEUED draft 25 Aug 2026 08:49 MYT
+### Bright Success Electrical (M) Sdn. Bhd. -- SENT 25 Aug 2026 10:00 MYT
 
 - To: info@brightsuccess.com.my (homepage mailto on https://www.brightsuccess.com.my/). One inbox.
 - Source: live https://www.brightsuccess.com.my/services/ HTTP 200 still Coming Soon (`min-height:440px`). Homepage lists Reliable Electrical & Electronic Components Supplier in Malaysia from Jalan PJU 1A/41B, 47301 Petaling Jaya, with no street number. SSM 202001027134 (1383454-W).
-- Draft: `r3590972743424573685`. Thread: `1a036649f3b4a47e`. Subject: Petaling Jaya electrical page.
+- SENT 25 Aug 2026 10:00 MYT. Message: `1a036ad7576a54b6`. Thread: `1a036649f3b4a47e`. Former draft: `r3590972743424573685`. Subject: Petaling Jaya electrical page.
+- Do not mail again unless they reply.
 - File: `docs/proposals/bright-success-electrical.md`. Hostable draft: `docs/proposals/bright-success-electrical-services.html`.
-- Website-page offer, RM 1,000-5,000. No Stripe. Send on the same Tue 10:00 timer after Brightpoint.
+- Website-page offer, RM 1,000-5,000. No Stripe. Do not mail again unless they reply.
 
-### BRILLIANT SUCCESS SDN BHD -- QUEUED draft 25 Aug 2026 08:49 MYT
+### BRILLIANT SUCCESS SDN BHD -- SENT 25 Aug 2026 10:00 MYT
 
 - To: sales@brilliantsuccess.com.my (homepage mailto on https://www.brilliantsuccess.com.my/). One inbox.
 - Source: live https://www.brilliantsuccess.com.my/services/ HTTP 200 still Coming Soon (`min-height:440px`). Homepage lists YOUR TRUSTED WPC & PVC DOOR MANUFACTURER from 1683, Jalan Gajah Mati, 14020 Bukit Mertajam. SSM 199101016619 (226931-H).
-- Draft: `r7996860049245861410`. Thread: `1a03664a1a27f6ca`. Subject: Bukit Mertajam PVC-door page.
+- SENT 25 Aug 2026 10:00 MYT. Message: `1a036adc596addbe`. Thread: `1a03664a1a27f6ca`. Former draft: `r7996860049245861410`. Subject: Bukit Mertajam PVC-door page.
+- Do not mail again unless they reply.
 - File: `docs/proposals/brilliant-success.md`. Hostable draft: `docs/proposals/brilliant-success-services.html`.
-- Website-page offer, RM 1,000-5,000. No Stripe. Send on the same Tue 10:00 timer after Bright Success Electrical.
+- Website-page offer, RM 1,000-5,000. No Stripe. Do not mail again unless they reply.
 
-### BERKAT SELAMAT GADGETS -- QUEUED draft 25 Aug 2026 08:49 MYT
+### BERKAT SELAMAT GADGETS -- SENT 25 Aug 2026 10:00 MYT
 
 - To: berkatselamatgadgets@gmail.com (homepage mailto on https://www.bsgadgets.com.my/). One inbox.
 - Source: live https://www.bsgadgets.com.my/services/ HTTP 200 still Coming Soon (`min-height:440px`). Homepage lists Best DashCam In Malaysia and 5 Year Experience On Dashcam from 25, Jalan Berkat, 81100 Johor Bahru. SSM 201603304254 (JM0783267-V).
-- Draft: `r-8652098569251554491`. Thread: `1a03664a0d5daff7`. Subject: Johor Bahru dashcam page.
+- SENT 25 Aug 2026 10:00 MYT. Message: `1a036ad78d7334d9`. Thread: `1a03664a0d5daff7`. Former draft: `r-8652098569251554491`. Subject: Johor Bahru dashcam page.
+- Do not mail again unless they reply.
 - File: `docs/proposals/berkat-selamat-gadgets.md`. Hostable draft: `docs/proposals/berkat-selamat-gadgets-services.html`.
-- Website-page offer, RM 1,000-5,000. No Stripe. Send on the same Tue 10:00 timer after Brilliant Success.
+- Website-page offer, RM 1,000-5,000. No Stripe. Do not mail again unless they reply.
 
-### BUILDEX SMART (M) SDN. BHD. -- QUEUED draft 25 Aug 2026 08:49 MYT
+### BUILDEX SMART (M) SDN. BHD. -- SENT 25 Aug 2026 10:00 MYT
 
 - To: buildexsmart@gmail.com (homepage mailto on https://www.buildexsmart.com.my/). One inbox.
 - Source: live https://www.buildexsmart.com.my/services/ HTTP 200 still Coming Soon (`min-height:440px`). Homepage lists Maximize Your Kitchen Space with Smart Storage Solutions from 74E, Jalan Siam, 10400 Georgetown. SSM 202001031744 (1388064-P).
-- Draft: `r8881054787172947864`. Thread: `1a03664a29931623`. Subject: Georgetown kitchen-storage page.
+- SENT 25 Aug 2026 10:00 MYT. Message: `1a036ad818b794b1`. Thread: `1a03664a29931623`. Former draft: `r8881054787172947864`. Subject: Georgetown kitchen-storage page.
+- Do not mail again unless they reply.
 - File: `docs/proposals/buildex-smart.md`. Hostable draft: `docs/proposals/buildex-smart-services.html`.
-- Website-page offer, RM 1,000-5,000. No Stripe. Send on the same Tue 10:00 timer after BERKAT SELAMAT GADGETS.
+- Website-page offer, RM 1,000-5,000. No Stripe. Do not mail again unless they reply.
 
-### CALPOWER SDN BHD -- QUEUED draft 25 Aug 2026 08:49 MYT
+### CALPOWER SDN BHD -- SENT 25 Aug 2026 10:00 MYT
 
 - To: sales@calpower.com.my (homepage mailto on https://www.calpower.com.my/). One inbox. Do not invent extra branch inboxes.
 - Source: live https://www.calpower.com.my/services/ HTTP 200 still Coming Soon (`min-height:440px`). Homepage lists SECOND HAND CAR DEALER, since 1989, and 4 branches in JB from No.101 & 102, Jalan Kebun Teh, Taman Kebun Teh, 80250 Johor Bahru. SSM 199901014115 (489015-M).
-- Draft: `r7997837059295904088`. Thread: `1a03664a3f05286d`. Subject: Johor Bahru used-car page.
+- SENT 25 Aug 2026 10:00 MYT. Message: `1a036ada6a1f5d1c`. Thread: `1a03664a3f05286d`. Former draft: `r7997837059295904088`. Subject: Johor Bahru used-car page.
+- Do not mail again unless they reply.
 - File: `docs/proposals/calpower.md`. Hostable draft: `docs/proposals/calpower-services.html`.
-- Website-page offer, RM 1,000-5,000. No Stripe. Send on the same Tue 10:00 timer after Buildex Smart.
+- Website-page offer, RM 1,000-5,000. No Stripe. Do not mail again unless they reply.
 
-### Carbon Crew Sdn Bhd -- QUEUED draft 25 Aug 2026 08:49 MYT
+### Carbon Crew Sdn Bhd -- SENT 25 Aug 2026 10:00 MYT
 
 - To: carboncrew88@gmail.com (homepage mailto on https://www.carboncrew.com.my/). One inbox. Do not mail the broken carboncrew88@gmail.com@gmail.com address.
 - Source: live https://www.carboncrew.com.my/services/ HTTP 200 still Coming Soon (`min-height:440px`). Homepage lists Suzuki Swift Sport and Toyota GR Yaris from 31, Jalan 1/154, Taman Bukit Anggerik Cheras. SSM 202201035960 (1481657-W).
-- Draft: `r8618746635684478280`. Thread: `1a03664a5dda8dab`. Subject: Cheras body-kit page.
+- SENT 25 Aug 2026 10:00 MYT. Message: `1a036ada8474bd68`. Thread: `1a03664a5dda8dab`. Former draft: `r8618746635684478280`. Subject: Cheras body-kit page.
+- Do not mail again unless they reply.
 - File: `docs/proposals/carbon-crew.md`. Hostable draft: `docs/proposals/carbon-crew-services.html`.
-- Website-page offer, RM 1,000-5,000. No Stripe. Send on the same Tue 10:00 timer after CALPOWER.
+- Website-page offer, RM 1,000-5,000. No Stripe. Do not mail again unless they reply.
 
-### CASALAM -- QUEUED draft 25 Aug 2026 08:49 MYT
+### CASALAM -- SENT 25 Aug 2026 10:00 MYT
 
 - To: casalamhpl@gmail.com (homepage mailto on https://www.casalamhpl.com.my/). One inbox.
 - Source: live https://www.casalamhpl.com.my/services/ HTTP 200 still Coming Soon (`min-height:440px`). Homepage lists Chic, Tough, Timeless and Establish in South East Asia for over 5 years from Taman Industri Benajaya, 42000 Pelabuhan Klang, with no street number. SSM 202501019225 (1620638-K).
-- Draft: `r-4077406090131789227`. Thread: `1a03664a4213a286`. Subject: Pelabuhan Klang laminate page.
+- SENT 25 Aug 2026 10:00 MYT. Message: `1a036adab476b93f`. Thread: `1a03664a4213a286`. Former draft: `r-4077406090131789227`. Subject: Pelabuhan Klang laminate page.
+- Do not mail again unless they reply.
 - File: `docs/proposals/casalam.md`. Hostable draft: `docs/proposals/casalam-services.html`.
-- Website-page offer, RM 1,000-5,000. No Stripe. Send on the same Tue 10:00 timer after Carbon Crew.
+- Website-page offer, RM 1,000-5,000. No Stripe. Do not mail again unless they reply.
 
-### CHILDHOOD T SDN. BHD. -- QUEUED draft 25 Aug 2026 08:49 MYT
+### CHILDHOOD T SDN. BHD. -- SENT 25 Aug 2026 10:00 MYT
 
 - To: vivienchm@gmail.com (printed Email Address on https://www.cashbackproperty.com.my/). One inbox. Do not copy RM listing prices.
 - Source: live https://www.cashbackproperty.com.my/services/ HTTP 200 still Coming Soon (`min-height:440px`). Homepage lists Real Estate Agency Agency from No. 6, Jalan 6/38A, Taman Sri Sinar, 51200 Kuala Lumpur. SSM 202301019315 (1513237-D).
-- Draft: `r-2569553454087035055`. Thread: `1a03664a6183f81f`. Subject: Taman Sri Sinar property page.
+- SENT 25 Aug 2026 10:00 MYT. Message: `1a036adab875e2d0`. Thread: `1a03664a6183f81f`. Former draft: `r-2569553454087035055`. Subject: Taman Sri Sinar property page.
+- Do not mail again unless they reply.
 - File: `docs/proposals/childhood-t.md`. Hostable draft: `docs/proposals/childhood-t-services.html`.
-- Website-page offer, RM 1,000-5,000. No Stripe. Send on the same Tue 10:00 timer after CASALAM.
-- Skipped this pass: caver.com.my mailto enquire@sterlingprofile.com (domain mismatch). castorwheel.com.my mailto sales@ukai.com.my (domain mismatch). WAF still blocking unique dumps (retry later, first 1703 is not a skip): boonhonglocksmith.com.my, bpsm.com.my, bytiye.my, capitalheavylift.com.my, caracasauto.com.my, cartowing.com.my, ccsprinting.com.my, cctvhouse.com.my. Next hunt: unused malaysiabrand hosts after line 479. Do not send before 09:00 MYT.
+- Website-page offer, RM 1,000-5,000. No Stripe. Do not mail again unless they reply.
+- Skipped this pass: caver.com.my mailto enquire@sterlingprofile.com (domain mismatch). castorwheel.com.my mailto sales@ukai.com.my (domain mismatch). WAF still blocking unique dumps (retry later, first 1703 is not a skip): boonhonglocksmith.com.my, bpsm.com.my, bytiye.my, capitalheavylift.com.my, caracasauto.com.my, cartowing.com.my, ccsprinting.com.my, cctvhouse.com.my. Next hunt: unused malaysiabrand hosts after line 479 if a new source is found. The 10:00 batch is SENT; do not remmail unless they reply.
 
 
 

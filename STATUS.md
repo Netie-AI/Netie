@@ -1,8 +1,10 @@
 # STATUS
 
-Updated: 2026-08-25 09:41 MYT. Success = live Stripe charge, then a payout.
+Updated: 2026-08-25 10:12 MYT. Success = live Stripe charge, then a payout.
 
 ## Now (measured)
+
+- Office hours 25 Aug 10:00 MYT: sent all 98 queued website first-mails from M Haus through CHILDHOOD T after live checks. First: M Haus `sales@mhaus.com.my` SENT `1a036a787e775b7a` thread `1a034c34fab5ccb5`. Last: CHILDHOOD T `vivienchm@gmail.com` SENT `1a036adab875e2d0` thread `1a03664a6183f81f`. All 98 `/services/` still Coming Soon (`min-height:440px`); ten first dumps were 1703-byte browser checks and recovered on unique retry. Empty `in:sent` before send. `draftId` only. Label_8. No Stripe. Do not remmail unless they reply. Message IDs are in `docs/monday-queue.md`. Timer `sub_6af2d1da-c7f0-4f25-8e4a-b14db9021fcc` gone. Thu 27 Aug 09:00 3PL follow-up timer stays. Kanhseei still ends at SENT `1a0338bc74fae0b4`. Did not nag. Did not apply. Did not poll Stripe. No paid charge yet.
 
 - Office hours 25 Aug 09:40 MYT: sent the afternoon four queued first-mails after live checks. Top Fast `dspa_dtempat@hotmail.com` SENT `1a03693e56c75c1d` thread `1a034b72b739f1d0`. Kulim Typewriters `enquiry@kulimtypewriters.com.my` SENT `1a03693e601788cf` thread `1a034b72cdce87e8`. Shinx Malaysia `sales@shinx.com.my` SENT `1a03693e98a04ddc` thread `1a034b72c1671f8d`. HiParents `hiparents1.0@gmail.com` SENT `1a03693eb34eaad8` thread `1a034b72ff0d02e3`. All four `/services/` still Coming Soon (`min-height:440px`). Top Fast HTTP 200 Coming Soon, not 403. Empty `in:sent` before send. `draftId` only. Label_8. No Stripe. Do not remmail unless they reply. Timer `sub_e5ee26e9-1745-4c06-bbb7-da0447a73a9a` gone. 10:00 M Haus-through-CHILDHOOD T timer stays (`sub_6af2d1da-c7f0-4f25-8e4a-b14db9021fcc`). Kanhseei still ends at SENT `1a0338bc74fae0b4`. Did not nag. Did not apply. Did not poll Stripe. No paid charge yet.
 
