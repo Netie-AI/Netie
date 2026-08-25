@@ -14,7 +14,7 @@ Toon at Advanced Inkjet (`toon@advancedinkjet.com.my`, thread `1a03642393b091d6`
 3. Wait for an explicit send. "Looks good", "send it", or a corrected body.
 4. Then `send_message`. Plaintext `body` only. Never `htmlBody`.
 
-`create_draft` is allowed as a holding pen after the owner has seen the words. Do not treat a draft as approval.
+`create_draft` is allowed as a holding pen after the owner has seen the words. Do not treat a draft as approval. For a reply, set `replyToMessageId` to the buyer's message. Do not `update_draft` a reply holding pen: Gmail MCP can move it onto a new thread. Recreate the draft on the original thread, then trash the stray thread only.
 
 ## Exceptions
 

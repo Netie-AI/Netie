@@ -22,7 +22,7 @@ Thread: `1a03642393b091d6`.
 
 Draft subject: keep Re: Sungai Buloh print page on the existing thread.
 
-Gmail holding draft (not sent): `r-7513366825887340098` thread `1a03642393b091d6`. Created 25 Aug 21:15 MYT after the owner had seen the words. Wait for send.
+Gmail holding draft (not sent): `r-7427464740298229176` on thread `1a03642393b091d6`, reply to `1a0384b599093001`. Recreated 25 Aug 22:01 MYT after `update_draft` detached the earlier draft `r-7513366825887340098` onto a new thread (that stray draft was trashed). Wait for send. Do not `update_draft` a reply draft; recreate with `replyToMessageId`.
 
 ```
 Dear Toon,
