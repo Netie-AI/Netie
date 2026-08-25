@@ -2191,7 +2191,7 @@ Timer `netie-tue-glassminds-website-2026-08-25-1700-myt` unsubscribed before sen
 
 ## Queued after hours 25 Aug 2026 17:18 MYT (do not send before Wed 09:00)
 
-Timer `netie-wed-hdhearing-website-2026-08-26-0900-myt` (`sub_39cf78ca-3f56-4218-a8f9-e0a62dbb4a26`, once, Wed 26 Aug 09:00 MYT). Ten MY extras from unused hosts 1180-1279 plus three Singapore drafts below. Skipped hardrace.com.my (WhatsApp only, no printed mailto). Hightech Glass HQ `htglass.jb@gmail.com` only. Copy PRRODUCT, We provides, PURE PORK GOODNESS, Enterpreneurs, SEA-TO PLATE EXCELLENCE!. Do not send leftover monsoon draft. Skills-inventory HTML is reply-only.
+Timer `netie-wed-hdhearing-website-2026-08-26-0900-myt` (`sub_f1536f04-ba4c-47e7-acfe-1773918b4442`, once, Wed 26 Aug 09:00 MYT). Ten MY extras from unused hosts 1180-1279 plus three Singapore drafts plus sixteen more from 1280-1479 below. Skipped hardrace.com.my (WhatsApp only, no printed mailto). Hightech Glass HQ `htglass.jb@gmail.com` only. Copy PRRODUCT, We provides, PURE PORK GOODNESS, Enterpreneurs, SEA-TO PLATE EXCELLENCE!. Do not send leftover monsoon draft. Skills-inventory HTML is reply-only.
 
 ### HD HEARING CARE CENTRE SDN BHD -- QUEUED draft 25 Aug 2026 17:16 MYT
 - To: hd.hearingcare@gmail.com. Draft `r8061948877361016615`. Thread `1a0383528b2f8405`. Subject: Cheras hearing-aid page. File: `docs/proposals/hd-hearing.md`.
@@ -2222,7 +2222,7 @@ Timer `netie-wed-hdhearing-website-2026-08-26-0900-myt` (`sub_39cf78ca-3f56-4218
 
 ### H & H Glass Sdn Bhd -- QUEUED draft 25 Aug 2026 17:17 MYT
 - To: hnhglassy@gmail.com. Draft `r504826730575541958`. Thread `1a0383640f01be15`. Subject: Sri Ehsan glass page. File: `docs/proposals/hnh-glass.md`. Copy Enterpreneurs / hole grill.
-- Next hunt: unused malaysiabrand hosts after line 1279. Do not send these before Wed 09:00 MYT.
+- Next hunt: unused malaysiabrand hosts after line 1479. Sixteen extras from 1280-1479 are queued below for Wed 09:00. Do not send these before Wed 09:00 MYT.
 
 ## Queued Singapore / ASEAN first-mails 25 Aug 2026 17:26 MYT (do not send before Wed 09:00)
 
@@ -2237,6 +2237,60 @@ Folded onto the same Wed 09:00 timer. Skills-inventory pack `docs/proposals/asea
 ### G P Manufacturing (S) Pte Ltd -- QUEUED draft 25 Aug 2026 17:26 MYT
 - To: sales@gp-mfg.com.sg. Draft `r-9206981347546689159`. Thread `1a0383ddd4256d32`. Subject: Loyang metal-stamping page. File: `docs/proposals/gp-manufacturing.md`. Did not mail gpmsales@gpm.my or gpt_sales@.
 - Skipped Cragar (no honest gap). SBF/SCCCI contact 403/404 from this IP. Do not apply to thesmartinvestor.com.sg.
+
+## Queued after hours 25 Aug 2026 17:49 MYT (do not send before Wed 09:00)
+
+Folded onto the same Wed 09:00 timer (`sub_f1536f04-ba4c-47e7-acfe-1773918b4442`). Sixteen extras from unused hosts 1280-1479 after fixing a mailto regex that treated the letter `s` as a stop character. Empty `in:sent`. All sixteen `/services/` Coming Soon (`min-height:440px`). No Stripe. Skip ingenious.com.my mailto `info@ingenious.my` (TLD mismatch). Iconic Training HQ `enquiries@` only.
+
+### HONG FONG GROUP TRADING -- QUEUED draft 25 Aug 2026 17:44 MYT
+- To: info@hongfong.com.my. Draft `r-4907296878467670418`. Thread `1a0384fbc04021b4`. Subject: Skudai snacks page. File: `docs/proposals/hong-fong.md`. Copy GET 5% discount for new member.
+
+### Hong Sheng Floor Sdn Bhd -- QUEUED draft 25 Aug 2026 17:44 MYT
+- To: hongshengfloorsb@outlook.com. Draft `r-7449471909756036972`. Thread `1a0384ff35e61844`. Subject: Petaling Jaya flooring page. File: `docs/proposals/hong-sheng-floor.md`. Copy Your Best Floor Solution.
+
+### Hon Lee Marketing Sdn Bhd -- QUEUED draft 25 Aug 2026 17:44 MYT
+- To: honleemktg@gmail.com. Draft `r-1358441870058420487`. Thread `1a0385017fa94d6b`. Subject: Semenyih steel page. File: `docs/proposals/hon-lee.md`. Copy Equipments.
+
+### Hui Seng Auto Parts Supply Sdn. Bhd. -- QUEUED draft 25 Aug 2026 17:45 MYT
+- To: sales.huiseng@gmail.com. Draft `r1183336661819248122`. Thread `1a0385040c61f180`. Subject: Klang truck-parts page. File: `docs/proposals/hui-seng-auto.md`.
+
+### Hwa Wan Trading Sdn Bhd -- QUEUED draft 25 Aug 2026 17:45 MYT
+- To: hwawantradingsb@gmail.com. Draft `r-231993354841044529`. Thread `1a038506493e6964`. Subject: Seremban timber page. File: `docs/proposals/hwa-wan-trading.md`. Copy Established in 1982.
+
+### Iconic Training Solutions Sdn Bhd -- QUEUED draft 25 Aug 2026 17:45 MYT
+- To: enquiries@iconictraining.com.my. Draft `r-5424659127658928752`. Thread `1a038508d3e375b0`. Subject: Petaling Jaya training page. File: `docs/proposals/iconic-training.md`. Copy go the extra miles. Did not mail jason.yeah@.
+
+### iFresh -- QUEUED draft 25 Aug 2026 17:46 MYT
+- To: info@ifresh.com.my. Draft `r7802200620558382132`. Thread `1a03850a7a10ddb8`. Subject: Balakong kitchen page. File: `docs/proposals/ifresh.md`. Copy Your One-Stop Kitchen Supplier.
+
+### I HOME LIGHTING -- QUEUED draft 25 Aug 2026 17:46 MYT
+- To: alexsim9312@gmail.com. Draft `r760173591009903307`. Thread `1a03850d61b65706`. Subject: Cheng lighting page. File: `docs/proposals/i-home-lighting.md`. Copy Illuminate Your World.
+
+### Ikrar Jaya Bina Sdn Bhd -- QUEUED draft 25 Aug 2026 17:46 MYT
+- To: enquiry@ijbsb.com.my. Draft `r5793152749350009307`. Thread `1a03850fa774ef0b`. Subject: Cheng civil page. File: `docs/proposals/ikrar-jaya-bina.md`. Copy IJBSB specializes.
+
+### Ikhua Hardware & Machinery Sdn Bhd -- QUEUED draft 25 Aug 2026 17:47 MYT
+- To: enquiry@ikhua.com.my. Draft `r-4187560490648739001`. Thread `1a0385118c4cf50e`. Subject: Balakong machinery page. File: `docs/proposals/ikhua.md`. Copy Engineered for Agriculture / SWAN / 215ph.
+
+### INHERIT TECHNOLOGY ENGINEERING (M) SDN. BHD. -- QUEUED draft 25 Aug 2026 17:47 MYT
+- To: sales@inheritech.com.my. Draft `r6641994141032575476`. Thread `1a0385149e6ee218`. Subject: Klang datacentre page. File: `docs/proposals/inherit-tech.md`. Copy one-stop solution.
+
+### INNOX Glass Sdn Bhd -- QUEUED draft 25 Aug 2026 17:47 MYT
+- To: innoxaluminiumglass@gmail.com. Draft `r-8409452000102299205`. Thread `1a0385170c051d40`. Subject: Rawang glass page. File: `docs/proposals/innox-glass.md`. Copy etc.
+
+### Innoxis Engineering -- QUEUED draft 25 Aug 2026 17:47 MYT
+- To: innoxis.engineering@yahoo.com. Draft `r-6203598063466641002`. Thread `1a0385196e001746`. Subject: Puchong fire-safety page. File: `docs/proposals/innoxis.md`. Copy established in 2012.
+
+### Inspiring Training & Consultancy Plt -- QUEUED draft 25 Aug 2026 17:48 MYT
+- To: contact@inspiring-training.com.my. Draft `r-8248484340873067715`. Thread `1a03851addbf1f82`. Subject: Johor Bahru ISO page. File: `docs/proposals/inspiring-training.md`. Copy Affordable Price.
+
+### Restaurant IOSEN -- QUEUED draft 25 Aug 2026 17:48 MYT
+- To: iosenys.work@gmail.com. Draft `r-3410663056054360370`. Thread `1a03851eeee7ce7a`. Subject: SS2 seafood page. File: `docs/proposals/iosen.md`. Copy typhoon fish.
+
+### Johor Bahru Furniture Industry Association -- QUEUED draft 25 Aug 2026 17:48 MYT
+- To: jbfic925@gmail.com. Draft `r-5244197231144532276`. Thread `1a038521d588eb38`. Subject: Mount Austin furniture-association page. File: `docs/proposals/jbfa.md`. Copy 本会自1978年成立至今已有44年 / 244位 / 匠承千载·智引未来.
+- Next hunt: unused malaysiabrand hosts after line 1479. Do not send these before Wed 09:00 MYT.
+
 
 
 

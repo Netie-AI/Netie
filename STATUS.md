@@ -1,8 +1,10 @@
 # STATUS
 
-Updated: 2026-08-25 17:34 MYT. Success = live Stripe charge, then a payout.
+Updated: 2026-08-25 17:49 MYT. Success = live Stripe charge, then a payout.
 
 ## Now (measured)
+
+- After hours 25 Aug 17:49 MYT: queued sixteen Coming Soon first-mails from unused hosts 1280-1479 onto the Wed 26 Aug 09:00 timer (`sub_f1536f04-ba4c-47e7-acfe-1773918b4442`, replaced `sub_39cf78ca-3f56-4218-a8f9-e0a62dbb4a26`). HONG FONG `info@hongfong.com.my` draft `r-4907296878467670418`. Hong Sheng Floor `hongshengfloorsb@outlook.com` draft `r-7449471909756036972`. Hon Lee `honleemktg@gmail.com` draft `r-1358441870058420487`. Hui Seng Auto `sales.huiseng@gmail.com` draft `r1183336661819248122`. Hwa Wan `hwawantradingsb@gmail.com` draft `r-231993354841044529`. Iconic Training `enquiries@iconictraining.com.my` draft `r-5424659127658928752` (did not mail jason.yeah@). iFresh `info@ifresh.com.my` draft `r7802200620558382132`. I HOME LIGHTING `alexsim9312@gmail.com` draft `r760173591009903307`. Ikrar Jaya Bina `enquiry@ijbsb.com.my` draft `r5793152749350009307`. Ikhua `enquiry@ikhua.com.my` draft `r-4187560490648739001`. Inherit Technology `sales@inheritech.com.my` draft `r6641994141032575476`. INNOX Glass `innoxaluminiumglass@gmail.com` draft `r-8409452000102299205`. Innoxis `innoxis.engineering@yahoo.com` draft `r-6203598063466641002`. Inspiring Training `contact@inspiring-training.com.my` draft `r-8248484340873067715`. Restaurant IOSEN `iosenys.work@gmail.com` draft `r-3410663056054360370`. JBFA `jbfic925@gmail.com` draft `r-5244197231144532276`. All sixteen `/services/` Coming Soon (`min-height:440px`). Empty `in:sent`. No Stripe. Skipped ingenious.com.my TLD-mismatch mailto. Scanner trap: a mailto regex that used backslash-s in a character class dropped the letter s, so sales@ and ifresh were false skips until re-parsed. Did not send after 17:00. Next hunt: unused hosts after line 1479. Kanhseei still ends at SENT `1a0338bc74fae0b4`. Did not nag. Did not apply. Did not poll Stripe. No paid charge yet.
 
 - After hours 25 Aug 17:34 MYT: late fire of `netie-tue-glassminds-website-2026-08-25-1700-myt`. No-op. All eleven Glass Minds through Golden Star Roofing threads still one SENT message from 17:03 MYT (Label_8). Drafts gone. Did not remmail. After 17:00 MYT. Did not nag. Did not apply. Did not poll Stripe. No paid charge yet.
 
