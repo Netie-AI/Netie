@@ -1,8 +1,10 @@
 # STATUS
 
-Updated: 2026-08-26 01:35 MYT. Success = live Stripe charge, then a payout.
+Updated: 2026-08-26 01:32 MYT. Success = live Stripe charge, then a payout.
 
 ## Now (measured)
+
+- After hours 26 Aug 01:32 MYT: no new buyer mail. Toon thread still two messages; holding draft `r-7427464740298229176` not sent. Did not nag Kanhseei. Jade at Starbridge (thread `1a02ad519fd185a3`) wrote 25 Aug 17:17 UTC that they created an application; did not reply (employment keep-only). Live hire still matches git. Homepage still links to `/hire/` (card copy still says Excel jobs; do not overwrite `/`). Checkout HTTP 200, not a charge. Replaced Wed 09:00 timer with `sub_e7253903-cb46-4761-9423-d26d1c279045` (send hire-URL drafts as-is, STATUS Toon id, do not reply Starbridge). No paid charge yet.
 
 - After hours 26 Aug 01:35 MYT: all 168 Wed 09:00 landing-page drafts now name live https://netie.ai/hire/ (Gmail MCP stores it as `google.com/url?q=https://netie.ai/hire/`; click still reaches hire). Same draftIds. Spot-check HD Hearing `r8061948877361016615` still has RM 500 unlocks. Toon holding draft `r-7427464740298229176` still on thread `1a03642393b091d6`, not sent, not update_drafted. Inbox: no new buyer mail. Live hire still 56312, sha256 `a8fb92f4...`, last-modified 25 Aug 16:54 GMT. Did not nag Kanhseei. Did not send. Did not poll Stripe (already 26 Aug MYT at 01:05). Wed 08:00 File Manager: skip upload if sha256 still matches. Wed 09:00: unsubscribe first; send rewritten draftIds; do not unwrap the Google redirect (update_draft re-wraps); do not send Toon. No paid charge yet.
 
