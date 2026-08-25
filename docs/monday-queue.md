@@ -2660,6 +2660,40 @@ Folded onto the same Wed 09:00 timer (`sub_6397a2a9-a102-4a15-baba-f4748fcb04ed`
 - To: kwongjoseph@hotmail.com. Draft `r5417224760852782870`. Thread `1a038bd508e094e0`. Subject: Seri Kembangan packaging page. File: `docs/proposals/supreme-eco-packaging.md`. Copy Fashion Sushi Paper Box / Kraf Paper.
 - Next hunt: unused malaysiabrand hosts after line 2679. Do not send these before Wed 09:00 MYT.
 
+## Queued after hours 25 Aug 2026 19:55 MYT (do not send before Wed 09:00)
+
+Folded onto the same Wed 09:00 timer (`sub_686f4219-0952-4e3f-b67d-eda95c8b7bdc`, replaced `sub_6397a2a9-a102-4a15-baba-f4748fcb04ed`). Nine extras from unused hosts 2680-2779. Empty `in:sent`. All nine `/services/` Coming Soon (`min-height:440px`). No Stripe. HQ operation@ only at Seng Heng Metal. HQ info@ only at SK Lim and SLH. Sheng Bee and SZ Zone Shop print city-only. Copy we strived, How To Make Order?, More About Construction Safer, exponentiate their wealth, Bringing Everyday, 清明节祭祖...不为了找七色花而烦恼！, Jalan batu 5.
+
+### Sheng Bee (M) Sdn Bhd -- QUEUED draft 25 Aug 2026 19:51 MYT
+- To: shengbeesb@gmail.com. Draft `r-8723552677077389532`. Thread `1a038c498c758517`. Subject: KL tile page. File: `docs/proposals/sheng-bee.md`. Copy Tiles That Make a Statement / over 40 years of expertise. No street printed.
+
+### Shinjuku Auto Parts Sdn Bhd -- QUEUED draft 25 Aug 2026 19:51 MYT
+- To: shinjukuautoparts@gmail.com. Draft `r-6038513400698241058`. Thread `1a038c4b1fe70f0b`. Subject: Klang engine page. File: `docs/proposals/shinjuku-auto.md`. Copy recond and used car engines / the best price, the best choice. No SSM printed.
+
+### SENG HENG METAL SDN BHD -- QUEUED draft 25 Aug 2026 19:51 MYT
+- To: operation@shmetal.com.my. Draft `r-1931611628624868227`. Thread `1a038c4c561fd196`. Subject: Cheras metal page. File: `docs/proposals/seng-heng-metal.md`. Copy we strived to achieve a win-win situation. HQ operation@ only. Did not mail yitiankoh@outlook.com.
+
+### SZ Zone Shop -- QUEUED draft 25 Aug 2026 19:52 MYT
+- To: szzoneshop@gmail.com. Draft `r1874450112550514501`. Thread `1a038c4f8df0cb05`. Subject: Selangor sneakers page. File: `docs/proposals/sz-zone-shop.md`. Copy Authentic Certified / How To Make Order?. No street printed. No SSM printed.
+
+### Sierra Code Sdn. Bhd. -- QUEUED draft 25 Aug 2026 19:52 MYT
+- To: sierracodebhd@gmail.com. Draft `r-2766841421586369982`. Thread `1a038c51b5e39c8a`. Subject: Beranang platform page. File: `docs/proposals/sierra-code.md`. Copy More About Construction Safer / for Construction Excellence.
+
+### SK Lim -- QUEUED draft 25 Aug 2026 19:52 MYT
+- To: info@sklim.com.my. Draft `r3784777489070118935`. Thread `1a038c538bf73cf4`. Subject: Ipoh wealth page. File: `docs/proposals/sk-lim.md`. Copy exponentiate their wealth / Your Trusted Wealth Management. HQ info@ only. Did not mail ebook@sklim.com.my.
+
+### Sleep Sanctuary -- QUEUED draft 25 Aug 2026 19:53 MYT
+- To: sleepsanctuarymelaka@gmail.com. Draft `r7825912038895797846`. Thread `1a038c54f85fb75d`. Subject: Melaka furniture page. File: `docs/proposals/sleep-sanctuary.md`. Copy Bringing Everyday / Cozy, Curated Living.
+
+### 双龙行佛具工业(马来西亚)有限公司 -- QUEUED draft 25 Aug 2026 19:53 MYT
+- To: info@slh.com.my. Draft `r2014236163737781606`. Thread `1a038c5720e612ed`. Subject: Simpang Ampat joss page. File: `docs/proposals/slh-joss.md`. Copy 清明节祭祖...不为了找七色花而烦恼！ / 品质保证. HQ info@ only. Did not mail account@slh.com.my.
+
+### SL Smart Home -- QUEUED draft 25 Aug 2026 19:53 MYT
+- To: slsmarthome2022@gmail.com. Draft `r-7244279094485475658`. Thread `1a038c5928814926`. Subject: Seremban interior page. File: `docs/proposals/sl-smart-home.md`. Copy 72 Hours Fast Delivery! / Before we move to new place / Jalan batu 5.
+
+Skipped CS+mailto TLD mismatch: smartechrental.com.my `enquiry@powersolutions.com.my`.
+- Next hunt: unused malaysiabrand hosts after line 2779. Do not send these before Wed 09:00 MYT.
+
 
 
 
