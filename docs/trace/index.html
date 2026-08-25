@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>One figure, traced to its source | Netie.AI</title>
+  <meta name="description" content="Download a synthetic workbook and re-run a local source trace yourself. See a verified SUM and a clean refusal.">
+  <style>
+    :root {
+      --bg: #07090e;
+      --panel: #101722;
+      --ink: #f1f5f9;
+      --muted: #9ba9ba;
+      --line: #29384d;
+      --cyan: #50dfc6;
+      --gold: #d9b36c;
+      --danger: #efae9f;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      background: radial-gradient(circle at top right, #123543 0, transparent 34rem), var(--bg);
+      color: var(--ink);
+      font: 16px/1.55 ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+    a { color: var(--cyan); }
+    a:focus-visible { outline: 3px solid var(--gold); outline-offset: 3px; }
+    code, pre { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; }
+    .wrap { width: min(1040px, calc(100% - 2.4rem)); margin: 0 auto; }
+    nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      padding: 1rem 0;
+      border-bottom: 1px solid var(--line);
+    }
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: .6rem;
+      color: var(--ink);
+      font-weight: 850;
+      letter-spacing: .1em;
+      text-decoration: none;
+    }
+    .brand-mark {
+      display: grid;
+      width: 1.85rem;
+      height: 1.85rem;
+      place-items: center;
+      border: 1px solid var(--cyan);
+      border-radius: 50%;
+      color: var(--cyan);
+      font-family: ui-monospace, monospace;
+      letter-spacing: 0;
+    }
+    nav a:last-child { color: var(--muted); font-size: .9rem; }
+    header { padding: 5.5rem 0 3rem; }
+    .kicker {
+      margin: 0;
+      color: var(--gold);
+      font-size: .72rem;
+      font-weight: 780;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+    }
+    h1 {
+      max-width: 12ch;
+      margin: .5rem 0 1rem;
+      font-size: clamp(2.8rem, 7vw, 5.6rem);
+      line-height: .96;
+      letter-spacing: -.055em;
+    }
+    h1 span { color: var(--cyan); }
+    h2 {
+      margin: .25rem 0 .75rem;
+      font-size: clamp(1.65rem, 4vw, 2.45rem);
+      line-height: 1.08;
+      letter-spacing: -.035em;
+    }
+    h3 { margin: 0 0 .45rem; font-size: 1.05rem; }
+    p { margin: 0; }
+    .lede { max-width: 46rem; color: var(--muted); font-size: 1.08rem; }
+    .actions { display: flex; flex-wrap: wrap; gap: .65rem; margin-top: 1.35rem; }
+    .btn {
+      display: inline-flex;
+      min-height: 44px;
+      align-items: center;
+      justify-content: center;
+      padding: .68rem 1rem;
+      border: 1px solid var(--cyan);
+      border-radius: 8px;
+      background: var(--cyan);
+      color: #03130f;
+      font-weight: 820;
+      text-align: center;
+      text-decoration: none;
+    }
+    .btn.ghost { border-color: var(--line); background: transparent; color: var(--ink); }
+    .notice {
+      max-width: 52rem;
+      margin-top: 1.2rem;
+      padding: .9rem 1rem;
+      border-left: 3px solid var(--gold);
+      background: #18160f;
+      color: #d9cfb6;
+      font-size: .92rem;
+    }
+    main { padding: 2rem 0 0; }
+    section { scroll-margin-top: 1rem; }
+    section + section { margin-top: 5rem; }
+    .copy { max-width: 48rem; color: var(--muted); }
+    .steps, .results, .limits { display: grid; gap: 1rem; margin-top: 1.4rem; }
+    .steps { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .results, .limits { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .card {
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      background: rgba(16, 23, 34, .92);
+      padding: 1.1rem;
+    }
+    .step { position: relative; padding-left: 3.45rem; }
+    .number {
+      position: absolute;
+      top: 1rem;
+      left: 1rem;
+      display: grid;
+      width: 1.75rem;
+      height: 1.75rem;
+      place-items: center;
+      border-radius: 50%;
+      background: var(--cyan);
+      color: #03130f;
+      font-weight: 850;
+    }
+    .card p { color: var(--muted); font-size: .92rem; }
+    .download { margin-top: .85rem; font-weight: 750; }
+    pre {
+      overflow: auto;
+      margin: .85rem 0 0;
+      padding: 1rem;
+      border: 1px solid #273449;
+      border-radius: 9px;
+      background: #080c12;
+      color: #dce7ee;
+      font-size: .79rem;
+      line-height: 1.52;
+      white-space: pre;
+    }
+    .result-good { border-top: 3px solid var(--cyan); }
+    .result-refusal { border-top: 3px solid var(--gold); }
+    .result-refusal h3 { color: var(--gold); }
+    .limit-list { margin: .75rem 0 0; padding-left: 1.1rem; color: var(--muted); font-size: .92rem; }
+    .limit-list li + li { margin-top: .3rem; }
+    .final {
+      margin: 4.5rem 0 0;
+      padding: 2rem;
+      border: 1px solid #3e756f;
+      border-radius: 16px;
+      background: linear-gradient(135deg, #102a2b, #101722);
+    }
+    footer {
+      margin-top: 4rem;
+      padding: 2rem 0 3rem;
+      border-top: 1px solid var(--line);
+      color: var(--muted);
+      font-size: .88rem;
+    }
+    @media (max-width: 760px) {
+      header { padding-top: 3.25rem; }
+      .steps, .results, .limits { grid-template-columns: 1fr; }
+      section + section { margin-top: 3.5rem; }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <nav>
+      <a class="brand" href="https://netie.ai/hire/"><span class="brand-mark">n</span> NETIE.AI</a>
+      <a href="https://netie.ai/hire/">Back to hire page</a>
+    </nav>
+
+    <header>
+      <p class="kicker">Reproducible proof</p>
+      <h1>One figure,<br><span>traced to its source.</span></h1>
+      <p class="lede">Download a synthetic workbook, run one local command, and inspect the exact value, formula, source cells, recomputation, and verdict. The second example refuses a number with no formula.</p>
+      <div class="actions">
+        <a class="btn" href="./sample-outbound.xlsx">Download synthetic workbook</a>
+        <a class="btn ghost" href="./trace_number.py">Download local trace script</a>
+      </div>
+      <p class="notice">Synthetic sample data only. No client file, no public upload, no backend, no benchmark, and no accuracy claim. The script reads a file you select on your own machine.</p>
+    </header>
+
+    <main>
+      <section aria-labelledby="verify-heading">
+        <p class="kicker">Verify it yourself</p>
+        <h2 id="verify-heading">Three small, checkable steps.</h2>
+        <div class="steps">
+          <article class="card step">
+            <span class="number">1</span>
+            <h3>Download the files</h3>
+            <p>Use the workbook and script above. The sheet calls itself synthetic inside the file.</p>
+          </article>
+          <article class="card step">
+            <span class="number">2</span>
+            <h3>Run one command</h3>
+            <p>Python 3 is enough. The script has no package install and makes no network request.</p>
+            <pre>python3 trace_number.py sample-outbound.xlsx WK32!F4</pre>
+          </article>
+          <article class="card step">
+            <span class="number">3</span>
+            <h3>Compare the result</h3>
+            <p>The output below is captured from the downloadable script. It lists each input and checks the cached value.</p>
+          </article>
+        </div>
+      </section>
+
+      <section aria-labelledby="result-heading">
+        <p class="kicker">Captured local output</p>
+        <h2 id="result-heading">A trace and a refusal.</h2>
+        <p class="copy">A success alone is not evidence. The tool should also stop when the workbook does not contain a formula it can verify.</p>
+        <div class="results">
+          <article class="card result-good">
+            <h3>WK32!F4 - traced</h3>
+            <p>A shared SUM formula is resolved, its three source cells are listed, and the recomputed total matches the cached value.</p>
+            <pre>NETIE SOURCE TRACE
+File name: sample-outbound.xlsx
+Sheet: WK32
+Figure asked: WK32!F4
+Value (raw; display format not applied): 6480
+Formula: =SUM(C4:E4)
+Inputs:
+- WK32!C4 = 2100
+- WK32!D4 = 2400
+- WK32!E4 = 1980
+Recomputed from inputs: 6480 (matches cached value)
+Verdict: Traced
+I only used the local file you selected.
+</pre>
+          </article>
+          <article class="card result-refusal">
+            <h3>WK32!F7 - cannot be traced</h3>
+            <p>This is a typed adjustment with no formula. The script refuses it and exits nonzero instead of inventing source rows.</p>
+            <pre>NETIE SOURCE TRACE
+File name: sample-outbound.xlsx
+Sheet: WK32
+Figure asked: WK32!F7
+Value (raw; display format not applied): 6700
+Formula: typed, no formula
+Inputs:
+- not available
+Recomputed from inputs: not applicable
+Verdict: Cannot be traced
+Reason: Selected cell has no formula.
+I only used the local file you selected.
+</pre>
+          </article>
+        </div>
+      </section>
+
+      <section aria-labelledby="limits-heading">
+        <p class="kicker">Scope and limits</p>
+        <h2 id="limits-heading">A narrow local-file check, stated plainly.</h2>
+        <div class="limits">
+          <article class="card">
+            <h3>What it checks</h3>
+            <ul class="limit-list">
+              <li>Local `.xlsx` and `.csv` files only.</li>
+              <li>One cell at a time.</li>
+              <li>A same-sheet `SUM(range)` formula with numeric inputs.</li>
+              <li>Shared formulas, simple sheet-name matching, and cached-value comparison.</li>
+            </ul>
+          </article>
+          <article class="card">
+            <h3>What it does not claim to read</h3>
+            <ul class="limit-list">
+              <li>Display formatting, `.xls`, `.xlsb`, `.xlsm`, PDFs, images, or live systems.</li>
+              <li>Pivot caches, merged-cell logic, cross-workbook links, or unsupported formula shapes.</li>
+              <li>Client data, model output, security certification, audit opinion, or financial advice.</li>
+            </ul>
+          </article>
+        </div>
+      </section>
+
+      <section class="final" aria-labelledby="service-heading">
+        <p class="kicker">What this proves</p>
+        <h2 id="service-heading">This is the per-figure evidence format inside a file-analysis engagement.</h2>
+        <p class="copy">For an agreed Excel or PDF set, the RM1,500 fixed-scope service returns a source map, findings, missing-data notes, and a concise presentation. It is decision support, not an audit, legal advice, or financial advice.</p>
+        <div class="actions">
+          <a class="btn" href="https://buy.stripe.com/dRm8wP3KKfoT9w0g5u9ws03">Buy fixed-scope analysis - RM 1,500</a>
+          <a class="btn ghost" href="https://netie.ai/hire/#brief">Request a written scope</a>
+        </div>
+      </section>
+    </main>
+
+    <footer>Netie.AI - Jian Hong Oo - Penang - Synthetic sample, local-file trace only</footer>
+  </div>
+</body>
+</html>
