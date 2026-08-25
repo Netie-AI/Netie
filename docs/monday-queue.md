@@ -3041,6 +3041,68 @@ Tone: `.cursor/skills/outreach-tone/SKILL.md`. `/services/` is filled, not Comin
 ### HSA Asia Sdn Bhd -- QUEUED draft 26 Aug 2026 04:54 MYT
 - To: sales@ysimalaysia.my. Draft `r4867888045450520349`. Thread `1a03ab0258e343fd`. Subject: Petaling Jaya instrument landing page. File: `docs/proposals/hsa-asia.md`. Copy YSI equipment / flow meters. Host ysimalaysia.my; printed firm HSA Asia.
 
+### W Floor -- QUEUED draft 26 Aug 2026 05:00 MYT
+- To: jerrywts@gmail.com. Draft `r1630280936599870879`. Thread `1a03ab4d282f22ac`. Subject: Ipoh flooring landing page. File: `docs/proposals/w-floor.md`. Copy SPC Flooring. JSON-LD email.
+
+### William Tay -- QUEUED draft 26 Aug 2026 05:00 MYT
+- To: william.tlt@gmail.com. Draft `r-6079837536103868885`. Thread `1a03ab4d463506e4`. Subject: Johor Bahru property landing page. File: `docs/proposals/william-tay.md`. Copy residential property for sale in Johor Bahru.
+
+### WILION KITCHEN CABINET -- QUEUED draft 26 Aug 2026 05:00 MYT
+- To: wilionkitchencabinet@gmail.com. Draft `r-5341874355196487432`. Thread `1a03ab4d7f65bd18`. Subject: Puncak Alam cabinet landing page. File: `docs/proposals/wilion.md`. Copy 3G Glass Modern Kitchen Cabinet. JSON-LD email.
+
+### Wintech Keruilai -- QUEUED draft 26 Aug 2026 05:00 MYT
+- To: info@wintechkeruilai.com.my. Draft `r-7791218048393713289`. Thread `1a03ab4d7b62eb21`. Subject: Balakong cooler landing page. File: `docs/proposals/wintech-keruilai.md`. Copy Authorized Distributor of Keruilai Evaporative Air Cooler.
+
+### Wolfsburg Auto Garage -- QUEUED draft 26 Aug 2026 05:00 MYT
+- To: yeapsihua@gmail.com. Draft `r8563782279274521584`. Thread `1a03ab4d835a0ef1`. Subject: George Town garage landing page. File: `docs/proposals/wolfsburg.md`. Copy APR Authorized Dealer. JSON-LD email.
+
+### WS Dental Clinic -- QUEUED draft 26 Aug 2026 05:00 MYT
+- To: wsdental88@gmail.com. Draft `r-3583682431454757332`. Thread `1a03ab4dba534c1f`. Subject: Shah Alam dental landing page. File: `docs/proposals/ws-dental.md`. Copy Braces & Invisalign / Eco Ardence. JSON-LD email.
+
+### Xiinec -- QUEUED draft 26 Aug 2026 05:00 MYT
+- To: xiinec@gmail.com. Draft `r-7147273648478727430`. Thread `1a03ab4db6228a07`. Subject: Seri Kembangan ACMV landing page. File: `docs/proposals/xiinec.md`. Copy ACMV / over 30 years. JSON-LD email.
+
+### Xuan Yi -- QUEUED draft 26 Aug 2026 05:00 MYT
+- To: tioe.jq@gmail.com. Draft `r1187510051326515464`. Thread `1a03ab4dcf49d487`. Subject: Puchong lion-dance landing page. File: `docs/proposals/xuan-yi.md`. Copy lion and dragon dance shows.
+
+### Yarn Plus -- QUEUED draft 26 Aug 2026 05:00 MYT
+- To: yarnplus@yahoo.com. Draft `r-947757500018222775`. Thread `1a03ab4dde50dc21`. Subject: Seri Kembangan carpet landing page. File: `docs/proposals/yarn-plus.md`. Copy No.1 Carpet Wholesaler. JSON-LD email.
+
+### YG Car -- QUEUED draft 26 Aug 2026 05:00 MYT
+- To: ygcar_accessories@hotmail.com. Draft `r-5443227433205169092`. Thread `1a03ab4ded4825ac`. Subject: Ipoh tint landing page. File: `docs/proposals/yg-car.md`. Copy The Best Tint Shop In Perak.
+
+### YL CREATE TECH -- QUEUED draft 26 Aug 2026 05:00 MYT
+- To: ylcreatetechsb@gmail.com. Draft `r8555093871780311431`. Thread `1a03ab5552b00608`. Subject: Bukit Mertajam lubricant landing page. File: `docs/proposals/yl-create-tech.md`. Copy industrial lubricant. Host ylt-pg.com.my.
+
+### YL Skincare -- QUEUED draft 26 Aug 2026 05:00 MYT
+- To: ylskincare99@gmail.com. Draft `r-7404037034207645044`. Thread `1a03ab55491b2d0a`. Subject: Kuala Lumpur skincare landing page. File: `docs/proposals/yl-skincare.md`. Copy Sunway Velocity Two. First mail English.
+
+### Y&C Gift Solutions -- QUEUED draft 26 Aug 2026 05:00 MYT
+- To: yncgiftsolutions@gmail.com. Draft `r1312180408836071289`. Thread `1a03ab5565d67a13`. Subject: Sri Petaling florist landing page. File: `docs/proposals/ync-gift.md`. Copy No.1 Flower Shop in KL.
+
+### Yeo Siew Yi -- QUEUED draft 26 Aug 2026 05:00 MYT
+- To: siewyiyeo@gmail.com. Draft `r9223067351288161567`. Thread `1a03ab559846893a`. Subject: Johor Bahru mortgage landing page. File: `docs/proposals/yeo-siew-yi.md`. Copy mortgage consultant / Kota Southkey.
+
+### Yuemi -- QUEUED draft 26 Aug 2026 05:00 MYT
+- To: yuemi.malaysia@hotmail.com. Draft `r-1635138860935384292`. Thread `1a03ab559610b572`. Subject: Kepong PPF landing page. File: `docs/proposals/yuemi.md`. Copy paint protection film. JSON-LD email.
+
+### Yulek Hardware -- QUEUED draft 26 Aug 2026 05:00 MYT
+- To: ylhware1108@gmail.com. Draft `r-6908032654913817727`. Thread `1a03ab55a80c291d`. Subject: Cheras hardware landing page. File: `docs/proposals/yulek-hardware.md`. Copy Celebrating 20 Years of Excellence.
+
+### Y & Y Mix -- QUEUED draft 26 Aug 2026 05:00 MYT
+- To: ymixsb@gmail.com. Draft `r2722630732798543271`. Thread `1a03ab55a9e6e8e7`. Subject: Sendayan concrete landing page. File: `docs/proposals/yy-mix.md`. Copy ready-mix concrete. Host yygroup.com.my.
+
+### Zenith Design -- QUEUED draft 26 Aug 2026 05:00 MYT
+- To: janywong34@gmail.com. Draft `r870767882811842147`. Thread `1a03ab55debe55ae`. Subject: Klang renovation landing page. File: `docs/proposals/zenith-design.md`. Copy over 20 years of renovation. JSON-LD email.
+
+### ZG Parts -- QUEUED draft 26 Aug 2026 05:00 MYT
+- To: zg.partssb@gmail.com. Draft `r-8140773359991211222`. Thread `1a03ab55e02a79a0`. Subject: Seri Kembangan aircond landing page. File: `docs/proposals/zg-parts.md`. Copy commercial aircond. Host zgsolution.com.my. JSON-LD email.
+
+### Z Star -- QUEUED draft 26 Aug 2026 05:00 MYT
+- To: zstarconceptsb@gmail.com. Draft `r2783574303740575115`. Thread `1a03ab55e533ed79`. Subject: Iskandar Puteri cleaning landing page. File: `docs/proposals/z-star.md`. Copy commercial cleaning / SILC.
+
+Skipped leftover filled-cands: wlgroupdesign.com.my `hq@wlgroupdesign.com` TLD mismatch, woodncol.com.my suspended, xmobility.com.my Coming Soon dump, ykautoparts.com.my suspended, YAL remmail, Whole New Era, YHY. This `/tmp/filled-cands.txt` slice is done. Next hunt: unused malaysiabrand hosts before W that were skipped because `/services/` was not Coming Soon.
+
 
 
 

@@ -1,8 +1,10 @@
 # STATUS
 
-Updated: 2026-08-26 04:55 MYT. Success = live Stripe charge, then a payout.
+Updated: 2026-08-26 05:00 MYT. Success = live Stripe charge, then a payout.
 
 ## Now (measured)
+
+- After hours 26 Aug 05:00 MYT: no owner send. Toon thread still two messages; holding draft `r-7427464740298229176` not sent. Did not nag Kanhseei. Did not reply Starbridge. JSON-LD leftover filled-cands queued (20 more): W Floor, William Tay, Wilion, Wintech, Wolfsburg, WS Dental, Xiinec, Xuan Yi, Yarn Plus, YG Car, YL Create Tech, YL Skincare, Y&C Gift, Yeo Siew Yi, Yuemi, Yulek, Y&Y Mix, Zenith, ZG Parts, Z Star. Empty `in:sent`. Skipped wlgroupdesign.com.my `hq@wlgroupdesign.com` TLD mismatch, woodncol/ykautoparts suspended, xmobility Coming Soon dump, YAL remmail, Whole New Era, YHY. Filled-site total 53. Do not send before 11:00. Do not require Coming Soon on filled drafts at send. Did not poll Stripe (already 26 Aug MYT at 01:05). No paid charge yet.
 
 - After hours 26 Aug 04:55 MYT: no owner send. Toon thread still two messages; holding draft `r-7427464740298229176` not sent. Did not nag Kanhseei. Did not reply Starbridge. Coming Soon unused-host list still exhausted at line 3572. Queued thirty-three filled-site first-mails (homepage mailto + unique published fact; `/services/` is filled, not Coming Soon) and folded them onto Wed 11:00 MYT (`sub_d6391aff-671e-4c78-bf82-8c85d79f5d2c`, replaced `sub_d61459ca`): Wintools through Xolven plus WY WY, Whitecube, YKY, XY Properties, WPK, YV Global, Yu Chin, Weng Soon, Yi Kang TCM, HSA Asia. Empty `in:sent`. Skipped remmail YAL (`info@yal.com.my` SENT 22 Aug Excel-trace). White Otter first homepage curl was 769 bytes; unique retry returned the live interior page. Host ysimalaysia.my is HSA Asia. Do not send before 11:00. Do not require Coming Soon on these thirty-three at send. Did not mail `bcng@worldtechpt.com.my`, `importadmin@winterfrozen.com.my`, `xolvenmarketing@gmail.com`, or `prestimachinery@gmail.com`. Did not poll Stripe (already 26 Aug MYT at 01:05). No paid charge yet.
 
