@@ -2746,6 +2746,46 @@ Folded onto the same Wed 09:00 timer (`sub_271fb8be-3797-4a84-b3db-36032250271b`
 Skipped CS-no-mailto: snew.com.my, swj.com.my. Skipped CS+mailto TLD mismatch: smartechrental.com.my `enquiry@powersolutions.com.my`.
 - Next hunt: unused malaysiabrand hosts after line 2979. Do not send these before Wed 09:00 MYT.
 
+## Queued after hours 25 Aug 2026 20:32 MYT (do not send before Wed 09:00)
+
+Folded onto the same Wed 09:00 timer (`sub_3fe8c738-73a7-4b4e-8935-68cdb21175fa`, replaced `sub_271fb8be-3797-4a84-b3db-36032250271b`). Eleven extras from unused hosts 2980-3079. Empty `in:sent`. All eleven `/services/` Coming Soon (`min-height:440px`). No Stripe. HQ jasmineng2012@ only at TRANSPART. HQ Puchong sales@ only at TECA. Tactical City and Texas Print print city-only. Copy Trusted by professional, On-Time Deliver, manufacturing hub in china, interior LED's, poster, name card, ELECTRICAL SOLUTIONS FOR EVERY NEED, HIGH QUALITY SHIRT PRINTING IN MALAYSIA, Top-Notch Building Bungalow, they growth, ind your perfect plant, Quality Craft Cabinets.
+
+### Tactical City Enterprise -- QUEUED draft 25 Aug 2026 20:29 MYT
+- To: tacticalmelaka@gmail.com. Draft `r-3135297164741777412`. Thread `1a038e60551698aa`. Subject: Melaka tactical page. File: `docs/proposals/tactical-city.md`. Copy Trusted by professional / UNMATCHED PERFORMANCE. Sungai Udang city-only.
+
+### TRANSPART AUTO SUPPLY SDN BHD -- QUEUED draft 25 Aug 2026 20:30 MYT
+- To: jasmineng2012@gmail.com. Draft `r-1509002954968623775`. Thread `1a038e62f1b144f3`. Subject: Shah Alam lorry page. File: `docs/proposals/transpart-auto.md`. Copy We strive to serve our customers by: / Trusted Brand. HQ jasmineng2012@ only. Did not mail transpartautosupply@gmail.com.
+
+### TCL NEW TREND SDN BHD -- QUEUED draft 25 Aug 2026 20:30 MYT
+- To: tclnewtrendsb@gmail.com. Draft `r8442083639665520813`. Thread `1a038e65788fc36b`. Subject: Shah Alam factory page. File: `docs/proposals/tcl-new-trend.md`. Copy On-Time Deliver / Wet Work In Selangor (Klang & Shah Alam).
+
+### Teca Marketing (HQ) Sdn Bhd -- QUEUED draft 25 Aug 2026 20:30 MYT
+- To: sales@teca.com.my. Draft `r-6196373025244036798`. Thread `1a038e6858adb78f`. Subject: Puchong door-fitting page. File: `docs/proposals/teca-marketing.md`. Copy manufacturing hub in china / all it's products. HQ Puchong sales@ only.
+
+### Gavin Hawk Marketing Sdn Bhd -- QUEUED draft 25 Aug 2026 20:30 MYT
+- To: techkingled@gmail.com. Draft `r5837861718652829526`. Thread `1a038e6a0fd7ab46`. Subject: Klang LED page. File: `docs/proposals/techking.md`. Copy LIGHT UP EVERY JOURNEY WITH TECH-KING LED / interior LED's.
+
+### TED PRINT SDN BHD -- QUEUED draft 25 Aug 2026 20:30 MYT
+- To: master@tedprint.my. Draft `r6250480543173842030`. Thread `1a038e6b5295214c`. Subject: Seri Kembangan print page. File: `docs/proposals/ted-print.md`. Copy poster, name card / Bannerboy.
+
+### T.E. Electric Sdn Bhd -- QUEUED draft 25 Aug 2026 20:30 MYT
+- To: teelectric90@yahoo.com.my. Draft `r3976265422250160390`. Thread `1a038e6dd31b56c0`. Subject: Johor Bahru electrical page. File: `docs/proposals/te-electric.md`. Copy ELECTRICAL SOLUTIONS FOR EVERY NEED / POWERING EVERY CONNECTION.
+
+### Texas Print Sdn. Bhd. -- QUEUED draft 25 Aug 2026 20:30 MYT
+- To: texasprint88@gmail.com. Draft `r-522143043781364428`. Thread `1a038e6f3634b79e`. Subject: KL shirt page. File: `docs/proposals/texas-print.md`. Copy HIGH QUALITY SHIRT PRINTING IN MALAYSIA / 100,000+ clients nationwide. OUG city-only.
+
+### TGS Dynamics Construction Sdn Bhd -- QUEUED draft 25 Aug 2026 20:30 MYT
+- To: tgsdynamics@yahoo.com. Draft `r-8108641321123225428`. Thread `1a038e7055efc66e`. Subject: Melaka renovation page. File: `docs/proposals/tgs-dynamics.md`. Copy Top-Notch Building Bungalow / go the extra mile.
+
+### THE GARDENERZ RESOURCES -- QUEUED draft 25 Aug 2026 20:31 MYT
+- To: gardenerz.landscape@gmail.com. Draft `r6701543614534726078`. Thread `1a038e71cbd2cdb8`. Subject: Petaling Jaya landscape page. File: `docs/proposals/the-gardenerz.md`. Copy they growth / ind your perfect plant.
+
+### SOLID KITCHEN DESIGN & BUILD SDN BHD -- QUEUED draft 25 Aug 2026 20:31 MYT
+- To: sales@thesolidkitchen.com.my. Draft `r-3038346449064495044`. Thread `1a038e74b59869ec`. Subject: Cyberjaya kitchen page. File: `docs/proposals/solid-kitchen.md`. Copy Quality Craft Cabinets / Since 1984, we’ve built kitchens that last.
+
+Skipped CS-no-mailto: tamjaimixian.com.my. Skipped CS+mailto TLD mismatch: tech-link.com.my `info@techlink.com.my`, temeventsolution.com.my `sam.tan@temeventsolution.com`.
+- Next hunt: unused malaysiabrand hosts after line 3079. Do not send these before Wed 09:00 MYT.
+
 
 
 
