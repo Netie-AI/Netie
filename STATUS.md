@@ -1,8 +1,10 @@
 # STATUS
 
-Updated: 2026-08-25 21:15 MYT. Success = live Stripe charge, then a payout.
+Updated: 2026-08-25 21:20 MYT. Success = live Stripe charge, then a payout.
 
 ## Now (measured)
+
+- After hours 25 Aug 21:20 MYT: Surge https://netie-penang.surge.sh/ now byte-matches `docs/pay.html` (56312 bytes, sha256 `a8fb92f4...`). Page names RM 500 unlocks the first draft. Reply-only `/drafts/windmere-services.html` still HTTP 200. Canonical https://netie.ai/hire/ still 19464 bytes, no RM 500 line. Spaceship File Manager login returned unavailable; FTP 530. Homepage HTTP 200, no 302 to `/hire/`. Toon draft `r-7513366825887340098` not sent. Did not nag Kanhseei. Did not poll Stripe. No paid charge yet.
 
 - After hours 25 Aug 21:15 MYT: inbox recheck. No new buyer mail. Toon thread still two messages. Gmail shows the From name as Kah Chun Seow (`toon@advancedinkjet.com.my`). Parked owner-approved clarification as draft `r-7513366825887340098` (not sent). Hire source `docs/pay.html` now names RM 500 unlocks the first draft, then RM 1,000 to RM 5,000. No Stripe button. Canonical https://netie.ai/hire/ still the previous upload until File Manager. Advanced Inkjet draft HTML H1 no longer says print page. Did not nag Kanhseei. Did not apply Foundit. Did not reply Starbridge. Did not poll Stripe. No paid charge yet.
 
