@@ -1,8 +1,10 @@
 # STATUS
 
-Updated: 2026-08-26 07:00 MYT. Success = live Stripe charge, then a payout.
+Updated: 2026-08-26 07:15 MYT. Success = live Stripe charge, then a payout.
 
 ## Now (measured)
+
+- After hours 26 Aug 07:15 MYT: owner used the Golden Star Roofing Coming Soon rewrite as the next unclear proof. Skills now name landing page plus marketing first, then agent / OCR / DMS. Client reply gets a proposal document with figures. Toon proposal `docs/proposals/advanced-inkjet-proposal.md` and `.html` written, not sent. Do not `update_draft` holding draft `r-7427464740298229176`. Recreate on send. No Gemini MCP and no Playwright MCP this VPS. Did not remmail Golden Star. Did not nag Kanhseei. Did not reply Starbridge. Filled-site total 396. Wed 11:00 still `sub_e5fa4b51` / 430 drafts. Did not poll Stripe. No paid charge yet.
 
 - After hours 26 Aug 07:00 MYT: no owner send. Toon thread still two messages; holding draft `r-7427464740298229176` not sent. Did not nag Kanhseei. Did not reply Starbridge. Queued twenty-seven more filled-site first-mails from remain hosts 981-1080 and folded them onto Wed 11:00: Gemie Pastry through Guoyi Tang. Empty `in:sent`. One GOLDEN SHARP inbox (`gsprefab@`). Global 7 HQ JSON-LD `ops@` only. Golden Channel HQ JSON-LD `gcsklg@` only. GTE Best Mark subject is coding-machine. Great Image subject is copier. Never print page. Host gourmetmart.com.my is CGK Frozen. Filled-site total 396. Wed 11:00 timer `sub_e5fa4b51-6242-4070-acee-3c44e8334a7a` replaced `sub_a32f9640` and now fires four hundred thirty drafts (34 CS plus 396 filled). Do not send before 11:00. Do not require Coming Soon on filled drafts at send. Next hunt: remain hosts after line 1080. Did not poll Stripe (already 26 Aug MYT at 01:05). No paid charge yet.
 

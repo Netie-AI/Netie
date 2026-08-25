@@ -4,10 +4,11 @@ Read these before mail, subagents, or a new gig. Load only the matching skill. D
 
 | Bucket | Path | Use |
 |---|---|---|
-| Chat | `.cursor/skills/chat-voice/SKILL.md` | Direct English. Better landing page. RM 500 first draft. |
+| Chat | `.cursor/skills/chat-voice/SKILL.md` | Direct English. Landing page plus marketing. RM 500 first draft. |
 | Show before send | `.cursor/skills/show-before-send/SKILL.md` | Paste the body in chat. Wait. Then send. |
-| Outreach | `.cursor/skills/outreach-tone/SKILL.md` | Buyer email. No "print page". No Coming Soon hook. |
-| Offer ladder | `.cursor/skills/offer-ladder/SKILL.md` | Web first, then marketing agent, DMS, agentic ops. |
+| Outreach | `.cursor/skills/outreach-tone/SKILL.md` | Buyer email. No "print page". No Coming Soon rewrite hook. |
+| Offer ladder | `.cursor/skills/offer-ladder/SKILL.md` | Landing plus marketing first, then agent, OCR, DMS. |
+| Consulting proposal | `.cursor/skills/consulting-proposal/SKILL.md` | Client reply gets a document with figures, not only email. |
 | Scroll landing | `.cursor/skills/scroll-craft-landing/SKILL.md` | nateherkai/scroll-craft for paid landings. |
 | Meng To frontend | `.cursor/skills/mengto-frontend/SKILL.md` | Meng To Skills index. Load one skill at a time. |
 | Meng To landing | `.cursor/skills/mengto-landing-page/SKILL.md` | Single-offer landing structure. |

@@ -6,6 +6,8 @@ Live https://www.gsroofing.com.my/services/ HTTP 200 still Coming Soon (`min-hei
 
 Quoted band: RM 1,000 to RM 5,000. No Stripe in first mail.
 
+Owner 26 Aug 2026: this Coming Soon rewrite body is the next unclear proof. Do not remmail unless they reply. New first-mail voice is landing page plus marketing, RM 500 first draft. Cite `.cursor/skills/outreach-tone/SKILL.md`.
+
 Draft subject: Seremban roofing page
 
 Draft body:

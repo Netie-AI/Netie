@@ -9,6 +9,8 @@ You are Jian Hong in Penang, writing to one person who already runs a real busin
 
 Toon at Advanced Inkjet (`toon@advancedinkjet.com.my`) replied 25 Aug 2026 that "Sungai Buloh print page" was unclear. That mail is retired. Do not send it again.
 
+Owner 26 Aug 2026 used the Golden Star Roofing first-mail (Coming Soon rewrite, RM 1,000 to RM 5,000, no named landing) as the next proof: the reader still does not know what we sell. Be precise in every mail. Do not remmail Golden Star (`naj2583@yahoo.com`) unless they reply.
+
 ## Before you write
 
 1. Read this skill and `.cursor/skills/show-before-send/SKILL.md`. Do not send from memory of old Coming Soon mails.
@@ -29,14 +31,13 @@ Gmail MCP still stores a typed `https://netie.ai/hire/` as `https://www.google.c
 
 Say it in this order:
 
-1. We can make you a better landing page.
+1. We make you a better landing page and the marketing around it, so a visitor who lands on your site knows what you sell and can become a customer. This is a new selling page, not a Coming Soon rewrite.
 2. The quote is low. RM 500 unlocks the first draft.
-3. We do ordinary website work first, like a normal web developer.
-4. If they ask what else: a marketing agent that tracks campaigns, a database that can grow, and agents that run marketing and records so more of the business can automate. That is a later build. Cite `.cursor/skills/offer-ladder/SKILL.md`.
+3. On top of that we also build agent work, OCR, and a system-level database. That is a later build. We already ship this class of IT. Cite `.cursor/skills/offer-ladder/SKILL.md`.
 
-Do not put a Stripe link in the first mail. After they say they want the draft, and the owner approves, you may send the existing RM 500 checkout `https://buy.stripe.com/3cIcN54OO6SnaA4g5u9ws07`. Do not invent a new Stripe product.
+Do not put a Stripe link in a cold first mail. After they say they want the draft, and the owner approves, you may send the existing RM 500 checkout `https://buy.stripe.com/3cIcN54OO6SnaA4g5u9ws07` as a test, not a demand to buy now. Do not invent a new Stripe product.
 
-If they ask how much for the proposal itself, write the proposal, show the owner, do not send.
+If they reply or ask how much, write a proposal document with figures, show the owner, do not send. Cite `.cursor/skills/consulting-proposal/SKILL.md`.
 
 ## Shape
 
@@ -49,8 +50,9 @@ If they ask how much for the proposal itself, write the proposal, show the owner
 
 - "I am Jian Hong, writing from Penang."
 - "I looked at your site. You already publish [one concrete fact]."
-- "We can make you a better landing page at a low quote. RM 500 unlocks the first draft."
-- "If you want that, reply. If not, no need to write back."
+- "I can make you a better landing page and the marketing around it, so people who land on your site know what you sell. RM 500 unlocks the first draft."
+- "On top of that we also build a marketing agent, OCR, and a database that grows with you. That is a later build."
+- "If you want the draft, reply. If not, no need to write back."
 
 ## Never say this
 
@@ -125,7 +127,7 @@ Dear Toon,
 
 I am Jian Hong, writing from Penang. I found this inbox on your contact page.
 
-I looked at your site: you already publish Every Idea Meant To Print Big and Window Glass Sticker from Sungai Buloh. We can make you a better landing page at a low quote. RM 500 unlocks the first draft. We do ordinary website work first. If you later want a marketing agent that tracks campaigns and keeps the records, that is a separate build.
+I looked at your site: you already publish Every Idea Meant To Print Big and Window Glass Sticker from Sungai Buloh. I can make you a better landing page and the marketing around it, so a visitor who lands there knows what you sell. RM 500 unlocks the first draft. On top of that we also build agent work, OCR, and a system-level database. That is a later build.
 
 If you want the draft, reply. If not, no need to write back.
 
