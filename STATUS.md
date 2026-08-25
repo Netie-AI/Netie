@@ -1,8 +1,10 @@
 # STATUS
 
-Updated: 2026-08-25 09:20 MYT. Success = live Stripe charge, then a payout.
+Updated: 2026-08-25 09:41 MYT. Success = live Stripe charge, then a payout.
 
 ## Now (measured)
+
+- Office hours 25 Aug 09:40 MYT: sent the afternoon four queued first-mails after live checks. Top Fast `dspa_dtempat@hotmail.com` SENT `1a03693e56c75c1d` thread `1a034b72b739f1d0`. Kulim Typewriters `enquiry@kulimtypewriters.com.my` SENT `1a03693e601788cf` thread `1a034b72cdce87e8`. Shinx Malaysia `sales@shinx.com.my` SENT `1a03693e98a04ddc` thread `1a034b72c1671f8d`. HiParents `hiparents1.0@gmail.com` SENT `1a03693eb34eaad8` thread `1a034b72ff0d02e3`. All four `/services/` still Coming Soon (`min-height:440px`). Top Fast HTTP 200 Coming Soon, not 403. Empty `in:sent` before send. `draftId` only. Label_8. No Stripe. Do not remmail unless they reply. Timer `sub_e5ee26e9-1745-4c06-bbb7-da0447a73a9a` gone. 10:00 M Haus-through-CHILDHOOD T timer stays (`sub_6af2d1da-c7f0-4f25-8e4a-b14db9021fcc`). Kanhseei still ends at SENT `1a0338bc74fae0b4`. Did not nag. Did not apply. Did not poll Stripe. No paid charge yet.
 
 - Office hours 25 Aug 09:20 MYT: sent the extra five queued first-mails after live checks. Leatat `info@leatat.com.my` SENT `1a036814005745a2` thread `1a034976325e7aa8`. Craft Perfect `craftperfecttools@gmail.com` SENT `1a03681435aa4e2c` thread `1a0349f6e8f2da78`. Lan Hoe `online@lanhoe.com.my` SENT `1a03681453341f5c` thread `1a0349f7006f69a3`. Pro Helper `prohelper99@gmail.com` SENT `1a0368147bec0b26` thread `1a0349fb4e11d24d`. KM Super HQ `kmsuperkmsuper@gmail.com` SENT `1a03681460c455ca` thread `1a0349f7204ba4dd` (did not mail Bangi or Mawar). All five `/services/` still Coming Soon (`min-height:440px`). Empty `in:sent` before send. `draftId` only. Label_8. No Stripe. Do not remmail unless they reply. 09:40 afternoon four and 10:00 M Haus-through-CHILDHOOD T timers stay. Kanhseei still ends at SENT `1a0338bc74fae0b4`. Did not nag. Did not apply. Did not poll Stripe. No paid charge yet.
 

@@ -4,6 +4,7 @@ This index records reusable findings from focused subagent reviews.
 
 | File | Keywords | Main idea |
 |---|---|---|
+| [2026-08-25-tue-0940-afternoon-four-send.md](2026-08-25-tue-0940-afternoon-four-send.md) | Top Fast, Kulim Typewriters, Shinx, HiParents, office hours, Coming Soon mailto | Four afternoon drafts SENT 25 Aug 09:40 MYT. Top Fast HTTP 200 Coming Soon, not 403. Do not remmail unless they reply. |
 | [2026-08-25-tue-0920-extra-five-send.md](2026-08-25-tue-0920-extra-five-send.md) | Leatat, Craft Perfect, Lan Hoe, Pro Helper, KM Super, office hours, Coming Soon mailto | Five extra drafts SENT 25 Aug 09:20 MYT. HQ-only at KM Super. Do not remmail unless they reply. |
 | [2026-08-25-tue-0900-first-mail-send.md](2026-08-25-tue-0900-first-mail-send.md) | Prints Buddy, TNT Crane, Dream House, Berjaya, Jin He Jia, Katalisjiwa, office hours, Coming Soon mailto | Six queued drafts SENT 25 Aug 09:00 MYT after live Coming Soon and empty in:sent. Do not remmail unless they reply. |
 | [2026-08-25-bm-glass-calpower-casalam-batch4-queue.md](2026-08-25-bm-glass-calpower-casalam-batch4-queue.md) | B & M Glass, Brightmount, Brightpoint, Bright Success Electrical, Brilliant Success, BERKAT SELAMAT GADGETS, Buildex Smart, CALPOWER, Carbon Crew, CASALAM, CHILDHOOD T, Coming Soon mailto, Establish in South East Asia, Real Estate Agency Agency | Eleven more CS+mailto drafts from unused malaysiabrand hosts 380-479 after BIZGIF. Skip caver/castorwheel domain-mismatch mailtos. Copy printed typos. |

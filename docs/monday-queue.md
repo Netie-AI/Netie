@@ -1009,42 +1009,45 @@ Timer `netie-tue-extra-websites-2026-08-25-0920-myt` sent in-turn at 09:20 MYT a
 - File: `docs/proposals/km-super.md`. Hostable draft: `docs/proposals/km-super-services.html`.
 - Do not mail again unless they reply. Did not mail Bangi or Mawar.
 
-## Queued after the Tue 09:20 extra five-send (do not send before those five, and not after hours)
+## SENT Tue 25 Aug 2026 09:40 MYT afternoon four
 
-Timer `netie-tue-afternoon-websites-2026-08-25-0940-myt` (`sub_e5ee26e9-1745-4c06-bbb7-da0447a73a9a`, once, Tue 25 Aug 09:40 MYT). Send existing Gmail drafts only after live `/services/` Coming Soon and empty `in:sent`. Four afternoon extras: Top Fast, Kulim Typewriters, Shinx Malaysia, HiParents. Not an email-watch loop. No Stripe. One inbox. RM 1,000-5,000. Label `Label_8` after send. Do not Surge-publish until after SENT. If Kanhseei writes, answer first and honor RM 500. Do not poll Stripe (already done 25 Aug MYT).
+Timer `netie-tue-afternoon-websites-2026-08-25-0940-myt` sent in-turn at 09:40 MYT after live checks. All four `/services/` still Coming Soon (`min-height:440px`). Top Fast HTTP 200 Coming Soon, not 403. Empty `in:sent` before send. `draftId` only. Label_8. Do not remmail unless they reply.
 
-### Top Fast Management -- QUEUED draft 25 Aug 2026 01:00 MYT
+### Top Fast Management -- SENT 25 Aug 2026 09:40 MYT
 
 - To: dspa_dtempat@hotmail.com (contact-page mailto on https://www.totalpro-dspa.com.my/contactus/). One inbox.
 - Source: live https://www.totalpro-dspa.com.my/services/ HTTP 200 still Coming Soon (`min-height:440px`). Homepage lists Thai massage, reflexology, and d'SPA at d'Tempat Country Club Sendayan, plus Keningau. SSM 201501002663 (1127995-U).
-- Draft: `r-722885990140598036`. Thread: `1a034b72b739f1d0`. Subject: Sendayan spa page.
+- SENT 25 Aug 2026 09:40 MYT. Message: `1a03693e56c75c1d`. Thread: `1a034b72b739f1d0`. Former draft: `r-722885990140598036`. Subject: Sendayan spa page.
 - File: `docs/proposals/top-fast.md`. Hostable draft: `docs/proposals/top-fast-services.html`.
+- Do not mail again unless they reply.
 
-### Kulim Typewriters -- QUEUED draft 25 Aug 2026 01:00 MYT
+### Kulim Typewriters -- SENT 25 Aug 2026 09:40 MYT
 
 - To: enquiry@kulimtypewriters.com.my (homepage mailto on https://www.kulimtypewriters.com.my/). One inbox.
 - Source: live https://www.kulimtypewriters.com.my/services/ HTTP 200 still Coming Soon (`min-height:440px`). Homepage lists office furniture, Olympia CM80 Plus ECR, and used Olivetti typewriters from 28A, Jalan Raya, Kulim. Established 1982. SSM 198203051744 (AS0030472-D).
-- Draft: `r-3060553097144810017`. Thread: `1a034b72cdce87e8`. Subject: Kulim office page.
+- SENT 25 Aug 2026 09:40 MYT. Message: `1a03693e601788cf`. Thread: `1a034b72cdce87e8`. Former draft: `r-3060553097144810017`. Subject: Kulim office page.
 - File: `docs/proposals/kulim-typewriters.md`. Hostable draft: `docs/proposals/kulim-typewriters-services.html`.
+- Do not mail again unless they reply.
 
-### Shinx Malaysia -- QUEUED draft 25 Aug 2026 01:00 MYT
+### Shinx Malaysia -- SENT 25 Aug 2026 09:40 MYT
 
 - To: sales@shinx.com.my (homepage mailto on https://www.shinx.com.my/). One inbox.
 - Source: live https://www.shinx.com.my/services/ HTTP 200 still Coming Soon (`min-height:440px`). Homepage lists aluminium plate plus 4-face and 6-face milling from Kulim Hi-Tech Park. SSM 202201024649 (1470346-H).
-- Draft: `r3409439640270351846`. Thread: `1a034b72c1671f8d`. Subject: Kulim Hi-Tech plate page.
+- SENT 25 Aug 2026 09:40 MYT. Message: `1a03693e98a04ddc`. Thread: `1a034b72c1671f8d`. Former draft: `r3409439640270351846`. Subject: Kulim Hi-Tech plate page.
 - File: `docs/proposals/shinx-malaysia.md`. Hostable draft: `docs/proposals/shinx-malaysia-services.html`.
+- Do not mail again unless they reply.
 
-### HIPARENTS MARKETING SOLUTIONS -- QUEUED draft 25 Aug 2026 01:00 MYT
+### HIPARENTS MARKETING SOLUTIONS -- SENT 25 Aug 2026 09:40 MYT
 
 - To: hiparents1.0@gmail.com (homepage mailto on https://www.hiparents.com.my/). One inbox.
 - Source: live https://www.hiparents.com.my/services/ HTTP 200 still Coming Soon (`min-height:440px`). English homepage lists kids enrichment classes, kindergartens, and family restaurants from Bandar Putra, Kulai. SSM 202403144218 (003607460-D).
-- Draft: `r-4083780995783271467`. Thread: `1a034b72ff0d02e3`. Subject: Kulai parent page.
+- SENT 25 Aug 2026 09:40 MYT. Message: `1a03693eb34eaad8`. Thread: `1a034b72ff0d02e3`. Former draft: `r-4083780995783271467`. Subject: Kulai parent page.
 - File: `docs/proposals/hiparents.md`. Hostable draft: `docs/proposals/hiparents-services.html`.
-- Skipped this pass: Finapack website suspended. Keong Huat / Steelix / Capital Gardens `/services/` 404. MGlobe / HAG Solar `/services/` filled. Shenion services not Coming Soon. Southern Optometry / LM Equipment timeout. WCM Parts SSL fail. UKAI JSON-LD-only. Standco / Egida / Carte Kitchen `/services/` filled. Airblock already SENT. Do not mail KM Super Bangi or Mawar.
+- Do not mail again unless they reply. Skipped this pass: Finapack website suspended. Keong Huat / Steelix / Capital Gardens `/services/` 404. MGlobe / HAG Solar `/services/` filled. Shenion services not Coming Soon. Southern Optometry / LM Equipment timeout. WCM Parts SSL fail. UKAI JSON-LD-only. Standco / Egida / Carte Kitchen `/services/` filled. Airblock already SENT. Do not mail KM Super Bangi or Mawar.
 
 ## Queued after the Tue 09:40 afternoon four-send (do not send before those four, and not after hours)
 
-Timer `netie-tue-mhaus-website-2026-08-25-1000-myt` (`sub_b2d918dd-837e-41a9-ae9f-0d898bf97226`, once, Tue 25 Aug 10:00 MYT). Send existing Gmail draft only after live `/services/` Coming Soon and empty `in:sent`. First extra: M Haus Furniture, then the Johor four, then Digno, Paperbaked, F.J. Machinery, HH Metal, Presti, SKH 88, Pro Tent, Hydro Air, WH Bespoke, Teknik Alir, MAC-TECH, Heap Soon, Sinaran, Dilooma, REXOIL, KenHai, Little Hana Florist, Paint Master DIY, and Kossen. Not an email-watch loop. No Stripe. One inbox. RM 1,000-5,000. Label `Label_8` after send. Do not Surge-publish until after SENT. If Kanhseei writes, answer first and honor RM 500. Do not poll Stripe (already done 25 Aug MYT). If the 09:00, 09:20, or 09:40 drafts are still DRAFT at 10:00, send those first after the same live checks. A sixth once-timer was refused (`invalid_argument`); extras share this timer.
+Timer `netie-tue-mhaus-website-2026-08-25-1000-myt` (`sub_6af2d1da-c7f0-4f25-8e4a-b14db9021fcc`, once, Tue 25 Aug 10:00 MYT). Send existing Gmail drafts only after live `/services/` Coming Soon and empty `in:sent`. First extra: M Haus Furniture, then the Johor four, then Digno, Paperbaked, F.J. Machinery, HH Metal, Presti, SKH 88, Pro Tent, Hydro Air, WH Bespoke, Teknik Alir, MAC-TECH, Heap Soon, Sinaran, Dilooma, REXOIL, KenHai, Little Hana Florist, Paint Master DIY, Kossen, and later batches through CHILDHOOD T. Not an email-watch loop. No Stripe. One inbox. RM 1,000-5,000. Label `Label_8` after send. Do not Surge-publish until after SENT. If Kanhseei writes, answer first and honor RM 500. Do not poll Stripe (already done 25 Aug MYT). The 09:00, 09:20, and 09:40 first-mails are already SENT; do not remmail. A sixth once-timer was refused (`invalid_argument`); extras share this timer. Trust live Gmail `list_drafts` and this file for exact To addresses and draft IDs.
 
 ### M Haus Furniture -- QUEUED draft 25 Aug 2026 01:13 MYT
 
