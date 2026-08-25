@@ -2192,37 +2192,37 @@ Timer `netie-tue-glassminds-website-2026-08-25-1700-myt` unsubscribed before sen
 
 ## Queued after hours 25 Aug 2026 17:18 MYT (do not send before Wed 09:00)
 
-Timer `netie-wed-hdhearing-website-2026-08-26-0900-myt` (`sub_f1536f04-ba4c-47e7-acfe-1773918b4442`, once, Wed 26 Aug 09:00 MYT). Ten MY extras from unused hosts 1180-1279 plus three Singapore drafts plus sixteen more from 1280-1479 below. Skipped hardrace.com.my (WhatsApp only, no printed mailto). Hightech Glass HQ `htglass.jb@gmail.com` only. Copy PRRODUCT, We provides, PURE PORK GOODNESS, Enterpreneurs, SEA-TO PLATE EXCELLENCE!. Do not send leftover monsoon draft. Skills-inventory HTML is reply-only.
+Timer `netie-wed-hdhearing-website-2026-08-26-0900-myt` (`sub_4048348f-6ace-4f0f-93ef-3415f78d584b`, replaced `sub_3fe8c738-73a7-4b4e-8935-68cdb21175fa`, once, Wed 26 Aug 09:00 MYT). 168 drafts. First ten rewritten 25 Aug 20:50 MYT to RM 500 landing-page voice. Remaining 158: rewrite on send if still Coming Soon / print-page voice. Skipped hardrace.com.my (WhatsApp only, no printed mailto). Hightech Glass HQ `htglass.jb@gmail.com` only. Copy PRRODUCT, We provides, PURE PORK GOODNESS, Enterpreneurs, SEA-TO PLATE EXCELLENCE!. Do not send leftover monsoon draft. Skills-inventory HTML is reply-only. Do not send Toon until the owner says send.
 
-### HD HEARING CARE CENTRE SDN BHD -- QUEUED draft 25 Aug 2026 17:16 MYT
-- To: hd.hearingcare@gmail.com. Draft `r8061948877361016615`. Thread `1a0383528b2f8405`. Subject: Cheras hearing-aid page. File: `docs/proposals/hd-hearing.md`.
+### HD HEARING CARE CENTRE SDN BHD -- QUEUED draft 25 Aug 2026 17:16 MYT, rewritten 20:50 MYT
+- To: hd.hearingcare@gmail.com. Draft `r8061948877361016615`. Subject: HD Hearing landing page. File: `docs/proposals/hd-hearing.md`.
 
-### Heavens Holding Sdn Bhd -- QUEUED draft 25 Aug 2026 17:16 MYT
-- To: hkreno88@gmail.com. Draft `r6136203456478834285`. Thread `1a038353cd400bca`. Subject: Shah Alam kitchen page. File: `docs/proposals/heavens-kitchen.md`. HQ Shah Alam only.
+### Heavens Holding Sdn Bhd -- QUEUED draft 25 Aug 2026 17:16 MYT, rewritten 20:50 MYT
+- To: hkreno88@gmail.com. Draft `r6136203456478834285`. Subject: Heavens Kitchen landing page. File: `docs/proposals/heavens-kitchen.md`. HQ Shah Alam only.
 
-### Hee Keong Enterprise Sdn Bhd -- QUEUED draft 25 Aug 2026 17:16 MYT
-- To: admin@heekeong.com.my. Draft `r6468898373935727266`. Thread `1a0383554d2ac53b`. Subject: Balakong pork page. File: `docs/proposals/hee-keong.md`. Copy PURE PORK GOODNESS, NATURALLY DELICIOUS!
+### Hee Keong Enterprise Sdn Bhd -- QUEUED draft 25 Aug 2026 17:16 MYT, rewritten 20:50 MYT
+- To: admin@heekeong.com.my. Draft `r6468898373935727266`. Subject: Hee Keong landing page. File: `docs/proposals/hee-keong.md`. Copy PURE PORK GOODNESS, NATURALLY DELICIOUS!
 
-### HENG HUAT FARM -- QUEUED draft 25 Aug 2026 17:17 MYT
-- To: henghuatfarm@gmail.com. Draft `r-6630808511165075126`. Thread `1a038356eeae00bd`. Subject: Sungai Jawi egg page. File: `docs/proposals/heng-huat-farm.md`. Copy QUALITY IS OUR PRIORITY.
+### HENG HUAT FARM -- QUEUED draft 25 Aug 2026 17:17 MYT, rewritten 20:50 MYT
+- To: henghuatfarm@gmail.com. Draft `r-6630808511165075126`. Subject: Heng Huat Farm landing page. File: `docs/proposals/heng-huat-farm.md`. Copy QUALITY IS OUR PRIORITY.
 
-### Hitech One Machinery Sdn Bhd -- QUEUED draft 25 Aug 2026 17:17 MYT
-- To: hitech1machinery@gmail.com. Draft `r-4036440985294481710`. Thread `1a038358d8eb6c72`. Subject: Puchong machinery page. File: `docs/proposals/hitech-one.md`. Copy We provides / probably your best choices.
+### Hitech One Machinery Sdn Bhd -- QUEUED draft 25 Aug 2026 17:17 MYT, rewritten 20:50 MYT
+- To: hitech1machinery@gmail.com. Draft `r-4036440985294481710`. Subject: Hitech One landing page. File: `docs/proposals/hitech-one.md`. Copy We provides / probably your best choices.
 
-### GWM Marketing Sdn Bhd -- QUEUED draft 25 Aug 2026 17:17 MYT
-- To: sales@gwmmarketing.com.my. Draft `r-2669432001123669870`. Thread `1a03835df2cc0d3c`. Subject: Semenyih air-cooler page. File: `docs/proposals/gwm-marketing.md`. Copy PRRODUCT. HQ Semenyih only.
+### GWM Marketing Sdn Bhd -- QUEUED draft 25 Aug 2026 17:17 MYT, rewritten 20:50 MYT
+- To: sales@gwmmarketing.com.my. Draft `r-2669432001123669870`. Subject: GWM Marketing landing page. File: `docs/proposals/gwm-marketing.md`. Copy PRRODUCT. HQ Semenyih only.
 
-### Hai Fong Frozen Food Sdn Bhd -- QUEUED draft 25 Aug 2026 17:17 MYT
-- To: haifongfrozenfood.sy@gmail.com. Draft `r-1795871162892831667`. Thread `1a03835f8a48e179`. Subject: Taman Wahyu seafood page. File: `docs/proposals/hai-fong.md`. Copy SEA-TO PLATE EXCELLENCE!
+### Hai Fong Frozen Food Sdn Bhd -- QUEUED draft 25 Aug 2026 17:17 MYT, rewritten 20:50 MYT
+- To: haifongfrozenfood.sy@gmail.com. Draft `r-1795871162892831667`. Subject: Hai Fong landing page. File: `docs/proposals/hai-fong.md`. Copy SEA-TO PLATE EXCELLENCE!
 
-### Heng Poh Glass Aluminium Sdn Bhd -- QUEUED draft 25 Aug 2026 17:17 MYT
-- To: info@hengpohglass.com.my. Draft `r2905847496428500272`. Thread `1a0383611f9bf754`. Subject: Puchong glass page. File: `docs/proposals/heng-poh-glass.md`. HQ Puchong only.
+### Heng Poh Glass Aluminium Sdn Bhd -- QUEUED draft 25 Aug 2026 17:17 MYT, rewritten 20:50 MYT
+- To: info@hengpohglass.com.my. Draft `r2905847496428500272`. Subject: Heng Poh Glass landing page. File: `docs/proposals/heng-poh-glass.md`. HQ Puchong only.
 
-### Hightech Glass Construction Services -- QUEUED draft 25 Aug 2026 17:17 MYT
-- To: htglass.jb@gmail.com. Draft `r8031555142780463626`. Thread `1a0383629748d854`. Subject: Johor Bahru glass page. File: `docs/proposals/hightech-glass.md`. Did not mail Gservice0888@. HQ Johor Bahru only.
+### Hightech Glass Construction Services -- QUEUED draft 25 Aug 2026 17:17 MYT, rewritten 20:50 MYT
+- To: htglass.jb@gmail.com. Draft `r8031555142780463626`. Subject: Hightech Glass landing page. File: `docs/proposals/hightech-glass.md`. Did not mail Gservice0888@. HQ Johor Bahru only.
 
-### H & H Glass Sdn Bhd -- QUEUED draft 25 Aug 2026 17:17 MYT
-- To: hnhglassy@gmail.com. Draft `r504826730575541958`. Thread `1a0383640f01be15`. Subject: Sri Ehsan glass page. File: `docs/proposals/hnh-glass.md`. Copy Enterpreneurs / hole grill.
+### H & H Glass Sdn Bhd -- QUEUED draft 25 Aug 2026 17:17 MYT, rewritten 20:50 MYT
+- To: hnhglassy@gmail.com. Draft `r504826730575541958`. Subject: H and H Glass landing page. File: `docs/proposals/hnh-glass.md`. Copy Enterpreneurs / hole grill.
 - Next hunt: unused malaysiabrand hosts after line 1479. Sixteen extras from 1280-1479 are queued below for Wed 09:00. Do not send these before Wed 09:00 MYT.
 
 ## Queued Singapore / ASEAN first-mails 25 Aug 2026 17:26 MYT (do not send before Wed 09:00)

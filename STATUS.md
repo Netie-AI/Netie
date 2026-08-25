@@ -1,8 +1,10 @@
 # STATUS
 
-Updated: 2026-08-25 20:45 MYT. Success = live Stripe charge, then a payout.
+Updated: 2026-08-25 20:50 MYT. Success = live Stripe charge, then a payout.
 
 ## Now (measured)
+
+- After hours 25 Aug 20:50 MYT: rewrote the first ten Wed drafts (HD Hearing through H and H Glass) to the direct offer: better landing page, RM 500 unlocks the first draft. Same draftIds. Subjects are now "[Firm] landing page". Replaced Wed 09:00 timer `sub_3fe8c738-73a7-4b4e-8935-68cdb21175fa` with `sub_4048348f-6ace-4f0f-93ef-3415f78d584b` (same name, 168 draftIds, rewrite-before-send for the remaining 158). Toon reply still waiting on owner send. Did not nag Kanhseei. Did not add new first-mails. Did not poll Stripe. No paid charge yet.
 
 - After hours 25 Aug 20:45 MYT: Kah / Print Page proof is Toon at Advanced Inkjet (`toon@advancedinkjet.com.my`, thread `1a03642393b091d6`). He replied 17:40 MYT "Sorry i not really understand for this." Did not send a reply. Owner-approval draft is in `docs/proposals/advanced-inkjet.md` and in this chat. Wait for send. Stored speaking + frontend skills: chat-voice, outreach-tone, show-before-send, offer-ladder, scroll-craft-landing, mengto-frontend, mengto-landing-page. Next first-mail: better landing page, RM 500 unlocks the first draft, ordinary web first then marketing agent / DMS / agentic ops. Next paid landing uses https://github.com/nateherkai/scroll-craft and https://github.com/MengTo/Skills. Did not rewrite the 168 Wed Coming Soon drafts. Did not nag Kanhseei. Did not apply. Did not poll Stripe. No paid charge yet.
 
