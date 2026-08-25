@@ -1,8 +1,10 @@
 # STATUS
 
-Updated: 2026-08-26 05:25 MYT. Success = live Stripe charge, then a payout.
+Updated: 2026-08-26 05:40 MYT. Success = live Stripe charge, then a payout.
 
 ## Now (measured)
+
+- After hours 26 Aug 05:40 MYT: no owner send. Toon thread still two messages; holding draft `r-7427464740298229176` not sent. Did not nag Kanhseei. Did not reply Starbridge. Queued thirty-one more filled-site first-mails from remain hosts 281-380 and folded them onto Wed 11:00: BC Tyre through BUILDTRAX. Empty `in:sent`. Skipped bpsm.com.my `crascentia@crascentia.com` domain mismatch. Big Image subject is packaging landing page, never print page. Blue Solutions HQ `enquiry@bluesolutions.com.my` only. BRB Design HQ mailto only. Filled-site total 165. Wed 11:00 timer `sub_88d7e4a2-21d1-4744-b911-bbbf57aa1bf8` replaced `sub_7f22b1c1` and now fires one hundred ninety-nine drafts (34 CS plus 165 filled). Do not send before 11:00. Do not require Coming Soon on filled drafts at send. Next hunt: remain hosts after line 380. Did not poll Stripe (already 26 Aug MYT at 01:05). No paid charge yet.
 
 - After hours 26 Aug 05:25 MYT: no owner send. Toon thread still two messages; holding draft `r-7427464740298229176` not sent. Did not nag Kanhseei. Did not reply Starbridge. Queued twenty-six more filled-site first-mails from remain hosts 181-280 and folded them onto Wed 11:00: A. Razak through Battery Home. Empty `in:sent`. Skipped Bali Thai remmail (`balithaiwellness@gmail.com` already on Wed 09:00), asasgroup/astarkids TLD, asianrefrigeration domain mismatch, asgglass suspended. Autoprint and Averwin subjects are offset landing page, never print page. Avenue Design HQ `avenuedesign8112@gmail.com` only. Filled-site total 134. Wed 11:00 timer `sub_7f22b1c1-6243-4fb2-96e6-634520fa1dda` replaced `sub_71a7ed1e` and now fires one hundred sixty-eight drafts (34 CS plus 134 filled). Do not send before 11:00. Do not require Coming Soon on filled drafts at send. Next hunt: remain hosts after line 280. Did not poll Stripe (already 26 Aug MYT at 01:05). No paid charge yet.
 

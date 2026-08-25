@@ -2,13 +2,13 @@
 
 Channel for orchestrator <-> builder <-> researcher. Read `.cursor/skills/agent-bus/SKILL.md`.
 
-Updated: 2026-08-26 05:25 MYT.
+Updated: 2026-08-26 05:40 MYT.
 
 ## In flight
 
 - Builder: idle. Live `/hire/` matches git sha `cca9f313...`. Do not overwrite `/`.
-- Researcher: unused malaysiabrand CS list exhausted at line 3572. Filled-site 134 queued. Remain hosts 1-280 done. Next: remain hosts after line 280. Skip Bali Thai remmail. Skip TLD mismatch. Skip YAL remmail, Whole New Era, YHY, wlgroupdesign.com TLD.
-- Orchestrator: Toon draft `r-7427464740298229176` waits for owner send. Wed 09:00 timer `sub_e7253903` sends 168 drafts as-is. Wed 08:00 File Manager timer `sub_ae835390` can skip if live sha256 still `cca9f313...`. Wed 10:00 timer sends the seven THL-through-TSF drafts. Wed 11:00 timer sends one hundred sixty-eight drafts (34 CS plus 134 filled). Five-timer cap. Do not nag Kanhseei. Do not reply Starbridge. Do not poll Stripe until 27 Aug MYT.
+- Researcher: unused malaysiabrand CS list exhausted at line 3572. Filled-site 165 queued. Remain hosts 1-380 done. Next: remain hosts after line 380 (`bubblewrapjb.com.my`). Skip Bali Thai remmail. Skip TLD mismatch. Skip YAL remmail, Whole New Era, YHY, wlgroupdesign.com TLD. Do not mail Blue Solutions `support@`.
+- Orchestrator: Toon draft `r-7427464740298229176` waits for owner send. Wed 09:00 timer `sub_e7253903` sends 168 drafts as-is. Wed 08:00 File Manager timer `sub_ae835390` can skip if live sha256 still `cca9f313...`. Wed 10:00 timer sends the seven THL-through-TSF drafts. Wed 11:00 timer sends one hundred ninety-nine drafts (34 CS plus 165 filled). Five-timer cap. Do not nag Kanhseei. Do not reply Starbridge. Do not poll Stripe until 27 Aug MYT.
 
 ## How to leave a message
 

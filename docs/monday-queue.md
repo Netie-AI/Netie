@@ -3350,3 +3350,103 @@ Skipped remain hosts 1-180: 10ftcurtains/3wire/abvglobal/acculinks/aclinic/aesth
 
 Skipped remain hosts 181-280: Bali Thai remmail `balithaiwellness@gmail.com` (already Wed 09:00), asasgroup.my `info@asasgroup.com` TLD, astarkids.com.my `info@astarkids.com` TLD, asianrefrigeration.com.my `enquiry@asianco.com.my` domain mismatch, asgglass.com.my suspended. Next hunt: remain hosts after line 280.
 
+## Filled-site remain 281-380 -- QUEUED 26 Aug 2026 05:40 MYT (Wed 11:00)
+
+Tone: `.cursor/skills/outreach-tone/SKILL.md`. `/services/` is filled, not Coming Soon. Homepage mailto or JSON-LD email + one unique published fact. Empty `in:sent`. Never print page. No Stripe. Do not send before Wed 11:00 MYT. Do not require Coming Soon `min-height:440px` at send. Recheck homepage unique fact + printed email.
+
+### BC Tyre -- QUEUED draft 26 Aug 2026 05:40 MYT
+- To: sktan@bctyre.com.my. Draft `r7099745986449498624`. Thread `1a03ad015fa7d227`. Subject: Senai tyre landing page. File: `docs/proposals/bc-tyre.md`. Copy TJ MART.
+
+### BD Project -- QUEUED draft 26 Aug 2026 05:40 MYT
+- To: bdklshienhwa@gmail.com. Draft `r-264309683191349600`. Thread `1a03ad0148dd5f5e`. Subject: Bukit Mertajam flooring landing page. File: `docs/proposals/bd-project.md`. Copy Jalan Permai Utama.
+
+### Beng Auto -- QUEUED draft 26 Aug 2026 05:40 MYT
+- To: bengacc@yahoo.com. Draft `r7279086069700241469`. Thread `1a03ad016c984989`. Subject: Gelugor Honda landing page. File: `docs/proposals/beng-auto.md`. Copy Desa University Complex.
+
+### Bersatu Nilai -- QUEUED draft 26 Aug 2026 05:40 MYT
+- To: apbersatunilai@gmail.com. Draft `r2121299374542983023`. Thread `1a03ad018e9946c1`. Subject: Klang maid-agency landing page. File: `docs/proposals/bersatu-nilai.md`. Copy Lorong Bayu Tinggi.
+
+### Wushen Design -- QUEUED draft 26 Aug 2026 05:40 MYT
+- To: wushensdnbhd@gmail.com. Draft `r-6592464682382868600`. Thread `1a03ad01a99f650a`. Subject: Klang renovation landing page. File: `docs/proposals/wushen.md`. Host bestconstruction.com.my; printed firm Wushen.
+
+### Soul Relax -- QUEUED draft 26 Aug 2026 05:40 MYT
+- To: soulrelaxwarisan@gmail.com. Draft `r-775978946110750143`. Thread `1a03ad01c5f50739`. Subject: Kota Kinabalu spa landing page. File: `docs/proposals/soul-relax.md`. Host bestsabahmassage.com.my.
+
+### Bex Engineering -- QUEUED draft 26 Aug 2026 05:40 MYT
+- To: bexengsdnbhd@gmail.com. Draft `r6448927733775744556`. Thread `1a03ad06ef283995`. Subject: Nilai sheet-metal landing page. File: `docs/proposals/bex-engineering.md`. Copy Nilai 7.
+
+### Big Image -- QUEUED draft 26 Aug 2026 05:40 MYT
+- To: sales.bigimage@gmail.com. Draft `r-4690584422972139992`. Thread `1a03ad06f6301582`. Subject: Seri Kembangan packaging landing page. File: `docs/proposals/big-image.md`. Never print page.
+
+### See Tong -- QUEUED draft 26 Aug 2026 05:40 MYT
+- To: elvin_gan@live.com. Draft `r1037755329954910689`. Thread `1a03ad071e3d8aa6`. Subject: Johor Bahru towing landing page. File: `docs/proposals/see-tong.md`. Host biketowing.com.my.
+
+### Binary Construction -- QUEUED draft 26 Aug 2026 05:40 MYT
+- To: enquiry@binaryconstructiontrading.com.my. Draft `r1995083692504073710`. Thread `1a03ad070b8ac41d`. Subject: Petaling Jaya structural landing page. File: `docs/proposals/binary-construction.md`. JSON-LD email.
+
+### Binasama -- QUEUED draft 26 Aug 2026 05:40 MYT
+- To: binasama.group@gmail.com. Draft `r-3480815611638492396`. Thread `1a03ad0736e40cde`. Subject: Klang scaffolding landing page. File: `docs/proposals/binasama.md`. Copy Air Hitam.
+
+### BioRid -- QUEUED draft 26 Aug 2026 05:40 MYT
+- To: biorid.pestcontrol@outlook.com. Draft `r4441127926870111772`. Thread `1a03ad073d90d11a`. Subject: Cheras pest landing page. File: `docs/proposals/biorid.md`. Copy printed Temeggung.
+
+### BlackRide -- QUEUED draft 26 Aug 2026 05:40 MYT
+- To: blackrideio8@gmail.com. Draft `r3139798019765959230`. Thread `1a03ad2072862f11`. Subject: Puchong chauffeur landing page. File: `docs/proposals/blackride.md`. Copy Jalan Merbah 1.
+
+### BLC Renovation -- QUEUED draft 26 Aug 2026 05:40 MYT
+- To: blcrenovation888@hotmail.com. Draft `r4650209343601165954`. Thread `1a03ad2071707559`. Subject: Klang plaster-ceiling landing page. File: `docs/proposals/blc-renovation.md`. Copy Sungai Puluh.
+
+### Prinz Klinik -- QUEUED draft 26 Aug 2026 05:40 MYT
+- To: prinzmkt@gmail.com. Draft `r4600443664671237724`. Thread `1a03ad209d03c336`. Subject: Kepong clinic landing page. File: `docs/proposals/prinz-klinik.md`. Host bloodtest.com.my.
+
+### Bloom Dental -- QUEUED draft 26 Aug 2026 05:40 MYT
+- To: klinikpergigianbloom@gmail.com. Draft `r-5911944819329422261`. Thread `1a03ad209fd2657f`. Subject: Sungai Petani dental landing page. File: `docs/proposals/bloom-dental.md`. Copy Jalan Lagenda 5.
+
+### Blue Solutions -- QUEUED draft 26 Aug 2026 05:40 MYT
+- To: enquiry@bluesolutions.com.my. Draft `r1966872973467173482`. Thread `1a03ad20bcf420c2`. Subject: Ara Damansara copier landing page. File: `docs/proposals/blue-solutions.md`. HQ enquiry@ only. Did not mail support@.
+
+### BMM -- QUEUED draft 26 Aug 2026 05:40 MYT
+- To: rammesh@bmm.com.my. Draft `r-7339299323968943995`. Thread `1a03ad20a0671edc`. Subject: Pasir Gudang EMS landing page. File: `docs/proposals/bmm.md`. HQ rammesh@ only.
+
+### Body Guard -- QUEUED draft 26 Aug 2026 05:40 MYT
+- To: sales@bodyguard.com.my. Draft `r-8305510343808543223`. Thread `1a03ad20c820f4e8`. Subject: Durian Tunggal CCTV landing page. File: `docs/proposals/body-guard.md`. Copy Taman Angkasa Nuri.
+
+### BOID Global -- QUEUED draft 26 Aug 2026 05:40 MYT
+- To: sales@boidglobal.com.my. Draft `r5160677570393980178`. Thread `1a03ad20c1b5f686`. Subject: Pasir Gudang marine landing page. File: `docs/proposals/boid-global.md`. Copy Jalan Senangin 6.
+
+### BOO Furniture -- QUEUED draft 26 Aug 2026 05:40 MYT
+- To: inbox@boofurniture.com.my. Draft `r-3830339535493343076`. Thread `1a03ad20f46daf3e`. Subject: Johor Bahru furniture landing page. File: `docs/proposals/boo-furniture.md`. Copy printed Dinning Chair.
+
+### Boon Bee -- QUEUED draft 26 Aug 2026 05:40 MYT
+- To: boonbee1971@hotmail.com. Draft `r7227038964926875805`. Thread `1a03ad211df0e923`. Subject: Sungai Petani machinery landing page. File: `docs/proposals/boon-bee.md`. Copy Cindai Jaya.
+
+### Boon Hong Locksmith -- QUEUED draft 26 Aug 2026 05:40 MYT
+- To: phangpjc1241@gmail.com. Draft `r260397793801747640`. Thread `1a03ad27874cfcf8`. Subject: Relau locksmith landing page. File: `docs/proposals/boon-hong.md`. Copy Paya Terubung.
+
+### BRB Design -- QUEUED draft 26 Aug 2026 05:40 MYT
+- To: brbdesignsolution@gmail.com. Draft `r5015181469312906841`. Thread `1a03ad27a26c25ca`. Subject: Rawang kindergarten-interior landing page. File: `docs/proposals/brb-design.md`. HQ mailto only.
+
+### BrightSmart -- QUEUED draft 26 Aug 2026 05:40 MYT
+- To: brightsmartsb@gmail.com. Draft `r8196268293671767134`. Thread `1a03ad27af989f6e`. Subject: Puchong window-film landing page. File: `docs/proposals/brightsmart.md`. Copy Pusat Perdagangan One.
+
+### BrightStorm -- QUEUED draft 26 Aug 2026 05:40 MYT
+- To: sales.cstksb@gmail.com. Draft `r-1071984249311972138`. Thread `1a03ad27c3ea8113`. Subject: Butterworth aircond landing page. File: `docs/proposals/brightstorm.md`. Copy Mak Mandin.
+
+### Brilliant Tyre -- QUEUED draft 26 Aug 2026 05:40 MYT
+- To: brilliant.tyresb@gmail.com. Draft `r-5635630934539670552`. Thread `1a03ad27d7c37955`. Subject: Shah Alam lorry-tyre landing page. File: `docs/proposals/brilliant-tyre.md`. Copy Bukit Kemuning.
+
+### Brwood -- QUEUED draft 26 Aug 2026 05:40 MYT
+- To: bryan.brwood@gmail.com. Draft `r4568405634259564946`. Thread `1a03ad27e6fc8bec`. Subject: Seri Kembangan ICT landing page. File: `docs/proposals/brwood.md`. Copy The Atmosphere.
+
+### BS Optometry -- QUEUED draft 26 Aug 2026 05:40 MYT
+- To: mail.bsoptometry@gmail.com. Draft `r-1591166942814680707`. Thread `1a03ad27e09852da`. Subject: Kuala Lumpur optical landing page. File: `docs/proposals/bs-optometry.md`. Host bsoptom.my.
+
+### BS Solution -- QUEUED draft 26 Aug 2026 05:40 MYT
+- To: sales.bssb88@gmail.com. Draft `r1570730438880927792`. Thread `1a03ad2818989797`. Subject: Malim Jaya POS landing page. File: `docs/proposals/bs-solution.md`. Copy POS SYSTEM.
+
+### BUILDTRAX -- QUEUED draft 26 Aug 2026 05:40 MYT
+- To: btmodernmart@gmail.com. Draft `r2983384843623523395`. Thread `1a03ad2822510fff`. Subject: Kapar garden-furniture landing page. File: `docs/proposals/buildtrax.md`. Host btmart.com.my.
+
+Skipped remain hosts 281-380: bpsm.com.my `crascentia@crascentia.com` domain mismatch. Next hunt: remain hosts after line 380 (`bubblewrapjb.com.my`).
+
+
