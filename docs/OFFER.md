@@ -8,8 +8,7 @@ Canonical public pages:
 
 Offer and checkout links:
 - Internal operations system, RM 20,000 after a written scope: https://buy.stripe.com/6oU28rdlk4KffUo06w9ws09 (`prod_V7ZigLN74TMIC7` / `price_1U7KYnFV5wcFod2fn9hDMBek`). Send this only after the buyer accepts the scope.
-- Business website or landing page, RM 1,000 to RM 5,000 after looking at the live site. Scope: https://netie.ai/hire/?scope=website#brief. Do not send a Stripe link in the first website mail. Do not alter live Stripe products from outreach.
-- Honor-only: older threads that already quoted RM 500 for a one-page services rewrite may still use https://buy.stripe.com/3cIcN54OO6SnaA4g5u9ws07 after they confirm. Do not put this price on new first-mails or on the hire page.
+- Business website or landing page. First-mail voice: we can make a better landing page at a low quote. RM 500 unlocks the first draft. Do not send a Stripe link in the first mail. After they ask for the draft and the owner approves, send the existing checkout https://buy.stripe.com/3cIcN54OO6SnaA4g5u9ws07 (`prod` honor RM 500). Full landing after they see the draft is RM 1,000 to RM 5,000. Scope: https://netie.ai/hire/?scope=website#brief. Do not alter live Stripe products from outreach. Do not use "print page" or Coming Soon as the hook.
 - Catalogue and website copywriting, RM 1,000 to RM 5,000 after looking at the live copy. Scope: https://netie.ai/hire/?scope=copywriting#brief
 - Records operations and data capture, RM 1,000 to RM 5,000 after looking at the list. Scope: https://netie.ai/hire/?scope=records-ops#brief. Not an Excel find-the-cell project.
 - Software documentation and runbooks, RM 1,000 to RM 5,000 after looking at the tool. Scope: https://netie.ai/hire/?scope=documentation#brief

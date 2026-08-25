@@ -1,10 +1,12 @@
 ---
-description: Human chat and plaintext direct links. No Google URL wrappers.
+description: Direct Malaysian buyer voice. Show owner before send. RM 500 unlocks first landing draft.
 alwaysApply: true
 ---
 
 # Voice and links
 
-Read `.cursor/skills/chat-voice/SKILL.md` before outbound mail.
+Read `.cursor/skills/chat-voice/SKILL.md` and `.cursor/skills/show-before-send/SKILL.md` before outbound mail.
 
-Send Gmail as plaintext `body` only. Never `htmlBody` for outreach. Paste real URLs such as https://netie.ai/hire/ or https://www.python.org/jobs/8125/ never https://www.google.com/url?q=...
+Send Gmail as plaintext `body` only. Never `htmlBody` for outreach. Paste real URLs such as https://netie.ai/hire/ never https://www.google.com/url?q=...
+
+Say the landing-page offer in direct English. Do not use "print page" as the subject or the hook. RM 500 unlocks the first draft. If they ask how much for the proposal, write it in chat and wait for the owner before send.

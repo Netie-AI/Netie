@@ -1605,14 +1605,15 @@ Same 10:00 send. Loh is a private-car page, not a Thursday 3PL follow-up. Do not
 - File: `docs/proposals/ac-living.md`. Hostable draft: `docs/proposals/ac-living-services.html`.
 - Website-page offer, RM 1,000-5,000. No Stripe. Do not mail again unless they reply.
 
-### Advanced Inkjet Sdn Bhd -- SENT 25 Aug 2026 10:00 MYT
+### Advanced Inkjet Sdn Bhd -- SENT 25 Aug 2026 10:00 MYT, they asked to explain, wait for owner send
 
 - To: toon@advancedinkjet.com.my (contact Email Address on https://www.advancedinkjet.com.my/contactus/). One inbox. Do not mail toon@advancedingkjet.com.my.
 - Source: live https://www.advancedinkjet.com.my/services/ HTTP 200 still Coming Soon (`min-height:440px`). Homepage lists Every Idea Meant To Print Big and Window Glass Sticker from 21, Jalan PBI 2, Perindustrian Bukit Indah, 47000 Sungai Buloh. Established year 2017. SSM 201701023047 (1237213-H).
-- SENT 25 Aug 2026 10:00 MYT. Message: `1a036ab6f21c3ec2`. Thread: `1a03642393b091d6`. Former draft: `r-7527642045958146954`. Subject: Sungai Buloh print page.
-- Do not mail again unless they reply.
-- File: `docs/proposals/advanced-inkjet.md`. Hostable draft: `docs/proposals/advanced-inkjet-services.html`.
-- Website-page offer, RM 1,000-5,000. No Stripe. Do not mail again unless they reply.
+- SENT 25 Aug 2026 10:00 MYT. Message: `1a036ab6f21c3ec2`. Thread: `1a03642393b091d6`. Former draft: `r-7527642045958146954`. Subject: Sungai Buloh print page. That voice is retired.
+- They replied 25 Aug 2026 17:40 MYT. Message: `1a0384b599093001`. "Sorry i not really understand for this. Can you explain more?" Owner said Kah. Live Gmail is Toon. Same proof.
+- Owner-approval draft in `docs/proposals/advanced-inkjet.md`. Direct offer: better landing page, RM 500 unlocks the first draft. No Stripe. Do not send until the owner says send.
+- Hostable Coming Soon fill-in: `docs/proposals/advanced-inkjet-services.html`. Next real landing uses scroll-craft + Meng To.
+- Do not remmail unless the owner approved the body.
 
 ### ALLGLASS SDN BHD -- SENT 25 Aug 2026 10:00 MYT
 

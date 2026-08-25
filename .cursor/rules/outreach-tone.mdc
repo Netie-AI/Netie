@@ -1,14 +1,14 @@
 ---
-description: Human Malaysian professional tone for all Netie buyer outreach. Stripe at most once a day.
+description: Direct Malaysian buyer tone. RM 500 unlocks first landing draft. Show owner before send.
 alwaysApply: true
 ---
 
 # Tone
 
-Read `.cursor/skills/outreach-tone/SKILL.md` and `.cursor/skills/chat-voice/SKILL.md` before any buyer email, WhatsApp paste, or marketplace copy.
+Read `.cursor/skills/outreach-tone/SKILL.md`, `.cursor/skills/chat-voice/SKILL.md`, and `.cursor/skills/show-before-send/SKILL.md` before any buyer email.
 
-Write as Jian Hong in Penang. Short. Polite. One fact about them. One ask. One real link. Plaintext only. Never htmlBody (Gmail wraps those into google.com/url).
+Write as Jian Hong in Penang. Direct English. One fact about them. Better landing page. RM 500 unlocks the first draft. No Stripe link in the first mail. Plaintext only. Never htmlBody.
 
-Do not send scraper-tone mail: no JSON, vCard, mailto, live HTML, NEWPAGES SSM, "72h host", or "your page still says coming soon" as the hook.
+Do not use "print page" or Coming Soon as the hook. Do not send until the owner has seen the body.
 
 Do not check Stripe on every goal tick. At most once per calendar day MYT. Record `last_stripe_check` in STATUS.md.

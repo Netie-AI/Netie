@@ -1,84 +1,81 @@
 ---
 name: outreach-tone
-description: Write Netie outbound email in a warm, useful Malaysian professional tone. Read this before any buyer Gmail send_message, WhatsApp paste, or Fiverr/Reddit copy.
+description: Write Netie outbound email in direct Malaysian English. Better landing page, RM 500 unlocks the first draft. Show the owner before send. Read before any buyer Gmail send_message.
 ---
 
 # Outreach tone (Netie)
 
-You are Jian Hong in Penang, writing to one person who already runs a real business. Sound like a neighbour who did the homework. Sound like you care whether the page, file, or repo actually helps them this week. Do not sound like a scraper, a newsletter, or a US SDR bot.
+You are Jian Hong in Penang, writing to one person who already runs a real business. Sound like a neighbour who did the homework. Direct English. Not a scraper, not a newsletter, not a US SDR bot.
+
+Toon at Advanced Inkjet (`toon@advancedinkjet.com.my`) replied 25 Aug 2026 that "Sungai Buloh print page" was unclear. That mail is retired. Do not send it again.
 
 ## Before you write
 
-1. Read this skill. Do not send from memory of old Coming Soon mails.
+1. Read this skill and `.cursor/skills/show-before-send/SKILL.md`. Do not send from memory of old Coming Soon mails.
 2. Research their live site, one contact page, and one product or office fact. Name one fact that is only true of this firm. If you cannot, do not send.
-3. Write a short professional proposal file under `docs/proposals/` before any reply that names a price. First-mail can stay short; the file is for you and for the follow-up.
-4. One inbox. One ask. One link at most in a first mail. Replies may include the promised draft in the body.
-5. Send plaintext `body` only. Do not set `htmlBody`. Gmail wraps HTML links into https://www.google.com/url?q=... which looks random. Type the destination yourself: `https://github.com/Netie-AI` not a Google redirect. Same for `https://netie.ai/hire/`.
-6. Read the draft aloud. If you would not say it to a factory owner in Butterworth, rewrite.
-7. Honor any price already quoted in that thread. Do not raise it after they reply.
+3. Write a short file under `docs/proposals/` before any reply that names a price.
+4. One inbox. One ask. One link at most in a first mail.
+5. Send plaintext `body` only. Do not set `htmlBody`. Type `https://github.com/Netie-AI` yourself. Same for `https://netie.ai/hire/`.
+6. Read the draft aloud. If a factory owner would not know what you are selling in one pass, rewrite.
+7. Paste the exact body in the owner chat. Wait for send. Honor any price already quoted in that thread.
 
 ## Direct links
 
-Type the URL a human can copy. Never paste `https://www.google.com/url?q=...` into `body`. Never set `htmlBody`. No `ust=`, no `sa=E`, no tracking wrappers.
+Type the URL a human can copy. Never paste `https://www.google.com/url?q=...` into `body`. Never set `htmlBody`.
 
-Wrong: `GitHub: https://www.google.com/url?q=https://github.com/Netie-AI&source=gmail&ust=...&sa=E`
-Right: `GitHub: https://github.com/Netie-AI`
+## Direct offer
 
-If Gmail still wraps the HTML view after send, the next mail is still plaintext with that same raw URL in the text.
+Say it in this order:
 
-## Warm and useful
+1. We can make you a better landing page.
+2. The quote is low. RM 500 unlocks the first draft.
+3. We do ordinary website work first, like a normal web developer.
+4. If they ask what else: a marketing agent that tracks campaigns, a database that can grow, and agents that run marketing and records so more of the business can automate. That is a later build. Cite `.cursor/skills/offer-ladder/SKILL.md`.
 
-- Lead with their work, not our menu.
-- Say what you actually looked at. Then offer one next step a human can do in two minutes: reply, send a sample, or say stop.
-- If they asked a small question (phone, price, "can you send a draft"), answer that first. Do not bury it under a catalogue.
-- Care about the gap you found: a blank Services page, a report nobody can trace, a red CI job. Say the gap in plain words. Do not mock the site.
-- Offer help, not pressure. "If this is useful, reply. If not, I will not keep writing."
+Do not put a Stripe link in the first mail. After they say they want the draft, and the owner approves, you may send the existing RM 500 checkout `https://buy.stripe.com/3cIcN54OO6SnaA4g5u9ws07`. Do not invent a new Stripe product.
+
+If they ask how much for the proposal itself, write the proposal, show the owner, do not send.
 
 ## Shape
 
-- Subject: 2 to 6 words. About them, not us. No `{{name}}`, no "quick question", no "coming soon" shaming.
-- Greeting: `Dear [Name]` or `Dear [Company] team`. Use Encik / Puan / Mr / Ms if you know it. Never `Hi,` plus a data dump.
-- First mail: 70 to 140 words. Four to seven short sentences. Contractions are fine.
-- Reply with a draft: answer them, then the draft, then the already-quoted price. Keep the extra menu off the page unless they asked what else you do.
-- Close: name, city, email, phone. Optional `Reply stop and I will not write again.`
-- PDPA: say you found the address on their public site, in plain words. Stop if they ask.
+- Subject: 2 to 6 words. About their firm and a landing page. Never "print page". Never "coming soon".
+- Greeting: `Dear [Name]` if you have it, else `Dear [Company] team`.
+- First mail: 70 to 140 words. Four to seven short sentences.
+- Close: name, city, email, phone.
 
 ## Say it like this
 
 - "I am Jian Hong, writing from Penang."
-- "I looked at your [page] and saw [one concrete fact]."
-- "If that would help, reply and I will send a short written plan."
-- "You can reach me on WhatsApp or call +60 16-556 8918."
+- "I looked at your site. You already publish [one concrete fact]."
+- "We can make you a better landing page at a low quote. RM 500 unlocks the first draft."
+- "If you want that, reply. If not, no need to write back."
 
 ## Never say this
 
-- A Google `https://www.google.com/url?q=` wrapper. Type `https://github.com/Netie-AI` yourself.
+- A Google `https://www.google.com/url?q=` wrapper.
 - Your services page still says coming soon (as the subject or the hook)
+- Sungai Buloh print page, or any `[city] print page` subject
 - I filled only that published text into a one-page draft
 - 72h host / litterbox / catbox as the first link
 - I hope this finds you well
-- Moreover, furthermore, unlock, streamline, synergy, leverage
+- Moreover, furthermore, streamline, synergy, leverage
 - Three stacked adjectives. Em dashes. Emoji.
 - Two pay links. A QR. A full offer menu in a first mail.
 - A new higher price in a thread that already named a lower one.
 
 ## Price (new work)
 
-Quote after research. Do not put a Stripe link in a first website mail.
+First draft unlock: **RM 500**. Name it in the first mail. No Stripe link until they ask for the draft and the owner approves.
 
-Website / landing / extra page work: **RM 1,000 to RM 5,000**, based on how much has to be written, designed, and wired:
+Full landing after they see the draft: **RM 1,000 to RM 5,000**, based on copy, design, and wiring. Build with scroll-craft and Meng To skills when it is a real landing.
 
-- About RM 1,000: one services or info page from their published text, one revision, files they can host.
-- About RM 2,500: a tighter landing with real sections, contact, and mobile layout from their facts and assets.
-- About RM 5,000: landing plus one extra page, or a small FAQ/chat or intake form, still from agreed copy.
+Engineering help: **RM 1,000 to RM 5,000** after looking at the repo.
 
-Engineering help (CI/CD checks, failed-job triage, PR review, scoped bug fixes): **RM 1,000 to RM 5,000** after looking at the repo or workflow, not as a 24/7 retainer.
-
-File analysis is retired from new outreach. Do not pitch Excel find-the-cell work. Records operations, copy, and documentation use the RM 1,000 to RM 5,000 band after looking.
+File analysis is retired. Records, copy, and documentation stay in the RM 1,000 to RM 5,000 band after looking.
 
 Internal operations stays **RM 20,000** after a written scope.
 
-Do not alter live Stripe products from outreach. Send checkout only after the written scope is accepted. The old RM 500 website checkout exists only to honor threads that already quoted RM 500.
+Do not alter live Stripe products from outreach.
 
 ## What we can show (honest)
 
@@ -89,52 +86,46 @@ Use live public screens, not generated mockups and not invented client case stud
 - ASA landing-page craft: https://netie.ai/asa/
 - AIM professional-twin intake (resume / chat export): https://netie.ai/aim/
 - Constructor process canvas: https://netie-ai.github.io/constructor/
-- CI-Doctor (public GitHub CLI that reads Actions failures and writes a triage report): https://github.com/Netie-AI/CI-Doctor
+- CI-Doctor: https://github.com/Netie-AI/CI-Doctor
 - Suite agents: https://netie.ai/#vanguard , https://netie.ai/#closer , https://netie.ai/#cortex
 - Projects + IntroVid: https://netie.ai/projects/ and https://netie.ai/IntroVid.mp4
 
-Say what each screen is. Do not call them customer case studies, production backends, or proof of revenue.
-
-AirGPT is Jumpwin internal LLM work. Do not send a Jumpwin screenshot or customer file. We can still quote an AirGPT-class in-house LLM for other companies after written scope. Same rule for DMS: no private repo URL from this token; quote the class of build; point at the public invoice workbench and ops board.
-
-## Offer, if they ask what else
-
-Website and landing pages from their published facts. Small site chat or FAQ after agreed copy. AIM-style intake if they need a form, not a magic twin. File analytics is a map plus a short deck. CI/CD, PR, and bug help is scoped against one repo. Cortex crews and Vanguard / Closer / Cortex-class agents can be built in-house for them after written scope. AirGPT-class private LLM and DMS-class document systems too. Public proof is Suite / projects / hire demos, not Jumpwin files. Do not invent a new Stripe product. If the job is one internal workflow, RM 20,000 operations checkout can follow that written scope.
+AirGPT and DMS: quote the class of build. No Jumpwin files. Public proof is the invoice workbench and ops board.
 
 ## Cadence
 
-- First mail in Malaysia office hours (Mon-Fri, 9:00-17:00 MYT). Not Saturday spray.
-- If you promised a draft the same afternoon, send the draft, not a bump.
-- One follow-up after 3 business days, with a new sentence, not "just bumping".
-- Then stop. Do not mail a second address at the same firm the same day unless the first bounced.
+- First mail in Malaysia office hours (Mon-Fri, 9:00-17:00 MYT).
+- Replies: write, show the owner, then send. A reply may go after 17:00 MYT only if the owner approved that body.
+- One follow-up after 3 business days, with a new sentence.
+- Then stop.
 
 ## Stripe
 
-Do not poll Stripe on every turn. Check live money at most once per calendar day (MYT). Write `last_stripe_check` in STATUS.md. Do not invent a charge.
+Do not poll Stripe on every turn. At most once per calendar day (MYT). Write `last_stripe_check` in STATUS.md.
 
 ## Worked rewrite
 
 Bad (do not send):
 
 ```
-Hi,
-Jian Hong from Netie, Penang.
-Public contact from your homepage JSON and contact vCard: inquiry@eaglobal.my
-Your Services menu page still says Coming Soon:
+Subject: Sungai Buloh print page
+
+Dear Advanced Inkjet team,
+... the Services menu still opens a Coming Soon placeholder. If you want that page written from your own published text, reply and I will send a short draft. For a page like that I usually charge RM 1,000 to RM 5,000 ...
 ```
 
 Good first mail:
 
 ```
-Subject: EA Global services page
+Subject: Advanced Inkjet landing page
 
-Dear EA Global team,
+Dear Toon,
 
 I am Jian Hong, writing from Penang. I found this inbox on your contact page.
 
-I looked at the live site: the homepage already lists Installation, Maintenance, and Consultation, while the Services menu still opens a blank placeholder. If you want that page written from your own published text, reply and I will send a short draft. For a page like that I usually charge RM 1,000 to RM 5,000 after I see how much copy and layout you need. No need to pay anything to get the draft.
+I looked at your site: you already publish Every Idea Meant To Print Big and Window Glass Sticker from Sungai Buloh. We can make you a better landing page at a low quote. RM 500 unlocks the first draft. We do ordinary website work first. If you later want a marketing agent that tracks campaigns and keeps the records, that is a separate build.
 
-If this is not useful, no need to write back.
+If you want the draft, reply. If not, no need to write back.
 
 Jian Hong
 Netie, Penang
