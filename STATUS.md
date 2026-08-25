@@ -1,8 +1,10 @@
 # STATUS
 
-Updated: 2026-08-26 07:32 MYT. Success = live Stripe charge, then a payout.
+Updated: 2026-08-26 07:42 MYT. Success = live Stripe charge, then a payout.
 
 ## Now (measured)
+
+- After hours 26 Aug 07:42 MYT: Craigslist listing is not live. Confirm from this VM 404s or asks for a password. Gmail MCP strips `=` from Craigslist URLs. Owner must tap complete your posting in the Gmail app on `robot@craigslist.org` / craigslist email verification (thread `1a03b40f8f19ba94`), about 15 minutes left. Ignore the later login-link mail if the Gmail app still has the first verification mail. Canonical hire still sha256 `dce8fe2c...`. Did not type a Craigslist password. Did not buy. No paid charge yet.
 
 - After hours 26 Aug 07:32 MYT: Craigslist Malaysia services listing was submitted (computer services, Penang, RM 500 first draft). Confirm mail is `robot@craigslist.org` thread `1a03b40f8f19ba94`. Curl of the MCP-decoded /pass URL 404s. Owner pinged on thread `1a03b4393c3f48f2` to click complete your posting in the Gmail app within 30 minutes. A listing is not a charge. Canonical hire still sha256 `dce8fe2c...`. Did not buy PPH. Did not join Bitget. Did not resume remain-host hunt. Did not poll Stripe. No paid charge yet.
 
