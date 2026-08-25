@@ -2039,66 +2039,71 @@ Timer `netie-tue-consonance-website-2026-08-25-1200-myt` (`sub_b86de1cd-0663-41d
 - To: liang@demrcia.com.my. One inbox. Did not mail peng@ or dong@.
 - Former draft: `r1500430229890652437`. SENT `1a03713df46f07af`. Thread: `1a036decef3e97c2`. Subject: Port Klang compressor page.
 
-## Queued after the Tue 12:00 Consonance-through-Demrcia send (do not send before 13:00, and not after hours)
+## SENT Tue 25 Aug 2026 13:00 MYT DLOY through EC Blinds
 
-Timer `netie-tue-dloy-website-2026-08-25-1300-myt` (`sub_8e259b3a-2680-42fe-9e51-cd52d07d5413`, once, Tue 25 Aug 13:00 MYT). Send existing Gmail drafts only after live `/services/` Coming Soon and empty `in:sent`. Eight extras from unused malaysiabrand hosts 680-779: DLOY Systems, Dream Office Concept, Drfish, Diamond Interest, Duhub Industries, E-Square Consultancy, Exclusive Contents, EC Blinds Centre. Skipped dmodgarage (tomcare.com.my mailto), eastchenfengshui (.com vs .com.my), eaglobal.my (no visible mailto). Not an email-watch loop. No Stripe. One inbox. RM 1,000-5,000. Label `Label_8` after send. Copy Hubless, Our Products are include, Rubbers Injection, C/W Logo, 80120倍, 零 排放 as printed. Exclusive Contents HQ `admin@ec.com.my` only. Diamond Interest HQ `enquiry@di2u.com.my` only. The 09:00 through 12:00 first-mails are already SENT; do not remmail.
+Timer `netie-tue-dloy-website-2026-08-25-1300-myt` (`sub_8e259b3a-2680-42fe-9e51-cd52d07d5413`) unsubscribed before send. Live `/services/` still Coming Soon. Empty `in:sent`. `draftId` only. Label_8. No Stripe. Exclusive Contents HQ `admin@` only. Diamond Interest HQ `enquiry@` only.
 
-### DLOY Systems Sdn. Bhd. -- QUEUED draft 25 Aug 2026 12:01 MYT
+### DLOY Systems Sdn. Bhd. -- SENT 25 Aug 2026 13:00 MYT
+- To: dloy@dloy.com.my. Former draft `r1198385311993259421`. SENT `1a0374a5bcf81c09`. Thread `1a0371435e5b0ad0`.
 
-- To: dloy@dloy.com.my (homepage mailto on https://www.dloy.com.my/). One inbox.
-- Source: live https://www.dloy.com.my/services/ HTTP 200 still Coming Soon (`min-height:440px`). Homepage lists Established in 2007, VIGI SP | Intelligent Solar Power Supply System, and Dahua & Hikvision CCTV. HQ No.2&3, Lorong 1, Pusat Perniagaan Seri Intan, Jalan Changkat Jong, 36000 Teluk Intan. SSM 201201043162 (1027638-V).
-- Draft: `r1198385311993259421`. Thread: `1a0371435e5b0ad0`. Subject: Teluk Intan security page.
-- File: `docs/proposals/dloy-systems.md`. Hostable draft: `docs/proposals/dloy-systems-services.html`.
+### Dream Office Concept Sdn Bhd -- SENT 25 Aug 2026 13:00 MYT
+- To: dreamconceptmalaysia@gmail.com. Former draft `r-6800951531547975241`. SENT `1a0374a658586a36`. Thread `1a037144c1f35d60`.
 
-### Dream Office Concept Sdn Bhd -- QUEUED draft 25 Aug 2026 12:01 MYT
+### Drfish Sdn Bhd -- SENT 25 Aug 2026 13:00 MYT
+- To: dr.fish@126.com. Former draft `r544387154984333914`. SENT `1a0374a7bfba91ac`. Thread `1a0371461d3f6160`.
 
-- To: dreamconceptmalaysia@gmail.com (homepage mailto on https://www.dreamoffice.com.my/). One inbox.
-- Source: live https://www.dreamoffice.com.my/services/ HTTP 200 still Coming Soon (`min-height:440px`). Homepage lists Furnishing Your Office with Comfort and Style and AI + Renovation, One-Stop Virtual Experience from 18-2, Lorong Batu Nilam 3D, 41200 Klang. SSM 202301035690 (1529613-K).
-- Draft: `r-6800951531547975241`. Thread: `1a037144c1f35d60`. Subject: Klang office-fitout page.
-- File: `docs/proposals/dream-office-concept.md`. Hostable draft: `docs/proposals/dream-office-concept-services.html`.
+### Diamond Interest Sdn Bhd -- SENT 25 Aug 2026 13:00 MYT
+- To: enquiry@di2u.com.my. Former draft `r-4685271639260296602`. SENT `1a0374a890457686`. Thread `1a03714795bccc87`. Did not mail stockist centres.
 
-### Drfish Sdn Bhd -- QUEUED draft 25 Aug 2026 12:01 MYT
+### Duhub Industries (M) Sdn. Bhd. -- SENT 25 Aug 2026 13:00 MYT
+- To: duhubindustries@gmail.com. Former draft `r8717299472131307132`. SENT `1a0374a98a03eeff`. Thread `1a037149edc0f66e`.
 
-- To: dr.fish@126.com (homepage mailto on https://www.drfish.com.my/). One inbox.
-- Source: live https://www.drfish.com.my/services/ HTTP 200 still Coming Soon (`min-height:440px`). Homepage lists RAS环保科技 养殖教学专家, 零 排放, and 每单位面积的产量提高了80120倍 from 25, Jalan Pusat Perniagaan Falim 5, 30200 Ipoh. SSM 201801017598 (1279614-K). Copy 80120倍 as printed.
-- Draft: `r544387154984333914`. Thread: `1a0371461d3f6160`. Subject: Ipoh RAS training page.
-- File: `docs/proposals/drfish.md`. Hostable draft: `docs/proposals/drfish-services.html`.
+### E-Square Consultancy -- SENT 25 Aug 2026 13:00 MYT
+- To: cedric@e-square.com.my. Former draft `r-6602543623769811848`. SENT `1a0374ae011d027c`. Thread `1a03715066975050`.
 
-### Diamond Interest Sdn Bhd -- QUEUED draft 25 Aug 2026 12:01 MYT
+### Exclusive Contents Sdn Bhd -- SENT 25 Aug 2026 13:00 MYT
+- To: admin@ec.com.my. Former draft `r-5704853780128650935`. SENT `1a0374aea65238d9`. Thread `1a0371520b584fe0`. Did not mail purchase@.
 
-- To: enquiry@di2u.com.my (homepage mailto on https://www.di2u.com.my/). One inbox. Do not mail stockist centres.
-- Source: live https://www.di2u.com.my/services/ HTTP 200 still Coming Soon (`min-height:440px`). Homepage lists Direct-from-Source Pricing and Established in 1995 with 30+ years of experience from 51, Jalan Nagasari 1, Taman Nagasari, 13600 Perai. SSM 199501017235 (346438-T).
-- Draft: `r-4685271639260296602`. Thread: `1a03714795bccc87`. Subject: Perai wellness page.
-- File: `docs/proposals/diamond-interest.md`. Hostable draft: `docs/proposals/diamond-interest-services.html`.
+### EC Blinds Centre -- SENT 25 Aug 2026 13:00 MYT
+- To: ecblindscentre@gmail.com. Former draft `r-8462715466516635299`. SENT `1a0374af8b56ac32`. Thread `1a037154145d0db8`.
 
-### Duhub Industries (M) Sdn. Bhd. -- QUEUED draft 25 Aug 2026 12:01 MYT
+## Queued after the Tue 13:00 DLOY-through-EC Blinds send (do not send before 14:00, and not after hours)
 
-- To: duhubindustries@gmail.com (homepage mailto on https://www.duhubindustries.com.my/). One inbox.
-- Source: live https://www.duhubindustries.com.my/services/ HTTP 200 still Coming Soon (`min-height:440px`). Homepage lists Your Trusted Partner in Exceptional Piping Solutions and Hubless cast iron pipes from 4, Jalan TPP 5/8, Seksyen 5, Taman Perindustrian Puchong, 47100 Puchong. SSM 200801038151 (839496-A). Copy Hubless as printed.
-- Draft: `r8717299472131307132`. Thread: `1a037149edc0f66e`. Subject: Puchong ductile-iron page.
-- File: `docs/proposals/duhub-industries.md`. Hostable draft: `docs/proposals/duhub-industries-services.html`.
+Timer `netie-tue-loder-website-2026-08-25-1400-myt` (`sub_20a2d050-0d19-46ab-9ef7-f7b587e9e72f`, once, Tue 25 Aug 14:00 MYT). Eleven extras from unused malaysiabrand hosts 780-879. Skipped EETA `eetafood@gmail.com` (already SENT 22 Aug). Skipped econsultmgmtgroup.com.my mailto info@econsultmgmt.com.my (domain mismatch). Edith Art contact prints Johor city-only, no street. Novelty Flooring HQ `info@empireflooring.com.my` only. Copy Steroid-Free,Paraben-Free, Beautifully unique cinema rooms...., Unique gift & special gift discover here, Yamaha Y16ZR 6MRO. The 09:00 through 13:00 first-mails are already SENT; do not remmail.
 
-### E-Square Consultancy -- QUEUED draft 25 Aug 2026 12:01 MYT
+### LODER ENTERPRISE -- QUEUED draft 25 Aug 2026 13:01 MYT
+- To: enquiry@ecoco.my. Draft `r-4918737870926673265`. Thread `1a0374b4f1b8a130`. Subject: Butterworth storage page. File: `docs/proposals/loder-enterprise.md`.
 
-- To: cedric@e-square.com.my (homepage mailto on https://www.e-square.com.my/). One inbox.
-- Source: live https://www.e-square.com.my/services/ HTTP 200 still Coming Soon (`min-height:440px`). Homepage lists 从 马来西亚 直达 中国 名校 and Chinese Government Scholarship "Silk Road" from 51-02, Jalan Austin Height 3, Taman Mount Austin, 81100 Johor Bahru. SSM 201301026038 (1055868-X).
-- Draft: `r-6602543623769811848`. Thread: `1a03715066975050`. Subject: Johor Bahru China-study page.
-- File: `docs/proposals/e-square-consultancy.md`. Hostable draft: `docs/proposals/e-square-consultancy-services.html`.
+### Perfect Steel Sdn Bhd -- QUEUED draft 25 Aug 2026 13:01 MYT
+- To: perfectsteel.pssb@gmail.com. Draft `r-8440111793409599672`. Thread `1a0374b6a500bb55`. Subject: Ipoh awning page. File: `docs/proposals/perfect-steel.md`.
 
-### Exclusive Contents Sdn Bhd -- QUEUED draft 25 Aug 2026 12:01 MYT
+### Eco Venus Shop -- QUEUED draft 25 Aug 2026 13:01 MYT
+- To: ecovenus01@gmail.com. Draft `r-8126670811007828469`. Thread `1a0374b817e8e517`. Subject: Kepong skincare page. File: `docs/proposals/eco-venus.md`.
 
-- To: admin@ec.com.my (homepage mailto on https://www.ec.com.my/). One inbox. Do not mail purchase@ec.com.my.
-- Source: live https://www.ec.com.my/services/ HTTP 200 still Coming Soon (`min-height:440px`). Homepage lists Selangor Rubbers Injection and Our Products are include air hose, brake & clutch pedal pad from 2A & 6, Jalan Korporat 1B/KU9, Taman Perindustrian Meru, 42200 Klang. SSM 200201016189 (583852-T). Copy Our Products are include as printed.
-- Draft: `r-5704853780128650935`. Thread: `1a0371520b584fe0`. Subject: Klang rubber-parts page.
-- File: `docs/proposals/exclusive-contents.md`. Hostable draft: `docs/proposals/exclusive-contents-services.html`.
+### ECZLIN / Mygreat Consultancy -- QUEUED draft 25 Aug 2026 13:01 MYT
+- To: general@eczlin.my. Draft `r-4484398816717340068`. Thread `1a0374b9f3da512e`. Subject: Skudai eczema-cream page. File: `docs/proposals/eczlin.md`. Copy Steroid-Free,Paraben-Free.
 
-### EC Blinds Centre -- QUEUED draft 25 Aug 2026 12:01 MYT
+### Edith Art Enterprise -- QUEUED draft 25 Aug 2026 13:01 MYT
+- To: edithart.services@gmail.com. Draft `r3915509108080361135`. Thread `1a0374bbef124a83`. Subject: Johor handmade-gift page. File: `docs/proposals/edith-art.md`. No street.
 
-- To: ecblindscentre@gmail.com (homepage mailto on https://www.ecblinds.com.my/). One inbox.
-- Source: live https://www.ecblinds.com.my/services/ HTTP 200 still Coming Soon (`min-height:440px`). Homepage lists Wooden Blinds C/W Logo and Outdoor Wooden Blinds 260S (Bahama Brown) from No. 6-1, 1st Floor, Pusat Komersial Koi, Batu 13½ Jalan Puchong, 47100 Puchong. SSM 202103249718 (RA0076100-D).
-- Draft: `r-8462715466516635299`. Thread: `1a037154145d0db8`. Subject: Puchong blinds page.
-- File: `docs/proposals/ec-blinds-centre.md`. Hostable draft: `docs/proposals/ec-blinds-centre-services.html`.
-- Next hunt: unused malaysiabrand hosts after line 779.
+### E LABB INT SDN. BHD. -- QUEUED draft 25 Aug 2026 13:01 MYT
+- To: office.elabb@gmail.com. Draft `r-5421744643426426995`. Thread `1a0374bd243f6250`. Subject: Glenmarie cinema-room page. File: `docs/proposals/elabb.md`. Copy four dots.
+
+### Novelty Flooring (M) Sdn Bhd -- QUEUED draft 25 Aug 2026 13:01 MYT
+- To: info@empireflooring.com.my. Draft `r-4063123298383434298`. Thread `1a0374be645dfd8f`. Subject: Bukit Mertajam flooring page. File: `docs/proposals/novelty-flooring.md`. HQ info@ only.
+
+### English Hero Sdn. Bhd. -- QUEUED draft 25 Aug 2026 13:01 MYT
+- To: englishherohqbusinessdev@gmail.com. Draft `r-2209953154716978640`. Thread `1a0374bf9029eb5d`. Subject: Tangkak English-centre page. File: `docs/proposals/english-hero.md`.
+
+### Eng Lum Motor Sdn. Bhd. -- QUEUED draft 25 Aug 2026 13:01 MYT
+- To: elm_png@yahoo.com. Draft `r-8871905232195488305`. Thread `1a0374c1d0cca97f`. Subject: Butterworth Yamaha page. File: `docs/proposals/eng-lum-motor.md`. Copy 6MRO.
+
+### ENG POLYMER MARKETING SDN. BHD. -- QUEUED draft 25 Aug 2026 13:01 MYT
+- To: enquiry@engsb.com.my. Draft `r4611773999970071079`. Thread `1a0374c379614cd2`. Subject: Johor Bahru plastics page. File: `docs/proposals/eng-polymer.md`.
+
+### ENG SENG HAN HARDWARE SDN. BHD. -- QUEUED draft 25 Aug 2026 13:01 MYT
+- To: engsenghanhardware@gmail.com. Draft `r6565042317726090516`. Thread `1a0374c5016570c1`. Subject: Sungai Buloh fittings page. File: `docs/proposals/eng-seng-han-hardware.md`.
+- Next hunt: unused malaysiabrand hosts after line 879.
 
 
 
