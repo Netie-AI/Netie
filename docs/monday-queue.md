@@ -2505,6 +2505,26 @@ Folded onto the same Wed 09:00 timer (`sub_40af1718-adb6-4434-9e79-15123396138c`
 - To: mrcurtain.my@gmail.com. Draft `r-3533092610818543435`. Thread `1a0388a53e08eaa6`. Subject: Muar curtain page. File: `docs/proposals/mr-curtain.md`. Copy Malaysia Premium Design Curtains and Blinds Solutions / Top Curtain Supplier in Malaysia.
 - Next hunt: unused malaysiabrand hosts after line 2079. Do not send these before Wed 09:00 MYT.
 
+## Queued after hours 25 Aug 2026 18:59 MYT (do not send before Wed 09:00)
+
+Folded onto the same Wed 09:00 timer (`sub_e0096431-c060-49d4-8655-b1a26c78afa7`, replaced `sub_40af1718-adb6-4434-9e79-15123396138c`). Five extras from unused hosts 2080-2179. Empty `in:sent`. All five `/services/` Coming Soon (`min-height:440px`). No Stripe. Skipped Multiplus SENT 22 Aug. HQ mty.solutions@ only. Copy wide range of printer, Stranger Presence, core principles is, Mosquitos Control, Factory For Sales, For Sell.
+
+### MTY SOLUTIONS (M) SDN. BHD. -- QUEUED draft 25 Aug 2026 18:58 MYT
+- To: mty.solutions@gmail.com. Draft `r-2644025333733435359`. Thread `1a038924509a616d`. Subject: Puchong coding page. File: `docs/proposals/mty-solutions.md`. Copy wide range of printer for your choice. Did not mail mtysolutionsadm@.
+
+### Malaysian Wood Moulding And Joinery Council -- QUEUED draft 25 Aug 2026 18:58 MYT
+- To: mwmjcmy@gmail.com. Draft `r2049020985171248085`. Thread `1a0389258016df35`. Subject: Cheras timber-council page. File: `docs/proposals/mwmjc.md`. Copy YOUR FOUNDATION to a Stranger Presence in Malaysia / Our core principles is.
+
+### MYB Healthcare Group Sdn Bhd -- QUEUED draft 25 Aug 2026 18:58 MYT
+- To: mybhealthcare.myb@gmail.com. Draft `r4743630700880799596`. Thread `1a038926f76ab479`. Subject: Seremban clinic page. File: `docs/proposals/myb-healthcare.md`. Copy Each family will have their very own family doctor / three bear symbols.
+
+### Smart Synergy Group Sdn Bhd -- QUEUED draft 25 Aug 2026 18:58 MYT
+- To: hq@myssg.com.my. Draft `r6770415900803986106`. Thread `1a03892850197550`. Subject: Klang pest-control page. File: `docs/proposals/smart-synergy.md`. Copy Mosquitos Control / CIDB Holder. HQ Klang only.
+
+### NC Group -- QUEUED draft 25 Aug 2026 18:59 MYT
+- To: nicolesze.fhg@gmail.com. Draft `r-2187643082099035779`. Thread `1a038929bb7fd809`. Subject: Puchong factory-sales page. File: `docs/proposals/nc-group.md`. Copy Factory For Sales / Shop-Office For Sell. Footer Knight Synergy Sdn Bhd.
+- Next hunt: unused malaysiabrand hosts after line 2179. Do not send these before Wed 09:00 MYT.
+
 
 
 
