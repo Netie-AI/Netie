@@ -44,7 +44,12 @@ REFUSALS: dict[str, str] = {
         "Cassandra does not place orders. News drafts are research notes, not trade signals."
     ),
     "publish_without_approve": (
-        "Social posting is off. Pass --approve <id> from a human before any publish stub."
+        "Social posting is off unless EXPOSURE_AUTO_POST=1 or --grant-auto, "
+        "plus official tokens. Pass --approve <id> for a single post."
+    ),
+    "mint_oauth": (
+        "Will not mint LinkedIn or Reddit OAuth tokens. Create them in the "
+        "official developer consoles. Chat grant is not OAuth."
     ),
 }
 
@@ -75,6 +80,11 @@ TRIGGERS: tuple[tuple[str, str], ...] = (
     ("auto-trader", "cassandra_trade"),
     ("just post it", "publish_without_approve"),
     ("publish now", "publish_without_approve"),
+    ("mint oauth", "mint_oauth"),
+    ("fake api key", "mint_oauth"),
+    ("generate linkedin token", "mint_oauth"),
+    ("create linkedin token", "mint_oauth"),
+    ("create reddit token", "mint_oauth"),
 )
 
 # Word-pair ANDs so "generate linkedin followers until 100k" still matches.

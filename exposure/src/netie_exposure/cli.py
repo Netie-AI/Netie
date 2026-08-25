@@ -10,13 +10,15 @@ from datetime import date, timedelta
 from pathlib import Path
 
 from netie_exposure.catalog import merge_catalog
-from netie_exposure.channels import publish, write_outbox
+from netie_exposure.channels import write_outbox
 from netie_exposure.crew import summary as crew_summary
 from netie_exposure.drafts import render_queue
 from netie_exposure.growth import render as render_growth
 from netie_exposure.growth import snapshot
+from netie_exposure.post import MissingTokens, post_draft
 from netie_exposure.refuse import ExposureRefusal, check_request
 from netie_exposure.run import run_crew
+from netie_exposure.tokens import init_env, load_env_file, social_ready, status as token_status
 
 ROOT = Path(__file__).resolve().parents[2]
 DEFAULT_OUTBOX = ROOT / "outbox"
@@ -95,17 +97,71 @@ def cmd_approve(args: argparse.Namespace) -> int:
     drafts = {d["id"]: d for d in render_queue(catalog, day=args.day)}
     draft = drafts.get(args.id)
     if draft is None:
-        # Allow approving a file already in the outbox even if the day rolled.
         md = Path(args.outbox) / f"{args.id}.md"
         if not md.is_file():
             print(f"unknown id {args.id}", file=sys.stderr)
             return 2
-        print(
-            f"DRY-RUN approved {args.id} from outbox file {md}. "
-            "Wire LinkedIn/Reddit official APIs here later. No scrape. No fake audience."
-        )
+        print(f"approved file {md} (no live post: id not in today's queue)")
         return 0
-    print(publish(draft, approved_id=args.id))
+    try:
+        result = post_draft(draft, live=bool(args.live), approved_id=args.id)
+    except MissingTokens as exc:
+        print(str(exc), file=sys.stderr)
+        return 4
+    json.dump(result, sys.stdout, indent=2, default=str)
+    sys.stdout.write("\n")
+    return 0 if result.get("ok") else 5
+
+
+def cmd_tokens(args: argparse.Namespace) -> int:
+    if args.init:
+        path = init_env()
+        print(f"wrote {path} (gitignored). Paste official LinkedIn/Reddit tokens. I cannot mint them.")
+    json.dump(token_status(), sys.stdout, indent=2)
+    sys.stdout.write("\n")
+    return 0
+
+
+def cmd_auto(args: argparse.Namespace) -> int:
+    if args.request:
+        check_request(args.request)
+    granted = bool(args.grant_auto) or os.environ.get("EXPOSURE_AUTO_POST") == "1"
+    if not granted:
+        from netie_exposure.refuse import refuse
+
+        refuse("publish_without_approve")
+    result = run_crew(
+        outbox=Path(args.outbox),
+        live=not args.offline,
+        day=args.day,
+        followers=_followers(),
+        rotate=getattr(args, "rotate", 0) or 0,
+    )
+    catalog = merge_catalog(live=False)
+    drafts = render_queue(catalog, day=args.day)
+    live = bool(args.live)
+    if live and not social_ready():
+        print(
+            "missing_tokens: no official LinkedIn/Reddit tokens in env. "
+            "See TOKENS.md. Chat grant is not OAuth.",
+            file=sys.stderr,
+        )
+        json.dump({"run": result, "posted": [], "tokens": token_status()}, sys.stdout, indent=2)
+        sys.stdout.write("\n")
+        return 4
+    posted: list[dict] = []
+    seen: set[str] = set()
+    for draft in drafts:
+        channel = draft.get("channel") or ""
+        if channel not in ("linkedin", "reddit") or channel in seen:
+            continue
+        seen.add(channel)
+        try:
+            posted.append(post_draft(draft, live=live, approved_id=draft["id"]))
+        except MissingTokens as exc:
+            posted.append({"ok": False, "id": draft["id"], "error": str(exc)})
+    json.dump({"run": result, "posted": posted, "live": live}, sys.stdout, indent=2, default=str)
+    sys.stdout.write("\n")
     return 0
 
 
@@ -210,11 +266,26 @@ def build_parser() -> argparse.ArgumentParser:
     k.add_argument("--request", help="optional user request to run through refusals")
     k.set_defaults(func=cmd_calendar)
 
-    a = sub.add_parser("approve", help="human gate: mark a draft id as approved (still dry-run)")
+    a = sub.add_parser("approve", help="approve a draft id; --live posts via official APIs")
     a.add_argument("id")
     a.add_argument("--day")
     a.add_argument("--outbox", default=str(DEFAULT_OUTBOX))
+    a.add_argument("--live", action="store_true", help="call LinkedIn/Reddit official APIs")
     a.set_defaults(func=cmd_approve)
+
+    t = sub.add_parser("tokens", help="show which official tokens are present (no secret print)")
+    t.add_argument("--init", action="store_true", help="write gitignored .env + local EXPOSURE_GATE")
+    t.set_defaults(func=cmd_tokens)
+
+    u = sub.add_parser("auto", help="run crew then post (official APIs only; needs tokens)")
+    u.add_argument("--offline", action="store_true")
+    u.add_argument("--day")
+    u.add_argument("--rotate", type=int, default=0)
+    u.add_argument("--outbox", default=str(DEFAULT_OUTBOX))
+    u.add_argument("--request")
+    u.add_argument("--grant-auto", action="store_true", help="human grant for this run")
+    u.add_argument("--live", action="store_true", help="POST to LinkedIn/Reddit (needs tokens)")
+    u.set_defaults(func=cmd_auto)
 
     x = sub.add_parser("refuse", help="show the refusal for a disallowed tactic")
     x.add_argument("scenario")
@@ -223,12 +294,16 @@ def build_parser() -> argparse.ArgumentParser:
 
 
 def main(argv: list[str] | None = None) -> int:
+    load_env_file()
     args = build_parser().parse_args(argv)
     try:
         return int(args.func(args))
     except ExposureRefusal as exc:
         print(str(exc), file=sys.stderr)
         return 3
+    except MissingTokens as exc:
+        print(str(exc), file=sys.stderr)
+        return 4
 
 
 if __name__ == "__main__":

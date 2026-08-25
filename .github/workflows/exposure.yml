@@ -21,6 +21,8 @@ jobs:
       - run: pytest
       - run: python -m netie_exposure refuse "generate linkedin followers until 100k"
       - run: python -m netie_exposure calendar --offline --days 3 --day 2026-08-25 --outbox /tmp/exposure-cal
+      - run: python -m netie_exposure tokens
+      - run: python -m netie_exposure auto --offline --grant-auto --day 2026-08-25 --outbox /tmp/exposure-auto
 
   standalone:
     runs-on: ubuntu-latest
@@ -41,5 +43,5 @@ jobs:
           pip install -e ".[dev]"
           pytest
           python -m netie_exposure run --offline --day 2026-08-25 --outbox /tmp/oss-outbox
-          python -m netie_exposure calendar --offline --days 3 --day 2026-08-25 --outbox /tmp/oss-cal
+          python -m netie_exposure auto --offline --grant-auto --day 2026-08-25 --outbox /tmp/oss-auto
 

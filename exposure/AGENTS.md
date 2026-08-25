@@ -8,7 +8,9 @@ channel agents. It does not open a second orchestrator.
 python -m netie_exposure run --offline
 ```
 
-Social posting is **off** until a human runs `python -m netie_exposure approve <id>`.
+Social posting is **off** until a human runs `approve <id>` or
+`auto --grant-auto` with official tokens in gitignored `.env`. Chat cannot
+mint LinkedIn/Reddit OAuth. See `TOKENS.md`.
 
 North star: 100_000 LinkedIn followers, organic. GitHub stars earned from public work.
 Reddit is discussion, not dump.

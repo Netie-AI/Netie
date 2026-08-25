@@ -15,6 +15,8 @@ from netie_exposure.refuse import ExposureRefusal, check_request, refuse
         ("buy github stars", "buy_stars"),
         ("upvote brigade r/opensource", "reddit_brigade"),
         ("just post it", "publish_without_approve"),
+        ("generate linkedin token", "mint_oauth"),
+        ("create linkedin token", "mint_oauth"),
         ("place trade from Cassandra", "cassandra_trade"),
     ],
 )

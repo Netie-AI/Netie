@@ -75,13 +75,18 @@ python -m netie_exposure refuse "scrape linkedin"
 
 Each prints a named code. The pack will not write an outbox file for those tactics.
 
-## Approve
+## Approve / auto-post (official APIs only)
+
+Chat cannot mint LinkedIn or Reddit OAuth. See `TOKENS.md`.
 
 ```bash
-python -m netie_exposure approve 2026-08-25-hook-........
+python -m netie_exposure tokens
+python -m netie_exposure tokens --init   # gitignored .env + local EXPOSURE_GATE
+python -m netie_exposure approve <id>           # dry-run
+python -m netie_exposure approve <id> --live    # official API if token present
+python -m netie_exposure auto --grant-auto      # dry-run posts
+python -m netie_exposure auto --grant-auto --live   # needs tokens in .env
 ```
-
-Still a dry-run. Wire LinkedIn/Reddit **official** APIs later. No unofficial clients.
 
 ## Extract to a public repo
 
