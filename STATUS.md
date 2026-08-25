@@ -1,8 +1,10 @@
 # STATUS
 
-Updated: 2026-08-25 17:26 MYT. Success = live Stripe charge, then a payout.
+Updated: 2026-08-25 17:28 MYT. Success = live Stripe charge, then a payout.
 
 ## Now (measured)
+
+- After hours 25 Aug 17:28 MYT: late fire of `netie-tue-loder-website-2026-08-25-1400-myt`. No-op. All eleven LODER through ENG SENG HAN threads still one SENT message from 14:04-14:06 MYT. Drafts gone. Did not remmail. After 17:00 MYT. Did not nag. Did not apply. Did not poll Stripe. No paid charge yet.
 
 - After hours 25 Aug 17:26 MYT: built `docs/proposals/asean-skills-inventory.html` from catalog.json (no Stripe). Queued three Singapore first-mails on the Wed 26 Aug 09:00 timer (`sub_39cf78ca-3f56-4218-a8f9-e0a62dbb4a26`, folded with the ten MY drafts). Apple Queen Beauty `applequeenbeauty@gmail.com` draft `r-4470013227344831129` (Coming Soon `/services/`, International Plaza). Moh Seng Rubber `enquiry@mohseng.com.sg` draft `r-4542200263641104863` (HTTP 200, HTTPS SSL fail; copy acquire a factory). G P Manufacturing `sales@gp-mfg.com.sg` draft `r-9206981347546689159` (Loyang HQ only; `/contact/` and `/about-us/` 404). Did not mail gpmsales@gpm.my or gpt_sales@. Skipped Cragar (no honest gap). Skills-inventory HTML is reply-only. Did not send after 17:00. Kanhseei still ends at SENT `1a0338bc74fae0b4`. Did not nag. Did not apply. Did not poll Stripe. No paid charge yet.
 
