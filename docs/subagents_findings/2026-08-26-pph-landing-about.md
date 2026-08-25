@@ -2,7 +2,7 @@
 
 - Date: 2026-08-26 MYT
 - Keywords: PeoplePerHour, job title, About, Ashburn, SEND PROPOSAL, RM 500
-- Main idea: Public PPH is now `jian-hong-ai-engineer-and-web-developer-in-zxjjmyzj` with H1 AI engineer and web developer in Penang. About is still the catalogue/copy paragraph. Location stays Ashburn, VA because PPH auto-sets city from the datacenter IP. A logged-in curl POST to the edit form redirected to `/share-expertise?ref=edit-profile` and did not save. Use the browser Save on the free edit form. Paste from `docs/pph-about.txt`. SEND PROPOSAL on landing-page-4516140 still says the freelancer application is under review. Do not buy the plan. A profile is not income.
+- Main idea: Public PPH is `jian-hong-ai-engineer-and-web-developer-in-zxjjmyzj` with H1 AI engineer and web developer in Penang. About is still the catalogue/copy paragraph. Location stays Ashburn because PPH auto-sets city from the datacenter IP. The share-expertise page after Save always says updates were saved pending moderation. That banner is not proof: the edit form still showed the old title and About after a browser Save. Verify Job Title and About on the edit URL after Skip. Paste from `docs/pph-about.txt`. SEND PROPOSAL stays under review. Do not buy. A profile is not income.
 
 ## Live 26 Aug 02:55 MYT
 
