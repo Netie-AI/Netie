@@ -1,8 +1,10 @@
 # STATUS
 
-Updated: 2026-08-25 21:00 MYT. Success = live Stripe charge, then a payout.
+Updated: 2026-08-25 21:10 MYT. Success = live Stripe charge, then a payout.
 
 ## Now (measured)
+
+- After hours 25 Aug 21:10 MYT: rewrote the remaining Wed drafts 59-168 (LCS through Solid Kitchen) to RM 500 landing-page voice. Same draftIds. Total rewritten: 168 of 168. Subjects are now "[Firm] landing page". Timer `sub_4048348f-6ace-4f0f-93ef-3415f78d584b` still fires Wed 26 Aug 09:00 MYT: load outreach-tone, rewrite only if a body still says Coming Soon, then send_message draftId. Copy We offers, OfficeEquiment2u, Get Accessed Now!, Porfolio, lOOKING FOR pRINTING sERVICES?, Stranger Presence, Mosquitos Control, Factory For Sales, exising, He offer, various various types, UPVC. pipes, nothing is off-the-shell, we strived, LAM SAUSAGE, Handheald Fan, GRILLE GRILL, On-Time Deliver, they growth. Toon still waiting on owner send. Did not nag Kanhseei. Did not poll Stripe. No paid charge yet.
 
 - After hours 25 Aug 21:00 MYT: rewrote Wed drafts 35-58 (Jing Tinted through Laiheng) to RM 500 landing-page voice. Same draftIds. Total rewritten tonight: 58 of 168. Remaining 110 rewrite on send via timer `sub_4048348f-6ace-4f0f-93ef-3415f78d584b`. Copy Volkwagen, handling equipments. Toon still waiting on owner send. Did not nag Kanhseei. Did not poll Stripe. No paid charge yet.
 
