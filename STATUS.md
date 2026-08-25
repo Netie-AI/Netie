@@ -1,8 +1,10 @@
 # STATUS
 
-Updated: 2026-08-26 01:55 MYT. Success = live Stripe charge, then a payout.
+Updated: 2026-08-26 02:10 MYT. Success = live Stripe charge, then a payout.
 
 ## Now (measured)
+
+- After hours 26 Aug 02:10 MYT: live https://netie.ai/hire/ still matches git (sha256 `7c91bf0b...`, last-modified 25 Aug 17:44 GMT). Freelancing.my https://freelancing.my/author/jianhong/ now says Better landing pages in Penang and RM 500 unlocks the first draft. Did not bid Social Media Content Executive. Did not mail the platform inbox. Toon draft `r-7427464740298229176` not sent. Did not nag Kanhseei. Did not reply Starbridge. Checkout HTTP 200, not a charge. No paid charge yet.
 
 - After hours 26 Aug 01:55 MYT: live https://netie.ai/hire/ now matches git (56306 bytes, sha256 `7c91bf0ba5bb5cfebdbb2abdfe5b99ae4f253a88085b4b943d450dbe6c80c06d`, H1 A better landing page, five `RM 500 unlocks`, last-modified 25 Aug 17:44:52 GMT). `/hire/catalog.json`, `/hire/llms.txt`, and true-root `/llms.txt` match git. Homepage last-modified unchanged 25 Aug 06:46 GMT. No Stripe button on hire. Checkout HTTP 200, not a charge. Wed 08:00 timer `sub_de169617` can skip upload if sha256 still matches. Toon holding draft `r-7427464740298229176` not sent. Did not nag Kanhseei. Did not reply Starbridge. No paid charge yet.
 
