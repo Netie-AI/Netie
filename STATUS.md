@@ -1,8 +1,10 @@
 # STATUS
 
-Updated: 2026-08-26 02:35 MYT. Success = live Stripe charge, then a payout.
+Updated: 2026-08-26 02:55 MYT. Success = live Stripe charge, then a payout.
 
 ## Now (measured)
+
+- After hours 26 Aug 02:55 MYT: live https://netie.ai/hire/ still sha256 `7c91bf0b...` (56306 bytes, last-modified 25 Aug 17:44 GMT). Toon holding draft `r-7427464740298229176` still on thread `1a03642393b091d6`, body matches owner-approval, not sent. Did not nag Kanhseei (thread still ends SENT `1a0338bc74fae0b4`). Did not reply Starbridge. Twine logged-in messages page: `applicationCreditsRemaining` 0, inbox empty, unread 0. Public API `messages_count` 1 is not a new inbound. Freelancing.my has no landing-page job; Medklinix V2 is a SaaS upgrade, not the RM 500 landing offer; did not bid. PPH public still H1 AI engineer and web developer in Penang, catalogue About, Ashburn VA. Curl POST to the edit form does not save. Paste text is in `docs/pph-about.txt`. SEND PROPOSAL still under review. Did not buy PPH or Twine credits. Did not poll Stripe (already 26 Aug MYT at 01:05). Checkout HTTP 200, not a charge. No paid charge yet.
 
 - After hours 26 Aug 02:35 MYT: live https://netie.ai/hire/ still sha256 `7c91bf0b...`. Twine https://www.twine.net/api/users/jianhong bio now names RM 500 unlocks the first draft; day_rate 12000 USD cents ($120/day). Twine strips the hire URL. Freelancing.my profile still names RM 500. Toon draft `r-7427464740298229176` not sent. Did not nag Kanhseei. Did not reply Starbridge. Did not buy Twine credits. Checkout HTTP 200, not a charge. No paid charge yet.
 

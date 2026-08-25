@@ -4,6 +4,7 @@ This index records reusable findings from focused subagent reviews.
 
 | File | Keywords | Main idea |
 |---|---|---|
+| [2026-08-26-pph-landing-about.md](2026-08-26-pph-landing-about.md) | PeoplePerHour, About, Ashburn, SEND PROPOSAL, RM 500 | Public PPH still AI-engineer title and catalogue About. Curl POST does not save. Browser Save only. Do not buy. |
 | [2026-08-26-twine-landing-bio.md](2026-08-26-twine-landing-bio.md) | Twine, jianhong, RM 500, day_rate | Twine bio names RM 500 first draft. Rate $120/day. Hire URL stripped. Not income. |
 | [2026-08-26-flmy-landing-profile.md](2026-08-26-flmy-landing-profile.md) | Freelancing.my, jianhong, RM 500, landing | Public profile now names Better landing pages and RM 500. Not income. |
 | [2026-08-26-hire-hero-landing.md](2026-08-26-hire-hero-landing.md) | hire, hero, RM 500, landing page, Wed 09:00 | Hire hero matches the mail. Live `/hire/` verified 26 Aug 01:55 MYT sha256 `7c91bf0b...`. No Stripe button. |
