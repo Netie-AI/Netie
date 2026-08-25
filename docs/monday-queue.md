@@ -2191,7 +2191,7 @@ Timer `netie-tue-glassminds-website-2026-08-25-1700-myt` unsubscribed before sen
 
 ## Queued after hours 25 Aug 2026 17:18 MYT (do not send before Wed 09:00)
 
-Timer `netie-wed-hdhearing-website-2026-08-26-0900-myt` (`sub_f83a0721-0a19-404d-993f-d79b9cb9de12`, once, Wed 26 Aug 09:00 MYT). Ten extras from unused malaysiabrand hosts 1180-1279. Skipped hardrace.com.my (WhatsApp only, no printed mailto). Hightech Glass HQ `htglass.jb@gmail.com` only. Copy PRRODUCT, We provides, PURE PORK GOODNESS, Enterpreneurs, SEA-TO PLATE EXCELLENCE!. Do not send leftover monsoon draft.
+Timer `netie-wed-hdhearing-website-2026-08-26-0900-myt` (`sub_39cf78ca-3f56-4218-a8f9-e0a62dbb4a26`, once, Wed 26 Aug 09:00 MYT). Ten MY extras from unused hosts 1180-1279 plus three Singapore drafts below. Skipped hardrace.com.my (WhatsApp only, no printed mailto). Hightech Glass HQ `htglass.jb@gmail.com` only. Copy PRRODUCT, We provides, PURE PORK GOODNESS, Enterpreneurs, SEA-TO PLATE EXCELLENCE!. Do not send leftover monsoon draft. Skills-inventory HTML is reply-only.
 
 ### HD HEARING CARE CENTRE SDN BHD -- QUEUED draft 25 Aug 2026 17:16 MYT
 - To: hd.hearingcare@gmail.com. Draft `r8061948877361016615`. Thread `1a0383528b2f8405`. Subject: Cheras hearing-aid page. File: `docs/proposals/hd-hearing.md`.
@@ -2223,6 +2223,20 @@ Timer `netie-wed-hdhearing-website-2026-08-26-0900-myt` (`sub_f83a0721-0a19-404d
 ### H & H Glass Sdn Bhd -- QUEUED draft 25 Aug 2026 17:17 MYT
 - To: hnhglassy@gmail.com. Draft `r504826730575541958`. Thread `1a0383640f01be15`. Subject: Sri Ehsan glass page. File: `docs/proposals/hnh-glass.md`. Copy Enterpreneurs / hole grill.
 - Next hunt: unused malaysiabrand hosts after line 1279. Do not send these before Wed 09:00 MYT.
+
+## Queued Singapore / ASEAN first-mails 25 Aug 2026 17:26 MYT (do not send before Wed 09:00)
+
+Folded onto the same Wed 09:00 timer. Skills-inventory pack `docs/proposals/asean-skills-inventory.html` is reply-only. No Stripe. One inbox.
+
+### Apple Queen Beauty -- QUEUED draft 25 Aug 2026 17:26 MYT
+- To: applequeenbeauty@gmail.com. Draft `r-4470013227344831129`. Thread `1a0383db4bc5a829`. Subject: Tanjong Pagar facial page. File: `docs/proposals/apple-queen-beauty.md`. Live `/services/` Coming Soon.
+
+### Moh Seng Rubber Industries Pte Ltd -- QUEUED draft 25 Aug 2026 17:26 MYT
+- To: enquiry@mohseng.com.sg. Draft `r-4542200263641104863`. Thread `1a0383dc85cbc7fb`. Subject: Tuas rubber page. File: `docs/proposals/moh-seng-rubber.md`. Copy acquire a factory / We collaborates.
+
+### G P Manufacturing (S) Pte Ltd -- QUEUED draft 25 Aug 2026 17:26 MYT
+- To: sales@gp-mfg.com.sg. Draft `r-9206981347546689159`. Thread `1a0383ddd4256d32`. Subject: Loyang metal-stamping page. File: `docs/proposals/gp-manufacturing.md`. Did not mail gpmsales@gpm.my or gpt_sales@.
+- Skipped Cragar (no honest gap). SBF/SCCCI contact 403/404 from this IP. Do not apply to thesmartinvestor.com.sg.
 
 
 
