@@ -1,0 +1,5 @@
+# 2026-08-25 unused hosts 1580-1679 queue
+
+- Keywords: Kamen Steel, Kasturi Catering, Kavitha Fertility, KAWAI AROWANA, KC Technology, Ken Curtain House, KEN NEON CURTAINS, Kim Wah Auto, Kin Lap Glass, KINSIZE LABEL, Kitchen Story, KLS Machinery, KM WELDCO, Coming Soon mailto, We Specialize In All Kind Of, Whole House Curtain @, DAY AND NIGHT Curtains, Sri Mewah Light Industri
+- Main idea: Thirteen more unmailed Coming Soon drafts from unused malaysiabrand hosts 1580-1679, folded onto the Wed 26 Aug 09:00 timer for 51 total. Copy printed typos. HQ-only / contact-page inbox where a second inbox exists.
+- Traps: Do not remmail Kinoro kinoroengineering@yahoo.com or Kian Seng kiansengfoundry@gmail.com (SENT 22 Aug). Skip keelectronics.com.my mailto jaydenkoo168@ke.com.my and klgifts.com.my mailto derek@diaryngifts.com (TLD/domain mismatch). Ken Curtain House is not Ken Neon. Ken Neon is not Ken Curtain House. After 17:00 do not start new first-mails. Next hunt: unused hosts after line 1679.

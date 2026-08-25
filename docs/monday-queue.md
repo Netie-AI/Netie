@@ -2320,9 +2320,50 @@ Folded onto the same Wed 09:00 timer (`sub_8eeab532-a85f-4876-a9ba-d201231997a7`
 
 ### Johan Bestari Castor & Engineering Sdn. Bhd. -- QUEUED draft 25 Aug 2026 17:59 MYT
 - To: sales@johanbestari.com.my. Draft `r1593978669877655703`. Thread `1a0385bfdf3d74f5`. Subject: Subang Jaya castor page. File: `docs/proposals/johan-bestari.md`. Copy handling equipments. Not Johan Multitrade.
-- Next hunt: unused malaysiabrand hosts after line 1579. Do not send these before Wed 09:00 MYT.
 
-- Next hunt: unused malaysiabrand hosts after line 1579. Nine extras from 1480-1579 are queued below for Wed 09:00. Do not send these before Wed 09:00 MYT.
+## Queued after hours 25 Aug 2026 18:14 MYT (do not send before Wed 09:00)
+
+Folded onto the same Wed 09:00 timer (`sub_d05a8454-c8e7-4bca-86bd-bfc6b62b746d`, replaced `sub_8eeab532-a85f-4876-a9ba-d201231997a7`). Thirteen extras from unused hosts 1580-1679. Empty `in:sent`. All thirteen `/services/` Coming Soon (`min-height:440px`). No Stripe. Skipped Kinoro SENT 22 Aug, Kian Seng SENT 22 Aug, keelectronics.com.my TLD mismatch, and klgifts.com.my TLD mismatch. Ken Curtain House is not Ken Neon. Ken Neon is not Ken Curtain House. KC Technology, KLS Machinery, and KM WELDCO use the printed contact-page inbox.
+
+### Kamen Steel Industries Sdn Bhd -- QUEUED draft 25 Aug 2026 18:11 MYT
+- To: kamen@kamensteel.com.my. Draft `r-756477332025785548`. Thread `1a038679d0ff2fc2`. Subject: Bukit Mertajam steel page. File: `docs/proposals/kamen-steel.md`. Copy STEEL SUPPLY YOU CAN RELY ON.
+
+### Kasturi Catering -- QUEUED draft 25 Aug 2026 18:11 MYT
+- To: enquiry@kasturicatering.com.my. Draft `r2568174866352992955`. Thread `1a03867bca54a0cf`. Subject: Mount Austin catering page. File: `docs/proposals/kasturi-catering.md`. Copy PREMIUM HALAL CERTIFIED.
+
+### Kavitha Natural Fertility Centre -- QUEUED draft 25 Aug 2026 18:12 MYT
+- To: kavithaintcentre@gmail.com. Draft `r7599776146421491455`. Thread `1a03867d110ab5f3`. Subject: Seri Kembangan fertility page. File: `docs/proposals/kavitha-fertility.md`. Copy been specializing / Our 3,247th natural pregnancy.
+
+### KAWAI AROWANA FARM -- QUEUED draft 25 Aug 2026 18:12 MYT
+- To: enquiries@kawaiaro.com.my. Draft `r1702954805538044610`. Thread `1a03867e6ed7166b`. Subject: Bukit Merah arowana page. File: `docs/proposals/kawai-arowana.md`. Copy FROM BUKIT MERAH TO THE WORLD.
+
+### KC Technology Resources (M) Sdn Bhd -- QUEUED draft 25 Aug 2026 18:12 MYT
+- To: saleskctechnology06@gmail.com. Draft `r-398497506960654505`. Thread `1a03868125c755ee`. Subject: Seri Kembangan tape page. File: `docs/proposals/kc-technology.md`. Copy We Specialize In All Kind Of. Contact-page inbox.
+
+### Ken Curtain House -- QUEUED draft 25 Aug 2026 18:12 MYT
+- To: kencurtainhouse@gmail.com. Draft `r-6780617327087393350`. Thread `1a038682fe978a81`. Subject: Taman City curtain page. File: `docs/proposals/ken-curtain-house.md`. Copy Whole House Curtain @. Not Ken Neon.
+
+### KEN NEON CURTAINS DESIGN ENTERPRISE -- QUEUED draft 25 Aug 2026 18:13 MYT
+- To: ken-neon.curtains@hotmail.com. Draft `r-4890574830377062170`. Thread `1a03868d2b83182d`. Subject: Taman Molek curtain page. File: `docs/proposals/ken-neon-curtains.md`. Copy DAY AND NIGHT Curtains. Not Ken Curtain House.
+
+### Kim Wah Auto Sdn Bhd -- QUEUED draft 25 Aug 2026 18:13 MYT
+- To: kimwahauto2323@gmail.com. Draft `r3644986977750333915`. Thread `1a03868e960601c4`. Subject: Kempas truck-parts page. File: `docs/proposals/kim-wah-auto.md`. Copy TRUSTED AUTO PARTS SUPPLIER.
+
+### Kin Lap Glass Sdn. Bhd. -- QUEUED draft 25 Aug 2026 18:13 MYT
+- To: enquiry@kinlap.com.my. Draft `r8118607005390568133`. Thread `1a03868fd470f269`. Subject: Ipoh glass page. File: `docs/proposals/kin-lap-glass.md`. Copy SPECIALIZED GLASS APPLICATIONS / Our founder, Kin Lap.
+
+### KINSIZE LABEL STICKER SDN BHD -- QUEUED draft 25 Aug 2026 18:13 MYT
+- To: kinsize2121@gmail.com. Draft `r-2328322085920581773`. Thread `1a0386910043e98d`. Subject: Sibu label page. File: `docs/proposals/kinsize-label.md`. Copy One Stop Label Sticker Solution Provider from Sarawak / Mr. S.T. Ling.
+
+### Kitchen Story Sdn Bhd -- QUEUED draft 25 Aug 2026 18:13 MYT
+- To: welcome@kitchenstory.com.my. Draft `r3697856985400840773`. Thread `1a0386924260f9a8`. Subject: Bayan Lepas kitchen page. File: `docs/proposals/kitchen-story.md`. Copy ONE STOP SOLUTION RENOVATION.
+
+### KLS Machinery & Engineering Sdn Bhd -- QUEUED draft 25 Aug 2026 18:13 MYT
+- To: sales@klsm.com.my. Draft `r1695231296109260127`. Thread `1a0386936c87f871`. Subject: Muar machinery page. File: `docs/proposals/kls-machinery.md`. Copy Your One-Stop Shop for / WE AIM TO PROVIDE THE HIGHEST QUALITY OF. Contact-page inbox.
+
+### KM WELDCO SDN BHD -- QUEUED draft 25 Aug 2026 18:13 MYT
+- To: enquiry@kmweldco.com.my. Draft `r-5764322022647846200`. Thread `1a0386959086698b`. Subject: Klang welding page. File: `docs/proposals/km-weldco.md`. Copy Stronger, with Castolin Eutectic / Sri Mewah Light Industri. Contact-page inbox.
+- Next hunt: unused malaysiabrand hosts after line 1679. Do not send these before Wed 09:00 MYT.
 
 
 
