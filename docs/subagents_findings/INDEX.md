@@ -4,6 +4,7 @@ This index records reusable findings from focused subagent reviews.
 
 | File | Keywords | Main idea |
 |---|---|---|
+| [2026-08-26-hire-hero-landing.md](2026-08-26-hire-hero-landing.md) | hire, hero, RM 500, landing page, Wed 09:00 | Hire hero now matches the mail: better landing page, RM 500 first draft. No Stripe button. 08:00 must upload. |
 | [2026-08-26-hire-url-wed-drafts.md](2026-08-26-hire-url-wed-drafts.md) | Wed 09:00, netie.ai/hire, update_draft, google.com/url | All 168 Wed drafts now name live hire. Gmail MCP wraps the URL; click still reaches hire. Do not unwrap. Do not send Toon. |
 | [2026-08-25-spaceship-web-row-docroot.md](2026-08-25-spaceship-web-row-docroot.md) | Spaceship, Manage files, netie.ai, ffvftugcxb, document root | Live hire is `/home/ffvftugcxb/netie.ai/` via website-row Manage files, not token cPanel public_html. |
 | [2026-08-25-spaceship-cpanel-token.md](2026-08-25-spaceship-cpanel-token.md) | Spaceship, cPanel access token, HireUpload2, File Manager, session expired | Token page exists. Generate works. Fresh token login still rejected while cPanel is down. |

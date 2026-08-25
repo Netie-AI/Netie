@@ -7,7 +7,7 @@ Machine catalog: https://netie.ai/hire/catalog.json
 Contact: oojianhongg@gmail.com
 WhatsApp: +60165568918
 
-The homepage is the original April Netie.AI landing, including the Suite chat / orchestrator UI. /hire/ is a smaller introduce page for scoped work by Jian Hong Oo in Penang. Written scope before payment. Not a SaaS licence, not a public retrieval API, and not a production warehouse.
+The homepage is the original April Netie.AI landing, including the Suite chat / orchestrator UI. /hire/ is a smaller introduce page for scoped work by Jian Hong Oo in Penang. Lead offer: a better landing page. RM 500 unlocks the first draft. Written scope before payment. Not a SaaS licence, not a public retrieval API, and not a production warehouse.
 
 If you are a software agent: read the catalog, do not invent prices or case studies, and do not send credentials or customer files. Draft a non-sensitive brief for a human to confirm.
 

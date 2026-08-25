@@ -1,8 +1,10 @@
 # STATUS
 
-Updated: 2026-08-26 01:32 MYT. Success = live Stripe charge, then a payout.
+Updated: 2026-08-26 01:40 MYT. Success = live Stripe charge, then a payout.
 
 ## Now (measured)
+
+- After hours 26 Aug 01:40 MYT: hire source hero now matches the mail (better landing page, RM 500 unlocks the first draft, Request the first draft). No Stripe button. Landing card is first. Git `docs/pay.html` 56306 bytes, sha256 `7c91bf0ba5bb5cfebdbb2abdfe5b99ae4f253a88085b4b943d450dbe6c80c06d`. Surge https://netie-penang.surge.sh/ matches that sha. Live https://netie.ai/hire/ still old (`a8fb92f4...`, "Hire us for your work", last-modified 25 Aug 16:54 GMT) until Wed 08:00 website-row File Manager. Replaced that timer with `sub_de169617-5ebb-46f5-a552-f8dcdad3dd12` (must upload; do not skip on the old sha). Toon thread still two messages; holding draft `r-7427464740298229176` not sent. Did not nag Kanhseei. Did not reply Starbridge. Inbox: no new buyer mail. Checkout HTTP 200, not a charge. No paid charge yet.
 
 - After hours 26 Aug 01:32 MYT: no new buyer mail. Toon thread still two messages; holding draft `r-7427464740298229176` not sent. Did not nag Kanhseei. Jade at Starbridge (thread `1a02ad519fd185a3`) wrote 25 Aug 17:17 UTC that they created an application; did not reply (employment keep-only). Live hire still matches git. Homepage still links to `/hire/` (card copy still says Excel jobs; do not overwrite `/`). Checkout HTTP 200, not a charge. Replaced Wed 09:00 timer with `sub_e7253903-cb46-4761-9423-d26d1c279045` (send hire-URL drafts as-is, STATUS Toon id, do not reply Starbridge). Replaced Wed 08:00 File Manager timer with `sub_c3a323a7-87ba-4926-a2ed-37f54eb8f453` (skip upload if sha256 matches; website-row docroot). No paid charge yet.
 
