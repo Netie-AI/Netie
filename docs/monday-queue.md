@@ -2240,7 +2240,7 @@ Folded onto the same Wed 09:00 timer. Skills-inventory pack `docs/proposals/asea
 
 ## Queued after hours 25 Aug 2026 17:49 MYT (do not send before Wed 09:00)
 
-Folded onto the same Wed 09:00 timer (`sub_f1536f04-ba4c-47e7-acfe-1773918b4442`). Sixteen extras from unused hosts 1280-1479 after fixing a mailto regex that treated the letter `s` as a stop character. Empty `in:sent`. All sixteen `/services/` Coming Soon (`min-height:440px`). No Stripe. Skip ingenious.com.my mailto `info@ingenious.my` (TLD mismatch). Iconic Training HQ `enquiries@` only.
+Folded onto the same Wed 09:00 timer (`sub_8eeab532-a85f-4876-a9ba-d201231997a7`, later replacing `sub_f1536f04-ba4c-47e7-acfe-1773918b4442`). Sixteen extras from unused hosts 1280-1479 after fixing a mailto regex that treated the letter `s` as a stop character. Empty `in:sent`. All sixteen `/services/` Coming Soon (`min-height:440px`). No Stripe. Skip ingenious.com.my mailto `info@ingenious.my` (TLD mismatch). Iconic Training HQ `enquiries@` only.
 
 ### HONG FONG GROUP TRADING -- QUEUED draft 25 Aug 2026 17:44 MYT
 - To: info@hongfong.com.my. Draft `r-4907296878467670418`. Thread `1a0384fbc04021b4`. Subject: Skudai snacks page. File: `docs/proposals/hong-fong.md`. Copy GET 5% discount for new member.
@@ -2289,7 +2289,40 @@ Folded onto the same Wed 09:00 timer (`sub_f1536f04-ba4c-47e7-acfe-1773918b4442`
 
 ### Johor Bahru Furniture Industry Association -- QUEUED draft 25 Aug 2026 17:48 MYT
 - To: jbfic925@gmail.com. Draft `r-5244197231144532276`. Thread `1a038521d588eb38`. Subject: Mount Austin furniture-association page. File: `docs/proposals/jbfa.md`. Copy 本会自1978年成立至今已有44年 / 244位 / 匠承千载·智引未来.
-- Next hunt: unused malaysiabrand hosts after line 1479. Do not send these before Wed 09:00 MYT.
+
+## Queued after hours 25 Aug 2026 18:00 MYT (do not send before Wed 09:00)
+
+Folded onto the same Wed 09:00 timer (`sub_8eeab532-a85f-4876-a9ba-d201231997a7`). Nine extras from unused hosts 1480-1579. Empty `in:sent`. All nine `/services/` Coming Soon (`min-height:440px`). No Stripe. Skipped JTC Industrial SENT 22 Aug, J TOP Resources SENT 22 Aug, and johorfurniturefair.com.my same JBFA firm. JC ESYSCOM HQ `service@` only. Not Johan Multitrade.
+
+### Bali Thai Spa & Wellness -- QUEUED draft 25 Aug 2026 17:57 MYT
+- To: balithaiwellness@gmail.com. Draft `r7972145772910295383`. Thread `1a0385addcb08f2e`. Subject: Skudai spa page. File: `docs/proposals/bali-thai-spa.md`. Copy Your Trusted Thai Spa in Johor.
+
+### JC ESYSCOM SDN BHD -- QUEUED draft 25 Aug 2026 17:57 MYT
+- To: service@jc-esyscom.my. Draft `r-386726587324569654`. Thread `1a0385af8c9f942a`. Subject: Klang CCTV page. File: `docs/proposals/jc-esyscom.md`. Did not mail johnson@ or wong@.
+
+### KLINIK PERGIGIAN JDT DENTAL -- QUEUED draft 25 Aug 2026 17:57 MYT
+- To: kpjdtdental@gmail.com. Draft `r-6009113444186846356`. Thread `1a0385b11aba5c5b`. Subject: Taman Pelangi dental page. File: `docs/proposals/jdt-dental.md`. Copy Hear What Our Customer Say.
+
+### J & D Axle And Auto Parts Sdn Bhd -- QUEUED draft 25 Aug 2026 17:58 MYT
+- To: jackwong076@gmail.com. Draft `r-257172565537325776`. Thread `1a0385b281e337b4`. Subject: Ipoh lorry-parts page. File: `docs/proposals/jd-axle.md`. Copy What makes us what we are.
+
+### J&H OFFICE DESIGN -- QUEUED draft 25 Aug 2026 17:58 MYT
+- To: jh_office_design@yahoo.com.my. Draft `r-434351319774903696`. Thread `1a0385b47ae7db4c`. Subject: Seri Kembangan office page. File: `docs/proposals/jh-office-design.md`. Copy SHOPPING KISOK / Conmercial / Contruction.
+
+### Jing Tinted & Auto Accessories -- QUEUED draft 25 Aug 2026 17:58 MYT
+- To: jiajingtheo@gmail.com. Draft `r1197271149571384920`. Thread `1a0385b6c2c3d32d`. Subject: Pulai Mutiara tint page. File: `docs/proposals/jing-tinted.md`. Copy SUPERIOR QUALITY.
+
+### J & M Technology (M) Sdn Bhd -- QUEUED draft 25 Aug 2026 17:58 MYT
+- To: jnmtech2013@gmail.com. Draft `r-8221157849048994624`. Thread `1a0385b8997d204f`. Subject: Balakong flooring page. File: `docs/proposals/jm-technology.md`. Copy The Smarter Choice for Quality Flooring.
+
+### J & J Master Trading -- QUEUED draft 25 Aug 2026 17:59 MYT
+- To: jnjmastertrading@gmail.com. Draft `r-7613184227593313506`. Thread `1a0385bad1383e6d`. Subject: Skudai bakery-supplies page. File: `docs/proposals/jj-master-trading.md`. Did not mail j&jmastertrading@.
+
+### Johan Bestari Castor & Engineering Sdn. Bhd. -- QUEUED draft 25 Aug 2026 17:59 MYT
+- To: sales@johanbestari.com.my. Draft `r1593978669877655703`. Thread `1a0385bfdf3d74f5`. Subject: Subang Jaya castor page. File: `docs/proposals/johan-bestari.md`. Copy handling equipments. Not Johan Multitrade.
+- Next hunt: unused malaysiabrand hosts after line 1579. Do not send these before Wed 09:00 MYT.
+
+- Next hunt: unused malaysiabrand hosts after line 1579. Nine extras from 1480-1579 are queued below for Wed 09:00. Do not send these before Wed 09:00 MYT.
 
 
 
