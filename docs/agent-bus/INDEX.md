@@ -2,13 +2,13 @@
 
 Channel for orchestrator <-> builder <-> researcher. Read `.cursor/skills/agent-bus/SKILL.md`.
 
-Updated: 2026-08-26 04:25 MYT.
+Updated: 2026-08-26 04:50 MYT.
 
 ## In flight
 
 - Builder: idle. Live `/hire/` matches git sha `cca9f313...`. Do not overwrite `/`.
-- Researcher: unused malaysiabrand list exhausted at line 3572. Do not restart from line 1. Skip remmail Windmere, Willy, ZYRC.
-- Orchestrator: Toon draft `r-7427464740298229176` waits for owner send. Wed 09:00 timer `sub_e7253903` sends 168 drafts as-is. Wed 08:00 File Manager timer `sub_ae835390` can skip if live sha256 still `cca9f313...`. Wed 10:00 timer sends the seven THL-through-TSF drafts. Wed 11:00 timer `sub_2d7aa1e6` sends thirty-four drafts (TS Print through Yee Tat). Five-timer cap. Do not nag Kanhseei. Do not reply Starbridge. Do not poll Stripe until 27 Aug MYT.
+- Researcher: unused malaysiabrand CS list exhausted at line 3572. Filled-site first 23 queued (Wintools through Xolven). Next leftover filled-cands: WY WY, Whitecube, YKY, XY Properties, WPK, YV Global, Yu Chin, Weng Soon, Yikangtcm `enquiry@`, HSA Asia `ysimalaysia.my`. Skip YAL remmail, Whole New Era, YHY.
+- Orchestrator: Toon draft `r-7427464740298229176` waits for owner send. Wed 09:00 timer `sub_e7253903` sends 168 drafts as-is. Wed 08:00 File Manager timer `sub_ae835390` can skip if live sha256 still `cca9f313...`. Wed 10:00 timer sends the seven THL-through-TSF drafts. Wed 11:00 timer `sub_d61459ca` sends fifty-seven drafts (34 CS TS Print through Yee Tat plus 23 filled Wintools through Xolven). Five-timer cap. Do not nag Kanhseei. Do not reply Starbridge. Do not poll Stripe until 27 Aug MYT.
 
 ## How to leave a message
 

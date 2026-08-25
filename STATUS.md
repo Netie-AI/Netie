@@ -1,8 +1,10 @@
 # STATUS
 
-Updated: 2026-08-26 04:25 MYT. Success = live Stripe charge, then a payout.
+Updated: 2026-08-26 04:50 MYT. Success = live Stripe charge, then a payout.
 
 ## Now (measured)
+
+- After hours 26 Aug 04:50 MYT: no owner send. Toon thread still two messages; holding draft `r-7427464740298229176` not sent. Did not nag Kanhseei. Did not reply Starbridge. Coming Soon unused-host list still exhausted at line 3572. Queued twenty-three filled-site first-mails (homepage mailto + unique published fact; `/services/` is filled, not Coming Soon) and folded them onto Wed 11:00 MYT (`sub_d61459ca-f175-4fd6-929c-7cf6a63281b4`, replaced `sub_2d7aa1e6`): Wintools, Y 2 Beauty, Xin Lei, White Otter, Yao Teng, Yick Lee, Winston, Young Master, Yanyi, YF Energy, Wheeler, XLab, Yeelie, YCSL, X Motivate, YY Luminous, Yong Hao, YY Dental, Zison, Worldtech, Yiet Soon, Winter Frozen, Xolven. Empty `in:sent`. Skipped remmail YAL (`info@yal.com.my` SENT 22 Aug Excel-trace). White Otter first homepage curl was 769 bytes; unique retry returned the live interior page. Do not send before 11:00. Do not require Coming Soon on these twenty-three at send. Did not mail `bcng@worldtechpt.com.my`, `importadmin@winterfrozen.com.my`, or `xolvenmarketing@gmail.com`. Did not poll Stripe (already 26 Aug MYT at 01:05). No paid charge yet.
 
 - After hours 26 Aug 04:25 MYT: no owner send. Toon thread still two messages; holding draft `r-7427464740298229176` not sent. Did not nag Kanhseei. Did not reply Starbridge. Queued seventeen more Coming Soon first-mails from unused hosts 3380-3572 and folded them onto Wed 11:00 MYT (`sub_2d7aa1e6-e604-4e5a-b7b0-d53629571895`, replaced `sub_ce7c08bf`): Wuway, WM Engineering, Win-Fung, Wing Jin, WorkShark, Win Yip, Xin Yue, Zubeck, Youngs Kingdom, Youguan, Yu Brother, YHL, ZJ Filtering, YY Travel, ZS Global, YG Bakery, Yee Tat. Empty `in:sent`. Skipped remmail Windmere Products (windmere.com.my), Willy Manufacturing (SENT 22 Aug willymfgsb@gmail.com), ZYRC (SENT 22 Aug johnsonthye@gmail.com), and wins2.com.my yahoo.com.hk. Unused malaysiabrand list exhausted at line 3572. Do not send before 11:00. Do not fold onto 09:00 or 10:00. Did not poll Stripe (already 26 Aug MYT at 01:05). No paid charge yet.
 

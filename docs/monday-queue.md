@@ -2938,6 +2938,79 @@ Seventeen more extras folded onto `netie-wed-tsprint-website-2026-08-26-1100-myt
 Skipped remmail: windmere.com.my (Windmere Products), willymfg.com.my (SENT 22 Aug willymfgsb@gmail.com), zyrc.com.my (SENT 22 Aug johnsonthye@gmail.com). Skipped wins2.com.my yahoo.com.hk. Skipped CS-no-mailto: weshow.com.my, worldwidedoor.com.my, woodlibrary.com.my, wuanteahouse.com.my, xway.com.my, yisyunrenovation.com.my, ymfresh.com.my, yosiang.com.my, zhinheng.com.my.
 - Unused malaysiabrand list exhausted at line 3572. Do not send these before Wed 11:00 MYT.
 
+## Filled-site first-mails -- QUEUED 26 Aug 2026 04:50 MYT (Wed 11:00)
+
+Tone: `.cursor/skills/outreach-tone/SKILL.md`. `/services/` is filled, not Coming Soon. Homepage mailto + one unique published fact. Empty `in:sent`. Never print page. No Stripe. Do not send before Wed 11:00 MYT. Do not require Coming Soon `min-height:440px` at send. Recheck homepage unique fact + mailto. Skipped remmail YAL `info@yal.com.my` (SENT 22 Aug `1a029407133267ad`).
+
+### Wintools Engineering Technology -- QUEUED draft 26 Aug 2026 04:45 MYT
+- To: sales@wintools.com.my. Draft `r-1549972912277012333`. Thread `1a03aabc193972b5`. Subject: Penang cutting-tools landing page. File: `docs/proposals/wintools.md`. Copy Turning Indexable Inserts / CBN & PCD Tools. City-only Penang.
+
+### Y 2 Beauty Hair Studio Salon -- QUEUED draft 26 Aug 2026 04:45 MYT
+- To: ask@y2beautyhairsalon.com.my. Draft `r-2128980891305980146`. Thread `1a03aabc282ce8d4`. Subject: Skudai salon landing page. File: `docs/proposals/y2-beauty.md`. Copy expert haircuts, coloring, treatments / Impian Emas, Skudai.
+
+### Xin Lei Sdn Bhd -- QUEUED draft 26 Aug 2026 04:45 MYT
+- To: sales@xinlei.com.my. Draft `r3379090525262724607`. Thread `1a03aabc22e3ac65`. Subject: Subang compressor landing page. File: `docs/proposals/xin-lei.md`. Copy Established in 2018 / Official Xinlei distributor.
+
+### White Otter Atelier -- QUEUED draft 26 Aug 2026 04:45 MYT
+- To: info@whiteotter.my. Draft `r-7228769224773651551`. Thread `1a03aabc550b284a`. Subject: Petaling Jaya interior landing page. File: `docs/proposals/white-otter.md`. Copy interior design, renovation, and space planning / LLP 202004000474. Unique retry after 769-byte first dump.
+
+### Yao Teng Machinery & Steel Engineering -- QUEUED draft 26 Aug 2026 04:45 MYT
+- To: yaotengmachinery@gmail.com. Draft `r5234875827378310426`. Thread `1a03aabc6841cdde`. Subject: Seremban steel landing page. File: `docs/proposals/yao-teng.md`. Copy Persiarang Semarak 1 / steel structure erection.
+
+### YICK LEE OIL SUPPLIES -- QUEUED draft 26 Aug 2026 04:45 MYT
+- To: enquiry@yicklee.com.my. Draft `r-6633624558311895592`. Thread `1a03aabc8c426beb`. Subject: Johor Bahru lubricant landing page. File: `docs/proposals/yick-lee.md`. Copy Automotive Lubricants Supplier JB. City-only.
+
+### Winston Resources -- QUEUED draft 26 Aug 2026 04:45 MYT
+- To: kenny@winstonelectric.com.my. Draft `r-5332439808212999165`. Thread `1a03aabcb8294d85`. Subject: Shah Alam filling-line landing page. File: `docs/proposals/winston-electric.md`. Copy rotary filling and capping line / sleeve wrapper. Host winstonelectric.com.my.
+
+### Young Master Enterprise -- QUEUED draft 26 Aug 2026 04:45 MYT
+- To: sales@youngmaster89.com.my. Draft `r3922752599726060103`. Thread `1a03aabcbef0d54f`. Subject: Simpang Ampat pallet landing page. File: `docs/proposals/young-master.md`. Copy wooden pallets / timber supply. HQ Simpang Ampat only.
+
+### Yanyi Windscreen & Tint -- QUEUED draft 26 Aug 2026 04:45 MYT
+- To: admin@yanyi.com.my. Draft `r979691279390392681`. Thread `1a03aabcd5c67b3e`. Subject: Puchong windscreen landing page. File: `docs/proposals/yanyi.md`. Copy expert windscreen repair, replacement and insurance claim. City-only Puchong.
+
+### YF Energy Sdn. Bhd. -- QUEUED draft 26 Aug 2026 04:45 MYT
+- To: sales@yf-energy.com.my. Draft `r1364293741311130507`. Thread `1a03aabce2f8a150`. Subject: Masai lubricant landing page. File: `docs/proposals/yf-energy.md`. Copy lubrication solutions for high performance cars. City-only Masai.
+
+### Wheeler Mectrade Sdn Bhd -- QUEUED draft 26 Aug 2026 04:45 MYT
+- To: sales@wheelermectrade.com.my. Draft `r6138847852252322080`. Thread `1a03aabd1372a203`. Subject: Ulu Tiram aluminium landing page. File: `docs/proposals/wheeler-mectrade.md`. Copy Aluminium Extrusion Profile. HQ Ulu Tiram only.
+
+### XLab Innovators Sdn. Bhd. -- QUEUED draft 26 Aug 2026 04:46 MYT
+- To: sales@xlab.com.my. Draft `r1614045004665751468`. Thread `1a03aac77093b442`. Subject: Subang lab-furniture landing page. File: `docs/proposals/xlab.md`. Copy Custom Made Fume Hoods.
+
+### Yeelie Support Sdn Bhd -- QUEUED draft 26 Aug 2026 04:46 MYT
+- To: yeeliespt@gmail.com. Draft `r5995844742275596513`. Thread `1a03aac77fcb83ef`. Subject: Masai laser-cutting landing page. File: `docs/proposals/yeelie-support.md`. Copy Laser Cutting Service Masai.
+
+### YCSL Resources Sdn Bhd -- QUEUED draft 26 Aug 2026 04:46 MYT
+- To: ycslresources@gmail.com. Draft `r4456900001966349106`. Thread `1a03aac79a8b9dbb`. Subject: Puchong doors landing page. File: `docs/proposals/ycsl.md`. Copy High-Quality Doors & Locks.
+
+### X Motivate Enterprise -- QUEUED draft 26 Aug 2026 04:46 MYT
+- To: xmotivatejb@gmail.com. Draft `r-1457908450653345830`. Thread `1a03aac7b2094f4c`. Subject: Johor Bahru laser-game landing page. File: `docs/proposals/x-motivate.md`. Copy Laser Game in Eco Palladium.
+
+### YY Luminous Florals & Events -- QUEUED draft 26 Aug 2026 04:46 MYT
+- To: yyluminousfloralsevents@gmail.com. Draft `r-8361750705754700104`. Thread `1a03aac7b34f01bb`. Subject: Bukit Maluri florist landing page. File: `docs/proposals/yy-luminous.md`. Copy Grand Opening Flower Stands.
+
+### Yong Hao Windscreen Auto Parts -- QUEUED draft 26 Aug 2026 04:46 MYT
+- To: yonghao63@yahoo.com. Draft `r7868984178329292052`. Thread `1a03aac7d031ce37`. Subject: Port Klang windscreen landing page. File: `docs/proposals/yong-hao.md`. Copy Car Windscreen Claim & Replacement.
+
+### Klinik Pergigian YY -- QUEUED draft 26 Aug 2026 04:46 MYT
+- To: klinikpergigianyy@gmail.com. Draft `r8880168753735283377`. Thread `1a03aac7e5744364`. Subject: Johor Jaya dental landing page. File: `docs/proposals/yy-dental.md`. Copy Braces Treatment / Teeth Whitening.
+
+### Zison Auto Supply -- QUEUED draft 26 Aug 2026 04:46 MYT
+- To: zisonauto@hotmail.com. Draft `r-7929779111069763677`. Thread `1a03aac8148e854f`. Subject: Telok Panglima Garang marine landing page. File: `docs/proposals/zison-auto.md`. Copy Marine Engine Spare Parts.
+
+### Worldtech Precision Tools -- QUEUED draft 26 Aug 2026 04:46 MYT
+- To: samuelng@worldtechpt.com.my. Draft `r1142190032320351601`. Thread `1a03aac80e9d8e6d`. Subject: Butterworth mould landing page. File: `docs/proposals/worldtech-pt.md`. Copy Plastic Mould Penang / Established in 2017. Did not mail bcng@.
+
+### Yiet Soon Zinc Construction -- QUEUED draft 26 Aug 2026 04:46 MYT
+- To: yszcon@yahoo.com. Draft `r-43118110346677180`. Thread `1a03aac82005cbaf`. Subject: Seri Kembangan steel landing page. File: `docs/proposals/yiet-soon.md`. Copy Stainless Steel Fabrication. Copy JLB BS 7/22.
+
+### Winter Frozen Enterprise -- QUEUED draft 26 Aug 2026 04:46 MYT
+- To: admin@winterfrozen.com.my. Draft `r-8006596141398657248`. Thread `1a03aac8255ab2dc`. Subject: Johor Bahru frozen-food landing page. File: `docs/proposals/winter-frozen.md`. Copy Frozen Meat Supplier / Taman Desa Tebrau. Did not mail importadmin@.
+
+### XOLVEN MARKETING -- QUEUED draft 26 Aug 2026 04:46 MYT
+- To: sales@xolvenmarketing.com.my. Draft `r-433997441297892034`. Thread `1a03aac8495dfca0`. Subject: Masai workwear landing page. File: `docs/proposals/xolven.md`. Copy Personal Protective Equipment. Did not mail xolvenmarketing@gmail.com.
+
 
 
 
