@@ -1,8 +1,10 @@
 # STATUS
 
-Updated: 2026-08-26 05:40 MYT. Success = live Stripe charge, then a payout.
+Updated: 2026-08-26 05:50 MYT. Success = live Stripe charge, then a payout.
 
 ## Now (measured)
+
+- After hours 26 Aug 05:50 MYT: no owner send. Toon thread still two messages; holding draft `r-7427464740298229176` not sent. Did not nag Kanhseei. Did not reply Starbridge. Queued thirty-eight more filled-site first-mails from remain hosts 381-480 and folded them onto Wed 11:00: ESTAR Packaging through City E. Empty `in:sent`. Bunny Print and CCS subjects are sticker/bunting, never print page. Skipped capitalmastery.net, foc4u.com, celestial.com.my, cenadart.com, choferasia.vip, e-onecredit.com TLD/domain mismatch. Calvin Skin HQ JSON-LD only. CNA World HQ `admin@cna.my` only. CDA HQ `georgegan@` only. Filled-site total 203. Wed 11:00 timer `sub_0538d523-477c-4bfa-b92e-eb1c9a09fe69` replaced `sub_88d7e4a2` and now fires two hundred thirty-seven drafts (34 CS plus 203 filled). Do not send before 11:00. Do not require Coming Soon on filled drafts at send. Next hunt: remain hosts after line 480. Did not poll Stripe (already 26 Aug MYT at 01:05). No paid charge yet.
 
 - After hours 26 Aug 05:40 MYT: no owner send. Toon thread still two messages; holding draft `r-7427464740298229176` not sent. Did not nag Kanhseei. Did not reply Starbridge. Queued thirty-one more filled-site first-mails from remain hosts 281-380 and folded them onto Wed 11:00: BC Tyre through BUILDTRAX. Empty `in:sent`. Skipped bpsm.com.my `crascentia@crascentia.com` domain mismatch. Big Image subject is packaging landing page, never print page. Blue Solutions HQ `enquiry@bluesolutions.com.my` only. BRB Design HQ mailto only. Filled-site total 165. Wed 11:00 timer `sub_88d7e4a2-21d1-4744-b911-bbbf57aa1bf8` replaced `sub_7f22b1c1` and now fires one hundred ninety-nine drafts (34 CS plus 165 filled). Do not send before 11:00. Do not require Coming Soon on filled drafts at send. Next hunt: remain hosts after line 380. Did not poll Stripe (already 26 Aug MYT at 01:05). No paid charge yet.
 

@@ -3450,3 +3450,123 @@ Tone: `.cursor/skills/outreach-tone/SKILL.md`. `/services/` is filled, not Comin
 Skipped remain hosts 281-380: bpsm.com.my `crascentia@crascentia.com` domain mismatch. Next hunt: remain hosts after line 380 (`bubblewrapjb.com.my`).
 
 
+
+## Filled-site remain 381-480 -- QUEUED 26 Aug 2026 05:50 MYT (Wed 11:00)
+
+Tone: `.cursor/skills/outreach-tone/SKILL.md`. `/services/` filled, not Coming Soon. Homepage mailto or JSON-LD email + unique fact. Empty `in:sent`. Never print page. No Stripe. Do not send before Wed 11:00 MYT. Do not require Coming Soon at send.
+
+### ESTAR Packaging -- QUEUED draft 26 Aug 2026 05:50 MYT
+- To: sales@bubblewrapjb.com.my. Draft `r6170392922118779446`. Thread `1a03ad8c369e57f8`. Subject: Ulu Tiram bubble-wrap landing page. File: `docs/proposals/estar-packaging.md`. Host bubblewrapjb.com.my.
+
+### Northern Bug Ezz -- QUEUED draft 26 Aug 2026 05:50 MYT
+- To: bugezzpest@yahoo.com. Draft `r-7795982120475976904`. Thread `1a03ad8c5abc5a16`. Subject: Lenggeng pest landing page. File: `docs/proposals/northern-bug-ezz.md`.
+
+### ARCHIXDRAFT -- QUEUED draft 26 Aug 2026 05:50 MYT
+- To: archixdraft@gmail.com. Draft `r4729703529569373480`. Thread `1a03ad8c426e0e33`. Subject: Puchong building-permit landing page. File: `docs/proposals/archixdraft.md`. JSON-LD email.
+
+### Bumi Infratek -- QUEUED draft 26 Aug 2026 05:50 MYT
+- To: sales@bumiinfratek.com.my. Draft `r5488863499914834599`. Thread `1a03ad8c7a691fcb`. Subject: Bandar Serenia cable landing page. File: `docs/proposals/bumi-infratek.md`.
+
+### Bunny Print -- QUEUED draft 26 Aug 2026 05:50 MYT
+- To: info@bunnyprint.com.my. Draft `r-5303528631333663540`. Thread `1a03ad8c71c5708d`. Subject: Masai sticker landing page. File: `docs/proposals/bunny-print.md`. Never print page.
+
+### BG Sound -- QUEUED draft 26 Aug 2026 05:50 MYT
+- To: bryangoh188@gmail.com. Draft `r-4859191087052262109`. Thread `1a03ad8c9583ec00`. Subject: Batu Caves sound landing page. File: `docs/proposals/bg-sound.md`. Host bunyi.com.my.
+
+### Broad World -- QUEUED draft 26 Aug 2026 05:50 MYT
+- To: sales@broadworld.com.my. Draft `r6212652119220935554`. Thread `1a03ad8cbc74d3d3`. Subject: Johor Bahru precision-tools landing page. File: `docs/proposals/broad-world.md`. Host bwpbroadworld.com.my.
+
+### BWS Plumbing -- QUEUED draft 26 Aug 2026 05:50 MYT
+- To: info@bwsplumbing.com.my. Draft `r-5491232725566398150`. Thread `1a03ad8cbe8410b1`. Subject: Seri Kembangan water-heater landing page. File: `docs/proposals/bws-plumbing.md`.
+
+### Cabinetku -- QUEUED draft 26 Aug 2026 05:50 MYT
+- To: icekong.cabinetku@gmail.com. Draft `r5756470942870496383`. Thread `1a03ad8cc616c614`. Subject: Sri Petaling carpentry landing page. File: `docs/proposals/cabinetku.md`. JSON-LD email.
+
+### Cabinet Lab -- QUEUED draft 26 Aug 2026 05:50 MYT
+- To: info@cabinetlab.com.my. Draft `r2091272135423541466`. Thread `1a03ad8cd2be8f89`. Subject: Shah Alam kitchen-cabinet landing page. File: `docs/proposals/cabinet-lab.md`.
+
+### Caler Home -- QUEUED draft 26 Aug 2026 05:50 MYT
+- To: calerhome88@gmail.com. Draft `r-2029315438315596819`. Thread `1a03ad9346bd5f60`. Subject: Johor Jaya furniture landing page. File: `docs/proposals/caler-home.md`.
+
+### Calvin Skin -- QUEUED draft 26 Aug 2026 05:50 MYT
+- To: calvinbeautyacademy@gmail.com. Draft `r-6941844371173263789`. Thread `1a03ad936045782e`. Subject: Klang skin landing page. File: `docs/proposals/calvin-skin.md`. HQ JSON-LD only.
+
+### CNA World -- QUEUED draft 26 Aug 2026 05:50 MYT
+- To: admin@cna.my. Draft `r3588071387705936242`. Thread `1a03ad9378c0abef`. Subject: Simpang Ampat ventilation landing page. File: `docs/proposals/cna-world.md`. Host canstar.com.my. HQ admin@ only.
+
+### Caper Rack -- QUEUED draft 26 Aug 2026 05:50 MYT
+- To: caperrack2014@gmail.com. Draft `r5705827399677531420`. Thread `1a03ad939cd2c81b`. Subject: Seremban racking landing page. File: `docs/proposals/caper-rack.md`. JSON-LD email.
+
+### Capital Heavy Lift -- QUEUED draft 26 Aug 2026 05:50 MYT
+- To: capitalheavylift@gmail.com. Draft `r7450971827515279135`. Thread `1a03ad938599405b`. Subject: Kajang skylift landing page. File: `docs/proposals/capital-heavy-lift.md`.
+
+### Kool Aire -- QUEUED draft 26 Aug 2026 05:50 MYT
+- To: koolaire@hotmail.com. Draft `r5188660197273345375`. Thread `1a03ad93b2c3a199`. Subject: Shah Alam car-aircond landing page. File: `docs/proposals/kool-aire.md`. Host caraircondrepair.com.my.
+
+### Carte Kitchen -- QUEUED draft 26 Aug 2026 05:50 MYT
+- To: enquiry@cartekitchen.com.my. Draft `r-5847384435932223264`. Thread `1a03ad93b9ee7984`. Subject: Bukit Mertajam kitchen-cabinet landing page. File: `docs/proposals/carte-kitchen.md`. JSON-LD email.
+
+### Car Zone -- QUEUED draft 26 Aug 2026 05:50 MYT
+- To: carzoneaudio@yahoo.com. Draft `r7972121420128258667`. Thread `1a03ad93d49e64b7`. Subject: Ipoh car-audio landing page. File: `docs/proposals/car-zone.md`.
+
+### Cathay -- QUEUED draft 26 Aug 2026 05:50 MYT
+- To: admin@cathay.com.my. Draft `r3143860959002097564`. Thread `1a03ad93d4d2e440`. Subject: Muar guardrail landing page. File: `docs/proposals/cathay.md`.
+
+### Catron -- QUEUED draft 26 Aug 2026 05:50 MYT
+- To: sales.catron@gmail.com. Draft `r-3306358151764269578`. Thread `1a03ad93f05abad8`. Subject: Bukit Mertajam uniform landing page. File: `docs/proposals/catron.md`.
+
+### CBH Recycle -- QUEUED draft 26 Aug 2026 05:50 MYT
+- To: dharshini@cbhrecycle.com.my. Draft `r-3759654233673699053`. Thread `1a03ad9a32030430`. Subject: Ulu Tiram recycle landing page. File: `docs/proposals/cbh-recycle.md`. Did not mail template@newpages.com.my.
+
+### CCE Builders -- QUEUED draft 26 Aug 2026 05:50 MYT
+- To: ccebuilders@gmail.com. Draft `r7958641179428654615`. Thread `1a03ad9a5081c1dd`. Subject: Kepong construction landing page. File: `docs/proposals/cce-builders.md`. JSON-LD email.
+
+### CCS Printing -- QUEUED draft 26 Aug 2026 05:50 MYT
+- To: ccsprinting@yahoo.com. Draft `r2605201820551351712`. Thread `1a03ad9a40d45308`. Subject: Kota Kinabalu bunting landing page. File: `docs/proposals/ccs-printing.md`. Never print page.
+
+### CDA Engineering -- QUEUED draft 26 Aug 2026 05:50 MYT
+- To: georgegan@cda.com.my. Draft `r-7743903648642881606`. Thread `1a03ad9a66f69c98`. Subject: Shah Alam compressor landing page. File: `docs/proposals/cda.md`. HQ georgegan@ only.
+
+### Central Melamine -- QUEUED draft 26 Aug 2026 05:50 MYT
+- To: central@centralmelamine.com.my. Draft `r-7941720568739409073`. Thread `1a03ad9a757d41f5`. Subject: Teluk Intan melamine landing page. File: `docs/proposals/central-melamine.md`.
+
+### Century Pet -- QUEUED draft 26 Aug 2026 05:50 MYT
+- To: sales@centurypet.com.my. Draft `r-2483471529702644543`. Thread `1a03ad9a96e6a4a7`. Subject: Seberang Perai pet-food landing page. File: `docs/proposals/century-pet.md`.
+
+### Champion Hao -- QUEUED draft 26 Aug 2026 05:50 MYT
+- To: championhao8899@gmail.com. Draft `r1123689610974104803`. Thread `1a03ad9a92996a6d`. Subject: Bayan Lepas car-accessories landing page. File: `docs/proposals/champion-hao.md`. Host championauto.com.my.
+
+### Chem Crete -- QUEUED draft 26 Aug 2026 05:50 MYT
+- To: chemcrete@gmail.com. Draft `r-4614069001042977989`. Thread `1a03ad9aa068f04d`. Subject: Senai flooring landing page. File: `docs/proposals/chem-crete.md`. JSON-LD email.
+
+### Chemic -- QUEUED draft 26 Aug 2026 05:50 MYT
+- To: sales@chemic.com.my. Draft `r-5423167083776619680`. Thread `1a03ad9aab714e87`. Subject: Johor Bahru electroplating landing page. File: `docs/proposals/chemic.md`.
+
+### Cheng Hua Hardware -- QUEUED draft 26 Aug 2026 05:50 MYT
+- To: chweb.6@gmail.com. Draft `r-339438177966718875`. Thread `1a03ad9adeed5d87`. Subject: Kuala Lumpur hardware landing page. File: `docs/proposals/cheng-hua.md`.
+
+### Catalina -- QUEUED draft 26 Aug 2026 05:50 MYT
+- To: ctrs01@yahoo.com. Draft `r-8879933274341449289`. Thread `1a03ada067160983`. Subject: Ampang Chery landing page. File: `docs/proposals/catalina.md`. Host cherymotor.my.
+
+### CBC Group -- QUEUED draft 26 Aug 2026 05:50 MYT
+- To: myljtlim@hotmail.com. Draft `r5782354566772220755`. Thread `1a03ada08ecfa59b`. Subject: Gemencheh building-materials landing page. File: `docs/proposals/cbc-group.md`. Host chinbeechan.com.my.
+
+### Chin Hua Canvas -- QUEUED draft 26 Aug 2026 05:50 MYT
+- To: chinhua93@hotmail.com. Draft `r-5687608367808756797`. Thread `1a03ada08ff47825`. Subject: Taiping canvas landing page. File: `docs/proposals/chin-hua-canvas.md`. JSON-LD email.
+
+### Chin Peng -- QUEUED draft 26 Aug 2026 05:50 MYT
+- To: sales@chinpeng.com.my. Draft `r8120622403246834405`. Thread `1a03ada2dd4028fe`. Subject: Banting lorry-transport landing page. File: `docs/proposals/chin-peng.md`. JSON-LD email.
+
+### C H Seah Fishery -- QUEUED draft 26 Aug 2026 05:50 MYT
+- To: sales@chseahfishery.com.my. Draft `r7881019099621280705`. Thread `1a03ada0afe2fe98`. Subject: Seri Kembangan seafood landing page. File: `docs/proposals/ch-seah.md`.
+
+### Chinese Healing Therapy -- QUEUED draft 26 Aug 2026 05:50 MYT
+- To: chtcsb2003@gmail.com. Draft `r2258905486623133859`. Thread `1a03ada0a4dda5aa`. Subject: Kuala Lumpur TCM landing page. File: `docs/proposals/chinese-healing.md`. First mail English.
+
+### CILLE -- QUEUED draft 26 Aug 2026 05:50 MYT
+- To: sales@cille.com.my. Draft `r4889811724885010676`. Thread `1a03ada2e0da9e78`. Subject: Puchong bottle landing page. File: `docs/proposals/cille.md`. JSON-LD email.
+
+### City E -- QUEUED draft 26 Aug 2026 05:50 MYT
+- To: cityelectronic09@gmail.com. Draft `r6295667523019553906`. Thread `1a03ada0c6f60f54`. Subject: Klang electronics landing page. File: `docs/proposals/city-e.md`. JSON-LD email.
+
+Skipped remain hosts 381-480: capitalmastery.com.my `info@capitalmastery.net` TLD, carprotectionpenang.com.my `info@foc4u.com` domain, celestialventures.com.my `info@celestial.com.my` domain, cenadartworks.com.my `teck.lee@cenadart.com` TLD, choferasia.com.my `cs@choferasia.vip` TLD, chongmotor.my `enquiry@e-onecredit.com` domain. Next hunt: remain hosts after line 480.
