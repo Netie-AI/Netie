@@ -4,6 +4,7 @@ This index records reusable findings from focused subagent reviews.
 
 | File | Keywords | Main idea |
 |---|---|---|
+| [2026-08-25-pgaglobal-promatics-batch23-queue.md](2026-08-25-pgaglobal-promatics-batch23-queue.md) | PGA Global, PHAMMA, Bonus Setters, Polyseals, Promatics, Coming Soon mailto, 众志弥坚, Seal Your Wealth, 100% Kalis Kakisan | Five more CS+mailto drafts from unused hosts 2380-2479, folded onto Wed 09:00. HQ-only at Promatics sales@. |
 | [2026-08-25-paintmaster-shineguard-batch22-queue.md](2026-08-25-paintmaster-shineguard-batch22-queue.md) | Paint Master Penang, Pan Asiatic, Panda Sign, PB Packaging, Shine Guard, Coming Soon mailto, exising, BOXUP, He offer, windscreen water mark remove | Five more CS+mailto drafts from unused hosts 2280-2379, folded onto Wed 09:00. HQ-only at Paint Master Machang Bubok. |
 | [2026-08-25-newtraffic-okiyio-batch21-queue.md](2026-08-25-newtraffic-okiyio-batch21-queue.md) | New Traffic, Nirvana Planning, NIMAC, NLH Soon Heng, Noble Craft, Nursery Hong Soon, OAC Global, OE2U, OIJ Hardware, Okiyio, Coming Soon mailto, OfficeEquiment2u, Hicom-glenmarie | Ten more CS+mailto drafts from unused hosts 2180-2279, folded onto Wed 09:00. HQ-only at OE2U gmail. |
 | [2026-08-25-mty-ncgroup-batch20-queue.md](2026-08-25-mty-ncgroup-batch20-queue.md) | MTY Solutions, MWMJC, MYB Healthcare, Smart Synergy, NC Group, Coming Soon mailto, Stranger Presence, Mosquitos Control, Factory For Sales | Five more CS+mailto drafts from unused hosts 2080-2179, folded onto Wed 09:00. Skip Multiplus remmail. |

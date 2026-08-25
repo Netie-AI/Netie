@@ -2580,6 +2580,26 @@ Folded onto the same Wed 09:00 timer (`sub_07b3a558-65b4-4ead-a883-1bfab7265dd6`
 - To: shine_guard@hotmail.com. Draft `r4606053914592035133`. Thread `1a038a5eca81e355`. Subject: Bukit Mertajam car-coating page. File: `docs/proposals/shine-guard.md`. Copy Ultimate Car Paint Protection, Guaranteed / windscreen water mark remove. No street printed.
 - Next hunt: unused malaysiabrand hosts after line 2379. Do not send these before Wed 09:00 MYT.
 
+## Queued after hours 25 Aug 2026 19:26 MYT (do not send before Wed 09:00)
+
+Folded onto the same Wed 09:00 timer (`sub_4715e851-9f5c-4d29-b44e-8b81f4e307c3`, replaced `sub_07b3a558-65b4-4ead-a883-1bfab7265dd6`). Five extras from unused hosts 2380-2479. Empty `in:sent`. All five `/services/` Coming Soon (`min-height:440px`). No Stripe. HQ sales@ only at Promatics. Copy Now you can taste nature as you wish!, 众志弥坚, Rakan Pembiayaan & Pinjaman Dipercayai Anda di Kuantan, Seal Your Wealth, 100% Kalis Kakisan.
+
+### PGA GLOBAL (M) SDN BHD -- QUEUED draft 25 Aug 2026 19:25 MYT
+- To: enquiry@pgaglobal.com.my. Draft `r3956316449704191397`. Thread `1a038aad93967571`. Subject: Puchong grocery page. File: `docs/proposals/pga-global.md`. Copy Healthier living starts with our premium products / Now you can taste nature as you wish!.
+
+### 槟州五金机械商会 -- QUEUED draft 25 Aug 2026 19:25 MYT
+- To: phamma.penang@gmail.com. Draft `r5584607974150486957`. Thread `1a038aaef7d47db1`. Subject: Air Itam hardware-association page. File: `docs/proposals/phamma.md`. Copy 众志弥坚 / 光荣史记 / 1947年元月.
+
+### Bonus Setters (M) Sdn Bhd -- QUEUED draft 25 Aug 2026 19:25 MYT
+- To: bonussettle33@gmail.com. Draft `r420633661220653245`. Thread `1a038ab036cd9469`. Subject: Kuantan financing page. File: `docs/proposals/bonus-setters.md`. Copy Permudahkan Proses Pembiayaan Anda / Rakan Pembiayaan & Pinjaman Dipercayai Anda di Kuantan.
+
+### Polyseals Sdn Bhd -- QUEUED draft 25 Aug 2026 19:25 MYT
+- To: lee@polyseals.com.my. Draft `r2061768747645075077`. Thread `1a038ab142a28b40`. Subject: Batu Caves seals page. File: `docs/proposals/polyseals.md`. Copy Shall you have any further inquiries / Seal Your Wealth. HQ KIN YANG only. No street printed.
+
+### Promatics Technologies (M) Sdn Bhd -- QUEUED draft 25 Aug 2026 19:25 MYT
+- To: sales@promatics.com.my. Draft `r-6105110903753375318`. Thread `1a038ab2ba9d4b18`. Subject: Semenyih tank page. File: `docs/proposals/promatics.md`. Copy 100% Kalis Kakisan / maximize your organization's entire benefit. HQ sales@ only. Did not mail promatics.sales@gmail.com.
+- Next hunt: unused malaysiabrand hosts after line 2479. Do not send these before Wed 09:00 MYT.
+
 
 
 

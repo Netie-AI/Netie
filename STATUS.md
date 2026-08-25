@@ -1,8 +1,10 @@
 # STATUS
 
-Updated: 2026-08-25 19:21 MYT. Success = live Stripe charge, then a payout.
+Updated: 2026-08-25 19:26 MYT. Success = live Stripe charge, then a payout.
 
 ## Now (measured)
+
+- After hours 25 Aug 19:26 MYT: queued five more Coming Soon first-mails from unused hosts 2380-2479 onto the Wed 26 Aug 09:00 timer (`sub_4715e851-9f5c-4d29-b44e-8b81f4e307c3`, replaced `sub_07b3a558-65b4-4ead-a883-1bfab7265dd6`, folded onto the previous 112 drafts for 117 total). PGA Global `enquiry@pgaglobal.com.my` draft `r3956316449704191397`. PHAMMA `phamma.penang@gmail.com` draft `r5584607974150486957`. Bonus Setters `bonussettle33@gmail.com` draft `r420633661220653245`. Polyseals `lee@polyseals.com.my` draft `r2061768747645075077` (HQ KIN YANG only; no street printed). Promatics `sales@promatics.com.my` draft `r-6105110903753375318` (did not mail promatics.sales@gmail.com). All five `/services/` Coming Soon (`min-height:440px`). Empty `in:sent`. No Stripe. Did not send after 17:00. Next hunt: unused hosts after line 2479. Kanhseei still ends at SENT `1a0338bc74fae0b4`. Did not nag. Did not apply. Did not poll Stripe. No paid charge yet.
 
 - After hours 25 Aug 19:21 MYT: queued five more Coming Soon first-mails from unused hosts 2280-2379 onto the Wed 26 Aug 09:00 timer (`sub_07b3a558-65b4-4ead-a883-1bfab7265dd6`, replaced `sub_6c8f0b11-d434-4373-8c1a-89399537ca56`, folded onto the previous 107 drafts for 112 total). Paint Master Penang `paintmaster.my@gmail.com` draft `r-637980693415352651` (HQ Machang Bubok only; not Paint Master DIY). Pan Asiatic `panasiatic@live.com` draft `r5724331816442689096`. Panda Sign `pandasignboard@gmail.com` draft `r2564808719607498060`. PB Packaging `pbpack@yahoo.com` draft `r-6108805484129549930`. Shine Guard `shine_guard@hotmail.com` draft `r4606053914592035133`. All five `/services/` Coming Soon (`min-height:440px`). Empty `in:sent`. No Stripe. Skipped othentic.com.my mailto `enquiry@otts.com.my` and peacerefrigerationparts.com.my mailto `info@peacerefrigeration.com`. Did not send after 17:00. Next hunt: unused hosts after line 2379. Kanhseei still ends at SENT `1a0338bc74fae0b4`. Did not nag. Did not apply. Did not poll Stripe. No paid charge yet.
 
