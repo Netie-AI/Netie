@@ -1,8 +1,10 @@
 # STATUS
 
-Updated: 2026-08-26 07:42 MYT. Success = live Stripe charge, then a payout.
+Updated: 2026-08-26 07:48 MYT. Success = live Stripe charge, then a payout.
 
 ## Now (measured)
+
+- After hours 26 Aug 07:48 MYT: Craigslist Malaysia computer-services listing is live. Direct URL https://malaysia.craigslist.org/cps/d/landing-page-writer-in-penang-rm-500/7955885182.html HTTP 200, title Landing page writer in Penang. RM 500 first draft. Body names RM 500 unlocks the first draft and https://netie.ai/hire/. No buy.stripe.com link. Published via Gmail RAW MIME quoted-printable decode of thread `1a03b40f8f19ba94` then POST Go Passwordless (did not invent a password) then ACCEPT terms. Search index still empty from this VM. Canonical hire still sha256 `dce8fe2c...`. LaborX `/jobs/landing-pages` still seven stale gigs; did not bid NFT/token/Fiverr-clone. Did not send Toon. Did not nag Kanhseei. Did not reply Starbridge. Did not poll Stripe. A listing is not a charge. No paid charge yet.
 
 - After hours 26 Aug 07:42 MYT: Craigslist listing is not live. Confirm from this VM 404s or asks for a password. Gmail MCP strips `=` from Craigslist URLs. Owner must tap complete your posting in the Gmail app on `robot@craigslist.org` / craigslist email verification (thread `1a03b40f8f19ba94`), about 15 minutes left. Ignore the later login-link mail if the Gmail app still has the first verification mail. Canonical hire still sha256 `dce8fe2c...`. Did not type a Craigslist password. Did not buy. No paid charge yet.
 
