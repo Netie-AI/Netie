@@ -2139,7 +2139,7 @@ Timer `netie-tue-esewood-website-2026-08-25-1500-myt` unsubscribed before send. 
 
 ## SENT Tue 25 Aug 2026 16:00 MYT (Hardee through Galaxy Lock)
 
-Timer `netie-tue-hardee-website-2026-08-25-1600-myt` unsubscribed before send. Three extras from unused malaysiabrand hosts 980-1079. All three `/services/` still Coming Soon (`min-height:440px`). Empty `in:sent` before send. `draftId` only. Label_8. No Stripe. Do not remmail unless they reply.
+Timer `netie-tue-hardee-website-2026-08-25-1600-myt` unsubscribed before send. Three extras from unused malaysiabrand hosts 980-1079. All three `/services/` still Coming Soon (`min-height:440px`). Empty `in:sent` before send. `draftId` only. Label_8. No Stripe. Do not remmail unless they reply. Late fire 25 Aug 17:32 MYT was a no-op.
 
 ### Hardee Machinery & Hardware Sdn Bhd -- SENT 25 Aug 2026 16:02 MYT
 - To: flextoolsmalaysia@outlook.com. SENT `1a037f0d488fdcbd`. Thread `1a037c08cbd763a1`. Subject: Klang FLEX-tools page. Copy POWER TO CRUSH JOB AFTER JOB.

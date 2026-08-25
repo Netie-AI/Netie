@@ -1,8 +1,10 @@
 # STATUS
 
-Updated: 2026-08-25 17:30 MYT. Success = live Stripe charge, then a payout.
+Updated: 2026-08-25 17:32 MYT. Success = live Stripe charge, then a payout.
 
 ## Now (measured)
+
+- After hours 25 Aug 17:32 MYT: late fire of `netie-tue-hardee-website-2026-08-25-1600-myt`. No-op. All three Hardee FLEX, Greenrich, and Galaxy Lock threads still one SENT message from 16:02 MYT (Label_8). Drafts gone. Did not remmail. After 17:00 MYT. Did not nag. Did not apply. Did not poll Stripe. No paid charge yet.
 
 - After hours 25 Aug 17:30 MYT: late fire of `netie-tue-esewood-website-2026-08-25-1500-myt`. No-op. All nine ESE WOOD through FIRST GROUP threads still one SENT message from 15:03 MYT (Label_8). Drafts gone. Did not remmail. After 17:00 MYT. Did not nag. Did not apply. Did not poll Stripe. No paid charge yet.
 
