@@ -1624,7 +1624,63 @@ Same timer `netie-tue-mhaus-website-2026-08-25-1000-myt` (`sub_b2d918dd-837e-41a
 - Draft: `r-6150179488808675692`. Thread: `1a03649d8ad603f5`. Subject: Bukit Bintang epoxy page.
 - File: `docs/proposals/apex-epoxy.md`. Hostable draft: `docs/proposals/apex-epoxy-services.html`.
 - Website-page offer, RM 1,000-5,000. No Stripe. Send on the same Tue 10:00 timer after AMP TECH.
-- Skipped this pass: 21hairsalon.com.my Coming Soon but no contact mailto. First 180 unused malaysiabrand `.com.my` CS+mailto leftovers are now queued. Next hunt: unused hosts after the first 180. Do not send before 09:00 MYT.
+
+### A PRO PLUMBER -- QUEUED draft 25 Aug 2026 08:28 MYT
+
+- To: enquiry@aproplumber.com.my (homepage and `/contactus/` mailto on https://www.aproplumber.com.my/). One inbox.
+- Source: live https://www.aproplumber.com.my/services/ HTTP 200 still Coming Soon (`min-height:440px`). Homepage lists Your One-Stop Solution for Home & Building Services and Trusted by 100+ Customers. Contact prints Subang Jaya & Negeri Sembilan, Malaysia, with no street. SSM 202203257874 (MA0292240-X).
+- Draft: `r-1758257891382373045`. Thread: `1a03651ba6215707`. Subject: Subang Jaya plumbing page.
+- File: `docs/proposals/a-pro-plumber.md`. Hostable draft: `docs/proposals/a-pro-plumber-services.html`.
+- Website-page offer, RM 1,000-5,000. No Stripe. Send on the same Tue 10:00 timer after Apex Epoxy.
+
+### AS AUTO GLASS WORLD SPECIALIST -- QUEUED draft 25 Aug 2026 08:28 MYT
+
+- To: asautoglass25@gmail.com (homepage and `/contactus/` mailto on https://www.asautoglass.com.my/). One inbox.
+- Source: live https://www.asautoglass.com.my/services/ HTTP 200 still Coming Soon (`min-height:440px`). Homepage lists Windscreen Replacement Specialist and Bulls Eye, Star, Combination, Half Moon, and Long Cracks from 8G, Jalan PJS 10/2, Taman Subang Indah, 46150 Petaling Jaya. SSM 201703134425 (002645597-M).
+- Draft: `r3254464783236443586`. Thread: `1a03651bd3531072`. Subject: Petaling Jaya windscreen page.
+- File: `docs/proposals/as-auto-glass.md`. Hostable draft: `docs/proposals/as-auto-glass-services.html`.
+- Website-page offer, RM 1,000-5,000. No Stripe. Send on the same Tue 10:00 timer after A PRO PLUMBER.
+
+### Asclepius Healthcare Clinic -- QUEUED draft 25 Aug 2026 08:28 MYT
+
+- To: asclepius.hc@gmail.com (HQ Email Address on https://www.asclepiushealthcare.com.my/contactus/). One inbox. Do not mail asclepiuskulai@gmail.com or asclepiustebrau@gmail.com.
+- Source: live https://www.asclepiushealthcare.com.my/services/ HTTP 200 still Coming Soon (`min-height:440px`). Homepage lists BUILDING A HEALTHIER FUTURE TOGETHER and established in 2022 from 376, Jalan Simbang, Taman Perling, 81200 Johor Bahru. SSM 202201013770 (1459467-V).
+- Draft: `r1195072793912049023`. Thread: `1a03651bd5949d51`. Subject: Perling clinic page.
+- File: `docs/proposals/asclepius-healthcare.md`. Hostable draft: `docs/proposals/asclepius-healthcare-services.html`.
+- Website-page offer, RM 1,000-5,000. No Stripe. Send on the same Tue 10:00 timer after AS Auto Glass.
+
+### ATG Realty -- QUEUED draft 25 Aug 2026 08:28 MYT
+
+- To: info.atgrealty@gmail.com (homepage and `/contactus/` mailto on https://www.atgrealty.com.my/). One inbox.
+- Source: live https://www.atgrealty.com.my/services/ HTTP 200 still Coming Soon (`min-height:440px`). Homepage lists Your Industrial & Commercial Partner and Prime Industrial Real Estate in Klang. Contact prints 10-2F, Jalan Setia Perdana BF U13/BF, 40170 Shah Alam. Copy both cities as printed. SSM 202503305113 (003792651-T).
+- Draft: `r-1413237942235589981`. Thread: `1a03651bfb6925e4`. Subject: Klang industrial-property page.
+- File: `docs/proposals/atg-realty.md`. Hostable draft: `docs/proposals/atg-realty-services.html`.
+- Website-page offer, RM 1,000-5,000. No Stripe. Send on the same Tue 10:00 timer after Asclepius.
+
+### Autolead Sdn Bhd -- QUEUED draft 25 Aug 2026 08:28 MYT
+
+- To: autolead.motor_gan@hotmail.com (contact Email Address on https://www.autolead.com.my/contactus/). One inbox.
+- Source: live https://www.autolead.com.my/services/ HTTP 200 still Coming Soon (`min-height:440px`). Homepage lists Malaysia Motor Cover Set & Spare Part and kapcai motorcycle parts from 17, Jalan Raya Barat, 41100 Klang. SSM 199501030234 (359440-U). Do not copy live product prices.
+- Draft: `r4880374660190854347`. Thread: `1a03651c1552f098`. Subject: Klang kapcai-parts page.
+- File: `docs/proposals/autolead.md`. Hostable draft: `docs/proposals/autolead-services.html`.
+- Website-page offer, RM 1,000-5,000. No Stripe. Send on the same Tue 10:00 timer after ATG Realty.
+
+### Autopista Holding Sdn Bhd -- QUEUED draft 25 Aug 2026 08:28 MYT
+
+- To: autopista7090@hotmail.com (homepage and `/contactus/` mailto on https://www.autopista.com.my/). One inbox.
+- Source: live https://www.autopista.com.my/services/ HTTP 200 still Coming Soon (`min-height:440px`). Homepage lists established in the year of 1994 and front skirt from 10, Jalan Kesuma 2/4, 43700 Mukim Beranang. SSM 715318-K.
+- Draft: `r7163012989326799641`. Thread: `1a03651c1b6060c1`. Subject: Beranang body-kit page.
+- File: `docs/proposals/autopista.md`. Hostable draft: `docs/proposals/autopista-services.html`.
+- Website-page offer, RM 1,000-5,000. No Stripe. Send on the same Tue 10:00 timer after Autolead.
+
+### AVP Flooring Sdn Bhd -- QUEUED draft 25 Aug 2026 08:28 MYT
+
+- To: sales@avpflooring.com.my (homepage and `/contactus/` mailto on https://www.avpflooring.com.my/). One inbox.
+- Source: live https://www.avpflooring.com.my/services/ HTTP 200 still Coming Soon (`min-height:440px`). Homepage lists more than 20 years of experiences and Anti-Static (ESD) Flooring. Title prints Seri Kembangan. Contact prints Selangor, Malaysia, with no street. SSM 202001004379 (1360699-M).
+- Draft: `r-7123143933921864291`. Thread: `1a03651c27039fe5`. Subject: Seri Kembangan epoxy page.
+- File: `docs/proposals/avp-flooring.md`. Hostable draft: `docs/proposals/avp-flooring-services.html`.
+- Website-page offer, RM 1,000-5,000. No Stripe. Send on the same Tue 10:00 timer after Autopista.
+- Skipped this pass: artworld.com.my Coming Soon but mailto is enquiry@artworld.net.my (domain mismatch). asiacleaning.com.my and asianwaste.com.my still WAF after unique retry. Next hunt: unused malaysiabrand hosts after line 279. Do not send before 09:00 MYT.
 
 
 
