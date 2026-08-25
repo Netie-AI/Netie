@@ -33,8 +33,22 @@ def laptop_ascii(text: str) -> str:
 
 
 def find_denied(text: str) -> list[str]:
+    """Flag denied phrases unless they appear as an explicit negation."""
     lowered = text.lower()
-    return [p for p in _phrases() if p in lowered]
+    hits: list[str] = []
+    for p in _phrases():
+        start = 0
+        while True:
+            idx = lowered.find(p, start)
+            if idx < 0:
+                break
+            window = lowered[max(0, idx - 12) : idx]
+            if window.endswith("not an ") or window.endswith("not a ") or window.endswith("not "):
+                start = idx + len(p)
+                continue
+            hits.append(p)
+            break
+    return hits
 
 
 def assert_clean(text: str) -> str:

@@ -10,7 +10,7 @@ from netie_exposure.catalog import merge_catalog
 from netie_exposure.channels import github_profile_markdown, write_channel_files, write_outbox
 from netie_exposure.claims import assert_clean
 from netie_exposure.crew import ENGINE, NORTH_STAR_LINKEDIN, ROLES, SOCIAL_POSTING
-from netie_exposure.drafts import draft_news, render_queue
+from netie_exposure.drafts import render_queue
 from netie_exposure.growth import render as render_growth
 from netie_exposure.growth import snapshot
 from netie_exposure.news import match_product, news_items
@@ -28,6 +28,7 @@ def run_crew(
     live: bool = False,
     day: str | None = None,
     followers: int | None = None,
+    rotate: int = 0,
 ) -> dict[str, Any]:
     """Vanguard -> Cortex -> channel specialists -> Closer + marketing. Posting stays off."""
     day = day or date.today().isoformat()
@@ -53,7 +54,7 @@ def run_crew(
             }
         ]
 
-    drafts = render_queue(catalog, day=day)
+    drafts = render_queue(catalog, day=day, rotate=rotate)
     row = snapshot(
         linkedin_followers=followers,
         github_stars_total=int(catalog.get("github_stars_total") or 0),

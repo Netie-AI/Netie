@@ -153,11 +153,11 @@ def draft_github(part: dict[str, Any], day: str) -> dict[str, Any]:
     }
 
 
-def _lead_oss(products: list[dict[str, Any]]) -> dict[str, Any] | None:
+def _lead_oss(products: list[dict[str, Any]], rotate: int = 0) -> dict[str, Any] | None:
     with_gh = [p for p in products if p.get("github")]
     if not with_gh:
         return None
-    return sorted(
+    ranked = sorted(
         with_gh,
         key=lambda p: (
             0 if p.get("featured") else 1,
@@ -165,29 +165,38 @@ def _lead_oss(products: list[dict[str, Any]]) -> dict[str, Any] | None:
             0 if p.get("kind") == "oss" else 1,
             p["id"],
         ),
-    )[0]
+    )
+    return ranked[rotate % len(ranked)]
 
 
-def render_queue(catalog: dict[str, Any], *, day: str | None = None, n: int = 6) -> list[dict[str, Any]]:
-    """Today's mix. Deterministic order so tests and humans see the same ids."""
+def render_queue(
+    catalog: dict[str, Any],
+    *,
+    day: str | None = None,
+    n: int = 6,
+    rotate: int = 0,
+) -> list[dict[str, Any]]:
+    """Today's mix. rotate walks products/hire so a week is not the same post."""
     day = day or date.today().isoformat()
     products = catalog["products"]
-    oss = _lead_oss(products)
+    oss = _lead_oss(products, rotate=rotate)
     laptop = [p for p in products if p.get("kind") in ("laptop", "crew", "canvas", "company")]
     drafts: list[dict[str, Any]] = []
     if laptop:
-        drafts.append(draft_hook(laptop[0], day))
+        drafts.append(draft_hook(laptop[rotate % len(laptop)], day))
     if oss:
         drafts.append(draft_product(oss, day))
     if catalog.get("news_seeds") and oss:
-        seed = catalog["news_seeds"][0]
+        seed = catalog["news_seeds"][rotate % len(catalog["news_seeds"])]
         match = next((p for p in products if p["id"] == seed["relevant_product"]), oss)
         drafts.append(draft_news(seed, match, day))
-    if catalog.get("hire_offers"):
-        drafts.append(draft_hire(catalog["hire_offers"][0], day))
+    offers = catalog.get("hire_offers") or []
+    if offers:
+        drafts.append(draft_hire(offers[rotate % len(offers)], day))
     drafts.append(draft_invite(catalog["org"], day))
-    if catalog.get("cool_parts"):
-        drafts.append(draft_github(catalog["cool_parts"][0], day))
+    parts = catalog.get("cool_parts") or []
+    if parts:
+        drafts.append(draft_github(parts[rotate % len(parts)], day))
     for item in drafts:
         for src in item["sources"]:
             if not src.startswith("http"):

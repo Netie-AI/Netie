@@ -22,3 +22,9 @@ def test_assert_clean_raises() -> None:
 
 def test_honest_openhbm_passes() -> None:
     assert_clean("OpenHBM is an open HBM4 controller. Source: https://github.com/Netie-AI/OpenHBM")
+
+
+def test_negated_inference_server_is_allowed() -> None:
+    assert_clean("Cortex is not an inference server. Source: https://netie.ai/")
+    assert find_denied("Not an auto-trader. Source: https://github.com/Netie-AI/Cassandra") == []
+

@@ -20,10 +20,10 @@ is catalog -> claims -> drafts -> crew -> channel outbox.
 ## Quick start
 
 ```bash
-cd exposure
-pip install -e ".[dev]"
+pip install -e ".[dev]"   # from this folder, or from exposure/ in the estate
 python -m netie_exposure catalog --offline
 python -m netie_exposure run --offline
+python -m netie_exposure calendar --offline --days 7
 python -m netie_exposure growth --followers 0
 pytest
 ```
@@ -85,12 +85,5 @@ Still a dry-run. Wire LinkedIn/Reddit **official** APIs later. No unofficial cli
 
 ## Extract to a public repo
 
-This folder is the public-shaped source. Copy it out:
-
-```bash
-git subtree split -P exposure -b exposure-public
-```
-
-Then create public `Netie-AI/exposure` from that branch. Tests and `AGENTS.md`
-travel with it. Until that repo exists, stars cannot land on this private parent.
+See `EXTRACT.md`. This parent repo is private; stars need a public `Netie-AI/exposure`.
 

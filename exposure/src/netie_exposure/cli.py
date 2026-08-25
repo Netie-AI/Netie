@@ -6,6 +6,7 @@ import argparse
 import json
 import os
 import sys
+from datetime import date, timedelta
 from pathlib import Path
 
 from netie_exposure.catalog import merge_catalog
@@ -116,8 +117,41 @@ def cmd_run(args: argparse.Namespace) -> int:
         live=not args.offline,
         day=args.day,
         followers=_followers(),
+        rotate=getattr(args, "rotate", 0) or 0,
     )
     json.dump(result, sys.stdout, indent=2)
+    sys.stdout.write("\n")
+    return 0
+
+
+def cmd_calendar(args: argparse.Namespace) -> int:
+    if args.request:
+        check_request(args.request)
+    start = date.fromisoformat(args.day) if args.day else date.today()
+    days: list[dict[str, object]] = []
+    root = Path(args.outbox)
+    for i in range(args.days):
+        day = (start + timedelta(days=i)).isoformat()
+        result = run_crew(
+            outbox=root / day,
+            live=not args.offline,
+            day=day,
+            followers=_followers(),
+            rotate=i,
+        )
+        days.append({"day": day, "rotate": i, "ids": result["ids"], "drafts": result["drafts"]})
+        print(f"{day}  rotate={i}  drafts={result['drafts']}", file=sys.stderr)
+    json.dump(
+        {
+            "engine": "cortex",
+            "social_posting": "off",
+            "linkedin_target": 100000,
+            "days": days,
+            "note": "Organic campaign. One approved post per channel per day. Not a follower factory.",
+        },
+        sys.stdout,
+        indent=2,
+    )
     sys.stdout.write("\n")
     return 0
 
@@ -163,9 +197,18 @@ def build_parser() -> argparse.ArgumentParser:
     n = sub.add_parser("run", help="execute Vanguard -> Cortex -> channels -> Closer + marketing")
     n.add_argument("--offline", action="store_true")
     n.add_argument("--day", help="YYYY-MM-DD (default: today)")
+    n.add_argument("--rotate", type=int, default=0, help="walk products/hire so days differ")
     n.add_argument("--outbox", default=str(DEFAULT_OUTBOX))
     n.add_argument("--request", help="optional user request to run through refusals")
     n.set_defaults(func=cmd_run)
+
+    k = sub.add_parser("calendar", help="N-day organic campaign toward 100k (drafts only)")
+    k.add_argument("--offline", action="store_true")
+    k.add_argument("--day", help="start YYYY-MM-DD (default: today)")
+    k.add_argument("--days", type=int, default=7)
+    k.add_argument("--outbox", default=str(DEFAULT_OUTBOX))
+    k.add_argument("--request", help="optional user request to run through refusals")
+    k.set_defaults(func=cmd_calendar)
 
     a = sub.add_parser("approve", help="human gate: mark a draft id as approved (still dry-run)")
     a.add_argument("id")
