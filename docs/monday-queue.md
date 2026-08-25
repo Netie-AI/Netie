@@ -3011,6 +3011,36 @@ Tone: `.cursor/skills/outreach-tone/SKILL.md`. `/services/` is filled, not Comin
 ### XOLVEN MARKETING -- QUEUED draft 26 Aug 2026 04:46 MYT
 - To: sales@xolvenmarketing.com.my. Draft `r-433997441297892034`. Thread `1a03aac8495dfca0`. Subject: Masai workwear landing page. File: `docs/proposals/xolven.md`. Copy Personal Protective Equipment. Did not mail xolvenmarketing@gmail.com.
 
+### WY WY Office -- QUEUED draft 26 Aug 2026 04:54 MYT
+- To: wywyoffice@gmail.com. Draft `r-5157691951095974027`. Thread `1a03ab01b49ac7eb`. Subject: Nilai office landing page. File: `docs/proposals/wywy-office.md`. Copy office renovation / Taman Desa Jasmin. HQ Nilai only.
+
+### Whitecube -- QUEUED draft 26 Aug 2026 04:54 MYT
+- To: skyshen11@gmail.com. Draft `r3292319999226977303`. Thread `1a03ab01ad0cfb0a`. Subject: Pandan Indah lightbox landing page. File: `docs/proposals/whitecube.md`. Copy Barrisol Ceiling / fabric lightbox.
+
+### YKY RENOVATION WORK -- QUEUED draft 26 Aug 2026 04:54 MYT
+- To: jeanyee847@gmail.com. Draft `r-1307236477573528708`. Thread `1a03ab01c26e32f2`. Subject: Kuala Lumpur stone landing page. File: `docs/proposals/yky-renovation.md`. Copy Interior Stone Works / marble. City-only KL.
+
+### XY Properties -- QUEUED draft 26 Aug 2026 04:54 MYT
+- To: xypropertiesenquiry@gmail.com. Draft `r1250218918654909183`. Thread `1a03ab01c496b395`. Subject: Johor property landing page. File: `docs/proposals/xy-properties.md`. Copy Premier Real Estate Services Since 2018.
+
+### WPK World Construction -- QUEUED draft 26 Aug 2026 04:54 MYT
+- To: wpk.world2025my@gmail.com. Draft `r-8159928206172788724`. Thread `1a03ab01e09501b2`. Subject: Ayer Itam construction landing page. File: `docs/proposals/wpk-construction.md`. Copy building renovation / Ayer Itam.
+
+### YV Global -- QUEUED draft 26 Aug 2026 04:54 MYT
+- To: yvglobaljcbservices@yahoo.com. Draft `r-2885543517820249255`. Thread `1a03ab0205a22d5a`. Subject: Ampang skylift landing page. File: `docs/proposals/yv-global.md`. Copy Skylift / tree cutting / Since 2016.
+
+### YU CHIN METAL -- QUEUED draft 26 Aug 2026 04:54 MYT
+- To: yuchinmetalconst@gmail.com. Draft `r-4709994308977989567`. Thread `1a03ab0203bd234e`. Subject: Melaka roofing landing page. File: `docs/proposals/yu-chin-metal.md`. Copy metal roofing / Bukit Katil.
+
+### Weng Soon Earth Works -- QUEUED draft 26 Aug 2026 04:54 MYT
+- To: wengsoonearthworks@gmail.com. Draft `r-5786948818883173894`. Thread `1a03ab023b53ff15`. Subject: Seri Kembangan backhoe landing page. File: `docs/proposals/weng-soon.md`. Copy backhoe rental / earthworks. City-only Seri Kembangan.
+
+### Yi Kang TCM -- QUEUED draft 26 Aug 2026 04:54 MYT
+- To: enquiry@yikangtcm.com.my. Draft `r-398742612989638525`. Thread `1a03ab022e23ff3b`. Subject: Butterworth clinic landing page. File: `docs/proposals/yi-kang-tcm.md`. Copy acupuncture / tuina / bone-setting. Did not mail prestimachinery@gmail.com.
+
+### HSA Asia Sdn Bhd -- QUEUED draft 26 Aug 2026 04:54 MYT
+- To: sales@ysimalaysia.my. Draft `r4867888045450520349`. Thread `1a03ab0258e343fd`. Subject: Petaling Jaya instrument landing page. File: `docs/proposals/hsa-asia.md`. Copy YSI equipment / flow meters. Host ysimalaysia.my; printed firm HSA Asia.
+
 
 
 

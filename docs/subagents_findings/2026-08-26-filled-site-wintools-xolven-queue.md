@@ -2,8 +2,8 @@
 
 - Date: 2026-08-26 MYT
 - Keywords: filled site, not Coming Soon, Wintools, Y 2 Beauty, Xin Lei, White Otter, Yao Teng, Yick Lee, Winston, Young Master, Yanyi, YF Energy, Wheeler, XLab, Yeelie, YCSL, X Motivate, YY Luminous, Yong Hao, YY Dental, Zison, Worldtech, Yiet Soon, Winter Frozen, Xolven, YAL remmail skip
-- Main idea: Coming Soon unused-host list is exhausted at line 3572. Next source is unused hosts whose `/services/` is a filled page with homepage mailto plus one unique published fact. Twenty-three unmailed drafts folded onto Wed 26 Aug 11:00 with the thirty-four CS drafts (five-timer cap). Empty `in:sent` except YAL (skip remmail). White Otter first homepage curl was 769 bytes; unique retry returned the live page.
-- Traps: Do not send before Wed 11:00 MYT. Do not fold onto 09:00 or 10:00. Do not remmail YAL `info@yal.com.my` (SENT 22 Aug Excel-trace). Do not require Coming Soon `min-height:440px` on these twenty-three at send. Recheck homepage unique fact + mailto. Do not mail `bcng@worldtechpt.com.my`, `importadmin@winterfrozen.com.my`, or `xolvenmarketing@gmail.com`. Skip Whole New Era shelf companies and YHY franchise. Do not `update_draft` Toon holding pen. Never print page.
+- Main idea: Coming Soon unused-host list is exhausted at line 3572. Next source is unused hosts whose `/services/` is a filled page with homepage mailto plus one unique published fact. Thirty-three unmailed drafts folded onto Wed 26 Aug 11:00 with the thirty-four CS drafts (five-timer cap). Empty `in:sent` except YAL (skip remmail). White Otter first homepage curl was 769 bytes; unique retry returned the live page. Host ysimalaysia.my is HSA Asia (brand match).
+- Traps: Do not send before Wed 11:00 MYT. Do not fold onto 09:00 or 10:00. Do not remmail YAL `info@yal.com.my` (SENT 22 Aug Excel-trace). Do not require Coming Soon `min-height:440px` on these thirty-three at send. Recheck homepage unique fact + mailto. Do not mail `bcng@worldtechpt.com.my`, `importadmin@winterfrozen.com.my`, `xolvenmarketing@gmail.com`, or `prestimachinery@gmail.com`. Skip Whole New Era shelf companies and YHY franchise. Do not `update_draft` Toon holding pen. Never print page.
 
 ## Drafts
 
@@ -30,5 +30,15 @@
 - Yiet Soon `yszcon@yahoo.com` `r-43118110346677180`
 - Winter Frozen `admin@winterfrozen.com.my` `r-8006596141398657248`
 - Xolven `sales@xolvenmarketing.com.my` `r-433997441297892034`
+- WY WY `wywyoffice@gmail.com` `r-5157691951095974027`
+- Whitecube `skyshen11@gmail.com` `r3292319999226977303`
+- YKY `jeanyee847@gmail.com` `r-1307236477573528708`
+- XY Properties `xypropertiesenquiry@gmail.com` `r1250218918654909183`
+- WPK `wpk.world2025my@gmail.com` `r-8159928206172788724`
+- YV Global `yvglobaljcbservices@yahoo.com` `r-2885543517820249255`
+- Yu Chin `yuchinmetalconst@gmail.com` `r-4709994308977989567`
+- Weng Soon `wengsoonearthworks@gmail.com` `r-5786948818883173894`
+- Yi Kang TCM `enquiry@yikangtcm.com.my` `r-398742612989638525`
+- HSA Asia `sales@ysimalaysia.my` `r4867888045450520349`
 
-Next hunt: leftover filled-cands in `/tmp/filled-cands.txt` (WY WY, Whitecube, YKY, XY Properties, WPK, YV Global, Yu Chin, Weng Soon, Yikangtcm `enquiry@`, HSA Asia `ysimalaysia.my`). Skip YAL remmail, Whole New Era, YHY.
+Next hunt: leftover `/tmp/filled-cands.txt` hosts without mailto or unique fact stay parked. Skip YAL remmail, Whole New Era, YHY.
