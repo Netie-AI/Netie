@@ -1,8 +1,10 @@
 # STATUS
 
-Updated: 2026-08-25 21:20 MYT. Success = live Stripe charge, then a payout.
+Updated: 2026-08-25 21:50 MYT. Success = live Stripe charge, then a payout.
 
 ## Now (measured)
+
+- After hours 25 Aug 21:50 MYT: Spaceship Hosting Manager is logged in as netiejh, but File Manager, cPanel, Terminal, Manage SSH, and FTP Accounts all return "Sorry, login is currently unavailable." FTP 530 on 209.74.68.17 / server801.shared.spaceship.host / ftp.netie.ai (Spaceship login password is not the FTP password). Canonical https://netie.ai/hire/ still the old 19464-byte invoices page (last-modified 25 Aug 06:52 GMT). Surge https://netie-penang.surge.sh/ still byte-matches `docs/pay.html` (56312, sha256 `a8fb92f4...`, two `RM 500 unlocks` hits). Homepage https://netie.ai/ HTTP 200, April suite title, no 302 to `/hire/`. Checkout https://buy.stripe.com/3cIcN54OO6SnaA4g5u9ws07 HTTP 200 (not a charge). Inbox: no new buyer mail. Toon thread `1a03642393b091d6` still two messages; draft `r-7513366825887340098` not sent. Did not nag Kanhseei. Did not poll Stripe (next check 26 Aug MYT). GitHub Netie repo is private; do not expect raw.githubusercontent.com to feed the server. If Terminal returns, curl https://netie-penang.surge.sh/ onto `/hire/index.html`. Staged files remain in `/tmp/netie-hire-upload/`. No paid charge yet.
 
 - After hours 25 Aug 21:20 MYT: Surge https://netie-penang.surge.sh/ now byte-matches `docs/pay.html` (56312 bytes, sha256 `a8fb92f4...`). Page names RM 500 unlocks the first draft. Reply-only `/drafts/windmere-services.html` still HTTP 200. Canonical https://netie.ai/hire/ still 19464 bytes, no RM 500 line. Spaceship File Manager login returned unavailable; FTP 530. Homepage HTTP 200, no 302 to `/hire/`. Toon draft `r-7513366825887340098` not sent. Did not nag Kanhseei. Did not poll Stripe. No paid charge yet.
 

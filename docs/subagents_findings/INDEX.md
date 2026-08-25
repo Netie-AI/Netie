@@ -4,6 +4,7 @@ This index records reusable findings from focused subagent reviews.
 
 | File | Keywords | Main idea |
 |---|---|---|
+| [2026-08-25-spaceship-cpanel-outage.md](2026-08-25-spaceship-cpanel-outage.md) | Spaceship, File Manager, cPanel, Terminal, FTP 530, server801, Surge curl | Hosting Manager login works. All cPanel tools unavailable. If Terminal returns, curl Surge onto `/hire/index.html`. |
 | [2026-08-25-hire-rm500-first-draft.md](2026-08-25-hire-rm500-first-draft.md) | hire, pay.html, RM 500, first draft, Toon, Kah Chun Seow, Surge | Hire source and Surge name RM 500 first-draft unlock. Canonical File Manager still blocked. Toon draft parked, not sent. |
 | [2026-08-25-wed-voice-rewrite.md](2026-08-25-wed-voice-rewrite.md) | Wed 09:00, HD Hearing, Solid Kitchen, RM 500, update_draft, sub_4048348f | 168 of 168 Wed drafts rewritten to RM 500 landing voice (HD Hearing through Solid Kitchen). Timer still fires 09:00. Toon still waits. |
 | [2026-08-25-print-page-voice.md](2026-08-25-print-page-voice.md) | Kah, Toon, Advanced Inkjet, print page, RM 500, show before send, scroll-craft, Meng To | Owner said Kah proved Print Page was unclear. Live Gmail is Toon. Direct offer: better landing, RM 500 unlocks first draft. Show owner before send. Skills stored. |

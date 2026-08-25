@@ -1,0 +1,5 @@
+# 2026-08-25 Spaceship cPanel login outage blocks hire overwrite
+
+- Keywords: Spaceship, File Manager, cPanel, Terminal, FTP 530, server801, Surge curl
+- Main idea: Hosting Manager login works. Every cPanel-backed tool (Manage files, Go to cPanel, FTP Accounts, Terminal, Manage SSH) shows "Sorry, login is currently unavailable. Please try again later." Canonical `/hire/` stays the old 19464-byte invoices page. Surge already has the RM 500 first-draft page.
+- Traps: Server is now `server801.shared.spaceship.host` / `209.74.68.17`, not `server901`. Spaceship account password is not the FTP password (530). Netie GitHub is private, so a later Terminal `curl` of raw.githubusercontent.com will 404. If Terminal returns, copy from the public Surge mirror: `curl -fsSL -o hire/index.html https://netie-penang.surge.sh/` then catalog/llms from `/tmp/netie-hire-upload/` or the same git files. File Manager can sit in `/page/`; true-root `llms.txt` is next to `hire/`. Do not overwrite `/`. Do not send Toon until the owner says send.
