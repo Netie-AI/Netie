@@ -25,6 +25,8 @@ def draft_hook(product: dict[str, Any], day: str) -> dict[str, Any]:
     blurb = product["blurb"]
     url = _source(product)
     hook = f"{name}: {blurb.split('.')[0]}."
+    if len(hook) > 210:
+        hook = hook[:207] + "..."
     body = (
         f"{hook}\n\n"
         f"{blurb}\n\n"

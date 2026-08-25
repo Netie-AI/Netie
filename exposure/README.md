@@ -23,13 +23,15 @@ is catalog -> claims -> drafts -> crew -> channel outbox.
 cd exposure
 pip install -e ".[dev]"
 python -m netie_exposure catalog --offline
-python -m netie_exposure queue --offline
-python -m netie_exposure crew
+python -m netie_exposure run --offline
 python -m netie_exposure growth --followers 0
 pytest
 ```
 
-`queue` writes paste-ready markdown under `outbox/`. Nothing is posted.
+`run` is the crew: Vanguard -> Cortex -> LinkedIn/Reddit/GitHub/news/hire/invite
+-> Closer -> marketing kit. `queue` is the mix only. Nothing is posted.
+
+Agent prompts: `AGENTS.md` (this folder). Cortex-crew contract: `crew.yaml`.
 
 ## What it reads
 
@@ -45,17 +47,20 @@ Org profile (paste into GitHub org settings / `.github` README):
 
 ## Agents
 
-Prompts: `../Internal/Agents/EXPOSURE.md`
+Prompts: `AGENTS.md` (standalone; this pack does not need the private Netie repo)
 
 | Role | Does | Publishes? |
 |------|------|------------|
 | vanguard | catalog + growth | no |
 | cortex | day's mix | no |
 | closer | outbox markdown | no |
-| linkedin / reddit / github | channel copy | no |
-| news | Cassandra-shaped, cited | no |
+| linkedin | hook <=210, body <=1300 | no |
+| reddit | allowlisted sub + affiliation | no |
+| github | org PROFILE.md + Show HN | no |
+| news | HN or seeds, cited URL | no |
 | hire | catalog.json prices only | no |
 | invite | waitlist + constructor + suite | no |
+| marketing | combines channels after the crew | no |
 
 Scale: fan out **channel specialists only**, on Cursor Grok 4.5 high / Composer 2.5
 or Claude Code Sonnet. Never a second orchestrator.
@@ -80,6 +85,12 @@ Still a dry-run. Wire LinkedIn/Reddit **official** APIs later. No unofficial cli
 
 ## Extract to a public repo
 
-Unlock: founder yes, this README standing alone, tests green on CI.
-Suggested name: `Netie-AI/exposure`. Until then this folder is the public-shaped
-source inside `Netie-AI/Netie`.
+This folder is the public-shaped source. Copy it out:
+
+```bash
+git subtree split -P exposure -b exposure-public
+```
+
+Then create public `Netie-AI/exposure` from that branch. Tests and `AGENTS.md`
+travel with it. Until that repo exists, stars cannot land on this private parent.
+

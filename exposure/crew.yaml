@@ -49,6 +49,10 @@ roles:
   invite:
     source: https://netie.ai/
     publishes: false
+  marketing:
+    combines: [linkedin, reddit, github, news, hire, invite]
+    after: closer
+    publishes: false
 
 scale:
   fan_out: channel_specialists_only

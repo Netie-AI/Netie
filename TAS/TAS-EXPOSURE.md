@@ -24,10 +24,10 @@ A stdlib Python CLI plus a Cortex-crew YAML that:
 | Path | Role |
 |---|---|
 | `exposure/src/netie_exposure/cli.py` | `python -m netie_exposure` |
-| `exposure/crew.yaml` | Cortex-crew contract (Vanguard / Cortex / Closer + channel agents) |
-| `exposure/github-profile/README.md` | paste into `Netie-AI/.github` profile README |
-| `Software Blueprint/Exposure/PRD-002-organic-public-exposure.md` | product spec |
-| `Internal/Agents/EXPOSURE.md` | agent prompts |
+| `python -m netie_exposure run` | Vanguard -> Cortex -> channels -> Closer + marketing |
+| `exposure/crew.yaml` | Cortex-crew contract |
+| `exposure/AGENTS.md` | standalone agent prompts |
+| `exposure/github-profile/` | org profile paste files |
 
 ---
 

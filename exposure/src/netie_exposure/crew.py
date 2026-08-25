@@ -16,6 +16,7 @@ ROLES = (
     "news",
     "hire",
     "invite",
+    "marketing",
 )
 
 ENGINE = "cortex"
@@ -29,6 +30,7 @@ def summary() -> dict[str, object]:
         "social_posting": SOCIAL_POSTING,
         "roles": list(ROLES),
         "pattern": ["vanguard", "cortex", "closer"],
+        "then": "marketing",
         "north_star": {"linkedin_followers": NORTH_STAR_LINKEDIN, "organic": True},
         "fan_out": "channel_specialists_only",
     }

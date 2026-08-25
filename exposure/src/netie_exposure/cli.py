@@ -15,6 +15,7 @@ from netie_exposure.drafts import render_queue
 from netie_exposure.growth import render as render_growth
 from netie_exposure.growth import snapshot
 from netie_exposure.refuse import ExposureRefusal, check_request
+from netie_exposure.run import run_crew
 
 ROOT = Path(__file__).resolve().parents[2]
 DEFAULT_OUTBOX = ROOT / "outbox"
@@ -107,6 +108,20 @@ def cmd_approve(args: argparse.Namespace) -> int:
     return 0
 
 
+def cmd_run(args: argparse.Namespace) -> int:
+    if args.request:
+        check_request(args.request)
+    result = run_crew(
+        outbox=Path(args.outbox),
+        live=not args.offline,
+        day=args.day,
+        followers=_followers(),
+    )
+    json.dump(result, sys.stdout, indent=2)
+    sys.stdout.write("\n")
+    return 0
+
+
 def cmd_refuse_demo(args: argparse.Namespace) -> int:
     try:
         check_request(args.scenario)
@@ -144,6 +159,13 @@ def build_parser() -> argparse.ArgumentParser:
 
     r = sub.add_parser("crew", help="print Cortex-crew roles")
     r.set_defaults(func=cmd_crew)
+
+    n = sub.add_parser("run", help="execute Vanguard -> Cortex -> channels -> Closer + marketing")
+    n.add_argument("--offline", action="store_true")
+    n.add_argument("--day", help="YYYY-MM-DD (default: today)")
+    n.add_argument("--outbox", default=str(DEFAULT_OUTBOX))
+    n.add_argument("--request", help="optional user request to run through refusals")
+    n.set_defaults(func=cmd_run)
 
     a = sub.add_parser("approve", help="human gate: mark a draft id as approved (still dry-run)")
     a.add_argument("id")
