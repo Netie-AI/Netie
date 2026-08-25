@@ -4,7 +4,7 @@ This index records reusable findings from focused subagent reviews.
 
 | File | Keywords | Main idea |
 |---|---|---|
-| [2026-08-26-hire-brief-rm500.md](2026-08-26-hire-brief-rm500.md) | hire, brief, RM 500, dropdown, Wed 08:00 | Brief job dropdown now names RM 500 first draft. 08:00 must upload; do not skip on old sha. |
+| [2026-08-26-hire-brief-rm500.md](2026-08-26-hire-brief-rm500.md) | hire, brief, RM 500, dropdown, Wed 08:00 | Live `/hire/` brief now names RM 500 first draft. sha256 `cca9f313...`. 08:00 can skip if that holds. |
 | [2026-08-26-pph-landing-about.md](2026-08-26-pph-landing-about.md) | PeoplePerHour, About, Ashburn, SEND PROPOSAL, RM 500 | Public PPH now names Landing page writer and RM 500. Location Ashburn. SEND PROPOSAL still blocked. Not income. |
 | [2026-08-26-twine-landing-bio.md](2026-08-26-twine-landing-bio.md) | Twine, jianhong, RM 500, day_rate | Twine bio names RM 500 first draft. Rate $120/day. Hire URL stripped. Not income. |
 | [2026-08-26-flmy-landing-profile.md](2026-08-26-flmy-landing-profile.md) | Freelancing.my, jianhong, RM 500, landing | Public profile now names Better landing pages and RM 500. Not income. |

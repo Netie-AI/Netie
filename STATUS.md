@@ -1,8 +1,10 @@
 # STATUS
 
-Updated: 2026-08-26 03:20 MYT. Success = live Stripe charge, then a payout.
+Updated: 2026-08-26 03:35 MYT. Success = live Stripe charge, then a payout.
 
 ## Now (measured)
+
+- After hours 26 Aug 03:35 MYT: live https://netie.ai/hire/ matches git (56514 bytes, sha256 `cca9f313e488462190a4ae487f9795236abd5116ed63ce2dcd76d74c134a8843`, last-modified 25 Aug 19:26:28 GMT). Brief dropdown names RM 500 first draft. `/hire/catalog.json` and `/hire/llms.txt` match git. True-root `/llms.txt` already matched. Homepage last-modified unchanged 25 Aug 06:46 GMT. No Stripe button. Wed 08:00 timer `sub_ae835390` can skip if sha256 still matches. Toon draft `r-7427464740298229176` not sent. Did not nag Kanhseei. Did not reply Starbridge. No paid charge yet.
 
 - After hours 26 Aug 03:20 MYT: hire brief dropdown now names RM 500 first draft. Git `docs/pay.html` 56514 bytes, sha256 `cca9f313e488462190a4ae487f9795236abd5116ed63ce2dcd76d74c134a8843`. Surge https://netie-penang.surge.sh/ matches. Reply-only `/drafts/` restored (Windmere, SK Shutter, IGB, BrightAir, SKL). Canonical https://netie.ai/hire/ still old sha `7c91bf0b...` until Wed 08:00 website-row upload (`sub_ae835390`). Do not skip that upload. PPH mailed profile accepted; SEND PROPOSAL still under review. Toon draft `r-7427464740298229176` not sent. Did not nag Kanhseei. Did not reply Starbridge. Did not buy. No paid charge yet.
 
