@@ -1,0 +1,58 @@
+# Cortex-crew contract. Cortex is the only engine.
+# Constructor graph: connector -> ontology -> insight -> foundry -> app
+# maps to: catalog -> claims -> drafts -> crew -> channel outbox.
+#
+# Suite film already draws this: Vanguard watches, Cortex decides, Closer acts.
+# Social posting stays off until a human runs: python -m netie_exposure approve <id>
+
+name: exposure
+engine: cortex
+version: 0.1.0
+social_posting: off
+north_star:
+  linkedin_followers: 100000
+  note: organic only; this file is not a follower factory
+
+pattern:
+  - vanguard
+  - cortex
+  - closer
+
+roles:
+  vanguard:
+    watches: [github_org, hire_catalog, growth, ai_news]
+    publishes: false
+  cortex:
+    decides: mix
+    publishes: false
+  closer:
+    proposes: outbox
+    publishes: false
+  linkedin:
+    channel: linkedin
+    goal: organic_followers
+    publishes: false
+  reddit:
+    channel: reddit
+    allowlist: [opensource, selfhosted, LocalLLaMA, MachineLearning, FPGA, RISCV]
+    publishes: false
+  github:
+    channel: github
+    earns: stars
+    publishes: false
+  news:
+    source: cassandra_shaped
+    publishes: false
+  hire:
+    source: https://netie.ai/hire/catalog.json
+    publishes: false
+  invite:
+    source: https://netie.ai/
+    publishes: false
+
+scale:
+  fan_out: channel_specialists_only
+  subagent_models:
+    cursor: [grok-4.5-high, composer-2.5]
+    claude_code: [sonnet]
+  never_fan_out_on: main_session_model

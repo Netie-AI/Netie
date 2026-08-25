@@ -499,3 +499,6 @@ To make them invokable in Claude Code, each prompt above becomes an agent defini
 under `.claude/agents/` in the repo being worked, or `~/.claude/agents/` for all repos.
 Keep this file as the source and treat the deployed copies as generated (R-0009) - if
 they drift, this file wins.
+
+Marketing / public distribution is a **crew on Cortex**, not a fourth agent in this
+loop. Prompts: [`EXPOSURE.md`](EXPOSURE.md). Pack: `exposure/`. Contract: `exposure/crew.yaml`.

@@ -1,0 +1,6 @@
+outbox/*.md
+!outbox/README.md
+.pytest_cache/
+*.egg-info/
+__pycache__/
+.venv/

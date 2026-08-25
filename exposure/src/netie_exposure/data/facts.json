@@ -1,0 +1,249 @@
+{
+  "org": {
+    "name": "Netie.AI",
+    "login": "Netie-AI",
+    "github": "https://github.com/Netie-AI",
+    "description": "Building the foundational infrastructure for the next era of digital and physical interaction.",
+    "blog": "https://netie.ai/page",
+    "home": "https://netie.ai/",
+    "suite": "https://netie.ai/suite/",
+    "hire": "https://netie.ai/hire/",
+    "hire_catalog": "https://netie.ai/hire/catalog.json",
+    "llms": "https://netie.ai/llms.txt",
+    "tagline": "Your AI. Your machine. Everything is open.",
+    "contact_email": "oojianhongg@gmail.com",
+    "whatsapp": "+60165568918",
+    "constructor_pages": "https://netie-ai.github.io/constructor/",
+    "engine_url": "https://app.netie.ai/cortex"
+  },
+  "growth": {
+    "linkedin_followers_target": 100000,
+    "linkedin_followers_current": null,
+    "github_stars_target": 1000,
+    "posts_per_channel_per_day": 1
+  },
+  "mix": {
+    "product": 0.30,
+    "news": 0.20,
+    "hire": 0.15,
+    "github": 0.15,
+    "invite": 0.10,
+    "hook": 0.10
+  },
+  "products": [
+    {
+      "id": "airgpt",
+      "name": "AirGPT",
+      "blurb": "Chat on this laptop. Settings, pairing, apps hub. Thin client of OpenVault for keys and Cortex for brains.",
+      "url": "https://netie.ai/",
+      "github": null,
+      "kind": "laptop",
+      "shipped_installer": false
+    },
+    {
+      "id": "space",
+      "name": "Space",
+      "blurb": "Hit Space on a file. Quick Look for Windows. Preview, convert, optional AI over the file.",
+      "url": "https://netie.ai/",
+      "github": null,
+      "kind": "laptop",
+      "shipped_installer": false
+    },
+    {
+      "id": "cortex",
+      "name": "Cortex",
+      "blurb": "The crew behind the laptop apps and Suite. Vanguard watches, Cortex decides, Closer acts. Not an inference server.",
+      "url": "https://netie.ai/",
+      "github": null,
+      "kind": "crew",
+      "shipped_installer": false
+    },
+    {
+      "id": "constructor",
+      "name": "Constructor",
+      "blurb": "Netie-native constructor. Sketch a graph. Cortex ranks three plays. Ghost mode writes nothing. Not n8n.",
+      "url": "https://netie-ai.github.io/constructor/",
+      "github": "https://github.com/Netie-AI/constructor",
+      "kind": "canvas",
+      "shipped_installer": true
+    },
+    {
+      "id": "suite",
+      "name": "Suite",
+      "blurb": "Company room: Vanguard watches, Cortex decides, Closer acts. Same crew as the laptop apps, built for a team.",
+      "url": "https://netie.ai/suite/",
+      "github": null,
+      "kind": "company",
+      "shipped_installer": false
+    },
+    {
+      "id": "openhbm",
+      "name": "OpenHBM",
+      "blurb": "Open-source JEDEC JESD270-4A HBM4 subsystem plus RISC-V-native LPU. The RISC-V of memory and AI accelerators.",
+      "url": "https://github.com/Netie-AI/OpenHBM",
+      "github": "https://github.com/Netie-AI/OpenHBM",
+      "kind": "oss",
+      "featured": true,
+      "shipped_installer": true
+    },
+    {
+      "id": "openvault",
+      "name": "OpenVault",
+      "blurb": "Public repo: NVME Sentinel Fusion with hardware monitoring and cache boosting middleware. Estate role: custody and routing (keys, leave-machine gate). Do not mix the two sentences in one claim without saying so.",
+      "url": "https://github.com/Netie-AI/OpenVault",
+      "github": "https://github.com/Netie-AI/OpenVault",
+      "kind": "oss",
+      "shipped_installer": true
+    },
+    {
+      "id": "openforge",
+      "name": "OpenForge",
+      "blurb": "PDF to schematic to SPICE to ngspice forge. Training data for analog IC design.",
+      "url": "https://github.com/Netie-AI/OpenForge",
+      "github": "https://github.com/Netie-AI/OpenForge",
+      "kind": "oss",
+      "shipped_installer": true
+    },
+    {
+      "id": "cassandra",
+      "name": "Cassandra",
+      "blurb": "Daily multi-agent AI/semiconductor research. Crash Risk Score plus a written thesis. Not an auto-trader.",
+      "url": "https://github.com/Netie-AI/Cassandra",
+      "github": "https://github.com/Netie-AI/Cassandra",
+      "kind": "oss",
+      "shipped_installer": true
+    },
+    {
+      "id": "vertex",
+      "name": "Vertex",
+      "blurb": "Industrial AI manufacturing framework: quality control and predictive maintenance models for the factory edge.",
+      "url": "https://github.com/Netie-AI/Vertex",
+      "github": "https://github.com/Netie-AI/Vertex",
+      "kind": "oss",
+      "shipped_installer": true
+    },
+    {
+      "id": "analogcrawler",
+      "name": "AnalogCrawler",
+      "blurb": "ACID: public analog/mixed-signal IC knowledge from manufacturer docs, patents, and open repos. Respect robots.txt.",
+      "url": "https://github.com/Netie-AI/AnalogCrawler",
+      "github": "https://github.com/Netie-AI/AnalogCrawler",
+      "kind": "oss",
+      "shipped_installer": true
+    },
+    {
+      "id": "ci-doctor",
+      "name": "CI-Doctor",
+      "blurb": "Open-source CI doctor. Proof surface for hire documentation and engineering offers.",
+      "url": "https://github.com/Netie-AI/CI-Doctor",
+      "github": "https://github.com/Netie-AI/CI-Doctor",
+      "kind": "oss",
+      "shipped_installer": true
+    },
+    {
+      "id": "aim",
+      "name": "AIM",
+      "blurb": "AI professional twin. LinkedIn-alternative thesis. Intake page exists; GitHub repo is empty as of 2026-08-25.",
+      "url": "https://netie.ai/aim/",
+      "github": "https://github.com/Netie-AI/AIM",
+      "kind": "product",
+      "shipped_installer": false
+    },
+    {
+      "id": "talkie",
+      "name": "Talkie",
+      "blurb": "Coming soon: child-safe AI companion plushie. Waitlist only. Not shipped.",
+      "url": "https://netie.ai/suite/",
+      "github": null,
+      "kind": "waitlist",
+      "shipped_installer": false
+    },
+    {
+      "id": "pointer",
+      "name": "Pointer",
+      "blurb": "See the screen, click with a person in the loop. Not a second orchestrator. Public GitHub repo not in the org list as of 2026-08-25.",
+      "url": "https://netie.ai/",
+      "github": null,
+      "kind": "laptop",
+      "shipped_installer": false
+    },
+    {
+      "id": "dms",
+      "name": "DMS / Spaces",
+      "blurb": "ChatGPT for a company's spreadsheets and databases: every answer carries its rows. The engine is Cortex. Do not claim the Space ACL holds until that gate is wired.",
+      "url": "https://netie.ai/suite/",
+      "github": null,
+      "kind": "company",
+      "shipped_installer": false
+    }
+  ],
+  "hire_offers": [
+    {
+      "id": "invoice-excel",
+      "name": "Invoices or PDF to Excel",
+      "price": "MYR 1500 after written plan",
+      "url": "https://netie.ai/hire/?scope=invoice-excel#brief",
+      "proof": "https://netie.ai/hire/knowledge/"
+    },
+    {
+      "id": "excel-cleanup",
+      "name": "Messy Excel cleanup",
+      "price": "MYR 1500 after written plan",
+      "url": "https://netie.ai/hire/?scope=excel-cleanup#brief",
+      "proof": "https://netie.ai/hire/trace/"
+    },
+    {
+      "id": "website",
+      "name": "One-page business website",
+      "price": "MYR 500",
+      "url": "https://netie.ai/hire/",
+      "proof": "https://netie.ai/asa/"
+    }
+  ],
+  "cool_parts": [
+    {
+      "id": "openhbm-stars",
+      "title": "OpenHBM has public stars",
+      "url": "https://github.com/Netie-AI/OpenHBM",
+      "why": "Leads the public org on stars (OpenHBM 23, OpenForge 1 as of 2026-08-25). Star the HBM4 + RISC-V LPU repo."
+    },
+    {
+      "id": "constructor-ghost",
+      "title": "Constructor ghost mode writes nothing",
+      "url": "https://netie-ai.github.io/constructor/",
+      "why": "Fail-closed canvas. Cortex ranks three coordination patterns."
+    },
+    {
+      "id": "cassandra-not-trader",
+      "title": "Cassandra does not place trades",
+      "url": "https://github.com/Netie-AI/Cassandra",
+      "why": "Research report + Crash Risk Score. The trade is always human."
+    },
+    {
+      "id": "hire-plan-first",
+      "title": "Written plan before pay",
+      "url": "https://netie.ai/hire/",
+      "why": "Penang scoped work. Three published SKUs. No invented prices."
+    }
+  ],
+  "news_seeds": [
+    {
+      "id": "hbm-open",
+      "headline": "HBM is the bottleneck everyone is paying NVIDIA tax for. We published an open HBM4 controller.",
+      "url": "https://github.com/Netie-AI/OpenHBM",
+      "relevant_product": "openhbm"
+    },
+    {
+      "id": "local-crew",
+      "headline": "Most 'AI employees' are a chat box on someone else's GPU. Cortex is a crew on your machine.",
+      "url": "https://netie.ai/",
+      "relevant_product": "cortex"
+    },
+    {
+      "id": "agent-graphs",
+      "headline": "People keep cloning n8n and calling it an agent company. Constructor is a skin. Cortex is the engine.",
+      "url": "https://github.com/Netie-AI/constructor",
+      "relevant_product": "constructor"
+    }
+  ]
+}
