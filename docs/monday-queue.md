@@ -1520,7 +1520,39 @@ Same timer `netie-tue-mhaus-website-2026-08-25-1000-myt` (`sub_b2d918dd-837e-41a
 - Draft: `r-6187740688024410907`. Thread: `1a0363e976048a63`. Subject: Kempas Lama lubricant page.
 - File: `docs/proposals/ace-lubricants.md`. Hostable draft: `docs/proposals/ace-lubricants-services.html`.
 - Website-page offer, RM 1,000-5,000. No Stripe. Send on the same Tue 10:00 timer after 9One9 Timber.
-- Skipped this pass: 21hairsalon.com.my Coming Soon but no contact mailto. Leftover malaysiabrand CS hits still to queue later: acliving, accud, advancedinkjet, advancevertexmotors, aeiou (contact@ only), agmbrake, akakoi, allglass, alphapets, amcoweld (sales@ only; not SG/ID), amptech, amtools, apexepoxy. Do not send before 09:00 MYT.
+
+### GC Precision Tools -- QUEUED draft 25 Aug 2026 08:11 MYT
+
+- To: gcprecision1988@gmail.com (homepage and `/contactus/` mailto on https://www.accud.com.my/). One inbox.
+- Source: live https://www.accud.com.my/services/ HTTP 200 still Coming Soon (`min-height:440px`). Homepage lists authorized distributor for Accud Measuring Tools & Instruments and Caliper from 44-3-2, Block D, Jalan 2/101C, Cheras Business Centre, 56100 Kuala Lumpur. SSM 202303090910 (LA0056401-A).
+- Draft: `r156940417560241133`. Thread: `1a036423616cd99f`. Subject: Cheras measuring-tools page.
+- File: `docs/proposals/gc-precision.md`. Hostable draft: `docs/proposals/gc-precision-services.html`.
+- Website-page offer, RM 1,000-5,000. No Stripe. Send on the same Tue 10:00 timer after ACE Lubricants.
+
+### AC MORGAN SDN. BHD. / AC Living -- QUEUED draft 25 Aug 2026 08:11 MYT
+
+- To: aconlinehome@gmail.com (homepage and `/contactus/` mailto on https://www.acliving.com.my/). One inbox.
+- Source: live https://www.acliving.com.my/services/ HTTP 200 still Coming Soon (`min-height:440px`). Homepage lists Table & Chair Solutions For Restaurants • Cafés • Food Courts • School from 119, Jalan Sentral 24, Taman Nusa Sentral, 79100 Nusajaya. SSM 202101044499 (1444799-W).
+- Draft: `r-7959629283690173805`. Thread: `1a0364238a66cb5e`. Subject: Nusajaya furniture page.
+- File: `docs/proposals/ac-living.md`. Hostable draft: `docs/proposals/ac-living-services.html`.
+- Website-page offer, RM 1,000-5,000. No Stripe. Send on the same Tue 10:00 timer after GC Precision.
+
+### Advanced Inkjet Sdn Bhd -- QUEUED draft 25 Aug 2026 08:11 MYT
+
+- To: toon@advancedinkjet.com.my (contact Email Address on https://www.advancedinkjet.com.my/contactus/). One inbox. Do not mail toon@advancedingkjet.com.my.
+- Source: live https://www.advancedinkjet.com.my/services/ HTTP 200 still Coming Soon (`min-height:440px`). Homepage lists Every Idea Meant To Print Big and Window Glass Sticker from 21, Jalan PBI 2, Perindustrian Bukit Indah, 47000 Sungai Buloh. Established year 2017. SSM 201701023047 (1237213-H).
+- Draft: `r-7527642045958146954`. Thread: `1a03642393b091d6`. Subject: Sungai Buloh print page.
+- File: `docs/proposals/advanced-inkjet.md`. Hostable draft: `docs/proposals/advanced-inkjet-services.html`.
+- Website-page offer, RM 1,000-5,000. No Stripe. Send on the same Tue 10:00 timer after AC Living.
+
+### ALLGLASS SDN BHD -- QUEUED draft 25 Aug 2026 08:11 MYT
+
+- To: info@allglass.com.my (contact-page mailto on https://www.allglass.com.my/contactus/). One inbox. HQ mailbox only.
+- Source: live https://www.allglass.com.my/services/ HTTP 200 still Coming Soon (`min-height:440px`). Homepage lists RELIABLE SPECIALISTS IN GLASS AND ALUMINIUM and OVER 30 YEARS OF EXPERIENCE. HQ 25, Jalan Pandan 2/2, Pandan Jaya, 55100 Kuala Lumpur. Factory at Desa Tun Razak prints phones only. SSM 216065-K.
+- Draft: `r6273236465010385414`. Thread: `1a036423b68c8935`. Subject: Pandan Jaya glass page.
+- File: `docs/proposals/allglass.md`. Hostable draft: `docs/proposals/allglass-services.html`.
+- Website-page offer, RM 1,000-5,000. No Stripe. Send on the same Tue 10:00 timer after Advanced Inkjet.
+- Skipped this pass: 21hairsalon.com.my Coming Soon but no contact mailto. Leftover malaysiabrand CS hits still to queue later: advancevertexmotors, aeiou (contact@ only), agmbrake, akakoi, alphapets, amcoweld (sales@ only; not SG/ID), amptech, amtools, apexepoxy. Do not send before 09:00 MYT.
 
 
 

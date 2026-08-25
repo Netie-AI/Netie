@@ -1,8 +1,10 @@
 # STATUS
 
-Updated: 2026-08-25 08:07 MYT. Success = live Stripe charge, then a payout.
+Updated: 2026-08-25 08:11 MYT. Success = live Stripe charge, then a payout.
 
 ## Now (measured)
+
+- After hours 25 Aug 08:11 MYT: queued four more Coming Soon first-mails on the Tue 10:00 M Haus timer (`sub_c3b4d45a-faec-43e1-bbce-0dcc6e77d16d`; previous 10:00 id unsubscribed). GC Precision `gcprecision1988@gmail.com` draft `r156940417560241133` (Accud Measuring Tools / Caliper, Cheras). AC Living `aconlinehome@gmail.com` draft `r-7959629283690173805` (Table & Chair Solutions / Food Courts School, Nusajaya). Advanced Inkjet `toon@advancedinkjet.com.my` draft `r-7527642045958146954` (Every Idea Meant To Print Big, Sungai Buloh). Allglass `info@allglass.com.my` draft `r6273236465010385414` (RELIABLE SPECIALISTS IN GLASS AND ALUMINIUM / OVER 30 YEARS, Pandan Jaya HQ). All four live `/services/` Coming Soon (`min-height:440px`), firm-owned mailto, empty `in:sent`. Hostable HTML from published text only. No Stripe. RM 1,000-5,000. Did not apply. Kanhseei still ends at SENT `1a0338bc74fae0b4`. Did not send. Did not nag. Did not poll Stripe. No paid charge yet.
 
 - After hours 25 Aug 08:07 MYT: queued four more Coming Soon first-mails on the Tue 10:00 M Haus timer (`sub_5ca88dd7-7a61-4939-a54f-c2b6c9a36c15`; previous 10:00 id unsubscribed). 3 Arts Studio `3artsstudio.design@gmail.com` draft `r-8528559331350786083` (TRANSFORMING HOUSES INTO DREAM HOMES, Sungai Petani). Reman Tech `remantech305@gmail.com` draft `r-890629580311286052` (TurboMaster CHRA, Ipoh). 9One9 Timber `9one9tsdm@gmail.com` draft `r794836244349866035` (PREMIUM TIMBER & WOODEN DOOR SOLUTIONS, Johor Bahru). ACE Lubricants `timothy.powerup@gmail.com` draft `r-6187740688024410907` (TORENZOIL / MULTI-VECHICLE, Kempas Lama). All four live `/services/` Coming Soon (`min-height:440px`), firm-owned mailto, empty `in:sent`. Hostable HTML from published text only. No Stripe. RM 1,000-5,000. Inbox not a buyer. Did not apply. Kanhseei still ends at SENT `1a0338bc74fae0b4`. Did not send. Did not nag. Did not poll Stripe. No paid charge yet.
 
