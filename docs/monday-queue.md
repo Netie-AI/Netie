@@ -2694,6 +2694,58 @@ Folded onto the same Wed 09:00 timer (`sub_686f4219-0952-4e3f-b67d-eda95c8b7bdc`
 Skipped CS+mailto TLD mismatch: smartechrental.com.my `enquiry@powersolutions.com.my`.
 - Next hunt: unused malaysiabrand hosts after line 2779. Do not send these before Wed 09:00 MYT.
 
+## Queued after hours 25 Aug 2026 20:20 MYT (do not send before Wed 09:00)
+
+Folded onto the same Wed 09:00 timer (`sub_271fb8be-3797-4a84-b3db-36032250271b`, replaced `sub_686f4219-0952-4e3f-b67d-eda95c8b7bdc`). Fifteen extras from unused hosts 2780-2979. Empty `in:sent`. All fifteen `/services/` Coming Soon (`min-height:440px`). No Stripe. HQ anp@ only at ANP. HQ sunnydental002@ only at Sunny Dental. HQ sunrisesteel666@ only at Sunrise Steel. Sunfly and Sunrise print city-only. Sui U street is 22, Jalan 9/23A. Copy BUSINESS SLIDE OR HOUSEHOLD NEED, JERKY TIME FOR DOG LAM SAUSAGE, SPF50/PA +++, demolish work, is innovated metal works service provided, MRelax, Handheald Fan, GRILLE GRILL, COUNTER CLOCK WISE, package programme, Brilliant as the sun., RELIABLE . SKILLED . TRUSTED.
+
+### Next Audio Vision -- QUEUED draft 25 Aug 2026 20:05 MYT
+- To: sales@snav.com.my. Draft `r5752715037966523534`. Thread `1a038cfc7117219c`. Subject: KL PA page. File: `docs/proposals/next-audio-vision.md`. Copy Hear the Difference / BUSINESS SLIDE OR HOUSEHOLD NEED.
+
+### Sparrow Wing Enterprise (M) Sdn Bhd -- QUEUED draft 25 Aug 2026 20:09 MYT
+- To: swemsb8@gmail.com. Draft `r-76871768894171794`. Thread `1a038d33ece9d4d4`. Subject: Seri Kembangan grocery page. File: `docs/proposals/sparrow-wing.md`. Copy Playtime favorites / JERKY TIME FOR DOG LAM SAUSAGE.
+
+### SR FAMILY SDN BHD -- QUEUED draft 25 Aug 2026 20:09 MYT
+- To: srfamilynutraceutical@gmail.com. Draft `r-532284907935984670`. Thread `1a038d3a5d014747`. Subject: Puchong OEM page. File: `docs/proposals/sr-family.md`. Copy SPF50/PA +++. HQ Taman Puchong Impian only.
+
+### ANP MYCONSULTANCY SDN BHD -- QUEUED draft 25 Aug 2026 20:10 MYT
+- To: anp@sst-consultant.com.my. Draft `r3488827858555065306`. Thread `1a038d40a4ee0c38`. Subject: KL SST page. File: `docs/proposals/anp-myconsultancy.md`. Copy Driven by Expertise, Focused on Results. HQ anp@ only. Did not mail anp.myconsultancy@gmail.com.
+
+### S&SY Builder -- QUEUED draft 25 Aug 2026 20:10 MYT
+- To: s.sybuilder18@gmail.com. Draft `r8978616678867708303`. Thread `1a038d462ea39505`. Subject: Melaka construction page. File: `docs/proposals/ssy-builder.md`. Copy All Kind Of Renovations & Constructions / Factory Constructions Services / demolish work.
+
+### STEELMAX METAL ENGINEERING (M) SDN BHD -- QUEUED draft 25 Aug 2026 20:11 MYT
+- To: steelmaxmetal@gmail.com. Draft `r7581453272714568848`. Thread `1a038d4dc5bbcb79`. Subject: Seri Kembangan metal page. File: `docs/proposals/steelmax-metal.md`. Copy is innovated metal works service provided.
+
+### Stooges Design Studio -- QUEUED draft 25 Aug 2026 20:11 MYT
+- To: stoogesstudio@gmail.com. Draft `r518902747844362081`. Thread `1a038d537313e3a1`. Subject: Johor Bahru interior page. File: `docs/proposals/stooges-design.md`. Copy STYLISH & FUNCTIONAL.
+
+### Streetview Hotel -- QUEUED draft 25 Aug 2026 20:12 MYT
+- To: svhmuar@gmail.com. Draft `r-4157353163306396833`. Thread `1a038d5b49026be1`. Subject: Muar hotel page. File: `docs/proposals/streetview-hotel.md`. Copy MRelax / renovation quotes.
+
+### Sui U Machinery & Tools -- QUEUED draft 25 Aug 2026 20:12 MYT
+- To: sui.umachinerytools@gmail.com. Draft `r-8372323896140550239`. Thread `1a038d60c28d5ac9`. Subject: Setapak tools page. File: `docs/proposals/sui-u-machinery.md`. Copy machineries / Handheald Fan. Street 22, Jalan 9/23A.
+
+### Syarikat Sun Advertising & Trading -- QUEUED draft 25 Aug 2026 20:12 MYT
+- To: colintpq@gmail.com. Draft `r-7015101408080249325`. Thread `1a038d68d7cbac57`. Subject: Johor Jaya signboard page. File: `docs/proposals/sun-advertising.md`. Copy Trust Syarikat Sun Advertising / 40+ Years.
+
+### Sunbright Auto Parts Supply Sdn Bhd -- QUEUED draft 25 Aug 2026 20:13 MYT
+- To: sunbrightmarketing20@gmail.com. Draft `r6895317844841399589`. Thread `1a038d6ceb9a2114`. Subject: Klang auto-parts page. File: `docs/proposals/sunbright-auto.md`. Copy GRILLE GRILL / COUNTER CLOCK WISE. No SSM printed.
+
+### Sunfly Electronics (M) Sdn Bhd -- QUEUED draft 25 Aug 2026 20:13 MYT
+- To: rita_tang2006@163.com. Draft `r-4999341531936145901`. Thread `1a038d7055c56111`. Subject: Kulai switchboard page. File: `docs/proposals/sunfly-electronics.md`. Copy Intelligence Refreshes Everything / package programme. Kulai city-only.
+
+### KLINIK PERGIGIAN SUNNY DENTAL -- QUEUED draft 25 Aug 2026 20:14 MYT
+- To: sunnydental002@gmail.com. Draft `r-1326636089305097433`. Thread `1a038d783b67b731`. Subject: Horizon Hills dental page. File: `docs/proposals/sunny-dental.md`. Copy Brilliant as the sun. HQ Horizon Hills only. Did not mail sunnydental001@gmail.com.
+
+### Sunrise Steel Supplies & Hardware Sdn. Bhd. -- QUEUED draft 25 Aug 2026 20:14 MYT
+- To: sunrisesteel666@gmail.com. Draft `r-2714118966023547335`. Thread `1a038d7cd2a99dcd`. Subject: Nilai steel page. File: `docs/proposals/sunrise-steel.md`. Copy Your CIDB-Registered Partner in Steel & Structure. Nilai city-only. Did not mail sunrise_steel@yahoo.com.
+
+### Survey Equipment Sales & Services -- QUEUED draft 25 Aug 2026 20:15 MYT
+- To: ses_equipment@yahoo.com. Draft `r-8575167806421411674`. Thread `1a038d8b32dc0685`. Subject: Cheras survey page. File: `docs/proposals/survey-equipment.md`. Copy RELIABLE . SKILLED . TRUSTED.
+
+Skipped CS-no-mailto: snew.com.my, swj.com.my. Skipped CS+mailto TLD mismatch: smartechrental.com.my `enquiry@powersolutions.com.my`.
+- Next hunt: unused malaysiabrand hosts after line 2979. Do not send these before Wed 09:00 MYT.
+
 
 
 

@@ -1,0 +1,5 @@
+# 2026-08-25 unused hosts 2780-2979 queue
+
+- Keywords: Next Audio Vision, Sparrow Wing, SR FAMILY, ANP MYCONSULTANCY, S&SY Builder, Steelmax, Stooges Design, Streetview Hotel, Sui U Machinery, Sun Advertising, Sunbright Auto, Sunfly, Sunny Dental, Sunrise Steel, Survey Equipment, Coming Soon mailto, BUSINESS SLIDE OR HOUSEHOLD NEED, LAM SAUSAGE, SPF50/PA +++, demolish work, is innovated metal works, MRelax, Handheald Fan, GRILLE GRILL, package programme, Brilliant as the sun, RELIABLE . SKILLED . TRUSTED
+- Main idea: Fifteen more unmailed Coming Soon drafts from unused malaysiabrand hosts 2780-2979, folded onto the Wed 26 Aug 09:00 timer for 157 total. Copy printed typos. HQ-only at ANP anp@, Sunny Dental sunnydental002@, and Sunrise sunrisesteel666@.
+- Traps: Do not mail anp.myconsultancy@gmail.com, sunnydental001@gmail.com, or sunrise_steel@yahoo.com. Sunfly and Sunrise print city-only. Sui U street is 22, Jalan 9/23A, not JSON-LD 22 & 26. Skip CS-no-mailto snew.com.my and swj.com.my. Skip CS+mailto TLD smartechrental.com.my. After 17:00 do not start new first-mails. Next hunt: unused hosts after line 2979.
