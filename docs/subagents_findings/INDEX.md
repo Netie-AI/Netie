@@ -4,6 +4,7 @@ This index records reusable findings from focused subagent reviews.
 
 | File | Keywords | Main idea |
 |---|---|---|
+| [2026-08-25-central-steel-kuen-batch5-queue.md](2026-08-25-central-steel-kuen-batch5-queue.md) | Central Steel, REFORMA DESIGN, Chin Chun Hardware, City Sound Automart, Ci Yuan Rawang, C L F Construction, KUEN ENGINEERING, Coming Soon mailto, Intergrity | Seven more CS+mailto drafts from unused malaysiabrand hosts 480-579, on the Tue 11:00 timer. Copy Intergrity. Skip TLD-mismatch mailtos. |
 | [2026-08-25-tue-1000-mhaus-childhood-send.md](2026-08-25-tue-1000-mhaus-childhood-send.md) | M Haus, CHILDHOOD T, office hours, Coming Soon mailto, 1703-byte WAF | 98 queued drafts SENT 25 Aug 10:00 MYT. Ten 1703-byte dumps recovered on unique retry. Do not remmail unless they reply. |
 | [2026-08-25-tue-0940-afternoon-four-send.md](2026-08-25-tue-0940-afternoon-four-send.md) | Top Fast, Kulim Typewriters, Shinx, HiParents, office hours, Coming Soon mailto | Four afternoon drafts SENT 25 Aug 09:40 MYT. Top Fast HTTP 200 Coming Soon, not 403. Do not remmail unless they reply. |
 | [2026-08-25-tue-0920-extra-five-send.md](2026-08-25-tue-0920-extra-five-send.md) | Leatat, Craft Perfect, Lan Hoe, Pro Helper, KM Super, office hours, Coming Soon mailto | Five extra drafts SENT 25 Aug 09:20 MYT. HQ-only at KM Super. Do not remmail unless they reply. |

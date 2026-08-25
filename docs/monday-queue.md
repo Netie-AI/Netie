@@ -1937,7 +1937,61 @@ Same 10:00 send. Loh is a private-car page, not a Thursday 3PL follow-up. Do not
 - Do not mail again unless they reply.
 - File: `docs/proposals/childhood-t.md`. Hostable draft: `docs/proposals/childhood-t-services.html`.
 - Website-page offer, RM 1,000-5,000. No Stripe. Do not mail again unless they reply.
-- Skipped this pass: caver.com.my mailto enquire@sterlingprofile.com (domain mismatch). castorwheel.com.my mailto sales@ukai.com.my (domain mismatch). WAF still blocking unique dumps (retry later, first 1703 is not a skip): boonhonglocksmith.com.my, bpsm.com.my, bytiye.my, capitalheavylift.com.my, caracasauto.com.my, cartowing.com.my, ccsprinting.com.my, cctvhouse.com.my. Next hunt: unused malaysiabrand hosts after line 479 if a new source is found. The 10:00 batch is SENT; do not remmail unless they reply.
+- Skipped this pass: caver.com.my mailto enquire@sterlingprofile.com (domain mismatch). castorwheel.com.my mailto sales@ukai.com.my (domain mismatch). Leftover WAF hosts 380-479 rechecked 25 Aug 10:14 MYT: filled or 404, not Coming Soon.
+
+## Queued after the Tue 10:00 M Haus-through-CHILDHOOD T send (do not send before 11:00, and not after hours)
+
+Timer `netie-tue-centralsteel-website-2026-08-25-1100-myt` (once, Tue 25 Aug 11:00 MYT). Send existing Gmail drafts only after live `/services/` Coming Soon and empty `in:sent`. Seven extras from unused malaysiabrand hosts after line 479: Central Steel, REFORMA DESIGN, Chin Chun Hardware, City Sound Automart, Ci Yuan Rawang, C L F Construction, KUEN ENGINEERING. Not an email-watch loop. No Stripe. One inbox. RM 1,000-5,000. Label `Label_8` after send. Do not Surge-publish until after SENT. If Kanhseei writes, answer first and honor RM 500. Do not poll Stripe (already done 25 Aug MYT). Copy Intergrity as printed. Do not mail sales@chinchun.my. The 09:00, 09:20, 09:40, and 10:00 first-mails are already SENT; do not remmail.
+
+### Central Steel Sdn Bhd -- QUEUED draft 25 Aug 2026 10:21 MYT
+
+- To: cssb3030@gmail.com (homepage mailto on https://www.centralsteel.com.my/). One inbox.
+- Source: live https://www.centralsteel.com.my/services/ HTTP 200 still Coming Soon (`min-height:440px`). Homepage lists steel bar, BRC wire mesh, plywood, and 20 Years of Experience in the Hardware Industry from Lot 14828, Jalan Udang Galah, Telok Gong, 42000 Port Klang. SSM 201401041914 (1118073-P).
+- Draft: `r-3630367758771780556`. Thread: `1a036b892b0b101f`. Subject: Port Klang steel page.
+- File: `docs/proposals/central-steel.md`. Hostable draft: `docs/proposals/central-steel-services.html`.
+
+### REFORMA DESIGN SDN. BHD. -- QUEUED draft 25 Aug 2026 10:21 MYT
+
+- To: shey8025.signature@gmail.com (contact-page mailto on https://www.chankitchen.com.my/contactus/). One inbox.
+- Source: live https://www.chankitchen.com.my/services/ HTTP 200 still Coming Soon (`min-height:440px`). Homepage lists DIRECT FROM FACTORY kitchen cabinets and wardrobes, plus ALTAR CABINET, from Block 5-4-21, Sinaran Satu, Persiaran Anggerik Vanilla, Kota Kemuning, 40460 Shah Alam. SSM 202501010872 (1612286-P).
+- Draft: `r-1449453478223116566`. Thread: `1a036b8d72a06ace`. Subject: Kota Kemuning kitchen page.
+- File: `docs/proposals/reforma-design.md`. Hostable draft: `docs/proposals/reforma-design-services.html`.
+
+### Chin Chun Hardware Sdn Bhd -- QUEUED draft 25 Aug 2026 10:21 MYT
+
+- To: cc_hardware@hotmail.com (contact-page mailto on https://www.chinchunhardware.my/contactus/). One inbox. Do not mail sales@chinchun.my.
+- Source: live https://www.chinchunhardware.my/services/ HTTP 200 still Coming Soon (`min-height:440px`). Homepage lists TSUNAMI BOOSTER PUMP / AQUA X-3 600W 0.8HP Booster Water Pump from Lot 2793, Jalan Sungai Buloh, Kampung Melayu Subang, 40100 Shah Alam. SSM 201301024294 (1054123-X).
+- Draft: `r5707412924504212455`. Thread: `1a036b8d9a2ee41f`. Subject: Shah Alam hardware page.
+- File: `docs/proposals/chin-chun-hardware.md`. Hostable draft: `docs/proposals/chin-chun-hardware-services.html`.
+
+### City Sound Automart Sdn. Bhd. -- QUEUED draft 25 Aug 2026 10:21 MYT
+
+- To: citysoundautomart@gmail.com (homepage mailto on https://www.citysound.com.my/). One inbox.
+- Source: live https://www.citysound.com.my/services/ HTTP 200 still Coming Soon (`min-height:440px`). Homepage lists Android players, DSP tuning, and Established in 1998 from Batu Caves, Ampang, and Pandan Indah. HQ contact prints 1 & 3, Jalan SG 3/8, Taman Sri Gombak, 68100 Batu Caves. SSM 202101035129 (1435429-A).
+- Draft: `r-1715996746745576868`. Thread: `1a036b8d8373a45a`. Subject: Batu Caves car-audio page.
+- File: `docs/proposals/city-sound-automart.md`. Hostable draft: `docs/proposals/city-sound-automart-services.html`.
+
+### Ci Yuan Rawang Memorial Park -- QUEUED draft 25 Aug 2026 10:21 MYT
+
+- To: ciyuan1818@gmail.com (homepage mailto on https://www.ciyuanrwgmp.com.my/). One inbox.
+- Source: live https://www.ciyuanrwgmp.com.my/services/ HTTP 200 still Coming Soon (`min-height:440px`). Homepage lists burial plot maintenance, Bamboo Covered Walkway, and Ancestral Tablet from Lot 2816, Jalan Sungai Buaya, Sungai Chou, 48000 Rawang. SSM 201201037536 (1022018-V).
+- Draft: `r3070430167021950028`. Thread: `1a036b9197b90ad1`. Subject: Rawang memorial page.
+- File: `docs/proposals/ci-yuan-rawang.md`. Hostable draft: `docs/proposals/ci-yuan-rawang-services.html`.
+
+### C L F Construction -- QUEUED draft 25 Aug 2026 10:21 MYT
+
+- To: benbouncer_benz@hotmail.com (homepage mailto on https://www.clfconstruction.com.my/). One inbox.
+- Source: live https://www.clfconstruction.com.my/services/ HTTP 200 still Coming Soon (`min-height:440px`). Homepage lists roofing, aluminium frames, custom glass, and Intergrity Built into Every Layer from 15, Jalan SW 7, Taman Sutera Wangi, Batu Berendam, 75350 Melaka. SSM 202203000082 (AS0442537-A).
+- Draft: `r6956197946957205555`. Thread: `1a036b918e474107`. Subject: Melaka renovation page.
+- File: `docs/proposals/clf-construction.md`. Hostable draft: `docs/proposals/clf-construction-services.html`.
+
+### KUEN ENGINEERING & TRADING SDN BHD -- QUEUED draft 25 Aug 2026 10:21 MYT
+
+- To: cncprecision21@gmail.com (homepage mailto on https://www.cnc-precision.com.my/). One inbox.
+- Source: live https://www.cnc-precision.com.my/services/ HTTP 200 still Coming Soon (`min-height:440px`). Homepage lists large CNC machining, CNC turning, and 4 Axis milling from 47, Jalan E 1/2, Taman Ehsan Industrial Park, 52100 Kuala Lumpur. SSM 200301001769 (604189-A).
+- Draft: `r460676851621003702`. Thread: `1a036b91bf87d2ad`. Subject: Ehsan CNC page.
+- File: `docs/proposals/kuen-engineering.md`. Hostable draft: `docs/proposals/kuen-engineering-services.html`.
+- Skipped this pass: cenadartkl.com.my mailto vijayan@cenadart.com (TLD mismatch). chuanthong.com.my mailto @chuanthong.com (TLD mismatch). cl-fa.com.my mailto info@cl-fa.com (TLD mismatch). clinicrxofficial.com.my broken mailto / clinicrx.com.my TLD mismatch. Next hunt: unused malaysiabrand hosts after line 579.
 
 
 

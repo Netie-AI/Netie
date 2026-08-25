@@ -1,8 +1,10 @@
 # STATUS
 
-Updated: 2026-08-25 10:12 MYT. Success = live Stripe charge, then a payout.
+Updated: 2026-08-25 10:22 MYT. Success = live Stripe charge, then a payout.
 
 ## Now (measured)
+
+- Office hours 25 Aug 10:22 MYT: 09:40 timer fired as a no-op. Top Fast, Kulim Typewriters, Shinx, and HiParents already SENT at 09:40 MYT. Drafts gone. Did not remmail. Queued seven more Coming Soon first-mails from unused malaysiabrand hosts 480-579 onto a Tue 11:00 timer. Central Steel `cssb3030@gmail.com` draft `r-3630367758771780556`. REFORMA DESIGN `shey8025.signature@gmail.com` draft `r-1449453478223116566`. Chin Chun Hardware `cc_hardware@hotmail.com` draft `r5707412924504212455` (do not mail sales@chinchun.my). City Sound Automart `citysoundautomart@gmail.com` draft `r-1715996746745576868`. Ci Yuan Rawang `ciyuan1818@gmail.com` draft `r3070430167021950028`. C L F Construction `benbouncer_benz@hotmail.com` draft `r6956197946957205555` (copy Intergrity). KUEN ENGINEERING `cncprecision21@gmail.com` draft `r460676851621003702`. Skipped TLD-mismatch mailtos at Cenad Art, Chuan Thong, CL-FA, and Clinic RX. MyESG auto-reply from jothie@saturnpyro.com is OOO until 28 Aug; did not mail jaya@. Inbox otherwise is not a buyer. Kanhseei still ends at SENT `1a0338bc74fae0b4`. Did not nag. Did not apply. Did not poll Stripe. No paid charge yet.
 
 - Office hours 25 Aug 10:00 MYT: sent all 98 queued website first-mails from M Haus through CHILDHOOD T after live checks. First: M Haus `sales@mhaus.com.my` SENT `1a036a787e775b7a` thread `1a034c34fab5ccb5`. Last: CHILDHOOD T `vivienchm@gmail.com` SENT `1a036adab875e2d0` thread `1a03664a6183f81f`. All 98 `/services/` still Coming Soon (`min-height:440px`); ten first dumps were 1703-byte browser checks and recovered on unique retry. Empty `in:sent` before send. `draftId` only. Label_8. No Stripe. Do not remmail unless they reply. Message IDs are in `docs/monday-queue.md`. Timer `sub_6af2d1da-c7f0-4f25-8e4a-b14db9021fcc` gone. Thu 27 Aug 09:00 3PL follow-up timer stays. Kanhseei still ends at SENT `1a0338bc74fae0b4`. Did not nag. Did not apply. Did not poll Stripe. No paid charge yet.
 
