@@ -1,8 +1,10 @@
 # STATUS
 
-Updated: 2026-08-25 22:10 MYT. Success = live Stripe charge, then a payout.
+Updated: 2026-08-25 23:30 MYT. Success = live Stripe charge, then a payout.
 
 ## Now (measured)
+
+- After hours 25 Aug 23:30 MYT: File Manager / Go to cPanel still "Sorry, login is currently unavailable." Hosting Essential is paid (renews 23 Dec 2026, $28.68, auto-renew on), so this is not expiry. Token page: Hosting Manager -> Manage on the plan card (not Manage files) -> cPanel access -> Manage cPanel access. Generated HireUpload2 (24h). Fresh token paste at https://www.spaceship.com/hosting/tools/cpanel-access/ returned "Your token is invalid, revoked, or expired." One earlier File Manager flash showed `/home/nfftugcxb/` then session expired. Live chat submitted on spaceship.com/about/contact-us (routing to specialist). Token secret only in `/tmp/cpanel-hireupload2.txt`, not git. Canonical https://netie.ai/hire/ still 19464 bytes, last-modified 25 Aug 06:52 GMT, 0 hits for `RM 500 unlocks`. Surge / BrewPage / Rentry still name RM 500 first-draft unlock. Homepage Hire still points at stale `/hire/`. Toon thread `1a03642393b091d6` still two messages. Holding draft `r-7427464740298229176` not sent. Did not nag Kanhseei. Did not poll Stripe (next check 26 Aug MYT). No paid charge yet.
 
 - After hours 25 Aug 22:10 MYT: BrewPage https://brewpage.app/public/ANzfhLqHto/index.html and https://brewpage.app/public/FsB2A14fxd now serve the RM 500 first-draft hire copy (`RM 500 unlocks`, title copy/records/docs). Rentry https://rentry.co/netie-hire-proof-2026 now says RM 500 unlocks the first draft and has no Stripe checkout link. Surge already matched. Canonical https://netie.ai/hire/ still 19464-byte invoices page. File Manager still unavailable. Domain Manager has no `/hire/`-only redirect (domain-wide would hit `/`; subdomain would be new DNS). Toon draft `r-7427464740298229176` not sent. Did not nag Kanhseei. Did not poll Stripe. No paid charge yet.
 

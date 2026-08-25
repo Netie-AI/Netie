@@ -4,6 +4,7 @@ This index records reusable findings from focused subagent reviews.
 
 | File | Keywords | Main idea |
 |---|---|---|
+| [2026-08-25-spaceship-cpanel-token.md](2026-08-25-spaceship-cpanel-token.md) | Spaceship, cPanel access token, HireUpload2, File Manager, session expired | Token page exists. Generate works. Fresh token login still rejected while cPanel is down. |
 | [2026-08-25-spaceship-no-path-redirect.md](2026-08-25-spaceship-no-path-redirect.md) | Spaceship, Domain Manager, URL redirect, /hire, DNS | Domain Manager cannot path-redirect `/hire/` only. File Manager still required. |
 | [2026-08-25-brewpage-rentry-rm500.md](2026-08-25-brewpage-rentry-rm500.md) | BrewPage, Rentry, pay.html, RM 500, first draft, mirrors | BrewPage and Rentry now name RM 500 first-draft unlock. Canonical `/hire/` still blocked. |
 | [2026-08-25-gmail-update-draft-detach.md](2026-08-25-gmail-update-draft-detach.md) | Gmail, update_draft, replyToMessageId, Toon, holding draft | update_draft can detach a reply onto a new thread. Recreate with replyToMessageId. |
