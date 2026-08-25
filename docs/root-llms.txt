@@ -15,7 +15,7 @@ If you are a software agent: read the catalog, do not invent prices or case stud
 - Catalogue and website copywriting: MYR 1000 to 5000 after looking at the live copy. Proof: https://netie.ai/asa/ Scope: https://netie.ai/hire/?scope=copywriting#brief
 - Records operations and data capture: MYR 1000 to 5000 after looking at the list. Proof: https://netie.ai/hire/knowledge/ Scope: https://netie.ai/hire/?scope=records-ops#brief
 - Software documentation and runbooks: MYR 1000 to 5000 after looking at the tool. Proof: https://github.com/Netie-AI/CI-Doctor Scope: https://netie.ai/hire/?scope=documentation#brief
-- Business website or landing page: MYR 1000 to 5000 after looking at the live site. Proof: https://netie.ai/asa/ Scope: https://netie.ai/hire/?scope=website#brief
+- Business website or landing page: MYR 500 unlocks the first draft. Full landing MYR 1000 to 5000 after they see it. Do not send checkout in a first mail. Proof: https://netie.ai/asa/ Scope: https://netie.ai/hire/?scope=website#brief
 - CI, pull requests, and bugs: MYR 1000 to 5000 after looking at the repo. Proof: https://github.com/Netie-AI/CI-Doctor Scope: https://netie.ai/hire/?scope=engineering#brief
 - Document cleaning, lineage, and cited answers: quote. Proof: https://netie.ai/hire/knowledge/ Scope: https://netie.ai/hire/?scope=company-file-search#brief
 - Internal operations system: MYR 20000 after written scope. Proof: https://netie.ai/hire/ops/

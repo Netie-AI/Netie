@@ -1,8 +1,10 @@
 # STATUS
 
-Updated: 2026-08-25 21:10 MYT. Success = live Stripe charge, then a payout.
+Updated: 2026-08-25 21:15 MYT. Success = live Stripe charge, then a payout.
 
 ## Now (measured)
+
+- After hours 25 Aug 21:15 MYT: inbox recheck. No new buyer mail. Toon thread still two messages. Gmail shows the From name as Kah Chun Seow (`toon@advancedinkjet.com.my`). Parked owner-approved clarification as draft `r-7513366825887340098` (not sent). Hire source `docs/pay.html` now names RM 500 unlocks the first draft, then RM 1,000 to RM 5,000. No Stripe button. Canonical https://netie.ai/hire/ still the previous upload until File Manager. Advanced Inkjet draft HTML H1 no longer says print page. Did not nag Kanhseei. Did not apply Foundit. Did not reply Starbridge. Did not poll Stripe. No paid charge yet.
 
 - After hours 25 Aug 21:10 MYT: rewrote the remaining Wed drafts 59-168 (LCS through Solid Kitchen) to RM 500 landing-page voice. Same draftIds. Total rewritten: 168 of 168. Subjects are now "[Firm] landing page". Timer `sub_4048348f-6ace-4f0f-93ef-3415f78d584b` still fires Wed 26 Aug 09:00 MYT: load outreach-tone, rewrite only if a body still says Coming Soon, then send_message draftId. Copy We offers, OfficeEquiment2u, Get Accessed Now!, Porfolio, lOOKING FOR pRINTING sERVICES?, Stranger Presence, Mosquitos Control, Factory For Sales, exising, He offer, various various types, UPVC. pipes, nothing is off-the-shell, we strived, LAM SAUSAGE, Handheald Fan, GRILLE GRILL, On-Time Deliver, they growth. Toon still waiting on owner send. Did not nag Kanhseei. Did not poll Stripe. No paid charge yet.
 

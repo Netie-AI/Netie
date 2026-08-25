@@ -20,7 +20,9 @@ Thread: `1a03642393b091d6`.
 
 ## Owner-approval draft (not sent)
 
-Keep subject as the existing Re: thread. Plaintext `body` only. No Stripe. Do not `send_message` until the owner says send.
+Draft subject: keep Re: Sungai Buloh print page on the existing thread.
+
+Gmail holding draft (not sent): `r-7513366825887340098` thread `1a03642393b091d6`. Created 25 Aug 21:15 MYT after the owner had seen the words. Wait for send.
 
 ```
 Dear Toon,

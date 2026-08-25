@@ -4,6 +4,7 @@ This index records reusable findings from focused subagent reviews.
 
 | File | Keywords | Main idea |
 |---|---|---|
+| [2026-08-25-hire-rm500-first-draft.md](2026-08-25-hire-rm500-first-draft.md) | hire, pay.html, RM 500, first draft, Toon, Kah Chun Seow | Hire source now names RM 500 first-draft unlock. Canonical still needs File Manager. Toon draft parked, not sent. |
 | [2026-08-25-wed-voice-rewrite.md](2026-08-25-wed-voice-rewrite.md) | Wed 09:00, HD Hearing, Solid Kitchen, RM 500, update_draft, sub_4048348f | 168 of 168 Wed drafts rewritten to RM 500 landing voice (HD Hearing through Solid Kitchen). Timer still fires 09:00. Toon still waits. |
 | [2026-08-25-print-page-voice.md](2026-08-25-print-page-voice.md) | Kah, Toon, Advanced Inkjet, print page, RM 500, show before send, scroll-craft, Meng To | Owner said Kah proved Print Page was unclear. Live Gmail is Toon. Direct offer: better landing, RM 500 unlocks first draft. Show owner before send. Skills stored. |
 | [2026-08-25-tactical-solid-batch28-queue.md](2026-08-25-tactical-solid-batch28-queue.md) | Tactical City, TRANSPART, TCL New Trend, TECA, Techking, TED PRINT, T.E. Electric, Texas Print, TGS Dynamics, The Gardenerz, Solid Kitchen, Coming Soon mailto, On-Time Deliver, they growth | Eleven more CS+mailto drafts from unused hosts 2980-3079, folded onto Wed 09:00. HQ-only at TRANSPART and TECA. |

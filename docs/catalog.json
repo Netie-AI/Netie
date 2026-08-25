@@ -37,8 +37,8 @@
     {
       "id": "website-landing",
       "name": "Business website or landing page",
-      "deliverable": "A services or landing page from approved published facts. Band depends on how much copy, layout, and extra page or small chat is required.",
-      "price": { "min": 1000, "max": 5000, "currency": "MYR", "note": "quoted after looking at the live site" },
+      "deliverable": "A services or landing page from approved published facts. RM 500 unlocks the first draft. Full landing after they see it depends on copy, layout, and extra page or small chat.",
+      "price": { "min": 500, "max": 5000, "currency": "MYR", "note": "RM 500 unlocks the first draft. Full landing RM 1000 to 5000 after they see it. No checkout in a first mail." },
       "scope_url": "https://netie.ai/hire/?scope=website#brief",
       "proof_url": "https://netie.ai/asa/"
     },
