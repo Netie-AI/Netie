@@ -3103,10 +3103,170 @@ Tone: `.cursor/skills/outreach-tone/SKILL.md`. `/services/` is filled, not Comin
 
 Skipped leftover filled-cands: wlgroupdesign.com.my `hq@wlgroupdesign.com` TLD mismatch, woodncol.com.my suspended, xmobility.com.my Coming Soon dump, ykautoparts.com.my suspended, YAL remmail, Whole New Era, YHY. This `/tmp/filled-cands.txt` slice is done. Next hunt: unused malaysiabrand hosts before W that were skipped because `/services/` was not Coming Soon.
 
+### 101 Hair -- QUEUED draft 26 Aug 2026 05:15 MYT
+- To: inquiry@101hair.com.my. Draft `r-8590532645925251443`. Thread `1a03abd020ce7903`. Subject: Johor Bahru hair landing page. File: `docs/proposals/101-hair.md`. Copy Hair Care Specialist JB / Menara Pelangi. JSON-LD email.
 
+### FIRST METROLOGY -- QUEUED draft 26 Aug 2026 05:15 MYT
+- To: info@1st.com.my. Draft `r5809009643026913569`. Thread `1a03abd04acaaae6`. Subject: Petaling Jaya scanning landing page. File: `docs/proposals/first-metrology.md`. Copy 3D Scanning / Phileo Damansara 1. JSON-LD email.
 
+### 3DTECH -- QUEUED draft 26 Aug 2026 05:15 MYT
+- To: sales@3dtech.com.my. Draft `r-3422179508069104318`. Thread `1a03abd05c012bf2`. Subject: Mont Kiara BIM landing page. File: `docs/proposals/3dtech.md`. Copy Autodesk AutoCAD / BIM / Plaza Mont Kiara. HQ sales@ only (not support@).
 
+### 3 Sign Maker -- QUEUED draft 26 Aug 2026 05:15 MYT
+- To: 3signmaker@gmail.com. Draft `r-7714430042382319581`. Thread `1a03abd07db4f320`. Subject: Sri Damansara signboard landing page. File: `docs/proposals/3-sign-maker.md`. Copy custom signboard / Bandar Sri Damansara.
 
+### FIVE G PLUS -- QUEUED draft 26 Aug 2026 05:15 MYT
+- To: michaelho1980@hotmail.com. Draft `r-7011838807795409843`. Thread `1a03abd065f3850d`. Subject: Kepong phone-repair landing page. File: `docs/proposals/five-g-plus.md`. Copy one-stop handphone repair / Taman Usahawan Kepong. JSON-LD email.
 
+### Fifth Tech -- QUEUED draft 26 Aug 2026 05:15 MYT
+- To: keayanho@5tech.com.my. Draft `r-5791926940351406004`. Thread `1a03abd0842aecc4`. Subject: Kajang smartboard landing page. File: `docs/proposals/fifth-tech.md`. Copy Interactive Smartboard / Bukit Angkat.
 
+### FURNI 6 -- QUEUED draft 26 Aug 2026 05:15 MYT
+- To: furni6.pulaimutiara@gmail.com. Draft `r6631007497727267993`. Thread `1a03abd0b8e9124c`. Subject: Pulai Mutiara furniture landing page. File: `docs/proposals/furni-6.md`. Copy Pulai Mutiara furniture. Host 6kalibayar.com.my; printed firm FURNI 6.
+
+### Nine Hundred Builders -- QUEUED draft 26 Aug 2026 05:15 MYT
+- To: general@900bsb.com.my. Draft `r-4300301657824311700`. Thread `1a03abd0ac4499c4`. Subject: Puncak Jalil sewage landing page. File: `docs/proposals/nine-hundred-builders.md`. Copy sewage treatment since 1997 / Puncak Jalil.
+
+### 91 Degree Curtain -- QUEUED draft 26 Aug 2026 05:15 MYT
+- To: info@91degreecurtain.com.my. Draft `r4152215215796369305`. Thread `1a03ac020619f3e8`. Subject: Bukit Jalil curtain landing page. File: `docs/proposals/91-degree-curtain.md`. Copy The Link 2 / Bukit Jalil.
+
+### A1 Globe -- QUEUED draft 26 Aug 2026 05:15 MYT
+- To: sales@a1globe.com.my. Draft `r226799384101177066`. Thread `1a03ac023e61e64c`. Subject: Seremban gloves landing page. File: `docs/proposals/a1-globe.md`. Copy latex medical gloves / Pusat Komersial Oakland II.
+
+### Advanced AssemblyTech -- QUEUED draft 26 Aug 2026 05:15 MYT
+- To: sales@aatech.com.my. Draft `r6065291624758844850`. Thread `1a03ac023d3ad8cf`. Subject: Shah Alam dispensing landing page. File: `docs/proposals/advanced-assemblytech.md`. Copy dispensing system / HICOM. HQ sales@ only (not cslee@).
+
+### Absolute Stone -- QUEUED draft 26 Aug 2026 05:15 MYT
+- To: absolutestonesdnbhd@gmail.com. Draft `r-5067696118822017547`. Thread `1a03ac024a111fa0`. Subject: Senai stone landing page. File: `docs/proposals/absolute-stone.md`. Copy custom stone / Taman Desa Idaman.
+
+### Accutac -- QUEUED draft 26 Aug 2026 05:15 MYT
+- To: sales@accutac.com.my. Draft `r-5889243254307223121`. Thread `1a03ac025cef0532`. Subject: Bayan Lepas imager landing page. File: `docs/proposals/accutac.md`. Copy thermal imager / Permatang Damar Laut.
+
+### AC Security -- QUEUED draft 26 Aug 2026 05:15 MYT
+- To: sales@acss.com.my. Draft `r-8265803491082829553`. Thread `1a03ac027ecbca3e`. Subject: Iskandar Puteri CCTV landing page. File: `docs/proposals/ac-security.md`. Copy CCTV / Taman Nusa Indah.
+
+### ADH PACK -- QUEUED draft 26 Aug 2026 05:15 MYT
+- To: adhpack@gmail.com. Draft `r4390116237524997371`. Thread `1a03ac0296381c6b`. Subject: Juru tape landing page. File: `docs/proposals/adh-pack.md`. Copy OEM adhesive tapes / Jalan IKS Juru 9.
+
+### AD Landscape -- QUEUED draft 26 Aug 2026 05:15 MYT
+- To: sales@adlandscape.com.my. Draft `r-3079874492063793265`. Thread `1a03ac02816c2a7c`. Subject: Nusajaya landscape landing page. File: `docs/proposals/ad-landscape.md`. Copy landscape / Taman Nusa Bayu. JSON-LD email.
+
+### Adrian Tan -- QUEUED draft 26 Aug 2026 05:15 MYT
+- To: adriantan0306@live.com. Draft `r597867283656150696`. Thread `1a03ac077b876e79`. Subject: Johor Bahru loans landing page. File: `docs/proposals/adrian-tan.md`. Copy loans and insurance / Taman Ekoperniagaan. Personal advisor OK, like Yeo Siew Yi.
+
+### Advance Car -- QUEUED draft 26 Aug 2026 05:15 MYT
+- To: qqddesmond8899@gmail.com. Draft `r4128683675282056622`. Thread `1a03ac078a83bef4`. Subject: Banting car-accessories landing page. File: `docs/proposals/advance-car.md`. Copy car accessories / Pusat Perdagangan Banting.
+
+### Advance Concept -- QUEUED draft 26 Aug 2026 05:15 MYT
+- To: hello@advanceconcept.com.my. Draft `r-1990011762225131393`. Thread `1a03ac07916ea231`. Subject: Klang plywood landing page. File: `docs/proposals/advance-concept.md`. Copy premium plywood / Sg. Puloh.
+
+### Advelsoft -- QUEUED draft 26 Aug 2026 05:15 MYT
+- To: general@advelsoft.com.my. Draft `r534432286847778993`. Thread `1a03ac07b5d1d16e`. Subject: Subang property-software landing page. File: `docs/proposals/advelsoft.md`. Copy property management software / Taman Subang Perdana.
+
+### Advtech -- QUEUED draft 26 Aug 2026 05:15 MYT
+- To: info@advtechsb.com.my. Draft `r-5874500311857288370`. Thread `1a03ac07ced6fa95`. Subject: Shah Alam hose landing page. File: `docs/proposals/advtech.md`. Copy flexible hoses / Kemuning Utama.
+
+### Aenon -- QUEUED draft 26 Aug 2026 05:15 MYT
+- To: sales@aenon.com.my. Draft `r8760819249059963533`. Thread `1a03ac07ddd1e30c`. Subject: Butterworth RFID landing page. File: `docs/proposals/aenon.md`. Copy RFID and IoT / Tingkat Siram 3.
+
+### Agileness Home -- QUEUED draft 26 Aug 2026 05:15 MYT
+- To: agilenesshome@gmail.com. Draft `r-3106948215043993269`. Thread `1a03ac07ea2a31c6`. Subject: George Town elderly-care landing page. File: `docs/proposals/agileness-home.md`. Copy elderly care / Jalan Kebun Bunga.
+
+### AHS Granite -- QUEUED draft 26 Aug 2026 05:15 MYT
+- To: emily.ahsw@gmail.com. Draft `r-2435402964370215600`. Thread `1a03ac2d7166b015`. Subject: Johor Bahru tombstone landing page. File: `docs/proposals/ahs-granite.md`. Copy tombstone construction / Tampoi Jaya.
+
+### Ai Curtains -- QUEUED draft 26 Aug 2026 05:15 MYT
+- To: aicurtain11@gmail.com. Draft `r990451583555428542`. Thread `1a03ac2d77d40ccc`. Subject: Setia Alam curtain landing page. File: `docs/proposals/ai-curtains.md`. Copy custom made blinds / Setia Alam.
+
+### Aik Lian -- QUEUED draft 26 Aug 2026 05:15 MYT
+- To: aiklian9011@gmail.com. Draft `r-2389434579470084707`. Thread `1a03ac2d8446f853`. Subject: Klang glass landing page. File: `docs/proposals/aik-lian.md`. Copy tempered glass / Taman Sentosa.
+
+### Aims Motion -- QUEUED draft 26 Aug 2026 05:15 MYT
+- To: enquiry@aimsmotion.com.my. Draft `r-8717075286574700304`. Thread `1a03ac2db585f760`. Subject: Batu Maung automation landing page. File: `docs/proposals/aims-motion.md`. Copy industrial automation / Batu Maung. JSON-LD email.
+
+### Ainox Pack -- QUEUED draft 26 Aug 2026 05:15 MYT
+- To: sales@ainoxpack.com.my. Draft `r-7100788883243319981`. Thread `1a03ac2da3eb0247`. Subject: Senawang packaging landing page. File: `docs/proposals/ainox-pack.md`. Copy customised flexible packaging / Sri Senawang.
+
+### Luchtech Engineering -- QUEUED draft 26 Aug 2026 05:15 MYT
+- To: luchtechsb@gmail.com. Draft `r-7365092730881412528`. Thread `1a03ac2dc7c14f4b`. Subject: Puchong compressor landing page. File: `docs/proposals/luchtech.md`. Copy air compressor / Puchong Utama. Host aircompressorsupplier.com.my; printed firm Luchtech.
+
+### Airgens -- QUEUED draft 26 Aug 2026 05:15 MYT
+- To: sales@airgens.com.my. Draft `r2427733668315403443`. Thread `1a03ac2dcf698c9a`. Subject: Simpang Ampat compressor landing page. File: `docs/proposals/airgens.md`. Copy air compressor / TAMAN INDUSTRI BERINGIN.
+
+### Airtech M&E -- QUEUED draft 26 Aug 2026 05:15 MYT
+- To: info@airtech.com.my. Draft `r-6826139174031821064`. Thread `1a03ac2de18bba64`. Subject: Klang HVAC landing page. File: `docs/proposals/airtech.md`. Copy HVAC engineering / Taman Berkeley.
+
+### AirWorks -- QUEUED draft 26 Aug 2026 05:15 MYT
+- To: airworks.my@gmail.com. Draft `r-8695202732650940609`. Thread `1a03ac33951c988d`. Subject: Ulu Tiram inflatable landing page. File: `docs/proposals/airworks.md`. Copy inflatable air shelters / Jalan Kota Tinggi.
+
+### Ajet Marking -- QUEUED draft 26 Aug 2026 05:15 MYT
+- To: aaronwong@ajetmarking.com.my. Draft `r7307609597642213101`. Thread `1a03ac33a11fc33a`. Subject: Johor Bahru inkjet landing page. File: `docs/proposals/ajet-marking.md`. Copy thermal inkjet printer / Taman Ekoflora. HQ aaronwong@ only.
+
+### AKTY -- QUEUED draft 26 Aug 2026 05:15 MYT
+- To: may@akty.com.my. Draft `r-7444718314469055756`. Thread `1a03ac33cc13cf5d`. Subject: Prai precision landing page. File: `docs/proposals/akty.md`. Copy micro component / Prai Free Trade Zone.
+
+### Alampaki -- QUEUED draft 26 Aug 2026 05:15 MYT
+- To: alampakidesign@gmail.com. Draft `r-4108426084088031106`. Thread `1a03ac382bb89c70`. Subject: Semenyih cabinet landing page. File: `docs/proposals/alampaki.md`. Copy home kitchen cabinet / Jalan Bangi Lama 1. JSON-LD email.
+
+### Alena -- QUEUED draft 26 Aug 2026 05:15 MYT
+- To: hello@alena.com.my. Draft `r-8504429798552809897`. Thread `1a03ac33d09edfe9`. Subject: Johor Bahru payroll landing page. File: `docs/proposals/alena.md`. Copy payroll outsourcing / Setia Tropika.
+
+### Alkoh -- QUEUED draft 26 Aug 2026 05:15 MYT
+- To: sales@alkoh.com.my. Draft `r1319951525806550425`. Thread `1a03ac384d9b45c3`. Subject: Ulu Tiram water-filter landing page. File: `docs/proposals/alkoh.md`. Copy water purifier / Taman Perindustrian Cemerlang.
+
+### Aloha Swim -- QUEUED draft 26 Aug 2026 05:15 MYT
+- To: mervyn@alohaswim.com.my. Draft `r-2124282982093737787`. Thread `1a03ac33ed1ec23e`. Subject: Simpang Ampat swimming landing page. File: `docs/proposals/aloha-swim.md`. Copy swimming class / Pangsapuri Eco Bloom. HQ mervyn@ only.
+
+### AlphaMen Clinic -- QUEUED draft 26 Aug 2026 05:15 MYT
+- To: southernalphamenclinic@gmail.com. Draft `r-5368802228399296739`. Thread `1a03ac34122ff8ba`. Subject: Johor Bahru clinic landing page. File: `docs/proposals/alphamen-clinic.md`. Copy men's health clinic / Taman Pelangi.
+
+### Alpha Plus -- QUEUED draft 26 Aug 2026 05:15 MYT
+- To: alphaplus132@gmail.com. Draft `r-2990914976581639082`. Thread `1a03ac385b04ff5f`. Subject: Shah Alam machinery landing page. File: `docs/proposals/alpha-plus.md`. Copy machinery parts / Jalan Gasket 34/2.
+
+### Chiew Yeong Aluminium -- QUEUED draft 26 Aug 2026 05:15 MYT
+- To: chiewyeongaluminiumglass@gmail.com. Draft `r-7040334801208439748`. Thread `1a03ac386ac687a2`. Subject: Pandan Indah aluminium landing page. File: `docs/proposals/chiew-yeong.md`. Copy aluminium and glass works / Pandan Indah.
+
+### Amazetech -- QUEUED draft 26 Aug 2026 05:15 MYT
+- To: enquiry@amazetech.my. Draft `r-1820528899255137490`. Thread `1a03ac3865e58d45`. Subject: Seri Kembangan vacuum landing page. File: `docs/proposals/amazetech.md`. Copy vacuum pump / Taman Industri Selesa Jaya.
+
+### Amazon Group -- QUEUED draft 26 Aug 2026 05:15 MYT
+- To: info@amazongroup.com.my. Draft `r-8128669367618562526`. Thread `1a03ac3883de7571`. Subject: Sri Damansara fit-out landing page. File: `docs/proposals/amazon-group.md`. Copy interior fit-out / Dataran SD. HQ info@ only (not davidlow@).
+
+### AMC Steel Gate -- QUEUED draft 26 Aug 2026 05:15 MYT
+- To: amcengr_metalworks@hotmail.com. Draft `r3562401852571109708`. Thread `1a03ac3f597bb571`. Subject: Johor Bahru gate landing page. File: `docs/proposals/amc-steel-gate.md`. Copy stainless steel gate / Taman Johor.
+
+### AMG Auto Glass -- QUEUED draft 26 Aug 2026 05:15 MYT
+- To: amgautoglass123@gmail.com. Draft `r5003990493561371924`. Thread `1a03ac44acfcf2d2`. Subject: Kota Damansara windscreen landing page. File: `docs/proposals/amg-auto-glass.md`. Copy car windscreen repair / The Core Kota Damansara. JSON-LD email.
+
+### AMP Tiles -- QUEUED draft 26 Aug 2026 05:15 MYT
+- To: info@ampgroup.com.my. Draft `r3155501141208694881`. Thread `1a03ac3f6faeff3b`. Subject: Masai floor-polishing landing page. File: `docs/proposals/amp-tiles.md`. Copy floor polishing / Kota Puteri. JSON-LD email.
+
+### Anekaplas -- QUEUED draft 26 Aug 2026 05:15 MYT
+- To: info@anekaplas.com.my. Draft `r-8758647444906166345`. Thread `1a03ac3f955073de`. Subject: Kapar laser-cut landing page. File: `docs/proposals/anekaplas.md`. Copy laser cut acrylic / Sungai Kapar Indah. JSON-LD email.
+
+### AN G Realty -- QUEUED draft 26 Aug 2026 05:15 MYT
+- To: property.angrealty@gmail.com. Draft `r5483337684463458230`. Thread `1a03ac3f812275d3`. Subject: Puchong property landing page. File: `docs/proposals/ang-realty.md`. Copy residential and commercial properties / Taman Perindustrian Kinrara.
+
+### ANIHEALTH -- QUEUED draft 26 Aug 2026 05:15 MYT
+- To: sales@anihealth.com.my. Draft `r-540920049623225255`. Thread `1a03ac3fb07a4dbf`. Subject: Subang vet-equipment landing page. File: `docs/proposals/anihealth.md`. Copy vet clinic equipment / Subang Hi-Tech. JSON-LD email.
+
+### ANJU -- QUEUED draft 26 Aug 2026 05:15 MYT
+- To: enquiry@anju.com.my. Draft `r-3284846590401765290`. Thread `1a03ac44dcc1b68b`. Subject: Shah Alam tableware landing page. File: `docs/proposals/anju.md`. Copy tableware / Kampung Paya Jaras Dalam.
+
+### Apex Engineering -- QUEUED draft 26 Aug 2026 05:15 MYT
+- To: Jimchu@apexengineering.com.my. Draft `r-8293294796880675015`. Thread `1a03ac44c9cfa259`. Subject: Bukit Mertajam workshop landing page. File: `docs/proposals/apex-engineering.md`. Copy German car workshop / Cherok To'Kun. Copy printed Jimchu@.
+
+### APEX Forklift -- QUEUED draft 26 Aug 2026 05:15 MYT
+- To: apexforklift.my@gmail.com. Draft `r-111445130035391816`. Thread `1a03ac44ea071820`. Subject: Klang forklift landing page. File: `docs/proposals/apex-forklift.md`. Copy forklift rental / Jalan Kapar.
+
+### A-Plus Dental -- QUEUED draft 26 Aug 2026 05:15 MYT
+- To: aplusdental.pontian@gmail.com. Draft `r-2445738215211912393`. Thread `1a03ac44fd653992`. Subject: Pontian dental landing page. File: `docs/proposals/aplus-dental.md`. Copy dental clinic / Pusat Perniagaan Kota Emas.
+
+### Morningstar -- QUEUED draft 26 Aug 2026 05:15 MYT
+- To: enquiry@apmorningstar.com.my. Draft `r-8670702986505041848`. Thread `1a03ac45144a6ec4`. Subject: Skudai maid-agency landing page. File: `docs/proposals/morningstar.md`. Copy legal domestic helper / Taman Mutiara Mas.
+
+### CJB CABPLUS -- QUEUED draft 26 Aug 2026 05:15 MYT
+- To: info.cjbcabinet@gmail.com. Draft `r-8936397216273160681`. Thread `1a03ac4528668f40`. Subject: Puchong aluminium-cabinet landing page. File: `docs/proposals/cjb-cabplus.md`. Copy full aluminium cabinet / Bandar Puteri. Host aluminiumcabinet.my; printed firm CJB CABPLUS.
+
+Skipped remain hosts 1-180: 10ftcurtains/3wire/abvglobal/acculinks/aclinic/aestheticclinicjb/advancegroup/airsolution/akfa/alcor/alletronic/ambokengineering/aquanature TLD or domain mismatch; aamori NFT; aesoft remmail (VITA POS already queued). Next hunt: remain hosts after line 180.
 
