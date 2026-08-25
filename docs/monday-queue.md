@@ -2525,6 +2525,41 @@ Folded onto the same Wed 09:00 timer (`sub_e0096431-c060-49d4-8655-b1a26c78afa7`
 - To: nicolesze.fhg@gmail.com. Draft `r-2187643082099035779`. Thread `1a038929bb7fd809`. Subject: Puchong factory-sales page. File: `docs/proposals/nc-group.md`. Copy Factory For Sales / Shop-Office For Sell. Footer Knight Synergy Sdn Bhd.
 - Next hunt: unused malaysiabrand hosts after line 2179. Do not send these before Wed 09:00 MYT.
 
+## Queued after hours 25 Aug 2026 19:09 MYT (do not send before Wed 09:00)
+
+Folded onto the same Wed 09:00 timer (`sub_6c8f0b11-d434-4373-8c1a-89399537ca56`, replaced `sub_e0096431-c060-49d4-8655-b1a26c78afa7`). Ten extras from unused hosts 2180-2279. Empty `in:sent`. All ten `/services/` Coming Soon (`min-height:440px`). No Stripe. HQ officeequipment2u@ only at OE2U. Copy Hicom-glenmarie, OfficeEquiment2u, Where Fatigue and Tiredness Get Healing, Noble Craft provide, rekalibrasi program 2.0, All kinds of tools that you need can find here.
+
+### New Traffic Auto Sdn Bhd -- QUEUED draft 25 Aug 2026 19:07 MYT
+- To: newtraffic75@gmail.com. Draft `r-5570907033253902060`. Thread `1a0389a601b536bf`. Subject: Glenmarie auto-parts page. File: `docs/proposals/new-traffic.md`. Copy Hicom-glenmarie Industrial Park.
+
+### 955 Agency Sdn Bhd -- QUEUED draft 25 Aug 2026 19:07 MYT
+- To: siahtongchern@yahoo.com. Draft `r-4250494829830128615`. Thread `1a0389a8a85e90e0`. Subject: Taman Molek funeral page. File: `docs/proposals/nirvana-planning.md`. Copy 一站式规划殡葬服务 / 马币一亿信托基金. HQ Taman Molek only.
+
+### NIMAC POWER SYSTEMS (M) SDN BHD -- QUEUED draft 25 Aug 2026 19:07 MYT
+- To: sales@nimac.com.my. Draft `r1571208633462605789`. Thread `1a0389aaddff602d`. Subject: Kajang backup-power page. File: `docs/proposals/nimac.md`. Copy Backup Power Is Our Specialty / seal/vented lead acid.
+
+### SOON HENG HARDWARE CO. SDN. BHD. -- QUEUED draft 25 Aug 2026 19:07 MYT
+- To: sales@nlh.com.my. Draft `r-6048182960742316750`. Thread `1a0389ad16978287`. Subject: Muar sanitaryware page. File: `docs/proposals/nlh-soon-heng.md`. Copy Where Fatigue and Tiredness Get Healing.
+
+### Noble Craft Sdn. Bhd. -- QUEUED draft 25 Aug 2026 19:08 MYT
+- To: sales.noblecraft@gmail.com. Draft `r-40801281616851698`. Thread `1a0389b109da10de`. Subject: Balakong flooring page. File: `docs/proposals/noble-craft.md`. Copy Noble Craft provide / Discover Mexmy Flooring.
+
+### Nursery Hong Soon Sdn Bhd -- QUEUED draft 25 Aug 2026 19:08 MYT
+- To: mgmt@nurseryhongsoon.com.my. Draft `r-7309346881552170751`. Thread `1a0389b34f23ff9f`. Subject: Ulu Tiram landscape page. File: `docs/proposals/nursery-hong-soon.md`. Copy Your Premier Landscaping Partner in Malaysia.
+
+### OAC Global Services -- QUEUED draft 25 Aug 2026 19:08 MYT
+- To: cwteo1993@hotmail.com. Draft `r-6272871307025673232`. Thread `1a0389b64d1666de`. Subject: Klang visa page. File: `docs/proposals/oac-global.md`. Copy rekalibrasi program 2.0.
+
+### Syarikat Kichong Office Equipment Sdn Bhd -- QUEUED draft 25 Aug 2026 19:08 MYT
+- To: officeequipment2u@gmail.com. Draft `r1540085878183210617`. Thread `1a0389b7dd263086`. Subject: Cheras office-equipment page. File: `docs/proposals/oe2u.md`. Copy OfficeEquiment2u. Did not mail enquiry@koe.com.my.
+
+### OIJ Hardware Household Sdn Bhd -- QUEUED draft 25 Aug 2026 19:08 MYT
+- To: oij.enterprise@gmail.com. Draft `r-5239965613949901236`. Thread `1a0389b987aa915c`. Subject: Johor Jaya hardware page. File: `docs/proposals/oij-hardware.md`. Copy All kinds of tools that you need can find here.
+
+### ENSURE MACHINERY SDN BHD -- QUEUED draft 25 Aug 2026 19:09 MYT
+- To: ensuremachinery@outlook.com. Draft `r1288820328846280053`. Thread `1a0389bb3a2be566`. Subject: Klang machinery page. File: `docs/proposals/okiyio.md`. Copy Empowering Industries with Precision & Reliability.
+- Next hunt: unused malaysiabrand hosts after line 2279. Do not send these before Wed 09:00 MYT.
+
 
 
 
