@@ -1,8 +1,10 @@
 # STATUS
 
-Updated: 2026-08-26 07:21 MYT. Success = live Stripe charge, then a payout.
+Updated: 2026-08-26 07:25 MYT. Success = live Stripe charge, then a payout.
 
 ## Now (measured)
+
+- After hours 26 Aug 07:25 MYT: no new buyer mail. Toon still parked. Carousell still blocked from this VM. Added Craigslist Malaysia backup paste `docs/craigslist-paste.txt` and owner inbox thread `1a03b3c90355bfd9`. Post URL https://post.craigslist.org/c/mly. Canonical hire still sha256 `dce8fe2c...`. Did not buy PPH. Did not join Bitget. Did not resume remain-host hunt. Did not poll Stripe. No paid charge yet.
 
 - After hours 26 Aug 07:21 MYT: logged-in FLMY has no matching landing job and no free service listing. PPH POST OFFER still hits CONTINUE TO PAYMENT. Did not buy. Carousell from this VM stays on Cloudflare verification. Owner posts Facebook / Carousell / LaborX from the phone. Canonical hire still sha256 `dce8fe2c...`. Toon still parked. Did not nag Kanhseei. Did not reply Starbridge. Did not resume remain-host hunt. Did not poll Stripe. No paid charge yet.
 
