@@ -1,8 +1,10 @@
 # STATUS
 
-Updated: 2026-08-26 02:10 MYT. Success = live Stripe charge, then a payout.
+Updated: 2026-08-26 02:35 MYT. Success = live Stripe charge, then a payout.
 
 ## Now (measured)
+
+- After hours 26 Aug 02:35 MYT: live https://netie.ai/hire/ still sha256 `7c91bf0b...`. Twine https://www.twine.net/api/users/jianhong bio now names RM 500 unlocks the first draft; day_rate 12000 USD cents ($120/day). Twine strips the hire URL. Freelancing.my profile still names RM 500. Toon draft `r-7427464740298229176` not sent. Did not nag Kanhseei. Did not reply Starbridge. Did not buy Twine credits. Checkout HTTP 200, not a charge. No paid charge yet.
 
 - After hours 26 Aug 02:10 MYT: live https://netie.ai/hire/ still matches git (sha256 `7c91bf0b...`, last-modified 25 Aug 17:44 GMT). Freelancing.my https://freelancing.my/author/jianhong/ now says Better landing pages in Penang and RM 500 unlocks the first draft. Did not bid Social Media Content Executive. Did not mail the platform inbox. Toon draft `r-7427464740298229176` not sent. Did not nag Kanhseei. Did not reply Starbridge. Checkout HTTP 200, not a charge. No paid charge yet.
 
