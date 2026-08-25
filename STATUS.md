@@ -1,8 +1,10 @@
 # STATUS
 
-Updated: 2026-08-25 17:32 MYT. Success = live Stripe charge, then a payout.
+Updated: 2026-08-25 17:34 MYT. Success = live Stripe charge, then a payout.
 
 ## Now (measured)
+
+- After hours 25 Aug 17:34 MYT: late fire of `netie-tue-glassminds-website-2026-08-25-1700-myt`. No-op. All eleven Glass Minds through Golden Star Roofing threads still one SENT message from 17:03 MYT (Label_8). Drafts gone. Did not remmail. After 17:00 MYT. Did not nag. Did not apply. Did not poll Stripe. No paid charge yet.
 
 - After hours 25 Aug 17:32 MYT: late fire of `netie-tue-hardee-website-2026-08-25-1600-myt`. No-op. All three Hardee FLEX, Greenrich, and Galaxy Lock threads still one SENT message from 16:02 MYT (Label_8). Drafts gone. Did not remmail. After 17:00 MYT. Did not nag. Did not apply. Did not poll Stripe. No paid charge yet.
 

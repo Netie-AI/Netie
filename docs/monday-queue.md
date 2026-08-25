@@ -2153,7 +2153,7 @@ Timer `netie-tue-hardee-website-2026-08-25-1600-myt` unsubscribed before send. T
 
 ## SENT Tue 25 Aug 2026 17:00 MYT (Glass Minds through Golden Star Roofing)
 
-Timer `netie-tue-glassminds-website-2026-08-25-1700-myt` unsubscribed before send. Eleven extras from unused malaysiabrand hosts 1080-1179. All eleven `/services/` still Coming Soon (`min-height:440px`). Empty `in:sent` before send. `draftId` only. Label_8. No Stripe. Do not remmail unless they reply.
+Timer `netie-tue-glassminds-website-2026-08-25-1700-myt` unsubscribed before send. Eleven extras from unused malaysiabrand hosts 1080-1179. All eleven `/services/` still Coming Soon (`min-height:440px`). Empty `in:sent` before send. `draftId` only. Label_8. No Stripe. Do not remmail unless they reply. Late fire 25 Aug 17:34 MYT was a no-op.
 
 ### Glass Minds Sdn Bhd -- SENT 25 Aug 2026 17:03 MYT
 - To: ggmax4134@gmail.com. Former draft `r7484665180164720304`. SENT `1a03828c76803487`. Thread `1a037f8a663a5106`. Subject: Shah Alam glass page.
