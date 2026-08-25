@@ -1,8 +1,10 @@
 # STATUS
 
-Updated: 2026-08-25 20:50 MYT. Success = live Stripe charge, then a payout.
+Updated: 2026-08-25 20:55 MYT. Success = live Stripe charge, then a payout.
 
 ## Now (measured)
+
+- After hours 25 Aug 20:55 MYT: rewrote Wed drafts 11-34 (Apple Queen Beauty through J and H OFFICE DESIGN) to RM 500 landing-page voice. Same draftIds. Total rewritten tonight: 34 of 168. Remaining 134 rewrite on send via timer `sub_4048348f-6ace-4f0f-93ef-3415f78d584b`. Toon still waiting on owner send. Did not nag Kanhseei. Did not poll Stripe. No paid charge yet.
 
 - After hours 25 Aug 20:50 MYT: rewrote the first ten Wed drafts (HD Hearing through H and H Glass) to the direct offer: better landing page, RM 500 unlocks the first draft. Same draftIds. Subjects are now "[Firm] landing page". Replaced Wed 09:00 timer `sub_3fe8c738-73a7-4b4e-8935-68cdb21175fa` with `sub_4048348f-6ace-4f0f-93ef-3415f78d584b` (same name, 168 draftIds, rewrite-before-send for the remaining 158). Toon reply still waiting on owner send. Did not nag Kanhseei. Did not add new first-mails. Did not poll Stripe. No paid charge yet.
 
