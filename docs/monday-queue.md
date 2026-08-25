@@ -2067,47 +2067,47 @@ Timer `netie-tue-dloy-website-2026-08-25-1300-myt` (`sub_8e259b3a-2680-42fe-9e51
 ### EC Blinds Centre -- SENT 25 Aug 2026 13:00 MYT
 - To: ecblindscentre@gmail.com. Former draft `r-8462715466516635299`. SENT `1a0374af8b56ac32`. Thread `1a037154145d0db8`.
 
-## Queued after the Tue 13:00 DLOY-through-EC Blinds send (do not send before 14:00, and not after hours)
+## SENT Tue 25 Aug 2026 14:00 MYT (LODER through ENG SENG HAN)
 
-Timer `netie-tue-loder-website-2026-08-25-1400-myt` (`sub_20a2d050-0d19-46ab-9ef7-f7b587e9e72f`, once, Tue 25 Aug 14:00 MYT). Eleven extras from unused malaysiabrand hosts 780-879. Skipped EETA `eetafood@gmail.com` (already SENT 22 Aug). Skipped econsultmgmtgroup.com.my mailto info@econsultmgmt.com.my (domain mismatch). Edith Art contact prints Johor city-only, no street. Novelty Flooring HQ `info@empireflooring.com.my` only. Copy Steroid-Free,Paraben-Free, Beautifully unique cinema rooms...., Unique gift & special gift discover here, Yamaha Y16ZR 6MRO. The 09:00 through 13:00 first-mails are already SENT; do not remmail.
+Timer `netie-tue-loder-website-2026-08-25-1400-myt` unsubscribed before send. Eleven extras from unused malaysiabrand hosts 780-879. All eleven `/services/` still Coming Soon (`min-height:440px`). Empty `in:sent` before send. `draftId` only. Label_8. No Stripe. Do not remmail unless they reply.
 
-### LODER ENTERPRISE -- QUEUED draft 25 Aug 2026 13:01 MYT
-- To: enquiry@ecoco.my. Draft `r-4918737870926673265`. Thread `1a0374b4f1b8a130`. Subject: Butterworth storage page. File: `docs/proposals/loder-enterprise.md`.
+### LODER ENTERPRISE -- SENT 25 Aug 2026 14:04 MYT
+- To: enquiry@ecoco.my. SENT `1a03785a1fee70d1`. Thread `1a0374b4f1b8a130`. Subject: Butterworth storage page.
 
-### Perfect Steel Sdn Bhd -- QUEUED draft 25 Aug 2026 13:01 MYT
-- To: perfectsteel.pssb@gmail.com. Draft `r-8440111793409599672`. Thread `1a0374b6a500bb55`. Subject: Ipoh awning page. File: `docs/proposals/perfect-steel.md`.
+### Perfect Steel Sdn Bhd -- SENT 25 Aug 2026 14:04 MYT
+- To: perfectsteel.pssb@gmail.com. SENT `1a03785f0df810be`. Thread `1a0374b6a500bb55`. Subject: Ipoh awning page.
 
-### Eco Venus Shop -- QUEUED draft 25 Aug 2026 13:01 MYT
-- To: ecovenus01@gmail.com. Draft `r-8126670811007828469`. Thread `1a0374b817e8e517`. Subject: Kepong skincare page. File: `docs/proposals/eco-venus.md`.
+### Eco Venus Shop -- SENT 25 Aug 2026 14:04 MYT
+- To: ecovenus01@gmail.com. SENT `1a037862f950eb48`. Thread `1a0374b817e8e517`. Subject: Kepong skincare page.
 
-### ECZLIN / Mygreat Consultancy -- QUEUED draft 25 Aug 2026 13:01 MYT
-- To: general@eczlin.my. Draft `r-4484398816717340068`. Thread `1a0374b9f3da512e`. Subject: Skudai eczema-cream page. File: `docs/proposals/eczlin.md`. Copy Steroid-Free,Paraben-Free.
+### ECZLIN / Mygreat Consultancy -- SENT 25 Aug 2026 14:04 MYT
+- To: general@eczlin.my. SENT `1a0378671552b79e`. Thread `1a0374b9f3da512e`. Subject: Skudai eczema-cream page. Copy Steroid-Free,Paraben-Free.
 
-### Edith Art Enterprise -- QUEUED draft 25 Aug 2026 13:01 MYT
-- To: edithart.services@gmail.com. Draft `r3915509108080361135`. Thread `1a0374bbef124a83`. Subject: Johor handmade-gift page. File: `docs/proposals/edith-art.md`. No street.
+### Edith Art Enterprise -- SENT 25 Aug 2026 14:05 MYT
+- To: edithart.services@gmail.com. SENT `1a03786b74c83e51`. Thread `1a0374bbef124a83`. Subject: Johor handmade-gift page. No street.
 
-### E LABB INT SDN. BHD. -- QUEUED draft 25 Aug 2026 13:01 MYT
-- To: office.elabb@gmail.com. Draft `r-5421744643426426995`. Thread `1a0374bd243f6250`. Subject: Glenmarie cinema-room page. File: `docs/proposals/elabb.md`. Copy four dots.
+### E LABB INT SDN. BHD. -- SENT 25 Aug 2026 14:05 MYT
+- To: office.elabb@gmail.com. SENT `1a03786ff43b292d`. Thread `1a0374bd243f6250`. Subject: Glenmarie cinema-room page. Copy four dots.
 
-### Novelty Flooring (M) Sdn Bhd -- QUEUED draft 25 Aug 2026 13:01 MYT
-- To: info@empireflooring.com.my. Draft `r-4063123298383434298`. Thread `1a0374be645dfd8f`. Subject: Bukit Mertajam flooring page. File: `docs/proposals/novelty-flooring.md`. HQ info@ only.
+### Novelty Flooring (M) Sdn Bhd -- SENT 25 Aug 2026 14:05 MYT
+- To: info@empireflooring.com.my. SENT `1a037873d486e44e`. Thread `1a0374be645dfd8f`. Subject: Bukit Mertajam flooring page. HQ info@ only.
 
-### English Hero Sdn. Bhd. -- QUEUED draft 25 Aug 2026 13:01 MYT
-- To: englishherohqbusinessdev@gmail.com. Draft `r-2209953154716978640`. Thread `1a0374bf9029eb5d`. Subject: Tangkak English-centre page. File: `docs/proposals/english-hero.md`.
+### English Hero Sdn. Bhd. -- SENT 25 Aug 2026 14:05 MYT
+- To: englishherohqbusinessdev@gmail.com. SENT `1a0378797a40de06`. Thread `1a0374bf9029eb5d`. Subject: Tangkak English-centre page.
 
-### Eng Lum Motor Sdn. Bhd. -- QUEUED draft 25 Aug 2026 13:01 MYT
-- To: elm_png@yahoo.com. Draft `r-8871905232195488305`. Thread `1a0374c1d0cca97f`. Subject: Butterworth Yamaha page. File: `docs/proposals/eng-lum-motor.md`. Copy 6MRO.
+### Eng Lum Motor Sdn. Bhd. -- SENT 25 Aug 2026 14:05 MYT
+- To: elm_png@yahoo.com. SENT `1a03787d4a5f09d7`. Thread `1a0374c1d0cca97f`. Subject: Butterworth Yamaha page. Copy 6MRO.
 
-### ENG POLYMER MARKETING SDN. BHD. -- QUEUED draft 25 Aug 2026 13:01 MYT
-- To: enquiry@engsb.com.my. Draft `r4611773999970071079`. Thread `1a0374c379614cd2`. Subject: Johor Bahru plastics page. File: `docs/proposals/eng-polymer.md`.
+### ENG POLYMER MARKETING SDN. BHD. -- SENT 25 Aug 2026 14:06 MYT
+- To: enquiry@engsb.com.my. SENT `1a03788496874a1e`. Thread `1a0374c379614cd2`. Subject: Johor Bahru plastics page.
 
-### ENG SENG HAN HARDWARE SDN. BHD. -- QUEUED draft 25 Aug 2026 13:01 MYT
-- To: engsenghanhardware@gmail.com. Draft `r6565042317726090516`. Thread `1a0374c5016570c1`. Subject: Sungai Buloh fittings page. File: `docs/proposals/eng-seng-han-hardware.md`.
-- Next hunt: unused malaysiabrand hosts after line 879. Nine extras from 880-979 are queued below for 15:00 MYT. Do not send those before 15:00.
+### ENG SENG HAN HARDWARE SDN. BHD. -- SENT 25 Aug 2026 14:06 MYT
+- To: engsenghanhardware@gmail.com. SENT `1a0378903a0c2347`. Thread `1a0374c5016570c1`. Subject: Sungai Buloh fittings page.
+- Nine extras from unused hosts 880-979 stay queued below for 15:00 MYT. Do not send those before 15:00.
 
 ## Queued after the Tue 14:00 LODER-through-ENG SENG HAN send (do not send before 15:00, and not after hours)
 
-Nine extras from unused malaysiabrand hosts 880-979. Skipped fceenterprise.com.my mailto enquiry@fce.com.my (domain mismatch; already SENT 22 Aug to enquiry@fce.com.my). ESM HQ `esmkl2u@gmail.com` only. Falcon HQ `admin@fetsb.com.my` only. EURO FLOORING HQ `general@eurofloor.com.my` only. Copy Solid Timber Celling, florescent tubes, TIDEWAY STAINLESS STEEL GRUNDPUMP, Lights On, Sound Up, Our floors are downright gorgeous, GROUND ENGAGING TOOLS (G.E.T), We making the process, We corporate / financial healthy level. ESL contact prints Jalan PDR 6 with no street number. Eventworks has no printed SSM. The 09:00 through 14:00 first-mails stay on their own cadence; do not remmail.
+Timer `netie-tue-esewood-website-2026-08-25-1500-myt` (`sub_9b7cdb99-e303-4819-bf9b-ed0ea1aeadf1`, once, Tue 25 Aug 15:00 MYT). Nine extras from unused malaysiabrand hosts 880-979. Skipped fceenterprise.com.my mailto enquiry@fce.com.my (domain mismatch; already SENT 22 Aug to enquiry@fce.com.my). ESM HQ `esmkl2u@gmail.com` only. Falcon HQ `admin@fetsb.com.my` only. EURO FLOORING HQ `general@eurofloor.com.my` only. Copy Solid Timber Celling, florescent tubes, TIDEWAY STAINLESS STEEL GRUNDPUMP, Lights On, Sound Up, Our floors are downright gorgeous, GROUND ENGAGING TOOLS (G.E.T), We making the process, We corporate / financial healthy level. ESL contact prints Jalan PDR 6 with no street number. Eventworks has no printed SSM. The 09:00 through 14:00 first-mails stay on their own cadence; do not remmail.
 
 ### ESE WOOD SDN BHD -- QUEUED draft 25 Aug 2026 13:15 MYT
 - To: esewoodsb@gmail.com. Draft `r4063244312295174796`. Thread `1a03757ffe22a709`. Subject: Senai timber page. File: `docs/proposals/ese-wood.md`. Copy Solid Timber Celling.
