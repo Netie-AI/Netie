@@ -2406,7 +2406,32 @@ Folded onto the same Wed 09:00 timer (`sub_9b3b3834-5f80-4aa5-b2bf-b4cf49169cfa`
 
 ### ITG SMART ENTERPRISE -- QUEUED draft 25 Aug 2026 18:25 MYT
 - To: isaac@lgmalaysia.com.my. Draft `r969078387022208288`. Thread `1a038743334e1d82`. Subject: Ayer Hitam PuriCare page. File: `docs/proposals/itg-smart.md`. Copy LG Subscribe Malaysia. Did not mail harry@.
-- Next hunt: unused malaysiabrand hosts after line 1779. Do not send these before Wed 09:00 MYT.
+
+## Queued after hours 25 Aug 2026 18:33 MYT (do not send before Wed 09:00)
+
+Folded onto the same Wed 09:00 timer (`sub_e08c8884-86f5-46cd-a0f3-b03e8b1b98fb`, replaced `sub_9b3b3834-5f80-4aa5-b2bf-b4cf49169cfa`). Seven extras from unused hosts 1780-1879. Empty `in:sent`. All seven `/services/` Coming Soon (`min-height:440px`). No Stripe. Skipped Lutonics SENT 22 Aug. M2 Film Fukim inbox only. Mahagamy HQ osamalim@ only.
+
+### Vision Lighting Lab -- QUEUED draft 25 Aug 2026 18:32 MYT
+- To: visionlightinglab@gmail.com. Draft `r137402964016663770`. Thread `1a0387a340984afb`. Subject: Cheng lighting page. File: `docs/proposals/vision-lighting-lab.md`. Copy Illuminate Your Space / Get Instant Discount For Membership.
+
+### Lik Soon Sdn Bhd -- QUEUED draft 25 Aug 2026 18:32 MYT
+- To: liksoon@gmail.com. Draft `r-531907505371755767`. Thread `1a0387a44c7325cc`. Subject: Cheras board page. File: `docs/proposals/lik-soon.md`. Copy Excellence in Every Board We Make.
+
+### Linea Studio -- QUEUED draft 25 Aug 2026 18:32 MYT
+- To: lineastudio.id@outlook.com. Draft `r7179679650887501178`. Thread `1a0387a59341a93a`. Subject: Puchong interior page. File: `docs/proposals/linea-studio.md`. Copy Complete Home Solutions.
+
+### Little Builder Construction Supplies (M) Sdn. Bhd -- QUEUED draft 25 Aug 2026 18:32 MYT
+- To: info.littlebuilder2022@gmail.com. Draft `r-3970387761823880808`. Thread `1a0387a6a425466d`. Subject: Semenyih countertop page. File: `docs/proposals/little-builder.md`. Copy no middleman markups.
+
+### L C O IT SOLUTION SDN BHD -- QUEUED draft 25 Aug 2026 18:32 MYT
+- To: kclee@llco.com.my. Draft `r-2694822566554343568`. Thread `1a0387a8411c6d56`. Subject: Kulai printer page. File: `docs/proposals/lco-it.md`. Copy Customized Printing Solution and Enjoy Exclusive Perks!
+
+### M2 Film Studio -- QUEUED draft 25 Aug 2026 18:32 MYT
+- To: fukim2521@gmail.com. Draft `r-8988890707735910093`. Thread `1a0387a9de345e94`. Subject: Kluang wedding-film page. File: `docs/proposals/m2-film-studio.md`. Copy Mixx Film / Fukim. Did not mail 745528451@qq.com.
+
+### Mahagamy Consultancy And Advisory Sdn Bhd -- QUEUED draft 25 Aug 2026 18:32 MYT
+- To: osamalim@mahagamy.com.my. Draft `r-626545270343868042`. Thread `1a0387ab191e2484`. Subject: Sibu training page. File: `docs/proposals/mahagamy.md`. Copy EMPOWERING SKILLS. ENSURING SAFETY. Did not mail limchongyee911@.
+- Next hunt: unused malaysiabrand hosts after line 1879. Do not send these before Wed 09:00 MYT.
 
 
 
