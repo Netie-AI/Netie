@@ -1939,59 +1939,122 @@ Same 10:00 send. Loh is a private-car page, not a Thursday 3PL follow-up. Do not
 - Website-page offer, RM 1,000-5,000. No Stripe. Do not mail again unless they reply.
 - Skipped this pass: caver.com.my mailto enquire@sterlingprofile.com (domain mismatch). castorwheel.com.my mailto sales@ukai.com.my (domain mismatch). Leftover WAF hosts 380-479 rechecked 25 Aug 10:14 MYT: filled or 404, not Coming Soon.
 
-## Queued after the Tue 10:00 M Haus-through-CHILDHOOD T send (do not send before 11:00, and not after hours)
+## SENT Tue 25 Aug 2026 11:00 MYT Central Steel through KUEN
 
-Timer `netie-tue-centralsteel-website-2026-08-25-1100-myt` (`sub_a8bf4e45-0915-4039-89c7-04d40d3b95ca`, once, Tue 25 Aug 11:00 MYT). Send existing Gmail drafts only after live `/services/` Coming Soon and empty `in:sent`. Seven extras from unused malaysiabrand hosts after line 479: Central Steel, REFORMA DESIGN, Chin Chun Hardware, City Sound Automart, Ci Yuan Rawang, C L F Construction, KUEN ENGINEERING. Not an email-watch loop. No Stripe. One inbox. RM 1,000-5,000. Label `Label_8` after send. Do not Surge-publish until after SENT. If Kanhseei writes, answer first and honor RM 500. Do not poll Stripe (already done 25 Aug MYT). Copy Intergrity as printed. Do not mail sales@chinchun.my. The 09:00, 09:20, 09:40, and 10:00 first-mails are already SENT; do not remmail.
+The 10:00 M Haus-through-CHILDHOOD T timer later fired as a no-op. Those 98 were already SENT at 10:00 MYT. Did not remmail.
 
-### Central Steel Sdn Bhd -- QUEUED draft 25 Aug 2026 10:21 MYT
+Timer `netie-tue-centralsteel-website-2026-08-25-1100-myt` (`sub_a8bf4e45-0915-4039-89c7-04d40d3b95ca`) unsubscribed before send. Live `/services/` still Coming Soon (`min-height:440px`) on unique Chrome UA files. Empty `in:sent` before send. `draftId` only. Label_8. No Stripe. Copy Intergrity as printed. Did not mail sales@chinchun.my.
+
+### Central Steel Sdn Bhd -- SENT 25 Aug 2026 11:00 MYT
 
 - To: cssb3030@gmail.com (homepage mailto on https://www.centralsteel.com.my/). One inbox.
 - Source: live https://www.centralsteel.com.my/services/ HTTP 200 still Coming Soon (`min-height:440px`). Homepage lists steel bar, BRC wire mesh, plywood, and 20 Years of Experience in the Hardware Industry from Lot 14828, Jalan Udang Galah, Telok Gong, 42000 Port Klang. SSM 201401041914 (1118073-P).
-- Draft: `r-3630367758771780556`. Thread: `1a036b892b0b101f`. Subject: Port Klang steel page.
+- Former draft: `r-3630367758771780556`. SENT `1a036dcb5360f2a4`. Thread: `1a036b892b0b101f`. Subject: Port Klang steel page.
 - File: `docs/proposals/central-steel.md`. Hostable draft: `docs/proposals/central-steel-services.html`.
 
-### REFORMA DESIGN SDN. BHD. -- QUEUED draft 25 Aug 2026 10:21 MYT
+### REFORMA DESIGN SDN. BHD. -- SENT 25 Aug 2026 11:00 MYT
 
 - To: shey8025.signature@gmail.com (contact-page mailto on https://www.chankitchen.com.my/contactus/). One inbox.
 - Source: live https://www.chankitchen.com.my/services/ HTTP 200 still Coming Soon (`min-height:440px`). Homepage lists DIRECT FROM FACTORY kitchen cabinets and wardrobes, plus ALTAR CABINET, from Block 5-4-21, Sinaran Satu, Persiaran Anggerik Vanilla, Kota Kemuning, 40460 Shah Alam. SSM 202501010872 (1612286-P).
-- Draft: `r-1449453478223116566`. Thread: `1a036b8d72a06ace`. Subject: Kota Kemuning kitchen page.
+- Former draft: `r-1449453478223116566`. SENT `1a036dcc7bc47742`. Thread: `1a036b8d72a06ace`. Subject: Kota Kemuning kitchen page.
 - File: `docs/proposals/reforma-design.md`. Hostable draft: `docs/proposals/reforma-design-services.html`.
 
-### Chin Chun Hardware Sdn Bhd -- QUEUED draft 25 Aug 2026 10:21 MYT
+### Chin Chun Hardware Sdn Bhd -- SENT 25 Aug 2026 11:00 MYT
 
 - To: cc_hardware@hotmail.com (contact-page mailto on https://www.chinchunhardware.my/contactus/). One inbox. Do not mail sales@chinchun.my.
 - Source: live https://www.chinchunhardware.my/services/ HTTP 200 still Coming Soon (`min-height:440px`). Homepage lists TSUNAMI BOOSTER PUMP / AQUA X-3 600W 0.8HP Booster Water Pump from Lot 2793, Jalan Sungai Buloh, Kampung Melayu Subang, 40100 Shah Alam. SSM 201301024294 (1054123-X).
-- Draft: `r5707412924504212455`. Thread: `1a036b8d9a2ee41f`. Subject: Shah Alam hardware page.
+- Former draft: `r5707412924504212455`. SENT `1a036dcd0a50efa6`. Thread: `1a036b8d9a2ee41f`. Subject: Shah Alam hardware page.
 - File: `docs/proposals/chin-chun-hardware.md`. Hostable draft: `docs/proposals/chin-chun-hardware-services.html`.
 
-### City Sound Automart Sdn. Bhd. -- QUEUED draft 25 Aug 2026 10:21 MYT
+### City Sound Automart Sdn. Bhd. -- SENT 25 Aug 2026 11:00 MYT
 
 - To: citysoundautomart@gmail.com (homepage mailto on https://www.citysound.com.my/). One inbox.
 - Source: live https://www.citysound.com.my/services/ HTTP 200 still Coming Soon (`min-height:440px`). Homepage lists Android players, DSP tuning, and Established in 1998 from Batu Caves, Ampang, and Pandan Indah. HQ contact prints 1 & 3, Jalan SG 3/8, Taman Sri Gombak, 68100 Batu Caves. SSM 202101035129 (1435429-A).
-- Draft: `r-1715996746745576868`. Thread: `1a036b8d8373a45a`. Subject: Batu Caves car-audio page.
+- Former draft: `r-1715996746745576868`. SENT `1a036dce9fd639ee`. Thread: `1a036b8d8373a45a`. Subject: Batu Caves car-audio page.
 - File: `docs/proposals/city-sound-automart.md`. Hostable draft: `docs/proposals/city-sound-automart-services.html`.
 
-### Ci Yuan Rawang Memorial Park -- QUEUED draft 25 Aug 2026 10:21 MYT
+### Ci Yuan Rawang Memorial Park -- SENT 25 Aug 2026 11:00 MYT
 
 - To: ciyuan1818@gmail.com (homepage mailto on https://www.ciyuanrwgmp.com.my/). One inbox.
 - Source: live https://www.ciyuanrwgmp.com.my/services/ HTTP 200 still Coming Soon (`min-height:440px`). Homepage lists burial plot maintenance, Bamboo Covered Walkway, and Ancestral Tablet from Lot 2816, Jalan Sungai Buaya, Sungai Chou, 48000 Rawang. SSM 201201037536 (1022018-V).
-- Draft: `r3070430167021950028`. Thread: `1a036b9197b90ad1`. Subject: Rawang memorial page.
+- Former draft: `r3070430167021950028`. SENT `1a036dcfff0aa224`. Thread: `1a036b9197b90ad1`. Subject: Rawang memorial page.
 - File: `docs/proposals/ci-yuan-rawang.md`. Hostable draft: `docs/proposals/ci-yuan-rawang-services.html`.
 
-### C L F Construction -- QUEUED draft 25 Aug 2026 10:21 MYT
+### C L F Construction -- SENT 25 Aug 2026 11:00 MYT
 
 - To: benbouncer_benz@hotmail.com (homepage mailto on https://www.clfconstruction.com.my/). One inbox.
 - Source: live https://www.clfconstruction.com.my/services/ HTTP 200 still Coming Soon (`min-height:440px`). Homepage lists roofing, aluminium frames, custom glass, and Intergrity Built into Every Layer from 15, Jalan SW 7, Taman Sutera Wangi, Batu Berendam, 75350 Melaka. SSM 202203000082 (AS0442537-A).
-- Draft: `r6956197946957205555`. Thread: `1a036b918e474107`. Subject: Melaka renovation page.
+- Former draft: `r6956197946957205555`. SENT `1a036dd38af38ebc`. Thread: `1a036b918e474107`. Subject: Melaka renovation page.
 - File: `docs/proposals/clf-construction.md`. Hostable draft: `docs/proposals/clf-construction-services.html`.
 
-### KUEN ENGINEERING & TRADING SDN BHD -- QUEUED draft 25 Aug 2026 10:21 MYT
+### KUEN ENGINEERING & TRADING SDN BHD -- SENT 25 Aug 2026 11:00 MYT
 
 - To: cncprecision21@gmail.com (homepage mailto on https://www.cnc-precision.com.my/). One inbox.
 - Source: live https://www.cnc-precision.com.my/services/ HTTP 200 still Coming Soon (`min-height:440px`). Homepage lists large CNC machining, CNC turning, and 4 Axis milling from 47, Jalan E 1/2, Taman Ehsan Industrial Park, 52100 Kuala Lumpur. SSM 200301001769 (604189-A).
-- Draft: `r460676851621003702`. Thread: `1a036b91bf87d2ad`. Subject: Ehsan CNC page.
+- Former draft: `r460676851621003702`. SENT `1a036dd433b9a1d0`. Thread: `1a036b91bf87d2ad`. Subject: Ehsan CNC page.
 - File: `docs/proposals/kuen-engineering.md`. Hostable draft: `docs/proposals/kuen-engineering-services.html`.
-- Skipped this pass: cenadartkl.com.my mailto vijayan@cenadart.com (TLD mismatch). chuanthong.com.my mailto @chuanthong.com (TLD mismatch). cl-fa.com.my mailto info@cl-fa.com (TLD mismatch). clinicrxofficial.com.my broken mailto / clinicrx.com.my TLD mismatch. Next hunt: unused malaysiabrand hosts after line 579.
+- Skipped this pass: cenadartkl.com.my mailto vijayan@cenadart.com (TLD mismatch). chuanthong.com.my mailto @chuanthong.com (TLD mismatch). cl-fa.com.my mailto info@cl-fa.com (TLD mismatch). clinicrxofficial.com.my broken mailto / clinicrx.com.my TLD mismatch.
+
+## Queued after the Tue 11:00 Central Steel-through-KUEN send (do not send before 12:00, and not after hours)
+
+Timer `netie-tue-consonance-website-2026-08-25-1200-myt` (`sub_b86de1cd-0663-41d7-a99a-fbb5e2e78fd2`, once, Tue 25 Aug 12:00 MYT). Send existing Gmail drafts only after live `/services/` Coming Soon and empty `in:sent`. Eight extras from unused malaysiabrand hosts 580-679: Consonance Solutions, Cosinz Auto Parts, Meta Pack, CSM Dairy Success, CT Perforators, Chong Wei Chit, Decasa Lighting, Demrcia. Not an email-watch loop. No Stripe. One inbox. RM 1,000-5,000. Label `Label_8` after send. Do not Surge-publish until after SENT. If Kanhseei writes, answer first and honor RM 500. Do not poll Stripe (already done 25 Aug MYT). Copy specialists all kind, CUSTOMIZE LIGHTING, 71293, and BM/Chinese lines as printed. Demrcia HQ `liang@demrcia.com.my` only. The 09:00, 09:20, 09:40, 10:00, and 11:00 first-mails are already SENT; do not remmail.
+
+### Consonance Solutions Sdn Bhd -- QUEUED draft 25 Aug 2026 11:02 MYT
+
+- To: acc.consonance@gmail.com (homepage mailto on https://www.consonancesolutions.com.my/). One inbox.
+- Source: live https://www.consonancesolutions.com.my/services/ HTTP 200 still Coming Soon (`min-height:440px`). Homepage lists SHARP photocopiers, Sharp Air Purifier FPS42LL, COMMITTED TO EXCELLENCE, and SHARP PHOTOCOPIERS, SUPERIOR SERVICE from 17, Jalan TTC 37, Taman Teknologi Cheng, 75260 Melaka. SSM 201001033999 (917922-D).
+- Draft: `r-4680572523069026296`. Thread: `1a036ddf44eabb4d`. Subject: Cheng photocopier page.
+- File: `docs/proposals/consonance-solutions.md`. Hostable draft: `docs/proposals/consonance-solutions-services.html`.
+
+### Cosinz Auto Parts Supply Sdn Bhd -- QUEUED draft 25 Aug 2026 11:02 MYT
+
+- To: cosinzauto@hotmail.com (homepage mailto on https://www.cosinzautoparts.com.my/). One inbox.
+- Source: live https://www.cosinzautoparts.com.my/services/ HTTP 200 still Coming Soon (`min-height:440px`). Homepage lists automotive sensors, Cosinz since 2010, and We are specialists all kind of sensor for automotive from 4, Jalan Selingsing 1, Taman Sri Kuching, 51200 Kuala Lumpur. SSM 201001025736 (909650-H). Copy specialists all kind as printed.
+- Draft: `r6432079857123797164`. Thread: `1a036de0de363dab`. Subject: KL auto-sensor page.
+- File: `docs/proposals/cosinz-auto-parts.md`. Hostable draft: `docs/proposals/cosinz-auto-parts-services.html`.
+
+### Meta Pack Sdn Bhd -- QUEUED draft 25 Aug 2026 11:02 MYT
+
+- To: sales@courierbagkl.com.my (homepage mailto on https://www.courierbagkl.com.my/). One inbox.
+- Source: live https://www.courierbagkl.com.my/services/ HTTP 200 still Coming Soon (`min-height:440px`). Homepage lists courier bags, stretch film, bubble wrap, and Black, White, Yellow, Blue, Green, Pink Parcel Courier Bag from 71293, Perindustrian Balakong Jaya 2 Tambahan, Jalan BJ2T 2, Seri Kembangan (copied 71293 as printed). SSM 202201002005 (1447702-T). HQ inbox only.
+- Draft: `r-5777267734985679695`. Thread: `1a036de2adc02773`. Subject: Balakong courier-bag page.
+- File: `docs/proposals/meta-pack.md`. Hostable draft: `docs/proposals/meta-pack-services.html`.
+
+### CSM DAIRY SUCCESS SDN. BHD. -- QUEUED draft 25 Aug 2026 11:02 MYT
+
+- To: aizat20generation@yahoo.com (homepage mailto on https://www.csmdairysuccess.com.my/). One inbox.
+- Source: live https://www.csmdairysuccess.com.my/services/ HTTP 200 still Coming Soon (`min-height:440px`). Homepage lists OEM Susu Kambing, PENJENAMAAN PRODUK ANDA BERMULA DI SINI, and ditubuhkan pada tahun 2015 from 1-1, Jalan Seraya 4, Taman Seraya, 71700 Mantin. SSM 201501033829 (1159149-U). Copy BM as printed.
+- Draft: `r6750065664398190654`. Thread: `1a036de414a628fd`. Subject: Mantin OEM goat-milk page.
+- File: `docs/proposals/csm-dairy-success.md`. Hostable draft: `docs/proposals/csm-dairy-success-services.html`.
+
+### CT Perforators Sdn Bhd -- QUEUED draft 25 Aug 2026 11:02 MYT
+
+- To: chee@ctperforators.com.my (homepage mailto on https://www.ctperforators.com.my/). One inbox.
+- Source: live https://www.ctperforators.com.my/services/ HTTP 200 still Coming Soon (`min-height:440px`). Homepage lists Perforated Dimple Plate, Perforated SS304/316, and Perforated Aluminium from 9517 F, Jalan PBR 20, Taman Perindustrian Bukit Rambai, 75250 Melaka. Registration 727228-V.
+- Draft: `r-18633773090271083`. Thread: `1a036de5750a6a66`. Subject: Melaka perforated-metal page.
+- File: `docs/proposals/ct-perforators.md`. Hostable draft: `docs/proposals/ct-perforators-services.html`.
+
+### Chong Wei Chit Sdn Bhd -- QUEUED draft 25 Aug 2026 11:02 MYT
+
+- To: chongweichit@gmail.com (homepage mailto on https://www.cwc.com.my/). One inbox.
+- Source: live https://www.cwc.com.my/services/ HTTP 200 still Coming Soon (`min-height:440px`). Homepage lists farm-fresh eggs, Ethical Farming, Healthier Living, and Duck Xing Farm behind the 1010 brand from 6592, Jalan Lendu, 78000 Alor Gajah. SSM 199101009439 (219752-M).
+- Draft: `r885887762682341439`. Thread: `1a036de6f4746820`. Subject: Alor Gajah eggs page.
+- File: `docs/proposals/chong-wei-chit.md`. Hostable draft: `docs/proposals/chong-wei-chit-services.html`.
+
+### Decasa Lighting Sdn Bhd -- QUEUED draft 25 Aug 2026 11:02 MYT
+
+- To: sales@decasalighting.com.my (homepage mailto on https://www.decasalighting.com.my/). One inbox.
+- Source: live https://www.decasalighting.com.my/services/ HTTP 200 still Coming Soon (`min-height:440px`). Homepage lists COMPREHENSIVE LIGHTING SOLUTIONS, Loft Light, Nordic Lighting, and CUSTOMIZE LIGHTING from 36 & 38, Jalan Suria Puchong 1, Pusat Perniagaan Suria Puchong, 47110 Puchong. Registration 1312632-V. Copy CUSTOMIZE LIGHTING as printed.
+- Draft: `r1850671299872918001`. Thread: `1a036deaeff2107a`. Subject: Puchong lighting page.
+- File: `docs/proposals/decasa-lighting.md`. Hostable draft: `docs/proposals/decasa-lighting-services.html`.
+
+### Demrcia Air Compressor Sdn Bhd -- QUEUED draft 25 Aug 2026 11:02 MYT
+
+- To: liang@demrcia.com.my (contact-page mailto on https://www.demrcia.com.my/contactus/; vCard HQ is liang@). One inbox. Do not mail peng@demrcia.com.my or dong@demrcia.com.my.
+- Source: live https://www.demrcia.com.my/services/ HTTP 200 still Coming Soon (`min-height:440px`). Homepage lists 德玛西亚空压机 = 省电 = 赚钱 from 33, Solok Selat Selatan 21, Taman Perindustrian Pandamaran, 42000 Pelabuhan Klang. SSM 202401017607 (1563457-D).
+- Draft: `r1500430229890652437`. Thread: `1a036decef3e97c2`. Subject: Port Klang compressor page.
+- File: `docs/proposals/demrcia-air-compressor.md`. Hostable draft: `docs/proposals/demrcia-air-compressor-services.html`.
+- Next hunt: unused malaysiabrand hosts after line 679.
 
 
 
