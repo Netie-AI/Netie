@@ -1,8 +1,10 @@
 # STATUS
 
-Updated: 2026-08-25 07:57 MYT. Success = live Stripe charge, then a payout.
+Updated: 2026-08-25 08:07 MYT. Success = live Stripe charge, then a payout.
 
 ## Now (measured)
+
+- After hours 25 Aug 08:07 MYT: queued four more Coming Soon first-mails on the Tue 10:00 M Haus timer (`sub_5ca88dd7-7a61-4939-a54f-c2b6c9a36c15`; previous 10:00 id unsubscribed). 3 Arts Studio `3artsstudio.design@gmail.com` draft `r-8528559331350786083` (TRANSFORMING HOUSES INTO DREAM HOMES, Sungai Petani). Reman Tech `remantech305@gmail.com` draft `r-890629580311286052` (TurboMaster CHRA, Ipoh). 9One9 Timber `9one9tsdm@gmail.com` draft `r794836244349866035` (PREMIUM TIMBER & WOODEN DOOR SOLUTIONS, Johor Bahru). ACE Lubricants `timothy.powerup@gmail.com` draft `r-6187740688024410907` (TORENZOIL / MULTI-VECHICLE, Kempas Lama). All four live `/services/` Coming Soon (`min-height:440px`), firm-owned mailto, empty `in:sent`. Hostable HTML from published text only. No Stripe. RM 1,000-5,000. Inbox not a buyer. Did not apply. Kanhseei still ends at SENT `1a0338bc74fae0b4`. Did not send. Did not nag. Did not poll Stripe. No paid charge yet.
 
 - After hours 25 Aug 07:57 MYT: queued two more Coming Soon first-mails on the Tue 10:00 M Haus timer (`sub_39cb6a92-8d76-4b84-86af-6cfa38277e17`; previous 10:00 id unsubscribed). Hotali Printing `hotaliprinting@gmail.com` draft `r-3332857387999753896` (ONE STOP SERVICES FROM DESIGNS TO PRINTING END PRODUCTS / Injek Printing, Skudai). MyESG `contact@myesg.online` draft `r4782701001165637108` (Streamline ESG Reporting, Drive Sustainable Impact / DJSI FTSE4Good CDP GRI; no street printed). Both live `/services/` Coming Soon (`min-height:440px`), firm-owned mailto, empty `in:sent`. Hostable HTML from published text only. No Stripe. RM 1,000-5,000. Inbox this pass is CarUM / TourRadar / Foundit / Bloomberg, not a buyer. Did not apply. Kanhseei still ends at SENT `1a0338bc74fae0b4`. Did not send. Did not nag. Did not poll Stripe. No paid charge yet.
 

@@ -1488,7 +1488,39 @@ Same timer `netie-tue-mhaus-website-2026-08-25-1000-myt` (`sub_b2d918dd-837e-41a
 - Draft: `r4782701001165637108`. Thread: `1a036356fc019f7a`. Subject: ESG platform page.
 - File: `docs/proposals/myesg.md`. Hostable draft: `docs/proposals/myesg-services.html`.
 - Website-page offer, RM 1,000-5,000. No Stripe. Send on the same Tue 10:00 timer after Hotali Printing.
-- Skipped this pass: leftover opening.newpages HTTP 000 hosts still do not resolve on apex or www. sinkwangaircond.com.my and techniquhairstudio.com `/services/` filled. uniqueexpired.com not Coming Soon. Do not send before 09:00 MYT.
+
+### 3 Arts Studio Design -- QUEUED draft 25 Aug 2026 08:07 MYT
+
+- To: 3artsstudio.design@gmail.com (homepage and `/contactus/` mailto on https://www.3artsstudio.com.my/). One inbox.
+- Source: live https://www.3artsstudio.com.my/services/ HTTP 200 still Coming Soon (`min-height:440px`). Homepage lists TRANSFORMING HOUSES INTO DREAM HOMES and DESIGNING SPACES, ENRICHING LIVES from No.11, 1st Floor, Jalan Intan Setia 1, Taman Intan Setia, 08000 Sungai Petani. SSM 202103140127 (AS0430460-T).
+- Draft: `r-8528559331350786083`. Thread: `1a0363e93f94735a`. Subject: Sungai Petani interior page.
+- File: `docs/proposals/three-arts-studio.md`. Hostable draft: `docs/proposals/three-arts-studio-services.html`.
+- Website-page offer, RM 1,000-5,000. No Stripe. Send on the same Tue 10:00 timer after MyESG.
+
+### Reman Tech (M) Sdn. Bhd. -- QUEUED draft 25 Aug 2026 08:07 MYT
+
+- To: remantech305@gmail.com (contact-page mailto on https://www.96turbo.com.my/contactus/). One inbox.
+- Source: live https://www.96turbo.com.my/services/ HTTP 200 still Coming Soon (`min-height:440px`). Homepage lists High-Performance Turbocharger Solutions for Every Application and TurboMaster CHRA from 305, Jalan Lahat, Taman Falim, 30200 Ipoh. Since 2016. SSM 201601036246 (1207187-P). Do not copy homepage Lorem ipsum lines.
+- Draft: `r-890629580311286052`. Thread: `1a0363e94c06e1d3`. Subject: Ipoh turbo page.
+- File: `docs/proposals/reman-tech.md`. Hostable draft: `docs/proposals/reman-tech-services.html`.
+- Website-page offer, RM 1,000-5,000. No Stripe. Send on the same Tue 10:00 timer after 3 Arts Studio.
+
+### 9One9 Timber Solid Door (M) Sdn Bhd -- QUEUED draft 25 Aug 2026 08:07 MYT
+
+- To: 9one9tsdm@gmail.com (contact-page mailto on https://www.9one9timbersoliddoor.com.my/contactus/). One inbox. Do not invent a Singapore mail inbox.
+- Source: live https://www.9one9timbersoliddoor.com.my/services/ HTTP 200 still Coming Soon (`min-height:440px`). Homepage lists PREMIUM TIMBER & WOODEN DOOR SOLUTIONS and over 20 years of experience from 16, Jalan Ekoperniagaan 2/3, Taman Ekoperniagaan, 81100 Johor Bahru. Printed Conceal Door copied as printed. SSM 202501015720 (1617135-H).
+- Draft: `r794836244349866035`. Thread: `1a0363e97fe257d4`. Subject: Johor Bahru timber-door page.
+- File: `docs/proposals/nineone9-timber.md`. Hostable draft: `docs/proposals/nineone9-timber-services.html`.
+- Website-page offer, RM 1,000-5,000. No Stripe. Send on the same Tue 10:00 timer after Reman Tech.
+
+### ACE LUBRICANTS & CHEMICALS SDN. BHD. -- QUEUED draft 25 Aug 2026 08:07 MYT
+
+- To: timothy.powerup@gmail.com (homepage and `/contactus/` mailto on https://www.acelubricants.com.my/). One inbox.
+- Source: live https://www.acelubricants.com.my/services/ HTTP 200 still Coming Soon (`min-height:440px`). Homepage lists Driving Excellence in Automotive Lubricants and TORENZOIL from HS(M) 3745, PTD 153751, Jalan Berjaya 8, Taman Perindustrian Berjaya, Kempas Lama, 81200 Johor Bahru. Printed MULTI-VECHICLE copied as printed. SSM 202301036198 (1530121-D).
+- Draft: `r-6187740688024410907`. Thread: `1a0363e976048a63`. Subject: Kempas Lama lubricant page.
+- File: `docs/proposals/ace-lubricants.md`. Hostable draft: `docs/proposals/ace-lubricants-services.html`.
+- Website-page offer, RM 1,000-5,000. No Stripe. Send on the same Tue 10:00 timer after 9One9 Timber.
+- Skipped this pass: 21hairsalon.com.my Coming Soon but no contact mailto. Leftover malaysiabrand CS hits still to queue later: acliving, accud, advancedinkjet, advancevertexmotors, aeiou (contact@ only), agmbrake, akakoi, allglass, alphapets, amcoweld (sales@ only; not SG/ID), amptech, amtools, apexepoxy. Do not send before 09:00 MYT.
 
 
 
