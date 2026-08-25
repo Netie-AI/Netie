@@ -4,6 +4,7 @@ This index records reusable findings from focused subagent reviews.
 
 | File | Keywords | Main idea |
 |---|---|---|
+| [2026-08-26-wuway-yeetat-endlist-queue.md](2026-08-26-wuway-yeetat-endlist-queue.md) | Wuway, Win-Fung, WorkShark, Zubeck, Youguan, YHL, YY Travel, Yee Tat, Coming Soon mailto, list exhausted, remmail skip | Seventeen more CS+mailto drafts from unused hosts 3380-3572, folded onto Wed 11:00. Skip Windmere, Willy, ZYRC remmail and wins2 HK. List ends at 3572. |
 | [2026-08-26-wallmark-vitalplus-batch31-queue.md](2026-08-26-wallmark-vitalplus-batch31-queue.md) | Wallmark, Walnut Cafe, Nova Arte, VK Corporate, Weheng, VITA POS, Vital Plus, Coming Soon mailto, Wed 11:00 fold, signatured | Seven more CS+mailto drafts from unused hosts 3280-3379, folded onto Wed 11:00 with batch 30 (five-timer cap). Nova Arte printed on wallpanelpenang.com.my. |
 | [2026-08-26-tsprint-venture-batch30-queue.md](2026-08-26-tsprint-venture-batch30-queue.md) | TS Print, UMAKE, Unice, Uniqpac, Unique Control, Unique Maker, U Tech, Vadean, Organic For You, Venture Mover, Coming Soon mailto, Wed 11:00, never print page | Ten more CS+mailto drafts from unused hosts 3180-3279, queued for Wed 11:00. TS Print subject is Muar sticker landing page. |
 | [2026-08-26-thl-tsf-batch29-queue.md](2026-08-26-thl-tsf-batch29-queue.md) | THL, Tint Titans, TPS, Triple R, Tropicool, Truffle, TSF Johan, Coming Soon mailto, Wed 10:00 | Seven more CS+mailto drafts from unused hosts 3080-3179, queued for Wed 10:00 not 09:00. Copy so call tinted films / Sika topSeal. |

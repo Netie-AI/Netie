@@ -2817,7 +2817,7 @@ Skipped CS-no-mailto: togetherkitchen.com.my, toolsguru.com.my, toptaste.com.my,
 
 ## Wed 26 Aug 11:00 extras (hosts 3180-3279)
 
-Timer `netie-wed-tsprint-website-2026-08-26-1100-myt` (`sub_ce7c08bf-c743-481c-afbe-fe1db8bd6a92`). Ten extras plus seven batch-31 drafts folded onto this fire (five-timer cap; no separate 12:00). Do not send before 11:00 MYT. Do not fold onto the 09:00 168 or the 10:00 seven.
+Timer `netie-wed-tsprint-website-2026-08-26-1100-myt` (`sub_2d7aa1e6-e604-4e5a-b7b0-d53629571895`). Thirty-four extras (hosts 3180-3572). Five-timer cap. Do not send before 11:00 MYT. Do not fold onto the 09:00 168 or the 10:00 seven.
 
 ### TS PRINTING SDN. BHD. -- QUEUED draft 26 Aug 2026 04:02 MYT
 - To: marketing@tsprint.com.my. Draft `r3888511579076476959`. Thread `1a03a840ce949a48`. Subject: Muar sticker landing page. File: `docs/proposals/ts-print.md`. Copy established in Muar five years ago, on March 17, 2020 / 20 years of industry experience. Recreated after first draft used print page. Old thread `1a03a8282628bc72` trashed. Did not mail tsprint4u@gmail.com.
@@ -2854,7 +2854,7 @@ Skipped CS-no-mailto: tukangrumah.com.my, ukai.com.my, unigrow.com.my, universal
 
 ## Wed 26 Aug 12:00 extras folded onto 11:00 (hosts 3280-3379)
 
-Five-timer cap: these seven ride `sub_ce7c08bf-c743-481c-afbe-fe1db8bd6a92` at 11:00 MYT with batch 30. Do not send before 11:00. Do not fold onto 09:00 or 10:00.
+Five-timer cap: these seven ride `sub_2d7aa1e6-e604-4e5a-b7b0-d53629571895` at 11:00 MYT with batch 30 and the later 3380-3572 extras. Do not send before 11:00. Do not fold onto 09:00 or 10:00.
 
 ### Wallmark Sdn Bhd -- QUEUED draft 26 Aug 2026 04:08 MYT
 - To: multigreenland@yahoo.com. Draft `r5578749130054465857`. Thread `1a03a8b55bfcfc5c`. Subject: Selangor panel landing page. File: `docs/proposals/wallmark.md`. Copy Bamboo Charcoal Fibre Board Selangor / UV Marble Board Supply. Selangor city-only. Yahoo is the printed inbox.
@@ -2878,7 +2878,65 @@ Five-timer cap: these seven ride `sub_ce7c08bf-c743-481c-afbe-fe1db8bd6a92` at 1
 - To: vitalplus98@gmail.com. Draft `r-7403245219236541372`. Thread `1a03a8b5d8a33743`. Subject: Seremban panel landing page. File: `docs/proposals/vital-plus.md`. Copy WHOLESALE, IMPORTER & DISTRIBUTOR OF BUILDING & FURNITURE MATERIAL. HQ Seremban Garden Homes only.
 
 Skipped CS-no-mailto: vibrant.com.my, vvpetshop.com.my, vetclinic.com.my, vplayonline.com.my.
-- Next hunt: unused malaysiabrand hosts after line 3379. Do not send these before Wed 11:00 MYT. Do not remmail windmere.com.my until checked against already-mailed Windmere Products (`windmereproducts@gmail.com` / windmere1.com).
+- windmere.com.my is Windmere Products (already mailed `windmereproducts@gmail.com`). Do not remmail.
+
+## Wed 26 Aug 11:00 extras continued (hosts 3380-3572)
+
+Seventeen more extras folded onto `netie-wed-tsprint-website-2026-08-26-1100-myt` (`sub_2d7aa1e6-e604-4e5a-b7b0-d53629571895`). Do not send before 11:00 MYT. Do not fold onto 09:00 or 10:00. Unused list ends at line 3572.
+
+### Wuway Sdn Bhd -- QUEUED draft 26 Aug 2026 04:20 MYT
+- To: wuwaysdnbhd@gmail.com. Draft `r-2013915033427442710`. Thread `1a03a97f496032c0`. Subject: Bayan Lepas yamaha landing page. File: `docs/proposals/wuway.md`. Copy Founded in 1991 / authorized Yamaha dealer. HQ Relau only.
+
+### WM Engineering Works -- QUEUED draft 26 Aug 2026 04:20 MYT
+- To: wm.engineering00@gmail.com. Draft `r-7274862005415520909`. Thread `1a03a97f771cb527`. Subject: Johor Bahru excavator landing page. File: `docs/proposals/wm-engineering.md`. Copy FROM GROUNDWORK TO GREATNESS. Did not mail wmengineering7000@yahoo.com.
+
+### Win-Fung Fibreglass Sdn Bhd -- QUEUED draft 26 Aug 2026 04:20 MYT
+- To: enquiry@winfung.com.my. Draft `r4306711761150508787`. Thread `1a03a97f6110a884`. Subject: Shah Alam FRP landing page. File: `docs/proposals/win-fung.md`. Copy leading manufacturer and supplier of high-quality FRP products.
+
+### Wing Jin Ceramic Trading Construction -- QUEUED draft 26 Aug 2026 04:20 MYT
+- To: tomasmah@hotmail.com. Draft `r-1741292238117641662`. Thread `1a03a97f87af9208`. Subject: Nilai tile landing page. File: `docs/proposals/wing-jin.md`. Copy top-notch ceramic tiles and sanitary ware. HQ Nilai only.
+
+### WorkShark Safety Sdn Bhd -- QUEUED draft 26 Aug 2026 04:20 MYT
+- To: inquiry@workshark.com.my. Draft `r-5255793972914537214`. Thread `1a03a97fbc88d146`. Subject: Johor Bahru safety landing page. File: `docs/proposals/workshark.md`. Copy Engineered for Safety. Trusted by Professionals.
+
+### WIN YIP GATE & ROOF SDN BHD -- QUEUED draft 26 Aug 2026 04:20 MYT
+- To: info@winyipgate.com.my. Draft `r-3008093727683076172`. Thread `1a03a97fbb607512`. Subject: Balakong gate landing page. File: `docs/proposals/win-yip.md`. Copy polycarbonate skylight awning / automatic wrought iron gate. Did not mail winyip168@gmail.com.
+
+### Xin Yue Aluminium Glass Sdn Bhd -- QUEUED draft 26 Aug 2026 04:20 MYT
+- To: enquiry@xinyuealu.com. Draft `r-6158930684400034757`. Thread `1a03a992ac4f5477`. Subject: Kulai aluminium landing page. File: `docs/proposals/xin-yue.md`. Copy distinguished leader in aluminium and glass. Host xinyuealuminium.com.my.
+
+### Zubeck Machinery & Services -- QUEUED draft 26 Aug 2026 04:22 MYT
+- To: zubeckmachineryservices@gmail.com. Draft `r2864619327310169111`. Thread `1a03a9ae55c71c4e`. Subject: Sungai Buloh machine landing page. File: `docs/proposals/zubeck.md`. Copy established on February 15, 2017. HQ Sungai Buloh only.
+
+### Youngs Kingdom -- QUEUED draft 26 Aug 2026 04:22 MYT
+- To: info@youngskingdom.com.my. Draft `r5251647482026968014`. Thread `1a03a9ae5c0a31ad`. Subject: Johor Bahru kindergarten landing page. File: `docs/proposals/youngs-kingdom.md`. Copy Kindergarten Johor Bahru / Preschool in Bandar Seri Alam. City-only.
+
+### YOUGUAN HARDWARE SDN BHD -- QUEUED draft 26 Aug 2026 04:22 MYT
+- To: youguan88@gmail.com. Draft `r1989499943671715924`. Thread `1a03a9ae7f1178c4`. Subject: Perai hardware landing page. File: `docs/proposals/youguan.md`. Copy Trusted Hardware Solutions / Since 2012. HQ Perai only.
+
+### Yu Brother Sewing Machine -- QUEUED draft 26 Aug 2026 04:22 MYT
+- To: yubrotherpb@gmail.com. Draft `r-8557073605044182613`. Thread `1a03a9ae8cd745c3`. Subject: Parit Buntar sewing landing page. File: `docs/proposals/yu-brother.md`. Copy RELIABLE MACHINES, REMARKABLE RESULTS. HQ Parit Buntar only.
+
+### YH Longlead Sdn. Bhd. -- QUEUED draft 26 Aug 2026 04:22 MYT
+- To: enquiry@yhlgroup.my. Draft `r4896194129940940213`. Thread `1a03a9aebc24bd2a`. Subject: Kedah cleanroom landing page. File: `docs/proposals/yhl-group.md`. Copy We specializes in providing high-quality cleanroom consumable. City-only.
+
+### ZJ Filtering Solutions Sdn Bhd -- QUEUED draft 26 Aug 2026 04:22 MYT
+- To: sales@zjfiltering.com. Draft `r2444974881390701635`. Thread `1a03a9aeb5765bd7`. Subject: Setapak filter landing page. File: `docs/proposals/zj-filtering.md`. Copy Expert Solutions Innovative Filtration Systems. Host zjfiltering.com.my.
+
+### YY Travel -- QUEUED draft 26 Aug 2026 04:23 MYT
+- To: yytravel413191@gmail.com. Draft `r-4999535630988034189`. Thread `1a03a9b80f017d3e`. Subject: Kuching travel landing page. File: `docs/proposals/yy-travel.md`. Copy YY Travel Agency / Jalan Tun Ahmad Zaidi Adruce. Recreated in English. Old mixed-Chinese thread `1a03a9aecb3d5011` trashed.
+
+### ZS GLOBAL ENGINEERING SDN BHD -- QUEUED draft 26 Aug 2026 04:22 MYT
+- To: admin@zsglobal.com.my. Draft `r6663436457660222378`. Thread `1a03a9aee4cca7a0`. Subject: Kajang gate landing page. File: `docs/proposals/zs-global.md`. Copy KAMI ADALAH ZS GLOBAL ENGINEERING SDN BHD. Did not mail zsglobalent78@gmail.com.
+
+### YG Bakery Trading -- QUEUED draft 26 Aug 2026 04:22 MYT
+- To: ygsnack.hq@gmail.com. Draft `r6947124268621531841`. Thread `1a03a9aeefc28d79`. Subject: Muar kuih landing page. File: `docs/proposals/yg-bakery.md`. Copy OEM Nyonya Kuih Kapit Manufacturer. Did not mail sales@ygbakery.com.my.
+
+### YEE TAT HARDWARE SDN BHD -- QUEUED draft 26 Aug 2026 04:22 MYT
+- To: yeetathardware@gmail.com. Draft `r-1982219314329069849`. Thread `1a03a9af10d6b64d`. Subject: Melaka hardware landing page. File: `docs/proposals/yee-tat.md`. Copy Founded in 1980. HQ Batu Berendam only.
+
+Skipped remmail: windmere.com.my (Windmere Products), willymfg.com.my (SENT 22 Aug willymfgsb@gmail.com), zyrc.com.my (SENT 22 Aug johnsonthye@gmail.com). Skipped wins2.com.my yahoo.com.hk. Skipped CS-no-mailto: weshow.com.my, worldwidedoor.com.my, woodlibrary.com.my, wuanteahouse.com.my, xway.com.my, yisyunrenovation.com.my, ymfresh.com.my, yosiang.com.my, zhinheng.com.my.
+- Unused malaysiabrand list exhausted at line 3572. Do not send these before Wed 11:00 MYT.
 
 
 
