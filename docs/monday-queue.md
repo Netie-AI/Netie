@@ -1680,7 +1680,71 @@ Same timer `netie-tue-mhaus-website-2026-08-25-1000-myt` (`sub_b2d918dd-837e-41a
 - Draft: `r-7123143933921864291`. Thread: `1a03651c27039fe5`. Subject: Seri Kembangan epoxy page.
 - File: `docs/proposals/avp-flooring.md`. Hostable draft: `docs/proposals/avp-flooring-services.html`.
 - Website-page offer, RM 1,000-5,000. No Stripe. Send on the same Tue 10:00 timer after Autopista.
-- Skipped this pass: artworld.com.my Coming Soon but mailto is enquiry@artworld.net.my (domain mismatch). asiacleaning.com.my and asianwaste.com.my still WAF after unique retry. Next hunt: unused malaysiabrand hosts after line 279. Do not send before 09:00 MYT.
+
+### Beh Travel & Tours Sdn. Bhd. -- QUEUED draft 25 Aug 2026 08:37 MYT
+
+- To: cpbeh_ent@hotmail.com (homepage and `/contactus/` mailto on https://www.behtravel.com.my/). One inbox.
+- Source: live https://www.behtravel.com.my/services/ HTTP 200 still Coming Soon (`min-height:440px`). Homepage lists Comfortable, Affordable Bus Trips to Penang, Genting & Hatyai and 30-seater single-deck buses from 33-G-15 Jalan Lim Chwee Leong, 10100 Georgetown. SSM 201201031196 (1015682-U).
+- Draft: `r-2684290586621871320`. Thread: `1a03659d627d3ec3`. Subject: Georgetown bus page.
+- File: `docs/proposals/beh-travel.md`. Hostable draft: `docs/proposals/beh-travel-services.html`.
+- Website-page offer, RM 1,000-5,000. No Stripe. Send on the same Tue 10:00 timer after AVP Flooring.
+
+### Besstar Equipment Sdn Bhd -- QUEUED draft 25 Aug 2026 08:37 MYT
+
+- To: besstarequipment@gmail.com (homepage and `/contactus/` mailto on https://www.besstar.com.my/). One inbox. Kota Kinabalu prints phones only.
+- Source: live https://www.besstar.com.my/services/ HTTP 200 still Coming Soon (`min-height:440px`). Homepage lists Commercial Refrigerator and Display & Storage Racking System from No. 10, Jalan PJS 1/30, Taman Petaling Utama, 46000 Petaling Jaya. SSM 202201021199 (1466896-X).
+- Draft: `r1603410649042745588`. Thread: `1a03659d6ff8a9ab`. Subject: Petaling Jaya kitchen-equipment page.
+- File: `docs/proposals/besstar-equipment.md`. Hostable draft: `docs/proposals/besstar-equipment-services.html`.
+- Website-page offer, RM 1,000-5,000. No Stripe. Send on the same Tue 10:00 timer after Beh Travel.
+
+### Beyond Design & Build -- QUEUED draft 25 Aug 2026 08:37 MYT
+
+- To: info@beyonddesignbuild.com.my (homepage and `/contactus/` mailto on https://www.beyonddesignbuild.com.my/). One inbox.
+- Source: live https://www.beyonddesignbuild.com.my/services/ HTTP 200 still Coming Soon (`min-height:440px`). Homepage lists Are you ready to transform your house? from No. 35, Jalan Idaman 5/8, 79100 Iskandar Puteri. SSM 202003171830 (JM0940034-K).
+- Draft: `r1590751922373160440`. Thread: `1a03659d83b95be6`. Subject: Iskandar Puteri interior page.
+- File: `docs/proposals/beyond-design-build.md`. Hostable draft: `docs/proposals/beyond-design-build-services.html`.
+- Website-page offer, RM 1,000-5,000. No Stripe. Send on the same Tue 10:00 timer after Besstar.
+
+### Big Sign Advertising -- QUEUED draft 25 Aug 2026 08:37 MYT
+
+- To: bigsignadvertising@gmail.com (homepage and `/contactus/` mailto on https://www.bigsignadvertising.com.my/). One inbox.
+- Source: live https://www.bigsignadvertising.com.my/services/ HTTP 200 still Coming Soon (`min-height:440px`). Homepage lists 3D Box Up with Frontlit LED and more than 10 years of experience from 6, Jalan Bagan Nira 26/8, 40400 Shah Alam. SSM 202003026812 (SA0540943-X).
+- Draft: `r-6809379164497393708`. Thread: `1a03659daaa2bba2`. Subject: Shah Alam signage page.
+- File: `docs/proposals/big-sign-advertising.md`. Hostable draft: `docs/proposals/big-sign-advertising-services.html`.
+- Website-page offer, RM 1,000-5,000. No Stripe. Send on the same Tue 10:00 timer after Beyond Design.
+
+### BIGSOYA SUPPLY (M) SDN BHD -- QUEUED draft 25 Aug 2026 08:37 MYT
+
+- To: bigsoyamalaysia@gmail.com (homepage and `/contactus/` mailto on https://www.bigsoya.com.my/). One inbox.
+- Source: live https://www.bigsoya.com.my/services/ HTTP 200 still Coming Soon (`min-height:440px`). Homepage lists Every Sip, A Taste of Nature and Welcoming for Muslim from 32, Jalan USJ 1/1B, 46000 Subang Jaya. SSM 202401018241 (1564090-V).
+- Draft: `r1323680417232066538`. Thread: `1a03659db236cbfa`. Subject: Subang Jaya soy-milk page.
+- File: `docs/proposals/bigsoya.md`. Hostable draft: `docs/proposals/bigsoya-services.html`.
+- Website-page offer, RM 1,000-5,000. No Stripe. Send on the same Tue 10:00 timer after Big Sign.
+
+### BIG WOOD PALLET INDUSTRIES SDN BHD -- QUEUED draft 25 Aug 2026 08:37 MYT
+
+- To: bigwoodpallet33@gmail.com (contact Email Address on https://www.bigwoodpallet.com.my/contactus/). One inbox. Do not mail alvin.bigwood@gmail.com.
+- Source: live https://www.bigwoodpallet.com.my/services/ HTTP 200 still Coming Soon (`min-height:440px`) after a first 1703-byte WAF dump on home/contact. Homepage lists Specialist in New and Used Wooden Pallet and ISPM015 comphan from Jalan Kampung Jawa, 41000 Shah Alam, with no street number. SSM 201801008066 (1270080-P).
+- Draft: `r-7128608961261952365`. Thread: `1a03659dde30479a`. Subject: Shah Alam pallet page.
+- File: `docs/proposals/big-wood-pallet.md`. Hostable draft: `docs/proposals/big-wood-pallet-services.html`.
+- Website-page offer, RM 1,000-5,000. No Stripe. Send on the same Tue 10:00 timer after Bigsoya.
+
+### Biji Biji -- QUEUED draft 25 Aug 2026 08:37 MYT
+
+- To: bijibijibeans@gmail.com (homepage and `/contactus/` mailto on https://www.biji-biji.com.my/). One inbox.
+- Source: live https://www.biji-biji.com.my/services/ HTTP 200 still Coming Soon (`min-height:440px`). Homepage lists Formerly Hillkoff Solutions and Coffee Beans Supplier Penang from 197, Jalan Macalister, 10450 George Town. SSM 201501008850 (1134185-U).
+- Draft: `r-5996496775009857051`. Thread: `1a03659dddf5d688`. Subject: George Town coffee page.
+- File: `docs/proposals/biji-biji.md`. Hostable draft: `docs/proposals/biji-biji-services.html`.
+- Website-page offer, RM 1,000-5,000. No Stripe. Send on the same Tue 10:00 timer after Big Wood Pallet.
+
+### BIZGIF MARKETING SDN BHD -- QUEUED draft 25 Aug 2026 08:37 MYT
+
+- To: info@bizgif.com.my (homepage and `/contactus/` mailto on https://www.bizgif.com.my/). One inbox.
+- Source: live https://www.bizgif.com.my/services/ HTTP 200 still Coming Soon (`min-height:440px`). Homepage lists Premium Corporate & Promotional Gifts Supplier and T-shirt printing (Silk Screen and Heat Transfer) from No. 8, Jalan Kiara, Mont Kiara 50480, Kuala Lumpur. Contact title also prints Cyberjaya. SSM 202401046588 (1592434-X).
+- Draft: `r8472742930844181571`. Thread: `1a03659dfda62467`. Subject: Mont Kiara gifts page.
+- File: `docs/proposals/bizgif.md`. Hostable draft: `docs/proposals/bizgif-services.html`.
+- Website-page offer, RM 1,000-5,000. No Stripe. Send on the same Tue 10:00 timer after Biji Biji.
+- Skipped this pass: beacons.com.my mailto sales@beacons.net.my (domain mismatch). bikecorner.my mailto c.k_forever@yahoo.com.sg (Singapore). bigtok.my mailto manager@bigtok.com.my (TLD mismatch). Next hunt: unused malaysiabrand hosts after line 379. Do not send before 09:00 MYT.
 
 
 
