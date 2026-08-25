@@ -1,8 +1,10 @@
 # STATUS
 
-Updated: 2026-08-26 05:50 MYT. Success = live Stripe charge, then a payout.
+Updated: 2026-08-26 06:05 MYT. Success = live Stripe charge, then a payout.
 
 ## Now (measured)
+
+- After hours 26 Aug 06:05 MYT: no owner send. Toon thread still two messages; holding draft `r-7427464740298229176` not sent. Did not nag Kanhseei. Did not reply Starbridge. Queued fifty-eight more filled-site first-mails from remain hosts 481-580 and folded them onto Wed 11:00: XD Auto through CTW Infra. Empty `in:sent`. CP Sign subject is signboard. CTC subject is stainless. Never print page. Skipped coemarketing no email, cmlluxurycurtain/creatimber TLD, cpcrystalpure hyphen, csmd TLD, concretefloor domain mismatch, crazymic 1712-byte dump. CLT HQ admin@ only. PITTI CAFFE HQ admin@ only. Creative AV HQ sales@ only. Crosmed HQ eddy@ only. CTW HQ sfwee@ only. Filled-site total 261. Wed 11:00 timer `sub_59090a28-36d9-4195-ba3b-0fdab794d5b7` replaced `sub_0538d523` and now fires two hundred ninety-five drafts (34 CS plus 261 filled). Do not send before 11:00. Do not require Coming Soon on filled drafts at send. Next hunt: remain hosts after line 580. Did not poll Stripe (already 26 Aug MYT at 01:05). No paid charge yet.
 
 - After hours 26 Aug 05:50 MYT: no owner send. Toon thread still two messages; holding draft `r-7427464740298229176` not sent. Did not nag Kanhseei. Did not reply Starbridge. Queued thirty-eight more filled-site first-mails from remain hosts 381-480 and folded them onto Wed 11:00: ESTAR Packaging through City E. Empty `in:sent`. Bunny Print and CCS subjects are sticker/bunting, never print page. Skipped capitalmastery.net, foc4u.com, celestial.com.my, cenadart.com, choferasia.vip, e-onecredit.com TLD/domain mismatch. Calvin Skin HQ JSON-LD only. CNA World HQ `admin@cna.my` only. CDA HQ `georgegan@` only. Filled-site total 203. Wed 11:00 timer `sub_0538d523-477c-4bfa-b92e-eb1c9a09fe69` replaced `sub_88d7e4a2` and now fires two hundred thirty-seven drafts (34 CS plus 203 filled). Do not send before 11:00. Do not require Coming Soon on filled drafts at send. Next hunt: remain hosts after line 480. Did not poll Stripe (already 26 Aug MYT at 01:05). No paid charge yet.
 

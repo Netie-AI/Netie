@@ -4,6 +4,7 @@ This index records reusable findings from focused subagent reviews.
 
 | File | Keywords | Main idea |
 |---|---|---|
+| [2026-08-26-early-filled-xdauto-ctw-queue.md](2026-08-26-early-filled-xdauto-ctw-queue.md) | filled site, remain 481-580, XD Auto, PITTI CAFFE, CP Sign signboard, CTC stainless, never print page | Fifty-eight filled first-mails folded onto Wed 11:00. CP Sign/CTC subjects avoid print page. Skip TLD mismatch and crazymic tiny dump. |
 | [2026-08-26-early-filled-estar-citye-queue.md](2026-08-26-early-filled-estar-citye-queue.md) | filled site, remain 381-480, ESTAR, Bunny Print sticker, CCS bunting, CNA World, never print page | Thirty-eight filled first-mails folded onto Wed 11:00. Bunny Print/CCS subjects avoid print page. Skip TLD mismatch. |
 | [2026-08-26-early-filled-bctyre-buildtrax-queue.md](2026-08-26-early-filled-bctyre-buildtrax-queue.md) | filled site, remain 281-380, BC Tyre, Big Image packaging, Blue Solutions enquiry@, BUILDTRAX, never print page | Thirty-one filled first-mails folded onto Wed 11:00. Big Image subject is packaging, never print page. Skip bpsm TLD. Blue Solutions HQ enquiry@ only. |
 | [2026-08-26-early-filled-arazak-battery-queue.md](2026-08-26-early-filled-arazak-battery-queue.md) | filled site, remain 181-280, Autoprint offset, Starlight, Battery Home, Bali Thai remmail skip | Twenty-six filled first-mails folded onto Wed 11:00. Autoprint/Averwin subjects use offset, never print page. Skip Bali Thai remmail. |
