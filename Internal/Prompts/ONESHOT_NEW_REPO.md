@@ -88,3 +88,16 @@ Copy-paste. Each one is self-contained - it assumes the session knows nothing.
 > If it looks right, run it without `--dry-run`, then commit each repo separately with an
 > honest message naming what was created versus what already existed. Do not use
 > `git add -A` - stage explicit paths, because several lanes work these repos.
+
+---
+
+## 7. Run the Exposure crew (public posts, not fake followers)
+
+> Read `D:\Netie\Internal\Agents\EXPOSURE.md` and `D:\Netie\exposure\README.md`.
+>
+> Run `python -m netie_exposure catalog` then `python -m netie_exposure queue`.
+> Draft LinkedIn / Reddit / GitHub copy only from that catalog. Do not invent prices
+> or customers. Do not generate fake followers or buy stars. Do not publish. Leave
+> markdown in `exposure/outbox/` for a human to `approve`.
+>
+> Cortex is the engine. This is Vanguard -> Cortex -> Closer plus channel specialists.
