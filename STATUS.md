@@ -1,8 +1,10 @@
 # STATUS
 
-Updated: 2026-08-26 07:25 MYT. Success = live Stripe charge, then a payout.
+Updated: 2026-08-26 07:32 MYT. Success = live Stripe charge, then a payout.
 
 ## Now (measured)
+
+- After hours 26 Aug 07:32 MYT: Craigslist Malaysia services listing was submitted (computer services, Penang, RM 500 first draft). Confirm mail is `robot@craigslist.org` thread `1a03b40f8f19ba94`. Curl of the MCP-decoded /pass URL 404s. Owner pinged on thread `1a03b4393c3f48f2` to click complete your posting in the Gmail app within 30 minutes. A listing is not a charge. Canonical hire still sha256 `dce8fe2c...`. Did not buy PPH. Did not join Bitget. Did not resume remain-host hunt. Did not poll Stripe. No paid charge yet.
 
 - After hours 26 Aug 07:25 MYT: no new buyer mail. Toon still parked. Carousell still blocked from this VM. Added Craigslist Malaysia backup paste `docs/craigslist-paste.txt` and owner inbox thread `1a03b3c90355bfd9`. Post URL https://post.craigslist.org/c/mly. Canonical hire still sha256 `dce8fe2c...`. Did not buy PPH. Did not join Bitget. Did not resume remain-host hunt. Did not poll Stripe. No paid charge yet.
 
