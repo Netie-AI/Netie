@@ -4,7 +4,8 @@ This index records reusable findings from focused subagent reviews.
 
 | File | Keywords | Main idea |
 |---|---|---|
-| [2026-08-26-surge-web3-listing.md](2026-08-26-surge-web3-listing.md) | Surge, dce8fe2c, listing.html, Rentry, Web3 landing job, File Manager still due | Surge now matches git hire. Carousell card live. Canonical /hire/ still old until 08:00 upload. No token. |
+| [2026-08-26-flmy-no-landing-job.md](2026-08-26-flmy-no-landing-job.md) | Freelancing.my, projects, skip employment, skip dental UI-only | Public FLMY board has no matching landing job. Profile already names RM 500. LaborX landing-pages tag is stale NFT/token clones; for-hire post only. |
+| [2026-08-26-surge-web3-listing.md](2026-08-26-surge-web3-listing.md) | Surge, dce8fe2c, listing.html, Rentry, Web3 landing job, live hire | Surge and canonical /hire/ match git sha256 `dce8fe2c...`. Carousell card live. No token. 08:00 File Manager can skip. |
 | [2026-08-26-import-channels-pause-hunt.md](2026-08-26-import-channels-pause-hunt.md) | Facebook, Carousell, Prolific, Web3 suite, pause remain-host loop | Owner paused the filled-site hunt. Phone pastes use Jian Hong details. Live /web3/ exists. No token. Surveys are not income until PayPal. |
 | [2026-08-26-early-filled-horizon-infinite-queue.md](2026-08-26-early-filled-horizon-infinite-queue.md) | filled site, remain 1181-1280, Horizon Dental, Hybrid Print DTF, Ideal Office copier, skip cemetery | Twenty-eight filled first-mails folded onto Wed 11:00. Skip icarefuneralservices. DTF/copier subjects, never print page. |
 | [2026-08-26-early-filled-haco-honsen-queue.md](2026-08-26-early-filled-haco-honsen-queue.md) | filled site, remain 1081-1180, HA & CO, HAG Solar, HEUTIG, Heng Li Art security-door, Success Technic homogenizer, never print page | Twenty-four filled first-mails folded onto Wed 11:00. New landing-plus-marketing voice. Skip sampleemail and TLD mismatch. |
