@@ -1,8 +1,10 @@
 # STATUS
 
-Updated: 2026-08-26 03:05 MYT. Success = live Stripe charge, then a payout.
+Updated: 2026-08-26 03:15 MYT. Success = live Stripe charge, then a payout.
 
 ## Now (measured)
+
+- After hours 26 Aug 03:15 MYT: public PPH https://www.peopleperhour.com/freelancer/jian-hong-landing-page-writer-in-penang-zxjjmyzj now H1 Landing page writer in Penang. About names RM 500 unlocks the first draft, no URLs. Logged-in edit form matches. Location still Ashburn, GA. SEND PROPOSAL still under review. Did not buy. A profile is not a charge. Toon draft `r-7427464740298229176` not sent. Live hire still sha256 `7c91bf0b...`. No paid charge yet.
 
 - After hours 26 Aug 03:05 MYT: PPH browser Save reached `/share-expertise?ref=edit-profile` with a moderation banner. That is not enough. Logged-in edit form and public profile still show H1 AI engineer and web developer in Penang and the catalogue About (no RM 500). Location Ashburn. Did not buy. Did not send a proposal. Reopened the edit-form check. Toon draft `r-7427464740298229176` not sent. Live hire still sha256 `7c91bf0b...`. No paid charge yet.
 
