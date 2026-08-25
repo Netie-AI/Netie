@@ -2135,20 +2135,20 @@ Timer `netie-tue-esewood-website-2026-08-25-1500-myt` unsubscribed before send. 
 
 ### FIRST GROUP MANAGEMENT CONSULTANCY SDN BHD -- SENT 25 Aug 2026 15:03 MYT
 - To: firstmanagement0101@gmail.com. SENT `1a037bb293ab9316`. Thread `1a03758d8a7e49a6`. Subject: Batu Berendam accounting page. Copy We corporate / financial healthy level.
-- Next hunt: unused malaysiabrand hosts after line 979. Three extras from 980-1079 are queued below for 16:00 MYT. Do not send those before 16:00.
+- Three extras from unused hosts 980-1079 were sent at 16:00 MYT. Do not remmail.
 
-## Queued after the Tue 15:00 ESE WOOD-through-FIRST GROUP send (do not send before 16:00, and not after hours)
+## SENT Tue 25 Aug 2026 16:00 MYT (Hardee through Galaxy Lock)
 
-Timer `netie-tue-hardee-website-2026-08-25-1600-myt` (`sub_1f2c4877-22d5-47e1-b83a-8b7ddf3e7f79`, once, Tue 25 Aug 16:00 MYT). Three extras from unused malaysiabrand hosts 980-1079. Skipped Fit Systems `sales@fitsystems.com.my` (already SENT 22 Aug). Skipped forcearc.com.my mailto sales@ampweld.com.my (domain mismatch). Copy POWER TO CRUSH JOB AFTER JOB, intelligent battery management. the FLEX 24V, square and triangular watermelons, Specialist in Seremban. Greenrich HQ inbox only. The 09:00 through 15:00 first-mails stay on their own cadence; do not remmail.
+Timer `netie-tue-hardee-website-2026-08-25-1600-myt` unsubscribed before send. Three extras from unused malaysiabrand hosts 980-1079. All three `/services/` still Coming Soon (`min-height:440px`). Empty `in:sent` before send. `draftId` only. Label_8. No Stripe. Do not remmail unless they reply.
 
-### Hardee Machinery & Hardware Sdn Bhd -- QUEUED draft 25 Aug 2026 15:09 MYT
-- To: flextoolsmalaysia@outlook.com. Draft `r-3525220949517770118`. Thread `1a037c08cbd763a1`. Subject: Klang FLEX-tools page. File: `docs/proposals/hardee-flex.md`. Copy POWER TO CRUSH JOB AFTER JOB.
+### Hardee Machinery & Hardware Sdn Bhd -- SENT 25 Aug 2026 16:02 MYT
+- To: flextoolsmalaysia@outlook.com. SENT `1a037f0d488fdcbd`. Thread `1a037c08cbd763a1`. Subject: Klang FLEX-tools page. Copy POWER TO CRUSH JOB AFTER JOB.
 
-### Greenrich Global Group Sdn. Bhd. -- QUEUED draft 25 Aug 2026 15:09 MYT
-- To: greenrichfruit@gmail.com. Draft `r6496627166738159839`. Thread `1a037c0a979e4d4a`. Subject: Johor Jaya fruit page. File: `docs/proposals/greenrich-fruit.md`. HQ inbox only.
+### Greenrich Global Group Sdn. Bhd. -- SENT 25 Aug 2026 16:02 MYT
+- To: greenrichfruit@gmail.com. SENT `1a037f0e6a584d55`. Thread `1a037c0a979e4d4a`. Subject: Johor Jaya fruit page. HQ inbox only.
 
-### Galaxy Lock Service Centre -- QUEUED draft 25 Aug 2026 15:09 MYT
-- To: galaxylock428@gmail.com. Draft `r6350613514220572606`. Thread `1a037c0be54c2d65`. Subject: Seremban locksmith page. File: `docs/proposals/galaxy-lock.md`. Copy Specialist in Seremban.
+### Galaxy Lock Service Centre -- SENT 25 Aug 2026 16:02 MYT
+- To: galaxylock428@gmail.com. SENT `1a037f10bea70b12`. Thread `1a037c0be54c2d65`. Subject: Seremban locksmith page. Copy Specialist in Seremban.
 - Next hunt: unused malaysiabrand hosts after line 1079.
 
 

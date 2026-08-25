@@ -4,6 +4,7 @@ This index records reusable findings from focused subagent reviews.
 
 | File | Keywords | Main idea |
 |---|---|---|
+| [2026-08-25-tue-1600-hardee-galaxy-send.md](2026-08-25-tue-1600-hardee-galaxy-send.md) | Hardee FLEX, Greenrich, Galaxy Lock, office hours, Coming Soon mailto | Three queued drafts SENT 25 Aug 16:00 MYT. Greenrich HQ inbox only. Do not remmail unless they reply. |
 | [2026-08-25-hardee-galaxy-batch10-queue.md](2026-08-25-hardee-galaxy-batch10-queue.md) | Hardee FLEX, Greenrich, Galaxy Lock, Coming Soon mailto, POWER TO CRUSH JOB AFTER JOB, triangular watermelons | Three more CS+mailto drafts from unused malaysiabrand hosts 980-1079, queued for Tue 16:00 after the 15:00 send. Skip Fit Systems remmail and forcearc mismatch. |
 | [2026-08-25-tue-1500-esewood-firstgroup-send.md](2026-08-25-tue-1500-esewood-firstgroup-send.md) | ESE WOOD, ESL Lighting, ESM, Eventworks, EURO FLOORING, Penta, Far East Landscape, Falcon, FIRST GROUP, office hours, Coming Soon mailto | Nine queued drafts SENT 25 Aug 15:00 MYT. ESM Gmail HQ only. Falcon admin@ only. Do not remmail unless they reply. |
 | [2026-08-25-tue-1400-loder-engsenghan-send.md](2026-08-25-tue-1400-loder-engsenghan-send.md) | LODER, Perfect Steel, Eco Venus, ECZLIN, Edith Art, ELABB, Novelty Flooring, English Hero, Eng Lum, ENG Polymer, ENG SENG HAN, office hours, Coming Soon mailto | Eleven queued drafts SENT 25 Aug 14:00 MYT. Novelty HQ info@ only. Edith Art no street. Do not remmail unless they reply. |
