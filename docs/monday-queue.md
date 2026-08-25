@@ -3843,3 +3843,78 @@ Tone: `.cursor/skills/outreach-tone/SKILL.md`. `/services/` filled. Empty `in:se
 - To: dynaair@dyna-air.com.my. Draft `r2851170742830153093`. Thread `1a03af17395242c5`. Subject: Butterworth compressor landing page. File: `docs/proposals/dynaair.md`. JSON-LD email. Copy Fully imported from Japan Mitsui Seiki Air Compressor.
 
 Skipped remain hosts 581-680: dceemsb `info@dcee.com.my` TLD; deertile `hello@deertiles.com.my` TLD; demaxsolution `sales@demaxsolution.com` TLD; dewanidesign `enquiry@dewanidesign.com` TLD; dms-it `contact@deanms.com.my` domain; domnics.my `info@domnics.com.my` TLD; drvictor `enquiry@bezlife.my` domain; dustcollector `info@neujkf.asia` domain; plus /services/ 404 or no matching email. Next hunt: remain hosts after line 680.
+
+## Filled-site remain 681-780 -- QUEUED 26 Aug 2026 06:30 MYT (Wed 11:00)
+
+Tone: `.cursor/skills/outreach-tone/SKILL.md`. `/services/` filled. Empty `in:sent`. Never print page. Do not send before Wed 11:00. Do not require Coming Soon at send.
+
+### EA Clinic -- QUEUED draft 26 Aug 2026 06:30 MYT
+- To: inquiry@eaclinic.com.my. Draft `r1544680949435114727`. Thread `1a03af6509bf2114`. Subject: Bayan Lepas clinic landing page. File: `docs/proposals/ea-clinic.md`. Copy Hello Healthy Living - Goodbye Pain / Arena Curve.
+
+### Eakon Academy -- QUEUED draft 26 Aug 2026 06:30 MYT
+- To: enquiry@eakonacademy.edu.my. Draft `r-3499019573865386782`. Thread `1a03af653c65d353`. Subject: Semenyih HVAC-academy landing page. File: `docs/proposals/eakon-academy.md`. Copy Penyejukan & Penyaman Udara / Bandar Rinching Seksyen 5.
+
+### Easyreno -- QUEUED draft 26 Aug 2026 06:30 MYT
+- To: easyrenosb@gmail.com. Draft `r-4752694060134039462`. Thread `1a03af65598aa61e`. Subject: Simpang Ampat renovation landing page. File: `docs/proposals/easyreno.md`. Copy Zero Agak-Agak on timeline / Lorong Industri Ringan 4, Juru.
+
+### Enhance Group -- QUEUED draft 26 Aug 2026 06:30 MYT
+- To: admin@ebmgroup.com.my. Draft `r6449853760516983106`. Thread `1a03af65407e4e27`. Subject: Johor Bahru accounting landing page. File: `docs/proposals/enhance-group.md`. Host ebmgroup.com.my; printed Enhance Group. JSON-LD email.
+
+### EBM Motor -- QUEUED draft 26 Aug 2026 06:30 MYT
+- To: ebmmotor99@gmail.com. Draft `r7060424118590280214`. Thread `1a03af65685dd193`. Subject: Johor Bahru used-car landing page. File: `docs/proposals/ebm-motor.md`. Copy Used Car With Warranty / Jalan Anggerik Emas 2.
+
+### ECC -- QUEUED draft 26 Aug 2026 06:30 MYT
+- To: info@eccsb.com.my. Draft `r6917424880303258100`. Thread `1a03af656ddbf9e3`. Subject: Johor Jaya environment landing page. File: `docs/proposals/ecc.md`. HQ JSON-LD info@ only. Did not mail ecc17training@. Copy BUILDING A SUSTAINABLE FUTURE.
+
+### Elegant Embroidery -- QUEUED draft 26 Aug 2026 06:30 MYT
+- To: ecembroidery96@gmail.com. Draft `r-4117966473066649290`. Thread `1a03af65937e1f5b`. Subject: Ipoh embroidery landing page. File: `docs/proposals/elegant-embroidery.md`. HQ JSON-LD ecembroidery96@ only. Did not mail mokky01@. Copy established in the year 1988.
+
+### EcoCare -- QUEUED draft 26 Aug 2026 06:30 MYT
+- To: ecocarecleaning99@gmail.com. Draft `r-1503690611271768911`. Thread `1a03af65b90f0145`. Subject: Puchong cleaning landing page. File: `docs/proposals/ecocare.md`. Copy Professional Cleaning Services Provider in Malaysia / 44G, Jalan Bandar 2.
+
+### Ecogarden -- QUEUED draft 26 Aug 2026 06:30 MYT
+- To: info@ecogarden.my. Draft `r-1346469610538903212`. Thread `1a03af65aa34b12c`. Subject: Sri Damansara landscape landing page. File: `docs/proposals/ecogarden.md`. Copy TRANSFORMING YOUR Landscape To A Perfect / Jalan Emas SD 5/1A.
+
+### ECOORIENT -- QUEUED draft 26 Aug 2026 06:30 MYT
+- To: info.ecoorient@gmail.com. Draft `r6228181789437649524`. Thread `1a03af6db7b26b82`. Subject: Sri Damansara playground landing page. File: `docs/proposals/ecoorient.md`. Copy playground & fitness solutions / 52 & 54, Jalan Emas SD 5/1A.
+
+### Edupoint -- QUEUED draft 26 Aug 2026 06:30 MYT
+- To: sales@edupoint.my. Draft `r1608280384987849326`. Thread `1a03af6dbd43c699`. Subject: Perai student-tablet landing page. File: `docs/proposals/edupoint.md`. JSON-LD email. Copy Student Tablet / 10, Jalan Laguna 1.
+
+### Egida -- QUEUED draft 26 Aug 2026 06:30 MYT
+- To: info@egida.com.my. Draft `r8783789435104592173`. Thread `1a03af6dcee3bc30`. Subject: Johor Bahru software landing page. File: `docs/proposals/egida.md`. Copy Johor Bahru's Trusted Accounting / 24-01, Jalan Indah 10/1.
+
+### EH Salon -- QUEUED draft 26 Aug 2026 06:30 MYT
+- To: ho_smith86@hotmail.com. Draft `r6510510598088891898`. Thread `1a03af6def152db4`. Subject: Mount Austin salon landing page. File: `docs/proposals/eh-salon.md`. Copy Crafting beauty with precision and care since 2013.
+
+### Electron Harvest -- QUEUED draft 26 Aug 2026 06:30 MYT
+- To: lkekmeng950@gmail.com. Draft `r-4042139604147745916`. Thread `1a03af6de2a4aa6d`. Subject: Johor Bahru solar landing page. File: `docs/proposals/electron-harvest.md`. Host eharvest.com.my; printed Electron Harvest. Copy Our humble story began in 1988.
+
+### EKG -- QUEUED draft 26 Aug 2026 06:30 MYT
+- To: enquiry@ekg.com.my. Draft `r6392953382008284927`. Thread `1a03af6e06434bec`. Subject: Kuchai Lama MEP landing page. File: `docs/proposals/ekg.md`. Copy 27-2 & 27-3, Jalan Kuchai Maju, Kuchai Entrepreneur's Park.
+
+### EK Pets -- QUEUED draft 26 Aug 2026 06:30 MYT
+- To: ekpetsandaquarium14@gmail.com. Draft `r-712139651044390159`. Thread `1a03af6e0affc4a4`. Subject: Pudu aquarium landing page. File: `docs/proposals/ek-pets.md`. Copy 4, Jalan Pasar Pudu.
+
+### Element Kitchen -- QUEUED draft 26 Aug 2026 06:30 MYT
+- To: element.kitchencabinet@gmail.com. Draft `r300319522611863859`. Thread `1a03af6e3151632c`. Subject: Seri Kembangan kitchen landing page. File: `docs/proposals/element-kitchen.md`. Copy Dry Kitchen / 7-2, Jalan Equine 10.
+
+### Eleven Interior -- QUEUED draft 26 Aug 2026 06:30 MYT
+- To: sales@eleveninterior.com.my. Draft `r1088605577557397208`. Thread `1a03af6e49c3a41b`. Subject: Johor Bahru interior landing page. File: `docs/proposals/eleven-interior.md`. Copy 121-01, Jalan Adda 3/1, Taman Adda Heights.
+
+### Elite ID -- QUEUED draft 26 Aug 2026 06:30 MYT
+- To: eliteid1ss@gmail.com. Draft `r4881630446418662130`. Thread `1a03af6e41b09eb7`. Subject: Puchong interior landing page. File: `docs/proposals/elite-id.md`. JSON-LD email. Copy Crafting Spaces Built Around You / Skypod Square.
+
+### Elite Quarters -- QUEUED draft 26 Aug 2026 06:30 MYT
+- To: enquiry@elitequarters.com.my. Draft `r-1797461743880939144`. Thread `1a03af7194400fdf`. Subject: Nilai hostel landing page. File: `docs/proposals/elite-quarters.md`. Host elitequarters.com.my; printed LG Solution. Copy Stay Bright , Stay Safe.
+
+### ELLE -- QUEUED draft 26 Aug 2026 06:30 MYT
+- To: studio@elle.com.my. Draft `r2782592210853016056`. Thread `1a03af7196d7ec18`. Subject: Southkey salon landing page. File: `docs/proposals/elle.md`. HQ JSON-LD studio@ only. Did not mail academy@. Copy STYLED TO REALITY / Mid Valley Southkey.
+
+### Embun Battery -- QUEUED draft 26 Aug 2026 06:30 MYT
+- To: shafirulnazreen@gmail.com. Draft `r-7577002480608790685`. Thread `1a03af71a5eb7ed7`. Subject: Puchong battery landing page. File: `docs/proposals/embun-battery.md`. First mail English. Copy Pakar Bateri Kereta / Lot 4660, Kampung Baru, Batu 14.
+
+### EMRO -- QUEUED draft 26 Aug 2026 06:30 MYT
+- To: enquiry@emromalaysia.my. Draft `r1320302753208343274`. Thread `1a03af71bbf1e6c6`. Subject: Iskandar Puteri EM landing page. File: `docs/proposals/emro.md`. Copy Cultivating a Greener Future / 29, Jalan SILC 2/3.
+
+Skipped remain hosts 681-780: ecommerce-pro.my is NEWPAGES/ONESYNC, not a buyer; eeps `henry.lua@eeps.my` TLD; eghi `info@ecogroup.com.my` domain; electricalsupplies `weiyik@ykelectrical.com.my` domain; eliston `sales@eliston-engineering.com` TLD; elsotech `.com` TLD; plus /services/ 404 or no matching email. Next hunt: remain hosts after line 780.
