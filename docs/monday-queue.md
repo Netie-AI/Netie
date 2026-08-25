@@ -2431,7 +2431,35 @@ Folded onto the same Wed 09:00 timer (`sub_e08c8884-86f5-46cd-a0f3-b03e8b1b98fb`
 
 ### Mahagamy Consultancy And Advisory Sdn Bhd -- QUEUED draft 25 Aug 2026 18:32 MYT
 - To: osamalim@mahagamy.com.my. Draft `r-626545270343868042`. Thread `1a0387ab191e2484`. Subject: Sibu training page. File: `docs/proposals/mahagamy.md`. Copy EMPOWERING SKILLS. ENSURING SAFETY. Did not mail limchongyee911@.
-- Next hunt: unused malaysiabrand hosts after line 1879. Do not send these before Wed 09:00 MYT.
+
+## Queued after hours 25 Aug 2026 18:42 MYT (do not send before Wed 09:00)
+
+Folded onto the same Wed 09:00 timer (`sub_de648320-a76e-4ad9-87ed-a53b215ed33b`, replaced `sub_e08c8884-86f5-46cd-a0f3-b03e8b1b98fb`). Eight extras from unused hosts 1880-1979. Empty `in:sent`. All eight `/services/` Coming Soon (`min-height:440px`). No Stripe. Skipped Metafert SENT 22 Aug. Master Globe contact-page inbox.
+
+### Marktest Technology Sdn Bhd -- QUEUED draft 25 Aug 2026 18:40 MYT
+- To: sales@marktest.com.my. Draft `r-2455719670264020231`. Thread `1a0387ff967a9298`. Subject: Muar measurement page. File: `docs/proposals/marktest.md`. Copy the international renowned brands.
+
+### Master Globe Sdn Bhd -- QUEUED draft 25 Aug 2026 18:40 MYT
+- To: msun2020online@gmail.com. Draft `r-6751179359674659536`. Thread `1a038800cfc68ab1`. Subject: Kepong auto-parts page. File: `docs/proposals/master-globe.md`. Copy Driving Quality, / Driving Excellence,. Contact-page inbox.
+
+### Mastermen Enterprise -- QUEUED draft 25 Aug 2026 18:41 MYT
+- To: mme.mastermen@gmail.com. Draft `r6279189641285036284`. Thread `1a0388025a0ae7f3`. Subject: Shah Alam concrete page. File: `docs/proposals/mastermen.md`. Copy High-Quality Ready-Mix Concrete.
+
+### MAYA PRINTING SOLUTIONS SDN BHD -- QUEUED draft 25 Aug 2026 18:41 MYT
+- To: mayaprinting88@gmail.com. Draft `r7028662299522333457`. Thread `1a0388039a074dc0`. Subject: Skudai printing page. File: `docs/proposals/maya-printing.md`. Copy FOTOMAYA / for 22 years.
+
+### Mega Alliance Builder Supplies Sdn. Bhd. -- QUEUED draft 25 Aug 2026 18:41 MYT
+- To: sales@megaalliance.com.my. Draft `r-826462731941310851`. Thread `1a038804e7668232`. Subject: Sungai Buloh pipe page. File: `docs/proposals/mega-alliance.md`. Copy wholly owned sub-subsidiary / since 2 August 2002.
+
+### Megamore Enterprise -- QUEUED draft 25 Aug 2026 18:41 MYT
+- To: megamoreenterprise@gmail.com. Draft `r800580106490543625`. Thread `1a03880630f05e75`. Subject: Shamelin AC-parts page. File: `docs/proposals/megamore.md`. Copy Trusted Automotive Air-Conditioning Parts Specialist.
+
+### Mei Tat Enterprise Sdn Bhd -- QUEUED draft 25 Aug 2026 18:41 MYT
+- To: meitat.enterprise@gmail.com. Draft `r-4978762165933434106`. Thread `1a0388077daa5185`. Subject: Kepong packaging page. File: `docs/proposals/mei-tat.md`. Copy EC Plastic Cups / CB Plastic Containers.
+
+### MESAL LED LIGHTING SDN BHD -- QUEUED draft 25 Aug 2026 18:41 MYT
+- To: info@mesaled.my. Draft `r-3063136889413315810`. Thread `1a038808e1b593f6`. Subject: Puchong LED page. File: `docs/proposals/mesal-led.md`. Copy Brighten Your World / Let's Illuminate Your Space!
+- Next hunt: unused malaysiabrand hosts after line 1979. Do not send these before Wed 09:00 MYT.
 
 
 
