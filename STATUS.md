@@ -1,8 +1,10 @@
 # STATUS
 
-Updated: 2026-08-25 17:28 MYT. Success = live Stripe charge, then a payout.
+Updated: 2026-08-25 17:30 MYT. Success = live Stripe charge, then a payout.
 
 ## Now (measured)
+
+- After hours 25 Aug 17:30 MYT: late fire of `netie-tue-esewood-website-2026-08-25-1500-myt`. No-op. All nine ESE WOOD through FIRST GROUP threads still one SENT message from 15:03 MYT (Label_8). Drafts gone. Did not remmail. After 17:00 MYT. Did not nag. Did not apply. Did not poll Stripe. No paid charge yet.
 
 - After hours 25 Aug 17:28 MYT: late fire of `netie-tue-loder-website-2026-08-25-1400-myt`. No-op. All eleven LODER through ENG SENG HAN threads still one SENT message from 14:04-14:06 MYT. Drafts gone. Did not remmail. After 17:00 MYT. Did not nag. Did not apply. Did not poll Stripe. No paid charge yet.
 
