@@ -2,7 +2,7 @@
 
 - Date: 2026-08-26 MYT
 - Keywords: hire, hero, RM 500, landing page, Wed 09:00, File Manager
-- Main idea: Live `/hire/` still said "Hire us for your work" and buried the landing offer. Wed 09:00 drafts send people to that URL. Source hero is now: better landing page, RM 500 unlocks the first draft, Request the first draft. No Stripe button. Landing card is first. 08:00 File Manager must upload because sha256 changed.
+- Main idea: Live `/hire/` still said "Hire us for your work" and buried the landing offer. Wed 09:00 drafts send people to that URL. Source hero is now: better landing page, RM 500 unlocks the first draft, Request the first draft. No Stripe button. Landing card is first. Live overwrite verified 26 Aug 01:55 MYT (sha256 `7c91bf0b...`, last-modified 25 Aug 17:44:52 GMT).
 
 ## Why
 
@@ -16,4 +16,4 @@ Toon proved a vague hook fails. 168 first-mails now say landing page + RM 500 + 
 
 ## Upload
 
-Wed 08:00 timer must write website-row `/home/ffvftugcxb/netie.ai/hire/`, not token cPanel `public_html`. Do not overwrite `/`. Live still sha256 `a8fb92f4...`. Git and Surge now `7c91bf0ba5bb5cfebdbb2abdfe5b99ae4f253a88085b4b943d450dbe6c80c06d` (56306 bytes). Skip only if live already matches that.
+Wed 08:00 timer must write website-row `/home/ffvftugcxb/netie.ai/hire/`, not token cPanel `public_html`. Do not overwrite `/`. Live https://netie.ai/hire/ verified 26 Aug 01:55 MYT: last-modified 25 Aug 17:44:52 GMT, sha256 `7c91bf0ba5bb5cfebdbb2abdfe5b99ae4f253a88085b4b943d450dbe6c80c06d` matches git. 08:00 can skip if that still holds.
