@@ -15,5 +15,7 @@ Gmail oojianhongg@gmail.com
 
 Meetup: Penang / remote Malaysia. Cash out through the agreed job, not a Carousell gift-card mill.
 
+Also one Craigslist Malaysia services post if Carousell stays blocked: https://post.craigslist.org/c/mly
+Paste: docs/craigslist-paste.txt
 Listing photo (open on the phone, screenshot, upload as the first Carousell image):
 https://netie-penang.surge.sh/listing.html
