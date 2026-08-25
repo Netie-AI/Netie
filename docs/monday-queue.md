@@ -2815,6 +2815,43 @@ Timer `netie-wed-thl-website-2026-08-26-1000-myt` (`sub_a47dbd1f-a86b-436f-892e-
 Skipped CS-no-mailto: togetherkitchen.com.my, toolsguru.com.my, toptaste.com.my, trisfood.com.my.
 - Next hunt: unused malaysiabrand hosts after line 3179. Do not send these before Wed 10:00 MYT.
 
+## Wed 26 Aug 11:00 extras (hosts 3180-3279)
+
+Timer `netie-wed-tsprint-website-2026-08-26-1100-myt` (`sub_d0f26d6d-02c1-4fd3-80a0-68ed99b738b4`). Ten extras. Do not send before 11:00 MYT. Do not fold onto the 09:00 168 or the 10:00 seven.
+
+### TS PRINTING SDN. BHD. -- QUEUED draft 26 Aug 2026 04:02 MYT
+- To: marketing@tsprint.com.my. Draft `r3888511579076476959`. Thread `1a03a840ce949a48`. Subject: Muar sticker landing page. File: `docs/proposals/ts-print.md`. Copy established in Muar five years ago, on March 17, 2020 / 20 years of industry experience. Recreated after first draft used print page. Old thread `1a03a8282628bc72` trashed. Did not mail tsprint4u@gmail.com.
+
+### UMAKE DESIGN GROUP PLT -- QUEUED draft 26 Aug 2026 04:00 MYT
+- To: umakedesignstudio@gmail.com. Draft `r4506022143401327935`. Thread `1a03a8284e52f1a4`. Subject: Balakong acrylic landing page. File: `docs/proposals/umake-design.md`. Copy leading manufacturer / Jalan Minion Utama.
+
+### UNICE MARKETING SDN BHD -- QUEUED draft 26 Aug 2026 04:00 MYT
+- To: iilutionhair.beauty@gmail.com. Draft `r-6239726531270491055`. Thread `1a03a828508b6256`. Subject: Iskandar Puteri salon landing page. File: `docs/proposals/unice-marketing.md`. Copy Shine with Superior Hair Care. Printed inbox is iilutionhair.beauty@gmail.com.
+
+### Uniqpac Packaging Sdn Bhd -- QUEUED draft 26 Aug 2026 04:00 MYT
+- To: sales@uniqpac.com.my. Draft `r1635039384062245122`. Thread `1a03a8286aab5737`. Subject: Shah Alam box landing page. File: `docs/proposals/uniqpac.md`. Copy Corrugated Box Selangor / Jalan Eco Ardence C.
+
+### UNIQUE CONTROL SYSTEMS SDN BHD -- QUEUED draft 26 Aug 2026 04:00 MYT
+- To: uniquecsy2015@gmail.com. Draft `r-5752111365236455282`. Thread `1a03a8286fcb3ae6`. Subject: Krubong automation landing page. File: `docs/proposals/unique-control.md`. Copy Established in 2015 and headquartered in Melaka. HQ Melaka only. Did not mail gary.ucspg@gmail.com, ucs.sales02@gmail.com, uniquecontrol.sales@gmail.com.
+
+### UNIQUE MAKER SDN BHD -- QUEUED draft 26 Aug 2026 04:00 MYT
+- To: sales.uniquemaker@gmail.com. Draft `r5490683216498447872`. Thread `1a03a8288bd8e094`. Subject: Penang flooring landing page. File: `docs/proposals/unique-maker.md`. Copy Best Flooring Shop Penang / SPC Flooring Accessories Supplier Butterworth. HQ Penang Jalan Perak only.
+
+### U TECH RESOURCES (M) SDN BHD -- QUEUED draft 26 Aug 2026 04:00 MYT
+- To: info@utech.my. Draft `r-5591061759281022600`. Thread `1a03a828b2c6d112`. Subject: Bukit Mertajam metrology landing page. File: `docs/proposals/u-tech.md`. Copy incorporated in year 2008 / provide metrology service. Did not mail enquiry@utech.my.
+
+### Vadean Trading Sdn Bhd -- QUEUED draft 26 Aug 2026 04:00 MYT
+- To: enquiry@vadean.com.my. Draft `r-896210166314089715`. Thread `1a03a828bfdc2dc8`. Subject: Johor Bahru fence landing page. File: `docs/proposals/vadean.md`. Copy Fencing and Wire Mesh product / Taman Daya.
+
+### ORGANIC FOR YOU TRADING -- QUEUED draft 26 Aug 2026 04:00 MYT
+- To: admin@organic4u.com.my. Draft `r-847542898128701379`. Thread `1a03a829550772ab`. Subject: Kepong organic landing page. File: `docs/proposals/organic-for-you.md`. Copy One-stop Organic Shop KL / Taman Sri Ehsan. Host vege.com.my; printed mailto is Organic For You.
+
+### Venture Mover -- QUEUED draft 26 Aug 2026 04:00 MYT
+- To: venture22@ymail.com. Draft `r-4515995337307130554`. Thread `1a03a82976e24b6d`. Subject: Kepong moving landing page. File: `docs/proposals/venture-mover.md`. Copy Most Professional House Moving Company In Kuala Lumpur / Vista Mutiara.
+
+Skipped CS-no-mailto: tukangrumah.com.my, ukai.com.my, unigrow.com.my, universalbolts.com.my.
+- Next hunt: unused malaysiabrand hosts after line 3279. Do not send these before Wed 11:00 MYT.
+
 
 
 

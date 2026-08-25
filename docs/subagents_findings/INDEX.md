@@ -4,6 +4,7 @@ This index records reusable findings from focused subagent reviews.
 
 | File | Keywords | Main idea |
 |---|---|---|
+| [2026-08-26-tsprint-venture-batch30-queue.md](2026-08-26-tsprint-venture-batch30-queue.md) | TS Print, UMAKE, Unice, Uniqpac, Unique Control, Unique Maker, U Tech, Vadean, Organic For You, Venture Mover, Coming Soon mailto, Wed 11:00, never print page | Ten more CS+mailto drafts from unused hosts 3180-3279, queued for Wed 11:00. TS Print subject is Muar sticker landing page. |
 | [2026-08-26-thl-tsf-batch29-queue.md](2026-08-26-thl-tsf-batch29-queue.md) | THL, Tint Titans, TPS, Triple R, Tropicool, Truffle, TSF Johan, Coming Soon mailto, Wed 10:00 | Seven more CS+mailto drafts from unused hosts 3080-3179, queued for Wed 10:00 not 09:00. Copy so call tinted films / Sika topSeal. |
 | [2026-08-26-hire-brief-rm500.md](2026-08-26-hire-brief-rm500.md) | hire, brief, RM 500, dropdown, Wed 08:00 | Live `/hire/` brief now names RM 500 first draft. sha256 `cca9f313...`. 08:00 can skip if that holds. |
 | [2026-08-26-pph-landing-about.md](2026-08-26-pph-landing-about.md) | PeoplePerHour, About, Ashburn, SEND PROPOSAL, RM 500 | Public PPH now names Landing page writer and RM 500. Location Ashburn. SEND PROPOSAL still blocked. Not income. |
