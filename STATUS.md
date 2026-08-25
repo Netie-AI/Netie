@@ -1,8 +1,10 @@
 # STATUS
 
-Updated: 2026-08-26 01:05 MYT. Success = live Stripe charge, then a payout.
+Updated: 2026-08-26 01:10 MYT. Success = live Stripe charge, then a payout.
 
 ## Now (measured)
+
+- After hours 26 Aug 01:10 MYT: live https://netie.ai/hire/ still matches git (56312, sha256 `a8fb92f4...`, two `RM 500 unlocks`). Homepage last-modified unchanged. Inbox: no new buyer mail. Toon thread `1a03642393b091d6` still two messages. Holding draft `r-7427464740298229176` still on-thread, not sent. Did not nag Kanhseei. Did not apply Foundit. Did not poll Stripe again (already 26 Aug MYT at 01:05). Wed 08:00 File Manager timer: skip upload if sha256 still matches. Wed 09:00 send: hire is live, so if a draft body has no `https://netie.ai/hire/`, update_draft the same draftId and add one line before the close (`If you want to see how we quote this work: https://netie.ai/hire/`), then send_message. Do not send Toon. Timer prompt still names an old Toon draft id; STATUS is the source. No paid charge yet.
 
 - Night retry 26 Aug 01:05 MYT: canonical https://netie.ai/hire/ now matches git `docs/pay.html` (56312 bytes, sha256 `a8fb92f427975c1f8db3a47280fb4987254a89b7995a912b0372799da01c1717`, two `RM 500 unlocks`, title copy/records/docs, last-modified 25 Aug 16:54 GMT). `/hire/catalog.json` and `/hire/llms.txt` match git. True-root https://netie.ai/llms.txt matches `docs/root-llms.txt`. Homepage https://netie.ai/ last-modified unchanged 25 Aug 06:46 GMT, HTTP 200, no 302 to `/hire/`. Live docroot is `/home/ffvftugcxb/netie.ai/` via Hosting Manager **website-row** Manage files, not token cPanel `public_html` (that tree accepted a 55KB upload but did not serve). Night timer `sub_2b42521f` unsubscribed. Toon thread still two messages; draft `r-7427464740298229176` not sent. Did not nag Kanhseei. last_stripe_check 2026-08-26 01:05 MYT: live `acct_1RMx9FFV5wcFod2f` NETIE, GetCharges empty, GetPaymentIntents empty, available MYR 0 / pending MYR 0. Did not alter products. No paid charge yet.
 
