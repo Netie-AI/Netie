@@ -1,8 +1,10 @@
 # STATUS
 
-Updated: 2026-08-25 09:01 MYT. Success = live Stripe charge, then a payout.
+Updated: 2026-08-25 09:20 MYT. Success = live Stripe charge, then a payout.
 
 ## Now (measured)
+
+- Office hours 25 Aug 09:20 MYT: sent the extra five queued first-mails after live checks. Leatat `info@leatat.com.my` SENT `1a036814005745a2` thread `1a034976325e7aa8`. Craft Perfect `craftperfecttools@gmail.com` SENT `1a03681435aa4e2c` thread `1a0349f6e8f2da78`. Lan Hoe `online@lanhoe.com.my` SENT `1a03681453341f5c` thread `1a0349f7006f69a3`. Pro Helper `prohelper99@gmail.com` SENT `1a0368147bec0b26` thread `1a0349fb4e11d24d`. KM Super HQ `kmsuperkmsuper@gmail.com` SENT `1a03681460c455ca` thread `1a0349f7204ba4dd` (did not mail Bangi or Mawar). All five `/services/` still Coming Soon (`min-height:440px`). Empty `in:sent` before send. `draftId` only. Label_8. No Stripe. Do not remmail unless they reply. 09:40 afternoon four and 10:00 M Haus-through-CHILDHOOD T timers stay. Kanhseei still ends at SENT `1a0338bc74fae0b4`. Did not nag. Did not apply. Did not poll Stripe. No paid charge yet.
 
 - Office hours 25 Aug 09:00 MYT: sent the six queued first-mails after live checks. Prints Buddy `order@printsbuddy.com.my` SENT `1a0366ef005c502f` thread `1a033f91222ed276`. TNT Crane `marketing@tntcrane.com.my` SENT `1a0366ef1f1c8b85` thread `1a033f913f8b8118`. Dream House `dream.house.sw.sb@gmail.com` SENT `1a0366ef32b6cdbe` thread `1a033f91408579ef`. Berjaya `enquiry.berjaya@gmail.com` SENT `1a0366efdece676e` thread `1a033f9195a509a9`. Jin He Jia `enquiry@jinhejia.com.my` SENT `1a0366efe6eb209f` thread `1a033f91202d5497`. Katalisjiwa `hello@katalisjiwa.com` SENT `1a0366f01d8a38d6` thread `1a034ffb78591205` (copy pitch; `/services/` 404). All five website `/services/` still Coming Soon (`min-height:440px`). Empty `in:sent` before send. `draftId` only. Label_8 on all six. No Stripe. Do not remmail unless they reply. 09:20 extra five, 09:40 afternoon four, and 10:00 M Haus-through-CHILDHOOD T timers stay. Kanhseei still ends at SENT `1a0338bc74fae0b4`. Did not nag. Did not apply. Did not poll Stripe. No paid charge yet.
 

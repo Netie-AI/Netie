@@ -965,44 +965,49 @@ Timer `netie-tue-queued-websites-2026-08-25-0900-myt` fired as an in-turn send a
 
 ## Queued after the Tue 09:00 five-send (do not send before those five, and not after hours)
 
-Timer `netie-tue-extra-websites-2026-08-25-0920-myt` (`sub_45c60c2e-f97e-4d71-9acf-00d76a35514a`, once, Tue 25 Aug 09:20 MYT). Send existing Gmail drafts only after live `/services/` Coming Soon and empty `in:sent`. Five extras: Leatat, Craft Perfect Tools, Lan Hoe, Pro Helper, KM Super HQ. Not an email-watch loop. No Stripe. One inbox. RM 1,000-5,000. Label `Label_8` after send. Do not Surge-publish until after SENT.
+## SENT Tue 25 Aug 2026 09:20 MYT extra five
 
-### Leatat Heavy Transport -- QUEUED draft 25 Aug 2026 00:25 MYT
+Timer `netie-tue-extra-websites-2026-08-25-0920-myt` sent in-turn at 09:20 MYT after live checks. All five `/services/` still Coming Soon (`min-height:440px`). Empty `in:sent` before send. `draftId` only. Label_8. Do not remmail unless they reply. Did not mail KM Super Bangi or Mawar.
+
+### Leatat Heavy Transport -- SENT 25 Aug 2026 09:20 MYT
 
 - To: info@leatat.com.my (contact-page mailto on https://www.leatat.com.my/contactus/). One inbox.
 - Source: live https://www.leatat.com.my/services/ HTTP 200 still Coming Soon (`min-height:440px`). Homepage lists heavy transport for fibre tanks and industrial machinery, container haulage, and truck/forklift leasing from 6991, Lot 2544, Mukim 7, Telok Air Tawar, 13050 Butterworth, with runs across Peninsular Malaysia, Singapore, and Thailand. SSM 199701018852 (434349-A).
-- Draft: `r4406214204731782560`. Thread: `1a034976325e7aa8`. Subject: Telok Air Tawar transport page.
+- SENT 25 Aug 2026 09:20 MYT. Message: `1a036814005745a2`. Thread: `1a034976325e7aa8`. Former draft: `r4406214204731782560`. Subject: Telok Air Tawar transport page.
 - File: `docs/proposals/leatat-heavy-transport.md`. Hostable draft: `docs/proposals/leatat-services.html`.
-- Website-page offer, RM 1,000-5,000. No Stripe. Not a Thursday 3PL follow-up. Send only after the Tue 09:00 five-send, in office hours, if still Coming Soon and `in:sent` empty.
+- Website-page offer, RM 1,000-5,000. No Stripe. Not a Thursday 3PL follow-up. Do not mail again unless they reply.
 
-### Craft Perfect Tools -- QUEUED draft 25 Aug 2026 00:33 MYT
+### Craft Perfect Tools -- SENT 25 Aug 2026 09:20 MYT
 
 - To: craftperfecttools@gmail.com (homepage mailto on https://www.cptools.com.my/). One inbox.
 - Source: live https://www.cptools.com.my/services/ HTTP 200 still Coming Soon (`min-height:440px`). Homepage lists K-Force air impact wrenches and a 2-ton hydraulic foldable engine crane from 615, Jalan 19, Kampung Baru Sungai Chua, 43000 Kajang. SSM 202001033568 (1389889-A).
-- Draft: `r502446274827151328`. Thread: `1a0349f6e8f2da78`. Subject: Kajang compressor tools page.
+- SENT 25 Aug 2026 09:20 MYT. Message: `1a03681435aa4e2c`. Thread: `1a0349f6e8f2da78`. Former draft: `r502446274827151328`. Subject: Kajang compressor tools page.
 - File: `docs/proposals/craft-perfect-tools.md`. Hostable draft: `docs/proposals/craft-perfect-tools-services.html`.
+- Do not mail again unless they reply.
 
-### Lan Hoe Holdings -- QUEUED draft 25 Aug 2026 00:33 MYT
+### Lan Hoe Holdings -- SENT 25 Aug 2026 09:20 MYT
 
 - To: online@lanhoe.com.my (homepage mailto on https://www.lanhoe.com.my/). One inbox.
 - Source: live https://www.lanhoe.com.my/services/ HTTP 200 still Coming Soon (`min-height:440px`). Homepage lists copper tube, blast freezers, and Maneurope compressors from 24, Jalan 6/91, Taman Shamelin Perkasa, 56100 Cheras. SSM 200501011711 (688759-H).
-- Draft: `r-1298835960975874667`. Thread: `1a0349f7006f69a3`. Subject: Cheras HVAC parts page.
+- SENT 25 Aug 2026 09:20 MYT. Message: `1a03681453341f5c`. Thread: `1a0349f7006f69a3`. Former draft: `r-1298835960975874667`. Subject: Cheras HVAC parts page.
 - File: `docs/proposals/lan-hoe.md`. Hostable draft: `docs/proposals/lan-hoe-services.html`.
+- Do not mail again unless they reply.
 
-### Pro Helper Home Service -- QUEUED draft 25 Aug 2026 00:33 MYT
+### Pro Helper Home Service -- SENT 25 Aug 2026 09:20 MYT
 
 - To: prohelper99@gmail.com (homepage mailto on https://www.prohelper.com.my/). One inbox.
 - Source: live https://www.prohelper.com.my/services/ HTTP 200 still Coming Soon (`min-height:440px`). Homepage lists insured aircond chemical wash, electrical, and plumbing from 13A-2, Jalan Panglima, Bandar Mahkota Cheras, 43200 Cheras. SSM 202401036175 (1582022-K).
-- Draft: `r3672895988313459318`. Thread: `1a0349fb4e11d24d`. Subject: Mahkota Cheras handyman page.
+- SENT 25 Aug 2026 09:20 MYT. Message: `1a0368147bec0b26`. Thread: `1a0349fb4e11d24d`. Former draft: `r3672895988313459318`. Subject: Mahkota Cheras handyman page.
 - File: `docs/proposals/pro-helper.md`. Hostable draft: `docs/proposals/pro-helper-services.html`.
+- Do not mail again unless they reply.
 
-### KM Super -- QUEUED draft 25 Aug 2026 00:33 MYT
+### KM Super -- SENT 25 Aug 2026 09:20 MYT
 
 - To: kmsuperkmsuper@gmail.com (HQ contact-page mailto on https://www.kmsuper.com.my/contactus/). One inbox. Do not mail kmsuperbangisb@ or kmsupermawar@.
 - Source: live https://www.kmsuper.com.my/services/ HTTP 200 still Coming Soon (`min-height:440px`). Homepage lists HANBELL screw compressors and PUR PIR cold-room panels from A-G-2, Jalan Kasturi 10, Taman Kasturi, 43200 Balakong. SSM 201001038447 (922371-W).
-- Draft: `r8774885238944427350`. Thread: `1a0349f7204ba4dd`. Subject: Balakong cold-room page.
+- SENT 25 Aug 2026 09:20 MYT. Message: `1a03681460c455ca`. Thread: `1a0349f7204ba4dd`. Former draft: `r8774885238944427350`. Subject: Balakong cold-room page.
 - File: `docs/proposals/km-super.md`. Hostable draft: `docs/proposals/km-super-services.html`.
-- Skipped this pass: UKAI JSON-LD-only email. KDSOFT NXDOMAIN. Aenon / Standco `/services/` filled. Top Fast spa Coming Soon left unqueued at that pass; queued 25 Aug 01:00 MYT below.
+- Do not mail again unless they reply. Did not mail Bangi or Mawar.
 
 ## Queued after the Tue 09:20 extra five-send (do not send before those five, and not after hours)
 
