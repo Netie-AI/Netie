@@ -4,6 +4,7 @@ This index records reusable findings from focused subagent reviews.
 
 | File | Keywords | Main idea |
 |---|---|---|
+| [2026-08-26-early-filled-horizon-infinite-queue.md](2026-08-26-early-filled-horizon-infinite-queue.md) | filled site, remain 1181-1280, Horizon Dental, Hybrid Print DTF, Ideal Office copier, skip cemetery | Twenty-eight filled first-mails folded onto Wed 11:00. Skip icarefuneralservices. DTF/copier subjects, never print page. |
 | [2026-08-26-early-filled-haco-honsen-queue.md](2026-08-26-early-filled-haco-honsen-queue.md) | filled site, remain 1081-1180, HA & CO, HAG Solar, HEUTIG, Heng Li Art security-door, Success Technic homogenizer, never print page | Twenty-four filled first-mails folded onto Wed 11:00. New landing-plus-marketing voice. Skip sampleemail and TLD mismatch. |
 | [2026-08-26-precise-offer-consulting-proposal.md](2026-08-26-precise-offer-consulting-proposal.md) | Golden Star Roofing, Coming Soon rewrite, Toon, proposal document, SCR, landing plus marketing, agent OCR DMS | Owner: name landing plus marketing, then agents. Client reply gets a proposal with figures. Toon files written, not sent. |
 | [2026-08-26-early-filled-gemie-guoyi-queue.md](2026-08-26-early-filled-gemie-guoyi-queue.md) | filled site, remain 981-1080, Gemie, Global 7, GOLDEN SHARP, GTE Best Mark coding-machine, never print page | Twenty-seven filled first-mails folded onto Wed 11:00. One GOLDEN SHARP inbox. GTE/Great Image subjects avoid print page. |

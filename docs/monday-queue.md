@@ -4268,3 +4268,94 @@ Tone: `.cursor/skills/outreach-tone/SKILL.md` new voice (landing plus marketing,
 
 Skipped remain hosts 1081-1180: hagsolar `sampleemail@gmail.com` placeholder; hanasteel `saleco@hana-steel.com` TLD; hdmetal `hdmetal@hockdee.com` TLD; heattemps `sales@heattemps.com` TLD; highriseind `hisb@highrise.com.my` TLD; homeshiftjb `homeshifttrading@ymail.com` TLD; hoongdesign `info@hoongdesign.com` TLD; hardrace CS not filled; hmglass CS; helixtech/hgnmover/hommes tiny 853-953; herbalcare tiny 1251. Next hunt: remain hosts after line 1180.
 
+
+## Filled-site remain 1181-1280 -- QUEUED 26 Aug 2026 07:50 MYT (Wed 11:00)
+
+Tone: landing plus marketing, then agent/OCR/DMS. No hire URL. No Stripe. Empty `in:sent`. Never print page. Do not send before Wed 11:00. Do not require Coming Soon at send. Skip icarefuneralservices cemetery.
+
+### Horizon Dental -- QUEUED draft 26 Aug 2026 07:50 MYT
+- To: dentalclinichorizon@gmail.com. Draft `r-8150072294469978147`. Thread `1a03b1a458a9c864`. Subject: Bukit Indah dental landing page. File: `docs/proposals/horizon-dental.md`. Copy Braces and Invisalign Treatment / 73-A, Jalan Indah 15/2.
+
+### Horus -- QUEUED draft 26 Aug 2026 07:50 MYT
+- To: admin.htlife@gmail.com. Draft `r-8444992398246434607`. Thread `1a03b1a4551dc9f6`. Subject: Skudai inspection landing page. File: `docs/proposals/horus.md`. Copy Don't Let Hidden Defects Become Expensive Problems / 49A, Jalan Pendekar 2.
+
+### YLK Industrial -- QUEUED draft 26 Aug 2026 07:50 MYT
+- To: ylkindustrial@gmail.com. Draft `r4538459575194633027`. Thread `1a03b1a4750fbbd5`. Subject: Johor Jaya hose landing page. File: `docs/proposals/ylk-industrial.md`. Copy Industrial Hose Supplier / Jalan Ros Merah, Taman Johor Jaya. HQ JSON-LD ylkindustrial@ only. Did not mail enquiry@hosesupplier.com.my.
+
+### Ho Sheng -- QUEUED draft 26 Aug 2026 07:50 MYT
+- To: hoshengent@gmail.com. Draft `r-7662285239886624529`. Thread `1a03b1a46c3ca0a2`. Subject: Subang Jaya TCM landing page. File: `docs/proposals/ho-sheng.md`. Copy TCM Acupuncture Clinic / Lot 2, 70, The Summit USJ. HQ JSON-LD only.
+
+### KanTan Growth -- QUEUED draft 26 Aug 2026 07:50 MYT
+- To: kantangrowth@gmail.com. Draft `r-1651084603383628118`. Thread `1a03b1a49589aab6`. Subject: Johor Bahru HRDC landing page. File: `docs/proposals/kantan-growth.md`. Copy Empowering Business Growth / 51-02, Jalan Eco Cascadia 6/1. Host hrdcclaimable.com.my.
+
+### Huang Motor -- QUEUED draft 26 Aug 2026 07:50 MYT
+- To: huangmotormsb@gmail.com. Draft `r7992611936974851350`. Thread `1a03b1a4b6e098f3`. Subject: Kepala Batas motorcycle landing page. File: `docs/proposals/huang-motor.md`. Copy LEADING MOTORCYCLE DEALER IN PENANG / 5593 and 5594, Jalan Datuk Haji Ahmad Badawi.
+
+### Hua Tick Recycle -- QUEUED draft 26 Aug 2026 07:50 MYT
+- To: huatickchia9663@gmail.com. Draft `r-8447114124079897304`. Thread `1a03b1a4cc983da6`. Subject: Rawang recycle landing page. File: `docs/proposals/hua-tick-recycle.md`. Copy Ferrous Metal Scrap Recycling / Lot 4235, Jalan Kesidang 5.
+
+### Hup Ching -- QUEUED draft 26 Aug 2026 07:50 MYT
+- To: enquiry2@hupchingfl.com.my. Draft `r6171016489247511620`. Thread `1a03b1a4ffc4c0b3`. Subject: Segambut forklift landing page. File: `docs/proposals/hup-ching.md`. Copy Forklift Provider / 56, Jalan Segambut Pusat.
+
+### Hup Leck -- QUEUED draft 26 Aug 2026 07:50 MYT
+- To: sales@hupleck.com.my. Draft `r7694863304936480235`. Thread `1a03b1ab531cfff8`. Subject: Johor Jaya fire-safety landing page. File: `docs/proposals/hup-leck.md`. Copy RUSTED FIRE SAFETY PARTNER / 14, Jalan Rosmerah 1/3.
+
+### Hybrid Print -- QUEUED draft 26 Aug 2026 07:50 MYT
+- To: hybridprint6661@gmail.com. Draft `r-1052991210787198106`. Thread `1a03b1ab53dd9293`. Subject: Petaling Jaya DTF landing page. File: `docs/proposals/hybrid-print.md`. Copy HD Print and DTF Print / 9, Jalan PJU 10/10C. DTF subject, never print page.
+
+### AsiaGenesis Health -- QUEUED draft 26 Aug 2026 07:50 MYT
+- To: asiagenesishealth@gmail.com. Draft `r-607440508633975122`. Thread `1a03b1ab7532a8a2`. Subject: Petaling Jaya oncology landing page. File: `docs/proposals/asiagenesis-health.md`. Copy Chongqing Hygeia Oncology Center / 12 A, Jalan 13/4. Host hygeiahospital.com.my.
+
+### Ibnusina Offshore -- QUEUED draft 26 Aug 2026 07:50 MYT
+- To: info@ibnusina.com.my. Draft `r-5586061651646131774`. Thread `1a03b1ab9dbbeda6`. Subject: Wangsa Maju offshore landing page. File: `docs/proposals/ibnusina.md`. Copy Ship Management and Logistics Agency / Suite 10.06, Level 10 Tower 2, Wangsa 118.
+
+### I Coating -- QUEUED draft 26 Aug 2026 07:50 MYT
+- To: icoatingsdnbhd@gmail.com. Draft `r-143229096222463869`. Thread `1a03b1ab8c653e39`. Subject: Ulu Tiram coating landing page. File: `docs/proposals/i-coating.md`. Copy Transform Your Surfaces with Premium Coating Solutions / 3, Jalan Mahir 3.
+
+### ICT Vision -- QUEUED draft 26 Aug 2026 07:50 MYT
+- To: info@ictvision.my. Draft `r-8298603844503711847`. Thread `1a03b1abb2e073c2`. Subject: Johor Jaya wiper landing page. File: `docs/proposals/ict-vision.md`. Copy Industrial Wipers Distributor / 36, Jalan Ros Merah 2/7.
+
+### iCuci -- QUEUED draft 26 Aug 2026 07:50 MYT
+- To: icucicleaning@gmail.com. Draft `r-4784705759855231107`. Thread `1a03b1aba380b2b9`. Subject: Iskandar Puteri cleaning landing page. File: `docs/proposals/icuci.md`. Copy Making Spaces Cleaner, Healthier, Happier / 20-02, Jalan SILC 1/14.
+
+### Ideal Office Solutions -- QUEUED draft 26 Aug 2026 07:50 MYT
+- To: ideal.os.sales@gmail.com. Draft `r-4787753868514665637`. Thread `1a03b1abdfdc16f1`. Subject: Senai copier landing page. File: `docs/proposals/ideal-office-solutions.md`. Copy Photocopy Machine Rental / 45, Jalan Ekoperniagaan 2. Copier subject, never print page.
+
+### Idees -- QUEUED draft 26 Aug 2026 07:50 MYT
+- To: idees248@gmail.com. Draft `r-8313130457539709515`. Thread `1a03b1b1d13e8c5e`. Subject: Rawang office-furniture landing page. File: `docs/proposals/idees.md`. Copy Office Furniture Manufacturer / 7 and 9, Jalan KPK 1/8.
+
+### IE Curtain Glory -- QUEUED draft 26 Aug 2026 07:50 MYT
+- To: irdayuenterprise@gmail.com. Draft `r-4520465743507435345`. Thread `1a03b1b1fea4ac9a`. Subject: Sungai Buloh curtain landing page. File: `docs/proposals/ie-curtain-glory.md`. Copy Custom Made Curtains / No 9-1, Jalan Bidara 9/3. HQ JSON-LD only. Printed Irdayu Enterprise.
+
+### Integrated Formway -- QUEUED draft 26 Aug 2026 07:50 MYT
+- To: sales@ifway.com.my. Draft `r-6615283302644313066`. Thread `1a03b1b20351c5eb`. Subject: Balakong packaging landing page. File: `docs/proposals/integrated-formway.md`. Copy Blister Packaging Manufacturer / 11A, Jalan 6/2A. Host ifway.com.my.
+
+### IHAS -- QUEUED draft 26 Aug 2026 07:50 MYT
+- To: enquiry@ihas.com.my. Draft `r1463855348102805708`. Thread `1a03b1b21d3a4456`. Subject: Petaling Jaya healthcare landing page. File: `docs/proposals/ihas.md`. Copy Connecting You to Malaysia's Best Healthcare / Unit 701, Block A, Phileo Damansara 1.
+
+### I Machinery -- QUEUED draft 26 Aug 2026 07:50 MYT
+- To: imachinery.online@gmail.com. Draft `r-4460867456532126128`. Thread `1a03b1b23125775a`. Subject: Kepong phone-shop landing page. File: `docs/proposals/i-machinery.md`. Copy YOUR TRUSTED GADGET PARTNER / 1, Jalan Metro Perdana Timur 3. HQ JSON-LD imachinery.online@ only. Did not mail amandatan840@gmail.com.
+
+### I Marine Solutions -- QUEUED draft 26 Aug 2026 07:50 MYT
+- To: imarinesolutions@hotmail.com. Draft `r-8241997868054926953`. Thread `1a03b1b248e07e68`. Subject: Puchong marine landing page. File: `docs/proposals/i-marine-solutions.md`. Copy Marine Parts Supplier / R008, Block E-2-22, IOI Boulevard.
+
+### Impression Beauty -- QUEUED draft 26 Aug 2026 07:50 MYT
+- To: impressionbeauty2738@gmail.com. Draft `r-153333982120816241`. Thread `1a03b1b251c20a2d`. Subject: Johor Bahru beauty landing page. File: `docs/proposals/impression-beauty.md`. Copy Facial Treatment and Body Contouring / 40, Jalan Jaya Putra 7/5.
+
+### Indah Home Curtain -- QUEUED draft 26 Aug 2026 07:50 MYT
+- To: ksindahhome@gmail.com. Draft `r6479304711716423460`. Thread `1a03b1b27f17a6cd`. Subject: Kuala Selangor curtain landing page. File: `docs/proposals/indah-home-curtain.md`. Copy Custom-Made Curtain Supply / 27, 51 and 52, Wharf 72. HQ JSON-LD only.
+
+### Indesign and Build -- QUEUED draft 26 Aug 2026 07:50 MYT
+- To: indesignnbuild@gmail.com. Draft `r7351397669423071827`. Thread `1a03b1b5b695c473`. Subject: Johor Bahru interior landing page. File: `docs/proposals/indesign-build.md`. Copy Make Your Dream House Come True / Indesign and Build Sdn Bhd (1129943-V).
+
+### Industeel -- QUEUED draft 26 Aug 2026 07:50 MYT
+- To: industeelmarketing@gmail.com. Draft `r3748430384778451315`. Thread `1a03b1b5c22afa96`. Subject: Rawang kitchen landing page. File: `docs/proposals/industeel.md`. Copy COMMERCIAL KITCHEN SPECIALISTS / 47-1, Jalan Seroja 6C. HQ JSON-LD only.
+
+### Novitech -- QUEUED draft 26 Aug 2026 07:50 MYT
+- To: novitech002@gmail.com. Draft `r1085259578009481355`. Thread `1a03b1b5f9afb357`. Subject: Klang air-tools landing page. File: `docs/proposals/novitech.md`. Copy Industrial Supply Business Solution / No.182B-1, Jalan Pasar. Host industrialstores.com.my; printed Novitech. HQ JSON-LD only.
+
+### Infinite Wines -- QUEUED draft 26 Aug 2026 07:50 MYT
+- To: inquiry@infinitewineshop.com.my. Draft `r8215723102226919397`. Thread `1a03b1b5f7377264`. Subject: Klang wine-shop landing page. File: `docs/proposals/infinite-wines.md`. Copy Infinite Selection / 29G, Lorong Bayu Tinggi 4C/KS6.
+
+Skipped remain hosts 1181-1280: icarefuneralservices cemetery; hosesupplier extra `enquiry@`; imachinery extra `amandatan840@`; hotelsupplier `csgoh@ventino.com.my` TLD; ikaa `sales@ikaa.com.my` TLD; ilumey `customerservice@ilumey.com.my` TLD; imhair `chuiyee@imhairbeauty.com.my` TLD; imprint `raymond@imprint.net.my` TLD; hyundai-forklift tiny 953. Next hunt: remain hosts after line 1280.
+
