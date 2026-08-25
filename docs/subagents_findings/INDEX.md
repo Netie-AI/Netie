@@ -4,6 +4,7 @@ This index records reusable findings from focused subagent reviews.
 
 | File | Keywords | Main idea |
 |---|---|---|
+| [2026-08-25-glassminds-gsroofing-batch11-queue.md](2026-08-25-glassminds-gsroofing-batch11-queue.md) | Glass Minds, GlobalEdge, GLOBAL JOURNEY, Glow, Golden Cabinet, Golden Moon, Gold Mountain, Goodish, GP Industrial, GS MOBILE, Golden Star Roofing, Coming Soon mailto, Luggages, 3D Boxup | Eleven more CS+mailto drafts from unused hosts 1080-1179, queued for Tue 17:00 last office-hour send. Skip gonggafood JDE mismatch. |
 | [2026-08-25-tue-1600-hardee-galaxy-send.md](2026-08-25-tue-1600-hardee-galaxy-send.md) | Hardee FLEX, Greenrich, Galaxy Lock, office hours, Coming Soon mailto | Three queued drafts SENT 25 Aug 16:00 MYT. Greenrich HQ inbox only. Do not remmail unless they reply. |
 | [2026-08-25-hardee-galaxy-batch10-queue.md](2026-08-25-hardee-galaxy-batch10-queue.md) | Hardee FLEX, Greenrich, Galaxy Lock, Coming Soon mailto, POWER TO CRUSH JOB AFTER JOB, triangular watermelons | Three more CS+mailto drafts from unused malaysiabrand hosts 980-1079, queued for Tue 16:00 after the 15:00 send. Skip Fit Systems remmail and forcearc mismatch. |
 | [2026-08-25-tue-1500-esewood-firstgroup-send.md](2026-08-25-tue-1500-esewood-firstgroup-send.md) | ESE WOOD, ESL Lighting, ESM, Eventworks, EURO FLOORING, Penta, Far East Landscape, Falcon, FIRST GROUP, office hours, Coming Soon mailto | Nine queued drafts SENT 25 Aug 15:00 MYT. ESM Gmail HQ only. Falcon admin@ only. Do not remmail unless they reply. |

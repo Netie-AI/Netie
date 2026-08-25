@@ -2149,7 +2149,45 @@ Timer `netie-tue-hardee-website-2026-08-25-1600-myt` unsubscribed before send. T
 
 ### Galaxy Lock Service Centre -- SENT 25 Aug 2026 16:02 MYT
 - To: galaxylock428@gmail.com. SENT `1a037f10bea70b12`. Thread `1a037c0be54c2d65`. Subject: Seremban locksmith page. Copy Specialist in Seremban.
-- Next hunt: unused malaysiabrand hosts after line 1079.
+- Next hunt: unused malaysiabrand hosts after line 1079. Eleven extras from 1080-1179 are queued below for 17:00 MYT. Do not send those before 17:00.
+
+## Queued after the Tue 16:00 Hardee-through-Galaxy Lock send (do not send before 17:00)
+
+Timer `netie-tue-glassminds-website-2026-08-25-1700-myt` (`sub_29c1f6b9-f68c-47f4-ba47-5694433bd332`, once, Tue 25 Aug 17:00 MYT, last office-hour slot). Eleven extras from unused malaysiabrand hosts 1080-1179. Skipped gonggafood.com.my mailto my-fb-sales@jdecoffee.com. GS MOBILE HQ `gsmobile9101@gmail.com` only. Goodish HQ Temerloh only. Glow PJ HQ only. Golden Cabinet and GP Industrial have no street. Copy Luggages, 3D Boxup, RM16888, honest business, automation solution. After 17:00 do not start new first-mails.
+
+### Glass Minds Sdn Bhd -- QUEUED draft 25 Aug 2026 16:12 MYT
+- To: ggmax4134@gmail.com. Draft `r7484665180164720304`. Thread `1a037f8a663a5106`. Subject: Shah Alam glass page. File: `docs/proposals/glass-minds.md`.
+
+### GlobalEdge Supplies -- QUEUED draft 25 Aug 2026 16:12 MYT
+- To: sales@globaledgesupplies.com.my. Draft `r-8914114408077560342`. Thread `1a037f8c428af078`. Subject: Bangsar MRO page. File: `docs/proposals/globaledge-supplies.md`.
+
+### GLOBAL JOURNEY TRAVEL & TOURS SDN. BHD. -- QUEUED draft 25 Aug 2026 16:12 MYT
+- To: salesgj@globaljourney.com.my. Draft `r-2439224156146278531`. Thread `1a037f8db2472507`. Subject: Johor Bahru travel page. File: `docs/proposals/global-journey.md`. Copy Luggages.
+
+### Glow Industry Marketing Sdn Bhd -- QUEUED draft 25 Aug 2026 16:12 MYT
+- To: glowindustry@gmail.com. Draft `r515782308427836633`. Thread `1a037f931c789826`. Subject: Petaling Jaya battery page. File: `docs/proposals/glow-industry.md`. PJ HQ only.
+
+### Golden Cabinet Enterprise -- QUEUED draft 25 Aug 2026 16:12 MYT
+- To: goldencabinet88@gmail.com. Draft `r5827014505728529649`. Thread `1a037f94739b3ece`. Subject: Setapak cabinet page. File: `docs/proposals/golden-cabinet.md`. No street. Copy RM16888.
+
+### Golden Moon Postnatal Centre -- QUEUED draft 25 Aug 2026 16:12 MYT
+- To: hello@goldenmoonpostnatal.my. Draft `r643660750820089500`. Thread `1a037f963a37f6f5`. Subject: Pudu confinement page. File: `docs/proposals/golden-moon.md`.
+
+### Gold Mountain Global Sdn Bhd -- QUEUED draft 25 Aug 2026 16:12 MYT
+- To: taist1218@yahoo.com.my. Draft `r-1778622352858240801`. Thread `1a037f99dca1f1c5`. Subject: Tangkak dates page. File: `docs/proposals/gold-mountain.md`.
+
+### Goodish Advertising Sdn Bhd -- QUEUED draft 25 Aug 2026 16:12 MYT
+- To: goodishdesign6146@gmail.com. Draft `r2960481580453186605`. Thread `1a037f9b3261d448`. Subject: Temerloh signage page. File: `docs/proposals/goodish-advertising.md`. HQ Temerloh only. Copy 3D Boxup.
+
+### GP Industrial Supply (M) Sdn Bhd -- QUEUED draft 25 Aug 2026 16:12 MYT
+- To: gpis.chan@gmail.com. Draft `r-7433804740498610460`. Thread `1a037f9cf69e24b6`. Subject: Batu Gajah automation page. File: `docs/proposals/gp-industrial.md`. No street.
+
+### GS MOBILE SPARE PARTS ENTERPRISE -- QUEUED draft 25 Aug 2026 16:12 MYT
+- To: gsmobile9101@gmail.com. Draft `r-3765189516381660897`. Thread `1a037f9e2803d47c`. Subject: Johor Jaya phone-repair page. File: `docs/proposals/gs-mobile.md`. Do not mail nurulgatsb91@.
+
+### Golden Star Roofing (M) Sdn Bhd -- QUEUED draft 25 Aug 2026 16:12 MYT
+- To: naj2583@yahoo.com. Draft `r-4732190864743472088`. Thread `1a037f9fa002aa69`. Subject: Seremban roofing page. File: `docs/proposals/golden-star-roofing.md`. Copy honest business.
+- After 17:00: stop new first-mails. Thu 27 Aug 09:00 3PL follow-up timer stays.
 
 
 
