@@ -1744,7 +1744,95 @@ Same timer `netie-tue-mhaus-website-2026-08-25-1000-myt` (`sub_b2d918dd-837e-41a
 - Draft: `r8472742930844181571`. Thread: `1a03659dfda62467`. Subject: Mont Kiara gifts page.
 - File: `docs/proposals/bizgif.md`. Hostable draft: `docs/proposals/bizgif-services.html`.
 - Website-page offer, RM 1,000-5,000. No Stripe. Send on the same Tue 10:00 timer after Biji Biji.
-- Skipped this pass: beacons.com.my mailto sales@beacons.net.my (domain mismatch). bikecorner.my mailto c.k_forever@yahoo.com.sg (Singapore). bigtok.my mailto manager@bigtok.com.my (TLD mismatch). Next hunt: unused malaysiabrand hosts after line 379. Do not send before 09:00 MYT.
+
+### B & M Glass & Hardware Sdn Bhd -- QUEUED draft 25 Aug 2026 08:49 MYT
+
+- To: bmglass96@gmail.com (homepage mailto on https://www.bmglasshardware.com.my/). One inbox.
+- Source: live https://www.bmglasshardware.com.my/services/ HTTP 200 still Coming Soon (`min-height:440px`). Homepage lists Custom Aluminium Kitchen Cabinets and GLASS & ALUMINIUM SPECIALIST from 76, Jalan IMJ 1, Taman Industri Malim Jaya, 75250 Melaka. SSM 202001004926 (1361246-U).
+- Draft: `r1192886044604535361`. Thread: `1a036649abefd332`. Subject: Melaka glass-cabinet page.
+- File: `docs/proposals/bm-glass-hardware.md`. Hostable draft: `docs/proposals/bm-glass-hardware-services.html`.
+- Website-page offer, RM 1,000-5,000. No Stripe. Send on the same Tue 10:00 timer after BIZGIF.
+
+### Brightmount Trading Sdn Bhd -- QUEUED draft 25 Aug 2026 08:49 MYT
+
+- To: inquiries@brightmount.com.my (homepage mailto on https://www.brightmount.com.my/). One inbox.
+- Source: live https://www.brightmount.com.my/services/ HTTP 200 still Coming Soon (`min-height:440px`). Homepage lists DRIVING COMFORT, POWERED BY PERFECTION and AC Blower Motor. Contact prints 41050 Klang only, no street. SSM 199101001077 (211387-A).
+- Draft: `r4814343267732752711`. Thread: `1a036649dde89a0e`. Subject: Klang car-AC page.
+- File: `docs/proposals/brightmount.md`. Hostable draft: `docs/proposals/brightmount-services.html`.
+- Website-page offer, RM 1,000-5,000. No Stripe. Send on the same Tue 10:00 timer after B & M Glass.
+
+### BRIGHTPOINT MARKETING SDN. BHD. -- QUEUED draft 25 Aug 2026 08:49 MYT
+
+- To: sales@brightpoint.com.my (homepage mailto on https://www.brightpoint.com.my/). One inbox.
+- Source: live https://www.brightpoint.com.my/services/ HTTP 200 still Coming Soon (`min-height:440px`). Homepage lists OFFICE SUPPLIES SOLUTION and established in the year 2021 from 8, Lorong 4, Jalan Ensing Timur, 93250 Kuching. SSM 202101035509 (1435809-X).
+- Draft: `r-2567154214554005887`. Thread: `1a036649f1ffd410`. Subject: Kuching stationery page.
+- File: `docs/proposals/brightpoint-marketing.md`. Hostable draft: `docs/proposals/brightpoint-marketing-services.html`.
+- Website-page offer, RM 1,000-5,000. No Stripe. Send on the same Tue 10:00 timer after Brightmount.
+
+### Bright Success Electrical (M) Sdn. Bhd. -- QUEUED draft 25 Aug 2026 08:49 MYT
+
+- To: info@brightsuccess.com.my (homepage mailto on https://www.brightsuccess.com.my/). One inbox.
+- Source: live https://www.brightsuccess.com.my/services/ HTTP 200 still Coming Soon (`min-height:440px`). Homepage lists Reliable Electrical & Electronic Components Supplier in Malaysia from Jalan PJU 1A/41B, 47301 Petaling Jaya, with no street number. SSM 202001027134 (1383454-W).
+- Draft: `r3590972743424573685`. Thread: `1a036649f3b4a47e`. Subject: Petaling Jaya electrical page.
+- File: `docs/proposals/bright-success-electrical.md`. Hostable draft: `docs/proposals/bright-success-electrical-services.html`.
+- Website-page offer, RM 1,000-5,000. No Stripe. Send on the same Tue 10:00 timer after Brightpoint.
+
+### BRILLIANT SUCCESS SDN BHD -- QUEUED draft 25 Aug 2026 08:49 MYT
+
+- To: sales@brilliantsuccess.com.my (homepage mailto on https://www.brilliantsuccess.com.my/). One inbox.
+- Source: live https://www.brilliantsuccess.com.my/services/ HTTP 200 still Coming Soon (`min-height:440px`). Homepage lists YOUR TRUSTED WPC & PVC DOOR MANUFACTURER from 1683, Jalan Gajah Mati, 14020 Bukit Mertajam. SSM 199101016619 (226931-H).
+- Draft: `r7996860049245861410`. Thread: `1a03664a1a27f6ca`. Subject: Bukit Mertajam PVC-door page.
+- File: `docs/proposals/brilliant-success.md`. Hostable draft: `docs/proposals/brilliant-success-services.html`.
+- Website-page offer, RM 1,000-5,000. No Stripe. Send on the same Tue 10:00 timer after Bright Success Electrical.
+
+### BERKAT SELAMAT GADGETS -- QUEUED draft 25 Aug 2026 08:49 MYT
+
+- To: berkatselamatgadgets@gmail.com (homepage mailto on https://www.bsgadgets.com.my/). One inbox.
+- Source: live https://www.bsgadgets.com.my/services/ HTTP 200 still Coming Soon (`min-height:440px`). Homepage lists Best DashCam In Malaysia and 5 Year Experience On Dashcam from 25, Jalan Berkat, 81100 Johor Bahru. SSM 201603304254 (JM0783267-V).
+- Draft: `r-8652098569251554491`. Thread: `1a03664a0d5daff7`. Subject: Johor Bahru dashcam page.
+- File: `docs/proposals/berkat-selamat-gadgets.md`. Hostable draft: `docs/proposals/berkat-selamat-gadgets-services.html`.
+- Website-page offer, RM 1,000-5,000. No Stripe. Send on the same Tue 10:00 timer after Brilliant Success.
+
+### BUILDEX SMART (M) SDN. BHD. -- QUEUED draft 25 Aug 2026 08:49 MYT
+
+- To: buildexsmart@gmail.com (homepage mailto on https://www.buildexsmart.com.my/). One inbox.
+- Source: live https://www.buildexsmart.com.my/services/ HTTP 200 still Coming Soon (`min-height:440px`). Homepage lists Maximize Your Kitchen Space with Smart Storage Solutions from 74E, Jalan Siam, 10400 Georgetown. SSM 202001031744 (1388064-P).
+- Draft: `r8881054787172947864`. Thread: `1a03664a29931623`. Subject: Georgetown kitchen-storage page.
+- File: `docs/proposals/buildex-smart.md`. Hostable draft: `docs/proposals/buildex-smart-services.html`.
+- Website-page offer, RM 1,000-5,000. No Stripe. Send on the same Tue 10:00 timer after BERKAT SELAMAT GADGETS.
+
+### CALPOWER SDN BHD -- QUEUED draft 25 Aug 2026 08:49 MYT
+
+- To: sales@calpower.com.my (homepage mailto on https://www.calpower.com.my/). One inbox. Do not invent extra branch inboxes.
+- Source: live https://www.calpower.com.my/services/ HTTP 200 still Coming Soon (`min-height:440px`). Homepage lists SECOND HAND CAR DEALER, since 1989, and 4 branches in JB from No.101 & 102, Jalan Kebun Teh, Taman Kebun Teh, 80250 Johor Bahru. SSM 199901014115 (489015-M).
+- Draft: `r7997837059295904088`. Thread: `1a03664a3f05286d`. Subject: Johor Bahru used-car page.
+- File: `docs/proposals/calpower.md`. Hostable draft: `docs/proposals/calpower-services.html`.
+- Website-page offer, RM 1,000-5,000. No Stripe. Send on the same Tue 10:00 timer after Buildex Smart.
+
+### Carbon Crew Sdn Bhd -- QUEUED draft 25 Aug 2026 08:49 MYT
+
+- To: carboncrew88@gmail.com (homepage mailto on https://www.carboncrew.com.my/). One inbox. Do not mail the broken carboncrew88@gmail.com@gmail.com address.
+- Source: live https://www.carboncrew.com.my/services/ HTTP 200 still Coming Soon (`min-height:440px`). Homepage lists Suzuki Swift Sport and Toyota GR Yaris from 31, Jalan 1/154, Taman Bukit Anggerik Cheras. SSM 202201035960 (1481657-W).
+- Draft: `r8618746635684478280`. Thread: `1a03664a5dda8dab`. Subject: Cheras body-kit page.
+- File: `docs/proposals/carbon-crew.md`. Hostable draft: `docs/proposals/carbon-crew-services.html`.
+- Website-page offer, RM 1,000-5,000. No Stripe. Send on the same Tue 10:00 timer after CALPOWER.
+
+### CASALAM -- QUEUED draft 25 Aug 2026 08:49 MYT
+
+- To: casalamhpl@gmail.com (homepage mailto on https://www.casalamhpl.com.my/). One inbox.
+- Source: live https://www.casalamhpl.com.my/services/ HTTP 200 still Coming Soon (`min-height:440px`). Homepage lists Chic, Tough, Timeless and Establish in South East Asia for over 5 years from Taman Industri Benajaya, 42000 Pelabuhan Klang, with no street number. SSM 202501019225 (1620638-K).
+- Draft: `r-4077406090131789227`. Thread: `1a03664a4213a286`. Subject: Pelabuhan Klang laminate page.
+- File: `docs/proposals/casalam.md`. Hostable draft: `docs/proposals/casalam-services.html`.
+- Website-page offer, RM 1,000-5,000. No Stripe. Send on the same Tue 10:00 timer after Carbon Crew.
+
+### CHILDHOOD T SDN. BHD. -- QUEUED draft 25 Aug 2026 08:49 MYT
+
+- To: vivienchm@gmail.com (printed Email Address on https://www.cashbackproperty.com.my/). One inbox. Do not copy RM listing prices.
+- Source: live https://www.cashbackproperty.com.my/services/ HTTP 200 still Coming Soon (`min-height:440px`). Homepage lists Real Estate Agency Agency from No. 6, Jalan 6/38A, Taman Sri Sinar, 51200 Kuala Lumpur. SSM 202301019315 (1513237-D).
+- Draft: `r-2569553454087035055`. Thread: `1a03664a6183f81f`. Subject: Taman Sri Sinar property page.
+- File: `docs/proposals/childhood-t.md`. Hostable draft: `docs/proposals/childhood-t-services.html`.
+- Website-page offer, RM 1,000-5,000. No Stripe. Send on the same Tue 10:00 timer after CASALAM.
+- Skipped this pass: caver.com.my mailto enquire@sterlingprofile.com (domain mismatch). castorwheel.com.my mailto sales@ukai.com.my (domain mismatch). WAF still blocking unique dumps (retry later, first 1703 is not a skip): boonhonglocksmith.com.my, bpsm.com.my, bytiye.my, capitalheavylift.com.my, caracasauto.com.my, cartowing.com.my, ccsprinting.com.my, cctvhouse.com.my. Next hunt: unused malaysiabrand hosts after line 479. Do not send before 09:00 MYT.
 
 
 
