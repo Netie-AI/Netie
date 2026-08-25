@@ -3750,3 +3750,96 @@ Tone: `.cursor/skills/outreach-tone/SKILL.md`. `/services/` filled. Empty `in:se
 - To: sfwee@ctw2u.my. Draft `r1185785262187514066`. Thread `1a03ae663afa12a7`. Subject: Skudai IT landing page. File: `docs/proposals/ctw.md`. HQ sfwee@ only. Did not mail hmtan@ or wkchan@.
 
 Skipped remain hosts 481-580: coemarketing no email; cmlluxurycurtain `info@cmlfurnishing.com` TLD; creatimber `info@creatimber.com` TLD; cpcrystalpure hyphen domain; csmd.my `ivarn@csmd.com.my` TLD; concretefloor `sales.seaconstruction@outlook.my` domain; crazymic 1712-byte dump. Next hunt: remain hosts after line 580.
+
+## Filled-site remain 581-680 -- QUEUED 26 Aug 2026 06:20 MYT (Wed 11:00)
+
+Tone: `.cursor/skills/outreach-tone/SKILL.md`. `/services/` filled. Empty `in:sent`. Never print page. Do not send before Wed 11:00. Do not require Coming Soon at send.
+
+### Cupffee -- QUEUED draft 26 Aug 2026 06:20 MYT
+- To: hello@cupffee.my. Draft `r-7273235910601502978`. Thread `1a03aefda2c0fa9d`. Subject: Mont Kiara coffee-machine landing page. File: `docs/proposals/cupffee.md`. Copy Turn any business space into a coffee corner / Jalan Solaris.
+
+### Middle Curtains -- QUEUED draft 26 Aug 2026 06:20 MYT
+- To: sales@curtain.com.my. Draft `r-9138266755190021512`. Thread `1a03aefdb5e5d1bc`. Subject: Johor Bahru curtain landing page. File: `docs/proposals/middle-curtains.md`. Host curtain.com.my; printed firm Middle Curtains Design & Furnishing. Copy measure & fitting / Taman Majidee.
+
+### Cutdomos -- QUEUED draft 26 Aug 2026 06:20 MYT
+- To: cutdomospelangi@gmail.com. Draft `r7334001095707831534`. Thread `1a03aefddea58ba7`. Subject: Taman Pelangi salon landing page. File: `docs/proposals/cutdomos.md`. Copy Experience Transforming your image / 71, Jalan Serampang.
+
+### Spectrum Laser -- QUEUED draft 26 Aug 2026 06:20 MYT
+- To: sales@cuttingservices.com.my. Draft `r6168682391596956359`. Thread `1a03aefdc974723e`. Subject: Kepong laser-cutting landing page. File: `docs/proposals/spectrum-laser.md`. Host cuttingservices.com.my; printed firm Spectrum Laser Studio. Copy ROUTER CUTTING SERVICES.
+
+### CYMECH -- QUEUED draft 26 Aug 2026 06:20 MYT
+- To: enquiry@cy-tech.com.my. Draft `r-1832943283365995870`. Thread `1a03aefdfb537bc0`. Subject: Setia Alam hose landing page. File: `docs/proposals/cymech.md`. Host cy-tech.com.my; printed firm CYMECH ENGINEERING. Copy Expansion Joint Bellow.
+
+### Dansation -- QUEUED draft 26 Aug 2026 06:20 MYT
+- To: dansation20@gmail.com. Draft `r-644199653163227840`. Thread `1a03aefdfe3f53a5`. Subject: Kepong dance landing page. File: `docs/proposals/dansation.md`. Host dancestudiokl.com.my; printed firm DANSATION PLT. Copy Where Rhythm Meets Passion!
+
+### Heng Tai Hardware -- QUEUED draft 26 Aug 2026 06:20 MYT
+- To: ht_hardware@hotmail.com. Draft `r-4020322915373649676`. Thread `1a03aefe1099572b`. Subject: Perai locksmith landing page. File: `docs/proposals/heng-tai-hardware.md`. Host decolock.com.my; printed Heng Tai Hardware. HQ JSON-LD ht_hardware@ only. Did not mail heng.tai.hardware@gmail.com.
+
+### Deko -- QUEUED draft 26 Aug 2026 06:20 MYT
+- To: deko_dme@hotmail.com. Draft `r-2338657324755234106`. Thread `1a03aefe1a337651`. Subject: Subang Jaya crane landing page. File: `docs/proposals/deko.md`. Copy Your one stop centre for all your crane needs / 24, Jalan USJ 1/33.
+
+### Delitea -- QUEUED draft 26 Aug 2026 06:20 MYT
+- To: delitea.my@gmail.com. Draft `r-4735478704864686008`. Thread `1a03aefe27cb238c`. Subject: Kepong F-and-B landing page. File: `docs/proposals/delitea.md`. Copy Struggling with Inefficient Bar Operations?" / 13A, Jalan Ida 1A.
+
+### Dephon -- QUEUED draft 26 Aug 2026 06:20 MYT
+- To: dephon@gmail.com. Draft `r-931886347792671479`. Thread `1a03aefe3d2f701d`. Subject: Batu Pahat soap landing page. File: `docs/proposals/dephon.md`. HQ JSON-LD dephon@gmail.com only. Did not mail dephon19@ or info@. Copy Established on March 1989.
+
+### Depro Jacket -- QUEUED draft 26 Aug 2026 06:20 MYT
+- To: deprojacket@gmail.com. Draft `r-3379989692019413071`. Thread `1a03af08a8a38ca0`. Subject: Pandan Indah workwear landing page. File: `docs/proposals/depro-jacket.md`. Printed firm JS Uniform / Depro Jacket. Copy Stay Seen. Stay Protected.
+
+### Designabit -- QUEUED draft 26 Aug 2026 06:20 MYT
+- To: tangwl@designabit.com.my. Draft `r-8804756036766266896`. Thread `1a03af08c534e815`. Subject: Lahat interior landing page. File: `docs/proposals/designabit.md`. HQ JSON-LD tangwl@ only. Did not mail admin@ or account@. Copy FULL HEIGHT TV CABINET.
+
+### Dexsteel -- QUEUED draft 26 Aug 2026 06:20 MYT
+- To: enquiries@dexsteel.com.my. Draft `r-5376941908537130290`. Thread `1a03af08e648aca3`. Subject: Semenyih roofing landing page. File: `docs/proposals/dexsteel.md`. Copy Light Weight Steel Truss / 11, Jalan P4/4.
+
+### Dino Work -- QUEUED draft 26 Aug 2026 06:20 MYT
+- To: enquiry@dinowork.com.my. Draft `r-6867245737933773648`. Thread `1a03af08f76cd22a`. Subject: Johor Bahru gift landing page. File: `docs/proposals/dino-work.md`. Copy Founded In 2004 / Jalan Lembah 3.
+
+### A Top Station -- QUEUED draft 26 Aug 2026 06:20 MYT
+- To: displaysystem02@gmail.com. Draft `r-3411700622546756739`. Thread `1a03af0914d67cfa`. Subject: Subang Jaya display landing page. File: `docs/proposals/a-top-station.md`. Host displaysystem.com.my; printed A Top Station. JSON-LD email. Never print page.
+
+### DKSB -- QUEUED draft 26 Aug 2026 06:20 MYT
+- To: dksb.eng@gmail.com. Draft `r-7138898814480050842`. Thread `1a03af09093f198e`. Subject: Seri Kembangan pump landing page. File: `docs/proposals/dksb.md`. Copy WE SPECIALIZED IN ALL TYPES OF PUMP REPAIRING SERVICES.
+
+### Doktor Gadget -- QUEUED draft 26 Aug 2026 06:20 MYT
+- To: sales@doktorgadget.com.my. Draft `r-5138841655412036887`. Thread `1a03af092b40784e`. Subject: Beranang gadget landing page. File: `docs/proposals/doktor-gadget.md`. Printed FZ Global Network / Doktor Gadget. Copy Fixing Tech Restoring Trust.
+
+### Balakong Badminton -- QUEUED draft 26 Aug 2026 06:20 MYT
+- To: mahloong@gmail.com. Draft `r-6959719776047319105`. Thread `1a03af0954729c14`. Subject: Balakong badminton landing page. File: `docs/proposals/balakong-badminton.md`. Host doublemotion.com.my; printed Balakong Badminton Sports Centre. JSON-LD email.
+
+### DRPEST -- QUEUED draft 26 Aug 2026 06:20 MYT
+- To: admin@drpest.com.my. Draft `r6398403212789255951`. Thread `1a03af0a461e62c9`. Subject: Masai pest landing page. File: `docs/proposals/drpest.md`. Copy No. 4 Jalan Bukit 9, Kawasan Perindustrian MIEL.
+
+### DR Sign -- QUEUED draft 26 Aug 2026 06:20 MYT
+- To: info@drsign.com.my. Draft `r4153291684282244297`. Thread `1a03af0a6468ebb5`. Subject: Sungai Buloh signboard landing page. File: `docs/proposals/dr-sign.md`. Never print page. Copy Our Unique 7-Step Process / 22A, Jalan SBJ 1.
+
+### Swee Siang -- QUEUED draft 26 Aug 2026 06:20 MYT
+- To: sweesiang118@gmail.com. Draft `r2524492469036314899`. Thread `1a03af14fc3b9699`. Subject: Batu Caves truck landing page. File: `docs/proposals/swee-siang.md`. Host drtruck.com.my; printed Swee Siang. Copy Just focus on your business; We take care of your trucks.
+
+### Dr Wee Clinic -- QUEUED draft 26 Aug 2026 06:20 MYT
+- To: enquiry@drweeclinic.my. Draft `r-8998799210535963839`. Thread `1a03af150b1e010a`. Subject: Johor Bahru clinic landing page. File: `docs/proposals/dr-wee-clinic.md`. HQ Taman Century enquiry@ only. Copy Awards Winning Aesthetic Clinic.
+
+### DSA -- QUEUED draft 26 Aug 2026 06:20 MYT
+- To: managementservices@yahoo.com. Draft `r2704150326065578563`. Thread `1a03af153848d4cd`. Subject: Cheras corporate landing page. File: `docs/proposals/dsa.md`. JSON-LD email. Printed DSA & KW FONG. Copy Digital Secretary & Advisory.
+
+### Duo Express -- QUEUED draft 26 Aug 2026 06:20 MYT
+- To: veryduoexpress@gmail.com. Draft `r-2433954160958676102`. Thread `1a03af152f55c22e`. Subject: Petaling Jaya uniform landing page. File: `docs/proposals/duo-express.md`. Copy own sewing, printing and embroidery factory / Saujana Damansara.
+
+### Duracon -- QUEUED draft 26 Aug 2026 06:20 MYT
+- To: duraconoffice@yahoo.com. Draft `r-3303794105389221269`. Thread `1a03af15515e814f`. Subject: Johor Bahru office-furniture landing page. File: `docs/proposals/duracon.md`. HQ JSON-LD duraconoffice@ only. Did not mail duraconsale@ or weechong@duracontrading.com.
+
+### Duracooling Tech -- QUEUED draft 26 Aug 2026 06:20 MYT
+- To: duracoolingtech@yahoo.com. Draft `r4881882022709961726`. Thread `1a03af1574742363`. Subject: Petaling Jaya aircond landing page. File: `docs/proposals/duracooling.md`. Copy AIR CONDITIONING SERVICE & CONTRACTOR / 29, Jalan 20/13.
+
+### D Well -- QUEUED draft 26 Aug 2026 06:20 MYT
+- To: mkt.dwell@gmail.com. Draft `r8018479697174496947`. Thread `1a03af15604333be`. Subject: Klang signboard landing page. File: `docs/proposals/d-well.md`. Host dwellconcept.com.my; printed D Well Advertising. Never print page. Copy BILLBOARD ZIG ZAG BANNER.
+
+### Dwi Makmur -- QUEUED draft 26 Aug 2026 06:20 MYT
+- To: info@dwimakmur.com.my. Draft `r-1173146875894773921`. Thread `1a03af159e26c936`. Subject: Mentakab grocery landing page. File: `docs/proposals/dwi-makmur.md`. Copy Get Your Essential Groceries Here! / Jalan Taman Rimba.
+
+### Dynaair -- QUEUED draft 26 Aug 2026 06:20 MYT
+- To: dynaair@dyna-air.com.my. Draft `r2851170742830153093`. Thread `1a03af17395242c5`. Subject: Butterworth compressor landing page. File: `docs/proposals/dynaair.md`. JSON-LD email. Copy Fully imported from Japan Mitsui Seiki Air Compressor.
+
+Skipped remain hosts 581-680: dceemsb `info@dcee.com.my` TLD; deertile `hello@deertiles.com.my` TLD; demaxsolution `sales@demaxsolution.com` TLD; dewanidesign `enquiry@dewanidesign.com` TLD; dms-it `contact@deanms.com.my` domain; domnics.my `info@domnics.com.my` TLD; drvictor `enquiry@bezlife.my` domain; dustcollector `info@neujkf.asia` domain; plus /services/ 404 or no matching email. Next hunt: remain hosts after line 680.

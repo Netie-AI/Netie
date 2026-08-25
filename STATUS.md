@@ -1,8 +1,10 @@
 # STATUS
 
-Updated: 2026-08-26 06:05 MYT. Success = live Stripe charge, then a payout.
+Updated: 2026-08-26 06:20 MYT. Success = live Stripe charge, then a payout.
 
 ## Now (measured)
+
+- After hours 26 Aug 06:20 MYT: no owner send. Toon thread still two messages; holding draft `r-7427464740298229176` not sent. Did not nag Kanhseei. Did not reply Starbridge. Queued twenty-nine more filled-site first-mails from remain hosts 581-680 and folded them onto Wed 11:00: Cupffee through Dynaair. Empty `in:sent`. A Top Station subject is display. DR Sign and D Well subjects are signboard. Never print page. Skipped TLD/domain mismatch (dcee, deertiles, demaxsolution.com, dewanidesign.com, deanms, domnics.com.my, bezlife.my, neujkf.asia). Heng Tai HQ JSON-LD `ht_hardware@` only. Dephon HQ JSON-LD `dephon@gmail.com` only. Designabit HQ JSON-LD `tangwl@` only. Duracon HQ JSON-LD `duraconoffice@` only. Filled-site total 290. Wed 11:00 timer `sub_bca7599a-1267-45d3-80d5-2b442d5715a0` replaced `sub_59090a28` and now fires three hundred twenty-four drafts (34 CS plus 290 filled). Do not send before 11:00. Do not require Coming Soon on filled drafts at send. Next hunt: remain hosts after line 680. Did not poll Stripe (already 26 Aug MYT at 01:05). No paid charge yet.
 
 - After hours 26 Aug 06:05 MYT: no owner send. Toon thread still two messages; holding draft `r-7427464740298229176` not sent. Did not nag Kanhseei. Did not reply Starbridge. Queued fifty-eight more filled-site first-mails from remain hosts 481-580 and folded them onto Wed 11:00: XD Auto through CTW Infra. Empty `in:sent`. CP Sign subject is signboard. CTC subject is stainless. Never print page. Skipped coemarketing no email, cmlluxurycurtain/creatimber TLD, cpcrystalpure hyphen, csmd TLD, concretefloor domain mismatch, crazymic 1712-byte dump. CLT HQ admin@ only. PITTI CAFFE HQ admin@ only. Creative AV HQ sales@ only. Crosmed HQ eddy@ only. CTW HQ sfwee@ only. Filled-site total 261. Wed 11:00 timer `sub_59090a28-36d9-4195-ba3b-0fdab794d5b7` replaced `sub_0538d523` and now fires two hundred ninety-five drafts (34 CS plus 261 filled). Do not send before 11:00. Do not require Coming Soon on filled drafts at send. Next hunt: remain hosts after line 580. Did not poll Stripe (already 26 Aug MYT at 01:05). No paid charge yet.
 
