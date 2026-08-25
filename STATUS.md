@@ -1,8 +1,10 @@
 # STATUS
 
-Updated: 2026-08-26 07:15 MYT. Success = live Stripe charge, then a payout.
+Updated: 2026-08-26 07:21 MYT. Success = live Stripe charge, then a payout.
 
 ## Now (measured)
+
+- After hours 26 Aug 07:21 MYT: logged-in FLMY has no matching landing job and no free service listing. PPH POST OFFER still hits CONTINUE TO PAYMENT. Did not buy. Carousell from this VM stays on Cloudflare verification. Owner posts Facebook / Carousell / LaborX from the phone. Canonical hire still sha256 `dce8fe2c...`. Toon still parked. Did not nag Kanhseei. Did not reply Starbridge. Did not resume remain-host hunt. Did not poll Stripe. No paid charge yet.
 
 - After hours 26 Aug 07:15 MYT: no owner send. Toon still parked. Canonical hire still sha256 `dce8fe2c...`. FLMY public board has no matching landing-page job (skip dental UI-only, Kemaman survey, employment). LaborX `/jobs/landing-pages` is seven stale gigs including NFT/token clones; do not bid those. Web3 paste now names https://laborx.com/jobs/landing-pages and https://t.me/laborx for one for-hire post. Did not resume remain-host hunt. Did not poll Stripe. No paid charge yet.
 
