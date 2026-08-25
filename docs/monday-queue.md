@@ -2363,7 +2363,50 @@ Folded onto the same Wed 09:00 timer (`sub_d05a8454-c8e7-4bca-86bd-bfc6b62b746d`
 
 ### KM WELDCO SDN BHD -- QUEUED draft 25 Aug 2026 18:13 MYT
 - To: enquiry@kmweldco.com.my. Draft `r-5764322022647846200`. Thread `1a0386959086698b`. Subject: Klang welding page. File: `docs/proposals/km-weldco.md`. Copy Stronger, with Castolin Eutectic / Sri Mewah Light Industri. Contact-page inbox.
-- Next hunt: unused malaysiabrand hosts after line 1679. Do not send these before Wed 09:00 MYT.
+
+## Queued after hours 25 Aug 2026 18:26 MYT (do not send before Wed 09:00)
+
+Folded onto the same Wed 09:00 timer (`sub_9b3b3834-5f80-4aa5-b2bf-b4cf49169cfa`, replaced `sub_d05a8454-c8e7-4bca-86bd-bfc6b62b746d`). Thirteen extras from unused hosts 1680-1779. Empty `in:sent`. All thirteen `/services/` Coming Soon (`min-height:440px`). No Stripe. Skipped kowhock.com.my TLD mismatch. KOMIYA HQ `komiyamy@` only. ZUNN HQ KL only. ITG SMART Isaac inbox only.
+
+### Koh Building Glass Construction Sdn Bhd -- QUEUED draft 25 Aug 2026 18:24 MYT
+- To: kohbroaluminiumglass@gmail.com. Draft `r5594734532975974845`. Thread `1a038732b23c7421`. Subject: Mantin glass page. File: `docs/proposals/koh-building-glass.md`. Copy Glass & Aluminum Experts.
+
+### KOMIYA ROOFING (M) SDN BHD -- QUEUED draft 25 Aug 2026 18:24 MYT
+- To: komiyamy@gmail.com. Draft `r-6244396948911980028`. Thread `1a0387341f14f539`. Subject: Chemor roofing page. File: `docs/proposals/komiya-roofing.md`. Copy Your first and only trusted choice. Did not mail wadechongsales@ or kokpingsmarketing@.
+
+### K.S.Bee Industries Sdn Bhd -- QUEUED draft 25 Aug 2026 18:24 MYT
+- To: sales.ksbee@outlook.com. Draft `r-6681281962181956738`. Thread `1a03873548c568be`. Subject: Johor Jaya valves page. File: `docs/proposals/ksbee.md`. Copy Your Valve Solutions Partner / latest trends of valves.
+
+### KUHLER SDN. BHD. -- QUEUED draft 25 Aug 2026 18:24 MYT
+- To: admin@kuhler.com.my. Draft `r-4645216585229115975`. Thread `1a0387368d6448c7`. Subject: Kuchai chiller page. File: `docs/proposals/kuhler.md`. Copy Malaysia's Cooling Experts.
+
+### Kwang Shing Auto Parts Sdn Bhd -- QUEUED draft 25 Aug 2026 18:24 MYT
+- To: enquiry@kwangshing.com.my. Draft `r-4926168303107487618`. Thread `1a03873897aeb8b1`. Subject: Batu Caves auto-parts page. File: `docs/proposals/kwang-shing.md`. Copy Volkwagen ABS Pump.
+
+### LAFUENTE RESOURCES SDN BHD -- QUEUED draft 25 Aug 2026 18:24 MYT
+- To: enquiries@lafuente.com.my. Draft `r2463610147054498277`. Thread `1a038739aac27b9a`. Subject: Kota Damansara furniture page. File: `docs/proposals/lafuente.md`. Copy intelligence furniture solutions.
+
+### Laiheng Trading Sdn Bhd -- QUEUED draft 25 Aug 2026 18:25 MYT
+- To: info@laiheng.com.my. Draft `r5666483926328723445`. Thread `1a03873af1a50d5b`. Subject: Muar truck page. File: `docs/proposals/laiheng.md`. Copy first-rate new and used truck / commercial heavyweight.
+
+### LCS Marketing Sdn. Bhd. -- QUEUED draft 25 Aug 2026 18:25 MYT
+- To: lcs@lcs.com.my. Draft `r4971192598409694890`. Thread `1a03873c0e8039ba`. Subject: Mentakab concrete page. File: `docs/proposals/lcs-group.md`. Copy diversified Malaysian construction material manufacturer company. Contact-page inbox.
+
+### LEADERland LEADERship Preschool & Primary Daycare -- QUEUED draft 25 Aug 2026 18:25 MYT
+- To: hq.leaderland@gmail.com. Draft `r5844953007803545177`. Thread `1a03873d59162cf0`. Subject: Bandar Cassia preschool page. File: `docs/proposals/leaderland.md`. Copy Future Leaders Start Here. HQ Vervea only.
+
+### ZUNN LED Neon Concept Sdn. Bhd. -- QUEUED draft 25 Aug 2026 18:25 MYT
+- To: zunnled1221@gmail.com. Draft `r-8311409395618573824`. Thread `1a03873f8a28b17b`. Subject: Salak Selatan signboard page. File: `docs/proposals/zunn-led.md`. Copy We offers / 3D box up. HQ KL only.
+
+### Legend Business Solution Sdn. Bhd. -- QUEUED draft 25 Aug 2026 18:25 MYT
+- To: enquiry@legendcopier.com.my. Draft `r6579617630180243983`. Thread `1a038740c7a7fa9a`. Subject: Petaling Jaya copier page. File: `docs/proposals/legend-copier.md`. Copy Established in 1995.
+
+### Lian Fong Auto Care Service Centre -- QUEUED draft 25 Aug 2026 18:25 MYT
+- To: lfautocare@gmail.com. Draft `r-8620698038083034703`. Thread `1a038741e1d89c4d`. Subject: Kuching workshop page. File: `docs/proposals/lian-fong-auto.md`. Copy Repair & Tire Workshop / Tabuan Transquility 3.
+
+### ITG SMART ENTERPRISE -- QUEUED draft 25 Aug 2026 18:25 MYT
+- To: isaac@lgmalaysia.com.my. Draft `r969078387022208288`. Thread `1a038743334e1d82`. Subject: Ayer Hitam PuriCare page. File: `docs/proposals/itg-smart.md`. Copy LG Subscribe Malaysia. Did not mail harry@.
+- Next hunt: unused malaysiabrand hosts after line 1779. Do not send these before Wed 09:00 MYT.
 
 
 
