@@ -4,6 +4,7 @@ This index records reusable findings from focused subagent reviews.
 
 | File | Keywords | Main idea |
 |---|---|---|
+| [2026-08-26-early-filled-gemie-guoyi-queue.md](2026-08-26-early-filled-gemie-guoyi-queue.md) | filled site, remain 981-1080, Gemie, Global 7, GOLDEN SHARP, GTE Best Mark coding-machine, never print page | Twenty-seven filled first-mails folded onto Wed 11:00. One GOLDEN SHARP inbox. GTE/Great Image subjects avoid print page. |
 | [2026-08-26-early-filled-fk-gaintwin-queue.md](2026-08-26-early-filled-fk-gaintwin-queue.md) | filled site, remain 881-980, FK Performance, Flexnova, Fussian advertising, Fonlun English, iCoat English | Twenty-one filled first-mails folded onto Wed 11:00. Fussian subject is advertising. Future Travel HQ jasmine@ only. |
 | [2026-08-26-early-filled-endless-ffg-queue.md](2026-08-26-early-filled-endless-ffg-queue.md) | filled site, remain 781-880, Endless Momentum, Extra Ordinary Events, Ezypak, skip fairypark cemetery | Thirty-five filled first-mails folded onto Wed 11:00. Skip fairypark cemetery. HQ JSON-LD only at Extra Ordinary Events and Ezypak. |
 | [2026-08-26-early-filled-eaclinic-emro-queue.md](2026-08-26-early-filled-eaclinic-emro-queue.md) | filled site, remain 681-780, EA Clinic, Enhance Group, Elite Quarters, skip NEWPAGES ecommerce-pro | Twenty-three filled first-mails folded onto Wed 11:00. Skip ecommerce-pro.my. HQ JSON-LD only at ECC, Elegant Embroidery, ELLE. |

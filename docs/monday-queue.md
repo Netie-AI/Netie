@@ -4101,3 +4101,91 @@ Tone: `.cursor/skills/outreach-tone/SKILL.md`. `/services/` filled. Empty `in:se
 
 Skipped remain hosts 881-980: firebender `firebenderexport.com`; firmtec `firmtec.com.sg`; frontierteepc `frontierte.com.my`; forklifts.my `twinsup.com.my`; foodingredient `bolidomalaysia.com`; flexiblecable `eiegroup.com.my`; fitsystems.com.my remmail; flooringjb/flydigi/formahero tiny 953 dumps. Next hunt: remain hosts after line 980.
 
+
+## Filled-site remain 981-1080 -- QUEUED 26 Aug 2026 07:00 MYT (Wed 11:00)
+
+Tone: `.cursor/skills/outreach-tone/SKILL.md`. `/services/` filled. Empty `in:sent`. Never print page. Do not send before Wed 11:00. Do not require Coming Soon at send.
+
+### Gemie Pastry -- QUEUED draft 26 Aug 2026 07:00 MYT
+- To: ggemiepastry@gmail.com. Draft `r8104741152333808651`. Thread `1a03b07251057b28`. Subject: Kluang frozen-pao landing page. File: `docs/proposals/gemie-pastry.md`. Copy Frozen Pao Manufacturer / 42, 66 & 68, Jalan Intan 3.
+
+### General Intelligence -- QUEUED draft 26 Aug 2026 07:00 MYT
+- To: info@gen-i.com.my. Draft `r-3672699110950727205`. Thread `1a03b07245595d99`. Subject: Shah Alam pump landing page. File: `docs/proposals/general-intelligence.md`. Copy Grundfos Water Pump Distributor / 17, Jalan Gitar 33/3.
+
+### GENOL -- QUEUED draft 26 Aug 2026 07:00 MYT
+- To: sales.genol2886@gmail.com. Draft `r-183237343261554836`. Thread `1a03b07273961307`. Subject: Puchong OEM-food landing page. File: `docs/proposals/genol.md`. Copy OEM Health Food Manufacturer / 18, Jalan Industri PBP 5.
+
+### GGT Office -- QUEUED draft 26 Aug 2026 07:00 MYT
+- To: gentinggeneraltrading@gmail.com. Draft `r2320056898612270092`. Thread `1a03b0726d704b2c`. Subject: Batu Berendam furniture landing page. File: `docs/proposals/ggt-office.md`. Copy Custom-Made Furniture / 10 & 10-1, Jalan MP 10.
+
+### GIF Blinds -- QUEUED draft 26 Aug 2026 07:00 MYT
+- To: sales@gifblinds.com.my. Draft `r-9141608151709405929`. Thread `1a03b0729452ddca`. Subject: Skudai blinds landing page. File: `docs/proposals/gif-blinds.md`. Copy Simply Better Blinds / No. 36, Jalan Persiaran Skudai 8.
+
+### Gintech -- QUEUED draft 26 Aug 2026 07:00 MYT
+- To: inquiry@gintech.com.my. Draft `r-5168931436328645470`. Thread `1a03b072bf6ac740`. Subject: Butterworth rack landing page. File: `docs/proposals/gintech.md`. Copy Warehouse Storage Systems / 10-TKT 2, Jalan Oren.
+
+### Glass Block -- QUEUED draft 26 Aug 2026 07:00 MYT
+- To: glassblock.ent@gmail.com. Draft `r3056057563808602937`. Thread `1a03b072a5970da0`. Subject: Puchong glass-block landing page. File: `docs/proposals/glass-block.md`. Copy Malaysia's Trusted Glass Block Supplier / 11, Jalan PP 2/4. JSON-LD email.
+
+### Glassic -- QUEUED draft 26 Aug 2026 07:00 MYT
+- To: info@glassic.com.my. Draft `r8028618320951800055`. Thread `1a03b072d6f4cb70`. Subject: Castlefield interior landing page. File: `docs/proposals/glassic.md`. Copy Every Finish Tells a Story / 5-2, Jalan 1C/149.
+
+### Glide Technology -- QUEUED draft 26 Aug 2026 07:00 MYT
+- To: admin@glidetechnology.com.my. Draft `r8117619591691446356`. Thread `1a03b0781df4fb7a`. Subject: Bukit Jelutong oil landing page. File: `docs/proposals/glide-technology.md`. Copy Glide Engine Oil Manufacturer / 8, Jalan Tiang U8/92. JSON-LD email.
+
+### Global 7 -- QUEUED draft 26 Aug 2026 07:00 MYT
+- To: ops@global7.com.my. Draft `r-3373158570159437830`. Thread `1a03b0782f3d8438`. Subject: Iskandar Puteri marine landing page. File: `docs/proposals/global-7.md`. Copy Marine Service Company Malaysia / 22, Jalan Silc 2/14. HQ JSON-LD ops@ only. Did not mail a.farhan@.
+
+### Glory Interlink -- QUEUED draft 26 Aug 2026 07:00 MYT
+- To: gloryinterlinksb@yahoo.com. Draft `r-5623735427494797695`. Thread `1a03b0782465cb10`. Subject: Masai tank-cleaning landing page. File: `docs/proposals/glory-interlink.md`. Copy Internal Tank Cleaning / 53-01, Jalan Masai Utama 2.
+
+### Golden Channel -- QUEUED draft 26 Aug 2026 07:00 MYT
+- To: gcsklg@gmail.com. Draft `r-3780841262217519874`. Thread `1a03b0784661fd65`. Subject: Cheras waterproofing landing page. File: `docs/proposals/golden-channel.md`. Copy Waterproofing Specialist System / 17 & 17A, Jalan Wangsa 1/1. HQ JSON-LD gcsklg@ only. Did not mail gcskl@yahoo.com.
+
+### Golden Corner -- QUEUED draft 26 Aug 2026 07:00 MYT
+- To: info@goldencorner.com.my. Draft `r-3831980385093803313`. Thread `1a03b078534e05ae`. Subject: Bandar Botanic beauty landing page. File: `docs/proposals/golden-corner.md`. Copy Beauty Care Products / No. 32, Jalan Jasmine 6 / KS 6. JSON-LD email.
+
+### Golden Electronic -- QUEUED draft 26 Aug 2026 07:00 MYT
+- To: info@goldenelectronic.com.my. Draft `r7947323365645538290`. Thread `1a03b078749f92f9`. Subject: Kajang appliance landing page. File: `docs/proposals/golden-electronic.md`. Copy Electrical Appliance Repair / 146, TKP 3, Taman Kantan Permai.
+
+### Gooday Mover -- QUEUED draft 26 Aug 2026 07:00 MYT
+- To: goodaymover@gmail.com. Draft `r-9024937706227035950`. Thread `1a03b078742b8aaf`. Subject: Johor Jaya mover landing page. File: `docs/proposals/gooday-mover.md`. Copy Mover Service / 45, Jalan Rosmerah 2/16.
+
+### CGK Frozen -- QUEUED draft 26 Aug 2026 07:00 MYT
+- To: cminghan@hotmail.com. Draft `r72347407583767849`. Thread `1a03b0789386533c`. Subject: Pudu frozen-food landing page. File: `docs/proposals/cgk-frozen.md`. Copy Premium Frozen & Gourmet Ingredients / 46, Jalan Yew. Host gourmetmart.com.my; printed CGK Frozen.
+
+### GP Plastic -- QUEUED draft 26 Aug 2026 07:00 MYT
+- To: gpmarket7@gmail.com. Draft `r-4646200935019418250`. Thread `1a03b07ddcfd26e0`. Subject: Nusajaya plastic-bag landing page. File: `docs/proposals/gp-plastic.md`. Copy Plastic Bag Wholesaler / No 2, Jalan Empayar 4.
+
+### Grand Alliance -- QUEUED draft 26 Aug 2026 07:00 MYT
+- To: grandalliancegroup@yahoo.com. Draft `r-1423548444934530295`. Thread `1a03b07dd4b7cd84`. Subject: Ampang PA-system landing page. File: `docs/proposals/grand-alliance.md`. Copy Audac Distributor / 13 & 13-1, Block A, Jalan Avenue 1.
+
+### GREASEGO -- QUEUED draft 26 Aug 2026 07:00 MYT
+- To: ptkah99@gmail.com. Draft `r9007006518307291986`. Thread `1a03b07dfddf828f`. Subject: Puncak Alam grease-trap landing page. File: `docs/proposals/greasego.md`. Copy Grease Trap Manufacturer / 5, Jalan Eco Perindustrian 1/3B.
+
+### Great Image -- QUEUED draft 26 Aug 2026 07:00 MYT
+- To: greatimagegroup@gmail.com. Draft `r-4704050957655247000`. Thread `1a03b07dfe673f15`. Subject: Skudai copier landing page. File: `docs/proposals/great-image.md`. Copy Office Equipment Supplier / 27, Jalan Impian Emas 22. Copier subject, never print page. Did not mail admin@greatimage.com.my TLD.
+
+### GSA Forklift -- QUEUED draft 26 Aug 2026 07:00 MYT
+- To: gsaforklift@gmail.com. Draft `r-7754060751654053816`. Thread `1a03b07e0516ac12`. Subject: Kapar forklift landing page. File: `docs/proposals/gsa-forklift.md`. Copy HELI Forklift Supplier / 57, Jalan SKI 7/KU7.
+
+### GOLDEN SHARP -- QUEUED draft 26 Aug 2026 07:00 MYT
+- To: gsprefab@gmail.com. Draft `r1297086373724911395`. Thread `1a03b07e3c289dd8`. Subject: Kapar prefab landing page. File: `docs/proposals/golden-sharp.md`. Copy Prefabricated Building Manufacturer / Lot 116, Sungai Serdang, Batu 13, Jalan Kapar. One inbox. Host gsprefab.com.my; also printed on gscabin.com.my. Did not mail twice.
+
+### GS Instruments -- QUEUED draft 26 Aug 2026 07:00 MYT
+- To: gs_inst@yahoo.com. Draft `r601997400664192337`. Thread `1a03b07e3aadd33a`. Subject: Puchong survey landing page. File: `docs/proposals/gs-instruments.md`. Copy Surveying Instruments Supplier / No.40-G, Jalan Damai Utama 1.
+
+### GTE Best Mark -- QUEUED draft 26 Aug 2026 07:00 MYT
+- To: gtebestmark@gmail.com. Draft `r-1376214235723207815`. Thread `1a03b07e58d7e803`. Subject: Bayan Lepas coding-machine landing page. File: `docs/proposals/gte-best-mark.md`. Copy Coding & Marking Equipment / Level 4-11, Sri Sungei Nibong Complex. Coding-machine subject, never print page.
+
+### GT Nelson -- QUEUED draft 26 Aug 2026 07:00 MYT
+- To: gtadmin@gtnelson.com.my. Draft `r-4415515682258595852`. Thread `1a03b080f176a6df`. Subject: Pandan Perdana realty landing page. File: `docs/proposals/gt-nelson.md`. Copy Residential & Commercial Properties for Sale / 13B, Jalan Perdana 10/10.
+
+### Guan Sheng -- QUEUED draft 26 Aug 2026 07:00 MYT
+- To: guansheng1@yahoo.com. Draft `r6171765944097763645`. Thread `1a03b081092640a3`. Subject: Johor Bahru LEV landing page. File: `docs/proposals/guan-sheng.md`. Copy Exhaust Ventilation System / 30, Jalan Perdagangan 14.
+
+### Guoyi Tang -- QUEUED draft 26 Aug 2026 07:00 MYT
+- To: sengkeat_ng@yahoo.com. Draft `r4911069444339141072`. Thread `1a03b08132c71523`. Subject: Bukit Indah TCM landing page. File: `docs/proposals/guoyi-tang.md`. Copy TCM Clinic / 31, Jalan Indah 16/6. JSON-LD email.
+
+Skipped remain hosts 981-1080: gscabin.com.my same GOLDEN SHARP inbox as gsprefab.com.my (one mail); gencitysb `andy@gencitysb.com` TLD; globalwastewater `globaltankcom.com` TLD; gorental `truecolourmedia.com` TLD; gorlyequipment `.com` TLD; greatimage `admin@greatimage.com.my` TLD. Next hunt: remain hosts after line 1080.
+
