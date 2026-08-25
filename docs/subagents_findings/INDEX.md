@@ -4,10 +4,11 @@ This index records reusable findings from focused subagent reviews.
 
 | File | Keywords | Main idea |
 |---|---|---|
+| [2026-08-26-hire-url-wed-drafts.md](2026-08-26-hire-url-wed-drafts.md) | Wed 09:00, netie.ai/hire, update_draft, google.com/url | All 168 Wed drafts now name live hire. Gmail MCP wraps the URL; click still reaches hire. Do not unwrap. Do not send Toon. |
 | [2026-08-25-spaceship-web-row-docroot.md](2026-08-25-spaceship-web-row-docroot.md) | Spaceship, Manage files, netie.ai, ffvftugcxb, document root | Live hire is `/home/ffvftugcxb/netie.ai/` via website-row Manage files, not token cPanel public_html. |
 | [2026-08-25-spaceship-cpanel-token.md](2026-08-25-spaceship-cpanel-token.md) | Spaceship, cPanel access token, HireUpload2, File Manager, session expired | Token page exists. Generate works. Fresh token login still rejected while cPanel is down. |
 | [2026-08-25-spaceship-no-path-redirect.md](2026-08-25-spaceship-no-path-redirect.md) | Spaceship, Domain Manager, URL redirect, /hire, DNS | Domain Manager cannot path-redirect `/hire/` only. File Manager still required. |
-| [2026-08-25-brewpage-rentry-rm500.md](2026-08-25-brewpage-rentry-rm500.md) | BrewPage, Rentry, pay.html, RM 500, first draft, mirrors | BrewPage and Rentry now name RM 500 first-draft unlock. Canonical `/hire/` still blocked. |
+| [2026-08-25-brewpage-rentry-rm500.md](2026-08-25-brewpage-rentry-rm500.md) | BrewPage, Rentry, pay.html, RM 500, first draft, mirrors | BrewPage and Rentry name RM 500 first-draft unlock. Canonical https://netie.ai/hire/ later matched git (see web-row-docroot). |
 | [2026-08-25-gmail-update-draft-detach.md](2026-08-25-gmail-update-draft-detach.md) | Gmail, update_draft, replyToMessageId, Toon, holding draft | update_draft can detach a reply onto a new thread. Recreate with replyToMessageId. |
 | [2026-08-25-spaceship-cpanel-outage.md](2026-08-25-spaceship-cpanel-outage.md) | Spaceship, File Manager, cPanel, Terminal, FTP 530, server801, Surge curl | Hosting Manager login works. All cPanel tools unavailable. If Terminal returns, curl Surge onto `/hire/index.html`. |
 | [2026-08-25-hire-rm500-first-draft.md](2026-08-25-hire-rm500-first-draft.md) | hire, pay.html, RM 500, first draft, Toon, Kah Chun Seow, Surge | Hire source and Surge name RM 500 first-draft unlock. Canonical File Manager still blocked. Toon draft parked, not sent. |

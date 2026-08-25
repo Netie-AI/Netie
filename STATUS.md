@@ -1,8 +1,10 @@
 # STATUS
 
-Updated: 2026-08-26 01:10 MYT. Success = live Stripe charge, then a payout.
+Updated: 2026-08-26 01:35 MYT. Success = live Stripe charge, then a payout.
 
 ## Now (measured)
+
+- After hours 26 Aug 01:35 MYT: all 168 Wed 09:00 landing-page drafts now name live https://netie.ai/hire/ (Gmail MCP stores it as `google.com/url?q=https://netie.ai/hire/`; click still reaches hire). Same draftIds. Spot-check HD Hearing `r8061948877361016615` still has RM 500 unlocks. Toon holding draft `r-7427464740298229176` still on thread `1a03642393b091d6`, not sent, not update_drafted. Inbox: no new buyer mail. Live hire still 56312, sha256 `a8fb92f4...`, last-modified 25 Aug 16:54 GMT. Did not nag Kanhseei. Did not send. Did not poll Stripe (already 26 Aug MYT at 01:05). Wed 08:00 File Manager: skip upload if sha256 still matches. Wed 09:00: unsubscribe first; send rewritten draftIds; do not unwrap the Google redirect (update_draft re-wraps); do not send Toon. No paid charge yet.
 
 - After hours 26 Aug 01:10 MYT: live https://netie.ai/hire/ still matches git (56312, sha256 `a8fb92f4...`, two `RM 500 unlocks`). Homepage last-modified unchanged. Inbox: no new buyer mail. Toon thread `1a03642393b091d6` still two messages. Holding draft `r-7427464740298229176` still on-thread, not sent. Did not nag Kanhseei. Did not apply Foundit. Did not poll Stripe again (already 26 Aug MYT at 01:05). Wed 08:00 File Manager timer: skip upload if sha256 still matches. Wed 09:00 send: hire is live, so if a draft body has no `https://netie.ai/hire/`, update_draft the same draftId and add one line before the close (`If you want to see how we quote this work: https://netie.ai/hire/`), then send_message. Do not send Toon. Timer prompt still names an old Toon draft id; STATUS is the source. No paid charge yet.
 

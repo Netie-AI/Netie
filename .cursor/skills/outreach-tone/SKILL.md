@@ -23,6 +23,8 @@ Toon at Advanced Inkjet (`toon@advancedinkjet.com.my`) replied 25 Aug 2026 that 
 
 Type the URL a human can copy. Never paste `https://www.google.com/url?q=...` into `body`. Never set `htmlBody`.
 
+Gmail MCP still stores a typed `https://netie.ai/hire/` as `https://www.google.com/url?q=https://netie.ai/hire/` in the draft. Click still reaches hire. Do not loop `update_draft` to unwrap; it re-wraps. The 168 Wed 09:00 drafts already have that hire line. Send `draftId` as-is.
+
 ## Direct offer
 
 Say it in this order:
