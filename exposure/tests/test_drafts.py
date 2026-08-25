@@ -40,3 +40,13 @@ def test_calendar_week(tmp_path, capsys) -> None:
     out = capsys.readouterr().out
     assert '"linkedin_target": 100000' in out
     assert '"social_posting": "off"' in out
+
+
+def test_publish_script_is_founder_gated() -> None:
+    from pathlib import Path
+
+    script = Path(__file__).resolve().parents[1] / "scripts" / "publish_public.sh"
+    text = script.read_text(encoding="utf-8")
+    assert "Netie-AI/exposure" in text
+    assert "createRepository" in text or "gh repo create" in text
+    assert "set -euo pipefail" in text

@@ -10,7 +10,7 @@ git subtree split -P exposure -b exposure-public
 git push git@github.com:Netie-AI/exposure.git exposure-public:main
 ```
 
-Create the empty public repo first (Apache-2.0, description: "Cortex-crew marketing pack. Organic LinkedIn/Reddit/GitHub drafts. No fake followers.").
+Create the empty public repo first, or run `bash exposure/scripts/publish_public.sh` with a founder PAT.
 
 After the push, CI is `/.github/workflows/ci.yml` in this folder (repo root after split).
 
