@@ -240,7 +240,7 @@ Owner order 24 Aug 18:14 MYT: clean out other job applies. Do not apply to Evabo
 - Avows / Avanade AI/ML Engineer contractor. Nischitha `nischitha.s@avowstech.com`. Thread `19ffe3f1bd57b948`. Interview 20 Aug 11:00 MYT. Follow-up SENT 18:36 MYT, message `1a0336554ed45ac8`. Polyanna is on the Avanade calendar thread; did not mail a second Avows inbox.
 - NextAL: no thread in this Gmail. Do not hunt an application.
 
-### Prints Buddy -- QUEUED for office hours (not sent)
+### Prints Buddy -- SENT 25 Aug 2026 09:00 MYT (see Tuesday 09:00 section)
 
 - To: order@printsbuddy.com.my (homepage and contact-page mailto). One inbox.
 - Live https://www.printsbuddy.com.my/services/ HTTP 200 still Coming Soon (`min-height:440px`). Homepage lists digital printing, custom stickers, and finishing from Wangsa Delima, Wangsa Maju, KL. SSM 202501038566 (1639975-H).
@@ -903,63 +903,64 @@ Owner order 24 Aug 18:14 MYT: clean out other job applies. Do not apply to Evabo
 - Do not mail SPLT again unless they reply.
 - Skipped this pass: Metafert, Willy Manufacturing, and GWG already mailed 22 Aug. Do not remmail. Benchmark Paper, Aerosol Maker, NBH, YHK Rubber, Chee Kuan, YK Pipe, Kepala Batas Bihun `/services/` 404 or filled. Steven has not replied to the 14:05 draft; did not nag.
 
-## Queued for Tue 25 Aug 2026 09:00 MYT (do not send after 17:00 MYT 24 Aug)
+## SENT Tue 25 Aug 2026 09:00 MYT
 
-Timer `netie-tue-queued-websites-2026-08-25-0900-myt` (`sub_ce24c806-64bc-424d-97f6-1ea25d3953bb`, once). Send existing Gmail drafts only after live `/services/` Coming Soon and empty `in:sent`. Five website drafts: Prints Buddy, TNT Crane, Dream House, then Berjaya, Jin He Jia, then Katalisjiwa copy draft. Not an email-watch loop. No Stripe. One inbox. Do not pitch Excel find-data. Type raw URLs. Label `Label_8` after send. Rechecked 25 Aug 00:15 MYT: the five website drafts still DRAFT; `in:sent` empty; Chrome UA curl still Coming Soon. Katalisjiwa draft `r-7973407251167373553` queued 02:19 MYT. Live Stripe 00:12 MYT was MYR 0; do not poll again until 26 Aug MYT.
+Timer `netie-tue-queued-websites-2026-08-25-0900-myt` fired as an in-turn send at 09:00 MYT after live checks. Five website `/services/` pages still Coming Soon (`min-height:440px`). Katalisjiwa `/services/` 404 (copy pitch). Empty `in:sent` before send. `draftId` only. Label_8 on all six. Do not remmail unless they reply.
 
-### Prints Buddy -- QUEUED draft 24 Aug 2026 19:35 MYT
+### Prints Buddy -- SENT 25 Aug 2026 09:00 MYT
 
 - To: order@printsbuddy.com.my (homepage mailto on https://www.printsbuddy.com.my/). One inbox.
 - Source: live https://www.printsbuddy.com.my/services/ HTTP 200 still Coming Soon (`min-height:440px`). Homepage lists digital printing, custom stickers, and finishing from Wangsa Delima, Wangsa Maju. SSM 202501038566 (1639975-H).
-- Draft: `r5576372032492267601`. Thread: `1a033f91222ed276`. Subject: Wangsa Maju print page.
+- SENT 25 Aug 2026 09:00 MYT. Message: `1a0366ef005c502f`. Thread: `1a033f91222ed276`. Former draft: `r5576372032492267601`. Subject: Wangsa Maju print page.
 - File: `docs/proposals/prints-buddy.md`. Hostable draft: `docs/proposals/prints-buddy-services.html`.
+- Do not mail again unless they reply.
 - Do not mail a second inbox. Do not remmail ZYRC or EETA.
 
-### TNT Crane -- QUEUED draft 24 Aug 2026 19:35 MYT
+### TNT Crane -- SENT 25 Aug 2026 09:00 MYT
 
 - To: marketing@tntcrane.com.my (homepage mailto on https://www.tntcrane.com.my/). One inbox.
 - Source: live https://www.tntcrane.com.my/services/ HTTP 200 still Coming Soon (`min-height:440px`). Homepage lists mobile crane, crawler crane, and skylift from 55B, Jalan Pusat Perniagaan Raja Uda 4, Butterworth. Established 2011. SSM 201101038063 (966197-A).
-- Draft: `r7715596559068711037`. Thread: `1a033f913f8b8118`. Subject: Butterworth crane page.
+- SENT 25 Aug 2026 09:00 MYT. Message: `1a0366ef1f1c8b85`. Thread: `1a033f913f8b8118`. Former draft: `r7715596559068711037`. Subject: Butterworth crane page.
 - File: `docs/proposals/tnt-crane.md`. Hostable draft: `docs/proposals/tnt-crane-services.html`.
+- Do not mail again unless they reply.
 
-### Dream House Sanitary Ware -- QUEUED draft 24 Aug 2026 19:35 MYT
+### Dream House Sanitary Ware -- SENT 25 Aug 2026 09:00 MYT
 
 - To: dream.house.sw.sb@gmail.com (homepage mailto on https://www.dreamhouse.com.my/). One inbox.
 - Source: live https://www.dreamhouse.com.my/services/ HTTP 200 still Coming Soon (`min-height:440px`). Homepage lists toilets, basins, and MINI cabinet basins from Taman Berjaya Setia, Bukit Mertajam. Since 2010. SSM 201201042836 (1027312-X).
-- Draft: `r-7065746014145915944`. Thread: `1a033f91408579ef`. Subject: Bukit Mertajam sanitary page.
+- SENT 25 Aug 2026 09:00 MYT. Message: `1a0366ef32b6cdbe`. Thread: `1a033f91408579ef`. Former draft: `r-7065746014145915944`. Subject: Bukit Mertajam sanitary page.
 - File: `docs/proposals/dream-house-sanitary.md`. Hostable draft: `docs/proposals/dream-house-services.html`.
+- Do not mail again unless they reply.
 
 ### Kanhseei -- wait (not queued)
 
 - Thread `1a03200b47b3aebe`. Lokesh clarification SENT 19:33 MYT, message `1a0338bc74fae0b4`. Do not nag. Do not send the hostable HTML unless they ask. Honor RM 500.
 
-## Queued with the Tue 09:00 MYT send (do not send 24 Aug)
+## SENT with the Tue 09:00 MYT send
 
-Berjaya and Jin He Jia now go on the same Tuesday timer after the first three, if live checks pass.
-
-### Berjaya Table & Chair -- QUEUED draft 24 Aug 2026 19:56 MYT
+### Berjaya Table & Chair -- SENT 25 Aug 2026 09:00 MYT
 
 - To: enquiry.berjaya@gmail.com (homepage mailto on https://www.berjayatableandchair.com/). Footer name: Success Table & Chair Sdn Bhd. One inbox.
 - Source: live https://www.berjayatableandchair.com/services/ HTTP 200 still Coming Soon (`min-height:440px`). Homepage lists stainless canteen sets and Isotop restaurant tables from Sungai Balak, Balakong, Kajang. SSM 202501013794 (1615208-T).
-- Draft: `r8087702750161109889`. Thread: `1a033f9195a509a9`. Subject: Balakong canteen page.
+- SENT 25 Aug 2026 09:00 MYT. Message: `1a0366efdece676e`. Thread: `1a033f9195a509a9`. Former draft: `r8087702750161109889`. Subject: Balakong canteen page.
 - File: `docs/proposals/berjaya-table-chair.md`. Hostable draft: `docs/proposals/berjaya-table-chair-services.html`.
-- Send on the Tue 09:00 MYT timer after Prints Buddy / TNT / Dream House, if live Coming Soon and empty `in:sent`.
+- Do not mail again unless they reply.
 
-### Jin He Jia -- QUEUED draft 24 Aug 2026 19:56 MYT
+### Jin He Jia -- SENT 25 Aug 2026 09:00 MYT
 
 - To: enquiry@jinhejia.com.my (homepage mailto on https://www.jinhejia.com.my/). One inbox.
 - Source: live https://www.jinhejia.com.my/services/ HTTP 200 still Coming Soon (`min-height:440px`). Homepage lists household wholesale and export to Australia and New Zealand from Persiaran Kerapu, Butterworth. SSM 202101042528 (1442828-U).
-- Draft: `r2276372326674085603`. Thread: `1a033f91202d5497`. Subject: Butterworth grocery page.
+- SENT 25 Aug 2026 09:00 MYT. Message: `1a0366efe6eb209f`. Thread: `1a033f91202d5497`. Former draft: `r2276372326674085603`. Subject: Butterworth grocery page.
 - File: `docs/proposals/jin-he-jia.md`. Hostable draft: `docs/proposals/jin-he-jia-services.html`.
-- Send on the Tue 09:00 MYT timer after Prints Buddy / TNT / Dream House, if live Coming Soon and empty `in:sent`.
+- Do not mail again unless they reply.
 
-### Katalisjiwa Agency -- QUEUED draft 25 Aug 2026 02:19 MYT
+### Katalisjiwa Agency -- SENT 25 Aug 2026 09:00 MYT
 
 - To: hello@katalisjiwa.com (public hiring email). One inbox.
-- Freelance catalogue / website copy. Honest: English first, not BM-first social scripts.
-- Draft: `r-7973407251167373553`. Thread: `1a034ffb78591205`. Subject: Penang catalogue copy.
+- Freelance catalogue / website copy. Honest: English first, not BM-first social scripts. Live `/services/` HTTP 404.
+- SENT 25 Aug 2026 09:00 MYT. Message: `1a0366f01d8a38d6`. Thread: `1a034ffb78591205`. Former draft: `r-7973407251167373553`. Subject: Penang catalogue copy.
 - GitHub in body: https://github.com/Netie-AI (raw, no Google wrap).
-- Send on the Tue 09:00 MYT timer after the five website drafts, if still DRAFT and empty `in:sent`.
+- Do not mail again unless they reply.
 - Do not mail najihah.hussin@vfive.com.my.
 
 ## Queued after the Tue 09:00 five-send (do not send before those five, and not after hours)
