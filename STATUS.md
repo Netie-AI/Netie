@@ -1,8 +1,10 @@
 # STATUS
 
-Updated: 2026-08-25 20:55 MYT. Success = live Stripe charge, then a payout.
+Updated: 2026-08-25 21:00 MYT. Success = live Stripe charge, then a payout.
 
 ## Now (measured)
+
+- After hours 25 Aug 21:00 MYT: rewrote Wed drafts 35-58 (Jing Tinted through Laiheng) to RM 500 landing-page voice. Same draftIds. Total rewritten tonight: 58 of 168. Remaining 110 rewrite on send via timer `sub_4048348f-6ace-4f0f-93ef-3415f78d584b`. Copy Volkwagen, handling equipments. Toon still waiting on owner send. Did not nag Kanhseei. Did not poll Stripe. No paid charge yet.
 
 - After hours 25 Aug 20:55 MYT: rewrote Wed drafts 11-34 (Apple Queen Beauty through J and H OFFICE DESIGN) to RM 500 landing-page voice. Same draftIds. Total rewritten tonight: 34 of 168. Remaining 134 rewrite on send via timer `sub_4048348f-6ace-4f0f-93ef-3415f78d584b`. Toon still waiting on owner send. Did not nag Kanhseei. Did not poll Stripe. No paid charge yet.
 
