@@ -4,6 +4,7 @@ This index records reusable findings from focused subagent reviews.
 
 | File | Keywords | Main idea |
 |---|---|---|
+| [2026-08-26-early-filled-haco-honsen-queue.md](2026-08-26-early-filled-haco-honsen-queue.md) | filled site, remain 1081-1180, HA & CO, HAG Solar, HEUTIG, Heng Li Art security-door, Success Technic homogenizer, never print page | Twenty-four filled first-mails folded onto Wed 11:00. New landing-plus-marketing voice. Skip sampleemail and TLD mismatch. |
 | [2026-08-26-precise-offer-consulting-proposal.md](2026-08-26-precise-offer-consulting-proposal.md) | Golden Star Roofing, Coming Soon rewrite, Toon, proposal document, SCR, landing plus marketing, agent OCR DMS | Owner: name landing plus marketing, then agents. Client reply gets a proposal with figures. Toon files written, not sent. |
 | [2026-08-26-early-filled-gemie-guoyi-queue.md](2026-08-26-early-filled-gemie-guoyi-queue.md) | filled site, remain 981-1080, Gemie, Global 7, GOLDEN SHARP, GTE Best Mark coding-machine, never print page | Twenty-seven filled first-mails folded onto Wed 11:00. One GOLDEN SHARP inbox. GTE/Great Image subjects avoid print page. |
 | [2026-08-26-early-filled-fk-gaintwin-queue.md](2026-08-26-early-filled-fk-gaintwin-queue.md) | filled site, remain 881-980, FK Performance, Flexnova, Fussian advertising, Fonlun English, iCoat English | Twenty-one filled first-mails folded onto Wed 11:00. Fussian subject is advertising. Future Travel HQ jasmine@ only. |

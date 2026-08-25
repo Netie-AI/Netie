@@ -4189,3 +4189,82 @@ Tone: `.cursor/skills/outreach-tone/SKILL.md`. `/services/` filled. Empty `in:se
 
 Skipped remain hosts 981-1080: gscabin.com.my same GOLDEN SHARP inbox as gsprefab.com.my (one mail); gencitysb `andy@gencitysb.com` TLD; globalwastewater `globaltankcom.com` TLD; gorental `truecolourmedia.com` TLD; gorlyequipment `.com` TLD; greatimage `admin@greatimage.com.my` TLD. Next hunt: remain hosts after line 1080.
 
+
+## Filled-site remain 1081-1180 -- QUEUED 26 Aug 2026 07:40 MYT (Wed 11:00)
+
+Tone: `.cursor/skills/outreach-tone/SKILL.md` new voice (landing plus marketing, then agent/OCR/DMS). No hire URL. No Stripe. `/services/` filled. Empty `in:sent`. Never print page. Do not send before Wed 11:00. Do not require Coming Soon at send.
+
+### HA & CO -- QUEUED draft 26 Aug 2026 07:40 MYT
+- To: enquiry@ha-co.com.my. Draft `r-615720653660257732`. Thread `1a03b142e80e11d0`. Subject: Johor Bahru accountant landing page. File: `docs/proposals/ha-co.md`. Copy Chartered Accountants / 93-01, Jalan Anggerik Emas 1.
+
+### HAG Solar -- QUEUED draft 26 Aug 2026 07:40 MYT
+- To: support@hagsolar.com.my. Draft `r6028842597308960895`. Thread `1a03b14317695473`. Subject: Kota Kinabalu solar landing page. File: `docs/proposals/hag-solar.md`. Copy Brightening Lives, Powering Futures / Block C, Lot 1 and 3, Lorong Kelapa, Kolombong. HQ JSON-LD support@ only. Did not mail sampleemail@gmail.com.
+
+### Habib Dental -- QUEUED draft 26 Aug 2026 07:40 MYT
+- To: habibdental.hd@gmail.com. Draft `r5713000485228317226`. Thread `1a03b1432014a61b`. Subject: Bandar Dato Onn dental landing page. File: `docs/proposals/habib-dental.md`. Copy Klinik Pergigian Habib Dental Bandar Dato Onn / 17, Ground Floor, Jalan Perjiranan 4/6.
+
+### Hair Emporium -- QUEUED draft 26 Aug 2026 07:40 MYT
+- To: hairemporiuminfo@gmail.com. Draft `r-3823410326877361103`. Thread `1a03b145cae1eec2`. Subject: Mont Kiara salon landing page. File: `docs/proposals/hair-emporium.md`. Copy Keratin Treatment and Korean Perm / Lot LG3-7, Arcoris Mont Kiara.
+
+### Hairy Mary -- QUEUED draft 26 Aug 2026 07:40 MYT
+- To: hairymary.co@gmail.com. Draft `r5099941164552634444`. Thread `1a03b146133fe0e1`. Subject: Subang Jaya laser landing page. File: `docs/proposals/hairy-mary.md`. Copy Malaysia's Laser Hair Removal and Hair Regrowth Specialist / D-06-01, Garden Shoppe at One City.
+
+### Happy Seafood -- QUEUED draft 26 Aug 2026 07:40 MYT
+- To: happycfood@gmail.com. Draft `r-8826372589037524790`. Thread `1a03b146022675ae`. Subject: Klang seafood landing page. File: `docs/proposals/happy-seafood.md`. Copy Quality Seafood, Perfectly Preserved / 59, Jalan Seruling 58, Taman Klang Jaya.
+
+### Hashgraph Aluminium -- QUEUED draft 26 Aug 2026 07:40 MYT
+- To: hashgraph.my@gmail.com. Draft `r-2965798396843334133`. Thread `1a03b1463130c5f3`. Subject: Masai aluminium landing page. File: `docs/proposals/hashgraph-aluminium.md`. Copy Elevating Aluminium Living / 9-G, Block I, Jalan Kota 1/2, Taman Chaya Kota Puteri. HQ JSON-LD only.
+
+### H. C. Chan Chambers -- QUEUED draft 26 Aug 2026 07:40 MYT
+- To: hc.chanchambers@gmail.com. Draft `r-1124810803118109329`. Thread `1a03b1493ed1283e`. Subject: George Town law landing page. File: `docs/proposals/hc-chan-chambers.md`. Copy Suite No. 123, Infinity8 Reserve Georgetown, No. 2, Beach Street. First mail English.
+
+### Heavy Duty AV -- QUEUED draft 26 Aug 2026 07:40 MYT
+- To: richard-lay@hotmail.com. Draft `r-7282919983251176138`. Thread `1a03b150f0908679`. Subject: Bukit Mertajam AV landing page. File: `docs/proposals/heavy-duty-av.md`. Copy YOUR PARTNER IN POWERFUL EVENT EXPERIENCES / 2A, Lorong Sejahtera 24C, Taman Tokun Jaya.
+
+### Unitrack HELI -- QUEUED draft 26 Aug 2026 07:40 MYT
+- To: contactusuh@gmail.com. Draft `r-4261729377734111654`. Thread `1a03b1510b700326`. Subject: Shah Alam forklift landing page. File: `docs/proposals/unitrack-heli.md`. Copy HELI Forklift Sales and Rental / Lot 41100, Batu Tiga, Sungai Buloh, Section U6. HQ JSON-LD only. Host heliforklift.com.my.
+
+### Heng Wang -- QUEUED draft 26 Aug 2026 07:40 MYT
+- To: info@hengwang.com.my. Draft `r-6658301846446711521`. Thread `1a03b15127a397f4`. Subject: Bayan Lepas flooring landing page. File: `docs/proposals/heng-wang.md`. Copy Industrial Flooring Contractor / 5-10-7, The Promenade PSRM Mahsuri 1, Bayan Lepas.
+
+### Heng Li Art -- QUEUED draft 26 Aug 2026 07:40 MYT
+- To: henglitradin9@gmail.com. Draft `r5548256361417210913`. Thread `1a03b1513ecc3b49`. Subject: Kulai security-door landing page. File: `docs/proposals/heng-li-art.md`. Copy No.1 Security Door Supplier JB / 5, Jalan Kenanga 29/1, Bandar Indahpura, Kulai. HQ JSON-LD only. Security-door subject, never print page.
+
+### HEPA Technologies -- QUEUED draft 26 Aug 2026 07:40 MYT
+- To: enquiry@hepacleanroom.com.my. Draft `r4680561197088057801`. Thread `1a03b151424199e9`. Subject: Shah Alam cleanroom landing page. File: `docs/proposals/hepa-technologies.md`. Copy Over 20 Years of Pioneering Cleanroom Excellence / 38-1, Jalan Eco Ardence C U12/36C.
+
+### Heplek -- QUEUED draft 26 Aug 2026 07:40 MYT
+- To: sales2@heplek.com.my. Draft `r-5161320921431303524`. Thread `1a03b15783b27de3`. Subject: Puchong fabricator landing page. File: `docs/proposals/heplek.md`. Copy Customised parts fabricator / 14 and 16, Jalan TPP 6/1, Taman Perindustrian Puchong. HQ JSON-LD sales2@ only.
+
+### HEUTIG -- QUEUED draft 26 Aug 2026 07:40 MYT
+- To: heutig.polyseals@gmail.com. Draft `r5103789763727144130`. Thread `1a03b151543229dc`. Subject: Batu Caves workshop landing page. File: `docs/proposals/heutig.md`. Copy HEUTIG MALAYSIA (HQ) and Window Film / 22, Jalan Perusahaan Amari, Amari Business Park. Host heutig.com.my; printed Polyseals Auto Car Care. Different inbox from lee@polyseals.com.my CS queue.
+
+### Hin Construction -- QUEUED draft 26 Aug 2026 07:40 MYT
+- To: hin.construction.11@gmail.com. Draft `r-9036982813541104517`. Thread `1a03b1517be7c14c`. Subject: Semenyih construction landing page. File: `docs/proposals/hin-construction.md`. Copy Cotton Wall Coating Provider / 33, Jalan 1/5, Bandar Teknologi Kajang. HQ JSON-LD only.
+
+### High Class Auto -- QUEUED draft 26 Aug 2026 07:40 MYT
+- To: sales@highclassautosb.com.my. Draft `r550194650551492962`. Thread `1a03b157992b5a2b`. Subject: Pasir Gudang auto landing page. File: `docs/proposals/high-class-auto.md`. Copy Premium Car Tyre and Sport Rim Supplier / 9, Jalan Ekoperniagaan 2, Taman Kota Masai.
+
+### HL Globe -- QUEUED draft 26 Aug 2026 07:40 MYT
+- To: hlsb8800@gmail.com. Draft `r733021094706880392`. Thread `1a03b157be5b0754`. Subject: Lukut cold-room landing page. File: `docs/proposals/hl-globe.md`. Copy Cold Room Supplier / Lot No 5, BT 6, Jalan Seremban, Lukut.
+
+### HNK Flooring -- QUEUED draft 26 Aug 2026 07:40 MYT
+- To: hnkflooring18@gmail.com. Draft `r3721891476717653246`. Thread `1a03b157abbf7803`. Subject: Sungai Buloh flooring landing page. File: `docs/proposals/hnk-flooring.md`. Copy SPC Flooring Installation / AL 126-D2, Jalan Welfare, Kampung Baru Sungai Buloh.
+
+### HOEM -- QUEUED draft 26 Aug 2026 07:40 MYT
+- To: enquiry@hoem.com.my. Draft `r-4580575178483138154`. Thread `1a03b157dfc337b7`. Subject: Tampoi vessel landing page. File: `docs/proposals/hoem.md`. Copy Pressure Vessel Manufacturer / 5B, Jalan Hasil, Kawasan Perindustrian Tampoi.
+
+### Classic Homenet -- QUEUED draft 26 Aug 2026 07:40 MYT
+- To: sales@homenetscreens.com.my. Draft `r-3947332279142208155`. Thread `1a03b157ea6f3bf1`. Subject: Semenyih screen landing page. File: `docs/proposals/classic-homenet.md`. Copy Insect and Mosquito Screen Supplier / 5, Jalan Mega A, Taman Industri Mega. Host homenetscreens.com.my; printed Classic Homenet Decoration.
+
+### Home Style -- QUEUED draft 26 Aug 2026 07:40 MYT
+- To: homestyle2009.info@gmail.com. Draft `r-5849102690639159780`. Thread `1a03b157fd7ec13a`. Subject: Ipoh furniture landing page. File: `docs/proposals/home-style.md`. Copy Bringing Your Interior Dreams to Life / 56, Pesara Bercham Timur 8A, Ipoh.
+
+### Success Technic -- QUEUED draft 26 Aug 2026 07:40 MYT
+- To: successtechnicoffice@gmail.com. Draft `r350571925414277714`. Thread `1a03b1580704d710`. Subject: Seri Kembangan homogenizer landing page. File: `docs/proposals/success-technic.md`. Copy Homogenizing and Mixing Machine MERDEKA SALES / 27, Jalan 6/2, Taman Industries Selesa Jaya. Host homogenizer.com.my; printed Success Technic Engineering Works.
+
+### Honsen Melaka -- QUEUED draft 26 Aug 2026 07:40 MYT
+- To: honsenmelaka@gmail.com. Draft `r-2570397464248795387`. Thread `1a03b158321d085c`. Subject: Melaka motorcycle landing page. File: `docs/proposals/honsen-melaka.md`. Copy Honsen Melaka (Ong Kim Wee) / 51B, Jalan Ong Kim Wee.
+
+Skipped remain hosts 1081-1180: hagsolar `sampleemail@gmail.com` placeholder; hanasteel `saleco@hana-steel.com` TLD; hdmetal `hdmetal@hockdee.com` TLD; heattemps `sales@heattemps.com` TLD; highriseind `hisb@highrise.com.my` TLD; homeshiftjb `homeshifttrading@ymail.com` TLD; hoongdesign `info@hoongdesign.com` TLD; hardrace CS not filled; hmglass CS; helixtech/hgnmover/hommes tiny 853-953; herbalcare tiny 1251. Next hunt: remain hosts after line 1180.
+

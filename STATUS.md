@@ -1,8 +1,10 @@
 # STATUS
 
-Updated: 2026-08-26 07:15 MYT. Success = live Stripe charge, then a payout.
+Updated: 2026-08-26 07:40 MYT. Success = live Stripe charge, then a payout.
 
 ## Now (measured)
+
+- After hours 26 Aug 07:40 MYT: no owner send. Inbox noise (Instagram, GitHub, Cortex). Toon thread still two messages; holding draft `r-7427464740298229176` not sent. Did not nag Kanhseei. Did not reply Starbridge. Queued twenty-four more filled-site first-mails from remain hosts 1081-1180 and folded them onto Wed 11:00: HA & CO through Honsen Melaka. New first-mail voice (landing plus marketing, then agent/OCR/DMS). No hire URL. No Stripe. Empty `in:sent`. HAG Solar HQ JSON-LD `support@` only (skipped `sampleemail@gmail.com`). Hashgraph / Unitrack HELI / Heng Li Art / Heplek / Hin Construction HQ JSON-LD only. HEUTIG on heutig.com.my is a different inbox from Polyseals CS `lee@polyseals.com.my`. Heng Li Art subject is security-door, never print page. Host homogenizer.com.my is Success Technic. Host homenetscreens.com.my is Classic Homenet. Host heliforklift.com.my is Unitrack HELI. Filled-site total 420. Wed 11:00 timer `sub_16f43d1d-a2c7-416c-9147-22ebfcc07854` replaced `sub_e5fa4b51` and now fires four hundred fifty-four drafts (34 CS plus 420 filled). Do not send before 11:00. Do not require Coming Soon on filled drafts at send. Next hunt: remain hosts after line 1180. Did not poll Stripe (already 26 Aug MYT at 01:05). No paid charge yet.
 
 - After hours 26 Aug 07:15 MYT: owner used the Golden Star Roofing Coming Soon rewrite as the next unclear proof. Skills now name landing page plus marketing first, then agent / OCR / DMS. Client reply gets a proposal document with figures. Toon proposal `docs/proposals/advanced-inkjet-proposal.md` and `.html` written, not sent. Do not `update_draft` holding draft `r-7427464740298229176`. Recreate on send. No Gemini MCP and no Playwright MCP this VPS. Did not remmail Golden Star. Did not nag Kanhseei. Did not reply Starbridge. Filled-site total 396. Wed 11:00 still `sub_e5fa4b51` / 430 drafts. Did not poll Stripe. No paid charge yet.
 
