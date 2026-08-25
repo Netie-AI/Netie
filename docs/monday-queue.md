@@ -3270,3 +3270,83 @@ Skipped leftover filled-cands: wlgroupdesign.com.my `hq@wlgroupdesign.com` TLD m
 
 Skipped remain hosts 1-180: 10ftcurtains/3wire/abvglobal/acculinks/aclinic/aestheticclinicjb/advancegroup/airsolution/akfa/alcor/alletronic/ambokengineering/aquanature TLD or domain mismatch; aamori NFT; aesoft remmail (VITA POS already queued). Next hunt: remain hosts after line 180.
 
+### A. Razak & Co -- QUEUED draft 26 Aug 2026 05:25 MYT
+- To: arazaknco2@gmail.com. Draft `r2041572901844789977`. Thread `1a03aca8928f5980`. Subject: Sri Permaisuri accounting landing page. File: `docs/proposals/a-razak.md`. Host artaxconsultants.com.my; printed firm A. Razak & Co.
+
+### Arvo Tools -- QUEUED draft 26 Aug 2026 05:25 MYT
+- To: enquiry@arvotools.com.my. Draft `r-5611711282649037662`. Thread `1a03aca8bc759a3d`. Subject: Shah Alam HVAC-tools landing page. File: `docs/proposals/arvo-tools.md`. Copy Kota Kemuning.
+
+### Asia Cleaning -- QUEUED draft 26 Aug 2026 05:25 MYT
+- To: asiacleaning88@hotmail.com. Draft `r1912185893852524398`. Thread `1a03aca8b48058ed`. Subject: Skudai cleaning landing page. File: `docs/proposals/asia-cleaning.md`. JSON-LD email.
+
+### Asia Industry -- QUEUED draft 26 Aug 2026 05:25 MYT
+- To: admin@asiaindustryauto.com.my. Draft `r8040588065896214887`. Thread `1a03aca8db96171d`. Subject: Klang automation landing page. File: `docs/proposals/asia-industry.md`. Host asiaindustry.com.my.
+
+### AS Industrial Gas -- QUEUED draft 26 Aug 2026 05:25 MYT
+- To: enquiry@asig.com.my. Draft `r-6333842009828067728`. Thread `1a03aca8ff25e2be`. Subject: Kulai gas landing page. File: `docs/proposals/as-industrial-gas.md`. Copy Taman Pertama.
+
+### Advantech Solution -- QUEUED draft 26 Aug 2026 05:25 MYT
+- To: jason@atcs.com.my. Draft `r-8196847666449581488`. Thread `1a03aca8e4f26555`. Subject: Kapar CCTV landing page. File: `docs/proposals/advantech-solution.md`. Host atcs.com.my. HQ jason@ only.
+
+### Atomic M&E -- QUEUED draft 26 Aug 2026 05:25 MYT
+- To: atomic.mne@gmail.com. Draft `r5070911917816054835`. Thread `1a03acad8e6b0c95`. Subject: Iskandar Puteri M&E landing page. File: `docs/proposals/atomic-me.md`. JSON-LD email.
+
+### ATOZ -- QUEUED draft 26 Aug 2026 05:25 MYT
+- To: contactus@atoz.my. Draft `r-4881190900783430569`. Thread `1a03acad86c56de3`. Subject: Kuala Lumpur IT landing page. File: `docs/proposals/atoz.md`. Copy Plaza Idaman.
+
+### ATV Ranger -- QUEUED draft 26 Aug 2026 05:25 MYT
+- To: deniskhing@atvranger.com.my. Draft `r1542675927568896119`. Thread `1a03acadb5d2df31`. Subject: Balakong ATV landing page. File: `docs/proposals/atv-ranger.md`. HQ deniskhing@ only.
+
+### Audience Lab -- QUEUED draft 26 Aug 2026 05:25 MYT
+- To: sales@audiencelab.com.my. Draft `r-7072691817372948209`. Thread `1a03acadc3ed2cc6`. Subject: Skudai sound landing page. File: `docs/proposals/audience-lab.md`. JSON-LD email.
+
+### AURA Q7 -- QUEUED draft 26 Aug 2026 05:25 MYT
+- To: wlsrauraq7.my@gmail.com. Draft `r9013900215087993017`. Thread `1a03acaddad2dd00`. Subject: Johor Bahru energy landing page. File: `docs/proposals/aura-q7.md`. First mail English.
+
+### Austin Dental -- QUEUED draft 26 Aug 2026 05:25 MYT
+- To: austindentalsurgery@gmail.com. Draft `r-636245879830199703`. Thread `1a03acadf3e0764a`. Subject: Johor Bahru dental landing page. File: `docs/proposals/austin-dental.md`. JSON-LD email.
+
+### Auto Cast -- QUEUED draft 26 Aug 2026 05:25 MYT
+- To: enquiry@autocast.com.my. Draft `r-1237458991593837458`. Thread `1a03acb24baac39b`. Subject: Beranang foundry landing page. File: `docs/proposals/auto-cast.md`. JSON-LD email.
+
+### Starlight Smart Home -- QUEUED draft 26 Aug 2026 05:25 MYT
+- To: sales@autogatekl.com.my. Draft `r-927411999388157737`. Thread `1a03acb2525c6ae2`. Subject: Kepong autogate landing page. File: `docs/proposals/starlight-autogate.md`. Host autogatekl.com.my; printed firm STARLIGHT.
+
+### Autogate Power -- QUEUED draft 26 Aug 2026 05:25 MYT
+- To: diauddin79@gmail.com. Draft `r-7081466458883100231`. Thread `1a03acb26e47e657`. Subject: Seremban autogate landing page. File: `docs/proposals/autogate-power.md`. Copy pagar automatik.
+
+### Auto Land -- QUEUED draft 26 Aug 2026 05:25 MYT
+- To: admin@autoland.com.my. Draft `r-53945313690595329`. Thread `1a03acb28bdb43ce`. Subject: Johor Jaya workshop-equipment landing page. File: `docs/proposals/auto-land.md`. Copy Taman Johor Jaya.
+
+### Auto Power -- QUEUED draft 26 Aug 2026 05:25 MYT
+- To: info@autopower.com.my. Draft `r5818883819392131911`. Thread `1a03acb296e09eeb`. Subject: Semenyih switchboard landing page. File: `docs/proposals/auto-power.md`. JSON-LD email.
+
+### Autoprint -- QUEUED draft 26 Aug 2026 05:25 MYT
+- To: aesb@autoprint.com.my. Draft `r5474188944849037249`. Thread `1a03acb2a697dca2`. Subject: Johor Bahru offset landing page. File: `docs/proposals/autoprint.md`. Never print page.
+
+### Auto Zones -- QUEUED draft 26 Aug 2026 05:25 MYT
+- To: info@autozones.com.my. Draft `r6568023613710483395`. Thread `1a03acbe8572f808`. Subject: Cheras car-accessories landing page. File: `docs/proposals/auto-zones.md`. Copy Taman Seraya.
+
+### Avenue Medihome -- QUEUED draft 26 Aug 2026 05:25 MYT
+- To: amh.holdings.pg@gmail.com. Draft `r3197936709528076733`. Thread `1a03acbe9eb8619a`. Subject: Tanjong Bungah nursing landing page. File: `docs/proposals/avenue-medihome.md`. Host avenuecenter.com.my.
+
+### Avenue Design -- QUEUED draft 26 Aug 2026 05:25 MYT
+- To: avenuedesign8112@gmail.com. Draft `r3345102138197713381`. Thread `1a03acbeab750a3c`. Subject: Petaling Jaya cabinet landing page. File: `docs/proposals/avenue-design.md`. HQ mailto only. Did not mail avenuekitchen88@gmail.com.
+
+### Averwin -- QUEUED draft 26 Aug 2026 05:25 MYT
+- To: averwin25@gmail.com. Draft `r-7737998669582489283`. Thread `1a03acbeef30135e`. Subject: Semenyih offset landing page. File: `docs/proposals/averwin.md`. Never print page.
+
+### A Way Marketing -- QUEUED draft 26 Aug 2026 05:25 MYT
+- To: awaymkt@gmail.com. Draft `r-6007417762423743733`. Thread `1a03acbee90801a0`. Subject: Batu Caves signage landing page. File: `docs/proposals/a-way-marketing.md`. JSON-LD email.
+
+### AW Machinery -- QUEUED draft 26 Aug 2026 05:25 MYT
+- To: awmachineryrental@gmail.com. Draft `r-870252478835499762`. Thread `1a03acbf1f19a2ee`. Subject: Puchong machinery-rental landing page. File: `docs/proposals/aw-machinery.md`. Copy Bandar Kinrara.
+
+### AX Curtain -- QUEUED draft 26 Aug 2026 05:25 MYT
+- To: info@axcurtain.com.my. Draft `r-6134395872058133650`. Thread `1a03acbf1cbf033f`. Subject: Puchong curtain landing page. File: `docs/proposals/ax-curtain.md`. JSON-LD email.
+
+### Battery Home -- QUEUED draft 26 Aug 2026 05:25 MYT
+- To: batteryhome1125@gmail.com. Draft `r9212198339487486946`. Thread `1a03acbf27422000`. Subject: Batu Caves battery landing page. File: `docs/proposals/battery-home.md`. Copy 24 hour car battery.
+
+Skipped remain hosts 181-280: Bali Thai remmail `balithaiwellness@gmail.com` (already Wed 09:00), asasgroup.my `info@asasgroup.com` TLD, astarkids.com.my `info@astarkids.com` TLD, asianrefrigeration.com.my `enquiry@asianco.com.my` domain mismatch, asgglass.com.my suspended. Next hunt: remain hosts after line 280.
+

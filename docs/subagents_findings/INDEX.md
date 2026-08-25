@@ -4,6 +4,7 @@ This index records reusable findings from focused subagent reviews.
 
 | File | Keywords | Main idea |
 |---|---|---|
+| [2026-08-26-early-filled-arazak-battery-queue.md](2026-08-26-early-filled-arazak-battery-queue.md) | filled site, remain 181-280, Autoprint offset, Starlight, Battery Home, Bali Thai remmail skip | Twenty-six filled first-mails folded onto Wed 11:00. Autoprint/Averwin subjects use offset, never print page. Skip Bali Thai remmail. |
 | [2026-08-26-early-filled-101hair-cjb-queue.md](2026-08-26-early-filled-101hair-cjb-queue.md) | filled site, early unused hosts, 101 Hair, FURNI 6, Luchtech, CJB CABPLUS, JSON-LD email, TLD skip | Fifty-five filled `/services/` first-mails from remain hosts 1-180, folded onto Wed 11:00 with 34 CS plus 53 W-Z filled. Skip TLD mismatch. Do not require Coming Soon at send. |
 | [2026-08-26-filled-site-wintools-xolven-queue.md](2026-08-26-filled-site-wintools-xolven-queue.md) | filled site, JSON-LD email, Wintools, HSA Asia, Z Star, YAL remmail skip | Fifty-three filled `/services/` first-mails folded onto Wed 11:00. JSON-LD email is a valid inbox. Do not require Coming Soon at send. Skip YAL remmail. |
 | [2026-08-26-wuway-yeetat-endlist-queue.md](2026-08-26-wuway-yeetat-endlist-queue.md) | Wuway, Win-Fung, WorkShark, Zubeck, Youguan, YHL, YY Travel, Yee Tat, Coming Soon mailto, list exhausted, remmail skip | Seventeen more CS+mailto drafts from unused hosts 3380-3572, folded onto Wed 11:00. Skip Windmere, Willy, ZYRC remmail and wins2 HK. List ends at 3572. |
