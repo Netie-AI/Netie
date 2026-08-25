@@ -2631,6 +2631,35 @@ Folded onto the same Wed 09:00 timer (`sub_4442a5b1-2eb1-42aa-8bbe-33a8db79b878`
 Skipped CS+mailto TLD mismatches: pztech.com.my `partzone@outlook.my`; richads.com.my `alvin@richadsmarketing.com`; ridgemonde.com.my `ridgemonde@tenco.com.my`.
 - Next hunt: unused malaysiabrand hosts after line 2579. Do not send these before Wed 09:00 MYT.
 
+## Queued after hours 25 Aug 2026 19:46 MYT (do not send before Wed 09:00)
+
+Folded onto the same Wed 09:00 timer (`sub_6397a2a9-a102-4a15-baba-f4748fcb04ed`, replaced `sub_4442a5b1-2eb1-42aa-8bbe-33a8db79b878`). Eight extras from unused hosts 2580-2679. Empty `in:sent`. All eight `/services/` Coming Soon (`min-height:440px`). No Stripe. HQ sales@ only at Saga Paver. HQ Johor contact-card only at Roman Jewellery. SAM SM prints Bukit Jalil city-only, no street. Copy nothing is off-the-shell, Factory for Sales and Rent, Choose SAGA. Built to Last. Proudly Malaysian., offices table, Powering Precision. Built to Last., Our company also offer, We offers a wide variety of options, Kraf Paper.
+
+### Roman Jewellery Sdn Bhd -- QUEUED draft 25 Aug 2026 19:44 MYT
+- To: info.romanco@gmail.com. Draft `r5898375591484573834`. Thread `1a038bc47bd63a10`. Subject: Iskandar Puteri jewellery page. File: `docs/proposals/roman-jewellery.md`. Copy JEWELRY SPEAKS THE LANGUAGE OF LOVE / nothing is off-the-shell. HQ Johor Eko Galleria contact-card only. One inbox.
+
+### RTS Infinity Sdn Bhd -- QUEUED draft 25 Aug 2026 19:44 MYT
+- To: robert888.rts@gmail.com. Draft `r363423645827997061`. Thread `1a038bc5b784aea6`. Subject: Shah Alam factory-sales page. File: `docs/proposals/rts-infinity.md`. Copy Factory for Sales and Rent / TRUSTED PROPERTY AGENCY.
+
+### Saga Paver Industries Sdn. Bhd. -- QUEUED draft 25 Aug 2026 19:44 MYT
+- To: sales@sagapaver.com.my. Draft `r-3972312955126331437`. Thread `1a038bc79d7e8402`. Subject: Puchong paver page. File: `docs/proposals/saga-paver.md`. Copy Choose SAGA. Built to Last. Proudly Malaysian. / Precision Pavers, Built to Endure. HQ sales@ only. Did not mail sagapaver@gmail.com.
+
+### SAM SM FURNITURE -- QUEUED draft 25 Aug 2026 19:44 MYT
+- To: samsmfurniture88@gmail.com. Draft `r2219037099487243643`. Thread `1a038bcaae1d245f`. Subject: Bukit Jalil furniture page. File: `docs/proposals/sam-sm-furniture.md`. Copy incorporated in 2010 / offices table / Our headquarter. No street printed. No SSM printed.
+
+### SBC Tech Marketing Sdn Bhd -- QUEUED draft 25 Aug 2026 19:45 MYT
+- To: sbtools1228@gmail.com. Draft `r4140191804764019587`. Thread `1a038bcf7cc74efa`. Subject: Batu Caves tools page. File: `docs/proposals/sbc-tech.md`. Copy Powering Precision. Built to Last.
+
+### Seaton Window Film -- QUEUED draft 25 Aug 2026 19:45 MYT
+- To: seatonfilm@gmail.com. Draft `r8497046515543715756`. Thread `1a038bd100269067`. Subject: Puchong window-film page. File: `docs/proposals/seaton-window-film.md`. Copy unparalleled protection / Guaranteed best price / Our company also offer.
+
+### Sekinchan Dim Sum Sdn. Bhd. -- QUEUED draft 25 Aug 2026 19:45 MYT
+- To: sekinchandimsum@gmail.com. Draft `r-8339889547142419444`. Thread `1a038bd2cf854c2e`. Subject: Puncak Alam dim-sum page. File: `docs/proposals/sekinchan-dimsum.md`. Copy We offers a wide variety of options.
+
+### Supreme Eco Packaging Sdn. Bhd. -- QUEUED draft 25 Aug 2026 19:45 MYT
+- To: kwongjoseph@hotmail.com. Draft `r5417224760852782870`. Thread `1a038bd508e094e0`. Subject: Seri Kembangan packaging page. File: `docs/proposals/supreme-eco-packaging.md`. Copy Fashion Sushi Paper Box / Kraf Paper.
+- Next hunt: unused malaysiabrand hosts after line 2679. Do not send these before Wed 09:00 MYT.
+
 
 
 
