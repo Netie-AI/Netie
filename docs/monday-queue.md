@@ -2984,7 +2984,7 @@ Skipped CS-no-mailto: togetherkitchen.com.my, toolsguru.com.my, toptaste.com.my,
 
 ## Wed 26 Aug 11:00 extras (hosts 3180-3279)
 
-Timer `netie-wed-horizon-infinite-2026-08-26-1100-myt` (`sub_ba66dbf2-beee-48ed-b363-e82852733669`) already unsubscribed. Owner paused 26 Aug 13:10 MYT: stop sending email. Thu 10:00 remain timer `sub_6a4e027a` closed. Thu 09:00 3PL follow-up `sub_3a26d162` closed. Remain 163 stay in `docs/wed1100-remain.tsv` until the owner says send. Do not send Toon.
+Timer `netie-wed-horizon-infinite-2026-08-26-1100-myt` (`sub_ba66dbf2-beee-48ed-b363-e82852733669`) already unsubscribed. Owner paused 26 Aug 13:10 MYT: stop sending email. Both send slices later finished. Remain 118 in `docs/wed1100-remain.tsv` until the owner says send. Do not send Toon.
 
 ### TS PRINTING SDN. BHD. -- QUEUED draft 26 Aug 2026 04:02 MYT
 - To: marketing@tsprint.com.my. Draft `r3888511579076476959`. Thread `1a03a840ce949a48`. Subject: Muar sticker landing page. File: `docs/proposals/ts-print.md`. Copy established in Muar five years ago, on March 17, 2020 / 20 years of industry experience. Recreated after first draft used print page. Old thread `1a03a8282628bc72` trashed. Did not mail tsprint4u@gmail.com.

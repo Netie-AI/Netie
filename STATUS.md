@@ -1,8 +1,10 @@
 # STATUS
 
-Updated: 2026-08-26 13:10 MYT. Success = live Stripe charge, then a payout. Owner paused.
+Updated: 2026-08-26 21:16 MYT. Success = live Stripe charge, then a payout. Owner paused.
 
 ## Now (measured)
+
+- After hours 26 Aug 21:16 MYT: both Wed 11:00 send slices finished. Owner pause still holds. No outbound timers. Remain list rebuilt to 118 unsent-or-quota-bounced drafts in `docs/wed1100-remain.tsv`. Did not send. Did not remmail. Toon still unsent. No paid charge yet. No paycheck yet.
 
 - Office hours 26 Aug 13:10 MYT: owner said stop sending email and pause the goal. Unsubscribed Thu 10:00 remain timer `sub_6a4e027a` and Thu 09:00 3PL follow-up `sub_3a26d162`. No outbound timers left. Toon still unsent. Remain 163 stay in `docs/wed1100-remain.tsv` until the owner says send. Did not nag Avows. Did not poll Stripe. No paid charge yet. No paycheck yet.
 
