@@ -1,8 +1,10 @@
 # STATUS
 
-Updated: 2026-08-26 12:00 MYT. Success = live Stripe charge, then a payout.
+Updated: 2026-08-26 13:10 MYT. Success = live Stripe charge, then a payout. Owner paused.
 
 ## Now (measured)
+
+- Office hours 26 Aug 13:10 MYT: owner said stop sending email and pause the goal. Unsubscribed Thu 10:00 remain timer `sub_6a4e027a` and Thu 09:00 3PL follow-up `sub_3a26d162`. No outbound timers left. Toon still unsent. Remain 163 stay in `docs/wed1100-remain.tsv` until the owner says send. Did not nag Avows. Did not poll Stripe. No paid charge yet. No paycheck yet.
 
 - Office hours 26 Aug 12:00 MYT: Gmail daily send cap. mailer-daemon: "You have reached a limit for sending mail. Your message was not sent." C H Seah `sales@chseahfishery.com.my` SENT `1a03c15eb1ba5c83` then bounce `1a03c15f5f43d8d3`. Same bounce: City E, XD Auto, Clasico, Cleanmaid, CLT Engineering. Owner asked to change C H Seah to another email. Live https://www.chseahfishery.com.my/ only prints `sales@chseahfishery.com.my` (JSON-LD same). Did not invent a second inbox. Did not WhatsApp +60 12-745 7188. Recreated holding draft `r1339404647363678193`. Do not send more today from oojianhongg@gmail.com. Remain 163 on `docs/wed1100-remain.tsv`. Thu 10:00 timer `sub_6a4e027a`. Did not send Toon. Did not nag Avows. Did not poll Stripe. No paid charge yet. No paycheck yet.
 
