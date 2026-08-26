@@ -1,8 +1,10 @@
 # STATUS
 
-Updated: 2026-08-26 10:03 MYT. Success = live Stripe charge, then a payout.
+Updated: 2026-08-26 10:06 MYT. Success = live Stripe charge, then a payout.
 
 ## Now (measured)
+
+- Office hours 26 Aug 10:06 MYT: Avows Nischitha mailed `1a03bb65a136aaec` on thread `19ffe3f1bd57b948`: "We will be sharing the offer letter today." No offer PDF in that mail. Did not reply. Did not nag. Employment keep-only. No buyer reply on Label_8. 482 Wed 11:00 drafts still queued. Did not send before 11:00. Did not send Toon. Did not reply Starbridge. Did not poll Stripe. No paid charge yet. No offer letter yet.
 
 - Office hours 26 Aug 10:03 MYT: late fire of `netie-wed-thl-website-2026-08-26-1000-myt`. No-op. THL thread still one SENT message `1a03bccf73f07b5a` (Label_8). Draft gone. Unsubscribe `sub_a47dbd1f` already closed. Did not remmail. Did not send Toon. Did not send 11:00 482. Did not nag Kanhseei. Did not reply Starbridge. Did not poll Stripe. No paid charge yet.
 
