@@ -4,6 +4,7 @@ This index records reusable findings from focused subagent reviews.
 
 | File | Keywords | Main idea |
 |---|---|---|
+| [2026-08-26-mirrors-cl-7955900317.md](2026-08-26-mirrors-cl-7955900317.md) | Rentry, Telegraph, Surge listing.html, 7955900317 | Public mirrors now name the live Craigslist posting. No Stripe. Listing is not income. |
 | [2026-08-26-craigslist-flagged-reposted.md](2026-08-26-craigslist-flagged-reposted.md) | Craigslist, flagged, 410, 7955900317, mail relay | Old #7955885182 flagged. New listing HTTP 200 at 7955900317. Do not put Gmail in the body with CL mail relay. |
 | [2026-08-26-lokalgig-email-link.md](2026-08-26-lokalgig-email-link.md) | LokalGig, lokalgig.my, email link, Turnstile, web-mobile-dev | Malaysia zero-commission gig board. Email link, no password. Curl and headed Chrome both fail Turnstile. Phone paste only. |
 | [2026-08-26-locanto-cloudflare-phone.md](2026-08-26-locanto-cloudflare-phone.md) | Locanto, my.locanto.asia, Cloudflare, ClickIndia OTP, LaborX wallet | Curl and headed Chrome both stuck on Locanto human check. ClickIndia wants India OTP. LaborX wants a wallet. Phone paste only. |

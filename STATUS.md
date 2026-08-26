@@ -1,8 +1,10 @@
 # STATUS
 
-Updated: 2026-08-26 09:27 MYT. Success = live Stripe charge, then a payout.
+Updated: 2026-08-26 09:33 MYT. Success = live Stripe charge, then a payout.
 
 ## Now (measured)
+
+- Office hours 26 Aug 09:33 MYT: listing card, Rentry, and Telegraph now name Craigslist #7955900317. Surge https://netie-penang.surge.sh/listing.html sha256 `96c1f26a...` matches git. Reply-only `/drafts/` still HTTP 200. Index still `dce8fe2c...` (56608 bytes). Rentry https://rentry.co/netie-hire-proof-2026 and Telegraph https://telegra.ph/Landing-page-writer-in-Penang-RM-500-first-draft-08-25 have the new URL, no buy.stripe.com. Inbox has no buyer reply (TE Electric auto-reply and Seng Heng bounce already noted). All seven Wed 10:00 drafts still exist; `in:sent` empty. All seven `/services/` still Coming Soon (`min-height:440px`); THL and Tint Titans first dumps were 1703-byte WAF and recovered on unique retry. Do not send before 10:00. Did not send Toon. Did not nag Kanhseei. Did not reply Starbridge. Did not poll Stripe. A listing is not a charge. No paid charge yet.
 
 - Office hours 26 Aug 09:27 MYT: old Craigslist posting #7955885182 HTTP 410 flagged. New listing live https://malaysia.craigslist.org/cps/d/landing-page-writer-in-penang-rm-500/7955900317.html HTTP 200, RM 500, hire URL, WhatsApp, no Stripe, no Gmail in body (CL mail relay). Created-posting mail `1a03bad1b016ffe8`. Did not invent a password. Did not post a third copy. FLMY still has no landing job. No buyer reply. Did not send Toon. Did not send 10:00 seven. Did not nag Kanhseei. Did not reply Starbridge. Did not poll Stripe. A listing is not a charge. No paid charge yet.
 
