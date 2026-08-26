@@ -4,6 +4,7 @@ This index records reusable findings from focused subagent reviews.
 
 | File | Keywords | Main idea |
 |---|---|---|
+| [2026-08-26-gmail-send-limit.md](2026-08-26-gmail-send-limit.md) | Gmail, 500/day, mailer-daemon, CH Seah, not sent | Daily send cap. Changing To does not bypass it. CH Seah only prints sales@. Remain Thu 10:00. |
 | [2026-08-26-gmail-wrap-phone-paste.md](2026-08-26-gmail-wrap-phone-paste.md) | google.com/url, Gmail MCP, phone paste, LokalGig | Gmail wraps typed URLs. Copy pastes from git or chat, not from Gmail HTML. |
 | [2026-08-26-mirrors-cl-7955900317.md](2026-08-26-mirrors-cl-7955900317.md) | Rentry, Telegraph, Surge listing.html, 7955900317 | Public mirrors now name the live Craigslist posting. No Stripe. Listing is not income. |
 | [2026-08-26-craigslist-flagged-reposted.md](2026-08-26-craigslist-flagged-reposted.md) | Craigslist, flagged, 410, 7955900317, mail relay | Old #7955885182 flagged. New listing HTTP 200 at 7955900317. Do not put Gmail in the body with CL mail relay. |

@@ -2984,7 +2984,7 @@ Skipped CS-no-mailto: togetherkitchen.com.my, toolsguru.com.my, toptaste.com.my,
 
 ## Wed 26 Aug 11:00 extras (hosts 3180-3279)
 
-Timer `netie-wed-horizon-infinite-2026-08-26-1100-myt` (`sub_ba66dbf2-beee-48ed-b363-e82852733669`) already unsubscribed. Send IN PROGRESS 26 Aug 11:17 MYT: 222 of 482 unique `draftId` SENT as-is. First 145 of the keep list complete. Do not remmail. Do not send Toon. Remaining 260 still this fire. Five-timer cap. Do not fold onto the 09:00 168 or the 10:00 seven.
+Timer `netie-wed-horizon-infinite-2026-08-26-1100-myt` (`sub_ba66dbf2-beee-48ed-b363-e82852733669`) already unsubscribed. Send STOPPED 26 Aug 12:00 MYT: Gmail daily cap. C H Seah and five more daemon "not sent". Remain 163 on `docs/wed1100-remain.tsv` for Thu 10:00 MYT. Do not send more today. Do not remmail delivered. Do not send Toon. Five-timer cap. Do not fold onto the 09:00 168 or the 10:00 seven.
 
 ### TS PRINTING SDN. BHD. -- QUEUED draft 26 Aug 2026 04:02 MYT
 - To: marketing@tsprint.com.my. Draft `r3888511579076476959`. Thread `1a03a840ce949a48`. Subject: Muar sticker landing page. File: `docs/proposals/ts-print.md`. Copy established in Muar five years ago, on March 17, 2020 / 20 years of industry experience. Recreated after first draft used print page. Old thread `1a03a8282628bc72` trashed. Did not mail tsprint4u@gmail.com.
@@ -3724,8 +3724,8 @@ Tone: `.cursor/skills/outreach-tone/SKILL.md`. `/services/` filled, not Coming S
 ### Chin Peng -- QUEUED draft 26 Aug 2026 05:50 MYT
 - To: sales@chinpeng.com.my. Draft `r8120622403246834405`. Thread `1a03ada2dd4028fe`. Subject: Banting lorry-transport landing page. File: `docs/proposals/chin-peng.md`. JSON-LD email.
 
-### C H Seah Fishery -- QUEUED draft 26 Aug 2026 05:50 MYT
-- To: sales@chseahfishery.com.my. Draft `r7881019099621280705`. Thread `1a03ada0afe2fe98`. Subject: Seri Kembangan seafood landing page. File: `docs/proposals/ch-seah.md`.
+### C H Seah Fishery -- NOT SENT 26 Aug 2026 11:21 MYT (Gmail send limit)
+- To: sales@chseahfishery.com.my only. Live site and JSON-LD print that one inbox. Owner asked for another email; none exists. Do not invent. Former draft `r7881019099621280705` SENT `1a03c15eb1ba5c83` then daemon `1a03c15f5f43d8d3` not delivered. Holding draft `r1339404647363678193` thread `1a03c3a0afbd0f3e` for Thu 10:00 MYT. File: `docs/proposals/ch-seah.md`.
 
 ### Chinese Healing Therapy -- QUEUED draft 26 Aug 2026 05:50 MYT
 - To: chtcsb2003@gmail.com. Draft `r2258905486623133859`. Thread `1a03ada0a4dda5aa`. Subject: Kuala Lumpur TCM landing page. File: `docs/proposals/chinese-healing.md`. First mail English.

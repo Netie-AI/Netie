@@ -1,8 +1,10 @@
 # STATUS
 
-Updated: 2026-08-26 11:17 MYT. Success = live Stripe charge, then a payout.
+Updated: 2026-08-26 12:00 MYT. Success = live Stripe charge, then a payout.
 
 ## Now (measured)
+
+- Office hours 26 Aug 12:00 MYT: Gmail daily send cap. mailer-daemon: "You have reached a limit for sending mail. Your message was not sent." C H Seah `sales@chseahfishery.com.my` SENT `1a03c15eb1ba5c83` then bounce `1a03c15f5f43d8d3`. Same bounce: City E, XD Auto, Clasico, Cleanmaid, CLT Engineering. Owner asked to change C H Seah to another email. Live https://www.chseahfishery.com.my/ only prints `sales@chseahfishery.com.my` (JSON-LD same). Did not invent a second inbox. Did not WhatsApp +60 12-745 7188. Recreated holding draft `r1339404647363678193`. Do not send more today from oojianhongg@gmail.com. Remain 163 on `docs/wed1100-remain.tsv`. Thu 10:00 timer `sub_6a4e027a`. Did not send Toon. Did not nag Avows. Did not poll Stripe. No paid charge yet. No paycheck yet.
 
 - Office hours 26 Aug 11:17 MYT: Wed 11:00 send in progress. 222 of 482 unique `draftId` SENT as-is. First 145 of `/tmp/wed1100-keep.tsv` complete (TS Print through A. Razak / Arvo Tools / Asia Cleaning). First SENT still TS Print `1a03c0352732d3ec` thread `1a03a840ce949a48`. Did not remmail. Did not send Toon `r-7427464740298229176`. Avows still only "offer letter today" `1a03bb65a136aaec`; no PDF; did not nag. Timer `sub_ba66dbf2` already unsubscribed. Remaining 260 stay on this fire. Did not reply Starbridge. Did not poll Stripe. No paid charge yet. No offer letter yet. No paycheck yet.
 
