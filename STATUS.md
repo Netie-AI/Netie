@@ -1,8 +1,10 @@
 # STATUS
 
-Updated: 2026-08-26 09:20 MYT. Success = live Stripe charge, then a payout.
+Updated: 2026-08-26 09:27 MYT. Success = live Stripe charge, then a payout.
 
 ## Now (measured)
+
+- Office hours 26 Aug 09:27 MYT: old Craigslist posting #7955885182 HTTP 410 flagged. New listing live https://malaysia.craigslist.org/cps/d/landing-page-writer-in-penang-rm-500/7955900317.html HTTP 200, RM 500, hire URL, WhatsApp, no Stripe, no Gmail in body (CL mail relay). Created-posting mail `1a03bad1b016ffe8`. Did not invent a password. Did not post a third copy. FLMY still has no landing job. No buyer reply. Did not send Toon. Did not send 10:00 seven. Did not nag Kanhseei. Did not reply Starbridge. Did not poll Stripe. A listing is not a charge. No paid charge yet.
 
 - Office hours 26 Aug 09:20 MYT: late fire of `netie-wed-hdhearing-website-2026-08-26-0900-myt`. No-op. HD Hearing thread still one SENT message `1a03b9557661034d` (Label_8). Draft gone. Unsubscribe `sub_e7253903` already closed. Did not remmail. Did not send Toon. Did not send 10:00 seven or 11:00 482. No buyer reply. TE Electric auto-reply and Seng Heng bounce already noted. Did not nag Kanhseei. Did not reply Starbridge. Did not poll Stripe. No paid charge yet.
 
