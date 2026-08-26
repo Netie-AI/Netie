@@ -54,7 +54,7 @@ Public mirrors:
 - Telegraph alias: https://telegra.ph/Netie-Number-Trace-08-22
 - BrewPage: https://brewpage.app/public/ANzfhLqHto/index.html (refreshed 25 Aug 22:10 MYT from `docs/pay.html`; RM 500 unlocks the first draft)
 - BrewPage HTML: https://brewpage.app/public/FsB2A14fxd (same pay.html, 56312 bytes)
-- Surge: https://netie-penang.surge.sh/ (refreshed 26 Aug 07:00 MYT from `docs/pay.html`, sha256 `dce8fe2c...`; Web3 teams buy the same RM 500 landing job). Listing card: https://netie-penang.surge.sh/listing.html
+- Surge: https://netie-penang.surge.sh/ (refreshed 26 Aug 07:00 MYT from `docs/pay.html`, sha256 `dce8fe2c...`; Web3 teams buy the same RM 500 landing job). Listing card: https://netie-penang.surge.sh/listing.html (08:03 MYT; names Craigslist Malaysia computer services)
 - Rentry: https://rentry.co/netie-hire-proof-2026 (refreshed 26 Aug 07:53 MYT; RM 500, Web3 landing job, Craigslist Malaysia listing, no Stripe link, no token sale); earlier synchronized copies remain at https://rentry.co/gk39ee85 and https://rentry.co/gauz3o64
 - Craigslist Malaysia computer services: https://malaysia.craigslist.org/cps/d/landing-page-writer-in-penang-rm-500/7955885182.html (live 26 Aug 07:47 MYT, posting #7955885182)
 Rendered HTML from public GitLab is blocked from this IP as of 23 Aug 02:20 MYT (githack 302 to GitLab sign_in; gitlab.com/jianhongpg/number-trace 403/sign_in; Chrome Cloudflare human check). Do not use those URLs until they measure 200 again.

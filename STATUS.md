@@ -1,8 +1,10 @@
 # STATUS
 
-Updated: 2026-08-26 07:53 MYT. Success = live Stripe charge, then a payout.
+Updated: 2026-08-26 08:01 MYT. Success = live Stripe charge, then a payout.
 
 ## Now (measured)
+
+- Wed 08:00 MYT File Manager skip: live https://netie.ai/hire/ still 56608 bytes, sha256 `dce8fe2c4cea477ef24165864aa7d2caee71b0602ba466224ababcb83121d2b1`, last-modified 25 Aug 23:02:12 GMT. H1 A better landing page. Lede names Web3 and token teams. Six `RM 500 unlocks`. No Stripe button. Homepage last-modified unchanged 25 Aug 06:46 GMT. `/web3/` last-modified unchanged 25 Aug 06:51 GMT. Timer `sub_ae53fda2` is already gone from the subscription list. Did not upload. Did not overwrite `/` or `/web3/`. Surge listing card https://netie-penang.surge.sh/listing.html now names Craigslist Malaysia computer services. Reply-only `/drafts/` still HTTP 200. Craigslist listing still HTTP 200. Did not send Toon. Did not nag Kanhseei. Did not reply Starbridge. Did not poll Stripe. No paid charge yet.
 
 - After hours 26 Aug 07:53 MYT: Craigslist listing still HTTP 200. robot@craigslist.org created-posting mail `1a03b529beda09c5` names posting #7955885182. Rentry https://rentry.co/netie-hire-proof-2026 now lists that Craigslist URL (no Stripe checkout). New Telegraph page https://telegra.ph/Landing-page-writer-in-Penang-RM-500-first-draft-08-25 HTTP 200, RM 500, Craigslist link, no buy.stripe.com. Locanto / Gumtree / Adpost blocked or NXDOMAIN from this VM. Canonical hire still sha256 `dce8fe2c...`. Did not send Toon. Did not nag Kanhseei. Did not reply Starbridge. Did not poll Stripe. A listing is not a charge. No paid charge yet.
 
