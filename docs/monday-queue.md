@@ -2190,602 +2190,770 @@ Timer `netie-tue-glassminds-website-2026-08-25-1700-myt` unsubscribed before sen
 - To: naj2583@yahoo.com. Former draft `r-4732190864743472088`. SENT `1a03829803f3989a`. Thread `1a037f9fa002aa69`. Subject: Seremban roofing page. Copy honest business.
 - After 17:00 MYT: stop new first-mails until Wed 26 Aug 09:00 MYT. Ten extras from unused hosts 1180-1279 are queued below for Wed 09:00. Thu 27 Aug 09:00 3PL follow-up timer stays.
 
-## Queued after hours 25 Aug 2026 17:18 MYT (do not send before Wed 09:00)
+## Wed 26 Aug 09:00 first-mails -- SENT 09:00-09:11 MYT
 
-Timer `netie-wed-hdhearing-website-2026-08-26-0900-myt` (`sub_e7253903-cb46-4761-9423-d26d1c279045`, replaced `sub_4048348f-6ace-4f0f-93ef-3415f78d584b`, once, Wed 26 Aug 09:00 MYT). 168 drafts. All 168 now name live https://netie.ai/hire/ (Gmail stores a google.com/url wrapper; click still reaches hire). Send as-is. Do not unwrap. Do not send Toon (`r-7427464740298229176`). Do not reply Starbridge. First ten rewritten 25 Aug 20:50 MYT to RM 500 landing-page voice. Remaining 158: rewrite on send if still Coming Soon / print-page voice. Skipped hardrace.com.my (WhatsApp only, no printed mailto). Hightech Glass HQ `htglass.jb@gmail.com` only. Copy PRRODUCT, We provides, PURE PORK GOODNESS, Enterpreneurs, SEA-TO PLATE EXCELLENCE!. Do not send leftover monsoon draft. Skills-inventory HTML is reply-only. Do not send Toon until the owner says send.
+Timer `netie-wed-hdhearing-website-2026-08-26-0900-myt` (`sub_e7253903`) unsubscribed at fire. Sent 166 of 168 as-is (`draftId` only, hire URL google-wrapped, do not unwrap). Skipped Moh Seng `enquiry@mohseng.com.sg` (host timeout 000) and GP Manufacturing `sales@gp-mfg.com.sg` (`/services/` 404, homepage filled). Did not send Toon (`r-7427464740298229176`). Did not send leftover monsoon draft. Label_8. First SENT HD Hearing `1a03b9557661034d`. Last SENT Solid Kitchen `1a03b9eb0a5cd142`.
 
-### HD HEARING CARE CENTRE SDN BHD -- QUEUED draft 25 Aug 2026 17:16 MYT, rewritten 20:50 MYT
-- To: hd.hearingcare@gmail.com. Draft `r8061948877361016615`. Subject: HD Hearing landing page. File: `docs/proposals/hd-hearing.md`.
+### HD HEARING CARE CENTRE SDN BHD -- SENT 26 Aug 2026 09:00 MYT
 
-### Heavens Holding Sdn Bhd -- QUEUED draft 25 Aug 2026 17:16 MYT, rewritten 20:50 MYT
-- To: hkreno88@gmail.com. Draft `r6136203456478834285`. Subject: Heavens Kitchen landing page. File: `docs/proposals/heavens-kitchen.md`. HQ Shah Alam only.
+- To: hd.hearingcare@gmail.com. Former draft `r8061948877361016615`. SENT `1a03b9557661034d`. Thread `1a039e91cf9575af`. Subject: HD Hearing landing page. File: `docs/proposals/hd-hearing.md`.
 
-### Hee Keong Enterprise Sdn Bhd -- QUEUED draft 25 Aug 2026 17:16 MYT, rewritten 20:50 MYT
-- To: admin@heekeong.com.my. Draft `r6468898373935727266`. Subject: Hee Keong landing page. File: `docs/proposals/hee-keong.md`. Copy PURE PORK GOODNESS, NATURALLY DELICIOUS!
+### Heavens Holding Sdn Bhd -- SENT 26 Aug 2026 09:00 MYT
 
-### HENG HUAT FARM -- QUEUED draft 25 Aug 2026 17:17 MYT, rewritten 20:50 MYT
-- To: henghuatfarm@gmail.com. Draft `r-6630808511165075126`. Subject: Heng Huat Farm landing page. File: `docs/proposals/heng-huat-farm.md`. Copy QUALITY IS OUR PRIORITY.
+- To: hkreno88@gmail.com. Former draft `r6136203456478834285`. SENT `1a03b9568ddf17e1`. Thread `1a039e91d46f2fb5`. Subject: Heavens Kitchen landing page. File: `docs/proposals/heavens-kitchen.md`. HQ Shah Alam only.
 
-### Hitech One Machinery Sdn Bhd -- QUEUED draft 25 Aug 2026 17:17 MYT, rewritten 20:50 MYT
-- To: hitech1machinery@gmail.com. Draft `r-4036440985294481710`. Subject: Hitech One landing page. File: `docs/proposals/hitech-one.md`. Copy We provides / probably your best choices.
+### Hee Keong Enterprise Sdn Bhd -- SENT 26 Aug 2026 09:00 MYT
 
-### GWM Marketing Sdn Bhd -- QUEUED draft 25 Aug 2026 17:17 MYT, rewritten 20:50 MYT
-- To: sales@gwmmarketing.com.my. Draft `r-2669432001123669870`. Subject: GWM Marketing landing page. File: `docs/proposals/gwm-marketing.md`. Copy PRRODUCT. HQ Semenyih only.
+- To: admin@heekeong.com.my. Former draft `r6468898373935727266`. SENT `1a03b956b86b0595`. Thread `1a039e91f36f66f4`. Subject: Hee Keong landing page. File: `docs/proposals/hee-keong.md`. Copy PURE PORK GOODNESS, NATURALLY DELICIOUS!
 
-### Hai Fong Frozen Food Sdn Bhd -- QUEUED draft 25 Aug 2026 17:17 MYT, rewritten 20:50 MYT
-- To: haifongfrozenfood.sy@gmail.com. Draft `r-1795871162892831667`. Subject: Hai Fong landing page. File: `docs/proposals/hai-fong.md`. Copy SEA-TO PLATE EXCELLENCE!
+### HENG HUAT FARM -- SENT 26 Aug 2026 09:00 MYT
 
-### Heng Poh Glass Aluminium Sdn Bhd -- QUEUED draft 25 Aug 2026 17:17 MYT, rewritten 20:50 MYT
-- To: info@hengpohglass.com.my. Draft `r2905847496428500272`. Subject: Heng Poh Glass landing page. File: `docs/proposals/heng-poh-glass.md`. HQ Puchong only.
+- To: henghuatfarm@gmail.com. Former draft `r-6630808511165075126`. SENT `1a03b956a147fe05`. Thread `1a039e9205110056`. Subject: Heng Huat Farm landing page. File: `docs/proposals/heng-huat-farm.md`. Copy QUALITY IS OUR PRIORITY.
 
-### Hightech Glass Construction Services -- QUEUED draft 25 Aug 2026 17:17 MYT, rewritten 20:50 MYT
-- To: htglass.jb@gmail.com. Draft `r8031555142780463626`. Subject: Hightech Glass landing page. File: `docs/proposals/hightech-glass.md`. Did not mail Gservice0888@. HQ Johor Bahru only.
+### Hitech One Machinery Sdn Bhd -- SENT 26 Aug 2026 09:00 MYT
 
-### H & H Glass Sdn Bhd -- QUEUED draft 25 Aug 2026 17:17 MYT, rewritten 20:50 MYT
-- To: hnhglassy@gmail.com. Draft `r504826730575541958`. Subject: H and H Glass landing page. File: `docs/proposals/hnh-glass.md`. Copy Enterpreneurs / hole grill.
-- Next hunt: unused malaysiabrand hosts after line 1479. Sixteen extras from 1280-1479 are queued below for Wed 09:00. Do not send these before Wed 09:00 MYT.
+- To: hitech1machinery@gmail.com. Former draft `r-4036440985294481710`. SENT `1a03b956d725355c`. Thread `1a039e923a2eec07`. Subject: Hitech One landing page. File: `docs/proposals/hitech-one.md`. Copy We provides / probably your best choices.
 
-## Queued Singapore / ASEAN first-mails 25 Aug 2026 17:26 MYT (do not send before Wed 09:00)
+### GWM Marketing Sdn Bhd -- SENT 26 Aug 2026 09:00 MYT
 
-Folded onto the same Wed 09:00 timer. Skills-inventory pack `docs/proposals/asean-skills-inventory.html` is reply-only. No Stripe. One inbox.
+- To: sales@gwmmarketing.com.my. Former draft `r-2669432001123669870`. SENT `1a03b956f7a22c3f`. Thread `1a039f21223df6f5`. Subject: GWM Marketing landing page. File: `docs/proposals/gwm-marketing.md`. Copy PRRODUCT. HQ Semenyih only.
 
-### Apple Queen Beauty -- QUEUED draft 25 Aug 2026 17:26 MYT
-- To: applequeenbeauty@gmail.com. Draft `r-4470013227344831129`. Thread `1a0383db4bc5a829`. Subject: Tanjong Pagar facial page. File: `docs/proposals/apple-queen-beauty.md`. Live `/services/` Coming Soon.
+### Hai Fong Frozen Food Sdn Bhd -- SENT 26 Aug 2026 09:00 MYT
 
-### Moh Seng Rubber Industries Pte Ltd -- QUEUED draft 25 Aug 2026 17:26 MYT
-- To: enquiry@mohseng.com.sg. Draft `r-4542200263641104863`. Thread `1a0383dc85cbc7fb`. Subject: Tuas rubber page. File: `docs/proposals/moh-seng-rubber.md`. Copy acquire a factory / We collaborates.
+- To: haifongfrozenfood.sy@gmail.com. Former draft `r-1795871162892831667`. SENT `1a03b956e2254fc9`. Thread `1a039f2106636554`. Subject: Hai Fong landing page. File: `docs/proposals/hai-fong.md`. Copy SEA-TO PLATE EXCELLENCE!
 
-### G P Manufacturing (S) Pte Ltd -- QUEUED draft 25 Aug 2026 17:26 MYT
-- To: sales@gp-mfg.com.sg. Draft `r-9206981347546689159`. Thread `1a0383ddd4256d32`. Subject: Loyang metal-stamping page. File: `docs/proposals/gp-manufacturing.md`. Did not mail gpmsales@gpm.my or gpt_sales@.
+### Heng Poh Glass Aluminium Sdn Bhd -- SENT 26 Aug 2026 09:00 MYT
+
+- To: info@hengpohglass.com.my. Former draft `r2905847496428500272`. SENT `1a03b95718f7875c`. Thread `1a039f20f6edfb96`. Subject: Heng Poh Glass landing page. File: `docs/proposals/heng-poh-glass.md`. HQ Puchong only.
+
+### Hightech Glass Construction Services -- SENT 26 Aug 2026 09:00 MYT
+
+- To: htglass.jb@gmail.com. Former draft `r8031555142780463626`. SENT `1a03b9574e62c63f`. Thread `1a039f20cd6262ea`. Subject: Hightech Glass landing page. File: `docs/proposals/hightech-glass.md`. Did not mail Gservice0888@. HQ Johor Bahru only.
+
+### H & H Glass Sdn Bhd -- SENT 26 Aug 2026 09:00 MYT
+
+- To: hnhglassy@gmail.com. Former draft `r504826730575541958`. SENT `1a03b957663ec186`. Thread `1a039f20b43b08c6`. Subject: H and H Glass landing page. File: `docs/proposals/hnh-glass.md`. Copy Enterpreneurs / hole grill.
+- Next hunt: unused malaysiabrand hosts after line 1479. Sixteen extras from 1280-1479 were on the same 09:00 send. Sent 26 Aug 09:00-09:11 MYT.
+
+## Singapore / ASEAN first-mails -- SENT 26 Aug 2026 09:00 MYT
+
+Folded onto the same Wed 09:00 send. Skills-inventory pack `docs/proposals/asean-skills-inventory.html` is reply-only. No Stripe. One inbox. Moh Seng and GP Manufacturing skipped at send.
+
+### Apple Queen Beauty -- SENT 26 Aug 2026 09:00 MYT
+
+- To: applequeenbeauty@gmail.com. Former draft `r-4470013227344831129`. SENT `1a03b95782bf1685`. Thread `1a039f2088d730b6`. Subject: Tanjong Pagar facial page. File: `docs/proposals/apple-queen-beauty.md`. Live `/services/` Coming Soon.
+
+### Moh Seng Rubber Industries Pte Ltd -- SKIPPED 26 Aug 2026 09:00 MYT
+
+- To: enquiry@mohseng.com.sg. Draft `r-4542200263641104863`. Thread `1a0383dc85cbc7fb`. Subject: Tuas rubber page. File: `docs/proposals/moh-seng-rubber.md`. Copy acquire a factory / We collaborates. Skipped at send: host timeout 000 from this VM.
+
+### G P Manufacturing (S) Pte Ltd -- SKIPPED 26 Aug 2026 09:00 MYT
+
+- To: sales@gp-mfg.com.sg. Draft `r-9206981347546689159`. Thread `1a0383ddd4256d32`. Subject: Loyang metal-stamping page. File: `docs/proposals/gp-manufacturing.md`. Did not mail gpmsales@gpm.my or gpt_sales@. Skipped at send: /services/ 404 to filenotfound.aspx; homepage filled, not Coming Soon.
 - Skipped Cragar (no honest gap). SBF/SCCCI contact 403/404 from this IP. Do not apply to thesmartinvestor.com.sg.
 
 ## Queued after hours 25 Aug 2026 17:49 MYT (do not send before Wed 09:00)
 
 Folded onto the same Wed 09:00 timer (`sub_8eeab532-a85f-4876-a9ba-d201231997a7`, later replacing `sub_f1536f04-ba4c-47e7-acfe-1773918b4442`). Sixteen extras from unused hosts 1280-1479 after fixing a mailto regex that treated the letter `s` as a stop character. Empty `in:sent`. All sixteen `/services/` Coming Soon (`min-height:440px`). No Stripe. Skip ingenious.com.my mailto `info@ingenious.my` (TLD mismatch). Iconic Training HQ `enquiries@` only.
 
-### HONG FONG GROUP TRADING -- QUEUED draft 25 Aug 2026 17:44 MYT
-- To: info@hongfong.com.my. Draft `r-4907296878467670418`. Thread `1a0384fbc04021b4`. Subject: Skudai snacks page. File: `docs/proposals/hong-fong.md`. Copy GET 5% discount for new member.
+### HONG FONG GROUP TRADING -- SENT 26 Aug 2026 09:00 MYT
 
-### Hong Sheng Floor Sdn Bhd -- QUEUED draft 25 Aug 2026 17:44 MYT
-- To: hongshengfloorsb@outlook.com. Draft `r-7449471909756036972`. Thread `1a0384ff35e61844`. Subject: Petaling Jaya flooring page. File: `docs/proposals/hong-sheng-floor.md`. Copy Your Best Floor Solution.
+- To: info@hongfong.com.my. Former draft `r-4907296878467670418`. SENT `1a03b957aa0c4ecc`. Thread `1a039f203b5e5673`. Subject: Skudai snacks page. File: `docs/proposals/hong-fong.md`. Copy GET 5% discount for new member.
 
-### Hon Lee Marketing Sdn Bhd -- QUEUED draft 25 Aug 2026 17:44 MYT
-- To: honleemktg@gmail.com. Draft `r-1358441870058420487`. Thread `1a0385017fa94d6b`. Subject: Semenyih steel page. File: `docs/proposals/hon-lee.md`. Copy Equipments.
+### Hong Sheng Floor Sdn Bhd -- SENT 26 Aug 2026 09:00 MYT
 
-### Hui Seng Auto Parts Supply Sdn. Bhd. -- QUEUED draft 25 Aug 2026 17:45 MYT
-- To: sales.huiseng@gmail.com. Draft `r1183336661819248122`. Thread `1a0385040c61f180`. Subject: Klang truck-parts page. File: `docs/proposals/hui-seng-auto.md`.
+- To: hongshengfloorsb@outlook.com. Former draft `r-7449471909756036972`. SENT `1a03b957d4f1e06f`. Thread `1a039f201d0fea59`. Subject: Petaling Jaya flooring page. File: `docs/proposals/hong-sheng-floor.md`. Copy Your Best Floor Solution.
 
-### Hwa Wan Trading Sdn Bhd -- QUEUED draft 25 Aug 2026 17:45 MYT
-- To: hwawantradingsb@gmail.com. Draft `r-231993354841044529`. Thread `1a038506493e6964`. Subject: Seremban timber page. File: `docs/proposals/hwa-wan-trading.md`. Copy Established in 1982.
+### Hon Lee Marketing Sdn Bhd -- SENT 26 Aug 2026 09:00 MYT
 
-### Iconic Training Solutions Sdn Bhd -- QUEUED draft 25 Aug 2026 17:45 MYT
-- To: enquiries@iconictraining.com.my. Draft `r-5424659127658928752`. Thread `1a038508d3e375b0`. Subject: Petaling Jaya training page. File: `docs/proposals/iconic-training.md`. Copy go the extra miles. Did not mail jason.yeah@.
+- To: honleemktg@gmail.com. Former draft `r-1358441870058420487`. SENT `1a03b957f8d17be0`. Thread `1a039f2015bece6a`. Subject: Semenyih steel page. File: `docs/proposals/hon-lee.md`. Copy Equipments.
 
-### iFresh -- QUEUED draft 25 Aug 2026 17:46 MYT
-- To: info@ifresh.com.my. Draft `r7802200620558382132`. Thread `1a03850a7a10ddb8`. Subject: Balakong kitchen page. File: `docs/proposals/ifresh.md`. Copy Your One-Stop Kitchen Supplier.
+### Hui Seng Auto Parts Supply Sdn. Bhd. -- SENT 26 Aug 2026 09:00 MYT
 
-### I HOME LIGHTING -- QUEUED draft 25 Aug 2026 17:46 MYT
-- To: alexsim9312@gmail.com. Draft `r760173591009903307`. Thread `1a03850d61b65706`. Subject: Cheng lighting page. File: `docs/proposals/i-home-lighting.md`. Copy Illuminate Your World.
+- To: sales.huiseng@gmail.com. Former draft `r1183336661819248122`. SENT `1a03b95847a9aa1c`. Thread `1a039f1ff0c016b3`. Subject: Klang truck-parts page. File: `docs/proposals/hui-seng-auto.md`.
 
-### Ikrar Jaya Bina Sdn Bhd -- QUEUED draft 25 Aug 2026 17:46 MYT
-- To: enquiry@ijbsb.com.my. Draft `r5793152749350009307`. Thread `1a03850fa774ef0b`. Subject: Cheng civil page. File: `docs/proposals/ikrar-jaya-bina.md`. Copy IJBSB specializes.
+### Hwa Wan Trading Sdn Bhd -- SENT 26 Aug 2026 09:00 MYT
 
-### Ikhua Hardware & Machinery Sdn Bhd -- QUEUED draft 25 Aug 2026 17:47 MYT
-- To: enquiry@ikhua.com.my. Draft `r-4187560490648739001`. Thread `1a0385118c4cf50e`. Subject: Balakong machinery page. File: `docs/proposals/ikhua.md`. Copy Engineered for Agriculture / SWAN / 215ph.
+- To: hwawantradingsb@gmail.com. Former draft `r-231993354841044529`. SENT `1a03b9586e718a02`. Thread `1a039f1fd6da6b7e`. Subject: Seremban timber page. File: `docs/proposals/hwa-wan-trading.md`. Copy Established in 1982.
 
-### INHERIT TECHNOLOGY ENGINEERING (M) SDN. BHD. -- QUEUED draft 25 Aug 2026 17:47 MYT
-- To: sales@inheritech.com.my. Draft `r6641994141032575476`. Thread `1a0385149e6ee218`. Subject: Klang datacentre page. File: `docs/proposals/inherit-tech.md`. Copy one-stop solution.
+### Iconic Training Solutions Sdn Bhd -- SENT 26 Aug 2026 09:00 MYT
 
-### INNOX Glass Sdn Bhd -- QUEUED draft 25 Aug 2026 17:47 MYT
-- To: innoxaluminiumglass@gmail.com. Draft `r-8409452000102299205`. Thread `1a0385170c051d40`. Subject: Rawang glass page. File: `docs/proposals/innox-glass.md`. Copy etc.
+- To: enquiries@iconictraining.com.my. Former draft `r-5424659127658928752`. SENT `1a03b9589de3bc76`. Thread `1a039f1fb8f4ecb3`. Subject: Petaling Jaya training page. File: `docs/proposals/iconic-training.md`. Copy go the extra miles. Did not mail jason.yeah@.
 
-### Innoxis Engineering -- QUEUED draft 25 Aug 2026 17:47 MYT
-- To: innoxis.engineering@yahoo.com. Draft `r-6203598063466641002`. Thread `1a0385196e001746`. Subject: Puchong fire-safety page. File: `docs/proposals/innoxis.md`. Copy established in 2012.
+### iFresh -- SENT 26 Aug 2026 09:00 MYT
 
-### Inspiring Training & Consultancy Plt -- QUEUED draft 25 Aug 2026 17:48 MYT
-- To: contact@inspiring-training.com.my. Draft `r-8248484340873067715`. Thread `1a03851addbf1f82`. Subject: Johor Bahru ISO page. File: `docs/proposals/inspiring-training.md`. Copy Affordable Price.
+- To: info@ifresh.com.my. Former draft `r7802200620558382132`. SENT `1a03b958b64ea98c`. Thread `1a039f1f9958f0a6`. Subject: Balakong kitchen page. File: `docs/proposals/ifresh.md`. Copy Your One-Stop Kitchen Supplier.
 
-### Restaurant IOSEN -- QUEUED draft 25 Aug 2026 17:48 MYT
-- To: iosenys.work@gmail.com. Draft `r-3410663056054360370`. Thread `1a03851eeee7ce7a`. Subject: SS2 seafood page. File: `docs/proposals/iosen.md`. Copy typhoon fish.
+### I HOME LIGHTING -- SENT 26 Aug 2026 09:00 MYT
 
-### Johor Bahru Furniture Industry Association -- QUEUED draft 25 Aug 2026 17:48 MYT
-- To: jbfic925@gmail.com. Draft `r-5244197231144532276`. Thread `1a038521d588eb38`. Subject: Mount Austin furniture-association page. File: `docs/proposals/jbfa.md`. Copy 本会自1978年成立至今已有44年 / 244位 / 匠承千载·智引未来.
+- To: alexsim9312@gmail.com. Former draft `r760173591009903307`. SENT `1a03b959033eea61`. Thread `1a039f1adc6235a9`. Subject: Cheng lighting page. File: `docs/proposals/i-home-lighting.md`. Copy Illuminate Your World.
+
+### Ikrar Jaya Bina Sdn Bhd -- SENT 26 Aug 2026 09:00 MYT
+
+- To: enquiry@ijbsb.com.my. Former draft `r5793152749350009307`. SENT `1a03b9593c1b25a7`. Thread `1a039f1ab9183384`. Subject: Cheng civil page. File: `docs/proposals/ikrar-jaya-bina.md`. Copy IJBSB specializes.
+
+### Ikhua Hardware & Machinery Sdn Bhd -- SENT 26 Aug 2026 09:00 MYT
+
+- To: enquiry@ikhua.com.my. Former draft `r-4187560490648739001`. SENT `1a03b95f224d9737`. Thread `1a039f1a9815ab52`. Subject: Balakong machinery page. File: `docs/proposals/ikhua.md`. Copy Engineered for Agriculture / SWAN / 215ph.
+
+### INHERIT TECHNOLOGY ENGINEERING (M) SDN. BHD. -- SENT 26 Aug 2026 09:00 MYT
+
+- To: sales@inheritech.com.my. Former draft `r6641994141032575476`. SENT `1a03b95f4050d16d`. Thread `1a039f09c1d69111`. Subject: Klang datacentre page. File: `docs/proposals/inherit-tech.md`. Copy one-stop solution.
+
+### INNOX Glass Sdn Bhd -- SENT 26 Aug 2026 09:00 MYT
+
+- To: innoxaluminiumglass@gmail.com. Former draft `r-8409452000102299205`. SENT `1a03b95f7ead6a65`. Thread `1a039f09b0b9205b`. Subject: Rawang glass page. File: `docs/proposals/innox-glass.md`. Copy etc.
+
+### Innoxis Engineering -- SENT 26 Aug 2026 09:00 MYT
+
+- To: innoxis.engineering@yahoo.com. Former draft `r-6203598063466641002`. SENT `1a03b95f839bbbf2`. Thread `1a039f099b552300`. Subject: Puchong fire-safety page. File: `docs/proposals/innoxis.md`. Copy established in 2012.
+
+### Inspiring Training & Consultancy Plt -- SENT 26 Aug 2026 09:00 MYT
+
+- To: contact@inspiring-training.com.my. Former draft `r-8248484340873067715`. SENT `1a03b95fb4c711d9`. Thread `1a039f09465d6bd8`. Subject: Johor Bahru ISO page. File: `docs/proposals/inspiring-training.md`. Copy Affordable Price.
+
+### Restaurant IOSEN -- SENT 26 Aug 2026 09:00 MYT
+
+- To: iosenys.work@gmail.com. Former draft `r-3410663056054360370`. SENT `1a03b95fd777c9a3`. Thread `1a039f0963f6a64f`. Subject: SS2 seafood page. File: `docs/proposals/iosen.md`. Copy typhoon fish.
+
+### Johor Bahru Furniture Industry Association -- SENT 26 Aug 2026 09:00 MYT
+
+- To: jbfic925@gmail.com. Former draft `r-5244197231144532276`. SENT `1a03b95ffb9ccf3e`. Thread `1a039f0390751769`. Subject: Mount Austin furniture-association page. File: `docs/proposals/jbfa.md`. Copy 本会自1978年成立至今已有44年 / 244位 / 匠承千载·智引未来.
 
 ## Queued after hours 25 Aug 2026 18:00 MYT (do not send before Wed 09:00)
 
 Folded onto the same Wed 09:00 timer (`sub_8eeab532-a85f-4876-a9ba-d201231997a7`). Nine extras from unused hosts 1480-1579. Empty `in:sent`. All nine `/services/` Coming Soon (`min-height:440px`). No Stripe. Skipped JTC Industrial SENT 22 Aug, J TOP Resources SENT 22 Aug, and johorfurniturefair.com.my same JBFA firm. JC ESYSCOM HQ `service@` only. Not Johan Multitrade.
 
-### Bali Thai Spa & Wellness -- QUEUED draft 25 Aug 2026 17:57 MYT
-- To: balithaiwellness@gmail.com. Draft `r7972145772910295383`. Thread `1a0385addcb08f2e`. Subject: Skudai spa page. File: `docs/proposals/bali-thai-spa.md`. Copy Your Trusted Thai Spa in Johor.
+### Bali Thai Spa & Wellness -- SENT 26 Aug 2026 09:00 MYT
 
-### JC ESYSCOM SDN BHD -- QUEUED draft 25 Aug 2026 17:57 MYT
-- To: service@jc-esyscom.my. Draft `r-386726587324569654`. Thread `1a0385af8c9f942a`. Subject: Klang CCTV page. File: `docs/proposals/jc-esyscom.md`. Did not mail johnson@ or wong@.
+- To: balithaiwellness@gmail.com. Former draft `r7972145772910295383`. SENT `1a03b960d9f4486f`. Thread `1a039f037963cd3f`. Subject: Skudai spa page. File: `docs/proposals/bali-thai-spa.md`. Copy Your Trusted Thai Spa in Johor.
 
-### KLINIK PERGIGIAN JDT DENTAL -- QUEUED draft 25 Aug 2026 17:57 MYT
-- To: kpjdtdental@gmail.com. Draft `r-6009113444186846356`. Thread `1a0385b11aba5c5b`. Subject: Taman Pelangi dental page. File: `docs/proposals/jdt-dental.md`. Copy Hear What Our Customer Say.
+### JC ESYSCOM SDN BHD -- SENT 26 Aug 2026 09:00 MYT
 
-### J & D Axle And Auto Parts Sdn Bhd -- QUEUED draft 25 Aug 2026 17:58 MYT
-- To: jackwong076@gmail.com. Draft `r-257172565537325776`. Thread `1a0385b281e337b4`. Subject: Ipoh lorry-parts page. File: `docs/proposals/jd-axle.md`. Copy What makes us what we are.
+- To: service@jc-esyscom.my. Former draft `r-386726587324569654`. SENT `1a03b96107c719d4`. Thread `1a039f092cc8be2f`. Subject: Klang CCTV page. File: `docs/proposals/jc-esyscom.md`. Did not mail johnson@ or wong@.
 
-### J&H OFFICE DESIGN -- QUEUED draft 25 Aug 2026 17:58 MYT
-- To: jh_office_design@yahoo.com.my. Draft `r-434351319774903696`. Thread `1a0385b47ae7db4c`. Subject: Seri Kembangan office page. File: `docs/proposals/jh-office-design.md`. Copy SHOPPING KISOK / Conmercial / Contruction.
+### KLINIK PERGIGIAN JDT DENTAL -- SENT 26 Aug 2026 09:00 MYT
 
-### Jing Tinted & Auto Accessories -- QUEUED draft 25 Aug 2026 17:58 MYT
-- To: jiajingtheo@gmail.com. Draft `r1197271149571384920`. Thread `1a0385b6c2c3d32d`. Subject: Pulai Mutiara tint page. File: `docs/proposals/jing-tinted.md`. Copy SUPERIOR QUALITY.
+- To: kpjdtdental@gmail.com. Former draft `r-6009113444186846356`. SENT `1a03b9612489db58`. Thread `1a039f034fbc8f15`. Subject: Taman Pelangi dental page. File: `docs/proposals/jdt-dental.md`. Copy Hear What Our Customer Say.
 
-### J & M Technology (M) Sdn Bhd -- QUEUED draft 25 Aug 2026 17:58 MYT
-- To: jnmtech2013@gmail.com. Draft `r-8221157849048994624`. Thread `1a0385b8997d204f`. Subject: Balakong flooring page. File: `docs/proposals/jm-technology.md`. Copy The Smarter Choice for Quality Flooring.
+### J & D Axle And Auto Parts Sdn Bhd -- SENT 26 Aug 2026 09:00 MYT
 
-### J & J Master Trading -- QUEUED draft 25 Aug 2026 17:59 MYT
-- To: jnjmastertrading@gmail.com. Draft `r-7613184227593313506`. Thread `1a0385bad1383e6d`. Subject: Skudai bakery-supplies page. File: `docs/proposals/jj-master-trading.md`. Did not mail j&jmastertrading@.
+- To: jackwong076@gmail.com. Former draft `r-257172565537325776`. SENT `1a03b962db60d572`. Thread `1a039f03212c2f51`. Subject: Ipoh lorry-parts page. File: `docs/proposals/jd-axle.md`. Copy What makes us what we are.
 
-### Johan Bestari Castor & Engineering Sdn. Bhd. -- QUEUED draft 25 Aug 2026 17:59 MYT
-- To: sales@johanbestari.com.my. Draft `r1593978669877655703`. Thread `1a0385bfdf3d74f5`. Subject: Subang Jaya castor page. File: `docs/proposals/johan-bestari.md`. Copy handling equipments. Not Johan Multitrade.
+### J&H OFFICE DESIGN -- SENT 26 Aug 2026 09:00 MYT
+
+- To: jh_office_design@yahoo.com.my. Former draft `r-434351319774903696`. SENT `1a03b96408019ee4`. Thread `1a039f0304f2d1ee`. Subject: Seri Kembangan office page. File: `docs/proposals/jh-office-design.md`. Copy SHOPPING KISOK / Conmercial / Contruction.
+
+### Jing Tinted & Auto Accessories -- SENT 26 Aug 2026 09:00 MYT
+
+- To: jiajingtheo@gmail.com. Former draft `r1197271149571384920`. SENT `1a03b965d14ff501`. Thread `1a039ef9cda0c6ff`. Subject: Pulai Mutiara tint page. File: `docs/proposals/jing-tinted.md`. Copy SUPERIOR QUALITY.
+
+### J & M Technology (M) Sdn Bhd -- SENT 26 Aug 2026 09:00 MYT
+
+- To: jnmtech2013@gmail.com. Former draft `r-8221157849048994624`. SENT `1a03b9660af42564`. Thread `1a039f0927662a39`. Subject: Balakong flooring page. File: `docs/proposals/jm-technology.md`. Copy The Smarter Choice for Quality Flooring.
+
+### J & J Master Trading -- SENT 26 Aug 2026 09:00 MYT
+
+- To: jnjmastertrading@gmail.com. Former draft `r-7613184227593313506`. SENT `1a03b9682344b476`. Thread `1a039ef9cbebad76`. Subject: Skudai bakery-supplies page. File: `docs/proposals/jj-master-trading.md`. Did not mail j&jmastertrading@.
+
+### Johan Bestari Castor & Engineering Sdn. Bhd. -- SENT 26 Aug 2026 09:00 MYT
+
+- To: sales@johanbestari.com.my. Former draft `r1593978669877655703`. SENT `1a03b968577b4bbb`. Thread `1a039ef986d438db`. Subject: Subang Jaya castor page. File: `docs/proposals/johan-bestari.md`. Copy handling equipments. Not Johan Multitrade.
 
 ## Queued after hours 25 Aug 2026 18:14 MYT (do not send before Wed 09:00)
 
 Folded onto the same Wed 09:00 timer (`sub_d05a8454-c8e7-4bca-86bd-bfc6b62b746d`, replaced `sub_8eeab532-a85f-4876-a9ba-d201231997a7`). Thirteen extras from unused hosts 1580-1679. Empty `in:sent`. All thirteen `/services/` Coming Soon (`min-height:440px`). No Stripe. Skipped Kinoro SENT 22 Aug, Kian Seng SENT 22 Aug, keelectronics.com.my TLD mismatch, and klgifts.com.my TLD mismatch. Ken Curtain House is not Ken Neon. Ken Neon is not Ken Curtain House. KC Technology, KLS Machinery, and KM WELDCO use the printed contact-page inbox.
 
-### Kamen Steel Industries Sdn Bhd -- QUEUED draft 25 Aug 2026 18:11 MYT
-- To: kamen@kamensteel.com.my. Draft `r-756477332025785548`. Thread `1a038679d0ff2fc2`. Subject: Bukit Mertajam steel page. File: `docs/proposals/kamen-steel.md`. Copy STEEL SUPPLY YOU CAN RELY ON.
+### Kamen Steel Industries Sdn Bhd -- SENT 26 Aug 2026 09:00 MYT
 
-### Kasturi Catering -- QUEUED draft 25 Aug 2026 18:11 MYT
-- To: enquiry@kasturicatering.com.my. Draft `r2568174866352992955`. Thread `1a03867bca54a0cf`. Subject: Mount Austin catering page. File: `docs/proposals/kasturi-catering.md`. Copy PREMIUM HALAL CERTIFIED.
+- To: kamen@kamensteel.com.my. Former draft `r-756477332025785548`. SENT `1a03b968aa013307`. Thread `1a039ef9ac638763`. Subject: Bukit Mertajam steel page. File: `docs/proposals/kamen-steel.md`. Copy STEEL SUPPLY YOU CAN RELY ON.
 
-### Kavitha Natural Fertility Centre -- QUEUED draft 25 Aug 2026 18:12 MYT
-- To: kavithaintcentre@gmail.com. Draft `r7599776146421491455`. Thread `1a03867d110ab5f3`. Subject: Seri Kembangan fertility page. File: `docs/proposals/kavitha-fertility.md`. Copy been specializing / Our 3,247th natural pregnancy.
+### Kasturi Catering -- SENT 26 Aug 2026 09:00 MYT
 
-### KAWAI AROWANA FARM -- QUEUED draft 25 Aug 2026 18:12 MYT
-- To: enquiries@kawaiaro.com.my. Draft `r1702954805538044610`. Thread `1a03867e6ed7166b`. Subject: Bukit Merah arowana page. File: `docs/proposals/kawai-arowana.md`. Copy FROM BUKIT MERAH TO THE WORLD.
+- To: enquiry@kasturicatering.com.my. Former draft `r2568174866352992955`. SENT `1a03b96a1a434132`. Thread `1a039ef9731cf2c8`. Subject: Mount Austin catering page. File: `docs/proposals/kasturi-catering.md`. Copy PREMIUM HALAL CERTIFIED.
 
-### KC Technology Resources (M) Sdn Bhd -- QUEUED draft 25 Aug 2026 18:12 MYT
-- To: saleskctechnology06@gmail.com. Draft `r-398497506960654505`. Thread `1a03868125c755ee`. Subject: Seri Kembangan tape page. File: `docs/proposals/kc-technology.md`. Copy We Specialize In All Kind Of. Contact-page inbox.
+### Kavitha Natural Fertility Centre -- SENT 26 Aug 2026 09:00 MYT
 
-### Ken Curtain House -- QUEUED draft 25 Aug 2026 18:12 MYT
-- To: kencurtainhouse@gmail.com. Draft `r-6780617327087393350`. Thread `1a038682fe978a81`. Subject: Taman City curtain page. File: `docs/proposals/ken-curtain-house.md`. Copy Whole House Curtain @. Not Ken Neon.
+- To: kavithaintcentre@gmail.com. Former draft `r7599776146421491455`. SENT `1a03b97f122aaf18`. Thread `1a039ef9575ddd6b`. Subject: Seri Kembangan fertility page. File: `docs/proposals/kavitha-fertility.md`. Copy been specializing / Our 3,247th natural pregnancy.
 
-### KEN NEON CURTAINS DESIGN ENTERPRISE -- QUEUED draft 25 Aug 2026 18:13 MYT
-- To: ken-neon.curtains@hotmail.com. Draft `r-4890574830377062170`. Thread `1a03868d2b83182d`. Subject: Taman Molek curtain page. File: `docs/proposals/ken-neon-curtains.md`. Copy DAY AND NIGHT Curtains. Not Ken Curtain House.
+### KAWAI AROWANA FARM -- SENT 26 Aug 2026 09:00 MYT
 
-### Kim Wah Auto Sdn Bhd -- QUEUED draft 25 Aug 2026 18:13 MYT
-- To: kimwahauto2323@gmail.com. Draft `r3644986977750333915`. Thread `1a03868e960601c4`. Subject: Kempas truck-parts page. File: `docs/proposals/kim-wah-auto.md`. Copy TRUSTED AUTO PARTS SUPPLIER.
+- To: enquiries@kawaiaro.com.my. Former draft `r1702954805538044610`. SENT `1a03b96a92feb5c4`. Thread `1a039f02ff46c80f`. Subject: Bukit Merah arowana page. File: `docs/proposals/kawai-arowana.md`. Copy FROM BUKIT MERAH TO THE WORLD.
 
-### Kin Lap Glass Sdn. Bhd. -- QUEUED draft 25 Aug 2026 18:13 MYT
-- To: enquiry@kinlap.com.my. Draft `r8118607005390568133`. Thread `1a03868fd470f269`. Subject: Ipoh glass page. File: `docs/proposals/kin-lap-glass.md`. Copy SPECIALIZED GLASS APPLICATIONS / Our founder, Kin Lap.
+### KC Technology Resources (M) Sdn Bhd -- SENT 26 Aug 2026 09:00 MYT
 
-### KINSIZE LABEL STICKER SDN BHD -- QUEUED draft 25 Aug 2026 18:13 MYT
-- To: kinsize2121@gmail.com. Draft `r-2328322085920581773`. Thread `1a0386910043e98d`. Subject: Sibu label page. File: `docs/proposals/kinsize-label.md`. Copy One Stop Label Sticker Solution Provider from Sarawak / Mr. S.T. Ling.
+- To: saleskctechnology06@gmail.com. Former draft `r-398497506960654505`. SENT `1a03b97f423dfd60`. Thread `1a039ef93cac9668`. Subject: Seri Kembangan tape page. File: `docs/proposals/kc-technology.md`. Copy We Specialize In All Kind Of. Contact-page inbox.
 
-### Kitchen Story Sdn Bhd -- QUEUED draft 25 Aug 2026 18:13 MYT
-- To: welcome@kitchenstory.com.my. Draft `r3697856985400840773`. Thread `1a0386924260f9a8`. Subject: Bayan Lepas kitchen page. File: `docs/proposals/kitchen-story.md`. Copy ONE STOP SOLUTION RENOVATION.
+### Ken Curtain House -- SENT 26 Aug 2026 09:00 MYT
 
-### KLS Machinery & Engineering Sdn Bhd -- QUEUED draft 25 Aug 2026 18:13 MYT
-- To: sales@klsm.com.my. Draft `r1695231296109260127`. Thread `1a0386936c87f871`. Subject: Muar machinery page. File: `docs/proposals/kls-machinery.md`. Copy Your One-Stop Shop for / WE AIM TO PROVIDE THE HIGHEST QUALITY OF. Contact-page inbox.
+- To: kencurtainhouse@gmail.com. Former draft `r-6780617327087393350`. SENT `1a03b9875e8415c6`. Thread `1a039f0291b15185`. Subject: Taman City curtain page. File: `docs/proposals/ken-curtain-house.md`. Copy Whole House Curtain @. Not Ken Neon.
 
-### KM WELDCO SDN BHD -- QUEUED draft 25 Aug 2026 18:13 MYT
-- To: enquiry@kmweldco.com.my. Draft `r-5764322022647846200`. Thread `1a0386959086698b`. Subject: Klang welding page. File: `docs/proposals/km-weldco.md`. Copy Stronger, with Castolin Eutectic / Sri Mewah Light Industri. Contact-page inbox.
+### KEN NEON CURTAINS DESIGN ENTERPRISE -- SENT 26 Aug 2026 09:00 MYT
+
+- To: ken-neon.curtains@hotmail.com. Former draft `r-4890574830377062170`. SENT `1a03b98784ec69b3`. Thread `1a039f02ac800295`. Subject: Taman Molek curtain page. File: `docs/proposals/ken-neon-curtains.md`. Copy DAY AND NIGHT Curtains. Not Ken Curtain House.
+
+### Kim Wah Auto Sdn Bhd -- SENT 26 Aug 2026 09:00 MYT
+
+- To: kimwahauto2323@gmail.com. Former draft `r3644986977750333915`. SENT `1a03b989272d4c6a`. Thread `1a039ef23bb2577a`. Subject: Kempas truck-parts page. File: `docs/proposals/kim-wah-auto.md`. Copy TRUSTED AUTO PARTS SUPPLIER.
+
+### Kin Lap Glass Sdn. Bhd. -- SENT 26 Aug 2026 09:00 MYT
+
+- To: enquiry@kinlap.com.my. Former draft `r8118607005390568133`. SENT `1a03b9896f5b7e0d`. Thread `1a039ef21c871a4e`. Subject: Ipoh glass page. File: `docs/proposals/kin-lap-glass.md`. Copy SPECIALIZED GLASS APPLICATIONS / Our founder, Kin Lap.
+
+### KINSIZE LABEL STICKER SDN BHD -- SENT 26 Aug 2026 09:00 MYT
+
+- To: kinsize2121@gmail.com. Former draft `r-2328322085920581773`. SENT `1a03b989b9a15203`. Thread `1a039ef1e4e1b5ce`. Subject: Sibu label page. File: `docs/proposals/kinsize-label.md`. Copy One Stop Label Sticker Solution Provider from Sarawak / Mr. S.T. Ling.
+
+### Kitchen Story Sdn Bhd -- SENT 26 Aug 2026 09:00 MYT
+
+- To: welcome@kitchenstory.com.my. Former draft `r3697856985400840773`. SENT `1a03b98ab776a9a2`. Thread `1a039ef1d6e0347b`. Subject: Bayan Lepas kitchen page. File: `docs/proposals/kitchen-story.md`. Copy ONE STOP SOLUTION RENOVATION.
+
+### KLS Machinery & Engineering Sdn Bhd -- SENT 26 Aug 2026 09:00 MYT
+
+- To: sales@klsm.com.my. Former draft `r1695231296109260127`. SENT `1a03b98bc1b0360c`. Thread `1a039ef1ba65738b`. Subject: Muar machinery page. File: `docs/proposals/kls-machinery.md`. Copy Your One-Stop Shop for / WE AIM TO PROVIDE THE HIGHEST QUALITY OF. Contact-page inbox.
+
+### KM WELDCO SDN BHD -- SENT 26 Aug 2026 09:00 MYT
+
+- To: enquiry@kmweldco.com.my. Former draft `r-5764322022647846200`. SENT `1a03b98c65515c69`. Thread `1a039eecbc892856`. Subject: Klang welding page. File: `docs/proposals/km-weldco.md`. Copy Stronger, with Castolin Eutectic / Sri Mewah Light Industri. Contact-page inbox.
 
 ## Queued after hours 25 Aug 2026 18:26 MYT (do not send before Wed 09:00)
 
 Folded onto the same Wed 09:00 timer (`sub_9b3b3834-5f80-4aa5-b2bf-b4cf49169cfa`, replaced `sub_d05a8454-c8e7-4bca-86bd-bfc6b62b746d`). Thirteen extras from unused hosts 1680-1779. Empty `in:sent`. All thirteen `/services/` Coming Soon (`min-height:440px`). No Stripe. Skipped kowhock.com.my TLD mismatch. KOMIYA HQ `komiyamy@` only. ZUNN HQ KL only. ITG SMART Isaac inbox only.
 
-### Koh Building Glass Construction Sdn Bhd -- QUEUED draft 25 Aug 2026 18:24 MYT
-- To: kohbroaluminiumglass@gmail.com. Draft `r5594734532975974845`. Thread `1a038732b23c7421`. Subject: Mantin glass page. File: `docs/proposals/koh-building-glass.md`. Copy Glass & Aluminum Experts.
+### Koh Building Glass Construction Sdn Bhd -- SENT 26 Aug 2026 09:00 MYT
 
-### KOMIYA ROOFING (M) SDN BHD -- QUEUED draft 25 Aug 2026 18:24 MYT
-- To: komiyamy@gmail.com. Draft `r-6244396948911980028`. Thread `1a0387341f14f539`. Subject: Chemor roofing page. File: `docs/proposals/komiya-roofing.md`. Copy Your first and only trusted choice. Did not mail wadechongsales@ or kokpingsmarketing@.
+- To: kohbroaluminiumglass@gmail.com. Former draft `r5594734532975974845`. SENT `1a03b98ded7c6903`. Thread `1a039eeccb907250`. Subject: Mantin glass page. File: `docs/proposals/koh-building-glass.md`. Copy Glass & Aluminum Experts.
 
-### K.S.Bee Industries Sdn Bhd -- QUEUED draft 25 Aug 2026 18:24 MYT
-- To: sales.ksbee@outlook.com. Draft `r-6681281962181956738`. Thread `1a03873548c568be`. Subject: Johor Jaya valves page. File: `docs/proposals/ksbee.md`. Copy Your Valve Solutions Partner / latest trends of valves.
+### KOMIYA ROOFING (M) SDN BHD -- SENT 26 Aug 2026 09:00 MYT
 
-### KUHLER SDN. BHD. -- QUEUED draft 25 Aug 2026 18:24 MYT
-- To: admin@kuhler.com.my. Draft `r-4645216585229115975`. Thread `1a0387368d6448c7`. Subject: Kuchai chiller page. File: `docs/proposals/kuhler.md`. Copy Malaysia's Cooling Experts.
+- To: komiyamy@gmail.com. Former draft `r-6244396948911980028`. SENT `1a03b99c034454b5`. Thread `1a039eecabca19c6`. Subject: Chemor roofing page. File: `docs/proposals/komiya-roofing.md`. Copy Your first and only trusted choice. Did not mail wadechongsales@ or kokpingsmarketing@.
 
-### Kwang Shing Auto Parts Sdn Bhd -- QUEUED draft 25 Aug 2026 18:24 MYT
-- To: enquiry@kwangshing.com.my. Draft `r-4926168303107487618`. Thread `1a03873897aeb8b1`. Subject: Batu Caves auto-parts page. File: `docs/proposals/kwang-shing.md`. Copy Volkwagen ABS Pump.
+### K.S.Bee Industries Sdn Bhd -- SENT 26 Aug 2026 09:00 MYT
 
-### LAFUENTE RESOURCES SDN BHD -- QUEUED draft 25 Aug 2026 18:24 MYT
-- To: enquiries@lafuente.com.my. Draft `r2463610147054498277`. Thread `1a038739aac27b9a`. Subject: Kota Damansara furniture page. File: `docs/proposals/lafuente.md`. Copy intelligence furniture solutions.
+- To: sales.ksbee@outlook.com. Former draft `r-6681281962181956738`. SENT `1a03b99c48cd2f62`. Thread `1a039ee45ba1864b`. Subject: Johor Jaya valves page. File: `docs/proposals/ksbee.md`. Copy Your Valve Solutions Partner / latest trends of valves.
 
-### Laiheng Trading Sdn Bhd -- QUEUED draft 25 Aug 2026 18:25 MYT
-- To: info@laiheng.com.my. Draft `r5666483926328723445`. Thread `1a03873af1a50d5b`. Subject: Muar truck page. File: `docs/proposals/laiheng.md`. Copy first-rate new and used truck / commercial heavyweight.
+### KUHLER SDN. BHD. -- SENT 26 Aug 2026 09:00 MYT
 
-### LCS Marketing Sdn. Bhd. -- QUEUED draft 25 Aug 2026 18:25 MYT
-- To: lcs@lcs.com.my. Draft `r4971192598409694890`. Thread `1a03873c0e8039ba`. Subject: Mentakab concrete page. File: `docs/proposals/lcs-group.md`. Copy diversified Malaysian construction material manufacturer company. Contact-page inbox.
+- To: admin@kuhler.com.my. Former draft `r-4645216585229115975`. SENT `1a03b98e419f65e4`. Thread `1a039eec8e2803df`. Subject: Kuchai chiller page. File: `docs/proposals/kuhler.md`. Copy Malaysia's Cooling Experts.
 
-### LEADERland LEADERship Preschool & Primary Daycare -- QUEUED draft 25 Aug 2026 18:25 MYT
-- To: hq.leaderland@gmail.com. Draft `r5844953007803545177`. Thread `1a03873d59162cf0`. Subject: Bandar Cassia preschool page. File: `docs/proposals/leaderland.md`. Copy Future Leaders Start Here. HQ Vervea only.
+### Kwang Shing Auto Parts Sdn Bhd -- SENT 26 Aug 2026 09:00 MYT
 
-### ZUNN LED Neon Concept Sdn. Bhd. -- QUEUED draft 25 Aug 2026 18:25 MYT
-- To: zunnled1221@gmail.com. Draft `r-8311409395618573824`. Thread `1a03873f8a28b17b`. Subject: Salak Selatan signboard page. File: `docs/proposals/zunn-led.md`. Copy We offers / 3D box up. HQ KL only.
+- To: enquiry@kwangshing.com.my. Former draft `r-4926168303107487618`. SENT `1a03b98fd9f08aea`. Thread `1a039ee42d8d3a2c`. Subject: Batu Caves auto-parts page. File: `docs/proposals/kwang-shing.md`. Copy Volkwagen ABS Pump.
 
-### Legend Business Solution Sdn. Bhd. -- QUEUED draft 25 Aug 2026 18:25 MYT
-- To: enquiry@legendcopier.com.my. Draft `r6579617630180243983`. Thread `1a038740c7a7fa9a`. Subject: Petaling Jaya copier page. File: `docs/proposals/legend-copier.md`. Copy Established in 1995.
+### LAFUENTE RESOURCES SDN BHD -- SENT 26 Aug 2026 09:00 MYT
 
-### Lian Fong Auto Care Service Centre -- QUEUED draft 25 Aug 2026 18:25 MYT
-- To: lfautocare@gmail.com. Draft `r-8620698038083034703`. Thread `1a038741e1d89c4d`. Subject: Kuching workshop page. File: `docs/proposals/lian-fong-auto.md`. Copy Repair & Tire Workshop / Tabuan Transquility 3.
+- To: enquiries@lafuente.com.my. Former draft `r2463610147054498277`. SENT `1a03b9901f79afc1`. Thread `1a039ee40778ae18`. Subject: Kota Damansara furniture page. File: `docs/proposals/lafuente.md`. Copy intelligence furniture solutions.
 
-### ITG SMART ENTERPRISE -- QUEUED draft 25 Aug 2026 18:25 MYT
-- To: isaac@lgmalaysia.com.my. Draft `r969078387022208288`. Thread `1a038743334e1d82`. Subject: Ayer Hitam PuriCare page. File: `docs/proposals/itg-smart.md`. Copy LG Subscribe Malaysia. Did not mail harry@.
+### Laiheng Trading Sdn Bhd -- SENT 26 Aug 2026 09:00 MYT
+
+- To: info@laiheng.com.my. Former draft `r5666483926328723445`. SENT `1a03b990ed5d0388`. Thread `1a039eec7b300bb8`. Subject: Muar truck page. File: `docs/proposals/laiheng.md`. Copy first-rate new and used truck / commercial heavyweight.
+
+### LCS Marketing Sdn. Bhd. -- SENT 26 Aug 2026 09:00 MYT
+
+- To: lcs@lcs.com.my. Former draft `r4971192598409694890`. SENT `1a03b992281faa15`. Thread `1a039ee3e0646e81`. Subject: Mentakab concrete page. File: `docs/proposals/lcs-group.md`. Copy diversified Malaysian construction material manufacturer company. Contact-page inbox.
+
+### LEADERland LEADERship Preschool & Primary Daycare -- SENT 26 Aug 2026 09:00 MYT
+
+- To: hq.leaderland@gmail.com. Former draft `r5844953007803545177`. SENT `1a03b99cb66a5491`. Thread `1a039ee3d229a558`. Subject: Bandar Cassia preschool page. File: `docs/proposals/leaderland.md`. Copy Future Leaders Start Here. HQ Vervea only.
+
+### ZUNN LED Neon Concept Sdn. Bhd. -- SENT 26 Aug 2026 09:00 MYT
+
+- To: zunnled1221@gmail.com. Former draft `r-8311409395618573824`. SENT `1a03b99308ef6d2f`. Thread `1a039ee3a5b211e0`. Subject: Salak Selatan signboard page. File: `docs/proposals/zunn-led.md`. Copy We offers / 3D box up. HQ KL only.
+
+### Legend Business Solution Sdn. Bhd. -- SENT 26 Aug 2026 09:00 MYT
+
+- To: enquiry@legendcopier.com.my. Former draft `r6579617630180243983`. SENT `1a03b9939a489f2e`. Thread `1a039ee3617bba89`. Subject: Petaling Jaya copier page. File: `docs/proposals/legend-copier.md`. Copy Established in 1995.
+
+### Lian Fong Auto Care Service Centre -- SENT 26 Aug 2026 09:00 MYT
+
+- To: lfautocare@gmail.com. Former draft `r-8620698038083034703`. SENT `1a03b9959589124e`. Thread `1a039ee394d3acf5`. Subject: Kuching workshop page. File: `docs/proposals/lian-fong-auto.md`. Copy Repair & Tire Workshop / Tabuan Transquility 3.
+
+### ITG SMART ENTERPRISE -- SENT 26 Aug 2026 09:00 MYT
+
+- To: isaac@lgmalaysia.com.my. Former draft `r969078387022208288`. SENT `1a03b99df4f8b01f`. Thread `1a039edbef9cc587`. Subject: Ayer Hitam PuriCare page. File: `docs/proposals/itg-smart.md`. Copy LG Subscribe Malaysia. Did not mail harry@.
 
 ## Queued after hours 25 Aug 2026 18:33 MYT (do not send before Wed 09:00)
 
 Folded onto the same Wed 09:00 timer (`sub_e08c8884-86f5-46cd-a0f3-b03e8b1b98fb`, replaced `sub_9b3b3834-5f80-4aa5-b2bf-b4cf49169cfa`). Seven extras from unused hosts 1780-1879. Empty `in:sent`. All seven `/services/` Coming Soon (`min-height:440px`). No Stripe. Skipped Lutonics SENT 22 Aug. M2 Film Fukim inbox only. Mahagamy HQ osamalim@ only.
 
-### Vision Lighting Lab -- QUEUED draft 25 Aug 2026 18:32 MYT
-- To: visionlightinglab@gmail.com. Draft `r137402964016663770`. Thread `1a0387a340984afb`. Subject: Cheng lighting page. File: `docs/proposals/vision-lighting-lab.md`. Copy Illuminate Your Space / Get Instant Discount For Membership.
+### Vision Lighting Lab -- SENT 26 Aug 2026 09:00 MYT
 
-### Lik Soon Sdn Bhd -- QUEUED draft 25 Aug 2026 18:32 MYT
-- To: liksoon@gmail.com. Draft `r-531907505371755767`. Thread `1a0387a44c7325cc`. Subject: Cheras board page. File: `docs/proposals/lik-soon.md`. Copy Excellence in Every Board We Make.
+- To: visionlightinglab@gmail.com. Former draft `r137402964016663770`. SENT `1a03b99f51e34073`. Thread `1a039edbdeb01d29`. Subject: Cheng lighting page. File: `docs/proposals/vision-lighting-lab.md`. Copy Illuminate Your Space / Get Instant Discount For Membership.
 
-### Linea Studio -- QUEUED draft 25 Aug 2026 18:32 MYT
-- To: lineastudio.id@outlook.com. Draft `r7179679650887501178`. Thread `1a0387a59341a93a`. Subject: Puchong interior page. File: `docs/proposals/linea-studio.md`. Copy Complete Home Solutions.
+### Lik Soon Sdn Bhd -- SENT 26 Aug 2026 09:00 MYT
 
-### Little Builder Construction Supplies (M) Sdn. Bhd -- QUEUED draft 25 Aug 2026 18:32 MYT
-- To: info.littlebuilder2022@gmail.com. Draft `r-3970387761823880808`. Thread `1a0387a6a425466d`. Subject: Semenyih countertop page. File: `docs/proposals/little-builder.md`. Copy no middleman markups.
+- To: liksoon@gmail.com. Former draft `r-531907505371755767`. SENT `1a03b99fa5b1db95`. Thread `1a039edba27e2d62`. Subject: Cheras board page. File: `docs/proposals/lik-soon.md`. Copy Excellence in Every Board We Make.
 
-### L C O IT SOLUTION SDN BHD -- QUEUED draft 25 Aug 2026 18:32 MYT
-- To: kclee@llco.com.my. Draft `r-2694822566554343568`. Thread `1a0387a8411c6d56`. Subject: Kulai printer page. File: `docs/proposals/lco-it.md`. Copy Customized Printing Solution and Enjoy Exclusive Perks!
+### Linea Studio -- SENT 26 Aug 2026 09:00 MYT
 
-### M2 Film Studio -- QUEUED draft 25 Aug 2026 18:32 MYT
-- To: fukim2521@gmail.com. Draft `r-8988890707735910093`. Thread `1a0387a9de345e94`. Subject: Kluang wedding-film page. File: `docs/proposals/m2-film-studio.md`. Copy Mixx Film / Fukim. Did not mail 745528451@qq.com.
+- To: lineastudio.id@outlook.com. Former draft `r7179679650887501178`. SENT `1a03b9a091d8b442`. Thread `1a039edb6acde589`. Subject: Puchong interior page. File: `docs/proposals/linea-studio.md`. Copy Complete Home Solutions.
 
-### Mahagamy Consultancy And Advisory Sdn Bhd -- QUEUED draft 25 Aug 2026 18:32 MYT
-- To: osamalim@mahagamy.com.my. Draft `r-626545270343868042`. Thread `1a0387ab191e2484`. Subject: Sibu training page. File: `docs/proposals/mahagamy.md`. Copy EMPOWERING SKILLS. ENSURING SAFETY. Did not mail limchongyee911@.
+### Little Builder Construction Supplies (M) Sdn. Bhd -- SENT 26 Aug 2026 09:00 MYT
+
+- To: info.littlebuilder2022@gmail.com. Former draft `r-3970387761823880808`. SENT `1a03b9a1d903e096`. Thread `1a039edb8c1115d1`. Subject: Semenyih countertop page. File: `docs/proposals/little-builder.md`. Copy no middleman markups.
+
+### L C O IT SOLUTION SDN BHD -- SENT 26 Aug 2026 09:00 MYT
+
+- To: kclee@llco.com.my. Former draft `r-2694822566554343568`. SENT `1a03b9a2525b215f`. Thread `1a039edb41d75889`. Subject: Kulai printer page. File: `docs/proposals/lco-it.md`. Copy Customized Printing Solution and Enjoy Exclusive Perks!
+
+### M2 Film Studio -- SENT 26 Aug 2026 09:00 MYT
+
+- To: fukim2521@gmail.com. Former draft `r-8988890707735910093`. SENT `1a03b9a38c5c29c2`. Thread `1a039edb36863648`. Subject: Kluang wedding-film page. File: `docs/proposals/m2-film-studio.md`. Copy Mixx Film / Fukim. Did not mail 745528451@qq.com.
+
+### Mahagamy Consultancy And Advisory Sdn Bhd -- SENT 26 Aug 2026 09:00 MYT
+
+- To: osamalim@mahagamy.com.my. Former draft `r-626545270343868042`. SENT `1a03b9a43e522164`. Thread `1a039edb011813c0`. Subject: Sibu training page. File: `docs/proposals/mahagamy.md`. Copy EMPOWERING SKILLS. ENSURING SAFETY. Did not mail limchongyee911@.
 
 ## Queued after hours 25 Aug 2026 18:42 MYT (do not send before Wed 09:00)
 
 Folded onto the same Wed 09:00 timer (`sub_de648320-a76e-4ad9-87ed-a53b215ed33b`, replaced `sub_e08c8884-86f5-46cd-a0f3-b03e8b1b98fb`). Eight extras from unused hosts 1880-1979. Empty `in:sent`. All eight `/services/` Coming Soon (`min-height:440px`). No Stripe. Skipped Metafert SENT 22 Aug. Master Globe contact-page inbox.
 
-### Marktest Technology Sdn Bhd -- QUEUED draft 25 Aug 2026 18:40 MYT
-- To: sales@marktest.com.my. Draft `r-2455719670264020231`. Thread `1a0387ff967a9298`. Subject: Muar measurement page. File: `docs/proposals/marktest.md`. Copy the international renowned brands.
+### Marktest Technology Sdn Bhd -- SENT 26 Aug 2026 09:00 MYT
 
-### Master Globe Sdn Bhd -- QUEUED draft 25 Aug 2026 18:40 MYT
-- To: msun2020online@gmail.com. Draft `r-6751179359674659536`. Thread `1a038800cfc68ab1`. Subject: Kepong auto-parts page. File: `docs/proposals/master-globe.md`. Copy Driving Quality, / Driving Excellence,. Contact-page inbox.
+- To: sales@marktest.com.my. Former draft `r-2455719670264020231`. SENT `1a03b9a5904ed1a5`. Thread `1a039edb0c284c36`. Subject: Muar measurement page. File: `docs/proposals/marktest.md`. Copy the international renowned brands.
 
-### Mastermen Enterprise -- QUEUED draft 25 Aug 2026 18:41 MYT
-- To: mme.mastermen@gmail.com. Draft `r6279189641285036284`. Thread `1a0388025a0ae7f3`. Subject: Shah Alam concrete page. File: `docs/proposals/mastermen.md`. Copy High-Quality Ready-Mix Concrete.
+### Master Globe Sdn Bhd -- SENT 26 Aug 2026 09:00 MYT
 
-### MAYA PRINTING SOLUTIONS SDN BHD -- QUEUED draft 25 Aug 2026 18:41 MYT
-- To: mayaprinting88@gmail.com. Draft `r7028662299522333457`. Thread `1a0388039a074dc0`. Subject: Skudai printing page. File: `docs/proposals/maya-printing.md`. Copy FOTOMAYA / for 22 years.
+- To: msun2020online@gmail.com. Former draft `r-6751179359674659536`. SENT `1a03b9a5d08ce563`. Thread `1a039ee37b36d73c`. Subject: Kepong auto-parts page. File: `docs/proposals/master-globe.md`. Copy Driving Quality, / Driving Excellence,. Contact-page inbox.
 
-### Mega Alliance Builder Supplies Sdn. Bhd. -- QUEUED draft 25 Aug 2026 18:41 MYT
-- To: sales@megaalliance.com.my. Draft `r-826462731941310851`. Thread `1a038804e7668232`. Subject: Sungai Buloh pipe page. File: `docs/proposals/mega-alliance.md`. Copy wholly owned sub-subsidiary / since 2 August 2002.
+### Mastermen Enterprise -- SENT 26 Aug 2026 09:00 MYT
 
-### Megamore Enterprise -- QUEUED draft 25 Aug 2026 18:41 MYT
-- To: megamoreenterprise@gmail.com. Draft `r800580106490543625`. Thread `1a03880630f05e75`. Subject: Shamelin AC-parts page. File: `docs/proposals/megamore.md`. Copy Trusted Automotive Air-Conditioning Parts Specialist.
+- To: mme.mastermen@gmail.com. Former draft `r6279189641285036284`. SENT `1a03b9a766ae7275`. Thread `1a039eed72d1c015`. Subject: Shah Alam concrete page. File: `docs/proposals/mastermen.md`. Copy High-Quality Ready-Mix Concrete.
 
-### Mei Tat Enterprise Sdn Bhd -- QUEUED draft 25 Aug 2026 18:41 MYT
-- To: meitat.enterprise@gmail.com. Draft `r-4978762165933434106`. Thread `1a0388077daa5185`. Subject: Kepong packaging page. File: `docs/proposals/mei-tat.md`. Copy EC Plastic Cups / CB Plastic Containers.
+### MAYA PRINTING SOLUTIONS SDN BHD -- SENT 26 Aug 2026 09:00 MYT
 
-### MESAL LED LIGHTING SDN BHD -- QUEUED draft 25 Aug 2026 18:41 MYT
-- To: info@mesaled.my. Draft `r-3063136889413315810`. Thread `1a038808e1b593f6`. Subject: Puchong LED page. File: `docs/proposals/mesal-led.md`. Copy Brighten Your World / Let's Illuminate Your Space!
-- Next hunt: unused malaysiabrand hosts after line 1979. Do not send these before Wed 09:00 MYT.
+- To: mayaprinting88@gmail.com. Former draft `r7028662299522333457`. SENT `1a03b9a7a3ee91b2`. Thread `1a039eed50344b25`. Subject: Skudai printing page. File: `docs/proposals/maya-printing.md`. Copy FOTOMAYA / for 22 years.
+
+### Mega Alliance Builder Supplies Sdn. Bhd. -- SENT 26 Aug 2026 09:00 MYT
+
+- To: sales@megaalliance.com.my. Former draft `r-826462731941310851`. SENT `1a03b9a7ecff6b54`. Thread `1a039ee811453fc0`. Subject: Sungai Buloh pipe page. File: `docs/proposals/mega-alliance.md`. Copy wholly owned sub-subsidiary / since 2 August 2002.
+
+### Megamore Enterprise -- SENT 26 Aug 2026 09:00 MYT
+
+- To: megamoreenterprise@gmail.com. Former draft `r800580106490543625`. SENT `1a03b9a9e783fc66`. Thread `1a039ee3f3be2030`. Subject: Shamelin AC-parts page. File: `docs/proposals/megamore.md`. Copy Trusted Automotive Air-Conditioning Parts Specialist.
+
+### Mei Tat Enterprise Sdn Bhd -- SENT 26 Aug 2026 09:00 MYT
+
+- To: meitat.enterprise@gmail.com. Former draft `r-4978762165933434106`. SENT `1a03b9aa7550a4fb`. Thread `1a039ee7eeefb81b`. Subject: Kepong packaging page. File: `docs/proposals/mei-tat.md`. Copy EC Plastic Cups / CB Plastic Containers.
+
+### MESAL LED LIGHTING SDN BHD -- SENT 26 Aug 2026 09:00 MYT
+
+- To: info@mesaled.my. Former draft `r-3063136889413315810`. SENT `1a03b9b3211922e2`. Thread `1a039ee7fa667bdc`. Subject: Puchong LED page. File: `docs/proposals/mesal-led.md`. Copy Brighten Your World / Let's Illuminate Your Space!
+- Next hunt: unused malaysiabrand hosts after line 1979. Sent 26 Aug 09:00-09:11 MYT.
 
 ## Queued after hours 25 Aug 2026 18:51 MYT (do not send before Wed 09:00)
 
 Folded onto the same Wed 09:00 timer (`sub_40af1718-adb6-4434-9e79-15123396138c`, replaced `sub_de648320-a76e-4ad9-87ed-a53b215ed33b`). Thirteen extras from unused hosts 1980-2079. Empty `in:sent`. All thirteen `/services/` Coming Soon (`min-height:440px`). No Stripe. Skipped mezzaninefloormalaysia.com.my Kinoro mismatch. HQ Eco Palladium only at Mo Livehouse. HQ info@ only at Mr Carpet. Copy Get Accessed Now!, underlining skills, is company is involved extensively in:, Porfolio, lOOKING FOR pRINTING sERVICES?, floor solutions for resistance, commercial, Founded in 2004 Eco Palladium.
 
-### Metro Gold Creative Sdn Bhd -- QUEUED draft 25 Aug 2026 18:50 MYT
-- To: metrogold925@gmail.com. Draft `r-7930835097807277882`. Thread `1a03889032298130`. Subject: Penang silver page. File: `docs/proposals/metro-gold.md`. Copy Crafting Dreams in Silver.
+### Metro Gold Creative Sdn Bhd -- SENT 26 Aug 2026 09:00 MYT
 
-### Metro Power Enterprise -- QUEUED draft 25 Aug 2026 18:50 MYT
-- To: calvin.mpe@gmail.com. Draft `r-7254215699338547548`. Thread `1a0388921fec7845`. Subject: Puchong automation page. File: `docs/proposals/metro-power.md`. Copy The engineer's choice / existing in this industry since 1999.
+- To: metrogold925@gmail.com. Former draft `r-7930835097807277882`. SENT `1a03b9b363d894c6`. Thread `1a039ee417313fa7`. Subject: Penang silver page. File: `docs/proposals/metro-gold.md`. Copy Crafting Dreams in Silver.
 
-### MIE INDUSTRIAL SDN BHD -- QUEUED draft 25 Aug 2026 18:50 MYT
-- To: miekl@mie.com.my. Draft `r5577334419775076060`. Thread `1a03889360d22527`. Subject: Puchong EPCC page. File: `docs/proposals/mie-industrial.md`. Copy A Leading Local EPCC Player / Key of Success.
+### Metro Power Enterprise -- SENT 26 Aug 2026 09:00 MYT
 
-### Million Glass Sdn Bhd -- QUEUED draft 25 Aug 2026 18:50 MYT
-- To: millionalumglass@gmail.com. Draft `r-7951380282123764396`. Thread `1a0388953f4dddb2`. Subject: Shah Alam glass page. File: `docs/proposals/million-glass.md`. Copy TRANSFORMING SPACES WITH PRECISION / is company is involved extensively in:.
+- To: calvin.mpe@gmail.com. Former draft `r-7254215699338547548`. SENT `1a03b9b3a3e1f951`. Thread `1a039ee338cd8e86`. Subject: Puchong automation page. File: `docs/proposals/metro-power.md`. Copy The engineer's choice / existing in this industry since 1999.
 
-### Mind Crafters Sdn. Bhd. -- QUEUED draft 25 Aug 2026 18:50 MYT
-- To: hello@mindcrafters.my. Draft `r1547037206131857946`. Thread `1a0388973487470b`. Subject: Kota Damansara brain-training page. File: `docs/proposals/mind-crafters.md`. Copy Get Accessed Now! / underlining skills. Contact-page inbox.
+### MIE INDUSTRIAL SDN BHD -- SENT 26 Aug 2026 09:00 MYT
 
-### Min Kang Dental Sdn. Bhd. -- QUEUED draft 25 Aug 2026 18:50 MYT
-- To: minkangdental@gmail.com. Draft `r-4029766871304500009`. Thread `1a0388984b94f9a9`. Subject: Kota Tinggi dental page. File: `docs/proposals/min-kang-dental.md`. Copy Caring for Every Smile, Where Technology Meets Gentle Care.
+- To: miekl@mie.com.my. Former draft `r5577334419775076060`. SENT `1a03b9b622a5d808`. Thread `1a039ee30785e177`. Subject: Puchong EPCC page. File: `docs/proposals/mie-industrial.md`. Copy A Leading Local EPCC Player / Key of Success.
 
-### Miracle Hair Expert Sdn. Bhd. -- QUEUED draft 25 Aug 2026 18:50 MYT
-- To: info@miraclehairexpert.com.my. Draft `r-6031417553544729313`. Thread `1a038899e25baac4`. Subject: Damansara scalp page. File: `docs/proposals/miracle-hair.md`. Copy Why MiRACLE? / What is Follimites?.
+### Million Glass Sdn Bhd -- SENT 26 Aug 2026 09:00 MYT
 
-### M&J CREATION SDN BHD -- QUEUED draft 25 Aug 2026 18:51 MYT
-- To: info@mnjkitchen.com.my. Draft `r4936999498630868823`. Thread `1a03889bb1e84552`. Subject: Parkcity kitchen page. File: `docs/proposals/mnj-kitchen.md`. Copy Porfolio / More Than Cabinets Art Pieces for Your Living Space.
+- To: millionalumglass@gmail.com. Former draft `r-7951380282123764396`. SENT `1a03b9b647a50422`. Thread `1a039ee3d8b3fa13`. Subject: Shah Alam glass page. File: `docs/proposals/million-glass.md`. Copy TRANSFORMING SPACES WITH PRECISION / is company is involved extensively in:.
 
-### Moca Living Sdn Bhd -- QUEUED draft 25 Aug 2026 18:51 MYT
-- To: mocaliving24@gmail.com. Draft `r5427545314699312127`. Thread `1a03889dceec0e80`. Subject: Johor Jaya furniture page. File: `docs/proposals/moca-living.md`. Copy Not Perfect Just Beautiful / The Art of Wabi-Sabi. Contact-page inbox.
+### Mind Crafters Sdn. Bhd. -- SENT 26 Aug 2026 09:00 MYT
 
-### Mo Live House Sdn Bhd -- QUEUED draft 25 Aug 2026 18:51 MYT
-- To: livehousemo@gmail.com. Draft `r-4208754142193165857`. Thread `1a03889fe8680e11`. Subject: Eco Palladium livehouse page. File: `docs/proposals/mo-livehouse.md`. Copy authentic Hunan cuisine by day, live music by night / Founded in 2004 Eco Palladium. HQ Eco Palladium only. No phone printed.
+- To: hello@mindcrafters.my. Former draft `r1547037206131857946`. SENT `1a03b9b655048e50`. Thread `1a039ee3aa1f3593`. Subject: Kota Damansara brain-training page. File: `docs/proposals/mind-crafters.md`. Copy Get Accessed Now! / underlining skills. Contact-page inbox.
 
-### Moza Design -- QUEUED draft 25 Aug 2026 18:51 MYT
-- To: edyxray@yahoo.com. Draft `r-3949212170282487079`. Thread `1a0388a11712c59d`. Subject: Taiping printing page. File: `docs/proposals/moza-design.md`. Copy lOOKING FOR pRINTING sERVICES?.
+### Min Kang Dental Sdn. Bhd. -- SENT 26 Aug 2026 09:00 MYT
 
-### MR. CARPET FLOOR TRADING -- QUEUED draft 25 Aug 2026 18:51 MYT
-- To: info@mrcarpet.com.my. Draft `r-4884207857068497800`. Thread `1a0388a26526ccc4`. Subject: Klang carpet page. File: `docs/proposals/mr-carpet.md`. Copy floor solutions for resistance, commercial. HQ info@ only. Did not mail mrcarpetfloortrading@gmail.com.
+- To: minkangdental@gmail.com. Former draft `r-4029766871304500009`. SENT `1a03b9b674cc80ae`. Thread `1a039ee391f68983`. Subject: Kota Tinggi dental page. File: `docs/proposals/min-kang-dental.md`. Copy Caring for Every Smile, Where Technology Meets Gentle Care.
 
-### Mr Curtain (M) Sdn Bhd -- QUEUED draft 25 Aug 2026 18:51 MYT
-- To: mrcurtain.my@gmail.com. Draft `r-3533092610818543435`. Thread `1a0388a53e08eaa6`. Subject: Muar curtain page. File: `docs/proposals/mr-curtain.md`. Copy Malaysia Premium Design Curtains and Blinds Solutions / Top Curtain Supplier in Malaysia.
-- Next hunt: unused malaysiabrand hosts after line 2079. Do not send these before Wed 09:00 MYT.
+### Miracle Hair Expert Sdn. Bhd. -- SENT 26 Aug 2026 09:00 MYT
+
+- To: info@miraclehairexpert.com.my. Former draft `r-6031417553544729313`. SENT `1a03b9b6a4d9a01d`. Thread `1a039ee36f59891b`. Subject: Damansara scalp page. File: `docs/proposals/miracle-hair.md`. Copy Why MiRACLE? / What is Follimites?.
+
+### M&J CREATION SDN BHD -- SENT 26 Aug 2026 09:00 MYT
+
+- To: info@mnjkitchen.com.my. Former draft `r4936999498630868823`. SENT `1a03b9b6d06c83e1`. Thread `1a039ee343eb6daf`. Subject: Parkcity kitchen page. File: `docs/proposals/mnj-kitchen.md`. Copy Porfolio / More Than Cabinets Art Pieces for Your Living Space.
+
+### Moca Living Sdn Bhd -- SENT 26 Aug 2026 09:00 MYT
+
+- To: mocaliving24@gmail.com. Former draft `r5427545314699312127`. SENT `1a03b9b7153f5058`. Thread `1a039ee30b24859e`. Subject: Johor Jaya furniture page. File: `docs/proposals/moca-living.md`. Copy Not Perfect Just Beautiful / The Art of Wabi-Sabi. Contact-page inbox.
+
+### Mo Live House Sdn Bhd -- SENT 26 Aug 2026 09:00 MYT
+
+- To: livehousemo@gmail.com. Former draft `r-4208754142193165857`. SENT `1a03b9b728fd2a9d`. Thread `1a039edcbdbf5078`. Subject: Eco Palladium livehouse page. File: `docs/proposals/mo-livehouse.md`. Copy authentic Hunan cuisine by day, live music by night / Founded in 2004 Eco Palladium. HQ Eco Palladium only. No phone printed.
+
+### Moza Design -- SENT 26 Aug 2026 09:00 MYT
+
+- To: edyxray@yahoo.com. Former draft `r-3949212170282487079`. SENT `1a03b9b73dd394e0`. Thread `1a039edc893d32e4`. Subject: Taiping printing page. File: `docs/proposals/moza-design.md`. Copy lOOKING FOR pRINTING sERVICES?.
+
+### MR. CARPET FLOOR TRADING -- SENT 26 Aug 2026 09:00 MYT
+
+- To: info@mrcarpet.com.my. Former draft `r-4884207857068497800`. SENT `1a03b9bfa76c7d34`. Thread `1a039edc63fba7ed`. Subject: Klang carpet page. File: `docs/proposals/mr-carpet.md`. Copy floor solutions for resistance, commercial. HQ info@ only. Did not mail mrcarpetfloortrading@gmail.com.
+
+### Mr Curtain (M) Sdn Bhd -- SENT 26 Aug 2026 09:00 MYT
+
+- To: mrcurtain.my@gmail.com. Former draft `r-3533092610818543435`. SENT `1a03b9b7a6acc8bd`. Thread `1a039edc40f9075a`. Subject: Muar curtain page. File: `docs/proposals/mr-curtain.md`. Copy Malaysia Premium Design Curtains and Blinds Solutions / Top Curtain Supplier in Malaysia.
+- Next hunt: unused malaysiabrand hosts after line 2079. Sent 26 Aug 09:00-09:11 MYT.
 
 ## Queued after hours 25 Aug 2026 18:59 MYT (do not send before Wed 09:00)
 
 Folded onto the same Wed 09:00 timer (`sub_e0096431-c060-49d4-8655-b1a26c78afa7`, replaced `sub_40af1718-adb6-4434-9e79-15123396138c`). Five extras from unused hosts 2080-2179. Empty `in:sent`. All five `/services/` Coming Soon (`min-height:440px`). No Stripe. Skipped Multiplus SENT 22 Aug. HQ mty.solutions@ only. Copy wide range of printer, Stranger Presence, core principles is, Mosquitos Control, Factory For Sales, For Sell.
 
-### MTY SOLUTIONS (M) SDN. BHD. -- QUEUED draft 25 Aug 2026 18:58 MYT
-- To: mty.solutions@gmail.com. Draft `r-2644025333733435359`. Thread `1a038924509a616d`. Subject: Puchong coding page. File: `docs/proposals/mty-solutions.md`. Copy wide range of printer for your choice. Did not mail mtysolutionsadm@.
+### MTY SOLUTIONS (M) SDN. BHD. -- SENT 26 Aug 2026 09:00 MYT
 
-### Malaysian Wood Moulding And Joinery Council -- QUEUED draft 25 Aug 2026 18:58 MYT
-- To: mwmjcmy@gmail.com. Draft `r2049020985171248085`. Thread `1a0389258016df35`. Subject: Cheras timber-council page. File: `docs/proposals/mwmjc.md`. Copy YOUR FOUNDATION to a Stranger Presence in Malaysia / Our core principles is.
+- To: mty.solutions@gmail.com. Former draft `r-2644025333733435359`. SENT `1a03b9b7c1f5b109`. Thread `1a039edc2578eccc`. Subject: Puchong coding page. File: `docs/proposals/mty-solutions.md`. Copy wide range of printer for your choice. Did not mail mtysolutionsadm@.
 
-### MYB Healthcare Group Sdn Bhd -- QUEUED draft 25 Aug 2026 18:58 MYT
-- To: mybhealthcare.myb@gmail.com. Draft `r4743630700880799596`. Thread `1a038926f76ab479`. Subject: Seremban clinic page. File: `docs/proposals/myb-healthcare.md`. Copy Each family will have their very own family doctor / three bear symbols.
+### Malaysian Wood Moulding And Joinery Council -- SENT 26 Aug 2026 09:00 MYT
 
-### Smart Synergy Group Sdn Bhd -- QUEUED draft 25 Aug 2026 18:58 MYT
-- To: hq@myssg.com.my. Draft `r6770415900803986106`. Thread `1a03892850197550`. Subject: Klang pest-control page. File: `docs/proposals/smart-synergy.md`. Copy Mosquitos Control / CIDB Holder. HQ Klang only.
+- To: mwmjcmy@gmail.com. Former draft `r2049020985171248085`. SENT `1a03b9b7fe1d95ba`. Thread `1a039edc17d82d8a`. Subject: Cheras timber-council page. File: `docs/proposals/mwmjc.md`. Copy YOUR FOUNDATION to a Stranger Presence in Malaysia / Our core principles is.
 
-### NC Group -- QUEUED draft 25 Aug 2026 18:59 MYT
-- To: nicolesze.fhg@gmail.com. Draft `r-2187643082099035779`. Thread `1a038929bb7fd809`. Subject: Puchong factory-sales page. File: `docs/proposals/nc-group.md`. Copy Factory For Sales / Shop-Office For Sell. Footer Knight Synergy Sdn Bhd.
-- Next hunt: unused malaysiabrand hosts after line 2179. Do not send these before Wed 09:00 MYT.
+### MYB Healthcare Group Sdn Bhd -- SENT 26 Aug 2026 09:00 MYT
+
+- To: mybhealthcare.myb@gmail.com. Former draft `r4743630700880799596`. SENT `1a03b9b80c4ba4a1`. Thread `1a039edbdfd3f8df`. Subject: Seremban clinic page. File: `docs/proposals/myb-healthcare.md`. Copy Each family will have their very own family doctor / three bear symbols.
+
+### Smart Synergy Group Sdn Bhd -- SENT 26 Aug 2026 09:00 MYT
+
+- To: hq@myssg.com.my. Former draft `r6770415900803986106`. SENT `1a03b9b83e6ac19e`. Thread `1a039edbda246450`. Subject: Klang pest-control page. File: `docs/proposals/smart-synergy.md`. Copy Mosquitos Control / CIDB Holder. HQ Klang only.
+
+### NC Group -- SENT 26 Aug 2026 09:00 MYT
+
+- To: nicolesze.fhg@gmail.com. Former draft `r-2187643082099035779`. SENT `1a03b9bfa980c693`. Thread `1a039edbeef57843`. Subject: Puchong factory-sales page. File: `docs/proposals/nc-group.md`. Copy Factory For Sales / Shop-Office For Sell. Footer Knight Synergy Sdn Bhd.
+- Next hunt: unused malaysiabrand hosts after line 2179. Sent 26 Aug 09:00-09:11 MYT.
 
 ## Queued after hours 25 Aug 2026 19:09 MYT (do not send before Wed 09:00)
 
 Folded onto the same Wed 09:00 timer (`sub_6c8f0b11-d434-4373-8c1a-89399537ca56`, replaced `sub_e0096431-c060-49d4-8655-b1a26c78afa7`). Ten extras from unused hosts 2180-2279. Empty `in:sent`. All ten `/services/` Coming Soon (`min-height:440px`). No Stripe. HQ officeequipment2u@ only at OE2U. Copy Hicom-glenmarie, OfficeEquiment2u, Where Fatigue and Tiredness Get Healing, Noble Craft provide, rekalibrasi program 2.0, All kinds of tools that you need can find here.
 
-### New Traffic Auto Sdn Bhd -- QUEUED draft 25 Aug 2026 19:07 MYT
-- To: newtraffic75@gmail.com. Draft `r-5570907033253902060`. Thread `1a0389a601b536bf`. Subject: Glenmarie auto-parts page. File: `docs/proposals/new-traffic.md`. Copy Hicom-glenmarie Industrial Park.
+### New Traffic Auto Sdn Bhd -- SENT 26 Aug 2026 09:00 MYT
 
-### 955 Agency Sdn Bhd -- QUEUED draft 25 Aug 2026 19:07 MYT
-- To: siahtongchern@yahoo.com. Draft `r-4250494829830128615`. Thread `1a0389a8a85e90e0`. Subject: Taman Molek funeral page. File: `docs/proposals/nirvana-planning.md`. Copy 一站式规划殡葬服务 / 马币一亿信托基金. HQ Taman Molek only.
+- To: newtraffic75@gmail.com. Former draft `r-5570907033253902060`. SENT `1a03b9b8ccb3954f`. Thread `1a039edba6f45853`. Subject: Glenmarie auto-parts page. File: `docs/proposals/new-traffic.md`. Copy Hicom-glenmarie Industrial Park.
 
-### NIMAC POWER SYSTEMS (M) SDN BHD -- QUEUED draft 25 Aug 2026 19:07 MYT
-- To: sales@nimac.com.my. Draft `r1571208633462605789`. Thread `1a0389aaddff602d`. Subject: Kajang backup-power page. File: `docs/proposals/nimac.md`. Copy Backup Power Is Our Specialty / seal/vented lead acid.
+### 955 Agency Sdn Bhd -- SENT 26 Aug 2026 09:00 MYT
 
-### SOON HENG HARDWARE CO. SDN. BHD. -- QUEUED draft 25 Aug 2026 19:07 MYT
-- To: sales@nlh.com.my. Draft `r-6048182960742316750`. Thread `1a0389ad16978287`. Subject: Muar sanitaryware page. File: `docs/proposals/nlh-soon-heng.md`. Copy Where Fatigue and Tiredness Get Healing.
+- To: siahtongchern@yahoo.com. Former draft `r-4250494829830128615`. SENT `1a03b9bfd9ec60f6`. Thread `1a039eeafc10d8cb`. Subject: Taman Molek funeral page. File: `docs/proposals/nirvana-planning.md`. Copy 一站式规划殡葬服务 / 马币一亿信托基金. HQ Taman Molek only.
 
-### Noble Craft Sdn. Bhd. -- QUEUED draft 25 Aug 2026 19:08 MYT
-- To: sales.noblecraft@gmail.com. Draft `r-40801281616851698`. Thread `1a0389b109da10de`. Subject: Balakong flooring page. File: `docs/proposals/noble-craft.md`. Copy Noble Craft provide / Discover Mexmy Flooring.
+### NIMAC POWER SYSTEMS (M) SDN BHD -- SENT 26 Aug 2026 09:00 MYT
 
-### Nursery Hong Soon Sdn Bhd -- QUEUED draft 25 Aug 2026 19:08 MYT
-- To: mgmt@nurseryhongsoon.com.my. Draft `r-7309346881552170751`. Thread `1a0389b34f23ff9f`. Subject: Ulu Tiram landscape page. File: `docs/proposals/nursery-hong-soon.md`. Copy Your Premier Landscaping Partner in Malaysia.
+- To: sales@nimac.com.my. Former draft `r1571208633462605789`. SENT `1a03b9bff1bd7360`. Thread `1a039eefb7a61dfd`. Subject: Kajang backup-power page. File: `docs/proposals/nimac.md`. Copy Backup Power Is Our Specialty / seal/vented lead acid.
 
-### OAC Global Services -- QUEUED draft 25 Aug 2026 19:08 MYT
-- To: cwteo1993@hotmail.com. Draft `r-6272871307025673232`. Thread `1a0389b64d1666de`. Subject: Klang visa page. File: `docs/proposals/oac-global.md`. Copy rekalibrasi program 2.0.
+### SOON HENG HARDWARE CO. SDN. BHD. -- SENT 26 Aug 2026 09:00 MYT
 
-### Syarikat Kichong Office Equipment Sdn Bhd -- QUEUED draft 25 Aug 2026 19:08 MYT
-- To: officeequipment2u@gmail.com. Draft `r1540085878183210617`. Thread `1a0389b7dd263086`. Subject: Cheras office-equipment page. File: `docs/proposals/oe2u.md`. Copy OfficeEquiment2u. Did not mail enquiry@koe.com.my.
+- To: sales@nlh.com.my. Former draft `r-6048182960742316750`. SENT `1a03b9bfe96ebe22`. Thread `1a039eeacb4e71e7`. Subject: Muar sanitaryware page. File: `docs/proposals/nlh-soon-heng.md`. Copy Where Fatigue and Tiredness Get Healing.
 
-### OIJ Hardware Household Sdn Bhd -- QUEUED draft 25 Aug 2026 19:08 MYT
-- To: oij.enterprise@gmail.com. Draft `r-5239965613949901236`. Thread `1a0389b987aa915c`. Subject: Johor Jaya hardware page. File: `docs/proposals/oij-hardware.md`. Copy All kinds of tools that you need can find here.
+### Noble Craft Sdn. Bhd. -- SENT 26 Aug 2026 09:00 MYT
 
-### ENSURE MACHINERY SDN BHD -- QUEUED draft 25 Aug 2026 19:09 MYT
-- To: ensuremachinery@outlook.com. Draft `r1288820328846280053`. Thread `1a0389bb3a2be566`. Subject: Klang machinery page. File: `docs/proposals/okiyio.md`. Copy Empowering Industries with Precision & Reliability.
-- Next hunt: unused malaysiabrand hosts after line 2279. Do not send these before Wed 09:00 MYT.
+- To: sales.noblecraft@gmail.com. Former draft `r-40801281616851698`. SENT `1a03b9c0117161f4`. Thread `1a039eeaabf5c55c`. Subject: Balakong flooring page. File: `docs/proposals/noble-craft.md`. Copy Noble Craft provide / Discover Mexmy Flooring.
+
+### Nursery Hong Soon Sdn Bhd -- SENT 26 Aug 2026 09:00 MYT
+
+- To: mgmt@nurseryhongsoon.com.my. Former draft `r-7309346881552170751`. SENT `1a03b9c049ebe54c`. Thread `1a039eeab0d4c06b`. Subject: Ulu Tiram landscape page. File: `docs/proposals/nursery-hong-soon.md`. Copy Your Premier Landscaping Partner in Malaysia.
+
+### OAC Global Services -- SENT 26 Aug 2026 09:00 MYT
+
+- To: cwteo1993@hotmail.com. Former draft `r-6272871307025673232`. SENT `1a03b9c043421847`. Thread `1a039ee5bc1e966e`. Subject: Klang visa page. File: `docs/proposals/oac-global.md`. Copy rekalibrasi program 2.0.
+
+### Syarikat Kichong Office Equipment Sdn Bhd -- SENT 26 Aug 2026 09:00 MYT
+
+- To: officeequipment2u@gmail.com. Former draft `r1540085878183210617`. SENT `1a03b9c8a069b73c`. Thread `1a039ee58cf2aeaa`. Subject: Cheras office-equipment page. File: `docs/proposals/oe2u.md`. Copy OfficeEquiment2u. Did not mail enquiry@koe.com.my.
+
+### OIJ Hardware Household Sdn Bhd -- SENT 26 Aug 2026 09:00 MYT
+
+- To: oij.enterprise@gmail.com. Former draft `r-5239965613949901236`. SENT `1a03b9c0de6e3308`. Thread `1a039ee5768132bb`. Subject: Johor Jaya hardware page. File: `docs/proposals/oij-hardware.md`. Copy All kinds of tools that you need can find here.
+
+### ENSURE MACHINERY SDN BHD -- SENT 26 Aug 2026 09:00 MYT
+
+- To: ensuremachinery@outlook.com. Former draft `r1288820328846280053`. SENT `1a03b9c0d0a2ad7d`. Thread `1a039ee57afa53ee`. Subject: Klang machinery page. File: `docs/proposals/okiyio.md`. Copy Empowering Industries with Precision & Reliability.
+- Next hunt: unused malaysiabrand hosts after line 2279. Sent 26 Aug 09:00-09:11 MYT.
 
 ## Queued after hours 25 Aug 2026 19:21 MYT (do not send before Wed 09:00)
 
 Folded onto the same Wed 09:00 timer (`sub_07b3a558-65b4-4ead-a883-1bfab7265dd6`, replaced `sub_6c8f0b11-d434-4373-8c1a-89399537ca56`). Five extras from unused hosts 2280-2379. Empty `in:sent`. All five `/services/` Coming Soon (`min-height:440px`). No Stripe. HQ Machang Bubok only at Paint Master Penang. Copy joyous and exciting journey, The exising roof has many cracks, BOXUP SIGN SOLUTIONS, He offer a wide range of products, windscreen water mark remove.
 
-### PAINT MASTER SDN BHD -- QUEUED draft 25 Aug 2026 19:19 MYT
-- To: paintmaster.my@gmail.com. Draft `r-637980693415352651`. Thread `1a038a569c16ad1c`. Subject: Bukit Mertajam paint-shop page. File: `docs/proposals/paint-master-penang.md`. Copy joyous and exciting journey / archaic industry. HQ Machang Bubok only. Not Paint Master DIY.
+### PAINT MASTER SDN BHD -- SENT 26 Aug 2026 09:00 MYT
 
-### Pan Asiatic Enterprise Sdn. Bhd. -- QUEUED draft 25 Aug 2026 19:19 MYT
-- To: panasiatic@live.com. Draft `r5724331816442689096`. Thread `1a038a59bb6e7e19`. Subject: Damansara Jaya waterproofing page. File: `docs/proposals/pan-asiatic.md`. Copy Built on long-term waterproofing performance. / The exising roof has many cracks.
+- To: paintmaster.my@gmail.com. Former draft `r-637980693415352651`. SENT `1a03b9c0e202e592`. Thread `1a039ee5444738e2`. Subject: Bukit Mertajam paint-shop page. File: `docs/proposals/paint-master-penang.md`. Copy joyous and exciting journey / archaic industry. HQ Machang Bubok only. Not Paint Master DIY.
 
-### Panda Signboard & Printing Sdn Bhd -- QUEUED draft 25 Aug 2026 19:19 MYT
-- To: pandasignboard@gmail.com. Draft `r2564808719607498060`. Thread `1a038a5c25e969dd`. Subject: Klang signboard page. File: `docs/proposals/panda-sign.md`. Copy Big Prints, Bold Statements / BOXUP SIGN SOLUTIONS.
+### Pan Asiatic Enterprise Sdn. Bhd. -- SENT 26 Aug 2026 09:00 MYT
 
-### PB PACKAGING (M) SDN BHD -- QUEUED draft 25 Aug 2026 19:19 MYT
-- To: pbpack@yahoo.com. Draft `r-6108805484129549930`. Thread `1a038a5d81f19818`. Subject: Ayer Keroh carton page. File: `docs/proposals/pb-packaging.md`. Copy He offer a wide range of products / Good quality of carton box!. No street number printed.
+- To: panasiatic@live.com. Former draft `r5724331816442689096`. SENT `1a03b9c10c595300`. Thread `1a039ee538f485da`. Subject: Damansara Jaya waterproofing page. File: `docs/proposals/pan-asiatic.md`. Copy Built on long-term waterproofing performance. / The exising roof has many cracks.
 
-### SHINE GUARD CAR PROTECTION (M) SDN. BHD. -- QUEUED draft 25 Aug 2026 19:19 MYT
-- To: shine_guard@hotmail.com. Draft `r4606053914592035133`. Thread `1a038a5eca81e355`. Subject: Bukit Mertajam car-coating page. File: `docs/proposals/shine-guard.md`. Copy Ultimate Car Paint Protection, Guaranteed / windscreen water mark remove. No street printed.
-- Next hunt: unused malaysiabrand hosts after line 2379. Do not send these before Wed 09:00 MYT.
+### Panda Signboard & Printing Sdn Bhd -- SENT 26 Aug 2026 09:00 MYT
+
+- To: pandasignboard@gmail.com. Former draft `r2564808719607498060`. SENT `1a03b9c130d055d8`. Thread `1a039ee506fe7172`. Subject: Klang signboard page. File: `docs/proposals/panda-sign.md`. Copy Big Prints, Bold Statements / BOXUP SIGN SOLUTIONS.
+
+### PB PACKAGING (M) SDN BHD -- SENT 26 Aug 2026 09:00 MYT
+
+- To: pbpack@yahoo.com. Former draft `r-6108805484129549930`. SENT `1a03b9c1406c33ca`. Thread `1a039ee4e5021083`. Subject: Ayer Keroh carton page. File: `docs/proposals/pb-packaging.md`. Copy He offer a wide range of products / Good quality of carton box!. No street number printed.
+
+### SHINE GUARD CAR PROTECTION (M) SDN. BHD. -- SENT 26 Aug 2026 09:00 MYT
+
+- To: shine_guard@hotmail.com. Former draft `r4606053914592035133`. SENT `1a03b9c14a7d4caf`. Thread `1a039ee4d03d887c`. Subject: Bukit Mertajam car-coating page. File: `docs/proposals/shine-guard.md`. Copy Ultimate Car Paint Protection, Guaranteed / windscreen water mark remove. No street printed.
+- Next hunt: unused malaysiabrand hosts after line 2379. Sent 26 Aug 09:00-09:11 MYT.
 
 ## Queued after hours 25 Aug 2026 19:26 MYT (do not send before Wed 09:00)
 
 Folded onto the same Wed 09:00 timer (`sub_4715e851-9f5c-4d29-b44e-8b81f4e307c3`, replaced `sub_07b3a558-65b4-4ead-a883-1bfab7265dd6`). Five extras from unused hosts 2380-2479. Empty `in:sent`. All five `/services/` Coming Soon (`min-height:440px`). No Stripe. HQ sales@ only at Promatics. Copy Now you can taste nature as you wish!, 众志弥坚, Rakan Pembiayaan & Pinjaman Dipercayai Anda di Kuantan, Seal Your Wealth, 100% Kalis Kakisan.
 
-### PGA GLOBAL (M) SDN BHD -- QUEUED draft 25 Aug 2026 19:25 MYT
-- To: enquiry@pgaglobal.com.my. Draft `r3956316449704191397`. Thread `1a038aad93967571`. Subject: Puchong grocery page. File: `docs/proposals/pga-global.md`. Copy Healthier living starts with our premium products / Now you can taste nature as you wish!.
+### PGA GLOBAL (M) SDN BHD -- SENT 26 Aug 2026 09:00 MYT
 
-### 槟州五金机械商会 -- QUEUED draft 25 Aug 2026 19:25 MYT
-- To: phamma.penang@gmail.com. Draft `r5584607974150486957`. Thread `1a038aaef7d47db1`. Subject: Air Itam hardware-association page. File: `docs/proposals/phamma.md`. Copy 众志弥坚 / 光荣史记 / 1947年元月.
+- To: enquiry@pgaglobal.com.my. Former draft `r3956316449704191397`. SENT `1a03b9c8c33cc332`. Thread `1a039ee4d7c6913b`. Subject: Puchong grocery page. File: `docs/proposals/pga-global.md`. Copy Healthier living starts with our premium products / Now you can taste nature as you wish!.
 
-### Bonus Setters (M) Sdn Bhd -- QUEUED draft 25 Aug 2026 19:25 MYT
-- To: bonussettle33@gmail.com. Draft `r420633661220653245`. Thread `1a038ab036cd9469`. Subject: Kuantan financing page. File: `docs/proposals/bonus-setters.md`. Copy Permudahkan Proses Pembiayaan Anda / Rakan Pembiayaan & Pinjaman Dipercayai Anda di Kuantan.
+### 槟州五金机械商会 -- SENT 26 Aug 2026 09:00 MYT
 
-### Polyseals Sdn Bhd -- QUEUED draft 25 Aug 2026 19:25 MYT
-- To: lee@polyseals.com.my. Draft `r2061768747645075077`. Thread `1a038ab142a28b40`. Subject: Batu Caves seals page. File: `docs/proposals/polyseals.md`. Copy Shall you have any further inquiries / Seal Your Wealth. HQ KIN YANG only. No street printed.
+- To: phamma.penang@gmail.com. Former draft `r5584607974150486957`. SENT `1a03b9c1dd4a1329`. Thread `1a039edcf39f341d`. Subject: Air Itam hardware-association page. File: `docs/proposals/phamma.md`. Copy 众志弥坚 / 光荣史记 / 1947年元月.
 
-### Promatics Technologies (M) Sdn Bhd -- QUEUED draft 25 Aug 2026 19:25 MYT
-- To: sales@promatics.com.my. Draft `r-6105110903753375318`. Thread `1a038ab2ba9d4b18`. Subject: Semenyih tank page. File: `docs/proposals/promatics.md`. Copy 100% Kalis Kakisan / maximize your organization's entire benefit. HQ sales@ only. Did not mail promatics.sales@gmail.com.
-- Next hunt: unused malaysiabrand hosts after line 2479. Do not send these before Wed 09:00 MYT.
+### Bonus Setters (M) Sdn Bhd -- SENT 26 Aug 2026 09:00 MYT
+
+- To: bonussettle33@gmail.com. Former draft `r420633661220653245`. SENT `1a03b9c1fb554036`. Thread `1a039edcdcae7737`. Subject: Kuantan financing page. File: `docs/proposals/bonus-setters.md`. Copy Permudahkan Proses Pembiayaan Anda / Rakan Pembiayaan & Pinjaman Dipercayai Anda di Kuantan.
+
+### Polyseals Sdn Bhd -- SENT 26 Aug 2026 09:00 MYT
+
+- To: lee@polyseals.com.my. Former draft `r2061768747645075077`. SENT `1a03b9c1fe80e349`. Thread `1a039edca558721a`. Subject: Batu Caves seals page. File: `docs/proposals/polyseals.md`. Copy Shall you have any further inquiries / Seal Your Wealth. HQ KIN YANG only. No street printed.
+
+### Promatics Technologies (M) Sdn Bhd -- SENT 26 Aug 2026 09:00 MYT
+
+- To: sales@promatics.com.my. Former draft `r-6105110903753375318`. SENT `1a03b9c8d60c3078`. Thread `1a039edc93e4310b`. Subject: Semenyih tank page. File: `docs/proposals/promatics.md`. Copy 100% Kalis Kakisan / maximize your organization's entire benefit. HQ sales@ only. Did not mail promatics.sales@gmail.com.
+- Next hunt: unused malaysiabrand hosts after line 2479. Sent 26 Aug 09:00-09:11 MYT.
 
 ## Queued after hours 25 Aug 2026 19:35 MYT (do not send before Wed 09:00)
 
 Folded onto the same Wed 09:00 timer (`sub_4442a5b1-2eb1-42aa-8bbe-33a8db79b878`, replaced `sub_4715e851-9f5c-4d29-b44e-8b81f4e307c3`). Eight extras from unused hosts 2480-2579. Empty `in:sent`. All eight `/services/` Coming Soon (`min-height:440px`). No Stripe. HQ gmail only at Rakusaki Store. Copy various various types, UPVC. pipes, water conservancy, It’s the difference, It’s unique., We are "experiential designers" ., Product Abutting, ALL OF YOUR PACKAGING MACHINES NEEDS.
 
-### PS Power Signs Sdn Bhd -- QUEUED draft 25 Aug 2026 19:32 MYT
-- To: pspower2323@gmail.com. Draft `r-5567282599771057745`. Thread `1a038b1e4bf75d3d`. Subject: Puchong signboard page. File: `docs/proposals/ps-power-signs.md`. Copy REDEFINING SIGNAGE EXCELLENCE / various various types / Let’s Hear What They Say.
+### PS Power Signs Sdn Bhd -- SENT 26 Aug 2026 09:00 MYT
 
-### PS YOON Marketing Sdn Bhd -- QUEUED draft 25 Aug 2026 19:32 MYT
-- To: psyoonmarketingsb@gmail.com. Draft `r-3181581615709599191`. Thread `1a038b2173803225`. Subject: Sri Sentosa pipes page. File: `docs/proposals/ps-yoon.md`. Copy UPVC. pipes / Collaborative Supportive Very Responsive and Easy to Work with.
+- To: pspower2323@gmail.com. Former draft `r-5567282599771057745`. SENT `1a03b9c8e37c9762`. Thread `1a039edc675f1206`. Subject: Puchong signboard page. File: `docs/proposals/ps-power-signs.md`. Copy REDEFINING SIGNAGE EXCELLENCE / various various types / Let’s Hear What They Say.
 
-### PRECISION WAVE INSTRUMENT SDN. BHD. -- QUEUED draft 25 Aug 2026 19:33 MYT
-- To: info@pwmeter.com.my. Draft `r8534909531381224721`. Thread `1a038b241c76c30c`. Subject: Butterworth analyser page. File: `docs/proposals/precision-wave.md`. Copy Innovative Solutions For Water Quality and Hydrology Needs / water conservancy.
+### PS YOON Marketing Sdn Bhd -- SENT 26 Aug 2026 09:00 MYT
 
-### Quarter Design Sdn Bhd -- QUEUED draft 25 Aug 2026 19:33 MYT
-- To: hey.quarterdesign@gmail.com. Draft `r-1117158335628212197`. Thread `1a038b27aafe383c`. Subject: Iskandar Puteri interior page. File: `docs/proposals/quarter-design.md`. Copy It’s the difference, It’s unique. / Interior Fengshui Master.
+- To: psyoonmarketingsb@gmail.com. Former draft `r-3181581615709599191`. SENT `1a03b9c8fbba2329`. Thread `1a039edc478ab5a8`. Subject: Sri Sentosa pipes page. File: `docs/proposals/ps-yoon.md`. Copy UPVC. pipes / Collaborative Supportive Very Responsive and Easy to Work with.
 
-### Radiant Expo Sdn Bhd -- QUEUED draft 25 Aug 2026 19:33 MYT
-- To: enquiry@radiant.my. Draft `r-8998696703776383337`. Thread `1a038b2987e9bffc`. Subject: Taman Gembira events page. File: `docs/proposals/radiant-expo.md`. Copy We are "experiential designers" . / we aim to WOW you.
+### PRECISION WAVE INSTRUMENT SDN. BHD. -- SENT 26 Aug 2026 09:00 MYT
 
-### Rakusaki Store Sdn Bhd -- QUEUED draft 25 Aug 2026 19:33 MYT
-- To: rakusakistore@gmail.com. Draft `r-3697583712296868846`. Thread `1a038b2b82af50c1`. Subject: Kluang machinery page. File: `docs/proposals/rakusaki-store.md`. Copy Top Innovator. HQ gmail only. Did not mail Ain/Andrew. Hours print Monday-Saturday Closed, Sunday 9:00 AM-6:00 PM.
+- To: info@pwmeter.com.my. Former draft `r8534909531381224721`. SENT `1a03b9c90f0d336d`. Thread `1a039edc3b11b3e5`. Subject: Butterworth analyser page. File: `docs/proposals/precision-wave.md`. Copy Innovative Solutions For Water Quality and Hydrology Needs / water conservancy.
 
-### RESTU IDEAL (M) SDN. BHD. -- QUEUED draft 25 Aug 2026 19:34 MYT
-- To: restuystan@gmail.com. Draft `r-3600949707261575166`. Thread `1a038b2eee39c99b`. Subject: Johor Jaya security page. File: `docs/proposals/restu-ideal.md`. Copy Your One-stop Anti-Counterfeit Solution / Product Abutting.
+### Quarter Design Sdn Bhd -- SENT 26 Aug 2026 09:00 MYT
 
-### REVE MACHINERY SDN BHD -- QUEUED draft 25 Aug 2026 19:34 MYT
-- To: revetech3@gmail.com. Draft `r-7408094007803419946`. Thread `1a038b309f9c182c`. Subject: Simpang Ampat packing-machine page. File: `docs/proposals/reve-machinery.md`. Copy All of your Packaging Machine’s Needs / ALL OF YOUR PACKAGING MACHINES NEEDS.
+- To: hey.quarterdesign@gmail.com. Former draft `r-1117158335628212197`. SENT `1a03b9ca15054278`. Thread `1a039edc33d22b9b`. Subject: Iskandar Puteri interior page. File: `docs/proposals/quarter-design.md`. Copy It’s the difference, It’s unique. / Interior Fengshui Master.
+
+### Radiant Expo Sdn Bhd -- SENT 26 Aug 2026 09:00 MYT
+
+- To: enquiry@radiant.my. Former draft `r-8998696703776383337`. SENT `1a03b9ca0588bc57`. Thread `1a039edc08225ab9`. Subject: Taman Gembira events page. File: `docs/proposals/radiant-expo.md`. Copy We are "experiential designers" . / we aim to WOW you.
+
+### Rakusaki Store Sdn Bhd -- SENT 26 Aug 2026 09:00 MYT
+
+- To: rakusakistore@gmail.com. Former draft `r-3697583712296868846`. SENT `1a03b9ca216f6193`. Thread `1a039edbe809bca2`. Subject: Kluang machinery page. File: `docs/proposals/rakusaki-store.md`. Copy Top Innovator. HQ gmail only. Did not mail Ain/Andrew. Hours print Monday-Saturday Closed, Sunday 9:00 AM-6:00 PM.
+
+### RESTU IDEAL (M) SDN. BHD. -- SENT 26 Aug 2026 09:00 MYT
+
+- To: restuystan@gmail.com. Former draft `r-3600949707261575166`. SENT `1a03b9ca554ff72a`. Thread `1a039ec3a813f5e7`. Subject: Johor Jaya security page. File: `docs/proposals/restu-ideal.md`. Copy Your One-stop Anti-Counterfeit Solution / Product Abutting.
+
+### REVE MACHINERY SDN BHD -- SENT 26 Aug 2026 09:00 MYT
+
+- To: revetech3@gmail.com. Former draft `r-7408094007803419946`. SENT `1a03b9ca71e36dde`. Thread `1a039ec38932ee9a`. Subject: Simpang Ampat packing-machine page. File: `docs/proposals/reve-machinery.md`. Copy All of your Packaging Machine’s Needs / ALL OF YOUR PACKAGING MACHINES NEEDS.
 
 Skipped CS+mailto TLD mismatches: pztech.com.my `partzone@outlook.my`; richads.com.my `alvin@richadsmarketing.com`; ridgemonde.com.my `ridgemonde@tenco.com.my`.
-- Next hunt: unused malaysiabrand hosts after line 2579. Do not send these before Wed 09:00 MYT.
+- Next hunt: unused malaysiabrand hosts after line 2579. Sent 26 Aug 09:00-09:11 MYT.
 
 ## Queued after hours 25 Aug 2026 19:46 MYT (do not send before Wed 09:00)
 
 Folded onto the same Wed 09:00 timer (`sub_6397a2a9-a102-4a15-baba-f4748fcb04ed`, replaced `sub_4442a5b1-2eb1-42aa-8bbe-33a8db79b878`). Eight extras from unused hosts 2580-2679. Empty `in:sent`. All eight `/services/` Coming Soon (`min-height:440px`). No Stripe. HQ sales@ only at Saga Paver. HQ Johor contact-card only at Roman Jewellery. SAM SM prints Bukit Jalil city-only, no street. Copy nothing is off-the-shell, Factory for Sales and Rent, Choose SAGA. Built to Last. Proudly Malaysian., offices table, Powering Precision. Built to Last., Our company also offer, We offers a wide variety of options, Kraf Paper.
 
-### Roman Jewellery Sdn Bhd -- QUEUED draft 25 Aug 2026 19:44 MYT
-- To: info.romanco@gmail.com. Draft `r5898375591484573834`. Thread `1a038bc47bd63a10`. Subject: Iskandar Puteri jewellery page. File: `docs/proposals/roman-jewellery.md`. Copy JEWELRY SPEAKS THE LANGUAGE OF LOVE / nothing is off-the-shell. HQ Johor Eko Galleria contact-card only. One inbox.
+### Roman Jewellery Sdn Bhd -- SENT 26 Aug 2026 09:00 MYT
 
-### RTS Infinity Sdn Bhd -- QUEUED draft 25 Aug 2026 19:44 MYT
-- To: robert888.rts@gmail.com. Draft `r363423645827997061`. Thread `1a038bc5b784aea6`. Subject: Shah Alam factory-sales page. File: `docs/proposals/rts-infinity.md`. Copy Factory for Sales and Rent / TRUSTED PROPERTY AGENCY.
+- To: info.romanco@gmail.com. Former draft `r5898375591484573834`. SENT `1a03b9caa356d875`. Thread `1a039ec3627c5cc5`. Subject: Iskandar Puteri jewellery page. File: `docs/proposals/roman-jewellery.md`. Copy JEWELRY SPEAKS THE LANGUAGE OF LOVE / nothing is off-the-shell. HQ Johor Eko Galleria contact-card only. One inbox.
 
-### Saga Paver Industries Sdn. Bhd. -- QUEUED draft 25 Aug 2026 19:44 MYT
-- To: sales@sagapaver.com.my. Draft `r-3972312955126331437`. Thread `1a038bc79d7e8402`. Subject: Puchong paver page. File: `docs/proposals/saga-paver.md`. Copy Choose SAGA. Built to Last. Proudly Malaysian. / Precision Pavers, Built to Endure. HQ sales@ only. Did not mail sagapaver@gmail.com.
+### RTS Infinity Sdn Bhd -- SENT 26 Aug 2026 09:00 MYT
 
-### SAM SM FURNITURE -- QUEUED draft 25 Aug 2026 19:44 MYT
-- To: samsmfurniture88@gmail.com. Draft `r2219037099487243643`. Thread `1a038bcaae1d245f`. Subject: Bukit Jalil furniture page. File: `docs/proposals/sam-sm-furniture.md`. Copy incorporated in 2010 / offices table / Our headquarter. No street printed. No SSM printed.
+- To: robert888.rts@gmail.com. Former draft `r363423645827997061`. SENT `1a03b9cae7ede380`. Thread `1a039ec34ba6bd57`. Subject: Shah Alam factory-sales page. File: `docs/proposals/rts-infinity.md`. Copy Factory for Sales and Rent / TRUSTED PROPERTY AGENCY.
 
-### SBC Tech Marketing Sdn Bhd -- QUEUED draft 25 Aug 2026 19:45 MYT
-- To: sbtools1228@gmail.com. Draft `r4140191804764019587`. Thread `1a038bcf7cc74efa`. Subject: Batu Caves tools page. File: `docs/proposals/sbc-tech.md`. Copy Powering Precision. Built to Last.
+### Saga Paver Industries Sdn. Bhd. -- SENT 26 Aug 2026 09:00 MYT
 
-### Seaton Window Film -- QUEUED draft 25 Aug 2026 19:45 MYT
-- To: seatonfilm@gmail.com. Draft `r8497046515543715756`. Thread `1a038bd100269067`. Subject: Puchong window-film page. File: `docs/proposals/seaton-window-film.md`. Copy unparalleled protection / Guaranteed best price / Our company also offer.
+- To: sales@sagapaver.com.my. Former draft `r-3972312955126331437`. SENT `1a03b9cb17baa82f`. Thread `1a039ec34c3267f8`. Subject: Puchong paver page. File: `docs/proposals/saga-paver.md`. Copy Choose SAGA. Built to Last. Proudly Malaysian. / Precision Pavers, Built to Endure. HQ sales@ only. Did not mail sagapaver@gmail.com.
 
-### Sekinchan Dim Sum Sdn. Bhd. -- QUEUED draft 25 Aug 2026 19:45 MYT
-- To: sekinchandimsum@gmail.com. Draft `r-8339889547142419444`. Thread `1a038bd2cf854c2e`. Subject: Puncak Alam dim-sum page. File: `docs/proposals/sekinchan-dimsum.md`. Copy We offers a wide variety of options.
+### SAM SM FURNITURE -- SENT 26 Aug 2026 09:00 MYT
 
-### Supreme Eco Packaging Sdn. Bhd. -- QUEUED draft 25 Aug 2026 19:45 MYT
-- To: kwongjoseph@hotmail.com. Draft `r5417224760852782870`. Thread `1a038bd508e094e0`. Subject: Seri Kembangan packaging page. File: `docs/proposals/supreme-eco-packaging.md`. Copy Fashion Sushi Paper Box / Kraf Paper.
-- Next hunt: unused malaysiabrand hosts after line 2679. Do not send these before Wed 09:00 MYT.
+- To: samsmfurniture88@gmail.com. Former draft `r2219037099487243643`. SENT `1a03b9cb279f6dbf`. Thread `1a039ec33d850eb2`. Subject: Bukit Jalil furniture page. File: `docs/proposals/sam-sm-furniture.md`. Copy incorporated in 2010 / offices table / Our headquarter. No street printed. No SSM printed.
+
+### SBC Tech Marketing Sdn Bhd -- SENT 26 Aug 2026 09:00 MYT
+
+- To: sbtools1228@gmail.com. Former draft `r4140191804764019587`. SENT `1a03b9cb3291ebaa`. Thread `1a039ec30203f89a`. Subject: Batu Caves tools page. File: `docs/proposals/sbc-tech.md`. Copy Powering Precision. Built to Last.
+
+### Seaton Window Film -- SENT 26 Aug 2026 09:00 MYT
+
+- To: seatonfilm@gmail.com. Former draft `r8497046515543715756`. SENT `1a03b9cbf8ba4be0`. Thread `1a039ec2ecdc8514`. Subject: Puchong window-film page. File: `docs/proposals/seaton-window-film.md`. Copy unparalleled protection / Guaranteed best price / Our company also offer.
+
+### Sekinchan Dim Sum Sdn. Bhd. -- SENT 26 Aug 2026 09:00 MYT
+
+- To: sekinchandimsum@gmail.com. Former draft `r-8339889547142419444`. SENT `1a03b9cc2904d0dd`. Thread `1a039ec2c54fa945`. Subject: Puncak Alam dim-sum page. File: `docs/proposals/sekinchan-dimsum.md`. Copy We offers a wide variety of options.
+
+### Supreme Eco Packaging Sdn. Bhd. -- SENT 26 Aug 2026 09:00 MYT
+
+- To: kwongjoseph@hotmail.com. Former draft `r5417224760852782870`. SENT `1a03b9cc74cb5b24`. Thread `1a039ec2b737fa9c`. Subject: Seri Kembangan packaging page. File: `docs/proposals/supreme-eco-packaging.md`. Copy Fashion Sushi Paper Box / Kraf Paper.
+- Next hunt: unused malaysiabrand hosts after line 2679. Sent 26 Aug 09:00-09:11 MYT.
 
 ## Queued after hours 25 Aug 2026 19:55 MYT (do not send before Wed 09:00)
 
 Folded onto the same Wed 09:00 timer (`sub_686f4219-0952-4e3f-b67d-eda95c8b7bdc`, replaced `sub_6397a2a9-a102-4a15-baba-f4748fcb04ed`). Nine extras from unused hosts 2680-2779. Empty `in:sent`. All nine `/services/` Coming Soon (`min-height:440px`). No Stripe. HQ operation@ only at Seng Heng Metal. HQ info@ only at SK Lim and SLH. Sheng Bee and SZ Zone Shop print city-only. Copy we strived, How To Make Order?, More About Construction Safer, exponentiate their wealth, Bringing Everyday, 清明节祭祖...不为了找七色花而烦恼！, Jalan batu 5.
 
-### Sheng Bee (M) Sdn Bhd -- QUEUED draft 25 Aug 2026 19:51 MYT
-- To: shengbeesb@gmail.com. Draft `r-8723552677077389532`. Thread `1a038c498c758517`. Subject: KL tile page. File: `docs/proposals/sheng-bee.md`. Copy Tiles That Make a Statement / over 40 years of expertise. No street printed.
+### Sheng Bee (M) Sdn Bhd -- SENT 26 Aug 2026 09:00 MYT
 
-### Shinjuku Auto Parts Sdn Bhd -- QUEUED draft 25 Aug 2026 19:51 MYT
-- To: shinjukuautoparts@gmail.com. Draft `r-6038513400698241058`. Thread `1a038c4b1fe70f0b`. Subject: Klang engine page. File: `docs/proposals/shinjuku-auto.md`. Copy recond and used car engines / the best price, the best choice. No SSM printed.
+- To: shengbeesb@gmail.com. Former draft `r-8723552677077389532`. SENT `1a03b9d645fd361b`. Thread `1a039ec2b4fa1756`. Subject: KL tile page. File: `docs/proposals/sheng-bee.md`. Copy Tiles That Make a Statement / over 40 years of expertise. No street printed.
 
-### SENG HENG METAL SDN BHD -- QUEUED draft 25 Aug 2026 19:51 MYT
-- To: operation@shmetal.com.my. Draft `r-1931611628624868227`. Thread `1a038c4c561fd196`. Subject: Cheras metal page. File: `docs/proposals/seng-heng-metal.md`. Copy we strived to achieve a win-win situation. HQ operation@ only. Did not mail yitiankoh@outlook.com.
+### Shinjuku Auto Parts Sdn Bhd -- SENT 26 Aug 2026 09:00 MYT
 
-### SZ Zone Shop -- QUEUED draft 25 Aug 2026 19:52 MYT
-- To: szzoneshop@gmail.com. Draft `r1874450112550514501`. Thread `1a038c4f8df0cb05`. Subject: Selangor sneakers page. File: `docs/proposals/sz-zone-shop.md`. Copy Authentic Certified / How To Make Order?. No street printed. No SSM printed.
+- To: shinjukuautoparts@gmail.com. Former draft `r-6038513400698241058`. SENT `1a03b9d6880dac2a`. Thread `1a039ec2843377a5`. Subject: Klang engine page. File: `docs/proposals/shinjuku-auto.md`. Copy recond and used car engines / the best price, the best choice. No SSM printed.
 
-### Sierra Code Sdn. Bhd. -- QUEUED draft 25 Aug 2026 19:52 MYT
-- To: sierracodebhd@gmail.com. Draft `r-2766841421586369982`. Thread `1a038c51b5e39c8a`. Subject: Beranang platform page. File: `docs/proposals/sierra-code.md`. Copy More About Construction Safer / for Construction Excellence.
+### SENG HENG METAL SDN BHD -- SENT 26 Aug 2026 09:00 MYT
 
-### SK Lim -- QUEUED draft 25 Aug 2026 19:52 MYT
-- To: info@sklim.com.my. Draft `r3784777489070118935`. Thread `1a038c538bf73cf4`. Subject: Ipoh wealth page. File: `docs/proposals/sk-lim.md`. Copy exponentiate their wealth / Your Trusted Wealth Management. HQ info@ only. Did not mail ebook@sklim.com.my.
+- To: operation@shmetal.com.my. Former draft `r-1931611628624868227`. SENT `1a03b9d8153272e0`. Thread `1a039ec269173ac4`. Subject: Cheras metal page. File: `docs/proposals/seng-heng-metal.md`. Copy we strived to achieve a win-win situation. HQ operation@ only. Did not mail yitiankoh@outlook.com.
 
-### Sleep Sanctuary -- QUEUED draft 25 Aug 2026 19:53 MYT
-- To: sleepsanctuarymelaka@gmail.com. Draft `r7825912038895797846`. Thread `1a038c54f85fb75d`. Subject: Melaka furniture page. File: `docs/proposals/sleep-sanctuary.md`. Copy Bringing Everyday / Cozy, Curated Living.
+### SZ Zone Shop -- SENT 26 Aug 2026 09:00 MYT
 
-### 双龙行佛具工业(马来西亚)有限公司 -- QUEUED draft 25 Aug 2026 19:53 MYT
-- To: info@slh.com.my. Draft `r2014236163737781606`. Thread `1a038c5720e612ed`. Subject: Simpang Ampat joss page. File: `docs/proposals/slh-joss.md`. Copy 清明节祭祖...不为了找七色花而烦恼！ / 品质保证. HQ info@ only. Did not mail account@slh.com.my.
+- To: szzoneshop@gmail.com. Former draft `r1874450112550514501`. SENT `1a03b9d848472832`. Thread `1a039ec248d5a27e`. Subject: Selangor sneakers page. File: `docs/proposals/sz-zone-shop.md`. Copy Authentic Certified / How To Make Order?. No street printed. No SSM printed.
 
-### SL Smart Home -- QUEUED draft 25 Aug 2026 19:53 MYT
-- To: slsmarthome2022@gmail.com. Draft `r-7244279094485475658`. Thread `1a038c5928814926`. Subject: Seremban interior page. File: `docs/proposals/sl-smart-home.md`. Copy 72 Hours Fast Delivery! / Before we move to new place / Jalan batu 5.
+### Sierra Code Sdn. Bhd. -- SENT 26 Aug 2026 09:00 MYT
+
+- To: sierracodebhd@gmail.com. Former draft `r-2766841421586369982`. SENT `1a03b9d8e15f4acf`. Thread `1a039ec220f0b011`. Subject: Beranang platform page. File: `docs/proposals/sierra-code.md`. Copy More About Construction Safer / for Construction Excellence.
+
+### SK Lim -- SENT 26 Aug 2026 09:00 MYT
+
+- To: info@sklim.com.my. Former draft `r3784777489070118935`. SENT `1a03b9db0746840e`. Thread `1a039e91af6d2980`. Subject: Ipoh wealth page. File: `docs/proposals/sk-lim.md`. Copy exponentiate their wealth / Your Trusted Wealth Management. HQ info@ only. Did not mail ebook@sklim.com.my.
+
+### Sleep Sanctuary -- SENT 26 Aug 2026 09:00 MYT
+
+- To: sleepsanctuarymelaka@gmail.com. Former draft `r7825912038895797846`. SENT `1a03b9db2df8f847`. Thread `1a039e919db9f062`. Subject: Melaka furniture page. File: `docs/proposals/sleep-sanctuary.md`. Copy Bringing Everyday / Cozy, Curated Living.
+
+### 双龙行佛具工业(马来西亚)有限公司 -- SENT 26 Aug 2026 09:00 MYT
+
+- To: info@slh.com.my. Former draft `r2014236163737781606`. SENT `1a03b9dbcb87bd07`. Thread `1a039e9175cacbd5`. Subject: Simpang Ampat joss page. File: `docs/proposals/slh-joss.md`. Copy 清明节祭祖...不为了找七色花而烦恼！ / 品质保证. HQ info@ only. Did not mail account@slh.com.my.
+
+### SL Smart Home -- SENT 26 Aug 2026 09:00 MYT
+
+- To: slsmarthome2022@gmail.com. Former draft `r-7244279094485475658`. SENT `1a03b9dd10209a8b`. Thread `1a039e9147d546d6`. Subject: Seremban interior page. File: `docs/proposals/sl-smart-home.md`. Copy 72 Hours Fast Delivery! / Before we move to new place / Jalan batu 5.
 
 Skipped CS+mailto TLD mismatch: smartechrental.com.my `enquiry@powersolutions.com.my`.
-- Next hunt: unused malaysiabrand hosts after line 2779. Do not send these before Wed 09:00 MYT.
+- Next hunt: unused malaysiabrand hosts after line 2779. Sent 26 Aug 09:00-09:11 MYT.
 
 ## Queued after hours 25 Aug 2026 20:20 MYT (do not send before Wed 09:00)
 
 Folded onto the same Wed 09:00 timer (`sub_271fb8be-3797-4a84-b3db-36032250271b`, replaced `sub_686f4219-0952-4e3f-b67d-eda95c8b7bdc`). Fifteen extras from unused hosts 2780-2979. Empty `in:sent`. All fifteen `/services/` Coming Soon (`min-height:440px`). No Stripe. HQ anp@ only at ANP. HQ sunnydental002@ only at Sunny Dental. HQ sunrisesteel666@ only at Sunrise Steel. Sunfly and Sunrise print city-only. Sui U street is 22, Jalan 9/23A. Copy BUSINESS SLIDE OR HOUSEHOLD NEED, JERKY TIME FOR DOG LAM SAUSAGE, SPF50/PA +++, demolish work, is innovated metal works service provided, MRelax, Handheald Fan, GRILLE GRILL, COUNTER CLOCK WISE, package programme, Brilliant as the sun., RELIABLE . SKILLED . TRUSTED.
 
-### Next Audio Vision -- QUEUED draft 25 Aug 2026 20:05 MYT
-- To: sales@snav.com.my. Draft `r5752715037966523534`. Thread `1a038cfc7117219c`. Subject: KL PA page. File: `docs/proposals/next-audio-vision.md`. Copy Hear the Difference / BUSINESS SLIDE OR HOUSEHOLD NEED.
+### Next Audio Vision -- SENT 26 Aug 2026 09:00 MYT
 
-### Sparrow Wing Enterprise (M) Sdn Bhd -- QUEUED draft 25 Aug 2026 20:09 MYT
-- To: swemsb8@gmail.com. Draft `r-76871768894171794`. Thread `1a038d33ece9d4d4`. Subject: Seri Kembangan grocery page. File: `docs/proposals/sparrow-wing.md`. Copy Playtime favorites / JERKY TIME FOR DOG LAM SAUSAGE.
+- To: sales@snav.com.my. Former draft `r5752715037966523534`. SENT `1a03b9ddbf1e4808`. Thread `1a039e912bf8ce67`. Subject: KL PA page. File: `docs/proposals/next-audio-vision.md`. Copy Hear the Difference / BUSINESS SLIDE OR HOUSEHOLD NEED.
 
-### SR FAMILY SDN BHD -- QUEUED draft 25 Aug 2026 20:09 MYT
-- To: srfamilynutraceutical@gmail.com. Draft `r-532284907935984670`. Thread `1a038d3a5d014747`. Subject: Puchong OEM page. File: `docs/proposals/sr-family.md`. Copy SPF50/PA +++. HQ Taman Puchong Impian only.
+### Sparrow Wing Enterprise (M) Sdn Bhd -- SENT 26 Aug 2026 09:00 MYT
 
-### ANP MYCONSULTANCY SDN BHD -- QUEUED draft 25 Aug 2026 20:10 MYT
-- To: anp@sst-consultant.com.my. Draft `r3488827858555065306`. Thread `1a038d40a4ee0c38`. Subject: KL SST page. File: `docs/proposals/anp-myconsultancy.md`. Copy Driven by Expertise, Focused on Results. HQ anp@ only. Did not mail anp.myconsultancy@gmail.com.
+- To: swemsb8@gmail.com. Former draft `r-76871768894171794`. SENT `1a03b9df778e7cb6`. Thread `1a039e910f8628bf`. Subject: Seri Kembangan grocery page. File: `docs/proposals/sparrow-wing.md`. Copy Playtime favorites / JERKY TIME FOR DOG LAM SAUSAGE.
 
-### S&SY Builder -- QUEUED draft 25 Aug 2026 20:10 MYT
-- To: s.sybuilder18@gmail.com. Draft `r8978616678867708303`. Thread `1a038d462ea39505`. Subject: Melaka construction page. File: `docs/proposals/ssy-builder.md`. Copy All Kind Of Renovations & Constructions / Factory Constructions Services / demolish work.
+### SR FAMILY SDN BHD -- SENT 26 Aug 2026 09:00 MYT
 
-### STEELMAX METAL ENGINEERING (M) SDN BHD -- QUEUED draft 25 Aug 2026 20:11 MYT
-- To: steelmaxmetal@gmail.com. Draft `r7581453272714568848`. Thread `1a038d4dc5bbcb79`. Subject: Seri Kembangan metal page. File: `docs/proposals/steelmax-metal.md`. Copy is innovated metal works service provided.
+- To: srfamilynutraceutical@gmail.com. Former draft `r-532284907935984670`. SENT `1a03b9dfa950f982`. Thread `1a039e90eeb26c73`. Subject: Puchong OEM page. File: `docs/proposals/sr-family.md`. Copy SPF50/PA +++. HQ Taman Puchong Impian only.
 
-### Stooges Design Studio -- QUEUED draft 25 Aug 2026 20:11 MYT
-- To: stoogesstudio@gmail.com. Draft `r518902747844362081`. Thread `1a038d537313e3a1`. Subject: Johor Bahru interior page. File: `docs/proposals/stooges-design.md`. Copy STYLISH & FUNCTIONAL.
+### ANP MYCONSULTANCY SDN BHD -- SENT 26 Aug 2026 09:00 MYT
 
-### Streetview Hotel -- QUEUED draft 25 Aug 2026 20:12 MYT
-- To: svhmuar@gmail.com. Draft `r-4157353163306396833`. Thread `1a038d5b49026be1`. Subject: Muar hotel page. File: `docs/proposals/streetview-hotel.md`. Copy MRelax / renovation quotes.
+- To: anp@sst-consultant.com.my. Former draft `r3488827858555065306`. SENT `1a03b9e01cba38c1`. Thread `1a039e90d5af0a62`. Subject: KL SST page. File: `docs/proposals/anp-myconsultancy.md`. Copy Driven by Expertise, Focused on Results. HQ anp@ only. Did not mail anp.myconsultancy@gmail.com.
 
-### Sui U Machinery & Tools -- QUEUED draft 25 Aug 2026 20:12 MYT
-- To: sui.umachinerytools@gmail.com. Draft `r-8372323896140550239`. Thread `1a038d60c28d5ac9`. Subject: Setapak tools page. File: `docs/proposals/sui-u-machinery.md`. Copy machineries / Handheald Fan. Street 22, Jalan 9/23A.
+### S&SY Builder -- SENT 26 Aug 2026 09:00 MYT
 
-### Syarikat Sun Advertising & Trading -- QUEUED draft 25 Aug 2026 20:12 MYT
-- To: colintpq@gmail.com. Draft `r-7015101408080249325`. Thread `1a038d68d7cbac57`. Subject: Johor Jaya signboard page. File: `docs/proposals/sun-advertising.md`. Copy Trust Syarikat Sun Advertising / 40+ Years.
+- To: s.sybuilder18@gmail.com. Former draft `r8978616678867708303`. SENT `1a03b9e208bd8b87`. Thread `1a039e90ce06d606`. Subject: Melaka construction page. File: `docs/proposals/ssy-builder.md`. Copy All Kind Of Renovations & Constructions / Factory Constructions Services / demolish work.
 
-### Sunbright Auto Parts Supply Sdn Bhd -- QUEUED draft 25 Aug 2026 20:13 MYT
-- To: sunbrightmarketing20@gmail.com. Draft `r6895317844841399589`. Thread `1a038d6ceb9a2114`. Subject: Klang auto-parts page. File: `docs/proposals/sunbright-auto.md`. Copy GRILLE GRILL / COUNTER CLOCK WISE. No SSM printed.
+### STEELMAX METAL ENGINEERING (M) SDN BHD -- SENT 26 Aug 2026 09:00 MYT
 
-### Sunfly Electronics (M) Sdn Bhd -- QUEUED draft 25 Aug 2026 20:13 MYT
-- To: rita_tang2006@163.com. Draft `r-4999341531936145901`. Thread `1a038d7055c56111`. Subject: Kulai switchboard page. File: `docs/proposals/sunfly-electronics.md`. Copy Intelligence Refreshes Everything / package programme. Kulai city-only.
+- To: steelmaxmetal@gmail.com. Former draft `r7581453272714568848`. SENT `1a03b9e2548f03c4`. Thread `1a039e909e822cd0`. Subject: Seri Kembangan metal page. File: `docs/proposals/steelmax-metal.md`. Copy is innovated metal works service provided.
 
-### KLINIK PERGIGIAN SUNNY DENTAL -- QUEUED draft 25 Aug 2026 20:14 MYT
-- To: sunnydental002@gmail.com. Draft `r-1326636089305097433`. Thread `1a038d783b67b731`. Subject: Horizon Hills dental page. File: `docs/proposals/sunny-dental.md`. Copy Brilliant as the sun. HQ Horizon Hills only. Did not mail sunnydental001@gmail.com.
+### Stooges Design Studio -- SENT 26 Aug 2026 09:00 MYT
 
-### Sunrise Steel Supplies & Hardware Sdn. Bhd. -- QUEUED draft 25 Aug 2026 20:14 MYT
-- To: sunrisesteel666@gmail.com. Draft `r-2714118966023547335`. Thread `1a038d7cd2a99dcd`. Subject: Nilai steel page. File: `docs/proposals/sunrise-steel.md`. Copy Your CIDB-Registered Partner in Steel & Structure. Nilai city-only. Did not mail sunrise_steel@yahoo.com.
+- To: stoogesstudio@gmail.com. Former draft `r518902747844362081`. SENT `1a03b9e410b8b0e0`. Thread `1a039e90a979f534`. Subject: Johor Bahru interior page. File: `docs/proposals/stooges-design.md`. Copy STYLISH & FUNCTIONAL.
 
-### Survey Equipment Sales & Services -- QUEUED draft 25 Aug 2026 20:15 MYT
-- To: ses_equipment@yahoo.com. Draft `r-8575167806421411674`. Thread `1a038d8b32dc0685`. Subject: Cheras survey page. File: `docs/proposals/survey-equipment.md`. Copy RELIABLE . SKILLED . TRUSTED.
+### Streetview Hotel -- SENT 26 Aug 2026 09:00 MYT
+
+- To: svhmuar@gmail.com. Former draft `r-4157353163306396833`. SENT `1a03b9e468783872`. Thread `1a039e9062c4d63a`. Subject: Muar hotel page. File: `docs/proposals/streetview-hotel.md`. Copy MRelax / renovation quotes.
+
+### Sui U Machinery & Tools -- SENT 26 Aug 2026 09:00 MYT
+
+- To: sui.umachinerytools@gmail.com. Former draft `r-8372323896140550239`. SENT `1a03b9e499d03028`. Thread `1a039e907facd447`. Subject: Setapak tools page. File: `docs/proposals/sui-u-machinery.md`. Copy machineries / Handheald Fan. Street 22, Jalan 9/23A.
+
+### Syarikat Sun Advertising & Trading -- SENT 26 Aug 2026 09:00 MYT
+
+- To: colintpq@gmail.com. Former draft `r-7015101408080249325`. SENT `1a03b9e4906540ee`. Thread `1a039e904e685097`. Subject: Johor Jaya signboard page. File: `docs/proposals/sun-advertising.md`. Copy Trust Syarikat Sun Advertising / 40+ Years.
+
+### Sunbright Auto Parts Supply Sdn Bhd -- SENT 26 Aug 2026 09:00 MYT
+
+- To: sunbrightmarketing20@gmail.com. Former draft `r6895317844841399589`. SENT `1a03b9e4ad7a36e4`. Thread `1a039e903b296c11`. Subject: Klang auto-parts page. File: `docs/proposals/sunbright-auto.md`. Copy GRILLE GRILL / COUNTER CLOCK WISE. No SSM printed.
+
+### Sunfly Electronics (M) Sdn Bhd -- SENT 26 Aug 2026 09:00 MYT
+
+- To: rita_tang2006@163.com. Former draft `r-4999341531936145901`. SENT `1a03b9e916342aa8`. Thread `1a039e79cd452fdd`. Subject: Kulai switchboard page. File: `docs/proposals/sunfly-electronics.md`. Copy Intelligence Refreshes Everything / package programme. Kulai city-only.
+
+### KLINIK PERGIGIAN SUNNY DENTAL -- SENT 26 Aug 2026 09:00 MYT
+
+- To: sunnydental002@gmail.com. Former draft `r-1326636089305097433`. SENT `1a03b9e938cd9ff9`. Thread `1a039e79d79826f7`. Subject: Horizon Hills dental page. File: `docs/proposals/sunny-dental.md`. Copy Brilliant as the sun. HQ Horizon Hills only. Did not mail sunnydental001@gmail.com.
+
+### Sunrise Steel Supplies & Hardware Sdn. Bhd. -- SENT 26 Aug 2026 09:00 MYT
+
+- To: sunrisesteel666@gmail.com. Former draft `r-2714118966023547335`. SENT `1a03b9e92f4cd599`. Thread `1a039e79bf10472d`. Subject: Nilai steel page. File: `docs/proposals/sunrise-steel.md`. Copy Your CIDB-Registered Partner in Steel & Structure. Nilai city-only. Did not mail sunrise_steel@yahoo.com.
+
+### Survey Equipment Sales & Services -- SENT 26 Aug 2026 09:00 MYT
+
+- To: ses_equipment@yahoo.com. Former draft `r-8575167806421411674`. SENT `1a03b9e94bcf882b`. Thread `1a039e799617cd22`. Subject: Cheras survey page. File: `docs/proposals/survey-equipment.md`. Copy RELIABLE . SKILLED . TRUSTED.
 
 Skipped CS-no-mailto: snew.com.my, swj.com.my. Skipped CS+mailto TLD mismatch: smartechrental.com.my `enquiry@powersolutions.com.my`.
-- Next hunt: unused malaysiabrand hosts after line 2979. Do not send these before Wed 09:00 MYT.
+- Next hunt: unused malaysiabrand hosts after line 2979. Sent 26 Aug 09:00-09:11 MYT.
 
 ## Queued after hours 25 Aug 2026 20:32 MYT (do not send before Wed 09:00)
 
 Folded onto the same Wed 09:00 timer (`sub_3fe8c738-73a7-4b4e-8935-68cdb21175fa`, replaced `sub_271fb8be-3797-4a84-b3db-36032250271b`). Eleven extras from unused hosts 2980-3079. Empty `in:sent`. All eleven `/services/` Coming Soon (`min-height:440px`). No Stripe. HQ jasmineng2012@ only at TRANSPART. HQ Puchong sales@ only at TECA. Tactical City and Texas Print print city-only. Copy Trusted by professional, On-Time Deliver, manufacturing hub in china, interior LED's, poster, name card, ELECTRICAL SOLUTIONS FOR EVERY NEED, HIGH QUALITY SHIRT PRINTING IN MALAYSIA, Top-Notch Building Bungalow, they growth, ind your perfect plant, Quality Craft Cabinets.
 
-### Tactical City Enterprise -- QUEUED draft 25 Aug 2026 20:29 MYT
-- To: tacticalmelaka@gmail.com. Draft `r-3135297164741777412`. Thread `1a038e60551698aa`. Subject: Melaka tactical page. File: `docs/proposals/tactical-city.md`. Copy Trusted by professional / UNMATCHED PERFORMANCE. Sungai Udang city-only.
+### Tactical City Enterprise -- SENT 26 Aug 2026 09:00 MYT
 
-### TRANSPART AUTO SUPPLY SDN BHD -- QUEUED draft 25 Aug 2026 20:30 MYT
-- To: jasmineng2012@gmail.com. Draft `r-1509002954968623775`. Thread `1a038e62f1b144f3`. Subject: Shah Alam lorry page. File: `docs/proposals/transpart-auto.md`. Copy We strive to serve our customers by: / Trusted Brand. HQ jasmineng2012@ only. Did not mail transpartautosupply@gmail.com.
+- To: tacticalmelaka@gmail.com. Former draft `r-3135297164741777412`. SENT `1a03b9e96989c0d6`. Thread `1a039e796a05e420`. Subject: Melaka tactical page. File: `docs/proposals/tactical-city.md`. Copy Trusted by professional / UNMATCHED PERFORMANCE. Sungai Udang city-only.
 
-### TCL NEW TREND SDN BHD -- QUEUED draft 25 Aug 2026 20:30 MYT
-- To: tclnewtrendsb@gmail.com. Draft `r8442083639665520813`. Thread `1a038e65788fc36b`. Subject: Shah Alam factory page. File: `docs/proposals/tcl-new-trend.md`. Copy On-Time Deliver / Wet Work In Selangor (Klang & Shah Alam).
+### TRANSPART AUTO SUPPLY SDN BHD -- SENT 26 Aug 2026 09:00 MYT
 
-### Teca Marketing (HQ) Sdn Bhd -- QUEUED draft 25 Aug 2026 20:30 MYT
-- To: sales@teca.com.my. Draft `r-6196373025244036798`. Thread `1a038e6858adb78f`. Subject: Puchong door-fitting page. File: `docs/proposals/teca-marketing.md`. Copy manufacturing hub in china / all it's products. HQ Puchong sales@ only.
+- To: jasmineng2012@gmail.com. Former draft `r-1509002954968623775`. SENT `1a03b9e98a16b166`. Thread `1a039e795bc45610`. Subject: Shah Alam lorry page. File: `docs/proposals/transpart-auto.md`. Copy We strive to serve our customers by: / Trusted Brand. HQ jasmineng2012@ only. Did not mail transpartautosupply@gmail.com.
 
-### Gavin Hawk Marketing Sdn Bhd -- QUEUED draft 25 Aug 2026 20:30 MYT
-- To: techkingled@gmail.com. Draft `r5837861718652829526`. Thread `1a038e6a0fd7ab46`. Subject: Klang LED page. File: `docs/proposals/techking.md`. Copy LIGHT UP EVERY JOURNEY WITH TECH-KING LED / interior LED's.
+### TCL NEW TREND SDN BHD -- SENT 26 Aug 2026 09:00 MYT
 
-### TED PRINT SDN BHD -- QUEUED draft 25 Aug 2026 20:30 MYT
-- To: master@tedprint.my. Draft `r6250480543173842030`. Thread `1a038e6b5295214c`. Subject: Seri Kembangan print page. File: `docs/proposals/ted-print.md`. Copy poster, name card / Bannerboy.
+- To: tclnewtrendsb@gmail.com. Former draft `r8442083639665520813`. SENT `1a03b9ec8ca0ad81`. Thread `1a039e793a9e8827`. Subject: Shah Alam factory page. File: `docs/proposals/tcl-new-trend.md`. Copy On-Time Deliver / Wet Work In Selangor (Klang & Shah Alam).
 
-### T.E. Electric Sdn Bhd -- QUEUED draft 25 Aug 2026 20:30 MYT
-- To: teelectric90@yahoo.com.my. Draft `r3976265422250160390`. Thread `1a038e6dd31b56c0`. Subject: Johor Bahru electrical page. File: `docs/proposals/te-electric.md`. Copy ELECTRICAL SOLUTIONS FOR EVERY NEED / POWERING EVERY CONNECTION.
+### Teca Marketing (HQ) Sdn Bhd -- SENT 26 Aug 2026 09:00 MYT
 
-### Texas Print Sdn. Bhd. -- QUEUED draft 25 Aug 2026 20:30 MYT
-- To: texasprint88@gmail.com. Draft `r-522143043781364428`. Thread `1a038e6f3634b79e`. Subject: KL shirt page. File: `docs/proposals/texas-print.md`. Copy HIGH QUALITY SHIRT PRINTING IN MALAYSIA / 100,000+ clients nationwide. OUG city-only.
+- To: sales@teca.com.my. Former draft `r-6196373025244036798`. SENT `1a03b9ea1d0cb124`. Thread `1a039e7e067a1ea4`. Subject: Puchong door-fitting page. File: `docs/proposals/teca-marketing.md`. Copy manufacturing hub in china / all it's products. HQ Puchong sales@ only.
 
-### TGS Dynamics Construction Sdn Bhd -- QUEUED draft 25 Aug 2026 20:30 MYT
-- To: tgsdynamics@yahoo.com. Draft `r-8108641321123225428`. Thread `1a038e7055efc66e`. Subject: Melaka renovation page. File: `docs/proposals/tgs-dynamics.md`. Copy Top-Notch Building Bungalow / go the extra mile.
+### Gavin Hawk Marketing Sdn Bhd -- SENT 26 Aug 2026 09:00 MYT
 
-### THE GARDENERZ RESOURCES -- QUEUED draft 25 Aug 2026 20:31 MYT
-- To: gardenerz.landscape@gmail.com. Draft `r6701543614534726078`. Thread `1a038e71cbd2cdb8`. Subject: Petaling Jaya landscape page. File: `docs/proposals/the-gardenerz.md`. Copy they growth / ind your perfect plant.
+- To: techkingled@gmail.com. Former draft `r5837861718652829526`. SENT `1a03b9ea2774ba00`. Thread `1a039e790779cc8d`. Subject: Klang LED page. File: `docs/proposals/techking.md`. Copy LIGHT UP EVERY JOURNEY WITH TECH-KING LED / interior LED's.
 
-### SOLID KITCHEN DESIGN & BUILD SDN BHD -- QUEUED draft 25 Aug 2026 20:31 MYT
-- To: sales@thesolidkitchen.com.my. Draft `r-3038346449064495044`. Thread `1a038e74b59869ec`. Subject: Cyberjaya kitchen page. File: `docs/proposals/solid-kitchen.md`. Copy Quality Craft Cabinets / Since 1984, we’ve built kitchens that last.
+### TED PRINT SDN BHD -- SENT 26 Aug 2026 09:00 MYT
+
+- To: master@tedprint.my. Former draft `r6250480543173842030`. SENT `1a03b9ea336d2aac`. Thread `1a039e78f998a83d`. Subject: Seri Kembangan print page. File: `docs/proposals/ted-print.md`. Copy poster, name card / Bannerboy.
+
+### T.E. Electric Sdn Bhd -- SENT 26 Aug 2026 09:00 MYT
+
+- To: teelectric90@yahoo.com.my. Former draft `r3976265422250160390`. SENT `1a03b9ea6ed81654`. Thread `1a039e78e75d720f`. Subject: Johor Bahru electrical page. File: `docs/proposals/te-electric.md`. Copy ELECTRICAL SOLUTIONS FOR EVERY NEED / POWERING EVERY CONNECTION.
+
+### Texas Print Sdn. Bhd. -- SENT 26 Aug 2026 09:00 MYT
+
+- To: texasprint88@gmail.com. Former draft `r-522143043781364428`. SENT `1a03b9ea72bd5349`. Thread `1a039e78af4898cc`. Subject: KL shirt page. File: `docs/proposals/texas-print.md`. Copy HIGH QUALITY SHIRT PRINTING IN MALAYSIA / 100,000+ clients nationwide. OUG city-only.
+
+### TGS Dynamics Construction Sdn Bhd -- SENT 26 Aug 2026 09:00 MYT
+
+- To: tgsdynamics@yahoo.com. Former draft `r-8108641321123225428`. SENT `1a03b9ea9d643f05`. Thread `1a039e78c8d80fa8`. Subject: Melaka renovation page. File: `docs/proposals/tgs-dynamics.md`. Copy Top-Notch Building Bungalow / go the extra mile.
+
+### THE GARDENERZ RESOURCES -- SENT 26 Aug 2026 09:00 MYT
+
+- To: gardenerz.landscape@gmail.com. Former draft `r6701543614534726078`. SENT `1a03b9eca1bf1dbf`. Thread `1a039e7890b3045e`. Subject: Petaling Jaya landscape page. File: `docs/proposals/the-gardenerz.md`. Copy they growth / ind your perfect plant.
+
+### SOLID KITCHEN DESIGN & BUILD SDN BHD -- SENT 26 Aug 2026 09:00 MYT
+
+- To: sales@thesolidkitchen.com.my. Former draft `r-3038346449064495044`. SENT `1a03b9eb0a5cd142`. Thread `1a039e787d9793da`. Subject: Cyberjaya kitchen page. File: `docs/proposals/solid-kitchen.md`. Copy Quality Craft Cabinets / Since 1984, we’ve built kitchens that last.
 
 Skipped CS-no-mailto: tamjaimixian.com.my. Skipped CS+mailto TLD mismatch: tech-link.com.my `info@techlink.com.my`, temeventsolution.com.my `sam.tan@temeventsolution.com`.
-- Next hunt: unused malaysiabrand hosts after line 3079. Do not send these before Wed 09:00 MYT.
+- Next hunt: unused malaysiabrand hosts after line 3079. Sent 26 Aug 09:00-09:11 MYT.
 
 ## Wed 26 Aug 10:00 extras (hosts 3080-3179)
 

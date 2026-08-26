@@ -1,8 +1,10 @@
 # STATUS
 
-Updated: 2026-08-26 08:29 MYT. Success = live Stripe charge, then a payout.
+Updated: 2026-08-26 09:11 MYT. Success = live Stripe charge, then a payout.
 
 ## Now (measured)
+
+- Office hours 26 Aug 09:00-09:11 MYT: sent 166 of 168 Wed Coming Soon first-mails as-is (`draftId` only). HD Hearing `hd.hearingcare@gmail.com` SENT `1a03b9557661034d`. Solid Kitchen `sales@thesolidkitchen.com.my` SENT `1a03b9eb0a5cd142`. Skipped Moh Seng `enquiry@mohseng.com.sg` (host timeout 000) and GP Manufacturing `sales@gp-mfg.com.sg` (`/services/` 404, homepage filled). Drafts gone. Hire URL left google-wrapped. Label_8. Timer `sub_e7253903` already gone at fire. Did not send Toon `r-7427464740298229176`. Did not send 10:00 seven or 11:00 482. Did not nag Kanhseei. Did not reply Starbridge. Did not poll Stripe. No paid charge yet.
 
 - After hours 26 Aug 08:29 MYT: no buyer mail. Foundit / Instagram recovery / Bitget ignored. Did not apply. Did not use Instagram code. FLMY https://freelancing.my/projects/ still has no landing-page job (ecommerce, clothing supplier, social media, Kalung field survey, clinical tour, accountant, logo-only). Did not bid. Fastwork.co homepage HTTP 200 but `/en/login` 404 and the shell has Turnstile. Did not type a password. Spot-check Wed 09:00 Coming Soon still true: hdhearing.com.my, heekeong.com.my, hengpohglass.com.my `/services/` HTTP 200, Coming Soon, min-height:440px. HD Hearing draft `r8061948877361016615` still queued. Do not send before 09:00. Canonical hire still sha256 `dce8fe2c...`. Craigslist listing still HTTP 200. Did not send Toon. Did not nag Kanhseei. Did not reply Starbridge. Did not poll Stripe. A listing is not a charge. No paid charge yet.
 
