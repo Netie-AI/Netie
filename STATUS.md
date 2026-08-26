@@ -1,8 +1,10 @@
 # STATUS
 
-Updated: 2026-08-26 08:25 MYT. Success = live Stripe charge, then a payout.
+Updated: 2026-08-26 08:29 MYT. Success = live Stripe charge, then a payout.
 
 ## Now (measured)
+
+- After hours 26 Aug 08:29 MYT: no buyer mail. Foundit / Instagram recovery / Bitget ignored. Did not apply. Did not use Instagram code. FLMY https://freelancing.my/projects/ still has no landing-page job (ecommerce, clothing supplier, social media, Kalung field survey, clinical tour, accountant, logo-only). Did not bid. Fastwork.co homepage HTTP 200 but `/en/login` 404 and the shell has Turnstile. Did not type a password. Spot-check Wed 09:00 Coming Soon still true: hdhearing.com.my, heekeong.com.my, hengpohglass.com.my `/services/` HTTP 200, Coming Soon, min-height:440px. HD Hearing draft `r8061948877361016615` still queued. Do not send before 09:00. Canonical hire still sha256 `dce8fe2c...`. Craigslist listing still HTTP 200. Did not send Toon. Did not nag Kanhseei. Did not reply Starbridge. Did not poll Stripe. A listing is not a charge. No paid charge yet.
 
 - After hours 26 Aug 08:25 MYT: LokalGig still not live. Headed computerUse `bc-63380d5a` typed oojianhongg@gmail.com on https://lokalgig.my/login?next=%2Fgigs%2Fcreate then failed Turnstile. Magic link not sent. Inbox has no LokalGig mail. Phone paste still `1a03b71618229dc8`. Did not invent a password. Did not pay. Locanto still not live. Canonical hire still sha256 `dce8fe2c...`. Craigslist listing still HTTP 200. HD Hearing draft `r8061948877361016615` still queued for 09:00. Did not send Toon. Did not send Wed drafts. Did not nag Kanhseei. Did not reply Starbridge. Did not poll Stripe. A listing is not a charge. No paid charge yet.
 
