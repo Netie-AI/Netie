@@ -1,0 +1,22 @@
+LokalGig is a Malaysia zero-commission gig board this VM can actually load. Sign-in is an email link, no password. Cloudflare captcha blocks the API from curl. Owner posts from the phone as Jian Hong Oo, Penang. One gig. Do not pay. Do not type a new password.
+
+Go to: https://lokalgig.my/login
+Choose Email link (not Password). Email: oojianhongg@gmail.com
+Complete the human check if it shows. Then open the mail and tap the sign-in link.
+
+After you are in: https://lokalgig.my/gigs/create
+Category: Web / mobile dev. State: Penang.
+
+Title: Landing page writer in Penang. RM 500 first draft.
+
+Body:
+
+I am Jian Hong in Penang. I make a better landing page and the marketing around it, so people who land on your site know what you sell.
+
+RM 500 unlocks the first draft. After you look at it, the full page is RM 1,000 to RM 5,000.
+
+Live work: https://netie.ai/hire/
+WhatsApp +60 16-556 8918
+Gmail oojianhongg@gmail.com
+
+Meetup: Penang / remote Malaysia. Pay on WhatsApp / bank after you ask for the draft. No Stripe link on this gig. Do not launch a token.
