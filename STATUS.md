@@ -1,8 +1,10 @@
 # STATUS
 
-Updated: 2026-08-26 08:04 MYT. Success = live Stripe charge, then a payout.
+Updated: 2026-08-26 08:06 MYT. Success = live Stripe charge, then a payout.
 
 ## Now (measured)
+
+- After hours 26 Aug 08:06 MYT: no new buyer mail. Mudah.my post/browse is Cloudflare from this VM. Lelong sell is a members login. Owner Mudah paste sent thread `1a03b6411cc31e6e`. File `docs/mudah-paste.txt`. One Penang Services listing. Do not pay for a boost. Canonical hire still sha256 `dce8fe2c...`. Craigslist listing still HTTP 200. Did not send Toon. Did not send Wed drafts. Did not nag Kanhseei. Did not reply Starbridge. Did not poll Stripe. A listing is not a charge. No paid charge yet.
 
 - Wed 08:00 timer fire `netie-file-manager-retry-2026-08-26-0800-myt` (`sub_ae53fda2`): skip confirmed. Live https://netie.ai/hire/ sha256 `dce8fe2c4cea477ef24165864aa7d2caee71b0602ba466224ababcb83121d2b1`, 56608 bytes, last-modified 25 Aug 23:02:12 GMT. H1 A better landing page. Web3 and token teams. RM 500 first draft. Six `RM 500 unlocks`. No buy.stripe.com. Homepage last-modified unchanged 25 Aug 06:46 GMT. `/web3/` last-modified unchanged 25 Aug 06:51 GMT. Timer already gone from the list after fire; unsubscribe called anyway. Did not upload. Did not overwrite `/` or `/web3/`. Did not send Toon. Did not send Wed drafts. Did not nag Kanhseei. Did not reply Starbridge. Did not poll Stripe. No paid charge yet.
 
