@@ -1,8 +1,10 @@
 # STATUS
 
-Updated: 2026-08-26 08:06 MYT. Success = live Stripe charge, then a payout.
+Updated: 2026-08-26 08:09 MYT. Success = live Stripe charge, then a payout.
 
 ## Now (measured)
+
+- After hours 26 Aug 08:09 MYT: headed Mudah post stopped at https://ai.mudah.my/ad/new/1 PRO Niaga login plus email OTP. Did not type a password. Did not buy. Phone paste still thread `1a03b6411cc31e6e`. Canonical hire still sha256 `dce8fe2c...`. Craigslist listing still HTTP 200. Did not send Toon. Did not send Wed drafts. Did not nag Kanhseei. Did not reply Starbridge. Did not poll Stripe. A listing is not a charge. No paid charge yet.
 
 - After hours 26 Aug 08:06 MYT: no new buyer mail. Mudah.my post/browse is Cloudflare from this VM. Lelong sell is a members login. Owner Mudah paste sent thread `1a03b6411cc31e6e`. File `docs/mudah-paste.txt`. One Penang Services listing. Do not pay for a boost. Canonical hire still sha256 `dce8fe2c...`. Craigslist listing still HTTP 200. Did not send Toon. Did not send Wed drafts. Did not nag Kanhseei. Did not reply Starbridge. Did not poll Stripe. A listing is not a charge. No paid charge yet.
 
