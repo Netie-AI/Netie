@@ -1,0 +1,18 @@
+Second LokalGig gig, after the landing-page one. Same account. Category: Web / mobile dev. State: Penang. Do not pay. Do not type a password. Copy URLs as typed, not from Gmail.
+
+Go to: https://lokalgig.my/gigs/create
+
+Title: Marketing agent, OCR, and ops bots in Penang.
+
+Body:
+
+I am Jian Hong in Penang. After the landing page, I also build the stack that runs the work: a marketing agent that tracks campaigns and what was sent, OCR that reads documents, and a database that grows with you.
+
+Agents can follow up, answer on the page so a visitor gets a real answer, and do the daily clicking a person should not sit and repeat. You still set the offer. The bots handle the repeat work.
+
+This is quoted after written scope. One internal workflow is RM 20,000. Live screens: https://netie.ai/hire/
+
+WhatsApp +60 16-556 8918
+Gmail oojianhongg@gmail.com
+
+No Stripe link on this gig. Do not launch a token.

@@ -1,0 +1,102 @@
+{
+  "name": "Netie.AI",
+  "url": "https://netie.ai/",
+  "hire_url": "https://netie.ai/hire/",
+  "description": "Netie.AI hire page: a better landing page first. RM 500 unlocks the first draft. Copy, records, docs, CI help, Cortex crews, in-house LLM, document systems, and Vanguard/Closer/Cortex-class builds can be quoted after that. Written scope before payment. Not a SaaS licence, not a retrieval API, and not a production warehouse.",
+  "contact": {
+    "email": "oojianhongg@gmail.com",
+    "whatsapp": "+60165568918",
+    "brief": "https://netie.ai/hire/#brief"
+  },
+  "agent_instructions": "Read this catalog. Do not invent prices or case studies. Do not send passwords, API keys, or customer files. Email a non-sensitive brief or open the human brief form. Humans still confirm scope before any Stripe checkout.",
+  "offers": [
+    {
+      "id": "copywriting",
+      "name": "Catalogue and website copywriting",
+      "deliverable": "Product names, services pages, and short web copy from published facts. English first. Malay and Mandarin when the page needs it.",
+      "price": { "min": 1000, "max": 5000, "currency": "MYR", "note": "quoted after looking at the live copy" },
+      "scope_url": "https://netie.ai/hire/?scope=copywriting#brief",
+      "proof_url": "https://netie.ai/asa/"
+    },
+    {
+      "id": "records-ops",
+      "name": "Records operations and data capture",
+      "deliverable": "Type, clean, and hand back an agreed catalogue, CRM sheet, or product list. Bad rows are parked, not deleted. Not an Excel find-the-cell hunt.",
+      "price": { "min": 1000, "max": 5000, "currency": "MYR", "note": "quoted after looking at the list" },
+      "scope_url": "https://netie.ai/hire/?scope=records-ops#brief",
+      "proof_url": "https://netie.ai/hire/knowledge/"
+    },
+    {
+      "id": "documentation",
+      "name": "Software documentation and runbooks",
+      "deliverable": "README, operator notes, or a short internal guide from live screens and the repo.",
+      "price": { "min": 1000, "max": 5000, "currency": "MYR", "note": "quoted after looking at the tool" },
+      "scope_url": "https://netie.ai/hire/?scope=documentation#brief",
+      "proof_url": "https://github.com/Netie-AI/CI-Doctor"
+    },
+    {
+      "id": "website-landing",
+      "name": "Business website or landing page",
+      "deliverable": "A services or landing page from approved published facts. RM 500 unlocks the first draft. Full landing after they see it depends on copy, layout, and extra page or small chat.",
+      "price": { "min": 500, "max": 5000, "currency": "MYR", "note": "RM 500 unlocks the first draft. Full landing RM 1000 to 5000 after they see it. No checkout in a first mail." },
+      "scope_url": "https://netie.ai/hire/?scope=website#brief",
+      "proof_url": "https://netie.ai/asa/"
+    },
+    {
+      "id": "engineering-help",
+      "name": "CI, pull requests, and bugs",
+      "deliverable": "Read a failing GitHub Action, a pull request, or a scoped bug. Written triage, then an agreed patch if that is in the same job.",
+      "price": { "min": 1000, "max": 5000, "currency": "MYR", "note": "quoted after looking at the repo or workflow" },
+      "scope_url": "https://netie.ai/hire/?scope=engineering#brief",
+      "proof_url": "https://github.com/Netie-AI/CI-Doctor"
+    },
+    {
+      "id": "company-file-search",
+      "name": "Document cleaning, lineage, and cited answers",
+      "deliverable": "Clean an agreed extract, keep row IDs, park exceptions, and answer only from the cleaned table.",
+      "price": "quote",
+      "scope_url": "https://netie.ai/hire/?scope=company-file-search#brief",
+      "proof_url": "https://netie.ai/hire/knowledge/"
+    },
+    {
+      "id": "operations-system",
+      "name": "Internal operations system",
+      "deliverable": "Agreed data model, API, admin area, and team screens for one defined workflow.",
+      "price": { "amount": 20000, "currency": "MYR", "note": "after written scope" },
+      "scope_url": "https://netie.ai/hire/?scope=operations#brief",
+      "proof_url": "https://netie.ai/hire/ops/"
+    },
+    {
+      "id": "cortex-crew",
+      "name": "Cortex crew and agent coordination",
+      "deliverable": "A small crew of named agents with a human confirm step, built for the buyer's process. Public proof is the Suite Cortex panel and projects page, not a hosted live-agent API.",
+      "price": "quote",
+      "scope_url": "https://netie.ai/hire/?scope=cortex-crew#brief",
+      "proof_url": "https://netie.ai/#cortex"
+    },
+    {
+      "id": "in-house-llm",
+      "name": "In-house LLM (AirGPT-class)",
+      "deliverable": "Private chat and control surface on customer-controlled machines. Same class as AirGPT. Jumpwin customer records are not a public demo.",
+      "price": "quote",
+      "scope_url": "https://netie.ai/hire/?scope=in-house-llm#brief",
+      "proof_url": "https://netie.ai/"
+    },
+    {
+      "id": "dms",
+      "name": "Document system (DMS-class)",
+      "deliverable": "Governed answers over an agreed extract or Space, with lineage, parked exceptions, and a refuse path. Private DMS GitHub is not public from this token.",
+      "price": "quote",
+      "scope_url": "https://netie.ai/hire/?scope=dms#brief",
+      "proof_url": "https://netie.ai/hire/knowledge/"
+    },
+    {
+      "id": "enterprise",
+      "name": "Enterprise agent suite (Vanguard, Closer, Cortex)",
+      "deliverable": "In-house Netriprise-style agents for signals, sales execution, and reasoning over the buyer's sources. Public proof is Suite panels, /projects/, and IntroVid.mp4.",
+      "price": "quote",
+      "scope_url": "https://netie.ai/hire/?scope=enterprise#brief",
+      "proof_url": "https://netie.ai/projects/"
+    }
+  ]
+}

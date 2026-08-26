@@ -33,7 +33,13 @@
       outline: 3px solid var(--amber);
       outline-offset: 3px;
     }
-    .shell { width: min(1180px, calc(100% - 2rem)); margin: 0 auto; }
+    html { width: 100%; -webkit-text-size-adjust: 100%; }
+    .shell {
+      width: 100%;
+      max-width: 72rem;
+      margin: 0 auto;
+      padding: 0 1.15rem;
+    }
     .sr-only {
       position: absolute;
       width: 1px;
@@ -108,6 +114,7 @@
       grid-template-columns: minmax(280px, .9fr) minmax(0, 1.6fr);
       gap: 1rem;
       margin: 1.5rem 0 0;
+      min-height: 58vh;
     }
     .panel {
       min-width: 0;
@@ -175,7 +182,7 @@
     .detail { padding: 1.25rem; }
     .detail-kicker { color: var(--cyan); font-size: .75rem; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; }
     .detail h3 { margin: .3rem 0 .4rem; font-size: clamp(1.45rem, 3vw, 2rem); letter-spacing: -.035em; }
-    .detail > p { color: var(--muted); max-width: 58ch; }
+    .detail > p { color: var(--muted); max-width: none; }
     .detail-meta {
       flex-wrap: wrap;
       justify-content: flex-start;
@@ -240,7 +247,6 @@
       .what { grid-template-columns: 1fr; margin-top: 2.5rem; }
     }
     @media (max-width: 470px) {
-      .shell { width: min(100% - 1.2rem, 1180px); }
       header { padding-top: 2.5rem; }
       .filters { grid-template-columns: 1fr; }
       .detail { padding: 1rem; }
@@ -250,7 +256,7 @@
 <body>
   <div class="shell">
     <nav>
-      <a class="brand" href="https://netie.ai/hire/"><span class="brand-mark">n</span> NETIE.AI</a>
+      <a class="brand" href="https://netie.ai/"><span class="brand-mark">n</span> NETIE.AI</a>
       <a href="https://netie.ai/hire/">Back to hire page</a>
     </nav>
 
@@ -303,7 +309,7 @@
 
     <footer>
       <span>Netie.AI - Jian Hong Oo - Penang</span>
-      <span><a href="https://netie.ai/hire/#brief">Request a written operations scope</a></span>
+      <span><a href="https://netie.ai/hire/?scope=operations#brief">Request a written operations scope</a></span>
     </footer>
   </div>
 

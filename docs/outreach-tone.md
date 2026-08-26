@@ -5,6 +5,10 @@ PREFLIGHT: MISS (`docs/subagents_findings/INDEX.md` not in this workspace).
 Skill: `.cursor/skills/outreach-tone/SKILL.md`
 Rule: `.cursor/rules/outreach-tone.mdc`
 
+## Why Print Page failed (25 Aug 2026)
+
+Toon at Advanced Inkjet (`toon@advancedinkjet.com.my`) replied that "Sungai Buloh print page" plus Coming Soon was unclear. Owner called that Kah feedback. Say this instead: we can offer a better landing page at a low quote. RM 500 unlocks the first draft. Ordinary web first. Then a marketing agent / DMS / agentic ops if they ask. Show the owner before send.
+
 ## Why the old mails failed
 
 They read like a bot that scraped the site. A Malaysian owner sees:

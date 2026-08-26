@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Services | PRINTS BUDDY SDN BHD</title>
+  <meta name="description" content="Digital printing for designers and businesses from Wangsa Maju, Kuala Lumpur. Custom stickers, paper and card, finishing, and button badges as published on printsbuddy.com.my.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Instrument+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap">
+  <!--
+       PRINTS BUDDY  services page  (draft from live public text)
+       +---------------------------+
+       |  paper  sticker  finish   |
+       |  Wangsa Maju, KL          |
+       +---------------------------+
+       No invented plants, certs, or prices.
+  -->
+  <style>
+    :root {
+      --bg: #f7f1ea;
+      --ink: #1a1612;
+      --muted: #6b6258;
+      --line: #d8cfc4;
+      --paper: #fffdf9;
+      --accent: #c24e32;
+      --accent-ink: #fffdf9;
+      --soft: #efe6db;
+      --font-sans: "Instrument Sans", ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      --font-mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      --wrap: 46rem;
+      --tap: 44px;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+    body {
+      margin: 0;
+      min-width: 320px;
+      background: var(--bg);
+      color: var(--ink);
+      font: 17px/1.55 var(--font-sans);
+    }
+    a { color: var(--accent); }
+    a:focus-visible {
+      outline: 3px solid var(--accent);
+      outline-offset: 3px;
+    }
+    .skip {
+      position: absolute;
+      left: 0.75rem;
+      top: -3rem;
+      padding: 0.5rem 0.75rem;
+      background: var(--ink);
+      color: var(--accent-ink);
+      z-index: 20;
+    }
+    .skip:focus { top: 0.75rem; }
+    .wrap {
+      width: 100%;
+      max-width: var(--wrap);
+      margin: 0 auto;
+      padding: 0 1.15rem;
+    }
+    header {
+      border-bottom: 1px solid var(--line);
+      background: var(--paper);
+    }
+    .bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      min-height: var(--tap);
+      padding: 0.85rem 0;
+    }
+    .brand {
+      color: var(--ink);
+      text-decoration: none;
+      font-weight: 600;
+      letter-spacing: 0.02em;
+    }
+    .nav {
+      display: flex;
+      gap: 0.35rem;
+    }
+    .nav a {
+      display: inline-flex;
+      align-items: center;
+      min-height: var(--tap);
+      padding: 0 0.7rem;
+      color: var(--ink);
+      text-decoration: none;
+      font-size: 0.95rem;
+    }
+    .hero {
+      min-height: calc(100svh - 4.2rem);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 2.4rem 0 2.8rem;
+      border-bottom: 1px solid var(--line);
+    }
+    .kicker {
+      margin: 0 0 0.7rem;
+      font: 500 0.72rem/1.4 var(--font-mono);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+    h1 {
+      margin: 0 0 0.85rem;
+      font-size: clamp(2rem, 6vw, 3.1rem);
+      line-height: 1.12;
+      font-weight: 600;
+      letter-spacing: -0.03em;
+    }
+    .lede {
+      margin: 0 0 1.4rem;
+      max-width: 38rem;
+      font-size: 1.05rem;
+    }
+    .hero-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.55rem;
+    }
+    .chip {
+      display: inline-flex;
+      align-items: center;
+      min-height: 2rem;
+      padding: 0.2rem 0.65rem;
+      border: 1px solid var(--line);
+      background: var(--paper);
+      font: 400 0.75rem/1.3 var(--font-mono);
+      color: var(--muted);
+    }
+    .cta {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: var(--tap);
+      margin-top: 1.5rem;
+      padding: 0 1.1rem;
+      background: var(--ink);
+      color: var(--accent-ink);
+      text-decoration: none;
+      font-weight: 550;
+    }
+    section {
+      padding: 2.4rem 0;
+      border-bottom: 1px solid var(--line);
+    }
+    h2 {
+      margin: 0 0 0.85rem;
+      font-size: 1.35rem;
+      letter-spacing: -0.02em;
+    }
+    h3 {
+      margin: 1.35rem 0 0.45rem;
+      font-size: 0.78rem;
+      font-family: var(--font-mono);
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+    p { margin: 0 0 0.9rem; }
+    ul {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+    .grid li,
+    .stack li {
+      padding: 0.45rem 0;
+      border-bottom: 1px solid var(--line);
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 0 1.5rem;
+    }
+    @media (min-width: 640px) {
+      .grid { grid-template-columns: 1fr 1fr; }
+    }
+    .connect a {
+      display: inline-flex;
+      align-items: center;
+      min-height: var(--tap);
+    }
+    address {
+      font-style: normal;
+    }
+    footer {
+      padding: 1.6rem 0 2.4rem;
+      color: var(--muted);
+      font-size: 0.92rem;
+    }
+    .muted { color: var(--muted); }
+    .note {
+      margin-top: 1.2rem;
+      padding-top: 1rem;
+      border-top: 1px solid var(--line);
+      font-size: 0.86rem;
+      color: var(--muted);
+    }
+  </style>
+</head>
+<body>
+  <a class="skip" href="#published">Skip to published work</a>
+  <header>
+    <div class="wrap bar">
+      <a class="brand" href="#top">PRINTS BUDDY</a>
+      <nav class="nav" aria-label="On this page">
+        <a href="#published">Work</a>
+        <a href="#connect">Connect</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="top">
+    <div class="wrap hero">
+      <p class="kicker">Wangsa Maju, Kuala Lumpur</p>
+      <h1>Printing for designers and businesses.</h1>
+      <p class="lede">PRINTS BUDDY SDN BHD prints for B2B work: art prints, business printing, cards, custom stickers, and button badges, from a first-floor address on Jalan Wangsa Delima 10, Wangsa Maju.</p>
+      <div class="hero-meta">
+        <span class="chip">Digital printing</span>
+        <span class="chip">Custom stickers</span>
+        <span class="chip">Paper / card / finishing</span>
+      </div>
+      <a class="cta" href="#connect">Order or ask</a>
+    </div>
+
+    <section id="published">
+      <div class="wrap">
+        <h2>What we already publish</h2>
+        <p>Copied from the live homepage at printsbuddy.com.my. Extra service writeups stay empty until Prints Buddy supplies them. The live Services menu still opens Coming Soon.</p>
+
+        <h3>Product type</h3>
+        <ul class="grid">
+          <li>Borderless Custom Printing</li>
+          <li>Square Print</li>
+          <li>A3 Poster / Photo / Art Print / Flyer / Brochure Printing</li>
+          <li>Postcard / Travel Postal Card</li>
+          <li>Label Sticker</li>
+          <li>Photocard / Lomo Card</li>
+          <li>Game Card / Playing Card / Trading Card</li>
+          <li>Tarot Card / Oracle Card</li>
+          <li>Thank You Card / Gift Card</li>
+          <li>Namecard / Business Card</li>
+          <li>Die Cut Card</li>
+          <li>Large Format Poster</li>
+          <li>Button Badge</li>
+        </ul>
+
+        <h3>Paper / card type</h3>
+        <ul class="grid">
+          <li>250gsm Maple Bright</li>
+          <li>140gsm Maple Bright</li>
+          <li>300gsm Pearl Card</li>
+          <li>120gsm Pearl Paper</li>
+          <li>300gsm Shimmery Card</li>
+          <li>130gsm Shimmery Paper</li>
+          <li>300gsm Matt Card</li>
+          <li>300gsm Ivory Card</li>
+          <li>157gsm Gloss Artpaper</li>
+          <li>300gsm Gloss Artcard</li>
+        </ul>
+
+        <h3>Sticker type</h3>
+        <ul class="grid">
+          <li>Washi Sticker</li>
+          <li>Pearl Shine Sticker</li>
+          <li>Uncoated Simili White Sticker</li>
+          <li>Mirrorkote White Sticker</li>
+          <li>PP Top White Gloss Sticker</li>
+          <li>Synthetic Matt PP Sticker</li>
+        </ul>
+
+        <h3>Finishing type</h3>
+        <ul class="grid">
+          <li>Bubbles Holographic Finishing</li>
+          <li>Magic Sand Holographic Finishing</li>
+          <li>Galaxy Holographic Finishing</li>
+          <li>Stellar Holographic Finishing</li>
+          <li>Sparkles Holographic Finishing</li>
+          <li>Starry Holographic Finishing</li>
+          <li>Shards Holographic Finishing</li>
+          <li>Plain Holographic Finishing</li>
+          <li>Stardust Matt Finishing</li>
+        </ul>
+
+        <h3>Button badge</h3>
+        <ul class="grid">
+          <li>32mm Round Button Badge</li>
+          <li>58mm Round Button Badge</li>
+          <li>Rectangle Button Badge</li>
+          <li>Star Button Badge</li>
+          <li>Oval Button Badge</li>
+          <li>Heart Button Badge</li>
+        </ul>
+
+        <p class="muted" style="margin-top:1.2rem">The live site also lists a Sticker Quantity Calculator and a Production Schedule Timetable. No prices are published on the homepage, so none are added here.</p>
+      </div>
+    </section>
+
+    <section id="connect" class="connect">
+      <div class="wrap">
+        <h2>Connect</h2>
+        <address>
+          <p>10-1 (First Floor), Block 3A, Jalan Wangsa Delima 10, Wangsa Maju, 53300 Kuala Lumpur</p>
+          <p><a href="mailto:order@printsbuddy.com.my">order@printsbuddy.com.my</a></p>
+          <p><a href="tel:+60341312063">+603-4131 2063</a></p>
+          <p><a href="tel:+60106688006">+6010-6688 006</a> / <a href="https://wa.me/60106688006">WhatsApp</a></p>
+          <p>Monday to Friday, 10:00 AM to 5:30 PM. Saturday and Sunday closed.</p>
+        </address>
+        <p class="muted">PRINTS BUDDY SDN BHD. 202501038566 (1639975-H). Public Instagram and Facebook are listed on the homepage.</p>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap">
+      <p class="muted">Draft only. Built from public text on printsbuddy.com.my. No invented certifications, extra plants, or unpublished service writeups.</p>
+      <p class="note">Quoted band: RM 1,000 to RM 5,000 after looking at how much copy they want. Draft only. No payment asked to read this page.</p>
+    </div>
+  </footer>
+</body>
+</html>

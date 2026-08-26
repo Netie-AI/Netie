@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Services | Shinx Malaysia Sdn Bhd</title>
+  <meta name="description" content="Aluminium plate distribution and precision milling from Kulim Hi-Tech Park, as published on shinx.com.my.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Instrument+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap">
+  <style>
+    :root {
+      --bg: #eef0f5;
+      --ink: #12141c;
+      --muted: #5c6270;
+      --line: #cfd3de;
+      --paper: #fbfcfe;
+      --accent: #24297a;
+      --accent-ink: #fbfcfe;
+      --soft: #e4e7ef;
+      --font-sans: "Instrument Sans", ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      --font-mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      --wrap: 46rem;
+      --tap: 44px;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+    body {
+      margin: 0;
+      min-width: 320px;
+      background: var(--bg);
+      color: var(--ink);
+      font: 17px/1.55 var(--font-sans);
+    }
+    a { color: var(--accent); }
+    a:focus-visible {
+      outline: 3px solid var(--accent);
+      outline-offset: 3px;
+    }
+    .skip {
+      position: absolute;
+      left: 0.75rem;
+      top: -3rem;
+      padding: 0.5rem 0.75rem;
+      background: var(--ink);
+      color: var(--accent-ink);
+      z-index: 20;
+    }
+    .skip:focus { top: 0.75rem; }
+    .wrap {
+      width: 100%;
+      max-width: var(--wrap);
+      margin: 0 auto;
+      padding: 0 1.15rem;
+    }
+    header {
+      border-bottom: 1px solid var(--line);
+      background: var(--paper);
+    }
+    .bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      min-height: var(--tap);
+      padding: 0.85rem 0;
+    }
+    .brand {
+      color: var(--ink);
+      text-decoration: none;
+      font-weight: 600;
+      letter-spacing: 0.02em;
+    }
+    .nav {
+      display: flex;
+      gap: 0.35rem;
+    }
+    .nav a {
+      display: inline-flex;
+      align-items: center;
+      min-height: var(--tap);
+      padding: 0 0.7rem;
+      color: var(--ink);
+      text-decoration: none;
+      font-size: 0.95rem;
+    }
+    .hero {
+      min-height: calc(100svh - 4.2rem);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 2.4rem 0 2.8rem;
+      border-bottom: 1px solid var(--line);
+    }
+    .kicker {
+      margin: 0 0 0.7rem;
+      font: 500 0.72rem/1.4 var(--font-mono);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+    h1 {
+      margin: 0 0 0.85rem;
+      font-size: clamp(2rem, 6vw, 3.1rem);
+      line-height: 1.12;
+      font-weight: 600;
+      letter-spacing: -0.03em;
+    }
+    .lede {
+      margin: 0 0 1.4rem;
+      max-width: 38rem;
+      font-size: 1.05rem;
+    }
+    .hero-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.55rem;
+    }
+    .chip {
+      display: inline-flex;
+      align-items: center;
+      min-height: 2rem;
+      padding: 0.2rem 0.65rem;
+      border: 1px solid var(--line);
+      background: var(--paper);
+      font: 400 0.75rem/1.3 var(--font-mono);
+      color: var(--muted);
+    }
+    .cta {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: var(--tap);
+      margin-top: 1.5rem;
+      padding: 0 1.1rem;
+      background: var(--ink);
+      color: var(--accent-ink);
+      text-decoration: none;
+      font-weight: 550;
+    }
+    section {
+      padding: 2.4rem 0;
+      border-bottom: 1px solid var(--line);
+    }
+    h2 {
+      margin: 0 0 0.85rem;
+      font-size: 1.35rem;
+      letter-spacing: -0.02em;
+    }
+    h3 {
+      margin: 1.35rem 0 0.45rem;
+      font-size: 0.78rem;
+      font-family: var(--font-mono);
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+    p { margin: 0 0 0.9rem; }
+    ul {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+    .grid li,
+    .stack li {
+      padding: 0.45rem 0;
+      border-bottom: 1px solid var(--line);
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 0 1.5rem;
+    }
+    @media (min-width: 640px) {
+      .grid { grid-template-columns: 1fr 1fr; }
+    }
+    .connect a {
+      display: inline-flex;
+      align-items: center;
+      min-height: var(--tap);
+    }
+    address {
+      font-style: normal;
+    }
+    footer {
+      padding: 1.6rem 0 2.4rem;
+      color: var(--muted);
+      font-size: 0.92rem;
+    }
+    .muted { color: var(--muted); }
+    .note {
+      margin-top: 1.2rem;
+      padding-top: 1rem;
+      border-top: 1px solid var(--line);
+      font-size: 0.86rem;
+      color: var(--muted);
+    }
+  </style>
+</head>
+<body>
+  <a class="skip" href="#published">Skip to published work</a>
+  <header>
+    <div class="wrap bar">
+      <a class="brand" href="#top">Shinx Malaysia</a>
+      <nav class="nav" aria-label="On this page">
+        <a href="#published">Work</a>
+        <a href="#connect">Connect</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="top">
+    <div class="wrap hero">
+      <p class="kicker">Kulim Hi-Tech Park, Kedah</p>
+      <h1>Aluminium plate stock plus 4-face and 6-face milling.</h1>
+      <p class="lede">Shinx Malaysia Sdn Bhd lists aluminium plate distribution and precision processing for machining companies from Lot 2 and 3, KHTP SME Park, Kulim Hi-Tech Park. The homepage says the headquarter is in Japan.</p>
+      <div class="hero-meta">
+        <span class="chip">Aljade A5052P-H112</span><span class="chip">6-face milling</span><span class="chip">Kulim Hi-Tech</span>
+      </div>
+      <a class="cta" href="#connect">Enquire</a>
+    </div>
+
+    <section id="published">
+      <div class="wrap">
+        <h2>What we already publish</h2>
+        <p>Copied from the live homepage at shinx.com.my. Extra service writeups stay empty until Shinx supplies them. The live Services menu still opens Coming Soon.</p>
+        <h3>Processes and stock named on the homepage</h3>
+        <ul class="grid">
+          <li>2-Face Milling</li>
+          <li>4-Face Milling</li>
+          <li>6-Face Milling</li>
+          <li>6-Face Milling + Chamfer</li>
+          <li>Cutting Process</li>
+          <li>High Precision Milling</li>
+          <li>Side Milling Process</li>
+          <li>Aljade A5052P-H112</li>
+          <li>A6061P-T6</li>
+          <li>Aluminium and stainless steel stock</li>
+        </ul>
+        <h3>How the live site describes the work</h3>
+        <p>The homepage heading reads Your Total Materials Solution Partner. It says SHINX MALAYSIA was established to help machining companies in Malaysia, and that cut-to-size plus process precision materials (4-Face and 6-Face Milling) are offered. The Japan HQ website is published as https://www.shinx-corp.co.jp/. This page does not add prices, lead times, or certifications that are not on the homepage.</p>
+        <p class="muted" style="margin-top:1.2rem">No unpublished plant list is added. Contact-page hours (Monday to Friday 9:00 AM to 6:00 PM) are on the live contact page, not restated as a booking promise here.</p>
+      </div>
+    </section>
+
+    <section id="connect" class="connect">
+      <div class="wrap">
+        <h2>Connect</h2>
+        <address>
+          <p>Lot 2 and 3, KHTP SME Park Jalan Hi-Tech, 10, Zon Industri Fasa 3, Kulim Hi-Tech Park, 09090 Kulim, Kedah, Malaysia.</p>
+          <p><a href="mailto:sales@shinx.com.my">sales@shinx.com.my</a></p>
+          <p><a href="tel:+6044035993">+604-403 5993</a></p>
+        </address>
+        <p class="muted">Shinx Malaysia Sdn Bhd. 202201024649 (1470346-H).</p>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap">
+      <p class="muted">Draft only. Built from public text on shinx.com.my. No invented certifications, extra plants, or unpublished service writeups.</p>
+      <p class="note">Quoted band: RM 1,000 to RM 5,000 after looking at how much copy they want. Draft only. No payment asked to read this page.</p>
+    </div>
+  </footer>
+</body>
+</html>

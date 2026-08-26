@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Advanced Inkjet -- Netie proposal -- 26 Aug 2026</title>
+  <style>
+    :root {
+      --ink: #111418;
+      --muted: #5c6570;
+      --line: #d5d8dc;
+      --paper: #f7f5f0;
+      --card: #fff;
+      --accent: #0f4c3a;
+      --gold: #b0893a;
+      --bar: #1a6b54;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: #e8e6e1;
+      color: var(--ink);
+      font: 16px/1.45 "Source Serif 4", "Times New Roman", Times, serif;
+    }
+    .deck { max-width: 920px; margin: 0 auto; padding: 1.5rem 1rem 3rem; }
+    .slide {
+      background: var(--card);
+      border: 1px solid var(--line);
+      padding: 2.1rem 2.2rem 1.6rem;
+      margin: 0 0 1rem;
+      min-height: 11.5rem;
+      page-break-after: always;
+    }
+    .kicker { font: 11px/1.3 ui-sans-serif, system-ui, sans-serif; letter-spacing: .12em; text-transform: uppercase; color: var(--accent); }
+    h1, h2 { font-family: ui-sans-serif, system-ui, sans-serif; font-weight: 650; letter-spacing: -.02em; margin: .35rem 0 .8rem; }
+    h1 { font-size: 1.85rem; line-height: 1.2; }
+    h2 { font-size: 1.28rem; line-height: 1.25; }
+    p, li { font-size: 1.02rem; }
+    .muted { color: var(--muted); font-size: .92rem; }
+    table { width: 100%; border-collapse: collapse; font-family: ui-sans-serif, system-ui, sans-serif; font-size: .92rem; }
+    th, td { text-align: left; padding: .45rem .4rem; border-bottom: 1px solid var(--line); vertical-align: top; }
+    th { font-size: .72rem; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+    .bars { display: grid; gap: .55rem; font-family: ui-sans-serif, system-ui, sans-serif; }
+    .bar-row { display: grid; grid-template-columns: 9.5rem 1fr 5.5rem; gap: .6rem; align-items: center; }
+    .bar-track { height: .7rem; background: #ecece8; }
+    .bar-fill { height: 100%; background: var(--bar); }
+    .src { font: 11px/1.3 ui-sans-serif, system-ui, sans-serif; color: var(--muted); margin-top: 1rem; }
+    .two { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+    @media (max-width: 700px) { .two, .bar-row { grid-template-columns: 1fr; } }
+    @media print {
+      body { background: #fff; }
+      .slide { border: 0; margin: 0; min-height: 100vh; page-break-after: always; }
+    }
+  </style>
+</head>
+<body>
+  <div class="deck">
+    <section class="slide">
+      <div class="kicker">Netie / Penang / 26 Aug 2026</div>
+      <h1>Advanced Inkjet gets a selling landing page and the marketing around it. RM 500 unlocks the first draft.</h1>
+      <p>Prepared for Toon, Advanced Inkjet Sdn Bhd. Sungai Buloh. Not sent until the owner says send.</p>
+      <p class="muted">Jian Hong Oo &middot; oojianhongg@gmail.com &middot; +60 16-556 8918 &middot; https://netie.ai/hire/</p>
+    </section>
+
+    <section class="slide">
+      <div class="kicker">Executive summary</div>
+      <h2>We are not rewriting your Coming Soon menu. We will build the page that turns a Sungai Buloh visitor into a customer.</h2>
+      <p><strong>Situation.</strong> You already publish Every Idea Meant To Print Big and Window Glass Sticker from 21, Jalan PBI 2, Perindustrian Bukit Indah.</p>
+      <p><strong>Complication.</strong> The first mail said print page. That did not name the job. A visitor still has no selling page to convert on.</p>
+      <p><strong>Resolution.</strong> Landing page plus marketing first. Then a marketing agent, OCR, and a system-level database. Fees in the table. Optional checkout is a test after you want the draft, not a demand to buy now.</p>
+    </section>
+
+    <section class="slide">
+      <div class="kicker">Precise offer</div>
+      <h2>Three things, in this order, so nobody has to guess the service.</h2>
+      <div class="two">
+        <div>
+          <p><strong>1. Landing + marketing.</strong> A new page that sells Window Glass Sticker and large-format work, plus the copy that reaches the people who land on it.</p>
+          <p><strong>2. Agent stack.</strong> Campaign tracking, OCR on documents, a database that can grow. Later build. We already ship this class of IT.</p>
+        </div>
+        <div>
+          <p><strong>3. Answers on the page.</strong> After the records exist, visitors can get a real answer instead of a dead form. Quoted after written scope.</p>
+          <p>Public screens: https://netie.ai/hire/ and https://netie.ai/ -- not invented case studies.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide">
+      <div class="kicker">Fees</div>
+      <h2>Fixed bands. No hourly bait. RM 500 is the only number needed to start.</h2>
+      <div class="bars">
+        <div class="bar-row"><span>First draft</span><div class="bar-track"><div class="bar-fill" style="width:10%"></div></div><span>RM 500</span></div>
+        <div class="bar-row"><span>Full landing</span><div class="bar-track"><div class="bar-fill" style="width:50%"></div></div><span>RM 1k-5k</span></div>
+        <div class="bar-row"><span>Engineering / records</span><div class="bar-track"><div class="bar-fill" style="width:50%"></div></div><span>RM 1k-5k</span></div>
+        <div class="bar-row"><span>Operations</span><div class="bar-track"><div class="bar-fill" style="width:100%"></div></div><span>RM 20,000</span></div>
+      </div>
+      <p class="src">Source: live https://netie.ai/hire/ brief 26 Aug 2026. Bar width is relative to RM 20,000, not a conversion forecast. No invented traffic.</p>
+    </section>
+
+    <section class="slide">
+      <div class="kicker">Workplan</div>
+      <h2>You look at a draft before any larger fee. Agent work does not start on day one.</h2>
+      <table>
+        <thead><tr><th>Phase</th><th>Deliverable</th><th>Fee</th><th>Gate</th></tr></thead>
+        <tbody>
+          <tr><td>0</td><td>First landing draft from your published copy</td><td>RM 500</td><td>You reply yes</td></tr>
+          <tr><td>1</td><td>Full landing + marketing (scroll-craft / Meng To)</td><td>RM 1,000 to RM 5,000</td><td>You looked at the draft</td></tr>
+          <tr><td>2</td><td>Marketing agent, OCR, DMS-class database</td><td>Quoted after scope</td><td>Page exists</td></tr>
+          <tr><td>3</td><td>Agents in that database, answers on the page</td><td>RM 20,000 after scope</td><td>Written scope</td></tr>
+        </tbody>
+      </table>
+      <p class="src">Optional test after phase 0 yes: https://buy.stripe.com/3cIcN54OO6SnaA4g5u9ws07 -- test, not buy-now pressure. Same live Stripe product. Do not invent a new one.</p>
+    </section>
+
+    <section class="slide">
+      <div class="kicker">Ask</div>
+      <h2>Reply if you want the RM 500 first draft. No payment is required to say yes in email.</h2>
+      <p>I will start from Every Idea Meant To Print Big and Window Glass Sticker. After you look at that draft, we decide the rest in writing.</p>
+      <p class="muted">Jian Hong &middot; Netie, Penang &middot; oojianhongg@gmail.com &middot; +60 16-556 8918</p>
+    </section>
+  </div>
+</body>
+</html>

@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /hire/
+Allow: /hire/catalog.json
+Allow: /hire/llms.txt
+Allow: /hire/sitemap.xml
+
+Sitemap: https://netie.ai/hire/sitemap.xml

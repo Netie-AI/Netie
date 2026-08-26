@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Services | Windmere Products Sdn Bhd</title>
+  <meta name="description" content="3M tapes, adhesives, cleanroom, ESD solutions, and precision die cutting from Bukit Mertajam, Penang, as published on windmere1.com.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Instrument+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap">
+  <!--
+       WINDMERE  services page  (draft from live public text)
+       +---------------------------+
+       |  3M tape  ESD  cleanroom  |
+       |  Bukit Mertajam, Penang   |
+       +---------------------------+
+       No invented plants, certs, or prices.
+  -->
+  <style>
+    :root {
+      --bg: #eef1f8;
+      --ink: #161a28;
+      --muted: #5a6278;
+      --line: #cfd5e4;
+      --paper: #fbfcfe;
+      --accent: #3750af;
+      --accent-ink: #fbfcfe;
+      --soft: #e4e8f2;
+      --font-sans: "Instrument Sans", ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      --font-mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      --wrap: 46rem;
+      --tap: 44px;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+    body {
+      margin: 0;
+      min-width: 320px;
+      background: var(--bg);
+      color: var(--ink);
+      font: 17px/1.55 var(--font-sans);
+    }
+    a { color: var(--accent); }
+    a:focus-visible {
+      outline: 3px solid var(--accent);
+      outline-offset: 3px;
+    }
+    .skip {
+      position: absolute;
+      left: 0.75rem;
+      top: -3rem;
+      padding: 0.5rem 0.75rem;
+      background: var(--ink);
+      color: var(--accent-ink);
+      z-index: 20;
+    }
+    .skip:focus { top: 0.75rem; }
+    .wrap {
+      width: 100%;
+      max-width: var(--wrap);
+      margin: 0 auto;
+      padding: 0 1.15rem;
+    }
+    header {
+      border-bottom: 1px solid var(--line);
+      background: var(--paper);
+    }
+    .bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      min-height: var(--tap);
+      padding: 0.85rem 0;
+    }
+    .brand {
+      color: var(--ink);
+      text-decoration: none;
+      font-weight: 600;
+      letter-spacing: 0.02em;
+    }
+    .nav {
+      display: flex;
+      gap: 0.35rem;
+    }
+    .nav a {
+      display: inline-flex;
+      align-items: center;
+      min-height: var(--tap);
+      padding: 0 0.7rem;
+      color: var(--ink);
+      text-decoration: none;
+      font-size: 0.95rem;
+    }
+    .hero {
+      min-height: calc(100svh - 4.2rem);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 2.4rem 0 2.8rem;
+      border-bottom: 1px solid var(--line);
+    }
+    .kicker {
+      margin: 0 0 0.7rem;
+      font: 500 0.72rem/1.4 var(--font-mono);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+    h1 {
+      margin: 0 0 0.85rem;
+      font-size: clamp(2rem, 6vw, 3.1rem);
+      line-height: 1.12;
+      font-weight: 600;
+      letter-spacing: -0.03em;
+    }
+    .lede {
+      margin: 0 0 1.4rem;
+      max-width: 38rem;
+      font-size: 1.05rem;
+    }
+    .hero-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.55rem;
+    }
+    .chip {
+      display: inline-flex;
+      align-items: center;
+      min-height: 2rem;
+      padding: 0.2rem 0.65rem;
+      border: 1px solid var(--line);
+      background: var(--paper);
+      font: 400 0.75rem/1.3 var(--font-mono);
+      color: var(--muted);
+    }
+    .cta {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: var(--tap);
+      margin-top: 1.5rem;
+      padding: 0 1.1rem;
+      background: var(--ink);
+      color: var(--accent-ink);
+      text-decoration: none;
+      font-weight: 550;
+    }
+    section {
+      padding: 2.4rem 0;
+      border-bottom: 1px solid var(--line);
+    }
+    h2 {
+      margin: 0 0 0.85rem;
+      font-size: 1.35rem;
+      letter-spacing: -0.02em;
+    }
+    h3 {
+      margin: 1.35rem 0 0.45rem;
+      font-size: 0.78rem;
+      font-family: var(--font-mono);
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+    p { margin: 0 0 0.9rem; }
+    ul {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+    .grid li,
+    .stack li {
+      padding: 0.45rem 0;
+      border-bottom: 1px solid var(--line);
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 0 1.5rem;
+    }
+    @media (min-width: 640px) {
+      .grid { grid-template-columns: 1fr 1fr; }
+    }
+    .connect a {
+      display: inline-flex;
+      align-items: center;
+      min-height: var(--tap);
+    }
+    address {
+      font-style: normal;
+    }
+    footer {
+      padding: 1.6rem 0 2.4rem;
+      color: var(--muted);
+      font-size: 0.92rem;
+    }
+    .muted { color: var(--muted); }
+    .note {
+      margin-top: 1.2rem;
+      padding-top: 1rem;
+      border-top: 1px solid var(--line);
+      font-size: 0.86rem;
+      color: var(--muted);
+    }
+  </style>
+</head>
+<body>
+  <a class="skip" href="#published">Skip to published work</a>
+  <header>
+    <div class="wrap bar">
+      <a class="brand" href="#top">WINDMERE PRODUCTS</a>
+      <nav class="nav" aria-label="On this page">
+        <a href="#published">Work</a>
+        <a href="#connect">Connect</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="top">
+    <div class="wrap hero">
+      <p class="kicker">Bukit Mertajam, Penang</p>
+      <h1>3M tapes, adhesives, cleanroom, and ESD from Cherok Tokun.</h1>
+      <p class="lede">Windmere Products Sdn Bhd, headquartered in Penang since 1992, lists 3M tapes, adhesives, cleanroom, ESD solutions, and precision die cutting from 6&amp;8, Jalan Industri Cherok Tokun, Taman Industri Cherok Tokun, 14000 Bukit Mertajam.</p>
+      <div class="hero-meta">
+        <span class="chip">3M tapes</span>
+        <span class="chip">Adhesives</span>
+        <span class="chip">Cleanroom / ESD</span>
+      </div>
+      <a class="cta" href="#connect">Enquire</a>
+    </div>
+
+    <section id="published">
+      <div class="wrap">
+        <h2>What we already publish</h2>
+        <p>Copied from the live homepage at windmere1.com. Extra service writeups stay empty until Windmere supplies them. The live /services/ page still opens Coming Soon.</p>
+
+        <h3>Product categories on the homepage</h3>
+        <ul class="grid">
+          <li>3M Industrial Tapes, Single And Double Sided Tapes</li>
+          <li>3M Adhesives</li>
+          <li>3M Masking Tapes Solutions</li>
+          <li>3M Electrical Tapes And Polyester/Foil Tapes</li>
+          <li>3M Electronics Materials Solutions &amp; ESD Tapes</li>
+          <li>3M Abrasive &amp; Safety Products</li>
+          <li>Precision Die-Cut, Labels Stickers And Ribbons</li>
+          <li>High Temperature Tapes Systems, Kapton Tapes</li>
+          <li>Packaging Tapes And Solutions, Stretch Films</li>
+          <li>Surface Protection Films/Tapes</li>
+          <li>ESD Products &amp; Shielding / Moisture Barrier Bags</li>
+          <li>Cleanroom Laundry &amp; Products</li>
+        </ul>
+
+        <h3>How the live site describes the work</h3>
+        <p>The title names Windmere as an authorized 3M adhesives distributor and cleanroom products supplier in Penang. The meta and footer line is: based in Penang, serving clients across Malaysia with 3M tapes, adhesive, cleanroom, ESD solutions, and precision die cutting.</p>
+        <p>The about block says Windmere has been a trusted name since 1992, specializing in adhesive products, cleanroom services, and ESD control. It also says the firm distributes 3M tapes and provides slitting, die cutting, label conversion, and static shielding bag solutions. A 3M logo sits in that block. Banner copy: your more preferred and trusted business partner; quality, cost, delivery, service.</p>
+        <p>Value headings: quality assurance, cost effective, authorised distributor, customer satisfaction. Those are headings only. A homepage WhatsApp float points at Masking Tapes product 6084673. That is a published link, not a product writeup.</p>
+
+        <p class="muted" style="margin-top:1.2rem">Footer “Follow us on” is empty. No opening hours or prices are published on the homepage, so none are added here.</p>
+      </div>
+    </section>
+
+    <section id="connect" class="connect">
+      <div class="wrap">
+        <h2>Connect</h2>
+        <address>
+          <p>6&amp;8, Jalan Industri Cherok Tokun, Taman Industri Cherok Tokun, 14000 Bukit Mertajam, Pulau Pinang, Malaysia.</p>
+          <p><a href="mailto:windmereproducts@gmail.com">windmereproducts@gmail.com</a></p>
+          <p><a href="tel:+6045515343">04-551 5343</a></p>
+          <p><a href="tel:+60124237168">+6012-423 7168</a> / <a href="https://wa.me/60124237168">WhatsApp</a></p>
+        </address>
+        <p class="muted">Windmere Products Sdn Bhd. 199201016889 (248393-M).</p>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap">
+      <p class="muted">Draft only. Built from public text on windmere1.com. No invented certifications, extra plants, or unpublished service writeups.</p>
+      <p class="note">Quoted on 24 Aug 2026: RM 500, one revision, for this Services page. Draft only. No payment asked to read this page.</p>
+    </div>
+  </footer>
+</body>
+</html>

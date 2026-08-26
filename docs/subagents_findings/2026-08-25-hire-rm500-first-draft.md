@@ -1,0 +1,5 @@
+# 2026-08-25 Hire page now names RM 500 first-draft unlock
+
+- Keywords: hire, pay.html, RM 500, first draft, Toon, Kah Chun Seow, conversion
+- Main idea: Live hire still said RM 1,000 to RM 5,000 for a landing with no first-draft price. Outreach already quotes RM 500. Source now matches: RM 500 unlocks the first draft, full landing RM 1,000 to RM 5,000 after they see it. No Stripe button. Toon holding draft is `r-7427464740298229176` on thread `1a03642393b091d6` (not sent). Gmail From name on the Toon reply is Kah Chun Seow.
+- Traps: Canonical https://netie.ai/hire/ still needs Spaceship File Manager overwrite from `docs/pay.html`. 25 Aug 21:50 MYT: Hosting Manager logged in, but File Manager / cPanel / Terminal / SSH / FTP Accounts all unavailable. FTP 530. Surge mirror is live. If Terminal returns, curl https://netie-penang.surge.sh/ not raw GitHub (private repo 404). Do not send Toon until the owner says send. Do not nag Kanhseei. Do not poll Stripe until 26 Aug MYT.

@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Services | Kulim Typewriters</title>
+  <meta name="description" content="Office furniture, stationery, and equipment from Kulim, Kedah, as published on kulimtypewriters.com.my.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Instrument+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap">
+  <style>
+    :root {
+      --bg: #eef0f5;
+      --ink: #12141c;
+      --muted: #5c6270;
+      --line: #cfd3de;
+      --paper: #fbfcfe;
+      --accent: #24297a;
+      --accent-ink: #fbfcfe;
+      --soft: #e4e7ef;
+      --font-sans: "Instrument Sans", ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      --font-mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      --wrap: 46rem;
+      --tap: 44px;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+    body {
+      margin: 0;
+      min-width: 320px;
+      background: var(--bg);
+      color: var(--ink);
+      font: 17px/1.55 var(--font-sans);
+    }
+    a { color: var(--accent); }
+    a:focus-visible {
+      outline: 3px solid var(--accent);
+      outline-offset: 3px;
+    }
+    .skip {
+      position: absolute;
+      left: 0.75rem;
+      top: -3rem;
+      padding: 0.5rem 0.75rem;
+      background: var(--ink);
+      color: var(--accent-ink);
+      z-index: 20;
+    }
+    .skip:focus { top: 0.75rem; }
+    .wrap {
+      width: 100%;
+      max-width: var(--wrap);
+      margin: 0 auto;
+      padding: 0 1.15rem;
+    }
+    header {
+      border-bottom: 1px solid var(--line);
+      background: var(--paper);
+    }
+    .bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      min-height: var(--tap);
+      padding: 0.85rem 0;
+    }
+    .brand {
+      color: var(--ink);
+      text-decoration: none;
+      font-weight: 600;
+      letter-spacing: 0.02em;
+    }
+    .nav {
+      display: flex;
+      gap: 0.35rem;
+    }
+    .nav a {
+      display: inline-flex;
+      align-items: center;
+      min-height: var(--tap);
+      padding: 0 0.7rem;
+      color: var(--ink);
+      text-decoration: none;
+      font-size: 0.95rem;
+    }
+    .hero {
+      min-height: calc(100svh - 4.2rem);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 2.4rem 0 2.8rem;
+      border-bottom: 1px solid var(--line);
+    }
+    .kicker {
+      margin: 0 0 0.7rem;
+      font: 500 0.72rem/1.4 var(--font-mono);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+    h1 {
+      margin: 0 0 0.85rem;
+      font-size: clamp(2rem, 6vw, 3.1rem);
+      line-height: 1.12;
+      font-weight: 600;
+      letter-spacing: -0.03em;
+    }
+    .lede {
+      margin: 0 0 1.4rem;
+      max-width: 38rem;
+      font-size: 1.05rem;
+    }
+    .hero-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.55rem;
+    }
+    .chip {
+      display: inline-flex;
+      align-items: center;
+      min-height: 2rem;
+      padding: 0.2rem 0.65rem;
+      border: 1px solid var(--line);
+      background: var(--paper);
+      font: 400 0.75rem/1.3 var(--font-mono);
+      color: var(--muted);
+    }
+    .cta {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: var(--tap);
+      margin-top: 1.5rem;
+      padding: 0 1.1rem;
+      background: var(--ink);
+      color: var(--accent-ink);
+      text-decoration: none;
+      font-weight: 550;
+    }
+    section {
+      padding: 2.4rem 0;
+      border-bottom: 1px solid var(--line);
+    }
+    h2 {
+      margin: 0 0 0.85rem;
+      font-size: 1.35rem;
+      letter-spacing: -0.02em;
+    }
+    h3 {
+      margin: 1.35rem 0 0.45rem;
+      font-size: 0.78rem;
+      font-family: var(--font-mono);
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+    p { margin: 0 0 0.9rem; }
+    ul {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+    .grid li,
+    .stack li {
+      padding: 0.45rem 0;
+      border-bottom: 1px solid var(--line);
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 0 1.5rem;
+    }
+    @media (min-width: 640px) {
+      .grid { grid-template-columns: 1fr 1fr; }
+    }
+    .connect a {
+      display: inline-flex;
+      align-items: center;
+      min-height: var(--tap);
+    }
+    address {
+      font-style: normal;
+    }
+    footer {
+      padding: 1.6rem 0 2.4rem;
+      color: var(--muted);
+      font-size: 0.92rem;
+    }
+    .muted { color: var(--muted); }
+    .note {
+      margin-top: 1.2rem;
+      padding-top: 1rem;
+      border-top: 1px solid var(--line);
+      font-size: 0.86rem;
+      color: var(--muted);
+    }
+  </style>
+</head>
+<body>
+  <a class="skip" href="#published">Skip to published work</a>
+  <header>
+    <div class="wrap bar">
+      <a class="brand" href="#top">Kulim Typewriters</a>
+      <nav class="nav" aria-label="On this page">
+        <a href="#published">Work</a>
+        <a href="#connect">Connect</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="top">
+    <div class="wrap hero">
+      <p class="kicker">Kulim, Kedah</p>
+      <h1>Office furniture, cash registers, and stationery from Jalan Raya.</h1>
+      <p class="lede">Kulim Typewriters lists office equipment, furniture, security products, and stationery from 28A, Jalan Raya, 09000 Kulim, Kedah. The homepage says the firm was established in 1982 by the late Mr. Cheah Kah Seong.</p>
+      <div class="hero-meta">
+        <span class="chip">Olympia ECR</span><span class="chip">Chubbsafes</span><span class="chip">28A Jalan Raya</span>
+      </div>
+      <a class="cta" href="#connect">Enquire</a>
+    </div>
+
+    <section id="published">
+      <div class="wrap">
+        <h2>What we already publish</h2>
+        <p>Copied from the live homepage at kulimtypewriters.com.my. Extra service writeups stay empty until Kulim Typewriters supplies them. The live Services menu still opens Coming Soon.</p>
+        <h3>Products named on the homepage</h3>
+        <ul class="grid">
+          <li>Cabinet Safe</li>
+          <li>Chubbsafes</li>
+          <li>Olympia Safe</li>
+          <li>Plastic Furniture</li>
+          <li>Strong Room Doors</li>
+          <li>Olympia CM80 Plus ECR</li>
+          <li>Olympia CM90 Plus ECR</li>
+          <li>Ashica ECR-168 ECR</li>
+          <li>SQL E-Invoice Software Post System and Software</li>
+          <li>AST 1500 Workstation Table (UT1500 White)</li>
+          <li>CM1342 Passport Locker</li>
+          <li>GY721 Handphone Locker</li>
+          <li>Olivetti Lettera 25 Manual Typewriter 10 inch (USED)</li>
+          <li>Olivetti Dora Manual Typewriter 10 inch (USED)</li>
+          <li>Olivetti Linea 98 Manual Typewriter 18 inch (USED)</li>
+          <li>Olympia Manual Typewriter 18 inch (USED)</li>
+          <li>NAKAJIMA Type Writer AX-150 (A4 Size)</li>
+          <li>DXF-58 Face Finger Print Time Management</li>
+          <li>AFP-5 Face / Finger Print Recognition Time Management System</li>
+          <li>A-263 Finger Print Time Management</li>
+          <li>Ornis EMERALD 530 Falcon Ornis Safe</li>
+        </ul>
+        <h3>How the live site describes the work</h3>
+        <p>The homepage says Kulim Typewriters is an office automation solution provider in Kulim, Kedah, with office equipment, furniture, security products, stationery, bespoke office furniture design, and tailored floor layout designs. Named SKUs above are the product titles published on the homepage. This page does not add prices, stock counts, or certifications that are not on the homepage.</p>
+        <p class="muted" style="margin-top:1.2rem">No unpublished branch list is added. Contact-page hours (Monday to Friday 9:00 AM to 5:30 PM, Saturday 9:00 AM to 3:00 PM) are on the live contact page, not restated as a booking promise here.</p>
+      </div>
+    </section>
+
+    <section id="connect" class="connect">
+      <div class="wrap">
+        <h2>Connect</h2>
+        <address>
+          <p>28A, Jalan Raya, 09000 Kulim, Kedah, Malaysia.</p>
+          <p><a href="mailto:enquiry@kulimtypewriters.com.my">enquiry@kulimtypewriters.com.my</a></p>
+          <p><a href="tel:+6044906358">+604-490 6358</a></p>
+        </address>
+        <p class="muted">Kulim Typewriters. 198203051744 (AS0030472-D).</p>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap">
+      <p class="muted">Draft only. Built from public text on kulimtypewriters.com.my. No invented certifications, extra plants, or unpublished service writeups.</p>
+      <p class="note">Quoted band: RM 1,000 to RM 5,000 after looking at how much copy they want. Draft only. No payment asked to read this page.</p>
+    </div>
+  </footer>
+</body>
+</html>
