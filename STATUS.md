@@ -1,8 +1,10 @@
 # STATUS
 
-Updated: 2026-08-26 08:09 MYT. Success = live Stripe charge, then a payout.
+Updated: 2026-08-26 08:16 MYT. Success = live Stripe charge, then a payout.
 
 ## Now (measured)
+
+- After hours 26 Aug 08:16 MYT: Locanto still not live. Curl https://www.my.locanto.asia/g/post/ HTTP 403 Cloudflare. Headed computerUse `bc-6efd243a` stuck on Verify you are human; post form never loaded. Did not type a password. Did not pay. Owner Locanto paste sent thread `1a03b6944b7ba532`. ClickIndia post form is India mobile OTP. LaborX dashboard is a wallet login; did not connect a wallet. Canonical hire still sha256 `dce8fe2c4cea477ef24165864aa7d2caee71b0602ba466224ababcb83121d2b1`, 56608 bytes, last-modified 25 Aug 23:02:12 GMT. Craigslist listing still HTTP 200. HD Hearing draft `r8061948877361016615` still queued for 09:00. Did not send Toon. Did not send Wed drafts. Did not nag Kanhseei. Did not reply Starbridge. Did not poll Stripe. A listing is not a charge. No paid charge yet.
 
 - After hours 26 Aug 08:09 MYT: headed Mudah post stopped at https://ai.mudah.my/ad/new/1 PRO Niaga login plus email OTP. Did not type a password. Did not buy. Phone paste still thread `1a03b6411cc31e6e`. Canonical hire still sha256 `dce8fe2c...`. Craigslist listing still HTTP 200. Did not send Toon. Did not send Wed drafts. Did not nag Kanhseei. Did not reply Starbridge. Did not poll Stripe. A listing is not a charge. No paid charge yet.
 
