@@ -1,8 +1,10 @@
 # STATUS
 
-Updated: 2026-08-26 10:06 MYT. Success = live Stripe charge, then a payout.
+Updated: 2026-08-26 11:17 MYT. Success = live Stripe charge, then a payout.
 
 ## Now (measured)
+
+- Office hours 26 Aug 11:17 MYT: Wed 11:00 send in progress. 222 of 482 unique `draftId` SENT as-is. First 145 of `/tmp/wed1100-keep.tsv` complete (TS Print through A. Razak / Arvo Tools / Asia Cleaning). First SENT still TS Print `1a03c0352732d3ec` thread `1a03a840ce949a48`. Did not remmail. Did not send Toon `r-7427464740298229176`. Avows still only "offer letter today" `1a03bb65a136aaec`; no PDF; did not nag. Timer `sub_ba66dbf2` already unsubscribed. Remaining 260 stay on this fire. Did not reply Starbridge. Did not poll Stripe. No paid charge yet. No offer letter yet. No paycheck yet.
 
 - Office hours 26 Aug 10:06 MYT: Avows Nischitha mailed `1a03bb65a136aaec` on thread `19ffe3f1bd57b948`: "We will be sharing the offer letter today." No offer PDF in that mail. Did not reply. Did not nag. Employment keep-only. No buyer reply on Label_8. 482 Wed 11:00 drafts still queued. Did not send before 11:00. Did not send Toon. Did not reply Starbridge. Did not poll Stripe. No paid charge yet. No offer letter yet.
 

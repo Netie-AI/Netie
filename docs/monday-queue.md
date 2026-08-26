@@ -2984,7 +2984,7 @@ Skipped CS-no-mailto: togetherkitchen.com.my, toolsguru.com.my, toptaste.com.my,
 
 ## Wed 26 Aug 11:00 extras (hosts 3180-3279)
 
-Timer `netie-wed-tsprint-website-2026-08-26-1100-myt` (`sub_2d7aa1e6-e604-4e5a-b7b0-d53629571895`). Thirty-four extras (hosts 3180-3572). Five-timer cap. Do not send before 11:00 MYT. Do not fold onto the 09:00 168 or the 10:00 seven.
+Timer `netie-wed-horizon-infinite-2026-08-26-1100-myt` (`sub_ba66dbf2-beee-48ed-b363-e82852733669`) already unsubscribed. Send IN PROGRESS 26 Aug 11:17 MYT: 222 of 482 unique `draftId` SENT as-is. First 145 of the keep list complete. Do not remmail. Do not send Toon. Remaining 260 still this fire. Five-timer cap. Do not fold onto the 09:00 168 or the 10:00 seven.
 
 ### TS PRINTING SDN. BHD. -- QUEUED draft 26 Aug 2026 04:02 MYT
 - To: marketing@tsprint.com.my. Draft `r3888511579076476959`. Thread `1a03a840ce949a48`. Subject: Muar sticker landing page. File: `docs/proposals/ts-print.md`. Copy established in Muar five years ago, on March 17, 2020 / 20 years of industry experience. Recreated after first draft used print page. Old thread `1a03a8282628bc72` trashed. Did not mail tsprint4u@gmail.com.
