@@ -2955,33 +2955,32 @@ Folded onto the same Wed 09:00 timer (`sub_3fe8c738-73a7-4b4e-8935-68cdb21175fa`
 Skipped CS-no-mailto: tamjaimixian.com.my. Skipped CS+mailto TLD mismatch: tech-link.com.my `info@techlink.com.my`, temeventsolution.com.my `sam.tan@temeventsolution.com`.
 - Next hunt: unused malaysiabrand hosts after line 3079. Sent 26 Aug 09:00-09:11 MYT.
 
-## Wed 26 Aug 10:00 extras (hosts 3080-3179)
+## SENT Wed 26 Aug 2026 10:00 MYT extras (hosts 3080-3179)
 
-Timer `netie-wed-thl-website-2026-08-26-1000-myt` (`sub_a47dbd1f-a86b-436f-892e-487903027a8d`). Seven extras. Do not send before 10:00 MYT. Do not fold onto the 09:00 168.
+Timer `netie-wed-thl-website-2026-08-26-1000-myt` (`sub_a47dbd1f-a86b-436f-892e-487903027a8d`) sent in-turn at 10:00 MYT. Seven of seven. Empty `in:sent` before send. `draftId` only. Label_8. No Stripe. THL and Tint Titans first dumps were 1703-byte WAF; earlier unique retry this morning was Coming Soon `min-height:440px`. Other five live CS at send. Do not remmail unless they reply. Timer unsubscribed. Do not send Toon.
 
-### THONG HIN LOONG HARDWARE TRADING SDN BHD -- QUEUED draft 26 Aug 2026 03:50 MYT
-- To: thlhomecentre@hotmail.com. Draft `r-670728268768434140`. Thread `1a03a7cf7db1c7ca`. Subject: Selangor hardware landing page. File: `docs/proposals/thl-homecentre.md`. Copy Sika topSeal 109MY / On Time Delivery. Selangor city-only.
+### THONG HIN LOONG HARDWARE TRADING SDN BHD -- SENT 26 Aug 2026 10:00 MYT
+- To: thlhomecentre@hotmail.com. SENT `1a03bccf73f07b5a`. Thread `1a03a7cf7db1c7ca`. Former draft `r-670728268768434140`. Subject: Selangor hardware landing page.
 
-### TITANS MARKETING SDN BHD -- QUEUED draft 26 Aug 2026 03:50 MYT
-- To: tint.titans@gmail.com. Draft `r6724692648342853143`. Thread `1a03a7cf93b2e67d`. Subject: Air Itam tint landing page. File: `docs/proposals/tint-titans.md`. Copy MOST RELIABLE TINT COMPANY IN TOWN / so call tinted films. HQ Air Itam only.
+### TITANS MARKETING SDN BHD -- SENT 26 Aug 2026 10:00 MYT
+- To: tint.titans@gmail.com. SENT `1a03bccf90e1eb7c`. Thread `1a03a7cf93b2e67d`. Former draft `r6724692648342853143`. Subject: Air Itam tint landing page.
 
-### TPS Lighting & Electrical -- QUEUED draft 26 Aug 2026 03:50 MYT
-- To: enquiry@tpslighting.com.my. Draft `r7781882797296252883`. Thread `1a03a7cf991f4866`. Subject: Johor Bahru lighting landing page. File: `docs/proposals/tps-lighting.md`. Copy Smart Lighting for Modern Living. HQ Taman Ungku Tun Aminah only.
+### TPS Lighting & Electrical -- SENT 26 Aug 2026 10:00 MYT
+- To: enquiry@tpslighting.com.my. SENT `1a03bccfbc9c2864`. Thread `1a03a7cf991f4866`. Former draft `r7781882797296252883`. Subject: Johor Bahru lighting landing page.
 
-### Triple R Shade -- QUEUED draft 26 Aug 2026 03:50 MYT
-- To: tripler.buzz@gmail.com. Draft `r5368085277782727794`. Thread `1a03a7cfabcba288`. Subject: Selangor shade landing page. File: `docs/proposals/triple-r-shade.md`. Copy Over 30 Years of Experience / Specialize in Outdoor Shade Systems.
+### Triple R Shade -- SENT 26 Aug 2026 10:00 MYT
+- To: tripler.buzz@gmail.com. SENT `1a03bccfd536f41c`. Thread `1a03a7cfabcba288`. Former draft `r5368085277782727794`. Subject: Selangor shade landing page.
 
-### Tropicool HVAC Parts Supply Sdn Bhd -- QUEUED draft 26 Aug 2026 03:50 MYT
-- To: tropicoolhvac.ps@gmail.com. Draft `r1149094895818557889`. Thread `1a03a7cfc5849137`. Subject: Selangor HVAC landing page. File: `docs/proposals/tropicool-hvac.md`. Copy Your Trusted One-Stop HVAC & Chiller Parts. Selangor city-only.
+### Tropicool HVAC Parts Supply Sdn Bhd -- SENT 26 Aug 2026 10:00 MYT
+- To: tropicoolhvac.ps@gmail.com. SENT `1a03bcd0045f919e`. Thread `1a03a7cfc5849137`. Former draft `r1149094895818557889`. Subject: Selangor HVAC landing page.
 
-### Truffle Merchant Enterprise -- QUEUED draft 26 Aug 2026 03:50 MYT
-- To: trufflemerchant.my@gmail.com. Draft `r-6859649855153002897`. Thread `1a03a7cfcac24643`. Subject: Kuala Lumpur truffle landing page. File: `docs/proposals/truffle-merchant.md`. Copy Finest Hand-Selected Truffles. HQ Wisma Trax only.
+### Truffle Merchant Enterprise -- SENT 26 Aug 2026 10:00 MYT
+- To: trufflemerchant.my@gmail.com. SENT `1a03bcd018d6cf2e`. Thread `1a03a7cfcac24643`. Former draft `r-6859649855153002897`. Subject: Kuala Lumpur truffle landing page.
 
-### TSF Johan Sdn Bhd -- QUEUED draft 26 Aug 2026 03:50 MYT
-- To: salesadmin@tsfjohan.com.my. Draft `r-7756333089514456911`. Thread `1a03a7cfe7192a13`. Subject: Seri Kembangan welding landing page. File: `docs/proposals/tsf-johan.md`. Copy established in 1998 / transformed into TSF Johan Sdn Bhd starting from 2019 onward. HQ Bukit Serdang only.
+### TSF Johan Sdn Bhd -- SENT 26 Aug 2026 10:00 MYT
+- To: salesadmin@tsfjohan.com.my. SENT `1a03bcd05fe68f14`. Thread `1a03a7cfe7192a13`. Former draft `r-7756333089514456911`. Subject: Seri Kembangan welding landing page.
 
 Skipped CS-no-mailto: togetherkitchen.com.my, toolsguru.com.my, toptaste.com.my, trisfood.com.my.
-- Next hunt: unused malaysiabrand hosts after line 3179. Do not send these before Wed 10:00 MYT.
 
 ## Wed 26 Aug 11:00 extras (hosts 3180-3279)
 

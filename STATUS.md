@@ -1,10 +1,12 @@
 # STATUS
 
-Updated: 2026-08-26 09:58 MYT. Success = live Stripe charge, then a payout.
+Updated: 2026-08-26 10:01 MYT. Success = live Stripe charge, then a payout.
 
 ## Now (measured)
 
-- Office hours 26 Aug 09:58 MYT: owner LokalGig paste in Gmail had `https://www.google.com/url?q=` wrappers. Cause is Gmail MCP wrap, not the git files. Copy from `docs/lokalgig-paste.txt` and `docs/lokalgig-agent-paste.txt`, not from Gmail HTML. Live Craigslist is #7955900317, not flagged #7955885182. This VM still cannot pass LokalGig Turnstile. Did not invent a password. Did not pay. Did not email the paste (that wrap is the bug). Did not send Toon. Did not send 10:00 seven yet. Did not nag Kanhseei. Did not reply Starbridge. Did not poll Stripe. No paid charge yet.
+- Office hours 26 Aug 10:00 MYT: sent seven of seven Wed 10:00 Coming Soon first-mails as-is (`draftId` only). THL `thlhomecentre@hotmail.com` SENT `1a03bccf73f07b5a`. TSF Johan `salesadmin@tsfjohan.com.my` SENT `1a03bcd05fe68f14`. Drafts gone. Label_8. Timer `sub_a47dbd1f` unsubscribed. Did not send Toon. Next: Wed 11:00 482. Did not nag Kanhseei. Did not reply Starbridge. Did not poll Stripe. No paid charge yet.
+
+- Office hours 26 Aug 09:58 MYT: owner LokalGig paste in Gmail had `https://www.google.com/url?q=` wrappers. Cause is Gmail MCP wrap, not the git files. Copy from `docs/lokalgig-paste.txt` and `docs/lokalgig-agent-paste.txt`, not from Gmail HTML. Live Craigslist is #7955900317, not flagged #7955885182. This VM still cannot pass LokalGig Turnstile. Did not invent a password. Did not pay. Did not email the paste (that wrap is the bug). Did not send Toon. Did not nag Kanhseei. Did not reply Starbridge. Did not poll Stripe. No paid charge yet.
 
 - Office hours 26 Aug 09:33 MYT: listing card, Rentry, and Telegraph now name Craigslist #7955900317. Surge https://netie-penang.surge.sh/listing.html sha256 `96c1f26a...` matches git. Reply-only `/drafts/` still HTTP 200. Index still `dce8fe2c...` (56608 bytes). Rentry https://rentry.co/netie-hire-proof-2026 and Telegraph https://telegra.ph/Landing-page-writer-in-Penang-RM-500-first-draft-08-25 have the new URL, no buy.stripe.com. Inbox has no buyer reply (TE Electric auto-reply and Seng Heng bounce already noted). All seven Wed 10:00 drafts still exist; `in:sent` empty. All seven `/services/` still Coming Soon (`min-height:440px`); THL and Tint Titans first dumps were 1703-byte WAF and recovered on unique retry. Do not send before 10:00. Did not send Toon. Did not nag Kanhseei. Did not reply Starbridge. Did not poll Stripe. A listing is not a charge. No paid charge yet.
 
