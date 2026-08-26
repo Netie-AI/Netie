@@ -1,4 +1,4 @@
-LokalGig is a Malaysia zero-commission gig board this VM can actually load. Sign-in is an email link, no password. Cloudflare captcha blocks the API from curl. Owner posts from the phone as Jian Hong Oo, Penang. One gig. Do not pay. Do not type a new password.
+LokalGig is a Malaysia zero-commission gig board this VM can actually load. Sign-in is an email link, no password. Cloudflare Turnstile blocks curl and headed Chrome from this VM. Owner posts from the phone as Jian Hong Oo, Penang. One gig. Do not pay. Do not type a new password.
 
 Go to: https://lokalgig.my/login
 Choose Email link (not Password). Email: oojianhongg@gmail.com

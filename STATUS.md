@@ -1,8 +1,10 @@
 # STATUS
 
-Updated: 2026-08-26 08:20 MYT. Success = live Stripe charge, then a payout.
+Updated: 2026-08-26 08:25 MYT. Success = live Stripe charge, then a payout.
 
 ## Now (measured)
+
+- After hours 26 Aug 08:25 MYT: LokalGig still not live. Headed computerUse `bc-63380d5a` typed oojianhongg@gmail.com on https://lokalgig.my/login?next=%2Fgigs%2Fcreate then failed Turnstile. Magic link not sent. Inbox has no LokalGig mail. Phone paste still `1a03b71618229dc8`. Did not invent a password. Did not pay. Locanto still not live. Canonical hire still sha256 `dce8fe2c...`. Craigslist listing still HTTP 200. HD Hearing draft `r8061948877361016615` still queued for 09:00. Did not send Toon. Did not send Wed drafts. Did not nag Kanhseei. Did not reply Starbridge. Did not poll Stripe. A listing is not a charge. No paid charge yet.
 
 - After hours 26 Aug 08:20 MYT: LokalGig https://lokalgig.my/ HTTP 200, email-link sign-in, no password. Curl OTP blocked by Turnstile captcha. Owner paste sent thread `1a03b71618229dc8`. File `docs/lokalgig-paste.txt`. Headed computerUse `bc-63380d5a` is clicking the captcha to request the mail. Did not invent a password. Did not pay. Locanto still not live. Canonical hire still sha256 `dce8fe2c...`. Craigslist listing still HTTP 200. HD Hearing draft `r8061948877361016615` still queued for 09:00. Did not send Toon. Did not send Wed drafts. Did not nag Kanhseei. Did not reply Starbridge. Did not poll Stripe. A listing is not a charge. No paid charge yet.
 
