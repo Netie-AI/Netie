@@ -2957,7 +2957,7 @@ Skipped CS-no-mailto: tamjaimixian.com.my. Skipped CS+mailto TLD mismatch: tech-
 
 ## SENT Wed 26 Aug 2026 10:00 MYT extras (hosts 3080-3179)
 
-Timer `netie-wed-thl-website-2026-08-26-1000-myt` (`sub_a47dbd1f-a86b-436f-892e-487903027a8d`) sent in-turn at 10:00 MYT. Seven of seven. Empty `in:sent` before send. `draftId` only. Label_8. No Stripe. THL and Tint Titans first dumps were 1703-byte WAF; earlier unique retry this morning was Coming Soon `min-height:440px`. Other five live CS at send. Do not remmail unless they reply. Timer unsubscribed. Do not send Toon.
+Timer `netie-wed-thl-website-2026-08-26-1000-myt` (`sub_a47dbd1f-a86b-436f-892e-487903027a8d`) sent in-turn at 10:00 MYT. Seven of seven. Empty `in:sent` before send. `draftId` only. Label_8. No Stripe. THL and Tint Titans first dumps were 1703-byte WAF; earlier unique retry this morning was Coming Soon `min-height:440px`. Other five live CS at send. Do not remmail unless they reply. Timer unsubscribed. Late fire 10:03 MYT was a no-op. Do not send Toon.
 
 ### THONG HIN LOONG HARDWARE TRADING SDN BHD -- SENT 26 Aug 2026 10:00 MYT
 - To: thlhomecentre@hotmail.com. SENT `1a03bccf73f07b5a`. Thread `1a03a7cf7db1c7ca`. Former draft `r-670728268768434140`. Subject: Selangor hardware landing page.

@@ -1,8 +1,10 @@
 # STATUS
 
-Updated: 2026-08-26 10:01 MYT. Success = live Stripe charge, then a payout.
+Updated: 2026-08-26 10:03 MYT. Success = live Stripe charge, then a payout.
 
 ## Now (measured)
+
+- Office hours 26 Aug 10:03 MYT: late fire of `netie-wed-thl-website-2026-08-26-1000-myt`. No-op. THL thread still one SENT message `1a03bccf73f07b5a` (Label_8). Draft gone. Unsubscribe `sub_a47dbd1f` already closed. Did not remmail. Did not send Toon. Did not send 11:00 482. Did not nag Kanhseei. Did not reply Starbridge. Did not poll Stripe. No paid charge yet.
 
 - Office hours 26 Aug 10:00 MYT: sent seven of seven Wed 10:00 Coming Soon first-mails as-is (`draftId` only). THL `thlhomecentre@hotmail.com` SENT `1a03bccf73f07b5a`. TSF Johan `salesadmin@tsfjohan.com.my` SENT `1a03bcd05fe68f14`. Drafts gone. Label_8. Timer `sub_a47dbd1f` unsubscribed. Did not send Toon. Next: Wed 11:00 482. Did not nag Kanhseei. Did not reply Starbridge. Did not poll Stripe. No paid charge yet.
 
