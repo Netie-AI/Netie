@@ -2192,7 +2192,7 @@ Timer `netie-tue-glassminds-website-2026-08-25-1700-myt` unsubscribed before sen
 
 ## Wed 26 Aug 09:00 first-mails -- SENT 09:00-09:11 MYT
 
-Timer `netie-wed-hdhearing-website-2026-08-26-0900-myt` (`sub_e7253903`) unsubscribed at fire. Sent 166 of 168 as-is (`draftId` only, hire URL google-wrapped, do not unwrap). Skipped Moh Seng `enquiry@mohseng.com.sg` (host timeout 000) and GP Manufacturing `sales@gp-mfg.com.sg` (`/services/` 404, homepage filled). Did not send Toon (`r-7427464740298229176`). Did not send leftover monsoon draft. Label_8. First SENT HD Hearing `1a03b9557661034d`. Last SENT Solid Kitchen `1a03b9eb0a5cd142`.
+Timer `netie-wed-hdhearing-website-2026-08-26-0900-myt` (`sub_e7253903`) unsubscribed at fire. Late fire 09:20 MYT was a no-op. Sent 166 of 168 as-is (`draftId` only, hire URL google-wrapped, do not unwrap). Skipped Moh Seng `enquiry@mohseng.com.sg` (host timeout 000) and GP Manufacturing `sales@gp-mfg.com.sg` (`/services/` 404, homepage filled). Did not send Toon (`r-7427464740298229176`). Did not send leftover monsoon draft. Label_8. First SENT HD Hearing `1a03b9557661034d`. Last SENT Solid Kitchen `1a03b9eb0a5cd142`. Did not remmail.
 
 ### HD HEARING CARE CENTRE SDN BHD -- SENT 26 Aug 2026 09:00 MYT
 

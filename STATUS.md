@@ -1,8 +1,10 @@
 # STATUS
 
-Updated: 2026-08-26 09:11 MYT. Success = live Stripe charge, then a payout.
+Updated: 2026-08-26 09:20 MYT. Success = live Stripe charge, then a payout.
 
 ## Now (measured)
+
+- Office hours 26 Aug 09:20 MYT: late fire of `netie-wed-hdhearing-website-2026-08-26-0900-myt`. No-op. HD Hearing thread still one SENT message `1a03b9557661034d` (Label_8). Draft gone. Unsubscribe `sub_e7253903` already closed. Did not remmail. Did not send Toon. Did not send 10:00 seven or 11:00 482. No buyer reply. TE Electric auto-reply and Seng Heng bounce already noted. Did not nag Kanhseei. Did not reply Starbridge. Did not poll Stripe. No paid charge yet.
 
 - Office hours 26 Aug 09:00-09:11 MYT: sent 166 of 168 Wed Coming Soon first-mails as-is (`draftId` only). HD Hearing `hd.hearingcare@gmail.com` SENT `1a03b9557661034d`. Solid Kitchen `sales@thesolidkitchen.com.my` SENT `1a03b9eb0a5cd142`. Skipped Moh Seng `enquiry@mohseng.com.sg` (host timeout 000) and GP Manufacturing `sales@gp-mfg.com.sg` (`/services/` 404, homepage filled). Seng Heng Metal `operation@shmetal.com.my` bounced (inbox full); did not remmail. TE Electric auto-reply is WhatsApp-only; did not WhatsApp. Toon holding draft `r-7427464740298229176` still unsent. Drafts gone. Hire URL left google-wrapped. Label_8. Timer `sub_e7253903` already gone at fire. Next: Wed 10:00 seven, Wed 11:00 482. Did not nag Kanhseei. Did not reply Starbridge. Did not poll Stripe. No paid charge yet.
 
