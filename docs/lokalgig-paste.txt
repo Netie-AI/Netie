@@ -1,8 +1,10 @@
-LokalGig is a Malaysia zero-commission gig board this VM can actually load. Sign-in is an email link, no password. Cloudflare Turnstile blocks curl and headed Chrome from this VM. Owner posts from the phone as Jian Hong Oo, Penang. One gig. Do not pay. Do not type a new password.
+LokalGig is a Malaysia zero-commission gig board. This VM cannot pass their Turnstile, so post from the phone. Sign-in is an email link, no password. Do not pay. Do not type a new password for a cloud agent.
+
+Copy these URLs as typed. Do not copy from a Gmail HTML mail. Gmail wraps them into https://www.google.com/url?q=... which looks broken.
 
 Go to: https://lokalgig.my/login
 Choose Email link (not Password). Email: oojianhongg@gmail.com
-Complete the human check if it shows. Then open the mail and tap the sign-in link.
+Complete the human check on the phone. Then open the mail and tap the sign-in link.
 
 After you are in: https://lokalgig.my/gigs/create
 Category: Web / mobile dev. State: Penang.
@@ -19,4 +21,5 @@ Live work: https://netie.ai/hire/
 WhatsApp +60 16-556 8918
 Gmail oojianhongg@gmail.com
 
-Meetup: Penang / remote Malaysia. Pay on WhatsApp / bank after you ask for the draft. No Stripe link on this gig. Do not launch a token.
+Craigslist Malaysia is already live: https://malaysia.craigslist.org/cps/d/landing-page-writer-in-penang-rm-500/7955900317.html
+Meetup: Penang / remote Malaysia. No Stripe link on this gig. Pay after you ask for the draft.
