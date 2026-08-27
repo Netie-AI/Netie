@@ -1,12 +1,13 @@
 """OpenVault crew/gate client. Fail closed. Never keep skill bodies.
 
-Contract (OpenVault PR #44 / DR-0012, not yet on OpenVault main):
+Contract (OpenVault `docs/patches/openvault-crew-gate.patch` and PR #44 / DR-0012; neither is on OpenVault main yet):
 
     POST {openvault}/api/crew/gate
       {kind, id, intent, parent_run_id, child_id, deficit}
     -> location + allowed. No skill_body.
 
-Missing URL, timeout, or a body without allowed=true is a refusal.
+The focused patch fail-closes unknown kinds (including `skill` until a registry
+row exists). Missing URL, timeout, or a body without allowed=true is a refusal.
 Crew does not intercept credentials. The human already put the secret in the vault.
 """
 

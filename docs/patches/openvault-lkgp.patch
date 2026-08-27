@@ -1,0 +1,100 @@
+diff --git a/OpenMW/openmw/openvault/route/strategies.py b/OpenMW/openmw/openvault/route/strategies.py
+index 7eccf61..c6bf90e 100644
+--- a/OpenMW/openmw/openvault/route/strategies.py
++++ b/OpenMW/openmw/openvault/route/strategies.py
+@@ -1,4 +1,4 @@
+-"""Combo routing strategies — 9 of 19 user-facing for pass 1 (+ OmniRoute quota-share internal, not ported)."""
++"""Combo routing strategies — 10 of 19 user-facing for pass 1 (+ OmniRoute quota-share internal, not ported)."""
+ 
+ from __future__ import annotations
+ 
+@@ -26,6 +26,7 @@ STRATEGY_ALIASES: dict[str, StrategyName] = {
+     "cost_optimized": "cost-optimized",
+     "strict-random": "strict-random",
+     "strict_random": "strict-random",
++    "lkgp": "lkgp",
+ }
+ 
+ 
+@@ -94,4 +95,15 @@ def apply_strategy(
+         by_key = {t.execution_key: t for t in rest}
+         return [chosen, *[by_key[k] for k in rest_keys if k in by_key]]
+ 
++    if strategy == "lkgp":
++        # Algorithm port of OmniRoute LKGP reorder. Not SQLite provider+connection.
++        # Sticky last successful execution_key; missing pin leaves order unchanged.
++        sticky = (metrics.last_success_key if metrics else None) or ""
++        if sticky:
++            chosen = next((t for t in targets if t.execution_key == sticky), None)
++            if chosen is not None:
++                rest = [t for t in targets if t.execution_key != sticky]
++                return [chosen, *rest]
++        return list(targets)
++
+     return list(targets)
+diff --git a/OpenMW/openmw/openvault/route/types.py b/OpenMW/openmw/openvault/route/types.py
+index e89149b..e4088fd 100644
+--- a/OpenMW/openmw/openvault/route/types.py
++++ b/OpenMW/openmw/openvault/route/types.py
+@@ -15,6 +15,7 @@ StrategyName = Literal[
+     "least-used",
+     "cost-optimized",
+     "strict-random",
++    "lkgp",
+ ]
+ 
+ STRATEGY_NAMES: tuple[StrategyName, ...] = (
+@@ -27,6 +28,7 @@ STRATEGY_NAMES: tuple[StrategyName, ...] = (
+     "least-used",
+     "cost-optimized",
+     "strict-random",
++    "lkgp",
+ )
+ 
+ BreakerProfileName = Literal["oauth", "api_key", "local"]
+@@ -80,6 +82,7 @@ class ComboMetrics:
+     """Metrics keyed by execution_key (not model_str) so sibling accounts stay distinct."""
+ 
+     by_execution_key: dict[str, TargetMetrics] = field(default_factory=dict)
++    last_success_key: str | None = None
+ 
+     def for_key(self, execution_key: str) -> TargetMetrics:
+         if execution_key not in self.by_execution_key:
+@@ -91,4 +94,8 @@ class ComboMetrics:
+         m.requests += 1
+         if success:
+             m.successes += 1
++            self.last_success_key = execution_key
++        elif self.last_success_key == execution_key:
++            # OmniRoute clearLKGP: do not keep a just-failed key first.
++            self.last_success_key = None
+         m.total_latency_ms += max(0.0, latency_ms)
+diff --git a/OpenMW/tests/test_route_strategies.py b/OpenMW/tests/test_route_strategies.py
+index bb4ca6b..3623399 100644
+--- a/OpenMW/tests/test_route_strategies.py
++++ b/OpenMW/tests/test_route_strategies.py
+@@ -98,3 +98,24 @@ def test_strict_random_remainder_is_permutation() -> None:
+     reset_decks()
+     ordered = apply_strategy("strict-random", _targets(), combo_name="sr2")
+     assert sorted(t.execution_key for t in ordered) == ["a", "b", "c"]
++
++
++def test_lkgp_last_success_moves_first() -> None:
++    metrics = ComboMetrics()
++    metrics.record("c", success=True, latency_ms=10)
++    ordered = apply_strategy("lkgp", _targets(), metrics=metrics)
++    assert [t.execution_key for t in ordered] == ["c", "a", "b"]
++
++
++def test_lkgp_missing_pin_leaves_order() -> None:
++    ordered = apply_strategy("lkgp", _targets(), metrics=ComboMetrics())
++    assert [t.execution_key for t in ordered] == ["a", "b", "c"]
++
++
++def test_lkgp_failure_of_sticky_clears_pin() -> None:
++    metrics = ComboMetrics()
++    metrics.record("b", success=True, latency_ms=10)
++    metrics.record("b", success=False, latency_ms=10)
++    ordered = apply_strategy("lkgp", _targets(), metrics=metrics)
++    assert [t.execution_key for t in ordered] == ["a", "b", "c"]
++    assert metrics.last_success_key is None
