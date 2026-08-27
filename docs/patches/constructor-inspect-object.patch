@@ -1,0 +1,48 @@
+diff --git a/app.js b/app.js
+index e8fc7d0..1069f0b 100644
+--- a/app.js
++++ b/app.js
+@@ -241,16 +241,20 @@ function showInspect() {
+   inspectEmpty.hidden = true;
+   inspectJson.hidden = true;
+   inspectForm.hidden = false;
+-  const obj = node.object_type && OBJECTS[node.object_type] ? node.object_type : "inventory";
+-  const points = OBJECTS[obj].points;
+-  const point = node.data_point && points[node.data_point] ? node.data_point : Object.keys(points)[0];
+-  const dtype = node.data_type || points[point];
++  const objects = Object.keys(OBJECTS);
++  const obj = listedOrEmpty(node.object_type, objects);
++  const points = obj && OBJECTS[obj] ? OBJECTS[obj].points : {};
++  const pointKeys = Object.keys(points);
++  const point = listedOrEmpty(node.data_point, pointKeys);
++  const types = ["string", "number", "integer", "boolean", "date"];
++  let dtype = listedOrEmpty(node.data_type, types);
++  if (!dtype && point && points[point]) dtype = points[point];
+   const action = listedOrEmpty(node.action_type, ACTIONS);
+   const tier = TIERS.indexOf(node.tier) >= 0 ? node.tier : "T0";
+   inspectForm.innerHTML =
+-    fieldSelect("object_type", "Object (ontology)", Object.keys(OBJECTS), obj) +
+-    fieldSelect("data_point", "Data point", Object.keys(points), point) +
+-    fieldSelect("data_type", "Data type", ["string", "number", "integer", "boolean", "date"], dtype) +
++    fieldSelect("object_type", "Object (ontology)", listedOptions(objects, node.object_type), obj) +
++    fieldSelect("data_point", "Data point", listedOptions(pointKeys, node.data_point), point) +
++    fieldSelect("data_type", "Data type", listedOptions(types, dtype), dtype) +
+     fieldSelect("action_type", "Action", listedOptions(ACTIONS, node.action_type), action) +
+     '<label>Fetch / place</label><input name="fetch_from" value="' +
+     escapeAttr(node.fetch_from || "") +
+diff --git a/tests/compiler.test.cjs b/tests/compiler.test.cjs
+index 67fc86a..caaf44b 100644
+--- a/tests/compiler.test.cjs
++++ b/tests/compiler.test.cjs
+@@ -242,3 +242,11 @@ test("inspect does not invent export_pptx for a missing action", () => {
+   ]);
+   assert.deepEqual(listedOptions(actions, "export_pptx"), actions);
+ });
++
++test("inspect does not invent inventory for a missing object", () => {
++  const objects = ["inventory", "shipments"];
++  assert.equal(listedOrEmpty("", objects), "");
++  assert.equal(listedOrEmpty("nope", objects), "");
++  assert.deepEqual(listedOptions(objects, ""), ["", "inventory", "shipments"]);
++  assert.deepEqual(listedOptions(objects, "inventory"), objects);
++});
