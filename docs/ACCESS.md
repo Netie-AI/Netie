@@ -54,6 +54,7 @@ git apply docs/patches/openvault-crew-gate.patch
 git apply docs/patches/openvault-context-headroom.patch
 git apply docs/patches/openvault-reset-window.patch
 git apply docs/patches/openvault-reset-aware.patch
+git apply docs/patches/openvault-cache-optimized.patch
 git apply docs/patches/constructor-compiler-tests.patch
 git apply docs/patches/constructor-empty-graph.patch
 ```

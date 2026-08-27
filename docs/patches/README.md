@@ -59,7 +59,16 @@ git apply docs/patches/openvault-reset-aware.patch
 cd OpenMW && uv run pytest tests/test_route_strategies.py -q
 ```
 
-Adds `reset-aware` (14th: session/weekly remaining mixed with reset-pressure; missing reset remaining => urgency 0, remaining-only; OmniRoute uses 0.5 there; `limit_reached` last). Measured on this VM 2026-08-27: 20 passed. Push 403.
+Adds `reset-aware` (14th: session/weekly remaining mixed with reset-pressure; missing reset remaining => urgency 0, remaining-only; OmniRoute uses 0.5 there; `limit_reached` last).
+
+Then:
+
+```
+git apply docs/patches/openvault-cache-optimized.patch
+cd OpenMW && uv run pytest tests/test_route_strategies.py -q
+```
+
+Adds `cache-optimized` (15th: SHA-256 rendezvous of caller `cache_key` onto connection/execution identity; empty key leaves order; no prefix analyzer, no OAuth occupancy). Measured on this VM 2026-08-27: 22 passed. Push 403.
 
 Independent of routing:
 
