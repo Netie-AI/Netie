@@ -62,7 +62,11 @@ def chunk_table(text: str) -> list[Chunk]:
         if delim.join(cells) == header:
             continue
         expected = header.count(delim) + 1
-        incomplete = len(cells) != expected
+        too_long = len(cells) > expected
+        too_short = len(cells) < expected
+        if too_long:
+            cells = cells[:expected]
+        incomplete = too_long or too_short
         body = delim.join(cells)
         out.append(
             Chunk(
