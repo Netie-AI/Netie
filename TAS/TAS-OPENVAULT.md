@@ -47,9 +47,9 @@ FreeRoute is **OpenVault `:5000/v1`**, not a process on `:20128`. OmniRoute rema
 
 Shipped strategies on **main** (8): priority, weighted, fill-first, round-robin, p2c, random, least-used, cost-optimized.
 
-This VM patches (not on main, push 403): `strict-random` (9th), `lkgp` (10th). LKGP stickies last successful `execution_key`; it is not OmniRoute's SQLite provider+connection pin.
+This VM patches (not on main, push 403): `strict-random` (9th), `lkgp` (10th), `context-optimized` (11th), `headroom` (12th). Context sort uses caller-supplied `context_window`, not OmniRoute's model catalog. Headroom uses caller-supplied util_5h/util_7d, not a provider quota fetch.
 
-Not shipped vs OmniRoute: provider catalog at OmniRoute scale, token compression, MCP/A2A, the remaining 9 user-facing strategies, Electron Next-on-20128.
+Not shipped vs OmniRoute: provider catalog at OmniRoute scale, token compression, MCP/A2A, the remaining 7 user-facing strategies, Electron Next-on-20128.
 
 Not the same job as NVIDIA llm-router (trained task/complexity classifier on Triton).
 
@@ -69,7 +69,7 @@ Vault SQLite (sealed), optional Redis for FreeRoute buckets, `openvault.local.js
 
 ## 7. Shipped vs scaffold
 
-**Shipped enough to test:** vault, gate refuse paths, FreeRoute metering/tests, 8 strategies on `main` (9th `strict-random` + 10th `lkgp` in `docs/patches/`, 12 strategy tests passed here, push 403), Pages adapter code, Next UI, Electron shell, NVMe library, CI.
+**Shipped enough to test:** vault, gate refuse paths, FreeRoute metering/tests, 8 strategies on `main` (9th-12th in `docs/patches/`, 16 strategy tests passed here, push 403), Pages adapter code, Next UI, Electron shell, NVMe library, CI.
 
 **Local evidence 2026-08-27** (clone HEAD `3030cad`, this VM):
 

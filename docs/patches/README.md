@@ -8,11 +8,12 @@ From the constructor repo root, on `landing-9-first-path`:
 
 ```
 git apply docs/patches/constructor-compiler-tests.patch
+git apply docs/patches/constructor-empty-graph.patch
 node --test tests/compiler.test.cjs
 ```
 
-Adds `rankForKinds`, node `--test` for Cortex IR, and `.github/workflows/test.yml`.
-Measured on this VM 2026-08-27: 3 passed.
+Adds `rankForKinds`, empty-graph IR (no invented Cortex nodes), node `--test`, and `.github/workflows/test.yml`.
+Measured on this VM 2026-08-27: 6 passed.
 
 ## OpenVault (`Netie-AI/OpenVault`)
 
@@ -31,7 +32,16 @@ git apply docs/patches/openvault-lkgp.patch
 cd OpenMW && uv run pytest tests/test_route_strategies.py -q
 ```
 
-Adds `strict-random` (9th) then `lkgp` (10th of 19 OmniRoute user-facing strategies). LKGP stickies the last *successful* `execution_key` and clears that pin on a later failure of the same key. Not OmniRoute SQLite provider+connection. Measured on this VM 2026-08-27: 12 passed. Push 403.
+Adds `strict-random` (9th) then `lkgp` (10th of 19 OmniRoute user-facing strategies). LKGP stickies the last *successful* `execution_key` and clears that pin on a later failure of the same key. Not OmniRoute SQLite provider+connection.
+
+Then:
+
+```
+git apply docs/patches/openvault-context-headroom.patch
+cd OpenMW && uv run pytest tests/test_route_strategies.py -q
+```
+
+Adds `context-optimized` (11th: largest known `context_window` first; no model catalog) and `headroom` (12th: `1 - max(util_5h, util_7d)`; missing util = full headroom; no provider quota fetch). Measured on this VM 2026-08-27: 16 passed. Push 403.
 
 Independent of routing:
 

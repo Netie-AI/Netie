@@ -51,7 +51,9 @@ git apply docs/patches/openvault-detect-stacks.patch
 git apply docs/patches/openvault-strict-random.patch
 git apply docs/patches/openvault-lkgp.patch
 git apply docs/patches/openvault-crew-gate.patch
+git apply docs/patches/openvault-context-headroom.patch
 git apply docs/patches/constructor-compiler-tests.patch
+git apply docs/patches/constructor-empty-graph.patch
 ```
 
 Or add write permission for the Cursor GitHub App on those two public repos.
