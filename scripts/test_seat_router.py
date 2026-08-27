@@ -17,9 +17,18 @@ class SeatRouterTests(unittest.TestCase):
         with self.assertRaises(SeatDenied):
             dispatch_seat(
                 ticket_id="T1",
+                seat="windsurf",
+                operator_logged_in=True,
+            )
+
+    def test_grok_bot_is_named_bypass(self) -> None:
+        with self.assertRaises(SeatDenied) as ctx:
+            dispatch_seat(
+                ticket_id="T1",
                 seat="grok-bot-reconstructed",
                 operator_logged_in=True,
             )
+        self.assertIn("billing-bypass", str(ctx.exception))
 
     def test_no_login_denied(self) -> None:
         with self.assertRaises(SeatDenied):
