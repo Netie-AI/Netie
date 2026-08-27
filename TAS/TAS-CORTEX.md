@@ -20,7 +20,7 @@ OpenVault FreeRoute. See `NETIE.md` section 2 for why that is a deliberate decli
 
 Portable path check in this constitution repo (Cortex still 404 here):
 `scripts/cortex_path.py` / `python3 scripts/test_cortex_path.py`. JEPA and gen-cFSM are
-refused as route candidates.
+refused as route candidates. A tool that skips `tool_runner` is refused.
 
 ---
 
