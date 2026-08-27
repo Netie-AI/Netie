@@ -25,7 +25,7 @@ The operator factory: a plane-4 app that *hosts* Cortex for the people who run t
 
 | Surface | Role |
 |---|---|
-| Crew board (absorb Control) | cards, who-is-running, ledger/refusal peek (read from Cortex), estate gate |
+| Crew board (absorb Control) | Factory tickets/epics + run/ledger/refusal cards; no prompts; no dag_runner |
 | Session view | one live run: transcript, todos, permissions, hand-off |
 | Skill browser | Netie-KB promotions + `skills/` directory; pick, demote, improve |
 | Runner | pull open GitHub tickets, execute embedded prompts, emit DONE/BLOCKED/NEEDS-YOU/FAILED |

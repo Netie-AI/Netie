@@ -10,6 +10,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 from control_board import ControlDenied, project_board, run_dag
+from crew_factory import Factory
 
 
 class ControlBoardTests(unittest.TestCase):
@@ -36,6 +37,31 @@ class ControlBoardTests(unittest.TestCase):
     def test_no_dag_runner(self) -> None:
         with self.assertRaises(ControlDenied):
             run_dag("anything")
+
+    def test_factory_index_projects_without_prompts(self) -> None:
+        f = Factory()
+        f.slice_prd(
+            prd_id="PRD-001",
+            out_of_scope="x",
+            success_assertion="WHEN x THE SYSTEM SHALL y",
+            epics=[("E1", "acl", "boundary")],
+        )
+        f.activate_epic("E1")
+        f.file_ticket(
+            epic_id="E1",
+            ticket_id="T1",
+            prompt="SECRET-PROMPT-XYZ wire space acl",
+        )
+        board = project_board(
+            crew_index=f.index(),
+            ledger_peek=[],
+            refusals=[],
+        )
+        dumped = str(board)
+        self.assertNotIn("SECRET-PROMPT-XYZ", dumped)
+        self.assertNotIn("prompt", dumped)
+        kinds = {c["kind"] for c in board["cards"]}
+        self.assertEqual(kinds, {"epic", "ticket"})
 
 
 if __name__ == "__main__":
