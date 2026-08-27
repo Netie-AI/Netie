@@ -1,0 +1,90 @@
+diff --git a/OpenMW/openmw/openvault/route/strategies.py b/OpenMW/openmw/openvault/route/strategies.py
+index d039d54..d6a739d 100644
+--- a/OpenMW/openmw/openvault/route/strategies.py
++++ b/OpenMW/openmw/openvault/route/strategies.py
+@@ -1,4 +1,4 @@
+-"""Combo routing strategies — 12 of 19 user-facing for pass 1 (+ OmniRoute quota-share internal, not ported)."""
++"""Combo routing strategies — 13 of 19 user-facing for pass 1 (+ OmniRoute quota-share internal, not ported)."""
+ 
+ from __future__ import annotations
+ 
+@@ -30,6 +30,8 @@ STRATEGY_ALIASES: dict[str, StrategyName] = {
+     "context-optimized": "context-optimized",
+     "context_optimized": "context-optimized",
+     "headroom": "headroom",
++    "reset-window": "reset-window",
++    "reset_window": "reset-window",
+ }
+ 
+ 
+@@ -142,4 +144,17 @@ def apply_strategy(
+         decorated.sort(key=lambda pair: (-_headroom(pair[1]), pair[0]))
+         return [t for _, t in decorated]
+ 
++    if strategy == "reset-window":
++        # Algorithm port of OmniRoute soonest-reset-first. No quota fetch.
++        # Unknown remaining_ms sorts last. Tie-band rotation is not ported.
++        def _remaining(t: RouteTarget) -> float:
++            value = t.reset_remaining_ms
++            if value is None:
++                return float("inf")
++            return max(0.0, value)
++
++        decorated = list(enumerate(targets))
++        decorated.sort(key=lambda pair: (_remaining(pair[1]), pair[0]))
++        return [t for _, t in decorated]
++
+     return list(targets)
+diff --git a/OpenMW/openmw/openvault/route/types.py b/OpenMW/openmw/openvault/route/types.py
+index 6ea9de3..b863db0 100644
+--- a/OpenMW/openmw/openvault/route/types.py
++++ b/OpenMW/openmw/openvault/route/types.py
+@@ -18,6 +18,7 @@ StrategyName = Literal[
+     "lkgp",
+     "context-optimized",
+     "headroom",
++    "reset-window",
+ ]
+ 
+ STRATEGY_NAMES: tuple[StrategyName, ...] = (
+@@ -33,6 +34,7 @@ STRATEGY_NAMES: tuple[StrategyName, ...] = (
+     "lkgp",
+     "context-optimized",
+     "headroom",
++    "reset-window",
+ )
+ 
+ BreakerProfileName = Literal["oauth", "api_key", "local"]
+@@ -52,6 +54,7 @@ class RouteTarget:
+     context_window: float | None = None
+     util_5h: float | None = None
+     util_7d: float | None = None
++    reset_remaining_ms: float | None = None
+ 
+ 
+ @dataclass
+diff --git a/OpenMW/tests/test_route_strategies.py b/OpenMW/tests/test_route_strategies.py
+index 12d5285..44cf70c 100644
+--- a/OpenMW/tests/test_route_strategies.py
++++ b/OpenMW/tests/test_route_strategies.py
+@@ -150,3 +150,20 @@ def test_headroom_missing_util_is_full() -> None:
+     ordered = apply_strategy("headroom", targets)
+     assert ordered[0].execution_key in {"b", "c"}
+     assert ordered[-1].execution_key == "a"
++
++
++def test_reset_window_soonest_first() -> None:
++    targets = _targets()
++    targets[0].reset_remaining_ms = 60_000
++    targets[1].reset_remaining_ms = 5_000
++    targets[2].reset_remaining_ms = 30_000
++    ordered = apply_strategy("reset-window", targets)
++    assert [t.execution_key for t in ordered] == ["b", "c", "a"]
++
++
++def test_reset_window_unknown_sorts_last() -> None:
++    targets = _targets()
++    targets[1].reset_remaining_ms = 1_000
++    ordered = apply_strategy("reset-window", targets)
++    assert ordered[0].execution_key == "b"
++    assert [t.execution_key for t in ordered[1:]] == ["a", "c"]

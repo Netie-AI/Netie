@@ -80,9 +80,10 @@ class SiblingPatchTests(unittest.TestCase):
             # crew-gate is independent of routing files.
             crew = PATCHES / "openvault-crew-gate.patch"
             ctx = PATCHES / "openvault-context-headroom.patch"
-            self.assertTrue(crew.is_file() and ctx.is_file())
-            # context-headroom must follow lkgp (both edit StrategyName).
-            for patch in (detect, strict, lkgp, crew, ctx):
+            reset = PATCHES / "openvault-reset-window.patch"
+            self.assertTrue(crew.is_file() and ctx.is_file() and reset.is_file())
+            # context-headroom then reset-window (both edit StrategyName after lkgp).
+            for patch in (detect, strict, lkgp, crew, ctx, reset):
                 check = _run(["git", "apply", "--check", str(patch)], cwd=dest)
                 self.assertEqual(check.returncode, 0, f"{patch.name}: {check.stderr}")
                 applied = _run(["git", "apply", str(patch)], cwd=dest)
@@ -93,6 +94,7 @@ class SiblingPatchTests(unittest.TestCase):
             self.assertIn('if strategy == "lkgp":', strategies)
             self.assertIn('if strategy == "context-optimized":', strategies)
             self.assertIn('if strategy == "headroom":', strategies)
+            self.assertIn('if strategy == "reset-window":', strategies)
             app_py = (dest / "OpenMW" / "openmw" / "openvault" / "app.py").read_text(
                 encoding="utf-8"
             )
