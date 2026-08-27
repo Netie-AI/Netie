@@ -363,3 +363,135 @@ def resolve_auto(resolved: str | None) -> str:
     if name not in SORT_STRATEGIES:
         raise ExecutionRefused(400, f"auto cannot resolve to unknown strategy {name!r}")
     return name
+
+
+# --- dispatch / chat body ---------------------------------------------------
+
+# OpenVault /v1 default model is "auto" (catalog pick). That is NOT OmniRoute auto.
+MODEL_SHAPES: tuple[str, ...] = ("fusion", "pipeline", "context-relay")
+
+
+class StrategyIsASort(ValueError):
+    """dispatch_combo was given a sort name; caller should apply_strategy."""
+
+    def __init__(self, strategy: str) -> None:
+        super().__init__(f"{strategy} is a sort; use apply_strategy")
+        self.strategy = strategy
+
+
+def _norm_name(value: Any) -> str:
+    return str(value or "").strip().lower().replace("_", "-")
+
+
+def shape_from_chat_body(body: dict[str, Any] | None) -> str | None:
+    """Which execution shape this OpenAI-shaped body asked for, if any.
+
+    `model: auto` is OpenVault's catalog alias, never OmniRoute auto.
+    """
+    if not isinstance(body, dict):
+        return None
+    combo = body.get("combo")
+    if isinstance(combo, dict):
+        name = _norm_name(combo.get("strategy"))
+        if name in EXECUTION_SHAPES:
+            return name
+    name = _norm_name(body.get("strategy"))
+    if name in EXECUTION_SHAPES:
+        return name
+    name = _norm_name(body.get("model"))
+    if name in MODEL_SHAPES:
+        return name
+    return None
+
+
+def chat_shape_refusal(body: dict[str, Any] | None) -> dict[str, Any] | None:
+    """Typed 400 payload so /v1 never walks vault keys as a fusion panel."""
+    shape = shape_from_chat_body(body)
+    if shape is None:
+        return None
+    return {
+        "error": {
+            "message": (
+                f"{shape} is an execution shape, not a vault-key walk. "
+                "Call dispatch_combo with combo.models; /v1 does not fan-out keys "
+                "as a panel."
+            ),
+            "type": "openvault_execution_shape",
+        }
+    }
+
+
+def steps_from_models(models: list[Any]) -> list[PipelineStep]:
+    out: list[PipelineStep] = []
+    for item in models:
+        if isinstance(item, PipelineStep):
+            out.append(item)
+        elif isinstance(item, str):
+            out.append(PipelineStep(item))
+        elif isinstance(item, dict):
+            out.append(
+                PipelineStep(
+                    model=str(item.get("model") or item.get("execution_key") or ""),
+                    prompt=item.get("prompt") if isinstance(item.get("prompt"), str) else None,
+                    hidden=bool(item.get("hidden") or item.get("isHidden")),
+                )
+            )
+    return out
+
+
+def dispatch_combo(
+    strategy: str,
+    models: list[Any],
+    call_model: CallModel,
+    *,
+    user_text: str = "",
+    stream: bool = False,
+    tools: Any = None,
+    tool_choice: Any = None,
+    judge_model: str | None = None,
+    resolved: str | None = None,
+    available: dict[str, bool] | None = None,
+    handoff: RelayHandoff | None = None,
+) -> str:
+    """Run an execution shape. Sort names raise StrategyIsASort."""
+    name = _norm_name(strategy)
+    if name in SORT_STRATEGIES:
+        raise StrategyIsASort(name)
+    if name == "auto":
+        raise StrategyIsASort(resolve_auto(resolved))
+    if name == "fusion":
+        ids = [s.model for s in steps_from_models(models)]
+        plan = plan_fusion(
+            ids, judge_model=judge_model, tools=tools, tool_choice=tool_choice
+        )
+        return run_fusion(
+            plan,
+            call_model,
+            user_text=user_text,
+            stream=stream,
+            tools=tools,
+            tool_choice=tool_choice,
+        )
+    if name == "pipeline":
+        return run_pipeline(
+            steps_from_models(models),
+            call_model,
+            user_text=user_text,
+            stream=stream,
+            tools=tools,
+            tool_choice=tool_choice,
+        )
+    if name == "context-relay":
+        ids = [s.model for s in steps_from_models(models) if not s.hidden]
+        picked = pick_relay_target(ids, available=available)
+        if picked is None:
+            raise ExecutionRefused(503, "no available relay target")
+        return call_model(
+            picked,
+            user_text=inject_handoff(user_text, handoff),
+            stream=stream,
+            tools=tools,
+            tool_choice=tool_choice,
+        )
+    raise ExecutionRefused(400, f"unknown execution shape {name!r}")
+

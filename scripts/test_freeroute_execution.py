@@ -16,9 +16,12 @@ from freeroute_execution import (
     PipelineStep,
     RelayHandoff,
     RelayStore,
+    StrategyIsASort,
     StrategyNotASort,
     ExecutionRefused,
     build_judge_prompt,
+    chat_shape_refusal,
+    dispatch_combo,
     inject_handoff,
     pick_relay_target,
     plan_fusion,
@@ -27,6 +30,7 @@ from freeroute_execution import (
     resolve_handoff_providers,
     run_fusion,
     run_pipeline,
+    shape_from_chat_body,
     should_generate_handoff,
 )
 
@@ -287,6 +291,99 @@ class AutoTests(unittest.TestCase):
     def test_unknown_refuses(self) -> None:
         with self.assertRaises(ExecutionRefused):
             resolve_auto("quota-share")
+
+
+class DispatchTests(unittest.TestCase):
+    def test_sort_name_is_not_a_dispatcher(self) -> None:
+        with self.assertRaises(StrategyIsASort) as ctx:
+            dispatch_combo("cache-optimized", ["a"], lambda *_a, **_k: "x")
+        self.assertEqual(ctx.exception.strategy, "cache-optimized")
+
+    def test_auto_without_resolved_refuses(self) -> None:
+        with self.assertRaises(ExecutionRefused):
+            dispatch_combo("auto", ["a"], lambda *_a, **_k: "x")
+
+    def test_auto_with_resolved_is_a_sort(self) -> None:
+        with self.assertRaises(StrategyIsASort) as ctx:
+            dispatch_combo(
+                "auto", ["a"], lambda *_a, **_k: "x", resolved="priority"
+            )
+        self.assertEqual(ctx.exception.strategy, "priority")
+
+    def test_fusion_dispatch(self) -> None:
+        seen: list[str] = []
+
+        def call(model, **_k):
+            seen.append(model)
+            return f"ans-{model}"
+
+        out = dispatch_combo(
+            "fusion",
+            ["p/a", "p/b"],
+            call,
+            user_text="Q",
+            judge_model="p/judge",
+        )
+        self.assertEqual(seen[:2], ["p/a", "p/b"])
+        self.assertEqual(seen[2], "p/judge")
+        self.assertEqual(out, "ans-p/judge")
+
+    def test_pipeline_dispatch_from_dicts(self) -> None:
+        seen: list[str] = []
+
+        def call(model, *, user_text, **_k):
+            seen.append(model)
+            return "OUT" if model == "p/a" else user_text + "-B"
+
+        out = dispatch_combo(
+            "pipeline",
+            [{"model": "p/a"}, {"model": "p/b", "prompt": "SUMMARIZE"}],
+            call,
+            user_text="hi",
+        )
+        self.assertEqual(seen, ["p/a", "p/b"])
+        self.assertEqual(out, "OUT-B")
+
+    def test_relay_dispatch_skips_unavailable(self) -> None:
+        def call(model, *, user_text, **_k):
+            self.assertEqual(model, "openai/a")
+            self.assertIn("keep going", user_text)
+            return "ok"
+
+        out = dispatch_combo(
+            "context-relay",
+            ["codex/x", "openai/a"],
+            call,
+            user_text="hello",
+            available={"codex/x": False, "openai/a": True},
+            handoff=RelayHandoff("s", "c", "keep going", "acct"),
+        )
+        self.assertEqual(out, "ok")
+
+
+class ChatBodyTests(unittest.TestCase):
+    def test_model_auto_is_not_omniroute_auto(self) -> None:
+        self.assertIsNone(
+            shape_from_chat_body(
+                {"model": "auto", "messages": [{"role": "user", "content": "hi"}]}
+            )
+        )
+        self.assertIsNone(chat_shape_refusal({"model": "auto"}))
+
+    def test_model_fusion_is_a_shape(self) -> None:
+        self.assertEqual(shape_from_chat_body({"model": "fusion"}), "fusion")
+        payload = chat_shape_refusal({"model": "fusion"})
+        assert payload is not None
+        self.assertEqual(payload["error"]["type"], "openvault_execution_shape")
+
+    def test_combo_auto_is_omniroute_auto(self) -> None:
+        self.assertEqual(
+            shape_from_chat_body({"model": "gpt-4", "combo": {"strategy": "auto"}}),
+            "auto",
+        )
+
+    def test_body_strategy_pipeline(self) -> None:
+        self.assertEqual(shape_from_chat_body({"strategy": "pipeline"}), "pipeline")
 
 
 if __name__ == "__main__":

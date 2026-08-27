@@ -84,6 +84,7 @@ class SiblingPatchTests(unittest.TestCase):
             aware = PATCHES / "openvault-reset-aware.patch"
             cache = PATCHES / "openvault-cache-optimized.patch"
             shapes = PATCHES / "openvault-execution-shapes.patch"
+            chat = PATCHES / "openvault-chat-dispatch.patch"
             self.assertTrue(
                 crew.is_file()
                 and ctx.is_file()
@@ -91,6 +92,7 @@ class SiblingPatchTests(unittest.TestCase):
                 and aware.is_file()
                 and cache.is_file()
                 and shapes.is_file()
+                and chat.is_file()
             )
             for patch in (
                 detect,
@@ -102,6 +104,7 @@ class SiblingPatchTests(unittest.TestCase):
                 aware,
                 cache,
                 shapes,
+                chat,
             ):
                 check = _run(["git", "apply", "--check", str(patch)], cwd=dest)
                 self.assertEqual(check.returncode, 0, f"{patch.name}: {check.stderr}")
@@ -123,6 +126,12 @@ class SiblingPatchTests(unittest.TestCase):
             self.assertIn("def plan_fusion", execution)
             self.assertIn("def run_pipeline", execution)
             self.assertIn("def resolve_auto", execution)
+            self.assertIn("def dispatch_combo", execution)
+            self.assertIn("def chat_shape_refusal", execution)
+            proxy = (
+                dest / "OpenMW" / "openmw" / "openvault" / "vault" / "proxy.py"
+            ).read_text(encoding="utf-8")
+            self.assertIn("chat_shape_refusal", proxy)
             app_py = (dest / "OpenMW" / "openmw" / "openvault" / "app.py").read_text(
                 encoding="utf-8"
             )
