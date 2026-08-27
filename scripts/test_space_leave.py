@@ -49,6 +49,11 @@ class SpaceLeaveTests(unittest.TestCase):
         with self.assertRaises(SpaceLeaveDenied):
             persist_key("user.env", plaintext=True)
 
+    def test_user_env_denied_even_when_not_marked_plaintext(self) -> None:
+        with self.assertRaises(SpaceLeaveDenied) as ctx:
+            persist_key(r"%LOCALAPPDATA%\NetieSpace\user.env", plaintext=False)
+        self.assertIn("env file", str(ctx.exception))
+
     def test_local_vault_scan_denied(self) -> None:
         with self.assertRaises(SpaceLeaveDenied):
             resolve_login(openvault_ok=False, scan_local_vault=True)

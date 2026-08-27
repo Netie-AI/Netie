@@ -151,8 +151,7 @@ There is no test command, because there are no tests. That is the single most us
 thing to change about this repo.
 
 Portable contract in this Netie repo (Space remote still 404): `scripts/space_leave.py`.
-AI/OCR leave without OpenVault `allowed=true` is denied. Plaintext `user.env` key write
-is denied. Local credential-store scan is denied. `python3 scripts/test_space_leave.py`.
+AI/OCR leave without OpenVault `allowed=true` is denied. `user.env` / `.env` / `env.local` key writes are denied even when not marked plaintext. Local credential-store scan is denied. `python3 scripts/test_space_leave.py`.
 
 ---
 
