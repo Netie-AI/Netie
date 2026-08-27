@@ -241,7 +241,7 @@ declined, and each will be proposed again by someone who has not read this.
 | How this agent gets private remotes (no passwords) | `docs/ACCESS.md` |
 | How we work: file rules, CI, tickets, roles | `Internal/Workflow/OPERATING_MODEL.md` |
 | How PRD -> epic -> ticket runs | `Internal/Agents/AGENT_SYSTEM.md` |
-| What is true in a repo right now | that repo's `STATUS.md` |
+| What is true in a repo right now | that repo's `STATUS.md` (this repo: `STATUS.md`) |
 | The laws of a repo (invariants, boundaries) | that repo's `CLAUDE.md` |
 | What exists in a repo and where | that repo's `docs/ACTIVE.md` |
 | What was postponed and on what condition | that repo's `PARKING_LOT.md` |
