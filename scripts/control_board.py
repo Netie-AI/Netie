@@ -20,24 +20,63 @@ def project_board(
     ledger_peek: list[dict[str, Any]],
     refusals: list[dict[str, Any]],
 ) -> dict[str, Any]:
-    runs = crew_index.get("runs") or []
     cards = []
-    for row in runs:
+    for row in crew_index.get("runs") or []:
         if not isinstance(row, dict):
             continue
-        card = {
-            "id": row.get("id"),
-            "status": row.get("status"),
-            "ticket_id": row.get("ticket_id"),
-            "kind": "run",
-        }
         if any(k in row for k in FORBIDDEN_KEYS):
             raise ControlDenied("index leaked a body")
-        cards.append(card)
+        cards.append(
+            {
+                "id": row.get("id"),
+                "status": row.get("status"),
+                "ticket_id": row.get("ticket_id"),
+                "kind": "run",
+            }
+        )
+    for row in crew_index.get("tickets") or []:
+        if not isinstance(row, dict):
+            continue
+        if any(k in row for k in FORBIDDEN_KEYS):
+            raise ControlDenied("index leaked a body")
+        cards.append(
+            {
+                "id": row.get("id"),
+                "status": row.get("status"),
+                "ticket_id": row.get("id"),
+                "epic_id": row.get("epic_id"),
+                "kind": "ticket",
+            }
+        )
+    for row in crew_index.get("epics") or []:
+        if not isinstance(row, dict):
+            continue
+        if any(k in row for k in FORBIDDEN_KEYS):
+            raise ControlDenied("index leaked a body")
+        cards.append(
+            {
+                "id": row.get("id"),
+                "status": row.get("status"),
+                "tier": row.get("tier"),
+                "kind": "epic",
+            }
+        )
     for row in ledger_peek:
-        cards.append({"id": row.get("id"), "kind": "ledger", "status": row.get("status")})
+        if not isinstance(row, dict):
+            continue
+        if any(k in row for k in FORBIDDEN_KEYS):
+            raise ControlDenied("index leaked a body")
+        cards.append(
+            {"id": row.get("id"), "kind": "ledger", "status": row.get("status")}
+        )
     for row in refusals:
-        cards.append({"id": row.get("id"), "kind": "refusal", "reason": row.get("reason")})
+        if not isinstance(row, dict):
+            continue
+        if any(k in row for k in FORBIDDEN_KEYS):
+            raise ControlDenied("index leaked a body")
+        cards.append(
+            {"id": row.get("id"), "kind": "refusal", "reason": row.get("reason")}
+        )
     dumped = str(cards)
     for needle in FORBIDDEN_KEYS:
         if needle in dumped:
