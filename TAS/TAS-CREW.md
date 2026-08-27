@@ -17,7 +17,7 @@ The operator factory: a plane-4 app that *hosts* Cortex for the people who run t
 
 **It is not AirGPT.** AirGPT is the customer host shell. Crew is internal first; multiplayer customer sessions are a later AirGPT surface over Crew, not a merge of the two apps.
 
-**First artefact (in Netie, until the Crew repo exists):** wrap, cap-2 parallel, verify, budget, ledger, OV gate, parent-run graph, `seat_router.py` (licensed Cursor/Claude Code/Codex queue, no vendor UI drive). Tools Cortex or OpenVault refuse do not run. This is not Deep Agents and not a second `dag_runner`.
+**First artefact (in Netie, until the Crew repo exists):** wrap, cap-2 parallel, verify, budget, ledger, OV gate, parent-run graph, factory (PRD slice refuses without out-of-scope; WIP 2 epics; close updates the epic task list), `seat_router.py`. Tools Cortex or OpenVault refuse do not run. This is not Deep Agents and not a second `dag_runner`.
 
 ---
 

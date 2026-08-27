@@ -41,6 +41,8 @@ From `TAS/TAS-CORTEX.md` (measured 2026-08-02 by building the app, not by readin
 
 So Cortex today is: a FastAPI engine with a live auto-router, a DAG runner, a tool allowlist that is bypassed on some paths, a keyword warehouse Q&A, and four governance organs (manifest, ledger, actions, abstain) of which several are decorative on the product path. It is not a serving engine and not Claude.
 
+Executable contract in this repo (Cortex remote still 404): `scripts/cortex_path.py`. `jepa` / `gen-cfsm` candidates are refused. DMS answers are tagged `keyword_cascade`; C7 SQL is `off`. Ungoverned writes other than `export_pptx` are refused. `python3 scripts/test_cortex_path.py`.
+
 ---
 
 ## 1. Scorecard
