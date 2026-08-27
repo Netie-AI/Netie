@@ -18,6 +18,10 @@ no CUDA path. `grep "chat/completions"` across `CortexOS` returns nothing. Token
 bought through litellm (self-hosted vLLM default `http://127.0.0.1:8000/v1`) or via
 OpenVault FreeRoute. See `NETIE.md` section 2 for why that is a deliberate decline.
 
+Portable path check in this constitution repo (Cortex still 404 here):
+`scripts/cortex_path.py` / `python3 scripts/test_cortex_path.py`. JEPA and gen-cFSM are
+refused as route candidates.
+
 ---
 
 ## 2. Entry points

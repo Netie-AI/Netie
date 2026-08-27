@@ -1,0 +1,48 @@
+"""How Cortex routes today. JEPA and gen-cFSM are not on this path.
+
+Executable form of TAS-CORTEX / ESTATE-GAP section 0. Not a serving engine.
+The only invocable write in this model is export_pptx.
+"""
+
+from __future__ import annotations
+
+COLD_START = ("minimal", "sequential", "dag")
+WRITE_ACTIONS = frozenset({"export_pptx"})
+PARKED = frozenset({"jepa", "gen-cfsm", "osr"})
+
+
+class RouteDenied(PermissionError):
+    """Parked organ or ungoverned write."""
+
+
+def auto_route(
+    *,
+    cosine: float,
+    winner_runs: int,
+    candidates: list[str],
+) -> str:
+    parked = [c for c in candidates if c.lower() in PARKED]
+    if parked:
+        raise RouteDenied(f"parked not on path: {parked}")
+    live = [c for c in candidates if c.lower() not in PARKED]
+    if not live:
+        raise RouteDenied("no live candidate")
+    if cosine >= 0.80 and winner_runs >= 3:
+        return live[0]
+    return live[min(2, len(live) - 1)]
+
+
+def run_question(shape: str, *, write: str | None = None) -> dict[str, str]:
+    if shape not in COLD_START:
+        raise RouteDenied(f"bad shape {shape}")
+    if write and write not in WRITE_ACTIONS:
+        raise RouteDenied(f"write not in action registry: {write}")
+    return {
+        "router": "race_router.auto_route",
+        "shape": shape,
+        "dms": "keyword_cascade",
+        "c7_sql": "off",
+        "write": write or "none",
+        "jepa": "off-path",
+        "gen_cfsm": "off-path",
+    }
