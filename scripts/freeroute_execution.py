@@ -545,6 +545,40 @@ def dispatch_combo(
 
 # --- hop walk --------------------------------------------------------------
 
+# Status-only subset of OpenVault classify_attempt. No body-text credits /
+# oauth / context parse. Callers that need those reasons use OpenVault.
+TRIP_STATUS_CODES: frozenset[int] = frozenset({408, 500, 502, 503, 504})
+
+
+@dataclass(frozen=True)
+class HopOutcome:
+    attempt_class: str
+    candidate: str
+    job: str
+    trip_provider_breaker: bool
+    counts_as_hard_fail: bool
+
+
+def classify_hop_status(status: int | None) -> HopOutcome:
+    """Status-only hop policy. 429 parks; 5xx trips; 401 quarantines; 400 dead.
+
+    Matches OpenVault classify_attempt axes for numeric status. Does not read
+    Retry-After, credits_exhausted, or 'input is too long'.
+    """
+    if status is not None and 200 <= status < 300:
+        return HopOutcome("success", "keep", "done", False, False)
+    if status is None:
+        return HopOutcome("hard_fail", "keep", "continue_chain", True, True)
+    if status == 429:
+        return HopOutcome("rate_limit", "park", "continue_chain", False, False)
+    if status in TRIP_STATUS_CODES:
+        return HopOutcome("hard_fail", "keep", "continue_chain", True, True)
+    if status in (401, 403):
+        return HopOutcome("auth_fail", "quarantine_key", "continue_chain", False, False)
+    if status in (400, 404, 422):
+        return HopOutcome("non_retryable", "keep", "dead", False, False)
+    return HopOutcome("hard_fail", "keep", "continue_chain", False, True)
+
 
 @dataclass(frozen=True)
 class Hop:
@@ -595,7 +629,8 @@ def hop_call_model(
     """Bind dispatch_combo's call_model to a hop list.
 
     Tries every matching hop until one returns non-empty text. Empty is a
-    miss, not a permutation of fusion.
+    miss, not a permutation of fusion. ExecutionRefused from post (job=dead)
+    is not swallowed -- same as OpenVault classify_attempt job=dead.
     """
 
     def call(model: str, **kwargs: Any) -> str:

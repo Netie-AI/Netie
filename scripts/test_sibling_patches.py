@@ -87,6 +87,7 @@ class SiblingPatchTests(unittest.TestCase):
             chat = PATCHES / "openvault-chat-dispatch.patch"
             hop = PATCHES / "openvault-hop-walk.patch"
             failover = PATCHES / "openvault-hop-failover.patch"
+            park = PATCHES / "openvault-hop-park.patch"
             self.assertTrue(
                 crew.is_file()
                 and ctx.is_file()
@@ -97,6 +98,7 @@ class SiblingPatchTests(unittest.TestCase):
                 and chat.is_file()
                 and hop.is_file()
                 and failover.is_file()
+                and park.is_file()
             )
             for patch in (
                 detect,
@@ -111,6 +113,7 @@ class SiblingPatchTests(unittest.TestCase):
                 chat,
                 hop,
                 failover,
+                park,
             ):
                 check = _run(["git", "apply", "--check", str(patch)], cwd=dest)
                 self.assertEqual(check.returncode, 0, f"{patch.name}: {check.stderr}")
@@ -142,6 +145,7 @@ class SiblingPatchTests(unittest.TestCase):
             ).read_text(encoding="utf-8")
             self.assertIn("chat_shape_refusal", proxy)
             self.assertIn("_run_execution_shape", proxy)
+            self.assertIn("Execution-shape posts use the same classify_attempt", proxy)
             app_py = (dest / "OpenMW" / "openmw" / "openvault" / "app.py").read_text(
                 encoding="utf-8"
             )
