@@ -108,6 +108,7 @@ class SiblingPatchTests(unittest.TestCase):
             persist = PATCHES / "openvault-hop-persist.patch"
             anth = PATCHES / "openvault-hop-anthropic.patch"
             scope = PATCHES / "openvault-hop-scope.patch"
+            serve = PATCHES / "openvault-hop-serve.patch"
             self.assertTrue(
                 crew.is_file()
                 and ctx.is_file()
@@ -126,6 +127,7 @@ class SiblingPatchTests(unittest.TestCase):
                 and persist.is_file()
                 and anth.is_file()
                 and scope.is_file()
+                and serve.is_file()
             )
             for patch in (
                 detect,
@@ -148,6 +150,7 @@ class SiblingPatchTests(unittest.TestCase):
                 persist,
                 anth,
                 scope,
+                serve,
             ):
                 check = _run(["git", "apply", "--check", str(patch)], cwd=dest)
                 self.assertEqual(check.returncode, 0, f"{patch.name}: {check.stderr}")
@@ -191,6 +194,7 @@ class SiblingPatchTests(unittest.TestCase):
             self.assertIn("In-process caller handoff store", proxy)
             self.assertIn("anthropic chat not via /v1 proxy yet", execution)
             self.assertIn("scoped by tenant", proxy)
+            self.assertIn("no hop can serve model", execution)
             app_py = (dest / "OpenMW" / "openmw" / "openvault" / "app.py").read_text(
                 encoding="utf-8"
             )

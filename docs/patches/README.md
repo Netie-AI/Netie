@@ -182,6 +182,15 @@ cd OpenMW && uv run pytest tests/test_route_strategies.py tests/test_execution_s
 
 In-process handoff store is keyed by issued-seat identity (`tenant`) plus session. Same `sessionId` on another seat does not inject. Empty tenant does not persist. Not OmniRoute SQLite. Measured 2026-08-27: 72 passed. Push 403.
 
+Then:
+
+```
+git apply docs/patches/openvault-hop-serve.patch
+cd OpenMW && uv run pytest tests/test_route_strategies.py tests/test_execution_shapes.py tests/test_execution_chat.py tests/test_freeroute_acceptance.py -q
+```
+
+No matching hop raises 503 `no hop can serve model` instead of empty-dispatch. Not a fake 200. Measured 2026-08-27: 73 passed. Push 403.
+
 Independent of routing:
 
 ```

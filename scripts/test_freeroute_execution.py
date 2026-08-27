@@ -550,9 +550,12 @@ class HopWalkTests(unittest.TestCase):
         self.assertEqual(call("p/b", user_text="Q"), "ans-p/b")
         self.assertEqual(seen, ["k2:p/b"])
 
-    def test_missing_hop_returns_empty(self) -> None:
+    def test_missing_hop_names_the_gap(self) -> None:
         call = hop_call_model([Hop("k1", "p/a", "openai", True)], lambda *_a, **_k: "x")
-        self.assertEqual(call("p/missing", user_text="Q"), "")
+        with self.assertRaises(ExecutionRefused) as ctx:
+            call("p/missing", user_text="Q")
+        self.assertEqual(ctx.exception.code, 503)
+        self.assertIn("no hop can serve model", str(ctx.exception))
 
     def test_empty_first_hop_falls_through(self) -> None:
         hops = [

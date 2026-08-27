@@ -732,8 +732,9 @@ def hop_call_model(
     """Bind dispatch_combo's call_model to a hop list.
 
     Tries every matching hop until one returns non-empty text. Empty is a
-    miss, not a permutation of fusion. ExecutionRefused from post (job=dead)
-    is not swallowed -- same as OpenVault classify_attempt job=dead.
+    miss, not a permutation of fusion. No matching hop raises ExecutionRefused
+    503 (not a fake 200). ExecutionRefused from post (job=dead) is not
+    swallowed -- same as OpenVault classify_attempt job=dead.
 
     Anthropic hops are skipped (same as the key walk). If they were the only
     matches, raise ExecutionRefused 503 with the key-walk reason. Do not post
@@ -741,9 +742,12 @@ def hop_call_model(
     """
 
     def call(model: str, **kwargs: Any) -> str:
+        found = hops_for_model(hops, model, serves=serves)
+        if not found:
+            raise ExecutionRefused(503, "no hop can serve model")
         skipped_anthropic = False
         tried = False
-        for hop in hops_for_model(hops, model, serves=serves):
+        for hop in found:
             if (hop.provider or "").strip().lower() == "anthropic":
                 skipped_anthropic = True
                 continue

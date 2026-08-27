@@ -44,7 +44,7 @@ Until that is green, **local** `python3 scripts/check_docs.py` (or `make ci`) is
 
 ## 3. Write access for sibling patches
 
-`cursor[bot]` cannot push to OpenVault or constructor. On a machine that can, apply patches in the order listed in `docs/patches/README.md` (routing stack then constructor). Do not skip hop-walk / hop-failover / hop-park / hop-stream / hop-relay / hop-trace / hop-usage / hop-persist / hop-anthropic / hop-scope or constructor-ir-refuse / constructor-ir-ids / constructor-ghost-refuse / constructor-ir-emit; later patches assume them.
+`cursor[bot]` cannot push to OpenVault or constructor. On a machine that can, apply patches in the order listed in `docs/patches/README.md` (routing stack then constructor). Do not skip hop-walk / hop-failover / hop-park / hop-stream / hop-relay / hop-trace / hop-usage / hop-persist / hop-anthropic / hop-scope / hop-serve or constructor-ir-refuse / constructor-ir-ids / constructor-ghost-refuse / constructor-ir-emit; later patches assume them.
 
 Or add write permission for the Cursor GitHub App on those two public repos.
 
