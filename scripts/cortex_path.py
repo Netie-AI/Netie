@@ -32,17 +32,26 @@ def auto_route(
     return live[min(2, len(live) - 1)]
 
 
-def run_question(shape: str, *, write: str | None = None) -> dict[str, str]:
+def run_question(
+    shape: str,
+    *,
+    write: str | None = None,
+    tool: str | None = None,
+    via_tool_runner: bool = True,
+) -> dict[str, str]:
     if shape not in COLD_START:
         raise RouteDenied(f"bad shape {shape}")
     if write and write not in WRITE_ACTIONS:
         raise RouteDenied(f"write not in action registry: {write}")
+    if tool and not via_tool_runner:
+        raise RouteDenied(f"{tool} skipped tool_runner")
     return {
         "router": "race_router.auto_route",
         "shape": shape,
         "dms": "keyword_cascade",
         "c7_sql": "off",
         "write": write or "none",
+        "tool": tool or "none",
         "jepa": "off-path",
         "gen_cfsm": "off-path",
     }

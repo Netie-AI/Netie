@@ -33,6 +33,13 @@ class CortexPathTests(unittest.TestCase):
         with self.assertRaises(RouteDenied):
             run_question("dag", write="warehouse.delete")
 
+    def test_web_tool_must_use_tool_runner(self) -> None:
+        with self.assertRaises(RouteDenied) as ctx:
+            run_question("dag", tool="web_search", via_tool_runner=False)
+        self.assertIn("tool_runner", str(ctx.exception))
+        out = run_question("dag", tool="web_search", via_tool_runner=True)
+        self.assertEqual(out["tool"], "web_search")
+
 
 if __name__ == "__main__":
     unittest.main()
