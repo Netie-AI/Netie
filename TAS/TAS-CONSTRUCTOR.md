@@ -29,9 +29,9 @@ HEAD `engine.js` compiled IR for Cortex kinds. Ranking mixed foundry-boost into 
 node --test tests/compiler.test.cjs
 ```
 
-**20 passed** on this VM 2026-08-27 after `constructor-inspect-action.patch`: verify-rank, ghost false, empty graph / unknown kind / cycle / dangling edge / missing id / duplicate id invent no Cortex nodes; `ghostWalk` refuses those instead of walking `topo()` leftovers; connector-only graphs do not invent `EMIT` (app/audit output still does); unlabeled `tool_call` does not invent `export_pptx` (compileIR refuses; inspect shows `(pick)`).
+**21 passed** on this VM 2026-08-27 after `constructor-inspect-object.patch`: verify-rank, ghost false, empty graph / unknown kind / cycle / dangling edge / missing id / duplicate id invent no Cortex nodes; `ghostWalk` refuses those instead of walking `topo()` leftovers; connector-only graphs do not invent `EMIT` (app/audit output still does); unlabeled `tool_call` does not invent `export_pptx` (compileIR refuses; inspect shows `(pick)`); unlabeled object does not invent `inventory`.
 
-Patches: `docs/patches/constructor-compiler-tests.patch` then `docs/patches/constructor-empty-graph.patch` then `docs/patches/constructor-ir-refuse.patch` then `docs/patches/constructor-ir-ids.patch` then `docs/patches/constructor-ghost-refuse.patch` then `docs/patches/constructor-ir-emit.patch` then `docs/patches/constructor-tool-action.patch` then `docs/patches/constructor-inspect-action.patch` (also a `test.yml` workflow). Push 403.
+Patches: `docs/patches/constructor-compiler-tests.patch` then `docs/patches/constructor-empty-graph.patch` then `docs/patches/constructor-ir-refuse.patch` then `docs/patches/constructor-ir-ids.patch` then `docs/patches/constructor-ghost-refuse.patch` then `docs/patches/constructor-ir-emit.patch` then `docs/patches/constructor-tool-action.patch` then `docs/patches/constructor-inspect-action.patch` then `docs/patches/constructor-inspect-object.patch` (also a `test.yml` workflow). Push 403.
 
 GitHub on default `landing-9-first-path`: **pages.yml** is green. There is **no unit-test workflow** on HEAD until that patch lands.
 
