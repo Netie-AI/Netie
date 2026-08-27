@@ -10,6 +10,9 @@ from dataclasses import dataclass
 from collections.abc import Callable
 from typing import Any, Protocol
 
+# Same write as Cortex path, plus the two DMS writes that are not invocable yet.
+HITL_WRITES = frozenset({"export_pptx", "amend.apply", "call_action"})
+
 
 class CortexDenied(PermissionError):
     """Crew saw a Cortex refusal. The ticket stays open."""
@@ -28,13 +31,21 @@ class CortexGate(Protocol):
 
 
 def run_tool(gate: CortexGate, tool: str, payload: dict[str, Any]) -> Any:
-    """The only Crew write/read path. Parallel runners share this function."""
+    """The only Crew write/read path. Parallel runners share this function.
+
+    Known writes need operator_confirm=True (HITL). Deep Agents default is
+    trust-the-LLM; this is the opposite.
+    """
     if gate is None:
         raise CortexDenied("no Cortex gate")
-    verdict = gate.check(tool, payload)
+    body = dict(payload or {})
+    confirm = body.pop("operator_confirm", None)
+    if tool in HITL_WRITES and confirm is not True:
+        raise CortexDenied("HITL: write needs operator_confirm")
+    verdict = gate.check(tool, body)
     if not verdict.allowed:
         raise CortexDenied(verdict.reason or "cortex refused")
-    return gate.execute(tool, payload)
+    return gate.execute(tool, body)
 
 
 def wrap_deepagents_tools(
@@ -43,7 +54,8 @@ def wrap_deepagents_tools(
     """Deep Agents (MIT) sits under this wrap. Their default is trust-the-LLM.
 
     Empty or blank names refuse. An empty wrap would let create_deep_agent
-    run its built-in tools ungoverned.
+    run its built-in tools ungoverned. Known writes still need
+    operator_confirm=True at call time (HITL).
     """
     if gate is None:
         raise CortexDenied("no Cortex gate")

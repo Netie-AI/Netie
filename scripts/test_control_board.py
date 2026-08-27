@@ -9,7 +9,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
-from control_board import ControlDenied, project_board, run_dag
+from control_board import ControlDenied, project_board, project_session, run_dag
 from crew_factory import Factory
 
 
@@ -62,6 +62,29 @@ class ControlBoardTests(unittest.TestCase):
         self.assertNotIn("prompt", dumped)
         kinds = {c["kind"] for c in board["cards"]}
         self.assertEqual(kinds, {"epic", "ticket"})
+
+    def test_session_has_no_transcript(self) -> None:
+        session = project_session(
+            run={"id": "p1", "status": "open", "ticket_id": "T1"},
+            todos=[{"id": "todo-1", "status": "open"}],
+            permissions=["warehouse.query"],
+            handoff={"id": "h1"},
+        )
+        self.assertEqual(session["product"], "crew-session")
+        self.assertEqual(session["run_id"], "p1")
+        self.assertEqual(session["handoff_id"], "h1")
+        self.assertNotIn("transcript", str(session))
+        with self.assertRaises(ControlDenied):
+            project_session(
+                run={
+                    "id": "p1",
+                    "status": "open",
+                    "ticket_id": "T1",
+                    "transcript": "secret",
+                },
+                todos=[],
+                permissions=[],
+            )
 
 
 if __name__ == "__main__":

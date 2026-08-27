@@ -17,7 +17,7 @@ The operator factory: a plane-4 app that *hosts* Cortex for the people who run t
 
 **It is not AirGPT.** AirGPT is the customer host shell. Crew is internal first; multiplayer customer sessions are a later AirGPT surface over Crew, not a merge of the two apps.
 
-**First artefact (in Netie, until the Crew repo exists):** wrap (empty wrap and extra unwrapped names refuse), cap-2 parallel (hard refuse above 2), verify, budget, ledger (refuses skill_body on append), OV gate (`skill` kind refused until a registry row exists), parent-run graph (default child kind is `service`, not `skill`), factory (PRD slice refuses without out-of-scope; WIP 2 epics; close updates the epic task list; `index()` drops prompts), `seat_router.py`. Child jobs that still carry `skill_body` / transcript are refused and do not spend budget. Tools Cortex or OpenVault refuse do not run. This is not Deep Agents and not a second `dag_runner`.
+**First artefact (in Netie, until the Crew repo exists):** wrap (empty wrap and extra unwrapped names refuse), HITL on known writes (`export_pptx` needs `operator_confirm=True`), cap-2 parallel (hard refuse above 2), verify, budget, ledger (refuses skill_body on append), OV gate (`skill` kind refused until a registry row exists), parent-run graph (default child kind is `service`, not `skill`), factory (PRD slice refuses without out-of-scope; WIP 2 epics; close updates the epic task list; `index()` drops prompts), ticket runner (Cortex refusal on the board, ticket stays open, prompt never goes to a child), session view (ids only, no transcript), `seat_router.py`. Child jobs that still carry `skill_body` / transcript are refused and do not spend budget. Tools Cortex or OpenVault refuse do not run. This is not Deep Agents and not a second `dag_runner`.
 
 ---
 
@@ -26,7 +26,7 @@ The operator factory: a plane-4 app that *hosts* Cortex for the people who run t
 | Surface | Role |
 |---|---|
 | Crew board (absorb Control) | Factory tickets/epics + run/ledger/refusal cards; no prompts; no dag_runner |
-| Session view | one live run: transcript, todos, permissions, hand-off |
+| Session view | one live run: ids, todos, permissions, hand-off id; no transcript |
 | Skill browser | Netie-KB promotions + `skills/` directory; pick, demote, improve |
 | Runner | pull open GitHub tickets, execute embedded prompts, emit DONE/BLOCKED/NEEDS-YOU/FAILED |
 | Seat router | dispatch a ticket into a licensed Cursor or Claude Code session the operator already pays for |
@@ -54,7 +54,7 @@ If a tool cannot go through Cortex `tool_runner`, Crew does not get that tool.
 
 | Need | Closest | Action |
 |---|---|---|
-| Harness (subagents, summarise, skills, HITL, checkpoints) | `langchain-ai/deepagents` 0.7.9 (MIT, on LangGraph) | **Depend.** Wrap every tool with Cortex gates. Their default is "trust the LLM"; Talon README says it is not a production security boundary. Ours is the opposite. `create_deep_agent(tools=require_wrapped(names, wrap_deepagents_tools(gate, names)))`. Empty wrap refuses. Extra unwrapped names refuse. |
+| Harness (subagents, summarise, skills, HITL, checkpoints) | `langchain-ai/deepagents` 0.7.9 (MIT, on LangGraph) | **Depend.** Wrap every tool with Cortex gates. Their default is "trust the LLM"; Talon README says it is not a production security boundary. Ours is the opposite. `create_deep_agent(tools=require_wrapped(names, wrap_deepagents_tools(gate, names)))`. Empty wrap refuses. Extra unwrapped names refuse. Known writes need `operator_confirm=True`. |
 | Shared session UX, capability MCP into Cursor/Claude Code, org policy | `different-ai/openwork` (OpenCode-powered Cowork-class app) | **Study.** Reuse the *ideas* (session, search_capabilities / execute_capability, Den-like policy). Do not vendor the desktop; AirGPT + Pointer already exist. |
 | Route into licensed Cursor / Claude Code / Codex seats | Pattern only | **Reimplement original.** `scripts/seat_router.py` queues a ticket into a seat the operator already pays for. It does not click a vendor UI. Grok Bot / pointer-drive names refuse as `billing-bypass product`. Do not vendor `b-nnett/grok-bot-0.18-reconstructed`. |
 | Tickets | GitHub Issues + Projects | Already chosen. Crew projects them. Not Plane.so, not Jira, not Netie-KB. |

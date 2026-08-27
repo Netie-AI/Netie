@@ -84,5 +84,43 @@ def project_board(
     return {"product": "crew-board", "cards": cards}
 
 
+def project_session(
+    *,
+    run: dict[str, Any],
+    todos: list[dict[str, Any]],
+    permissions: list[str],
+    handoff: dict[str, Any] | None = None,
+) -> dict[str, Any]:
+    """OpenWork-shaped session: one live run, no transcript body."""
+    if not isinstance(run, dict):
+        raise ControlDenied("no run")
+    rows: list[dict[str, Any]] = [run, *(todos or [])]
+    if handoff is not None:
+        rows.append(handoff)
+    for row in rows:
+        if not isinstance(row, dict):
+            continue
+        if any(k in row for k in FORBIDDEN_KEYS):
+            raise ControlDenied("session leaked a body")
+    session = {
+        "product": "crew-session",
+        "run_id": run.get("id"),
+        "status": run.get("status"),
+        "ticket_id": run.get("ticket_id"),
+        "todos": [
+            {"id": t.get("id"), "status": t.get("status")}
+            for t in todos
+            if isinstance(t, dict)
+        ],
+        "permissions": [p for p in permissions if str(p).strip()],
+        "handoff_id": (handoff or {}).get("id"),
+    }
+    dumped = str(session)
+    for needle in FORBIDDEN_KEYS:
+        if needle in dumped:
+            raise ControlDenied(f"session contained {needle}")
+    return session
+
+
 def run_dag(*_a: Any, **_k: Any) -> None:
     raise ControlDenied("Control has no dag_runner")
