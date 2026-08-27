@@ -17,7 +17,7 @@ The operator factory: a plane-4 app that *hosts* Cortex for the people who run t
 
 **It is not AirGPT.** AirGPT is the customer host shell. Crew is internal first; multiplayer customer sessions are a later AirGPT surface over Crew, not a merge of the two apps.
 
-**First artefact (in Netie, until the Crew repo exists):** `scripts/crew_tool_wrap.py`, `crew_parallel.py` (cap 2), `crew_verify.py` (different-run close), `crew_budget.py` (token cap), `crew_ledger.py` (hash chain), `crew_ov_gate.py` (OpenVault `POST /api/crew/gate`, strip bodies). Tools Cortex or OpenVault refuse do not run. This is not Deep Agents and not a second `dag_runner`.
+**First artefact (in Netie, until the Crew repo exists):** `scripts/crew_tool_wrap.py`, `crew_parallel.py` (cap 2), `crew_verify.py` (different-run close), `crew_budget.py` (token cap), `crew_ledger.py` (hash chain), `crew_ov_gate.py` (OpenVault `POST /api/crew/gate`, strip bodies), `crew_runs.py` (parent owns the task, WIP 2, children need a named deficit). Tools Cortex or OpenVault refuse do not run. This is not Deep Agents and not a second `dag_runner`.
 
 ---
 
@@ -54,7 +54,7 @@ If a tool cannot go through Cortex `tool_runner`, Crew does not get that tool.
 
 | Need | Closest | Action |
 |---|---|---|
-| Harness (subagents, summarise, skills, HITL, checkpoints) | `langchain-ai/deepagents` (MIT, on LangGraph) | **Depend.** Wrap every tool with Cortex gates. Their default is "trust the LLM"; ours is the opposite. |
+| Harness (subagents, summarise, skills, HITL, checkpoints) | `langchain-ai/deepagents` 0.7.9 (MIT, on LangGraph) | **Depend.** Wrap every tool with Cortex gates. Their default is "trust the LLM"; Talon README says it is not a production security boundary. Ours is the opposite. `create_deep_agent(tools=list(wrap_deepagents_tools(gate, names).values()))`. |
 | Shared session UX, capability MCP into Cursor/Claude Code, org policy | `different-ai/openwork` (OpenCode-powered Cowork-class app) | **Study.** Reuse the *ideas* (session, search_capabilities / execute_capability, Den-like policy). Do not vendor the desktop; AirGPT + Pointer already exist. |
 | Route into licensed Cursor / Claude Code / Codex seats | Pattern only | **Reimplement original.** Do not vendor `b-nnett/grok-bot-0.18-reconstructed` (unofficial reconstruction of Anysphere's Grok Bot; copyright and provenance risk). |
 | Tickets | GitHub Issues + Projects | Already chosen. Crew projects them. Not Plane.so, not Jira, not Netie-KB. |

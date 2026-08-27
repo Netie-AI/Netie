@@ -87,4 +87,4 @@ uv sync && uv run ruff check . && uv run pytest tests/unit tests/integration -q
 cd OpenMW && uv sync && uv run pytest tests -q --cov=openmw.openvault --cov-fail-under=75
 ```
 
-This Netie docs repo does not run those commands as its own CI.
+**GitHub CI on default `main`:** last push run (merge #43, 2026-08-25) **success**. Accessible product repo is green at HEAD of main. The detect_stacks fixture patch is not on main (403).

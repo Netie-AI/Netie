@@ -33,6 +33,8 @@ node --test tests/compiler.test.cjs
 
 Patch: `docs/patches/constructor-compiler-tests.patch` (also a `test.yml` workflow). Push 403.
 
+GitHub on default `landing-9-first-path`: **pages.yml** is green. There is **no unit-test workflow** on HEAD until that patch lands.
+
 ---
 
 ## 4. Trust boundaries

@@ -41,6 +41,8 @@ Asked: regex-friendly on broken tables, repeated headers, keyword labels, multil
 
 **What we cannot claim:** regex vs semantic split, table reconstitution, embedding model picker, multilingual adaptive routing. Those need `rag/` on HEAD.
 
+Portable corpus in this repo (AirGPT still 404): `scripts/airgpt_chunk.py`. Repeated headers are not extra rows, ragged rows do not invent cells, `# warehouse:` labels stick to following rows. `python3 scripts/test_airgpt_chunk.py`. Not LlamaIndex; a splitter we own until HEAD is measured.
+
 Closest licensed kits *after* measure, not before: LlamaIndex (MIT) or a small splitter we own. Do not paste ChatGPT.
 
 ---
@@ -67,4 +69,4 @@ ChatGPT is a hosted assistant with memory, tools, and a huge eval set. AirGPT is
 NEEDS-YOU TAS-AIRGPT  add jian-hong/AirGPT (or Netie-AI/AirGPT) to this environment
 ```
 
-Then: pytest on `rag/`, a table-split corpus, and a live Space-5 cite check with zero `chat_*.md`.
+Then: pytest on `rag/` against this corpus, and a live Space-5 cite check with zero `chat_*.md`.
