@@ -13,6 +13,10 @@ The board *view* of Cortex-Crew: estate gate, ledger/manifest/refusal cards, who
 
 DR-0001: fold into Crew when Crew exists. Do not grow a sibling shell.
 
+Portable view in this Netie repo (Control remote still 404): `scripts/control_board.py`.
+Read-only cards from Crew index + ledger peek + refusals. Transcript/key leak is denied.
+`run_dag` raises. `python3 scripts/test_control_board.py`.
+
 ---
 
 ## 2. vs Guacamole

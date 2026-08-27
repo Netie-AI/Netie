@@ -38,7 +38,7 @@ Jobs never start. Annotation: account payments failed or spending limit.
 
 Pay or raise the limit: `https://github.com/organizations/Netie-AI/settings/billing`
 
-Until that is green, **local** `python3 scripts/check_docs.py` is the estate gate. OpenVault `main` CI is already green. Constructor has green `pages.yml` and no unit-test workflow on HEAD.
+Until that is green, **local** `python3 scripts/check_docs.py` (or `make ci`) is the estate gate. Commit `afb773b` GitHub check is the same billing annotation, not a test failure. OpenVault `main` CI is already green. Constructor has green `pages.yml` and no unit-test workflow on HEAD.
 
 ---
 
