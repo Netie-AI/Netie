@@ -14,7 +14,7 @@ from typing import Any
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 from crew_budget import BudgetDenied, TokenBudget, estimate_tokens
-from crew_ledger import HashLedger, LedgerBroken
+from crew_ledger import HashLedger, LedgerBroken, LedgerDenied
 from crew_ov_gate import GateAsk, OpenVaultCrewGate, strip_bodies
 from crew_parallel import Job, run_batch
 from crew_tool_wrap import CortexDenied, Verdict
@@ -78,6 +78,17 @@ class BudgetLedgerGateTests(unittest.TestCase):
             path.write_text(json.dumps(row) + "\n" + lines[1] + "\n", encoding="utf-8")
             with self.assertRaises(LedgerBroken):
                 log.verify()
+
+    def test_ledger_refuses_skill_body(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            path = Path(tmp) / "crew.jsonl"
+            log = HashLedger(path)
+            with self.assertRaises(LedgerDenied):
+                log.append({"id": "a", "skill_body": "SECRET"})
+            self.assertFalse(path.is_file())
+            log.append({"id": "a", "status": "DONE"})
+            dumped = path.read_text(encoding="utf-8")
+            self.assertNotIn("SECRET", dumped)
 
     def test_strip_bodies_drops_prompts(self) -> None:
         cleaned = strip_bodies(
