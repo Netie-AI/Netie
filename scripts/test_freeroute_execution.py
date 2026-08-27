@@ -26,6 +26,7 @@ from freeroute_execution import (
     hops_for_model,
     hop_call_model,
     Hop,
+    classify_hop_status,
     inject_handoff,
     pick_hop,
     pick_relay_target,
@@ -464,6 +465,58 @@ class HopWalkTests(unittest.TestCase):
         ]
         keys = [h.execution_key for h in hops_for_model(hops, "gpt-mini")]
         self.assertEqual(keys, ["k1", "k3"])
+
+    def test_job_dead_is_not_swallowed(self) -> None:
+        hops = [
+            Hop("k1", "gpt-mini", "openai", True),
+            Hop("k2", "gpt-mini", "openai", True),
+        ]
+
+        def post(hop: Hop, *, model: str, **_k: object) -> str:
+            raise ExecutionRefused(400, "request rejected by upstream (non-retryable)")
+
+        call = hop_call_model(hops, post)
+        with self.assertRaises(ExecutionRefused) as ctx:
+            call("gpt-mini", user_text="Q")
+        self.assertEqual(ctx.exception.code, 400)
+
+
+class HopClassifyTests(unittest.TestCase):
+    def test_success_keep(self) -> None:
+        out = classify_hop_status(200)
+        self.assertEqual(out.attempt_class, "success")
+        self.assertEqual(out.job, "done")
+        self.assertFalse(out.trip_provider_breaker)
+
+    def test_429_parks_without_trip(self) -> None:
+        out = classify_hop_status(429)
+        self.assertEqual(out.attempt_class, "rate_limit")
+        self.assertEqual(out.candidate, "park")
+        self.assertEqual(out.job, "continue_chain")
+        self.assertFalse(out.trip_provider_breaker)
+        self.assertFalse(out.counts_as_hard_fail)
+
+    def test_500_trips_and_continues(self) -> None:
+        out = classify_hop_status(500)
+        self.assertEqual(out.attempt_class, "hard_fail")
+        self.assertTrue(out.trip_provider_breaker)
+        self.assertEqual(out.job, "continue_chain")
+
+    def test_400_kills_job_not_key(self) -> None:
+        out = classify_hop_status(400)
+        self.assertEqual(out.attempt_class, "non_retryable")
+        self.assertEqual(out.job, "dead")
+        self.assertFalse(out.counts_as_hard_fail)
+
+    def test_401_quarantines(self) -> None:
+        out = classify_hop_status(401)
+        self.assertEqual(out.candidate, "quarantine_key")
+        self.assertEqual(out.job, "continue_chain")
+
+    def test_transport_trips(self) -> None:
+        out = classify_hop_status(None)
+        self.assertEqual(out.attempt_class, "hard_fail")
+        self.assertTrue(out.trip_provider_breaker)
 
 
 if __name__ == "__main__":

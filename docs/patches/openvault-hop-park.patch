@@ -1,0 +1,264 @@
+diff --git a/OpenMW/openmw/openvault/vault/proxy.py b/OpenMW/openmw/openvault/vault/proxy.py
+index bc821ab..8a433e0 100644
+--- a/OpenMW/openmw/openvault/vault/proxy.py
++++ b/OpenMW/openmw/openvault/vault/proxy.py
+@@ -222,7 +222,8 @@ def _run_execution_shape(
+ ) -> tuple[int, dict[str, Any]]:
+     """Sequential hop-walk for fusion/pipeline/context-relay. Not parallel.
+ 
+-    No quorum-grace, no breaker park on this path. Streaming is refused.
++    Execution-shape posts use the same classify_attempt / _apply_outcome as
++    the key walk. No quorum-grace. Streaming is refused.
+     """
+     if body.get("stream"):
+         trace.error_type = "openvault_execution_shape"
+@@ -271,6 +272,9 @@ def _run_execution_shape(
+         rec = by_id.get(hop.execution_key)
+         if rec is None:
+             return ""
++        breaker = get_circuit_breaker(rec.provider)
++        if not breaker.acquire_probe_slot():
++            return ""
+         resolved = resolve_model(rec.provider, model)
+         if resolved is None:
+             return ""
+@@ -303,11 +307,55 @@ def _run_execution_shape(
+                     },
+                     json=hop_body,
+                 )
+-            if resp.status_code >= 400:
+-                return ""
+-            return extract_assistant_text(resp.json())
++        except httpx.TimeoutException:
++            outcome = classify_attempt(None, "timeout")
++            _apply_outcome(
++                vault,
++                fallback,
++                key_id=rec.id,
++                provider=rec.provider,
++                outcome=outcome,
++                error="timeout",
++            )
++            return ""
++        except httpx.HTTPError as exc:
++            outcome = classify_attempt(None, str(exc))
++            _apply_outcome(
++                vault,
++                fallback,
++                key_id=rec.id,
++                provider=rec.provider,
++                outcome=outcome,
++                error=str(exc),
++            )
++            return ""
+         except Exception:
++            outcome = classify_attempt(None, "transport_error")
++            _apply_outcome(
++                vault,
++                fallback,
++                key_id=rec.id,
++                provider=rec.provider,
++                outcome=outcome,
++                error="transport_error",
++            )
+             return ""
++        headers = resp.headers if isinstance(resp.headers, dict) else {}
++        outcome = classify_attempt(resp.status_code, resp.text, headers=headers)
++        err = "" if outcome.attempt_class == "success" else f"HTTP {resp.status_code}"
++        _apply_outcome(
++            vault,
++            fallback,
++            key_id=rec.id,
++            provider=rec.provider,
++            outcome=outcome,
++            error=err,
++        )
++        if outcome.job == "dead":
++            raise ExecutionRefused(400, "request rejected by upstream (non-retryable)")
++        if outcome.attempt_class == "success":
++            return extract_assistant_text(resp.json())
++        return ""
+ 
+     combo = body.get("combo") if isinstance(body.get("combo"), dict) else {}
+     models = combo_models_from_body(body)
+@@ -323,6 +371,15 @@ def _run_execution_shape(
+             judge_model=combo.get("judgeModel") or combo.get("judge_model"),
+         )
+     except ExecutionRefused as exc:
++        if "non-retryable" in exc.message:
++            trace.error_type = "openvault_non_retryable"
++            return 400, {
++                "error": {
++                    "message": exc.message,
++                    "type": "openvault_non_retryable",
++                    "reason": "non_retryable",
++                }
++            }
+         trace.error_type = "openvault_execution_shape"
+         return exc.code, {
+             "error": {"message": exc.message, "type": "openvault_execution_shape"}
+@@ -335,6 +392,14 @@ def _run_execution_shape(
+                 "type": "openvault_execution_shape",
+             }
+         }
++    if not (text and str(text).strip()):
++        trace.error_type = "openvault_execution_shape"
++        return 503, {
++            "error": {
++                "message": "all execution-shape hops failed",
++                "type": "openvault_execution_shape",
++            }
++        }
+     trace.note_served(provider="dispatch", model=shape, vault_key_id="")
+     return 200, {
+         "id": "ov-dispatch",
+diff --git a/OpenMW/tests/test_execution_chat.py b/OpenMW/tests/test_execution_chat.py
+index 8c68e0d..698ffc1 100644
+--- a/OpenMW/tests/test_execution_chat.py
++++ b/OpenMW/tests/test_execution_chat.py
+@@ -11,10 +11,18 @@ from cryptography.fernet import Fernet
+ from fastapi.testclient import TestClient
+ 
+ from openmw.openvault.app import create_app
++from openmw.openvault.route.breaker import get_circuit_breaker, reset_all_circuit_breakers
+ from openmw.openvault.vault.crypto import Seal
+ from openmw.openvault.vault.store import KeyVault
+ 
+ 
++@pytest.fixture(autouse=True)
++def _reset_breakers() -> None:
++    reset_all_circuit_breakers()
++    yield
++    reset_all_circuit_breakers()
++
++
+ @pytest.fixture()
+ def vault(tmp_path: Path) -> KeyVault:
+     seal = Seal(Fernet.generate_key())
+@@ -33,11 +41,21 @@ def _client(vault: KeyVault, tmp_path: Path, monkeypatch: pytest.MonkeyPatch) ->
+ 
+ 
+ def _ok(content: str) -> MagicMock:
++    payload = {"choices": [{"message": {"role": "assistant", "content": content}}]}
+     resp = MagicMock()
+     resp.status_code = 200
+-    resp.json = MagicMock(
+-        return_value={"choices": [{"message": {"role": "assistant", "content": content}}]}
+-    )
++    resp.text = '{"ok":true}'
++    resp.headers = {}
++    resp.json = MagicMock(return_value=payload)
++    return resp
++
++
++def _http_err(status: int, text: str = "err") -> MagicMock:
++    resp = MagicMock()
++    resp.status_code = status
++    resp.text = text
++    resp.headers = {}
++    resp.json = MagicMock(return_value={})
+     return resp
+ 
+ 
+@@ -181,10 +199,7 @@ def test_v1_empty_first_hop_falls_through(
+     client = _client(vault, tmp_path, monkeypatch)
+     _seat, headers = issue_key(client, label="failover-seat")
+     mock = _client_mock()
+-    err = MagicMock()
+-    err.status_code = 500
+-    err.json = MagicMock(return_value={})
+-    mock.post = MagicMock(side_effect=[err, _ok("solo")])
++    mock.post = MagicMock(side_effect=[_http_err(500, "boom"), _ok("solo")])
+     with patch("openmw.openvault.vault.proxy.httpx.Client", return_value=mock):
+         resp = client.post(
+             "/v1/chat/completions",
+@@ -198,3 +213,89 @@ def test_v1_empty_first_hop_falls_through(
+     assert resp.status_code == 200, resp.text
+     assert resp.json()["choices"][0]["message"]["content"] == "solo"
+     assert mock.post.call_count == 2
++
++
++def test_v1_429_parks_key_without_tripping_breaker(
++    vault: KeyVault, monkeypatch: pytest.MonkeyPatch, tmp_path: Path
++) -> None:
++    _healthy(vault, "hop-a", priority=1)
++    _healthy(vault, "hop-b", priority=2)
++    client = _client(vault, tmp_path, monkeypatch)
++    _seat, headers = issue_key(client, label="park-seat")
++    mock = _client_mock()
++    limited = _http_err(429, "too many requests")
++    limited.headers = {"Retry-After": "5"}
++    mock.post = MagicMock(side_effect=[limited, _ok("solo")])
++    with patch("openmw.openvault.vault.proxy.httpx.Client", return_value=mock):
++        resp = client.post(
++            "/v1/chat/completions",
++            json={
++                "model": "auto",
++                "messages": [{"role": "user", "content": "Q"}],
++                "combo": {"strategy": "fusion", "models": ["gpt-4o-mini"]},
++            },
++            headers=headers,
++        )
++    assert resp.status_code == 200, resp.text
++    assert resp.json()["choices"][0]["message"]["content"] == "solo"
++    assert mock.post.call_count == 2
++    hops = client.get("/api/fallback/status").json()["hops"]
++    parked = [h for h in hops if h.get("park_until")]
++    assert len(parked) == 1
++    assert parked[0]["failures"] == 0
++    breaker = get_circuit_breaker("openai").get_status()
++    assert breaker.state == "CLOSED"
++    assert breaker.failure_count == 0
++
++
++def test_v1_400_does_not_fall_through(
++    vault: KeyVault, monkeypatch: pytest.MonkeyPatch, tmp_path: Path
++) -> None:
++    _healthy(vault, "hop-a", priority=1)
++    _healthy(vault, "hop-b", priority=2)
++    client = _client(vault, tmp_path, monkeypatch)
++    _seat, headers = issue_key(client, label="dead-seat")
++    mock = _client_mock()
++    mock.post = MagicMock(side_effect=[_http_err(422, "malformed json schema")])
++    with patch("openmw.openvault.vault.proxy.httpx.Client", return_value=mock):
++        resp = client.post(
++            "/v1/chat/completions",
++            json={
++                "model": "auto",
++                "messages": [{"role": "user", "content": "Q"}],
++                "combo": {"strategy": "fusion", "models": ["gpt-4o-mini"]},
++            },
++            headers=headers,
++        )
++    assert resp.status_code == 400, resp.text
++    assert resp.json()["error"]["type"] == "openvault_non_retryable"
++    assert mock.post.call_count == 1
++
++
++def test_v1_open_breaker_skips_hop_without_post(
++    vault: KeyVault, monkeypatch: pytest.MonkeyPatch, tmp_path: Path
++) -> None:
++    _healthy(vault, "hop-a", priority=1)
++    client = _client(vault, tmp_path, monkeypatch)
++    _seat, headers = issue_key(client, label="open-seat")
++    breaker = get_circuit_breaker("openai")
++    for _ in range(5):
++        breaker.record_failure(status=500)
++    assert breaker.get_status().state == "OPEN"
++    mock = _client_mock()
++    mock.post = MagicMock(side_effect=[_ok("should-not-run")])
++    with patch("openmw.openvault.vault.proxy.httpx.Client", return_value=mock):
++        resp = client.post(
++            "/v1/chat/completions",
++            json={
++                "model": "auto",
++                "messages": [{"role": "user", "content": "Q"}],
++                "combo": {"strategy": "fusion", "models": ["gpt-4o-mini"]},
++            },
++            headers=headers,
++        )
++    assert resp.status_code == 503, resp.text
++    assert resp.json()["error"]["type"] == "openvault_execution_shape"
++    assert "hops failed" in resp.json()["error"]["message"]
++    assert mock.post.call_count == 0
++

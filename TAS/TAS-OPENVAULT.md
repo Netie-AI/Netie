@@ -47,7 +47,7 @@ FreeRoute is **OpenVault `:5000/v1`**, not a process on `:20128`. OmniRoute rema
 
 Shipped strategies on **main** (8): priority, weighted, fill-first, round-robin, p2c, random, least-used, cost-optimized.
 
-This VM patches (not on main, push 403): 15 *sorts* through `cache-optimized`, then 4 *execution shapes* that `apply_strategy` refuses. Portable: `scripts/freeroute_execution.py` (`dispatch_combo`, `hop_call_model`, empty first hop falls through). `/v1` fail-closes nameless fusion; with `combo.models` sequential hop posts (not OmniRoute parallel quorum-grace). `model: auto` stays catalog pick.
+This VM patches (not on main, push 403): 15 *sorts* through `cache-optimized`, then 4 *execution shapes* that `apply_strategy` refuses. Portable: `scripts/freeroute_execution.py` (`dispatch_combo`, `hop_call_model`, `classify_hop_status`). `/v1` fail-closes nameless fusion; with `combo.models` sequential hop posts classify like the key walk (not OmniRoute parallel quorum-grace). `model: auto` stays catalog pick.
 
 Not shipped vs OmniRoute: provider catalog at OmniRoute scale, token compression, MCP/A2A, autoCombo scoring, quorum-grace timers, Codex quota fetch, Electron Next-on-20128.
 
@@ -69,7 +69,7 @@ Vault SQLite (sealed), optional Redis for FreeRoute buckets, `openvault.local.js
 
 ## 7. Shipped vs scaffold
 
-**Shipped enough to test:** vault, gate refuse paths, FreeRoute metering/tests, 8 sorts on `main` (9th-15th sorts plus 4 execution-shape contracts in `docs/patches/`, 50 tests passed here, push 403), Pages adapter code, Next UI, Electron shell, NVMe library, CI.
+**Shipped enough to test:** vault, gate refuse paths, FreeRoute metering/tests, 8 sorts on `main` (9th-15th sorts plus 4 execution-shape contracts in `docs/patches/`, 53 tests passed here, push 403), Pages adapter code, Next UI, Electron shell, NVMe library, CI.
 
 **Local evidence 2026-08-27** (clone HEAD `3030cad`, this VM):
 
