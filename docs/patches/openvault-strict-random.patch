@@ -1,0 +1,81 @@
+diff --git a/OpenMW/openmw/openvault/route/strategies.py b/OpenMW/openmw/openvault/route/strategies.py
+index 8666b48..7eccf61 100644
+--- a/OpenMW/openmw/openvault/route/strategies.py
++++ b/OpenMW/openmw/openvault/route/strategies.py
+@@ -1,4 +1,4 @@
+-"""Combo routing strategies — 8 of 18 for pass 1."""
++"""Combo routing strategies — 9 of 19 user-facing for pass 1 (+ OmniRoute quota-share internal, not ported)."""
+ 
+ from __future__ import annotations
+ 
+@@ -24,6 +24,8 @@ STRATEGY_ALIASES: dict[str, StrategyName] = {
+     "least_used": "least-used",
+     "cost-optimized": "cost-optimized",
+     "cost_optimized": "cost-optimized",
++    "strict-random": "strict-random",
++    "strict_random": "strict-random",
+ }
+ 
+ 
+@@ -79,4 +81,17 @@ def apply_strategy(
+     if strategy == "cost-optimized":
+         return sort_by_cost(targets)
+ 
++    if strategy == "strict-random":
++        # Algorithm port of OmniRoute strict-random + #3959 remainder shuffle.
++        # Do not vendor OmniRoute. First pick from a deck; shuffle the rest.
++        chosen_key = get_next_from_deck(
++            f"strict:{combo_name}",
++            [t.execution_key for t in targets],
++        )
++        chosen = next((t for t in targets if t.execution_key == chosen_key), targets[0])
++        rest = [t for t in targets if t.execution_key != chosen.execution_key]
++        rest_keys = fisher_yates_shuffle([t.execution_key for t in rest])
++        by_key = {t.execution_key: t for t in rest}
++        return [chosen, *[by_key[k] for k in rest_keys if k in by_key]]
++
+     return list(targets)
+diff --git a/OpenMW/openmw/openvault/route/types.py b/OpenMW/openmw/openvault/route/types.py
+index be53611..e89149b 100644
+--- a/OpenMW/openmw/openvault/route/types.py
++++ b/OpenMW/openmw/openvault/route/types.py
+@@ -14,6 +14,7 @@ StrategyName = Literal[
+     "random",
+     "least-used",
+     "cost-optimized",
++    "strict-random",
+ ]
+ 
+ STRATEGY_NAMES: tuple[StrategyName, ...] = (
+@@ -25,6 +26,7 @@ STRATEGY_NAMES: tuple[StrategyName, ...] = (
+     "random",
+     "least-used",
+     "cost-optimized",
++    "strict-random",
+ )
+ 
+ BreakerProfileName = Literal["oauth", "api_key", "local"]
+diff --git a/OpenMW/tests/test_route_strategies.py b/OpenMW/tests/test_route_strategies.py
+index 341d5a3..bb4ca6b 100644
+--- a/OpenMW/tests/test_route_strategies.py
++++ b/OpenMW/tests/test_route_strategies.py
+@@ -82,3 +82,19 @@ def test_route_api_breakers_empty() -> None:
+     resp = client.get("/api/route/breakers")
+     assert resp.status_code == 200
+     assert "breakers" in resp.json()
++
++
++def test_strict_random_cycle_uses_each_key_once() -> None:
++    reset_decks()
++    targets = _targets()
++    firsts = [
++        apply_strategy("strict-random", targets, combo_name="sr1")[0].execution_key
++        for _ in range(3)
++    ]
++    assert sorted(firsts) == ["a", "b", "c"]
++
++
++def test_strict_random_remainder_is_permutation() -> None:
++    reset_decks()
++    ordered = apply_strategy("strict-random", _targets(), combo_name="sr2")
++    assert sorted(t.execution_key for t in ordered) == ["a", "b", "c"]

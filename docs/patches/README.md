@@ -23,5 +23,11 @@ git apply docs/patches/openvault-detect-stacks.patch
 cd OpenMW && uv run pytest tests/test_detect_stacks.py -q
 ```
 
-Replaces D:\ tree skips with tmp_path fixtures.
-Measured on this VM 2026-08-27: detect_stacks 36 passed; full OpenMW 840 passed, 4 DPAPI skips.
+Also:
+
+```
+git apply docs/patches/openvault-strict-random.patch
+cd OpenMW && uv run pytest tests/test_route_strategies.py -q
+```
+
+Adds `strict-random` (9th of 19 OmniRoute user-facing strategies). Algorithm port + remainder shuffle. Measured on this VM 2026-08-27: 9 passed. Push 403.

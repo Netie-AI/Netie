@@ -67,7 +67,7 @@ Vault SQLite (sealed), optional Redis for FreeRoute buckets, `openvault.local.js
 
 ## 7. Shipped vs scaffold
 
-**Shipped enough to test:** vault, gate refuse paths, FreeRoute metering/tests, 8 strategies, Pages adapter code, Next UI, Electron shell, NVMe library, CI (`ruff` + `mypy nvme_sentinel` + OpenMW pytest cov-fail-under 75).
+**Shipped enough to test:** vault, gate refuse paths, FreeRoute metering/tests, 8 strategies on `main` (9th `strict-random` in `docs/patches/openvault-strict-random.patch`, 9 passed here, push 403), Pages adapter code, Next UI, Electron shell, NVMe library, CI.
 
 **Local evidence 2026-08-27** (clone HEAD `3030cad`, this VM):
 
