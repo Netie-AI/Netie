@@ -26,6 +26,8 @@ REQUIRED = [
     "TAS/TAS-OPENVAULT.md",
     "TAS/TAS-AIRGPT.md",
     "TAS/TAS-POINTER.md",
+    "TAS/TAS-CONTROL.md",
+    "TAS/TAS-CONSTRUCTOR.md",
     "TAS/ESTATE-GAP.md",
     "White Paper - Why/WP-001-accountable-ai-operating-system.md",
     "docs/decisions/DR-0001-one-decision-layer.md",
@@ -76,23 +78,28 @@ def main() -> int:
         for row in fails:
             print(row)
         return 1
-    wrap = ROOT / "scripts" / "test_crew_tool_wrap.py"
-    proc = subprocess.run(
-        [sys.executable, str(wrap)],
-        cwd=str(ROOT / "scripts"),
-        capture_output=True,
-        text=True,
-    )
-    if proc.returncode != 0:
-        fails.append("crew wrap tests failed")
-        fails.append(proc.stderr or proc.stdout)
+    tests = sorted((ROOT / "scripts").glob("test_*.py"))
+    if not tests:
+        fails.append("no scripts/test_*.py")
+    for wrap in tests:
+        proc = subprocess.run(
+            [sys.executable, str(wrap)],
+            cwd=str(ROOT / "scripts"),
+            capture_output=True,
+            text=True,
+        )
+        if proc.returncode != 0:
+            fails.append(f"{wrap.name} failed")
+            fails.append(proc.stderr or proc.stdout)
 
     if fails:
         print("FAIL")
         for row in fails:
             print(row)
         return 1
-    print(f"ok {len(REQUIRED)} files, laptop-ASCII clean, crew wrap tests passed")
+    print(
+        f"ok {len(REQUIRED)} files, laptop-ASCII clean, {len(tests)} script tests passed"
+    )
     return 0
 
 

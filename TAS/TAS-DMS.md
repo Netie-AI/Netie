@@ -165,6 +165,10 @@ python -m pytest tests/ -q
 Measured 2026-08-02: **166 passed, 3 xfailed** in 58.73s. The 3 xfails are the strict
 Space-ACL boundary suite and are correct until `#2` lands.
 
+Portable contract in this repo (dms remote still 404): `scripts/dms_space_acl.py`.
+Two Spaces, one warehouse, abstain outside ACL. `python3 scripts/test_dms_space_acl.py`.
+Not a patch on dms; the production caller is still `demo_acl()` until that repo is writable.
+
 ```bash
 lint-imports
 ```

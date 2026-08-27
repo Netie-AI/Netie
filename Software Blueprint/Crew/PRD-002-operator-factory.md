@@ -54,7 +54,7 @@ Yes. That is why every tool is wrapped. If the wrap is missing, Crew is wrong.
 
 ## 4. Success assertion
 
-> **WHEN** an operator opens Crew, pulls one GitHub ticket with an embedded prompt, and the runner calls a tool Cortex would refuse, **THE SYSTEM SHALL** show the Cortex refusal on the board and leave the ticket open. A Deep Agents subagent completing the same ticket without that wrap is a failing test, not a feature.
+> **WHEN** an operator opens Crew, pulls one GitHub ticket with an embedded prompt, and the runner calls a tool Cortex would refuse, **THE SYSTEM SHALL** show the Cortex refusal on the board and leave the ticket open. A Deep Agents subagent completing the same ticket without that wrap is a failing test, not a feature. Same-run verify cannot close. A batch that exceeds its token budget leaves remaining jobs FAILED. Leave-machine without OpenVault `allowed=true` does not run.
 
 ---
 
