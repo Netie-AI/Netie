@@ -1,7 +1,7 @@
 # TAS-OPENVAULT - OpenVault technical architecture
 
 **Plane:** 2 (custody and routing) · **Repo:** `Netie-AI/OpenVault` (public)
-**Measured:** 2026-08-27 against clone HEAD `3030cad78e319fa5867310c406662cb3171abdc1`.
+**Measured:** 2026-08-27 against clone HEAD `62bb1c7` (GitHub `main`, CI green).
 This cloud environment does not vendor OpenVault; measurements are from a throwaway clone under `/tmp/netie-measure/OpenVault`.
 
 ---
@@ -45,9 +45,11 @@ The custody and routing plane: encrypted keys, leave-machine / deploy gate, Free
 
 FreeRoute is **OpenVault `:5000/v1`**, not a process on `:20128`. OmniRoute remaining as an external optional.
 
-Shipped strategies (8): priority, weighted, fill-first, round-robin, p2c, random, least-used, cost-optimized.
+Shipped strategies on **main** (8): priority, weighted, fill-first, round-robin, p2c, random, least-used, cost-optimized.
 
-Not shipped vs OmniRoute: provider catalog at OmniRoute scale, token compression, MCP/A2A, 10 strategies, Electron Next-on-20128.
+This VM patches (not on main, push 403): `strict-random` (9th), `lkgp` (10th). LKGP stickies last successful `execution_key`; it is not OmniRoute's SQLite provider+connection pin.
+
+Not shipped vs OmniRoute: provider catalog at OmniRoute scale, token compression, MCP/A2A, the remaining 9 user-facing strategies, Electron Next-on-20128.
 
 Not the same job as NVIDIA llm-router (trained task/complexity classifier on Triton).
 
@@ -67,7 +69,7 @@ Vault SQLite (sealed), optional Redis for FreeRoute buckets, `openvault.local.js
 
 ## 7. Shipped vs scaffold
 
-**Shipped enough to test:** vault, gate refuse paths, FreeRoute metering/tests, 8 strategies on `main` (9th `strict-random` in `docs/patches/openvault-strict-random.patch`, 9 passed here, push 403), Pages adapter code, Next UI, Electron shell, NVMe library, CI.
+**Shipped enough to test:** vault, gate refuse paths, FreeRoute metering/tests, 8 strategies on `main` (9th `strict-random` + 10th `lkgp` in `docs/patches/`, 12 strategy tests passed here, push 403), Pages adapter code, Next UI, Electron shell, NVMe library, CI.
 
 **Local evidence 2026-08-27** (clone HEAD `3030cad`, this VM):
 
@@ -87,4 +89,4 @@ uv sync && uv run ruff check . && uv run pytest tests/unit tests/integration -q
 cd OpenMW && uv sync && uv run pytest tests -q --cov=openmw.openvault --cov-fail-under=75
 ```
 
-**GitHub CI on default `main`:** last push (docs/status #45, 2026-08-27 15:12 UTC) **success**. `POST /api/crew/gate` is **not** on main (still OpenVault PR #44). HT1-HT5 HUMAN_STOP. STATUS ~78%.
+**GitHub CI on default `main`:** last push (docs/status #45, 2026-08-27 15:12 UTC) **success**. `POST /api/crew/gate` is **not** on main (OpenVault PR #44 plus focused `docs/patches/openvault-crew-gate.patch`: unknown `skill` kind refuses, no skill body). HT1-HT5 HUMAN_STOP. STATUS ~78%.

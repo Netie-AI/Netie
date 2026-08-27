@@ -48,6 +48,9 @@ Until that is green, **local** `python3 scripts/check_docs.py` (or `make ci`) is
 
 ```
 git apply docs/patches/openvault-detect-stacks.patch
+git apply docs/patches/openvault-strict-random.patch
+git apply docs/patches/openvault-lkgp.patch
+git apply docs/patches/openvault-crew-gate.patch
 git apply docs/patches/constructor-compiler-tests.patch
 ```
 

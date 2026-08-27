@@ -56,7 +56,8 @@ class SiblingPatchTests(unittest.TestCase):
     def test_openvault_patches_apply_on_main(self) -> None:
         detect = PATCHES / "openvault-detect-stacks.patch"
         strict = PATCHES / "openvault-strict-random.patch"
-        self.assertTrue(detect.is_file() and strict.is_file())
+        lkgp = PATCHES / "openvault-lkgp.patch"
+        self.assertTrue(detect.is_file() and strict.is_file() and lkgp.is_file())
         with tempfile.TemporaryDirectory() as tmp:
             dest = Path(tmp) / "OpenVault"
             clone = _run(
@@ -72,11 +73,23 @@ class SiblingPatchTests(unittest.TestCase):
                 ]
             )
             self.assertEqual(clone.returncode, 0, clone.stderr)
-            for patch in (detect, strict):
+            # lkgp must follow strict-random (both edit StrategyName).
+            # crew-gate is independent of routing files.
+            crew = PATCHES / "openvault-crew-gate.patch"
+            self.assertTrue(crew.is_file())
+            for patch in (detect, strict, lkgp, crew):
                 check = _run(["git", "apply", "--check", str(patch)], cwd=dest)
                 self.assertEqual(check.returncode, 0, f"{patch.name}: {check.stderr}")
                 applied = _run(["git", "apply", str(patch)], cwd=dest)
                 self.assertEqual(applied.returncode, 0, f"{patch.name}: {applied.stderr}")
+            strategies = (
+                dest / "OpenMW" / "openmw" / "openvault" / "route" / "strategies.py"
+            ).read_text(encoding="utf-8")
+            self.assertIn('if strategy == "lkgp":', strategies)
+            app_py = (dest / "OpenMW" / "openmw" / "openvault" / "app.py").read_text(
+                encoding="utf-8"
+            )
+            self.assertIn('"/api/crew/gate"', app_py)
 
 
 if __name__ == "__main__":
