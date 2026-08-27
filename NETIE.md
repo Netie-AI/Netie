@@ -238,6 +238,7 @@ declined, and each will be proposed again by someone who has not read this.
 | What the company is and what each product does | **this file** |
 | Why custody + governance + apps belong together | `White Paper - Why/WP-001-accountable-ai-operating-system.md` |
 | How close each product is to its analogue | `TAS/ESTATE-GAP.md` |
+| How this agent gets private remotes (no passwords) | `docs/ACCESS.md` |
 | How we work: file rules, CI, tickets, roles | `Internal/Workflow/OPERATING_MODEL.md` |
 | How PRD -> epic -> ticket runs | `Internal/Agents/AGENT_SYSTEM.md` |
 | What is true in a repo right now | that repo's `STATUS.md` |
