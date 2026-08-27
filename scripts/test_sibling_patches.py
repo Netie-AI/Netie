@@ -90,6 +90,7 @@ class SiblingPatchTests(unittest.TestCase):
             park = PATCHES / "openvault-hop-park.patch"
             stream = PATCHES / "openvault-hop-stream.patch"
             relay = PATCHES / "openvault-hop-relay.patch"
+            trace = PATCHES / "openvault-hop-trace.patch"
             self.assertTrue(
                 crew.is_file()
                 and ctx.is_file()
@@ -103,6 +104,7 @@ class SiblingPatchTests(unittest.TestCase):
                 and park.is_file()
                 and stream.is_file()
                 and relay.is_file()
+                and trace.is_file()
             )
             for patch in (
                 detect,
@@ -120,6 +122,7 @@ class SiblingPatchTests(unittest.TestCase):
                 park,
                 stream,
                 relay,
+                trace,
             ):
                 check = _run(["git", "apply", "--check", str(patch)], cwd=dest)
                 self.assertEqual(check.returncode, 0, f"{patch.name}: {check.stderr}")
@@ -156,6 +159,7 @@ class SiblingPatchTests(unittest.TestCase):
             self.assertIn("def relay_available_from_body", execution)
             self.assertIn("Last hop may SSE", proxy)
             self.assertIn("relay_handoff_from_body", proxy)
+            self.assertIn("Last successful hop, not", proxy)
             app_py = (dest / "OpenMW" / "openmw" / "openvault" / "app.py").read_text(
                 encoding="utf-8"
             )
