@@ -109,6 +109,7 @@ class SiblingPatchTests(unittest.TestCase):
             anth = PATCHES / "openvault-hop-anthropic.patch"
             scope = PATCHES / "openvault-hop-scope.patch"
             serve = PATCHES / "openvault-hop-serve.patch"
+            bound = PATCHES / "openvault-hop-bound.patch"
             self.assertTrue(
                 crew.is_file()
                 and ctx.is_file()
@@ -128,6 +129,7 @@ class SiblingPatchTests(unittest.TestCase):
                 and anth.is_file()
                 and scope.is_file()
                 and serve.is_file()
+                and bound.is_file()
             )
             for patch in (
                 detect,
@@ -151,6 +153,7 @@ class SiblingPatchTests(unittest.TestCase):
                 anth,
                 scope,
                 serve,
+                bound,
             ):
                 check = _run(["git", "apply", "--check", str(patch)], cwd=dest)
                 self.assertEqual(check.returncode, 0, f"{patch.name}: {check.stderr}")
@@ -195,6 +198,7 @@ class SiblingPatchTests(unittest.TestCase):
             self.assertIn("anthropic chat not via /v1 proxy yet", execution)
             self.assertIn("scoped by tenant", proxy)
             self.assertIn("no hop can serve model", execution)
+            self.assertIn("MAX_RELAY_PER_SCOPE", execution)
             app_py = (dest / "OpenMW" / "openmw" / "openvault" / "app.py").read_text(
                 encoding="utf-8"
             )

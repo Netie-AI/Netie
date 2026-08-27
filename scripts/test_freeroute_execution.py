@@ -13,6 +13,7 @@ from freeroute_execution import (
     EXECUTION_SHAPES,
     FUSION_MAX_PANEL,
     HANDOFF_EXHAUSTION,
+    MAX_RELAY_PER_SCOPE,
     PipelineStep,
     RelayHandoff,
     RelayStore,
@@ -501,6 +502,42 @@ class ChatBodyTests(unittest.TestCase):
         got = resolve_relay_handoff(store, body, scope="seat-a")
         assert got is not None
         self.assertEqual(got.summary, "keep going")
+
+    def test_store_evicts_oldest_over_scope_cap(self) -> None:
+        store = RelayStore()
+        for i in range(MAX_RELAY_PER_SCOPE + 1):
+            remember_relay_handoff(
+                store,
+                RelayHandoff(f"s{i}", "", f"sum-{i}", "acct"),
+                scope="seat-a",
+            )
+        remember_relay_handoff(
+            store, RelayHandoff("keep", "", "other", "acct"), scope="seat-b"
+        )
+        self.assertIsNone(
+            resolve_relay_handoff(
+                store,
+                {"combo": {"strategy": "context-relay", "sessionId": "s0"}},
+                scope="seat-a",
+            )
+        )
+        last = resolve_relay_handoff(
+            store,
+            {
+                "combo": {
+                    "strategy": "context-relay",
+                    "sessionId": f"s{MAX_RELAY_PER_SCOPE}",
+                }
+            },
+            scope="seat-a",
+        )
+        assert last is not None
+        other = resolve_relay_handoff(
+            store,
+            {"combo": {"strategy": "context-relay", "sessionId": "keep"}},
+            scope="seat-b",
+        )
+        assert other is not None
 
     def test_relay_dispatch_all_unavailable_503(self) -> None:
         with self.assertRaises(ExecutionRefused) as ctx:
