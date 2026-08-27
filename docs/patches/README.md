@@ -124,6 +124,15 @@ cd OpenMW && uv run pytest tests/test_route_strategies.py tests/test_execution_s
 
 Last hop may SSE (panel and intermediate pipeline steps stay buffered). Nameless `model: fusion` with `stream: true` is still 400. 500 on the stream hop falls through. One-survivor skip wraps buffered text as SSE (no second call). Not OmniRoute parallel quorum-grace. Measured 2026-08-27: 57 passed. Push 403.
 
+Then:
+
+```
+git apply docs/patches/openvault-hop-relay.patch
+cd OpenMW && uv run pytest tests/test_route_strategies.py tests/test_execution_shapes.py tests/test_execution_chat.py tests/test_freeroute_acceptance.py -q
+```
+
+`/v1` context-relay reads caller `combo.available` and `combo.handoff` (or `contextHandoff`). Skip unavailable; inject the handoff blob; all-unavailable is 503. No Codex quota fetch. Not OmniRoute SQLite contextHandoffs. Measured 2026-08-27: 62 passed. Push 403.
+
 Independent of routing:
 
 ```

@@ -28,6 +28,8 @@ from freeroute_execution import (
     Hop,
     classify_hop_status,
     sse_wrap_text,
+    relay_available_from_body,
+    relay_handoff_from_body,
     inject_handoff,
     pick_hop,
     pick_relay_target,
@@ -400,6 +402,50 @@ class ChatBodyTests(unittest.TestCase):
         self.assertEqual(shape_from_chat_body(body), "fusion")
         self.assertIsNone(chat_shape_refusal(body))
         self.assertEqual(combo_models_from_body(body), ["a", "b"])
+
+    def test_relay_available_from_combo(self) -> None:
+        body = {
+            "combo": {
+                "strategy": "context-relay",
+                "models": ["codex/x", "gpt-mini"],
+                "available": {"codex/x": False, "gpt-mini": True},
+            }
+        }
+        self.assertEqual(
+            relay_available_from_body(body),
+            {"codex/x": False, "gpt-mini": True},
+        )
+        self.assertIsNone(relay_available_from_body({"combo": {"strategy": "context-relay"}}))
+
+    def test_relay_handoff_requires_session_and_summary(self) -> None:
+        self.assertIsNone(
+            relay_handoff_from_body({"combo": {"handoff": {"summary": "x"}}})
+        )
+        got = relay_handoff_from_body(
+            {
+                "combo": {
+                    "handoff": {
+                        "sessionId": "s1",
+                        "summary": "keep going",
+                        "fromAccount": "acct",
+                    }
+                }
+            }
+        )
+        assert got is not None
+        self.assertEqual(got.session_id, "s1")
+        self.assertEqual(got.summary, "keep going")
+        self.assertEqual(got.from_account, "acct")
+
+    def test_relay_dispatch_all_unavailable_503(self) -> None:
+        with self.assertRaises(ExecutionRefused) as ctx:
+            dispatch_combo(
+                "context-relay",
+                ["a"],
+                lambda *_a, **_k: "nope",
+                available={"a": False},
+            )
+        self.assertEqual(ctx.exception.code, 503)
 
 
 class HopWalkTests(unittest.TestCase):
