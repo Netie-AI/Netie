@@ -29,6 +29,22 @@ class PointerClickTests(unittest.TestCase):
         out = click(el, cortex_intent="save the file")
         self.assertEqual(out["clicked"], "Save")
 
+    def test_password_field_is_refused(self) -> None:
+        el = {"role": "textbox", "name": "Password", "type": "password"}
+        self.assertFalse(may_click(el))
+        with self.assertRaises(PointerDenied) as ctx:
+            click(el, cortex_intent="log in")
+        self.assertIn("secret", str(ctx.exception))
+
+    def test_otp_field_is_refused(self) -> None:
+        el = {
+            "role": "textbox",
+            "name": "OTP",
+            "autocomplete": "one-time-code",
+        }
+        with self.assertRaises(PointerDenied):
+            click(el, cortex_intent="enter 2fa")
+
     def test_does_not_read_env_or_keys(self) -> None:
         import pointer_click as mod
 
