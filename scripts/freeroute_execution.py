@@ -727,13 +727,25 @@ def hop_call_model(
     Tries every matching hop until one returns non-empty text. Empty is a
     miss, not a permutation of fusion. ExecutionRefused from post (job=dead)
     is not swallowed -- same as OpenVault classify_attempt job=dead.
+
+    Anthropic hops are skipped (same as the key walk). If they were the only
+    matches, raise ExecutionRefused 503 with the key-walk reason. Do not post
+    to Messages API.
     """
 
     def call(model: str, **kwargs: Any) -> str:
+        skipped_anthropic = False
+        tried = False
         for hop in hops_for_model(hops, model, serves=serves):
+            if (hop.provider or "").strip().lower() == "anthropic":
+                skipped_anthropic = True
+                continue
+            tried = True
             text = post(hop, model=model, **kwargs)
             if text and str(text).strip():
                 return str(text)
+        if skipped_anthropic and not tried:
+            raise ExecutionRefused(503, "anthropic chat not via /v1 proxy yet")
         return ""
 
     return call
