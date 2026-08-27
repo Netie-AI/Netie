@@ -21,8 +21,12 @@ from freeroute_execution import (
     ExecutionRefused,
     build_judge_prompt,
     chat_shape_refusal,
+    combo_models_from_body,
     dispatch_combo,
+    hop_call_model,
+    Hop,
     inject_handoff,
+    pick_hop,
     pick_relay_target,
     plan_fusion,
     refuse_as_sort,
@@ -384,6 +388,57 @@ class ChatBodyTests(unittest.TestCase):
 
     def test_body_strategy_pipeline(self) -> None:
         self.assertEqual(shape_from_chat_body({"strategy": "pipeline"}), "pipeline")
+
+    def test_combo_models_skip_refusal(self) -> None:
+        body = {
+            "model": "auto",
+            "combo": {"strategy": "fusion", "models": ["a", "b"]},
+        }
+        self.assertEqual(shape_from_chat_body(body), "fusion")
+        self.assertIsNone(chat_shape_refusal(body))
+        self.assertEqual(combo_models_from_body(body), ["a", "b"])
+
+
+class HopWalkTests(unittest.TestCase):
+    def test_picks_matching_model(self) -> None:
+        hops = [
+            Hop("k1", "gpt-mini", "openai", True),
+            Hop("k2", "gpt-big", "openai", True),
+        ]
+        picked = pick_hop(hops, "gpt-big")
+        assert picked is not None
+        self.assertEqual(picked.execution_key, "k2")
+
+    def test_skips_unhealthy(self) -> None:
+        hops = [
+            Hop("k1", "gpt-mini", "openai", False),
+            Hop("k2", "gpt-mini", "openai", True),
+        ]
+        picked = pick_hop(hops, "gpt-mini")
+        assert picked is not None
+        self.assertEqual(picked.execution_key, "k2")
+
+    def test_serves_callback(self) -> None:
+        hops = [Hop("k1", "", "openai", True)]
+        hop = pick_hop(hops, "gpt-4o", serves=lambda h, m: h.provider == "openai")
+        assert hop is not None
+        self.assertEqual(hop.execution_key, "k1")
+
+    def test_call_model_posts_picked_hop(self) -> None:
+        hops = [Hop("k1", "p/a", "openai", True), Hop("k2", "p/b", "openai", True)]
+        seen: list[str] = []
+
+        def post(hop: Hop, *, model: str, **_k: object) -> str:
+            seen.append(f"{hop.execution_key}:{model}")
+            return f"ans-{model}"
+
+        call = hop_call_model(hops, post)
+        self.assertEqual(call("p/b", user_text="Q"), "ans-p/b")
+        self.assertEqual(seen, ["k2:p/b"])
+
+    def test_missing_hop_returns_empty(self) -> None:
+        call = hop_call_model([Hop("k1", "p/a", "openai", True)], lambda *_a, **_k: "x")
+        self.assertEqual(call("p/missing", user_text="Q"), "")
 
 
 if __name__ == "__main__":

@@ -404,10 +404,57 @@ def shape_from_chat_body(body: dict[str, Any] | None) -> str | None:
     return None
 
 
+def combo_models_from_body(body: dict[str, Any] | None) -> list[Any]:
+    if not isinstance(body, dict):
+        return []
+    combo = body.get("combo")
+    if isinstance(combo, dict) and isinstance(combo.get("models"), list):
+        return list(combo["models"])
+    return []
+
+
+def user_text_from_body(body: dict[str, Any] | None) -> str:
+    if not isinstance(body, dict):
+        return ""
+    messages = body.get("messages")
+    if not isinstance(messages, list):
+        return ""
+    for msg in reversed(messages):
+        if not isinstance(msg, dict) or msg.get("role") != "user":
+            continue
+        content = msg.get("content")
+        if isinstance(content, str):
+            return content
+    return ""
+
+
+def extract_assistant_text(payload: Any) -> str:
+    if not isinstance(payload, dict):
+        return ""
+    choices = payload.get("choices")
+    if not isinstance(choices, list) or not choices:
+        return ""
+    first = choices[0]
+    if not isinstance(first, dict):
+        return ""
+    msg = first.get("message") or first.get("delta") or {}
+    if isinstance(msg, dict) and isinstance(msg.get("content"), str):
+        return msg["content"]
+    if isinstance(first.get("text"), str):
+        return first["text"]
+    return ""
+
+
 def chat_shape_refusal(body: dict[str, Any] | None) -> dict[str, Any] | None:
-    """Typed 400 payload so /v1 never walks vault keys as a fusion panel."""
+    """400 when a shape is named but combo.models is missing.
+
+    With models, the caller should run dispatch_combo via a hop-walk
+    call_model. /v1 must not treat vault keys as a fusion panel.
+    """
     shape = shape_from_chat_body(body)
     if shape is None:
+        return None
+    if combo_models_from_body(body):
         return None
     return {
         "error": {
@@ -494,4 +541,52 @@ def dispatch_combo(
             tool_choice=tool_choice,
         )
     raise ExecutionRefused(400, f"unknown execution shape {name!r}")
+
+
+# --- hop walk --------------------------------------------------------------
+
+
+@dataclass(frozen=True)
+class Hop:
+    execution_key: str
+    model_str: str
+    provider: str = ""
+    healthy: bool = True
+
+
+def pick_hop(
+    hops: list[Hop],
+    model: str,
+    *,
+    serves: Callable[[Hop, str], bool] | None = None,
+) -> Hop | None:
+    """First healthy hop that matches model_str / execution_key, or serves()."""
+    want = (model or "").strip()
+    if not want:
+        return None
+    for hop in hops:
+        if not hop.healthy:
+            continue
+        if hop.model_str == want or hop.execution_key == want:
+            return hop
+        if serves is not None and serves(hop, want):
+            return hop
+    return None
+
+
+def hop_call_model(
+    hops: list[Hop],
+    post: Callable[..., str],
+    *,
+    serves: Callable[[Hop, str], bool] | None = None,
+) -> CallModel:
+    """Bind dispatch_combo's call_model to a hop list. Empty hop -> empty text."""
+
+    def call(model: str, **kwargs: Any) -> str:
+        hop = pick_hop(hops, model, serves=serves)
+        if hop is None:
+            return ""
+        return post(hop, model=model, **kwargs)
+
+    return call
 

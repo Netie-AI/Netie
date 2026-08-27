@@ -88,6 +88,15 @@ cd OpenMW && uv run pytest tests/test_route_strategies.py tests/test_execution_s
 
 `dispatch_combo` runs the 4 shapes. `/v1` fail-closes (`openvault_execution_shape`) so `model: fusion` is 400, not a key walk. `model: auto` stays the catalog alias (empty pool still 503). Measured 2026-08-27: 43 passed. Push 403.
 
+Then:
+
+```
+git apply docs/patches/openvault-hop-walk.patch
+cd OpenMW && uv run pytest tests/test_route_strategies.py tests/test_execution_shapes.py tests/test_execution_chat.py tests/test_freeroute_acceptance.py -q
+```
+
+Hop-walk `call_model`: first healthy hop that can serve the panel model, sequential httpx.Client posts. `combo.models` present -> dispatch. Missing models still 400. Streaming shapes still 400. No quorum-grace, no breaker park on this path. Measured 2026-08-27: 47 passed. Push 403.
+
 Independent of routing:
 
 ```
