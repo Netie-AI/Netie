@@ -52,6 +52,19 @@ class CrewRunsTests(unittest.TestCase):
         self.assertNotIn("c1", g.runs)
         self.assertEqual(g.runs["p1"].status, "open")
 
+    def test_skill_kind_does_not_spawn(self) -> None:
+        g = _graph()
+        g.open_parent("p1", "T1")
+        with self.assertRaises(CortexDenied) as ctx:
+            g.spawn_child(
+                parent_id="p1",
+                child_id="c1",
+                deficit="need x",
+                kind="skill",
+            )
+        self.assertIn("no skill registered", str(ctx.exception))
+        self.assertNotIn("c1", g.runs)
+
     def test_child_does_not_replace_parent(self) -> None:
         g = _graph()
         g.open_parent("p1", "T1")

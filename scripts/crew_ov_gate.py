@@ -7,7 +7,9 @@ Contract (OpenVault `docs/patches/openvault-crew-gate.patch` and PR #44 / DR-001
     -> location + allowed. No skill_body.
 
 The focused patch fail-closes unknown kinds (including `skill` until a registry
-row exists). Missing URL, timeout, or a body without allowed=true is a refusal.
+row exists). The portable client refuses those kinds *before* POST so a mock
+that returns allowed=true cannot greenwash `skill`. Missing URL, timeout, or a
+body without allowed=true is a refusal.
 Crew does not intercept credentials. The human already put the secret in the vault.
 """
 
@@ -19,6 +21,11 @@ from typing import Any, Callable
 from crew_tool_wrap import CortexDenied
 
 DROP_KEYS = frozenset({"skill_body", "prompt", "instructions", "transcript"})
+# Same set as OpenVault ACCESS_KINDS. `skill` is not registered until a
+# registry row exists (openvault-crew-gate.patch).
+REGISTERED_KINDS = frozenset(
+    {"memory", "api", "component", "runtime", "model", "service"}
+)
 
 
 def strip_bodies(obj: Any) -> Any:
@@ -68,6 +75,11 @@ class OpenVaultCrewGate:
         payload = asdict(ask)
         if "skill_body" in payload:
             raise CortexDenied("skill_body must never go to the gate")
+        kind = (ask.kind or "").strip()
+        if kind not in REGISTERED_KINDS:
+            raise CortexDenied(
+                f"no {kind or 'kind'} registered as '{ask.id}'"
+            )
         url = f"{self.base_url}/api/crew/gate"
         try:
             raw = self._post(url, payload)
