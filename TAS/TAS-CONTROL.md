@@ -15,9 +15,11 @@ DR-0001: fold into Crew when Crew exists. Do not grow a sibling shell.
 
 Portable view in this Netie repo (Control remote still 404): `scripts/control_board.py`.
 Read-only cards from Crew index + Factory.index() tickets/epics + ledger peek + refusals.
+`project_session` is one live run: ids, todos, permissions, hand-off id. No transcript.
 Transcript / prompt / key leak is denied on every row (runs, tickets, epics, ledger, refusals).
+Ticket runner: `scripts/crew_runner.py` (Cortex refusal on the board, ticket stays open).
 `run_dag` raises. Score stays **2 / 10** as a board view, **1 / 10** as Guacamole.
-`python3 scripts/test_control_board.py`.
+`python3 scripts/test_control_board.py` and `python3 scripts/test_crew_runner.py`.
 
 ---
 

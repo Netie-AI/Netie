@@ -58,7 +58,7 @@ class CrewSystemTests(unittest.TestCase):
         with self.assertRaises(Exception):
             tools["warehouse.query"](sql="select 1")
         jobs = [
-            Job("j1", "export_pptx", {}),
+            Job("j1", "export_pptx", {"operator_confirm": True}),
             Job("j2", "warehouse.query", {"sql": "select 1"}),
         ]
         results = run_batch(gate, jobs, max_in_flight=2)

@@ -47,9 +47,9 @@ class CrewParallelTests(unittest.TestCase):
     def test_denied_jobs_do_not_execute(self) -> None:
         gate = CountingGate({"export_pptx"})
         jobs = [
-            Job("a", "export_pptx", {}),
+            Job("a", "export_pptx", {"operator_confirm": True}),
             Job("b", "warehouse.query", {"sql": "select 1"}),
-            Job("c", "export_pptx", {}),
+            Job("c", "export_pptx", {"operator_confirm": True}),
         ]
         results = run_batch(gate, jobs, max_in_flight=2)
         self.assertEqual([r.status for r in results], ["DONE", "FAILED", "DONE"])

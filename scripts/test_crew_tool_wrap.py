@@ -36,7 +36,7 @@ class CrewWrapTests(unittest.TestCase):
 
     def test_allow_executes_once(self) -> None:
         gate = FakeGate(True)
-        out = run_tool(gate, "export_pptx", {})
+        out = run_tool(gate, "export_pptx", {"operator_confirm": True})
         self.assertEqual(out["tool"], "export_pptx")
         self.assertEqual(gate.executed, ["export_pptx"])
 
@@ -70,6 +70,13 @@ class CrewWrapTests(unittest.TestCase):
         self.assertIn("unwrapped tools", str(ctx.exception))
         tools = require_wrapped(["export_pptx"], wrapped)
         self.assertEqual(len(tools), 1)
+
+    def test_write_without_hitl_does_not_execute(self) -> None:
+        gate = FakeGate(True)
+        with self.assertRaises(CortexDenied) as ctx:
+            run_tool(gate, "export_pptx", {})
+        self.assertIn("HITL", str(ctx.exception))
+        self.assertEqual(gate.executed, [])
 
 
 if __name__ == "__main__":
