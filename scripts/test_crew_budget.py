@@ -112,7 +112,7 @@ class BudgetLedgerGateTests(unittest.TestCase):
 
         gate = OpenVaultCrewGate("http://127.0.0.1:5000", post=post)
         with self.assertRaises(CortexDenied):
-            gate.allow(GateAsk("skill", "netie-kb.skills", "leave", "p1", "c1"))
+            gate.allow(GateAsk("service", "space.ai", "leave", "p1", "c1"))
 
     def test_ov_allowed_returns_stripped(self) -> None:
         def post(url: str, body: dict[str, Any]) -> dict[str, Any]:
@@ -124,9 +124,22 @@ class BudgetLedgerGateTests(unittest.TestCase):
             }
 
         gate = OpenVaultCrewGate("http://127.0.0.1:5000", post=post)
-        out = gate.allow(GateAsk("skill", "netie-kb.skills", "invoke", "p1", "c1"))
+        out = gate.allow(GateAsk("service", "space.ai", "invoke", "p1", "c1"))
         self.assertTrue(out["allowed"])
         self.assertNotIn("skill_body", out)
+
+    def test_skill_kind_refuses_before_transport(self) -> None:
+        seen: list[str] = []
+
+        def post(url: str, body: dict[str, Any]) -> dict[str, Any]:
+            seen.append(url)
+            return {"allowed": True, "found": True}
+
+        gate = OpenVaultCrewGate("http://127.0.0.1:5000", post=post)
+        with self.assertRaises(CortexDenied) as ctx:
+            gate.allow(GateAsk("skill", "netie-kb.skills", "invoke", "p1", "c1"))
+        self.assertIn("no skill registered", str(ctx.exception))
+        self.assertEqual(seen, [])
 
     def test_estimate_is_at_least_one(self) -> None:
         self.assertGreaterEqual(estimate_tokens({}), 1)

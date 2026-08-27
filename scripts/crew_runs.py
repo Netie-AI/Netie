@@ -57,7 +57,7 @@ class CrewGraph:
         child_id: str,
         deficit: str,
         intent: str = "invoke",
-        kind: str = "skill",
+        kind: str = "service",
         resource_id: str = "netie-kb.skills",
     ) -> Run:
         parent = self.runs.get(parent_id)
