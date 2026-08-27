@@ -100,6 +100,7 @@ class SiblingPatchTests(unittest.TestCase):
             relay = PATCHES / "openvault-hop-relay.patch"
             trace = PATCHES / "openvault-hop-trace.patch"
             usage = PATCHES / "openvault-hop-usage.patch"
+            persist = PATCHES / "openvault-hop-persist.patch"
             self.assertTrue(
                 crew.is_file()
                 and ctx.is_file()
@@ -115,6 +116,7 @@ class SiblingPatchTests(unittest.TestCase):
                 and relay.is_file()
                 and trace.is_file()
                 and usage.is_file()
+                and persist.is_file()
             )
             for patch in (
                 detect,
@@ -134,6 +136,7 @@ class SiblingPatchTests(unittest.TestCase):
                 relay,
                 trace,
                 usage,
+                persist,
             ):
                 check = _run(["git", "apply", "--check", str(patch)], cwd=dest)
                 self.assertEqual(check.returncode, 0, f"{patch.name}: {check.stderr}")
@@ -172,6 +175,9 @@ class SiblingPatchTests(unittest.TestCase):
             self.assertIn("relay_handoff_from_body", proxy)
             self.assertIn("Last successful hop, not", proxy)
             self.assertIn("Last hop usage only", proxy)
+            self.assertIn("remember_relay_handoff", execution)
+            self.assertIn("resolve_relay_handoff", proxy)
+            self.assertIn("In-process caller handoff store", proxy)
             app_py = (dest / "OpenMW" / "openmw" / "openvault" / "app.py").read_text(
                 encoding="utf-8"
             )

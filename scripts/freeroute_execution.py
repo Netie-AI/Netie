@@ -7,8 +7,9 @@ ports 15 of them as target permutations. These four are *not* permutations:
   directly on 1 model / tool-bearing requests).
 - pipeline: run steps in order; thread output into the next; return only the
   last response. Intermediate failure fails the chain.
-- context-relay: first available target; skip unavailable; persist a handoff
-  blob when quota is in the warning band. No Codex quota fetch here.
+- context-relay: first available target; skip unavailable; inject a caller
+  or in-process stored handoff blob. Persist caller blobs in memory. No
+  Codex quota fetch, no generated summary, not OmniRoute SQLite.
 - auto: meta-router. Caller must resolve to a *sort* strategy. We do not port
   OmniRoute autoCombo scoring / mode packs.
 
@@ -445,9 +446,67 @@ def relay_handoff_from_body(body: dict[str, Any] | None) -> RelayHandoff | None:
     summary = str(raw.get("summary") or "").strip()
     if not session_id or not summary:
         return None
-    combo_name = str(raw.get("combo_name") or raw.get("comboName") or "").strip()
+    combo_name = str(
+        raw.get("combo_name")
+        or raw.get("comboName")
+        or combo.get("name")
+        or combo.get("combo_name")
+        or combo.get("comboName")
+        or ""
+    ).strip()
     from_account = str(raw.get("from_account") or raw.get("fromAccount") or "").strip()
     return RelayHandoff(session_id, combo_name, summary, from_account)
+
+
+def relay_session_from_body(body: dict[str, Any] | None) -> tuple[str, str]:
+    """Lookup key for the in-process store. Empty session means no lookup."""
+    if not isinstance(body, dict):
+        return ("", "")
+    combo = body.get("combo")
+    if not isinstance(combo, dict):
+        return ("", "")
+    raw = combo.get("handoff") or combo.get("contextHandoff")
+    blob: dict[str, Any] = raw if isinstance(raw, dict) else {}
+    session_id = str(
+        combo.get("session_id")
+        or combo.get("sessionId")
+        or blob.get("session_id")
+        or blob.get("sessionId")
+        or ""
+    ).strip()
+    combo_name = str(
+        combo.get("name")
+        or combo.get("combo_name")
+        or combo.get("comboName")
+        or blob.get("combo_name")
+        or blob.get("comboName")
+        or ""
+    ).strip()
+    return (session_id, combo_name)
+
+
+def resolve_relay_handoff(
+    store: RelayStore, body: dict[str, Any] | None
+) -> RelayHandoff | None:
+    """Caller blob wins. Else in-process store. No Codex fetch."""
+    caller = relay_handoff_from_body(body)
+    if caller is not None:
+        return caller
+    session_id, combo_name = relay_session_from_body(body)
+    if not session_id:
+        return None
+    return store.get(session_id, combo_name)
+
+
+def remember_relay_handoff(
+    store: RelayStore, handoff: RelayHandoff | None
+) -> None:
+    """Keep a caller-supplied blob for the next request in this process."""
+    if handoff is None:
+        return
+    if not handoff.session_id or not handoff.summary:
+        return
+    store.put(handoff)
 
 
 def user_text_from_body(body: dict[str, Any] | None) -> str:

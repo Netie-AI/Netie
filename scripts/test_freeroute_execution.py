@@ -30,6 +30,8 @@ from freeroute_execution import (
     sse_wrap_text,
     relay_available_from_body,
     relay_handoff_from_body,
+    remember_relay_handoff,
+    resolve_relay_handoff,
     inject_handoff,
     pick_hop,
     pick_relay_target,
@@ -436,6 +438,59 @@ class ChatBodyTests(unittest.TestCase):
         self.assertEqual(got.session_id, "s1")
         self.assertEqual(got.summary, "keep going")
         self.assertEqual(got.from_account, "acct")
+
+    def test_stored_handoff_used_when_body_omits_blob(self) -> None:
+        store = RelayStore()
+        first = {
+            "combo": {
+                "strategy": "context-relay",
+                "handoff": {
+                    "sessionId": "s1",
+                    "summary": "keep going",
+                    "fromAccount": "acct",
+                },
+            }
+        }
+        caller = relay_handoff_from_body(first)
+        remember_relay_handoff(store, caller)
+        second = {
+            "combo": {
+                "strategy": "context-relay",
+                "sessionId": "s1",
+            }
+        }
+        got = resolve_relay_handoff(store, second)
+        assert got is not None
+        self.assertEqual(got.summary, "keep going")
+        self.assertIsNone(relay_handoff_from_body(second))
+
+    def test_caller_blob_wins_over_store(self) -> None:
+        store = RelayStore()
+        remember_relay_handoff(
+            store, RelayHandoff("s1", "", "old summary", "acct")
+        )
+        body = {
+            "combo": {
+                "strategy": "context-relay",
+                "sessionId": "s1",
+                "handoff": {
+                    "sessionId": "s1",
+                    "summary": "new summary",
+                },
+            }
+        }
+        got = resolve_relay_handoff(store, body)
+        assert got is not None
+        self.assertEqual(got.summary, "new summary")
+
+    def test_no_session_does_not_invent_a_handoff(self) -> None:
+        store = RelayStore()
+        remember_relay_handoff(
+            store, RelayHandoff("s1", "", "keep going", "acct")
+        )
+        self.assertIsNone(
+            resolve_relay_handoff(store, {"combo": {"strategy": "context-relay"}})
+        )
 
     def test_relay_dispatch_all_unavailable_503(self) -> None:
         with self.assertRaises(ExecutionRefused) as ctx:

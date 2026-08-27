@@ -153,6 +153,15 @@ cd OpenMW && uv run pytest tests/test_route_strategies.py tests/test_execution_s
 
 Last-hop upstream `usage` is copied onto the dispatch JSON so the ledger is measured, not a reservation. Panel tokens are not summed. No usage on the last hop stays estimated. Measured 2026-08-27: 65 passed. Push 403.
 
+Then:
+
+```
+git apply docs/patches/openvault-hop-persist.patch
+cd OpenMW && uv run pytest tests/test_route_strategies.py tests/test_execution_shapes.py tests/test_execution_chat.py tests/test_freeroute_acceptance.py -q
+```
+
+`/v1` context-relay remembers a caller-supplied handoff blob in process memory so the next request can omit the blob (`combo.sessionId`). Caller blob wins over the store. No Codex quota fetch. No generated summary. Not OmniRoute SQLite. Measured 2026-08-27: 68 passed. Push 403.
+
 Independent of routing:
 
 ```

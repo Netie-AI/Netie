@@ -1,0 +1,270 @@
+diff --git a/OpenMW/openmw/openvault/route/execution.py b/OpenMW/openmw/openvault/route/execution.py
+index 2652682..60797d7 100644
+--- a/OpenMW/openmw/openvault/route/execution.py
++++ b/OpenMW/openmw/openvault/route/execution.py
+@@ -7,7 +7,8 @@ walk vault keys as a panel). Call ``dispatch_combo`` with combo.models.
+ Honesty:
+ - fusion: no quorum-grace timers, no admission lanes, no vision filter.
+ - pipeline: no 429/502/503/504 retry loop (caller retries).
+-- context-relay: no Codex quota fetch; caller supplies percent_used.
++- context-relay: no Codex quota fetch; persist caller blobs in-process;
++  no generated summary; not OmniRoute SQLite.
+ - auto: no autoCombo scoring / mode packs; caller must pass a sort name.
+ """
+ 
+@@ -205,6 +206,8 @@ class RelayHandoff:
+ 
+ @dataclass
+ class RelayStore:
++    """In-memory stand-in for OmniRoute contextHandoffs. No SQLite."""
++
+     by_session: dict[tuple[str, str], RelayHandoff] = field(default_factory=dict)
+ 
+     def get(self, session_id: str, combo_name: str) -> RelayHandoff | None:
+@@ -214,6 +217,17 @@ class RelayStore:
+         self.by_session[(handoff.session_id, handoff.combo_name)] = handoff
+ 
+ 
++_PROCESS_RELAY_STORE = RelayStore()
++
++
++def process_relay_store() -> RelayStore:
++    return _PROCESS_RELAY_STORE
++
++
++def reset_process_relay_store() -> None:
++    _PROCESS_RELAY_STORE.by_session.clear()
++
++
+ def resolve_handoff_providers(explicit: list[str] | None) -> list[str]:
+     if explicit is None:
+         return list(DEFAULT_HANDOFF_PROVIDERS)
+@@ -360,11 +374,69 @@ def relay_handoff_from_body(body: dict[str, Any] | None) -> RelayHandoff | None:
+     summary = str(raw.get("summary") or "").strip()
+     if not session_id or not summary:
+         return None
+-    combo_name = str(raw.get("combo_name") or raw.get("comboName") or "").strip()
++    combo_name = str(
++        raw.get("combo_name")
++        or raw.get("comboName")
++        or combo.get("name")
++        or combo.get("combo_name")
++        or combo.get("comboName")
++        or ""
++    ).strip()
+     from_account = str(raw.get("from_account") or raw.get("fromAccount") or "").strip()
+     return RelayHandoff(session_id, combo_name, summary, from_account)
+ 
+ 
++def relay_session_from_body(body: dict[str, Any] | None) -> tuple[str, str]:
++    """Lookup key for the in-process store. Empty session means no lookup."""
++    if not isinstance(body, dict):
++        return ("", "")
++    combo = body.get("combo")
++    if not isinstance(combo, dict):
++        return ("", "")
++    raw = combo.get("handoff") or combo.get("contextHandoff")
++    blob: dict[str, Any] = raw if isinstance(raw, dict) else {}
++    session_id = str(
++        combo.get("session_id")
++        or combo.get("sessionId")
++        or blob.get("session_id")
++        or blob.get("sessionId")
++        or ""
++    ).strip()
++    combo_name = str(
++        combo.get("name")
++        or combo.get("combo_name")
++        or combo.get("comboName")
++        or blob.get("combo_name")
++        or blob.get("comboName")
++        or ""
++    ).strip()
++    return (session_id, combo_name)
++
++
++def resolve_relay_handoff(
++    store: RelayStore, body: dict[str, Any] | None
++) -> RelayHandoff | None:
++    """Caller blob wins. Else in-process store. No Codex fetch."""
++    caller = relay_handoff_from_body(body)
++    if caller is not None:
++        return caller
++    session_id, combo_name = relay_session_from_body(body)
++    if not session_id:
++        return None
++    return store.get(session_id, combo_name)
++
++
++def remember_relay_handoff(
++    store: RelayStore, handoff: RelayHandoff | None
++) -> None:
++    """Keep a caller-supplied blob for the next request in this process."""
++    if handoff is None:
++        return
++    if not handoff.session_id or not handoff.summary:
++        return
++    store.put(handoff)
++
++
+ def user_text_from_body(body: dict[str, Any] | None) -> str:
+     if not isinstance(body, dict):
+         return ""
+diff --git a/OpenMW/openmw/openvault/vault/proxy.py b/OpenMW/openmw/openvault/vault/proxy.py
+index 597ef89..6a47b4b 100644
+--- a/OpenMW/openmw/openvault/vault/proxy.py
++++ b/OpenMW/openmw/openvault/vault/proxy.py
+@@ -21,8 +21,11 @@ from openmw.openvault.route.execution import (
+     dispatch_combo,
+     extract_assistant_text,
+     hop_call_model,
++    process_relay_store,
+     relay_available_from_body,
+     relay_handoff_from_body,
++    remember_relay_handoff,
++    resolve_relay_handoff,
+     shape_from_chat_body,
+     sse_wrap_text,
+     user_text_from_body,
+@@ -477,6 +480,10 @@ def _run_execution_shape(
+ 
+     combo = body.get("combo") if isinstance(body.get("combo"), dict) else {}
+     models = combo_models_from_body(body)
++    caller_handoff = relay_handoff_from_body(body)
++    # In-process caller handoff store. No Codex fetch.
++    handoff = resolve_relay_handoff(process_relay_store(), body)
++    remember_relay_handoff(process_relay_store(), caller_handoff)
+     try:
+         text = dispatch_combo(
+             shape,
+@@ -488,7 +495,7 @@ def _run_execution_shape(
+             tool_choice=body.get("tool_choice"),
+             judge_model=combo.get("judgeModel") or combo.get("judge_model"),
+             available=relay_available_from_body(body),
+-            handoff=relay_handoff_from_body(body),
++            handoff=handoff,
+         )
+     except ExecutionRefused as exc:
+         if "non-retryable" in exc.message:
+diff --git a/OpenMW/tests/test_execution_chat.py b/OpenMW/tests/test_execution_chat.py
+index c14f089..276ffba 100644
+--- a/OpenMW/tests/test_execution_chat.py
++++ b/OpenMW/tests/test_execution_chat.py
+@@ -12,6 +12,7 @@ from fastapi.testclient import TestClient
+ 
+ from openmw.openvault.app import create_app
+ from openmw.openvault.route.breaker import get_circuit_breaker, reset_all_circuit_breakers
++from openmw.openvault.route.execution import reset_process_relay_store
+ from openmw.openvault.vault.crypto import Seal
+ from openmw.openvault.vault.store import KeyVault
+ 
+@@ -19,8 +20,10 @@ from openmw.openvault.vault.store import KeyVault
+ @pytest.fixture(autouse=True)
+ def _reset_breakers() -> None:
+     reset_all_circuit_breakers()
++    reset_process_relay_store()
+     yield
+     reset_all_circuit_breakers()
++    reset_process_relay_store()
+ 
+ 
+ @pytest.fixture()
+@@ -478,6 +481,53 @@ def test_v1_context_relay_injects_handoff(
+     assert "keep going" in user
+ 
+ 
++def test_v1_context_relay_persists_caller_handoff(
++    vault: KeyVault, monkeypatch: pytest.MonkeyPatch, tmp_path: Path
++) -> None:
++    _healthy(vault, "relay-hop", priority=1)
++    client = _client(vault, tmp_path, monkeypatch)
++    _seat, headers = issue_key(client, label="relay-persist-seat")
++    mock = _client_mock()
++    mock.post = MagicMock(side_effect=[_ok("first"), _ok("second")])
++    with patch("openmw.openvault.vault.proxy.httpx.Client", return_value=mock):
++        first = client.post(
++            "/v1/chat/completions",
++            json={
++                "model": "auto",
++                "messages": [{"role": "user", "content": "hello"}],
++                "combo": {
++                    "strategy": "context-relay",
++                    "models": ["gpt-4o-mini"],
++                    "handoff": {
++                        "sessionId": "s1",
++                        "summary": "keep going",
++                        "fromAccount": "acct",
++                    },
++                },
++            },
++            headers=headers,
++        )
++        second = client.post(
++            "/v1/chat/completions",
++            json={
++                "model": "auto",
++                "messages": [{"role": "user", "content": "again"}],
++                "combo": {
++                    "strategy": "context-relay",
++                    "models": ["gpt-4o-mini"],
++                    "sessionId": "s1",
++                },
++            },
++            headers=headers,
++        )
++    assert first.status_code == 200, first.text
++    assert second.status_code == 200, second.text
++    user = mock.post.call_args_list[1].kwargs["json"]["messages"][-1]["content"]
++    assert "context_handoff" in user
++    assert "keep going" in user
++    assert user.endswith("again")
++
++
+ def test_v1_context_relay_all_unavailable_503(
+     vault: KeyVault, monkeypatch: pytest.MonkeyPatch, tmp_path: Path
+ ) -> None:
+diff --git a/OpenMW/tests/test_execution_shapes.py b/OpenMW/tests/test_execution_shapes.py
+index eb81d29..57b588d 100644
+--- a/OpenMW/tests/test_execution_shapes.py
++++ b/OpenMW/tests/test_execution_shapes.py
+@@ -21,6 +21,10 @@ from openmw.openvault.route.execution import (
+     pick_relay_target,
+     relay_available_from_body,
+     relay_handoff_from_body,
++    remember_relay_handoff,
++    resolve_relay_handoff,
++    RelayHandoff,
++    RelayStore,
+     resolve_auto,
+     run_fusion,
+     run_pipeline,
+@@ -252,3 +256,29 @@ def test_relay_handoff_requires_session_and_summary() -> None:
+     assert got.session_id == "s1"
+     assert got.summary == "keep going"
+     assert got.from_account == "acct"
++
++
++def test_stored_handoff_used_when_body_omits_blob() -> None:
++    store = RelayStore()
++    first = {
++        "combo": {
++            "strategy": "context-relay",
++            "handoff": {
++                "sessionId": "s1",
++                "summary": "keep going",
++                "fromAccount": "acct",
++            },
++        }
++    }
++    remember_relay_handoff(store, relay_handoff_from_body(first))
++    second = {"combo": {"strategy": "context-relay", "sessionId": "s1"}}
++    got = resolve_relay_handoff(store, second)
++    assert got is not None
++    assert got.summary == "keep going"
++    assert relay_handoff_from_body(second) is None
++
++
++def test_no_session_does_not_invent_a_handoff() -> None:
++    store = RelayStore()
++    remember_relay_handoff(store, RelayHandoff("s1", "", "keep going", "acct"))
++    assert resolve_relay_handoff(store, {"combo": {"strategy": "context-relay"}}) is None
