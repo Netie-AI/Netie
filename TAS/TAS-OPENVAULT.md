@@ -71,10 +71,8 @@ Vault SQLite (sealed), optional Redis for FreeRoute buckets, `openvault.local.js
 
 **Local evidence 2026-08-27** (clone HEAD `3030cad`, this VM):
 
-- `uv run pytest tests/test_contract.py tests/test_freeroute_metering.py tests/test_streaming_v1.py tests/test_attempt_policy.py -q` -> **78 passed** in 5.51s
-- `uv run pytest tests -q` -> **837 passed, 7 skipped** in 50.53s
-
-R-0002 in the constitution says a skipped test is a failing test. Those 7 skips are OpenVault HEAD's problem, not this docs repo. GitHub Actions on OpenVault recently succeeded on a PR branch (`cursor/account-key-tenant-custody-37d7`).
+- `uv run pytest tests -q` after replacing D:\\ tree skips with tmp_path fixtures -> **840 passed, 4 skipped** (Windows DPAPI only)
+- Push of that patch to `Netie-AI/OpenVault` returned **403** (cursor[bot] cannot write sibling repos). Patch lives on local clone branch `cursor/detect-stacks-no-skip-ca9b` until a token with OpenVault write lands it.
 
 **Not shipped as a buyer claim:** live deploy (HT1), pricing, "better than Vercel", OmniRoute-complete routing, NVMe product as the thing we sell (library, not the SKU).
 

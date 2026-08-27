@@ -59,7 +59,7 @@ So Cortex today is: a FastAPI engine with a live auto-router, a DAG runner, a to
 | **Netie Control** vs Apache Guacamole | `apache/guacamole-client` | Apache-2.0 | **1 / 10** | Guacamole is a remote-desktop gateway. Control is a 12-file operator board. Wrong analogue for RDP; right *feeling* is "watch the session." Closer licensed boards: GitHub Projects (already chosen for tickets) + Langfuse (OSS traces). | Fold Control into Crew. Do not clone Guacamole. |
 | **Pointer** vs Perplexity Computer / UACC | `uacc` on PyPI (MCP, 68 tools); `e2b-dev/open-computer-use` Apache-2.0 | MIT / Apache | **UNVERIFIABLE** HEAD. Constitution-complete | Tray holds no keys, Cortex decides, fail-closed. Founder: not working. See `TAS/TAS-POINTER.md`. | Measure Pointer HEAD. MCP-wrap UACC behind `tool_runner` if the 68 tools are the gap. |
 | **Netie Space** vs Peek / macOS Preview | Windows: PowerToys Peek. macOS: Quick Look + `altic-dev/PeekX` (MIT) | mixed | **6 / 10** as a preview app. **2 / 10** as governed | TAS-SPACE: most finished *product* in the estate (installer, PDF/OCR/video/chat). Leave-machine ungated. No tests. Name collision with DMS Spaces. Do not clone PeekX (macOS extension) into a C# WinExe. | Add CI + leave-machine gate. Rename one "Space". |
-| **Constructor** vs React Flow | `xyflow/xyflow` (`@xyflow/react`) | MIT | **2 / 10** as a node editor. **4 / 10** as a Cortex IR compiler | Live clone: 11 files, custom canvas, `engine.js` compiles connector->ontology->insight->foundry->app and ranks 3 coordination patterns. README: do not clone n8n/Activepieces. No xyflow. | If the canvas must feel like React Flow, `npm i @xyflow/react` and keep *our* compiler. Do not vendor n8n. |
+| **Constructor** vs React Flow | `xyflow/xyflow` (`@xyflow/react`) | MIT | **2 / 10** as a node editor. **4 / 10** as a Cortex IR compiler | Live clone: 11 files, custom canvas. This VM: `node --test tests/compiler.test.cjs` **3 passed** after exporting `rankForKinds`/`compileIR`. Push to `Netie-AI/constructor` **403**. | Land the test branch when write access exists. `npm i @xyflow/react` only if the canvas must feel like React Flow. |
 
 ---
 
@@ -100,15 +100,16 @@ Scale knob when Crew exists: N ticket runners, each a Deep Agent, Cortex `tool_r
 | HT1 live Cloudflare Pages | OpenVault | HUMAN_STOP on OpenVault #18 |
 | Leave-machine on Space AI path | Space | Repo not in this environment |
 | GitHub Actions billing | Netie docs-ci | Job never started: spending limit. Local `scripts/check_docs.py` is the gate until billing works. |
+| Sibling repo write | OpenVault, constructor | cursor[bot] 403 on push. Local branches ready: `cursor/detect-stacks-no-skip-ca9b`, `cursor/constructor-compiler-tests-ca9b`. |
 
 ---
 
 ## 5. Verify this document
 
-- OpenVault clone HEAD `3030cad` (2026-08-27): `route/strategies.py` says "8 of 18 for pass 1"; `STATUS.md` ~75%; `SHIPPING_MODEL.md` Pages adapter real, HT1 not done. **This VM:** OpenMW `pytest tests -q` -> 837 passed, 7 skipped.
-- Constructor clone HEAD `ee3a6cf`: `engine.js` + `README.md` as cited. GitHub Pages workflow green. No unit tests.
+- OpenVault clone HEAD `3030cad` (2026-08-27): `route/strategies.py` says "8 of 18 for pass 1"; `STATUS.md` ~75%; `SHIPPING_MODEL.md` Pages adapter real, HT1 not done. **This VM after fixture unskip:** OpenMW `pytest tests -q` -> 840 passed, 4 skipped (DPAPI). Sibling push 403.
+- Constructor clone: `node --test tests/compiler.test.cjs` -> 3 passed. Sibling push 403.
 - Analogue licenses via `gh api repos/<n> --jq .license.spdx_id` the same day.
 - Cortex / DMS / AirGPT / Pointer / Space / Control: **not cloned**. Numbers from TAS dated 2026-08-02 or UNVERIFIABLE.
-- Netie docs-ci on GitHub: job **did not start** (Actions billing). Local `python3 scripts/check_docs.py` is the gate.
+- Netie docs-ci on GitHub: job **did not start** (Actions billing). Local `python3 scripts/check_docs.py` is the gate (now includes Crew wrap tests).
 
 If a later session has those remotes, replace the UNVERIFIABLE rows with file:line evidence and bump the date on this file.

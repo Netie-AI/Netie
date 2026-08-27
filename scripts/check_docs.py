@@ -8,6 +8,7 @@ Run from the Netie repo root:
 
 from __future__ import annotations
 
+import subprocess
 import sys
 from pathlib import Path
 
@@ -75,7 +76,23 @@ def main() -> int:
         for row in fails:
             print(row)
         return 1
-    print(f"ok {len(REQUIRED)} files, laptop-ASCII clean")
+    wrap = ROOT / "scripts" / "test_crew_tool_wrap.py"
+    proc = subprocess.run(
+        [sys.executable, str(wrap)],
+        cwd=str(ROOT / "scripts"),
+        capture_output=True,
+        text=True,
+    )
+    if proc.returncode != 0:
+        fails.append("crew wrap tests failed")
+        fails.append(proc.stderr or proc.stdout)
+
+    if fails:
+        print("FAIL")
+        for row in fails:
+            print(row)
+        return 1
+    print(f"ok {len(REQUIRED)} files, laptop-ASCII clean, crew wrap tests passed")
     return 0
 
 
