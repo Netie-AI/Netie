@@ -68,6 +68,13 @@ class CrewParallelTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             run_batch(gate, [Job("x", "t", {})], max_in_flight=0)
 
+    def test_reject_unbounded_spawn(self) -> None:
+        gate = CountingGate({"t"})
+        with self.assertRaises(ValueError) as ctx:
+            run_batch(gate, [Job("x", "t", {})], max_in_flight=3)
+        self.assertIn("WIP law", str(ctx.exception))
+        self.assertEqual(gate.executed, [])
+
     def test_missing_gate_fails_closed(self) -> None:
         with self.assertRaises(CortexDenied):
             from crew_tool_wrap import run_tool

@@ -1,6 +1,7 @@
 """Capped parallel Crew runners. Every job still goes through run_tool.
 
-Default in-flight is 2 (WIP law). Raising it is a config, not a second engine.
+WIP law: in-flight is at most 2. Asking for more refuses unbounded spawn.
+This is not a second engine and not infinite subagents.
 """
 
 from __future__ import annotations
@@ -67,6 +68,10 @@ def run_batch(
 ) -> list[JobResult]:
     if max_in_flight < 1:
         raise ValueError("max_in_flight must be >= 1")
+    if max_in_flight > MAX_IN_FLIGHT:
+        raise ValueError(
+            "max_in_flight > 2 refuses unbounded spawn; WIP law"
+        )
     if not jobs:
         return []
     by_id: dict[str, JobResult] = {}
