@@ -426,4 +426,5 @@ Writing SGLang. Copying Grok Bot. Intercepting 2FA. A third orchestrator. Plane.
 | What DMS will ship | `Software Blueprint/DMS/PRD-001-*.md` |
 | How Cortex is actually built | `TAS/TAS-CORTEX.md` |
 | How Crew is supposed to be built | `TAS/TAS-CREW.md` (planned; no repo yet) |
+| How close each product is to its analogue | `TAS/ESTATE-GAP.md` (measured 2026-08-27) |
 | What was decided about Crew vs Cortex | `docs/decisions/DR-0001-*.md` |

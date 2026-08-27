@@ -1,0 +1,47 @@
+name: docs-ci
+
+# Gate for the constitution repo: laptop-ASCII on governed markdown, required files present.
+# Does not claim product CI (Cortex/DMS/OpenVault) is green.
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  governed-docs:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Required files exist
+        run: |
+          set -e
+          for f in \
+            NETIE.md \
+            Internal/Agents/AGENT_SYSTEM.md \
+            Internal/Rules/DOCUMENT_SYSTEM.md \
+            Internal/Workflow/OPERATING_MODEL.md \
+            TAS/TAS-CORTEX.md \
+            TAS/TAS-DMS.md \
+            TAS/TAS-SPACE.md \
+            TAS/TAS-CREW.md \
+            TAS/TAS-OPENVAULT.md \
+            TAS/ESTATE-GAP.md \
+            White\ Paper\ -\ Why/WP-001-accountable-ai-operating-system.md \
+            docs/decisions/DR-0001-one-decision-layer.md
+          do
+            test -f "$f" || { echo "missing $f"; exit 1; }
+          done
+
+      - name: Laptop-ASCII on governed markdown
+        run: |
+          set -e
+          # Em dash, en dash, curly quotes (R-0012 / NETIE.md rule 10)
+          if grep -R -n -E $'[\u2014\u2013\u2018\u2019\u201c\u201d]' \
+            --include='*.md' \
+            NETIE.md Internal TAS "White Paper - Why" docs Software Blueprint; then
+            echo "laptop-ASCII violation"
+            exit 1
+          fi
+          echo "ascii ok"
