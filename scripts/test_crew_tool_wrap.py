@@ -11,7 +11,7 @@ import sys
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
-from crew_tool_wrap import CortexDenied, Verdict, run_tool, wrap_deepagents_tools
+from crew_tool_wrap import CortexDenied, Verdict, run_tool, wrap_deepagents_tools, require_wrapped
 
 
 class FakeGate:
@@ -50,6 +50,26 @@ class CrewWrapTests(unittest.TestCase):
         with self.assertRaises(CortexDenied):
             tools["web_search"](q="secret")
         self.assertEqual(gate.executed, [])
+
+    def test_empty_wrap_refuses_trust_the_llm(self) -> None:
+        gate = FakeGate(True)
+        with self.assertRaises(CortexDenied) as ctx:
+            wrap_deepagents_tools(gate, [])
+        self.assertIn("trust-the-LLM", str(ctx.exception))
+
+    def test_blank_tool_name_refuses(self) -> None:
+        gate = FakeGate(True)
+        with self.assertRaises(CortexDenied):
+            wrap_deepagents_tools(gate, ["  "])
+
+    def test_require_wrapped_refuses_extras(self) -> None:
+        gate = FakeGate(True)
+        wrapped = wrap_deepagents_tools(gate, ["export_pptx"])
+        with self.assertRaises(CortexDenied) as ctx:
+            require_wrapped(["export_pptx", "web_search"], wrapped)
+        self.assertIn("unwrapped tools", str(ctx.exception))
+        tools = require_wrapped(["export_pptx"], wrapped)
+        self.assertEqual(len(tools), 1)
 
 
 if __name__ == "__main__":
