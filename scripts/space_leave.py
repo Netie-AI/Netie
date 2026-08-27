@@ -44,7 +44,13 @@ def leave(
         raise SpaceLeaveDenied(str(exc)) from exc
 
 
+ENV_BASENAMES = frozenset({"user.env", ".env", "env.local"})
+
+
 def persist_key(path_name: str, plaintext: bool) -> None:
+    base = path_name.replace("\\", "/").rsplit("/", 1)[-1].lower()
+    if base in ENV_BASENAMES:
+        raise SpaceLeaveDenied(f"refuse env file {path_name}")
     if plaintext:
         raise SpaceLeaveDenied(f"refuse plaintext key write to {path_name}")
 
