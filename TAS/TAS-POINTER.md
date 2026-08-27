@@ -32,7 +32,7 @@ The hands and eyes: an Electron tray client that sees a screen region, takes an 
 | `uacc` (PyPI, MCP, ~68 tools) | open MCP server | pixel/a11y desktop tools for any agent | should be *optional hands* behind Cortex `tool_runner`, not a second brain |
 | `e2b-dev/open-computer-use` | Apache-2.0 | sandboxed desktop | different threat model (cloud VM vs operator laptop) |
 
-Fail-closed click contract in this repo (Pointer still 404): `scripts/pointer_click.py`. Unlabeled or unknown-role elements do not click. No Cortex intent, no click. The file does not mention API keys or `os.environ`. `python3 scripts/test_pointer_click.py`. Not a UACC clone.
+Fail-closed click contract in this repo (Pointer still 404): `scripts/pointer_click.py`. Unlabeled or unknown-role elements do not click. Password / OTP / cookie fields do not click even when labeled. No Cortex intent, no click. The file does not mention API keys or `os.environ`. `python3 scripts/test_pointer_click.py`. Not a UACC clone.
 
 ---
 
