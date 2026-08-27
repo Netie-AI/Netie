@@ -9,11 +9,12 @@ From the constructor repo root, on `landing-9-first-path`:
 ```
 git apply docs/patches/constructor-compiler-tests.patch
 git apply docs/patches/constructor-empty-graph.patch
+git apply docs/patches/constructor-ir-refuse.patch
 node --test tests/compiler.test.cjs
 ```
 
-Adds `rankForKinds`, empty-graph IR (no invented Cortex nodes), node `--test`, and `.github/workflows/test.yml`.
-Measured on this VM 2026-08-27: 6 passed.
+Adds `rankForKinds`, empty-graph IR (no invented Cortex nodes), refuse unknown kinds / cycles / dangling edges, node `--test`, and `.github/workflows/test.yml`.
+Measured on this VM 2026-08-27: 9 passed.
 
 ## OpenVault (`Netie-AI/OpenVault`)
 
