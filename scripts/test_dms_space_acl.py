@@ -43,6 +43,18 @@ class SpaceAclTests(unittest.TestCase):
         out = answer_or_abstain(WAREHOUSE, "space-ops", "inventory", rows)
         self.assertEqual(out["status"], "OK")
         self.assertEqual(out["rows"], rows)
+        out["rows"][0]["sku"] = "LEAK"
+        self.assertEqual(rows[0]["sku"], "A")
+
+    def test_row_declaring_other_table_abstains(self) -> None:
+        out = answer_or_abstain(
+            WAREHOUSE,
+            "space-ops",
+            "inventory",
+            [{"sku": "A", "table": "invoices"}],
+        )
+        self.assertEqual(out["status"], "ABSTAIN")
+        self.assertEqual(out["rows"], [])
 
     def test_unknown_space_abstains(self) -> None:
         out = answer_or_abstain(WAREHOUSE, "space-other", "inventory", [{"sku": "A"}])
