@@ -107,6 +107,27 @@ class CrewFactoryTests(unittest.TestCase):
         with self.assertRaises(FactoryDenied):
             f.activate_epic("E3")
 
+    def test_index_does_not_leak_prompt(self) -> None:
+        f = Factory()
+        f.slice_prd(
+            prd_id="PRD-001",
+            out_of_scope="x",
+            success_assertion="WHEN x THE SYSTEM SHALL y",
+            epics=[("E1", "acl", "boundary")],
+        )
+        f.activate_epic("E1")
+        f.file_ticket(
+            epic_id="E1",
+            ticket_id="T1",
+            prompt="SECRET-PROMPT-XYZ wire space acl",
+        )
+        idx = f.index()
+        dumped = str(idx)
+        self.assertNotIn("SECRET-PROMPT-XYZ", dumped)
+        self.assertNotIn("prompt", dumped)
+        self.assertEqual(idx["tickets"][0]["id"], "T1")
+        self.assertEqual(idx["tickets"][0]["status"], "open")
+
 
 if __name__ == "__main__":
     unittest.main()

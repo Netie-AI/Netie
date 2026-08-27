@@ -7,6 +7,7 @@ without editing its epic's task list in the same action.
 
 from __future__ import annotations
 
+import json
 from dataclasses import dataclass, field
 
 from crew_verify import close_ticket
@@ -120,3 +121,33 @@ class Factory:
             return f"BLOCKED  {epic_id}  open tickets"
         epic.status = "done"
         return f"DONE  {epic_id}  all tickets verified"
+
+    def index(self) -> dict:
+        """Token-cheap. No prompts, no skill bodies. Same law as CrewGraph.index."""
+        payload = {
+            "epics": [
+                {
+                    "id": e.id,
+                    "status": e.status,
+                    "tier": e.tier,
+                    "tasks": dict(e.tasks),
+                }
+                for e in self.epics.values()
+            ],
+            "tickets": [
+                {
+                    "id": t.id,
+                    "epic_id": t.epic_id,
+                    "status": t.status,
+                }
+                for t in self.tickets.values()
+            ],
+        }
+        dumped = json.dumps(payload)
+        for t in self.tickets.values():
+            if t.prompt and t.prompt in dumped:
+                raise FactoryDenied("index leaked a prompt")
+        for needle in ("skill_body", "transcript"):
+            if needle in dumped:
+                raise FactoryDenied(f"index leaked {needle}")
+        return payload
