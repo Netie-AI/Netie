@@ -53,4 +53,16 @@ def answer_or_abstain(acl: Acl, space_id: str, table: str, rows: list[dict]) -> 
             "reason": f"space {space_id} cannot read {table}",
             "rows": [],
         }
-    return {"status": "OK", "table": table, "rows": rows}
+    cleaned: list[dict] = []
+    for row in rows:
+        if not isinstance(row, dict):
+            continue
+        declared = row.get("table") or row.get("_table")
+        if declared and declared != table:
+            return {
+                "status": "ABSTAIN",
+                "reason": f"space {space_id} cannot read {declared}",
+                "rows": [],
+            }
+        cleaned.append(dict(row))
+    return {"status": "OK", "table": table, "rows": cleaned}
