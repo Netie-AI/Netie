@@ -1,0 +1,91 @@
+diff --git a/app.js b/app.js
+index e5e5c9f..e8fc7d0 100644
+--- a/app.js
++++ b/app.js
+@@ -245,13 +245,13 @@ function showInspect() {
+   const points = OBJECTS[obj].points;
+   const point = node.data_point && points[node.data_point] ? node.data_point : Object.keys(points)[0];
+   const dtype = node.data_type || points[point];
+-  const action = ACTIONS.indexOf(node.action_type) >= 0 ? node.action_type : "export_pptx";
++  const action = listedOrEmpty(node.action_type, ACTIONS);
+   const tier = TIERS.indexOf(node.tier) >= 0 ? node.tier : "T0";
+   inspectForm.innerHTML =
+     fieldSelect("object_type", "Object (ontology)", Object.keys(OBJECTS), obj) +
+     fieldSelect("data_point", "Data point", Object.keys(points), point) +
+     fieldSelect("data_type", "Data type", ["string", "number", "integer", "boolean", "date"], dtype) +
+-    fieldSelect("action_type", "Action", ACTIONS, action) +
++    fieldSelect("action_type", "Action", listedOptions(ACTIONS, node.action_type), action) +
+     '<label>Fetch / place</label><input name="fetch_from" value="' +
+     escapeAttr(node.fetch_from || "") +
+     '" placeholder="warehouse.inventory" />' +
+@@ -275,7 +275,7 @@ function fieldSelect(name, label, values, current) {
+           '"' +
+           (v === current ? " selected" : "") +
+           ">" +
+-          v +
++          (v === "" ? "(pick)" : v) +
+           "</option>"
+         );
+       })
+diff --git a/engine.js b/engine.js
+index 1a16e6f..55c4699 100644
+--- a/engine.js
++++ b/engine.js
+@@ -84,6 +84,18 @@ function rankForKinds(kinds) {
+   }).sort((a, b) => b.score - a.score);
+ }
+ 
++function listedOrEmpty(value, listed) {
++  const want = String(value || "").trim();
++  if (!Array.isArray(listed) || listed.indexOf(want) < 0) return "";
++  return want;
++}
++
++function listedOptions(listed, value) {
++  const rows = Array.isArray(listed) ? listed.slice() : [];
++  const want = listedOrEmpty(value, rows);
++  return want ? rows : [""].concat(rows);
++}
++
+ function irError(ghost, message) {
+   return {
+     version: "1.0",
+@@ -699,5 +711,7 @@ if (typeof module !== "undefined" && module.exports) {
+     scoreApproach,
+     topo,
+     ghostWalk,
++    listedOrEmpty,
++    listedOptions,
+   };
+ }
+diff --git a/tests/compiler.test.cjs b/tests/compiler.test.cjs
+index c30c6c0..67fc86a 100644
+--- a/tests/compiler.test.cjs
++++ b/tests/compiler.test.cjs
+@@ -7,6 +7,8 @@ const {
+   rankForKinds,
+   topo,
+   ghostWalk,
++  listedOrEmpty,
++  listedOptions,
+ } = require("../engine.js");
+ 
+ test("foundry path ranks orchestrator-subagent first", () => {
+@@ -226,3 +228,17 @@ test("ghostWalk refuses unlabeled tool_call instead of inventing a write", () =>
+   assert.deepEqual(walked.log, []);
+   assert.deepEqual(walked.order, []);
+ });
++
++test("inspect does not invent export_pptx for a missing action", () => {
++  const actions = ["export_pptx", "item.intake", "agent.checked"];
++  assert.equal(listedOrEmpty("", actions), "");
++  assert.equal(listedOrEmpty("nope", actions), "");
++  assert.equal(listedOrEmpty("export_pptx", actions), "export_pptx");
++  assert.deepEqual(listedOptions(actions, ""), [
++    "",
++    "export_pptx",
++    "item.intake",
++    "agent.checked",
++  ]);
++  assert.deepEqual(listedOptions(actions, "export_pptx"), actions);
++});
