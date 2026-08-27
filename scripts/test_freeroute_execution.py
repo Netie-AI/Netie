@@ -312,6 +312,17 @@ class DispatchTests(unittest.TestCase):
             dispatch_combo("cache-optimized", ["a"], lambda *_a, **_k: "x")
         self.assertEqual(ctx.exception.strategy, "cache-optimized")
 
+    def test_parallel_quorum_grace_is_named_501(self) -> None:
+        with self.assertRaises(ExecutionRefused) as ctx:
+            dispatch_combo(
+                "fusion",
+                ["p/a", "p/b"],
+                lambda *_a, **_k: "x",
+                parallel=True,
+            )
+        self.assertEqual(ctx.exception.code, 501)
+        self.assertIn("quorum-grace", ctx.exception.message)
+
     def test_auto_without_resolved_refuses(self) -> None:
         with self.assertRaises(ExecutionRefused):
             dispatch_combo("auto", ["a"], lambda *_a, **_k: "x")

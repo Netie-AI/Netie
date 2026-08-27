@@ -45,14 +45,46 @@ def leave(
 
 
 ENV_BASENAMES = frozenset({"user.env", ".env", "env.local"})
+KEY_BASENAMES = frozenset({"id_rsa", "id_ed25519", "id_ecdsa", "credentials.json"})
+KEY_SUFFIXES = frozenset({".pem", ".key", ".p12", ".pfx", ".ppk"})
+
+
+def _base(path_name: str) -> str:
+    return path_name.replace("\\", "/").rsplit("/", 1)[-1].lower()
 
 
 def persist_key(path_name: str, plaintext: bool) -> None:
-    base = path_name.replace("\\", "/").rsplit("/", 1)[-1].lower()
+    base = _base(path_name)
     if base in ENV_BASENAMES:
         raise SpaceLeaveDenied(f"refuse env file {path_name}")
     if plaintext:
         raise SpaceLeaveDenied(f"refuse plaintext key write to {path_name}")
+
+
+def may_preview(
+    path_name: str,
+    *,
+    leave_machine: bool = False,
+    ov_allowed: bool = False,
+) -> str:
+    """Peek-class preview. Secrets stay closed. Cloud/OCR needs OpenVault."""
+    base = _base(path_name)
+    lower = path_name.replace("\\", "/").lower()
+    if base in ENV_BASENAMES or base in KEY_BASENAMES:
+        raise SpaceLeaveDenied(f"refuse secret preview {path_name}")
+    if any(lower.endswith(suf) for suf in KEY_SUFFIXES):
+        raise SpaceLeaveDenied(f"refuse secret preview {path_name}")
+    if leave_machine and not ov_allowed:
+        raise SpaceLeaveDenied("leave-machine is OpenVault")
+    return "preview"
+
+
+def ocr_cloud(path_name: str, *, ov_allowed: bool, local_chars: int) -> str:
+    """Poor local OCR is not a leave-machine grant (Baidu path)."""
+    if local_chars < 20 and not ov_allowed:
+        raise SpaceLeaveDenied("poor local OCR is not a leave-machine grant")
+    may_preview(path_name, leave_machine=True, ov_allowed=ov_allowed)
+    return "cloud"
 
 
 def resolve_login(*, openvault_ok: bool, scan_local_vault: bool) -> str:

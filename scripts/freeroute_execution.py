@@ -617,8 +617,16 @@ def dispatch_combo(
     resolved: str | None = None,
     available: dict[str, bool] | None = None,
     handoff: RelayHandoff | None = None,
+    parallel: bool = False,
+    quorum_grace: Any = None,
 ) -> str:
-    """Run an execution shape. Sort names raise StrategyIsASort."""
+    """Run an execution shape. Sort names raise StrategyIsASort.
+
+    Sequential hop-walk only. OmniRoute parallel quorum-grace is not ported;
+    asking for it is 501, not a silent sequential walk.
+    """
+    if parallel or quorum_grace not in (None, False, 0, ""):
+        raise ExecutionRefused(501, "parallel quorum-grace not ported")
     name = _norm_name(strategy)
     if name in SORT_STRATEGIES:
         raise StrategyIsASort(name)
@@ -777,6 +785,10 @@ def hop_call_model(
     """
 
     def call(model: str, **kwargs: Any) -> str:
+        parallel = bool(kwargs.pop("parallel", False))
+        grace = kwargs.pop("quorum_grace", None)
+        if parallel or grace not in (None, False, 0, ""):
+            raise ExecutionRefused(501, "parallel quorum-grace not ported")
         found = hops_for_model(hops, model, serves=serves)
         if not found:
             raise ExecutionRefused(503, "no hop can serve model")

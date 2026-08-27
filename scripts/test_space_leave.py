@@ -11,7 +11,7 @@ from typing import Any
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 from crew_ov_gate import OpenVaultCrewGate
-from space_leave import SpaceLeaveDenied, leave, persist_key, resolve_login
+from space_leave import SpaceLeaveDenied, leave, persist_key, resolve_login, may_preview, ocr_cloud
 
 
 def _allow(url: str, body: dict[str, Any]) -> dict[str, Any]:
@@ -57,6 +57,23 @@ class SpaceLeaveTests(unittest.TestCase):
     def test_local_vault_scan_denied(self) -> None:
         with self.assertRaises(SpaceLeaveDenied):
             resolve_login(openvault_ok=False, scan_local_vault=True)
+
+    def test_env_file_is_not_a_preview(self) -> None:
+        with self.assertRaises(SpaceLeaveDenied) as ctx:
+            may_preview("user.env")
+        self.assertIn("secret preview", str(ctx.exception))
+        with self.assertRaises(SpaceLeaveDenied):
+            may_preview("certs/prod.pem")
+        self.assertEqual(may_preview("report.pdf"), "preview")
+
+    def test_poor_ocr_does_not_grant_baidu(self) -> None:
+        with self.assertRaises(SpaceLeaveDenied) as ctx:
+            ocr_cloud("scan.png", ov_allowed=False, local_chars=3)
+        self.assertIn("poor local OCR", str(ctx.exception))
+        self.assertEqual(
+            ocr_cloud("scan.png", ov_allowed=True, local_chars=3),
+            "cloud",
+        )
 
 
 if __name__ == "__main__":
