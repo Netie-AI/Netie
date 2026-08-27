@@ -47,9 +47,9 @@ FreeRoute is **OpenVault `:5000/v1`**, not a process on `:20128`. OmniRoute rema
 
 Shipped strategies on **main** (8): priority, weighted, fill-first, round-robin, p2c, random, least-used, cost-optimized.
 
-This VM patches (not on main, push 403): `strict-random` (9th), `lkgp` (10th), `context-optimized` (11th), `headroom` (12th), `reset-window` (13th), `reset-aware` (14th). Reset-aware uses caller remaining fractions; missing reset remaining is urgency 0 (remaining-only), not OmniRoute's 0.5 invented pressure.
+This VM patches (not on main, push 403): `strict-random` (9th), `lkgp` (10th), `context-optimized` (11th), `headroom` (12th), `reset-window` (13th), `reset-aware` (14th), `cache-optimized` (15th). Cache-optimized is SHA-256 rendezvous of a caller `cache_key`; it is not OmniRoute's prefix analyzer.
 
-Not shipped vs OmniRoute: provider catalog at OmniRoute scale, token compression, MCP/A2A, the remaining 5 user-facing strategies, Electron Next-on-20128.
+Not shipped vs OmniRoute: provider catalog at OmniRoute scale, token compression, MCP/A2A, the remaining 4 user-facing strategies, Electron Next-on-20128.
 
 Not the same job as NVIDIA llm-router (trained task/complexity classifier on Triton).
 
@@ -69,7 +69,7 @@ Vault SQLite (sealed), optional Redis for FreeRoute buckets, `openvault.local.js
 
 ## 7. Shipped vs scaffold
 
-**Shipped enough to test:** vault, gate refuse paths, FreeRoute metering/tests, 8 strategies on `main` (9th-14th in `docs/patches/`, 20 strategy tests passed here, push 403), Pages adapter code, Next UI, Electron shell, NVMe library, CI.
+**Shipped enough to test:** vault, gate refuse paths, FreeRoute metering/tests, 8 strategies on `main` (9th-15th in `docs/patches/`, 22 strategy tests passed here, push 403), Pages adapter code, Next UI, Electron shell, NVMe library, CI.
 
 **Local evidence 2026-08-27** (clone HEAD `3030cad`, this VM):
 
