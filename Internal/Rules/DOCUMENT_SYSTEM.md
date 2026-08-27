@@ -156,7 +156,7 @@ callers.
 | **Path** | `D:\Netie\TAS\TAS-<PRODUCT>.md` - one per product, no number |
 | **Answers** | How is this built, what are its boundaries, what does it depend on |
 | **Owner** | Technical specialist |
-| **ID** | `TAS-CORTEX`, `TAS-OPENVAULT`, `TAS-DMS`, `TAS-SPACE`, `TAS-AIRGPT`, `TAS-POINTER`, `TAS-CREW` |
+| **ID** | `TAS-CORTEX`, `TAS-OPENVAULT`, `TAS-DMS`, `TAS-SPACE`, `TAS-AIRGPT`, `TAS-POINTER`, `TAS-CREW`. Estate analogue scores: `TAS/ESTATE-GAP.md` |
 
 Required sections: purpose in one line; the plane it occupies; the HTTP or library
 surface it exposes; what it depends on and what depends on it; data stores; trust
