@@ -7,7 +7,7 @@
 ## Now
 
 - Gap scores in `TAS/ESTATE-GAP.md`. Cortex path has no JEPA/gen-cFSM (`scripts/cortex_path.py`).
-- Crew portable contract: wrap (empty wrap / extra unwrapped names refuse), cap-2 hard refuse above 2, parent-run, `skill` kind refused until a registry row exists, factory `index()` drops prompts, WIP-2, OV gate, seat router.
+- Crew portable contract: wrap (empty wrap / extra unwrapped names refuse), cap-2 hard refuse above 2, parent-run, `skill` kind refused until a registry row exists, factory `index()` drops prompts, ledger refuses skill_body on append, WIP-2, OV gate, seat router.
 - Product specs: DMS Space ACL, AirGPT table chunks (extra cells dropped), Pointer unlabeled / secret-field click, Space leave-machine, Control board view.
 - Accessible remotes: Netie (this), OpenVault public (`main` CI green 2026-08-27, STATUS ~78%, HT1 not done), constructor public (pages.yml green).
 - 404 to this token: Cortex, dms, AirGPT, Pointer, Space, Control, KB, Cortex-Crew.

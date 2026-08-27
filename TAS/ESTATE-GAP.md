@@ -89,7 +89,7 @@ Netie still has a *WIP law*: two epics in flight, ticket batching by shared ment
 
 Scale knob when Crew exists: N ticket runners, each a Deep Agent wrapped by `wrap_deepagents_tools`, Cortex `tool_runner` as the only write/read path, OpenVault `POST /api/crew/gate` on every leave-machine call, token budget per batch, different-run verify before DONE. Concurrency is a config with a ledger, not a slogan.
 
-Netie portable contract (this repo, 2026-08-27): wrap (empty wrap and extra unwrapped names refuse), cap-2 parallel (hard refuse above 2), parent-run graph (`crew_runs.py`: children cannot replace parent, WIP 2, named deficit, OV gate; `skill` kind refused until a registry row exists), factory `index()` drops prompts, `close_ticket` refuses same-run verify, token budget, hash ledger, OV gate strips `skill_body`.
+Netie portable contract (this repo, 2026-08-27): wrap (empty wrap and extra unwrapped names refuse), cap-2 parallel (hard refuse above 2), parent-run graph (`crew_runs.py`: children cannot replace parent, WIP 2, named deficit, OV gate; `skill` kind refused until a registry row exists), factory `index()` drops prompts, ledger refuses skill_body on append, `close_ticket` refuses same-run verify, token budget, hash ledger, OV gate strips `skill_body`.
 
 ---
 

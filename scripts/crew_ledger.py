@@ -11,11 +11,17 @@ import threading
 from pathlib import Path
 from typing import Any
 
+from crew_ov_gate import has_bodies
+
 GENESIS = "0" * 64
 
 
 class LedgerBroken(ValueError):
     """Chain does not verify. Do not trust this file."""
+
+
+class LedgerDenied(PermissionError):
+    """Record not written. Bodies do not belong in the Crew log."""
 
 
 class HashLedger:
@@ -24,6 +30,8 @@ class HashLedger:
         self._lock = threading.Lock()
 
     def append(self, record: dict[str, Any]) -> str:
+        if has_bodies(record):
+            raise LedgerDenied("ledger leaked a body")
         body = json.dumps(record, sort_keys=True, separators=(",", ":"), default=str)
         with self._lock:
             prev = self._tail_hash()
