@@ -31,6 +31,7 @@ REQUIRED = [
     "TAS/ESTATE-GAP.md",
     "White Paper - Why/WP-001-accountable-ai-operating-system.md",
     "docs/decisions/DR-0001-one-decision-layer.md",
+    "docs/ACCESS.md",
     "Software Blueprint/Crew/PRD-002-operator-factory.md",
 ]
 
