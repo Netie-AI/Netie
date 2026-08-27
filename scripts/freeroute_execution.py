@@ -53,6 +53,10 @@ HANDOFF_WARNING = 0.85
 HANDOFF_EXHAUSTION = 0.95
 DEFAULT_HANDOFF_PROVIDERS: tuple[str, ...] = ("codex",)
 MAX_RELAY_PER_SCOPE = 32
+# Catalog aliases for the key walk. Not fusion panel members.
+PANEL_ALIASES: frozenset[str] = frozenset(
+    {"auto", "default", "openvault/auto", "free", "any"}
+)
 
 
 class StrategyNotASort(ValueError):
@@ -700,6 +704,26 @@ class Hop:
     model_str: str
     provider: str = ""
     healthy: bool = True
+
+
+def hop_serves_listed(model: str, listed: tuple[str, ...] | None) -> bool:
+    """True when this hop's catalog owns the panel member id.
+
+    listed is that provider's chat_models:
+    - None / empty: concrete id still matches (unknown provider, or
+      anthropic with no catalog) so the Anthropic skip can name itself
+    - non-empty: only ids in the list
+
+    Cross-provider rewrite (gpt-4o arriving at Groq -> Groq first choice)
+    is the key walk, not execution-shape hop-walk. Aliases are not panel
+    members.
+    """
+    want = (model or "").strip()
+    if not want or want.lower() in PANEL_ALIASES:
+        return False
+    if not listed:
+        return True
+    return want in listed
 
 
 def hops_for_model(

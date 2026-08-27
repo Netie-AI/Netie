@@ -26,6 +26,7 @@ from freeroute_execution import (
     dispatch_combo,
     hops_for_model,
     hop_call_model,
+    hop_serves_listed,
     Hop,
     classify_hop_status,
     sse_wrap_text,
@@ -574,6 +575,23 @@ class HopWalkTests(unittest.TestCase):
         hop = pick_hop(hops, "gpt-4o", serves=lambda h, m: h.provider == "openai")
         assert hop is not None
         self.assertEqual(hop.execution_key, "k1")
+
+    def test_catalog_match_is_not_first_choice_rewrite(self) -> None:
+        openai = ("gpt-4o", "gpt-4o-mini")
+        self.assertTrue(hop_serves_listed("gpt-4o", openai))
+        self.assertFalse(hop_serves_listed("not-a-real-model", openai))
+        self.assertFalse(hop_serves_listed("llama-3.1-8b-instant", openai))
+        self.assertFalse(hop_serves_listed("auto", openai))
+        self.assertTrue(hop_serves_listed("claude-opus-4", ()))
+        hops = [Hop("k1", "", "openai", True)]
+        catalog = {"openai": openai}
+
+        def serves(hop: Hop, model: str) -> bool:
+            return hop_serves_listed(model, catalog.get(hop.provider, ()))
+
+        self.assertIsNone(pick_hop(hops, "not-a-real-model", serves=serves))
+        picked = pick_hop(hops, "gpt-4o", serves=serves)
+        assert picked is not None
 
     def test_call_model_posts_picked_hop(self) -> None:
         hops = [Hop("k1", "p/a", "openai", True), Hop("k2", "p/b", "openai", True)]

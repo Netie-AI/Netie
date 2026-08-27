@@ -110,6 +110,7 @@ class SiblingPatchTests(unittest.TestCase):
             scope = PATCHES / "openvault-hop-scope.patch"
             serve = PATCHES / "openvault-hop-serve.patch"
             bound = PATCHES / "openvault-hop-bound.patch"
+            catalog = PATCHES / "openvault-hop-catalog.patch"
             self.assertTrue(
                 crew.is_file()
                 and ctx.is_file()
@@ -130,6 +131,7 @@ class SiblingPatchTests(unittest.TestCase):
                 and scope.is_file()
                 and serve.is_file()
                 and bound.is_file()
+                and catalog.is_file()
             )
             for patch in (
                 detect,
@@ -154,6 +156,7 @@ class SiblingPatchTests(unittest.TestCase):
                 scope,
                 serve,
                 bound,
+                catalog,
             ):
                 check = _run(["git", "apply", "--check", str(patch)], cwd=dest)
                 self.assertEqual(check.returncode, 0, f"{patch.name}: {check.stderr}")
@@ -199,6 +202,8 @@ class SiblingPatchTests(unittest.TestCase):
             self.assertIn("scoped by tenant", proxy)
             self.assertIn("no hop can serve model", execution)
             self.assertIn("MAX_RELAY_PER_SCOPE", execution)
+            self.assertIn("def hop_serves_listed", execution)
+            self.assertIn("Catalog membership, not resolve_model", proxy)
             app_py = (dest / "OpenMW" / "openmw" / "openvault" / "app.py").read_text(
                 encoding="utf-8"
             )
