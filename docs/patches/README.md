@@ -50,7 +50,16 @@ git apply docs/patches/openvault-reset-window.patch
 cd OpenMW && uv run pytest tests/test_route_strategies.py -q
 ```
 
-Adds `reset-window` (13th: soonest `reset_remaining_ms` first; unknown last; no quota fetch; tie-band rotation not ported). Measured on this VM 2026-08-27: 18 passed. Push 403.
+Adds `reset-window` (13th: soonest `reset_remaining_ms` first; unknown last; no quota fetch; tie-band rotation not ported).
+
+Then:
+
+```
+git apply docs/patches/openvault-reset-aware.patch
+cd OpenMW && uv run pytest tests/test_route_strategies.py -q
+```
+
+Adds `reset-aware` (14th: session/weekly remaining mixed with reset-pressure; missing reset remaining => urgency 0, remaining-only; OmniRoute uses 0.5 there; `limit_reached` last). Measured on this VM 2026-08-27: 20 passed. Push 403.
 
 Independent of routing:
 

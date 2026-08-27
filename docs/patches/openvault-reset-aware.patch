@@ -1,0 +1,124 @@
+diff --git a/OpenMW/openmw/openvault/route/strategies.py b/OpenMW/openmw/openvault/route/strategies.py
+index d6a739d..eb08366 100644
+--- a/OpenMW/openmw/openvault/route/strategies.py
++++ b/OpenMW/openmw/openvault/route/strategies.py
+@@ -1,4 +1,4 @@
+-"""Combo routing strategies — 13 of 19 user-facing for pass 1 (+ OmniRoute quota-share internal, not ported)."""
++"""Combo routing strategies — 14 of 19 user-facing for pass 1 (+ OmniRoute quota-share internal, not ported)."""
+ 
+ from __future__ import annotations
+ 
+@@ -32,6 +32,8 @@ STRATEGY_ALIASES: dict[str, StrategyName] = {
+     "headroom": "headroom",
+     "reset-window": "reset-window",
+     "reset_window": "reset-window",
++    "reset-aware": "reset-aware",
++    "reset_aware": "reset-aware",
+ }
+ 
+ 
+@@ -157,4 +159,42 @@ def apply_strategy(
+         decorated.sort(key=lambda pair: (_remaining(pair[1]), pair[0]))
+         return [t for _, t in decorated]
+ 
++    if strategy == "reset-aware":
++        # Algorithm port of OmniRoute remaining+pressure score. No quota fetch.
++        # Missing reset remaining => urgency 0 (remaining-only). OmniRoute uses 0.5.
++        session_ms = 5 * 60 * 60 * 1000
++        weekly_ms = 7 * 24 * 60 * 60 * 1000
++
++        def _clamp01(value: float) -> float:
++            if value <= 0:
++                return 0.0
++            if value >= 1:
++                return 1.0
++            return value
++
++        def _urgency(remaining_ms: float | None, window_ms: float) -> float:
++            if remaining_ms is None:
++                return 0.0
++            if remaining_ms <= 0:
++                return 1.0
++            return _clamp01(1.0 - remaining_ms / window_ms)
++
++        def _score(t: RouteTarget) -> float:
++            if t.limit_reached:
++                return float("-inf")
++            sess = 0.5 if t.session_remaining is None else _clamp01(t.session_remaining)
++            week = 0.5 if t.weekly_remaining is None else _clamp01(t.weekly_remaining)
++            s_press = _urgency(t.reset_remaining_ms, session_ms) * (1 - sess)
++            w_press = _urgency(t.reset_remaining_ms, weekly_ms) * (1 - week)
++            session_score = 0.45 * sess + 0.55 * s_press
++            weekly_score = 0.25 * week + 0.75 * w_press
++            score = 0.35 * session_score + 0.65 * weekly_score
++            if sess < 0.10:
++                score *= max(0.05, sess / 0.10)
++            return score
++
++        decorated = list(enumerate(targets))
++        decorated.sort(key=lambda pair: (-_score(pair[1]), pair[0]))
++        return [t for _, t in decorated]
++
+     return list(targets)
+diff --git a/OpenMW/openmw/openvault/route/types.py b/OpenMW/openmw/openvault/route/types.py
+index b863db0..f28e83b 100644
+--- a/OpenMW/openmw/openvault/route/types.py
++++ b/OpenMW/openmw/openvault/route/types.py
+@@ -19,6 +19,7 @@ StrategyName = Literal[
+     "context-optimized",
+     "headroom",
+     "reset-window",
++    "reset-aware",
+ ]
+ 
+ STRATEGY_NAMES: tuple[StrategyName, ...] = (
+@@ -35,6 +36,7 @@ STRATEGY_NAMES: tuple[StrategyName, ...] = (
+     "context-optimized",
+     "headroom",
+     "reset-window",
++    "reset-aware",
+ )
+ 
+ BreakerProfileName = Literal["oauth", "api_key", "local"]
+@@ -55,6 +57,9 @@ class RouteTarget:
+     util_5h: float | None = None
+     util_7d: float | None = None
+     reset_remaining_ms: float | None = None
++    session_remaining: float | None = None
++    weekly_remaining: float | None = None
++    limit_reached: bool = False
+ 
+ 
+ @dataclass
+diff --git a/OpenMW/tests/test_route_strategies.py b/OpenMW/tests/test_route_strategies.py
+index 44cf70c..6dc1502 100644
+--- a/OpenMW/tests/test_route_strategies.py
++++ b/OpenMW/tests/test_route_strategies.py
+@@ -167,3 +167,27 @@ def test_reset_window_unknown_sorts_last() -> None:
+     ordered = apply_strategy("reset-window", targets)
+     assert ordered[0].execution_key == "b"
+     assert [t.execution_key for t in ordered[1:]] == ["a", "c"]
++
++
++def test_reset_aware_more_remaining_first() -> None:
++    targets = _targets()
++    targets[0].session_remaining = 0.1
++    targets[0].weekly_remaining = 0.1
++    targets[1].session_remaining = 0.9
++    targets[1].weekly_remaining = 0.9
++    targets[2].session_remaining = 0.4
++    targets[2].weekly_remaining = 0.4
++    ordered = apply_strategy("reset-aware", targets)
++    assert [t.execution_key for t in ordered] == ["b", "c", "a"]
++
++
++def test_reset_aware_limit_reached_last() -> None:
++    targets = _targets()
++    targets[0].session_remaining = 0.9
++    targets[0].weekly_remaining = 0.9
++    targets[0].limit_reached = True
++    targets[1].session_remaining = 0.2
++    targets[1].weekly_remaining = 0.2
++    ordered = apply_strategy("reset-aware", targets)
++    assert ordered[-1].execution_key == "a"
++    assert "a" not in [t.execution_key for t in ordered[:-1]]
