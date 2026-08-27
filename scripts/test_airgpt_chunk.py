@@ -33,7 +33,8 @@ class AirgptChunkTests(unittest.TestCase):
         self.assertNotIn("KL", short.text.split("\n", 1)[1])
         extra = next(c for c in chunks if "C3" in c.text)
         self.assertTrue(extra.incomplete)
-        self.assertIn("extra", extra.text)
+        self.assertNotIn("extra", extra.text.split("\n", 1)[1])
+        self.assertEqual(extra.text.split("\n", 1)[1].count("|"), extra.header.count("|"))
 
     def test_labels_stick_to_following_rows(self) -> None:
         chunks = chunk_table(CORPUS_LABELED)
