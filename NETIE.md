@@ -67,8 +67,9 @@ form of one product quietly growing a second product's organ.
 call within budget (FreeRoute), and the single gate that answers "may this leave the
 machine, and may this be deployed?"
 
-**Is not:** an agent loop. It never decides *what work to do*. It answers where, with
-what key, and whether-allowed.
+**Is not:** an agent loop, a password sniffer, or a 2FA interceptor. It never decides
+*what work to do*. It answers where, with what key, and whether-allowed. Secrets enter
+because a human put them in and granted the call.
 
 **Non-negotiable:** there is exactly one key vault in this company. Any `env.local`
 anywhere else is a cache synced from OpenVault, never a second source of truth.
@@ -110,16 +111,34 @@ gets sold.
 **Is:** a client that lets the engine act on a real desktop - see the screen, click,
 type, verify - as a coworker rather than a macro.
 
-**Is not:** a second orchestrator. It sends intents to Cortex and executes what comes
-back, fail-closed.
+**Is not:** a second orchestrator, and not a way to drive another vendor's UI to dodge
+their meter. It sends intents to Cortex and executes what comes back, fail-closed.
 
 ### AirGPT - the host shell (plane 4)
 
 **Is:** the standalone chat and control surface: settings, pairing, the apps hub, the
-place a human lives day to day.
+place a human lives day to day. The customer-facing shell.
 
-**Is not:** a second key vault and not a second orchestrator. It is a thin client of
-OpenVault for custody and of Cortex for brains.
+**Is not:** a second key vault, a second orchestrator, or the internal operator board.
+It is a thin client of OpenVault for custody and of Cortex for brains.
+
+### Cortex-Crew - the operator factory (plane 4)
+
+**Is:** the internal (later multiplayer) app that hosts Cortex for the people who run
+the estate: live sessions, role skills, ticket runners, the board that shows who is
+doing what. Netie Control is this board's view, not a sibling product.
+
+**Is not:** a second Cortex. It has no `dag_runner`, no ledger, no leave-machine gate.
+It staffs work; Cortex decides what is true and what is allowed. See
+`docs/decisions/DR-0001-one-decision-layer.md`.
+
+### Constructor - the consumer canvas (plane 4)
+
+**Is:** a ChatGPT-style box that compiles a canvas graph on Cortex (connector ->
+ontology -> insight -> foundry -> app), with ghost-mode dry-runs.
+
+**Is not:** n8n, and not a clone of Cortex `activeflow`. If it grows a second graph
+runtime it is deleted.
 
 ### FreeIDE - the coding surface (plane 4)
 
@@ -140,7 +159,7 @@ Every request in this estate follows one shape. Any code path that skips a box i
 not a shortcut.
 
 ```
-  App (DMS / AirGPT / Pointer / FreeIDE)
+  App (DMS / AirGPT / Pointer / FreeIDE / Crew / Constructor)
       |
       v
   CORTEX  - decides the shape of the work, assembles context, plans
@@ -201,9 +220,12 @@ declined, and each will be proposed again by someone who has not read this.
 | Not building | Because |
 |---|---|
 | An inference server | Plane 1. vLLM is free and better. Host it, do not write it. |
-| A third orchestrator | We have `dag_runner`. Adding one in AirGPT or Pointer splits the governance spine. |
+| A third orchestrator | We have `dag_runner`. Adding one in AirGPT, Pointer, or Crew splits the governance spine. |
+| A second Cortex under any name | Crew is an app. Control is a view. Constructor is a skin. |
 | A second key vault | Custody has exactly one home. |
-| A general-purpose agent framework | LangGraph exists. Our value is the gate, not the graph. |
+| Credential / 2FA interception | Malware. Vault is consented custody, not a sniffer. |
+| Vendoring Grok Bot reconstructed | Copyright. Reimplement a licensed-seat router in original code. |
+| A general-purpose agent framework | LangGraph / Deep Agents exist. Our value is the gate, not the graph. |
 | A vertical we cannot sell this year | Verticals are packs on the engine, added when a customer pays for one. |
 | Blockchain, tokens, PQC crypto | No customer has asked. Revisit when a regulated client demands it in writing. |
 
@@ -214,7 +236,9 @@ declined, and each will be proposed again by someone who has not read this.
 | You want to know | Read |
 |---|---|
 | What the company is and what each product does | **this file** |
+| Why custody + governance + apps belong together | `White Paper - Why/WP-001-accountable-ai-operating-system.md` |
 | How we work: file rules, CI, tickets, roles | `Internal/Workflow/OPERATING_MODEL.md` |
+| How PRD -> epic -> ticket runs | `Internal/Agents/AGENT_SYSTEM.md` |
 | What is true in a repo right now | that repo's `STATUS.md` |
 | The laws of a repo (invariants, boundaries) | that repo's `CLAUDE.md` |
 | What exists in a repo and where | that repo's `docs/ACTIVE.md` |
@@ -230,6 +254,8 @@ Repositories:
 | Space | 4 | `D:\Space` | `Netie-AI/Space` |
 | AirGPT | 4 | `D:\AirGPT` | `jian-hong/AirGPT` |
 | Pointer | 4 | `D:\Pointer` | `Netie-AI/Pointer` |
+| Constructor | 4 | `D:\constructor` | `Netie-AI/constructor` |
+| Cortex-Crew | 4 | not created | planned; Control folds in; `TAS/TAS-CREW.md` |
 | Netie-KB | meta | `D:\Netie-KB` | `Netie-AI/Netie-KB` |
 | Netie (this) | meta | `D:\Netie` | `Netie-AI/Netie` |
 

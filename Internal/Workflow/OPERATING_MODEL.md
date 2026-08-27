@@ -421,9 +421,12 @@ the Space boundary actually holding.*
 | 8 | Execute the kill list - **with a link sweep first**. Moving or deleting the named basenames touches **37 files** that reference them, including `scripts/handoff.py`, `README.md`, `STATUS.md`, `PARKING_LOT.md`, `docs/ACTIVE.md` and `docs/README.md`. Any move without the sweep leaves dangling pointers in the very map that is supposed to orient a cold session. Order: sweep links, then `activeflow/`, `D:\AirGPT\CortexOS`, the dead `query_skill` layer, the duplicate `demo/dms-ui`, `tests/test_dms/`, then the wasm test modules, then `wasm_isolate.py`. Not `key.md`. | 2-3 days |
 
 **Not in the next four weeks:** the H0-H6 depth plan, gen-cFSM, OSR wiring, JEPA, the
-Palantir-parity programme, and the C7 decision. C7 in particular cannot be decided
+Palantir-parity programme, the C7 decision, Cortex-Crew (including folding Control),
+a serving engine, and a licensed-seat router. C7 in particular cannot be decided
 without real customer questions - the generated-SQL path measured 17 confidently wrong
 against a floor of zero, and no amount of paraphrasing your own test set will resolve it.
+Crew is named and bounded in `WP-001` and `DR-0001`; naming it is not permission to
+start it before the Space boundary holds.
 
 **The honest condition:** if at the end of four weeks there is no user, stop and
 reconsider. If there is one user, C7 becomes answerable with their questions, which is
