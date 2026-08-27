@@ -70,6 +70,15 @@ cd OpenMW && uv run pytest tests/test_route_strategies.py -q
 
 Adds `cache-optimized` (15th: SHA-256 rendezvous of caller `cache_key` onto connection/execution identity; empty key leaves order; no prefix analyzer, no OAuth occupancy). Measured on this VM 2026-08-27: 22 passed. Push 403.
 
+Then:
+
+```
+git apply docs/patches/openvault-execution-shapes.patch
+cd OpenMW && uv run pytest tests/test_route_strategies.py tests/test_execution_shapes.py -q
+```
+
+Adds the last 4 OmniRoute *names* as execution shapes, not sorts: `fusion` (panel + judge), `pipeline` (sequential thread), `context-relay` (first available + warning-band handoff), `auto` (must resolve to a sort). `apply_strategy` raises `StrategyNotASort`. PUT `/api/route/strategy` returns 400. Chat `/v1` is not wired to `run_fusion`. No autoCombo engine, no Codex quota fetch, no quorum-grace timers. Measured 2026-08-27: 35 passed. Push 403.
+
 Independent of routing:
 
 ```
