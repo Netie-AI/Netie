@@ -554,6 +554,27 @@ class Hop:
     healthy: bool = True
 
 
+def hops_for_model(
+    hops: list[Hop],
+    model: str,
+    *,
+    serves: Callable[[Hop, str], bool] | None = None,
+) -> list[Hop]:
+    """Healthy hops that can serve this model, in list order."""
+    want = (model or "").strip()
+    if not want:
+        return []
+    out: list[Hop] = []
+    for hop in hops:
+        if not hop.healthy:
+            continue
+        if hop.model_str == want or hop.execution_key == want:
+            out.append(hop)
+        elif serves is not None and serves(hop, want):
+            out.append(hop)
+    return out
+
+
 def pick_hop(
     hops: list[Hop],
     model: str,
@@ -561,17 +582,8 @@ def pick_hop(
     serves: Callable[[Hop, str], bool] | None = None,
 ) -> Hop | None:
     """First healthy hop that matches model_str / execution_key, or serves()."""
-    want = (model or "").strip()
-    if not want:
-        return None
-    for hop in hops:
-        if not hop.healthy:
-            continue
-        if hop.model_str == want or hop.execution_key == want:
-            return hop
-        if serves is not None and serves(hop, want):
-            return hop
-    return None
+    found = hops_for_model(hops, model, serves=serves)
+    return found[0] if found else None
 
 
 def hop_call_model(
@@ -580,13 +592,18 @@ def hop_call_model(
     *,
     serves: Callable[[Hop, str], bool] | None = None,
 ) -> CallModel:
-    """Bind dispatch_combo's call_model to a hop list. Empty hop -> empty text."""
+    """Bind dispatch_combo's call_model to a hop list.
+
+    Tries every matching hop until one returns non-empty text. Empty is a
+    miss, not a permutation of fusion.
+    """
 
     def call(model: str, **kwargs: Any) -> str:
-        hop = pick_hop(hops, model, serves=serves)
-        if hop is None:
-            return ""
-        return post(hop, model=model, **kwargs)
+        for hop in hops_for_model(hops, model, serves=serves):
+            text = post(hop, model=model, **kwargs)
+            if text and str(text).strip():
+                return str(text)
+        return ""
 
     return call
 

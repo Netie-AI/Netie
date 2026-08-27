@@ -23,6 +23,7 @@ from freeroute_execution import (
     chat_shape_refusal,
     combo_models_from_body,
     dispatch_combo,
+    hops_for_model,
     hop_call_model,
     Hop,
     inject_handoff,
@@ -439,6 +440,30 @@ class HopWalkTests(unittest.TestCase):
     def test_missing_hop_returns_empty(self) -> None:
         call = hop_call_model([Hop("k1", "p/a", "openai", True)], lambda *_a, **_k: "x")
         self.assertEqual(call("p/missing", user_text="Q"), "")
+
+    def test_empty_first_hop_falls_through(self) -> None:
+        hops = [
+            Hop("k1", "gpt-mini", "openai", True),
+            Hop("k2", "gpt-mini", "openai", True),
+        ]
+        seen: list[str] = []
+
+        def post(hop: Hop, *, model: str, **_k: object) -> str:
+            seen.append(hop.execution_key)
+            return "" if hop.execution_key == "k1" else "ok"
+
+        call = hop_call_model(hops, post)
+        self.assertEqual(call("gpt-mini", user_text="Q"), "ok")
+        self.assertEqual(seen, ["k1", "k2"])
+
+    def test_hops_for_model_lists_all_matches(self) -> None:
+        hops = [
+            Hop("k1", "gpt-mini", "openai", True),
+            Hop("k2", "gpt-big", "openai", True),
+            Hop("k3", "gpt-mini", "openai", True),
+        ]
+        keys = [h.execution_key for h in hops_for_model(hops, "gpt-mini")]
+        self.assertEqual(keys, ["k1", "k3"])
 
 
 if __name__ == "__main__":

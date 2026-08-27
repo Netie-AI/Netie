@@ -86,6 +86,7 @@ class SiblingPatchTests(unittest.TestCase):
             shapes = PATCHES / "openvault-execution-shapes.patch"
             chat = PATCHES / "openvault-chat-dispatch.patch"
             hop = PATCHES / "openvault-hop-walk.patch"
+            failover = PATCHES / "openvault-hop-failover.patch"
             self.assertTrue(
                 crew.is_file()
                 and ctx.is_file()
@@ -95,6 +96,7 @@ class SiblingPatchTests(unittest.TestCase):
                 and shapes.is_file()
                 and chat.is_file()
                 and hop.is_file()
+                and failover.is_file()
             )
             for patch in (
                 detect,
@@ -108,6 +110,7 @@ class SiblingPatchTests(unittest.TestCase):
                 shapes,
                 chat,
                 hop,
+                failover,
             ):
                 check = _run(["git", "apply", "--check", str(patch)], cwd=dest)
                 self.assertEqual(check.returncode, 0, f"{patch.name}: {check.stderr}")
@@ -133,6 +136,7 @@ class SiblingPatchTests(unittest.TestCase):
             self.assertIn("def chat_shape_refusal", execution)
             self.assertIn("def hop_call_model", execution)
             self.assertIn("def pick_hop", execution)
+            self.assertIn("def hops_for_model", execution)
             proxy = (
                 dest / "OpenMW" / "openmw" / "openvault" / "vault" / "proxy.py"
             ).read_text(encoding="utf-8")
