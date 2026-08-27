@@ -54,6 +54,17 @@ class BudgetLedgerGateTests(unittest.TestCase):
         run_batch(gate, [Job("a", "t", {})], budget=budget)
         self.assertEqual(budget.spent, 0)
 
+    def test_skill_body_does_not_charge(self) -> None:
+        gate = CountingGate({"t"})
+        budget = TokenBudget(max_tokens=100)
+        run_batch(
+            gate,
+            [Job("a", "t", {"skill_body": "x" * 400})],
+            budget=budget,
+        )
+        self.assertEqual(budget.spent, 0)
+        self.assertEqual(gate.executed, [])
+
     def test_ledger_detects_tamper(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
             path = Path(tmp) / "crew.jsonl"
@@ -79,6 +90,12 @@ class BudgetLedgerGateTests(unittest.TestCase):
         self.assertNotIn("SECRET", dumped)
         self.assertNotIn("child ramble", dumped)
         self.assertEqual(cleaned["skills"][0]["id"], "x")
+
+    def test_has_bodies_nested(self) -> None:
+        from crew_ov_gate import has_bodies
+
+        self.assertTrue(has_bodies({"child": {"transcript": "x"}}))
+        self.assertFalse(has_bodies({"id": "t1", "status": "open"}))
 
     def test_missing_ov_url_is_denied(self) -> None:
         gate = OpenVaultCrewGate(base_url=None, post=lambda u, b: {"allowed": True})

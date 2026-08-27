@@ -21,6 +21,26 @@ from crew_tool_wrap import CortexDenied
 DROP_KEYS = frozenset({"skill_body", "prompt", "instructions", "transcript"})
 
 
+def strip_bodies(obj: Any) -> Any:
+    """Token-cheap index: ids and status only. Matches OpenVault strip_skill_bodies."""
+    if isinstance(obj, dict):
+        return {k: strip_bodies(v) for k, v in obj.items() if k not in DROP_KEYS}
+    if isinstance(obj, list):
+        return [strip_bodies(x) for x in obj]
+    return obj
+
+
+def has_bodies(obj: Any) -> bool:
+    """True if a child payload still carries a skill body or transcript."""
+    if isinstance(obj, dict):
+        if DROP_KEYS.intersection(obj.keys()):
+            return True
+        return any(has_bodies(v) for v in obj.values())
+    if isinstance(obj, list):
+        return any(has_bodies(x) for x in obj)
+    return False
+
+
 @dataclass(frozen=True)
 class GateAsk:
     kind: str
@@ -29,15 +49,6 @@ class GateAsk:
     parent_run_id: str
     child_id: str
     deficit: str = ""
-
-
-def strip_bodies(obj: Any) -> Any:
-    """Token-cheap index: ids and status only. Matches OpenVault strip_skill_bodies."""
-    if isinstance(obj, dict):
-        return {k: strip_bodies(v) for k, v in obj.items() if k not in DROP_KEYS}
-    if isinstance(obj, list):
-        return [strip_bodies(x) for x in obj]
-    return obj
 
 
 class OpenVaultCrewGate:
