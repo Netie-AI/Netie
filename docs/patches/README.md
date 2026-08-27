@@ -14,11 +14,12 @@ git apply docs/patches/constructor-ir-ids.patch
 git apply docs/patches/constructor-ghost-refuse.patch
 git apply docs/patches/constructor-ir-emit.patch
 git apply docs/patches/constructor-tool-action.patch
+git apply docs/patches/constructor-inspect-action.patch
 node --test tests/compiler.test.cjs
 ```
 
-Adds `rankForKinds`, empty-graph IR (no invented Cortex nodes), refuse unknown kinds / cycles / dangling edges / missing ids / duplicate ids, `ghostWalk` that refuses those instead of walking `topo()` leftovers, `EMIT` only on app/audit output (connector-only does not invent EMIT), unlabeled `tool_call` does not invent `export_pptx`, node `--test`, and `.github/workflows/test.yml`.
-Measured on this VM 2026-08-27: 19 passed. `topo()` still appends leftover cyclic nodes for the UI.
+Adds `rankForKinds`, empty-graph IR (no invented Cortex nodes), refuse unknown kinds / cycles / dangling edges / missing ids / duplicate ids, `ghostWalk` that refuses those instead of walking `topo()` leftovers, `EMIT` only on app/audit output (connector-only does not invent EMIT), unlabeled `tool_call` does not invent `export_pptx` (compileIR refuses; inspect shows `(pick)` not a silent first-choice), node `--test`, and `.github/workflows/test.yml`.
+Measured on this VM 2026-08-27: 20 passed. `topo()` still appends leftover cyclic nodes for the UI.
 
 ## OpenVault (`Netie-AI/OpenVault`)
 
