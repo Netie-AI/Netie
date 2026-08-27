@@ -29,9 +29,9 @@ HEAD `engine.js` compiled IR for Cortex kinds. Ranking mixed foundry-boost into 
 node --test tests/compiler.test.cjs
 ```
 
-**6 passed** on this VM 2026-08-27 after `constructor-empty-graph.patch`: verify-rank, ghost false, empty graph returns `error: empty graph` and invents no Cortex nodes.
+**9 passed** on this VM 2026-08-27 after `constructor-ir-refuse.patch`: verify-rank, ghost false, empty graph / unknown kind / cycle / dangling edge invent no Cortex nodes.
 
-Patches: `docs/patches/constructor-compiler-tests.patch` then `docs/patches/constructor-empty-graph.patch` (also a `test.yml` workflow). Push 403.
+Patches: `docs/patches/constructor-compiler-tests.patch` then `docs/patches/constructor-empty-graph.patch` then `docs/patches/constructor-ir-refuse.patch` (also a `test.yml` workflow). Push 403.
 
 GitHub on default `landing-9-first-path`: **pages.yml** is green. There is **no unit-test workflow** on HEAD until that patch lands.
 
