@@ -55,9 +55,9 @@ So Cortex today is: a FastAPI engine with a live auto-router, a DAG runner, a to
 | **Cortex-Crew** vs Deep Agents | `langchain-ai/deepagents` | MIT | **0 / 10** | No `Netie-AI/Cortex-Crew` remote. | Create repo. `uv add deepagents`. Wrap every tool. |
 | **Cortex-Crew** vs OpenWork | `different-ai/openwork` | MIT core; `ee/` is FSL-1.1-MIT (no competing Den for 2 years) | **0 / 10** | Session UX + capability MCP are the take. Do not vendor the desktop (AirGPT+Pointer exist). Do not ship `ee/` as a competing control plane. | Study; reimplement session board in Crew. |
 | **Cortex-Crew** vs Grok Bot reconstructed | `b-nnett/grok-bot-0.18-reconstructed` | **none** | **0 / 10** and **do not clone** | Seat-router *idea* only (Cursor / Claude Code / Codex logins you already pay for). | Original code. |
-| **AirGPT** vs ChatGPT | Open WebUI / LibreChat | MIT | **UNVERIFIABLE** this token | Historical: host shell, `:8765`, 619 files. No clone. RAG chunker (regex-friendly tables, labels, multilingual embeddings, selectable models) **cannot be scored**. OpenVault `docs/NVIDIA_RAG_EVAL.md` is a *model catalog* note, not a chunker audit. | Add AirGPT to the environment. Then TAS-AIRGPT with a chunker corpus. Closest licensed RAG kits after measure: LlamaIndex (MIT) or chonkie - depend, do not paste. |
+| **AirGPT** vs ChatGPT | Open WebUI / LibreChat | MIT | **UNVERIFIABLE** HEAD. RAG notes only | OpenVault `ASKS_CLAUDE_QUEUES_RAG.md` names `rag/ingest.py` + Space isolation. Chunker (tables, labels, multilingual embeddings) not in any file this token can read. See `TAS/TAS-AIRGPT.md`. | Add AirGPT remote. Then a table-split corpus. |
 | **Netie Control** vs Apache Guacamole | `apache/guacamole-client` | Apache-2.0 | **1 / 10** | Guacamole is a remote-desktop gateway. Control is a 12-file operator board. Wrong analogue for RDP; right *feeling* is "watch the session." Closer licensed boards: GitHub Projects (already chosen for tickets) + Langfuse (OSS traces). | Fold Control into Crew. Do not clone Guacamole. |
-| **Pointer** vs Perplexity Computer / UACC | `uacc` on PyPI (MCP, 68 tools); `e2b-dev/open-computer-use` Apache-2.0 | MIT / Apache | **UNVERIFIABLE** this token | Historical: Electron tray, crop, instruct, no keys. Founder says it is not working as expected. UACC is the closest *hands* MCP. Pointer should stay the Netie tray that sends intents to Cortex, not a second clicker. | Measure Pointer HEAD. Optionally MCP-wrap UACC behind Cortex `tool_runner`. |
+| **Pointer** vs Perplexity Computer / UACC | `uacc` on PyPI (MCP, 68 tools); `e2b-dev/open-computer-use` Apache-2.0 | MIT / Apache | **UNVERIFIABLE** HEAD. Constitution-complete | Tray holds no keys, Cortex decides, fail-closed. Founder: not working. See `TAS/TAS-POINTER.md`. | Measure Pointer HEAD. MCP-wrap UACC behind `tool_runner` if the 68 tools are the gap. |
 | **Netie Space** vs Peek / macOS Preview | Windows: PowerToys Peek. macOS: Quick Look + `altic-dev/PeekX` (MIT) | mixed | **6 / 10** as a preview app. **2 / 10** as governed | TAS-SPACE: most finished *product* in the estate (installer, PDF/OCR/video/chat). Leave-machine ungated. No tests. Name collision with DMS Spaces. Do not clone PeekX (macOS extension) into a C# WinExe. | Add CI + leave-machine gate. Rename one "Space". |
 | **Constructor** vs React Flow | `xyflow/xyflow` (`@xyflow/react`) | MIT | **2 / 10** as a node editor. **4 / 10** as a Cortex IR compiler | Live clone: 11 files, custom canvas, `engine.js` compiles connector->ontology->insight->foundry->app and ranks 3 coordination patterns. README: do not clone n8n/Activepieces. No xyflow. | If the canvas must feel like React Flow, `npm i @xyflow/react` and keep *our* compiler. Do not vendor n8n. |
 
@@ -94,19 +94,21 @@ Scale knob when Crew exists: N ticket runners, each a Deep Agent, Cortex `tool_r
 | Gap | Product | Why it is not a ticket yet |
 |---|---|---|
 | Space ACL + eval gate | DMS / Cortex | Already PRD-001. First. |
-| TAS-AIRGPT chunker corpus (tables, repeated headers, labels, multilingual embedding choice) | AirGPT | Repo not in this environment |
-| TAS-POINTER vs UACC tool-for-tool | Pointer | Repo not in this environment |
-| Crew repo + Deep Agents wrap | Crew | Named in DR-0001; queued after Space boundary |
+| TAS-AIRGPT chunker corpus (tables, repeated headers, labels, multilingual embedding choice) | AirGPT | Repo not in this environment. `TAS/TAS-AIRGPT.md` is the hole list. |
+| TAS-POINTER vs UACC tool-for-tool | Pointer | Repo not in this environment. `TAS/TAS-POINTER.md`. |
+| Crew repo + Deep Agents wrap | Crew | `PRD-002` drafted; queued after Space boundary. OpenVault #44 crew_gate exists. |
 | HT1 live Cloudflare Pages | OpenVault | HUMAN_STOP on OpenVault #18 |
 | Leave-machine on Space AI path | Space | Repo not in this environment |
+| GitHub Actions billing | Netie docs-ci | Job never started: spending limit. Local `scripts/check_docs.py` is the gate until billing works. |
 
 ---
 
 ## 5. Verify this document
 
-- OpenVault clone HEAD `3030cad` (2026-08-27): `route/strategies.py` says "8 of 18 for pass 1"; `STATUS.md` ~75%; `SHIPPING_MODEL.md` Pages adapter real, HT1 not done.
-- Constructor clone HEAD `ee3a6cf`: `engine.js` + `README.md` as cited.
+- OpenVault clone HEAD `3030cad` (2026-08-27): `route/strategies.py` says "8 of 18 for pass 1"; `STATUS.md` ~75%; `SHIPPING_MODEL.md` Pages adapter real, HT1 not done. **This VM:** OpenMW `pytest tests -q` -> 837 passed, 7 skipped.
+- Constructor clone HEAD `ee3a6cf`: `engine.js` + `README.md` as cited. GitHub Pages workflow green. No unit tests.
 - Analogue licenses via `gh api repos/<n> --jq .license.spdx_id` the same day.
 - Cortex / DMS / AirGPT / Pointer / Space / Control: **not cloned**. Numbers from TAS dated 2026-08-02 or UNVERIFIABLE.
+- Netie docs-ci on GitHub: job **did not start** (Actions billing). Local `python3 scripts/check_docs.py` is the gate.
 
 If a later session has those remotes, replace the UNVERIFIABLE rows with file:line evidence and bump the date on this file.
