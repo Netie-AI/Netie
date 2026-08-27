@@ -83,14 +83,26 @@ class SiblingPatchTests(unittest.TestCase):
             reset = PATCHES / "openvault-reset-window.patch"
             aware = PATCHES / "openvault-reset-aware.patch"
             cache = PATCHES / "openvault-cache-optimized.patch"
+            shapes = PATCHES / "openvault-execution-shapes.patch"
             self.assertTrue(
                 crew.is_file()
                 and ctx.is_file()
                 and reset.is_file()
                 and aware.is_file()
                 and cache.is_file()
+                and shapes.is_file()
             )
-            for patch in (detect, strict, lkgp, crew, ctx, reset, aware, cache):
+            for patch in (
+                detect,
+                strict,
+                lkgp,
+                crew,
+                ctx,
+                reset,
+                aware,
+                cache,
+                shapes,
+            ):
                 check = _run(["git", "apply", "--check", str(patch)], cwd=dest)
                 self.assertEqual(check.returncode, 0, f"{patch.name}: {check.stderr}")
                 applied = _run(["git", "apply", str(patch)], cwd=dest)
@@ -104,6 +116,13 @@ class SiblingPatchTests(unittest.TestCase):
             self.assertIn('if strategy == "reset-window":', strategies)
             self.assertIn('if strategy == "reset-aware":', strategies)
             self.assertIn('if strategy == "cache-optimized":', strategies)
+            self.assertIn("StrategyNotASort", strategies)
+            execution = (
+                dest / "OpenMW" / "openmw" / "openvault" / "route" / "execution.py"
+            ).read_text(encoding="utf-8")
+            self.assertIn("def plan_fusion", execution)
+            self.assertIn("def run_pipeline", execution)
+            self.assertIn("def resolve_auto", execution)
             app_py = (dest / "OpenMW" / "openmw" / "openvault" / "app.py").read_text(
                 encoding="utf-8"
             )

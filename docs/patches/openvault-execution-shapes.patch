@@ -1,0 +1,569 @@
+diff --git a/OpenMW/openmw/openvault/route/execution.py b/OpenMW/openmw/openvault/route/execution.py
+new file mode 100644
+index 0000000..78ba549
+--- /dev/null
++++ b/OpenMW/openmw/openvault/route/execution.py
+@@ -0,0 +1,287 @@
++"""Fusion / pipeline / context-relay / auto: execution shapes, not sorts.
++
++Algorithm ports of OmniRoute combo dispatch. We do not vendor combo.ts.
++apply_strategy refuses these names. Chat /v1 is not wired to run_fusion yet.
++
++Honesty:
++- fusion: no quorum-grace timers, no admission lanes, no vision filter.
++- pipeline: no 429/502/503/504 retry loop (caller retries).
++- context-relay: no Codex quota fetch; caller supplies percent_used.
++- auto: no autoCombo scoring / mode packs; caller must pass a sort name.
++"""
++
++from __future__ import annotations
++
++from dataclasses import dataclass, field
++from typing import Any, Callable, Literal
++
++from openmw.openvault.route.types import SORT_STRATEGY_NAMES
++
++FUSION_MAX_PANEL = 40
++HANDOFF_WARNING = 0.85
++HANDOFF_EXHAUSTION = 0.95
++DEFAULT_HANDOFF_PROVIDERS: tuple[str, ...] = ("codex",)
++
++CallModel = Callable[..., str]
++FusionMode = Literal["direct", "fanout"]
++
++
++class ExecutionRefused(ValueError):
++    def __init__(self, code: int, message: str) -> None:
++        super().__init__(message)
++        self.code = code
++        self.message = message
++
++
++def is_tool_bearing(tools: Any, tool_choice: Any) -> bool:
++    if not isinstance(tools, list) or not tools:
++        return False
++    return tool_choice != "none"
++
++
++@dataclass(frozen=True)
++class FusionPlan:
++    panel: tuple[str, ...]
++    judge: str
++    mode: FusionMode
++    explicit_judge: bool
++    tool_bearing: bool
++
++
++def plan_fusion(
++    models: list[str],
++    *,
++    judge_model: str | None = None,
++    max_panel: int = FUSION_MAX_PANEL,
++    tools: Any = None,
++    tool_choice: Any = None,
++) -> FusionPlan:
++    panel = tuple(m for m in models if m)
++    if not panel:
++        raise ExecutionRefused(400, "Fusion combo has no models")
++    if len(panel) > max_panel:
++        raise ExecutionRefused(
++            400,
++            f"Fusion panel too large ({len(panel)} models, max {max_panel})",
++        )
++    explicit = bool((judge_model or "").strip())
++    judge = (judge_model or "").strip() or panel[0]
++    tool_bearing = is_tool_bearing(tools, tool_choice)
++    if len(panel) == 1 or tool_bearing:
++        return FusionPlan(
++            panel=panel,
++            judge=judge,
++            mode="direct",
++            explicit_judge=explicit,
++            tool_bearing=tool_bearing,
++        )
++    return FusionPlan(
++        panel=panel,
++        judge=judge,
++        mode="fanout",
++        explicit_judge=explicit,
++        tool_bearing=False,
++    )
++
++
++def build_judge_prompt(answers: list[str]) -> str:
++    panel = "\n\n".join(f"[Source {i}]\n{text}" for i, text in enumerate(answers, 1))
++    return (
++        "You are the JUDGE in a model-fusion panel. "
++        f"{len(answers)} experts answered independently. "
++        "Do NOT mention that multiple models were used, and do NOT refer to "
++        "the sources. Produce ONE final answer for the user. "
++        "You are not a vote-counter. Override a wrong consensus.\n\n"
++        "=== PANEL RESPONSES ===\n"
++        f"{panel}\n"
++        "=== END PANEL RESPONSES ===\n\n"
++        "Now write the final answer to the user's original request."
++    )
++
++
++def run_fusion(
++    plan: FusionPlan,
++    call_model: CallModel,
++    *,
++    user_text: str,
++    stream: bool = False,
++    tools: Any = None,
++    tool_choice: Any = None,
++) -> str:
++    if plan.mode == "direct":
++        target = plan.judge if plan.tool_bearing else plan.panel[0]
++        return call_model(
++            target,
++            user_text=user_text,
++            stream=stream,
++            tools=tools,
++            tool_choice=tool_choice,
++        )
++    answers: list[str] = []
++    for member in plan.panel:
++        text = call_model(
++            member,
++            user_text=user_text,
++            stream=False,
++            tools=None,
++            tool_choice=None,
++        )
++        if text and str(text).strip():
++            answers.append(str(text))
++    if not answers:
++        raise ExecutionRefused(503, "All fusion panel models failed")
++    if len(answers) == 1 and not plan.explicit_judge:
++        return answers[0]
++    return call_model(
++        plan.judge,
++        user_text=build_judge_prompt(answers),
++        stream=stream,
++        tools=tools,
++        tool_choice=tool_choice,
++    )
++
++
++@dataclass(frozen=True)
++class PipelineStep:
++    model: str
++    prompt: str | None = None
++    hidden: bool = False
++
++
++def run_pipeline(
++    steps: list[PipelineStep],
++    call_model: CallModel,
++    *,
++    user_text: str,
++    stream: bool = False,
++    tools: Any = None,
++    tool_choice: Any = None,
++) -> str:
++    chain = [s for s in steps if s.model and not s.hidden]
++    if not chain:
++        raise ExecutionRefused(400, "Pipeline combo has no models")
++    if len(chain) == 1:
++        return call_model(
++            chain[0].model,
++            user_text=user_text,
++            stream=stream,
++            tools=tools,
++            tool_choice=tool_choice,
++            system=chain[0].prompt,
++        )
++    prev = user_text
++    last_index = len(chain) - 1
++    for i, step in enumerate(chain):
++        final = i == last_index
++        text = call_model(
++            step.model,
++            user_text=prev,
++            stream=stream if final else False,
++            tools=tools if final else None,
++            tool_choice=tool_choice if final else None,
++            system=step.prompt,
++        )
++        if not final:
++            if not text or not str(text).strip():
++                raise ExecutionRefused(
++                    502,
++                    f"Pipeline step {i + 1} ({step.model}) returned empty output",
++                )
++            prev = str(text)
++        else:
++            return str(text)
++    raise ExecutionRefused(500, "Pipeline produced no final response")
++
++
++@dataclass
++class RelayHandoff:
++    session_id: str
++    combo_name: str
++    summary: str
++    from_account: str
++
++
++@dataclass
++class RelayStore:
++    by_session: dict[tuple[str, str], RelayHandoff] = field(default_factory=dict)
++
++    def get(self, session_id: str, combo_name: str) -> RelayHandoff | None:
++        return self.by_session.get((session_id, combo_name))
++
++    def put(self, handoff: RelayHandoff) -> None:
++        self.by_session[(handoff.session_id, handoff.combo_name)] = handoff
++
++
++def resolve_handoff_providers(explicit: list[str] | None) -> list[str]:
++    if explicit is None:
++        return list(DEFAULT_HANDOFF_PROVIDERS)
++    return [p.strip().lower() for p in explicit if p and p.strip()]
++
++
++def pick_relay_target(
++    models: list[str],
++    *,
++    available: dict[str, bool] | None = None,
++) -> str | None:
++    flags = available or {}
++    for model in models:
++        if not model:
++            continue
++        if flags.get(model, True):
++            return model
++    return None
++
++
++def should_generate_handoff(
++    *,
++    provider: str,
++    percent_used: float,
++    handoff_providers: list[str] | None = None,
++    threshold: float = HANDOFF_WARNING,
++    already_active: bool = False,
++    session_id: str | None = None,
++    connection_id: str | None = None,
++) -> bool:
++    if already_active:
++        return False
++    if not session_id or not connection_id:
++        return False
++    providers = resolve_handoff_providers(handoff_providers)
++    if not providers:
++        return False
++    if provider.strip().lower() not in providers:
++        return False
++    if percent_used < threshold:
++        return False
++    if percent_used >= HANDOFF_EXHAUSTION:
++        return False
++    return True
++
++
++def inject_handoff(user_text: str, handoff: RelayHandoff | None) -> str:
++    if handoff is None:
++        return user_text
++    blob = (
++        "<context_handoff>\n"
++        "<transfer_reason>Account quota transfer - continuing from previous session"
++        "</transfer_reason>\n"
++        f"<session_summary>{handoff.summary}</session_summary>\n"
++        "</context_handoff>\n\n"
++    )
++    return blob + user_text
++
++
++def resolve_auto(resolved: str | None) -> str:
++    name = (resolved or "").strip().lower().replace("_", "-")
++    if not name:
++        raise ExecutionRefused(
++            400, "auto is a meta-router; caller must pass a concrete sort strategy"
++        )
++    if name in ("fusion", "pipeline", "context-relay", "auto"):
++        raise ExecutionRefused(
++            400,
++            f"auto cannot resolve to {name}; that shape needs its own dispatcher",
++        )
++    if name not in SORT_STRATEGY_NAMES:
++        raise ExecutionRefused(400, f"auto cannot resolve to unknown strategy {name!r}")
++    return name
+diff --git a/OpenMW/openmw/openvault/route/strategies.py b/OpenMW/openmw/openvault/route/strategies.py
+index 626b403..db19394 100644
+--- a/OpenMW/openmw/openvault/route/strategies.py
++++ b/OpenMW/openmw/openvault/route/strategies.py
+@@ -1,4 +1,8 @@
+-"""Combo routing strategies — 15 of 19 user-facing for pass 1 (+ OmniRoute quota-share internal, not ported)."""
++"""Combo routing: 15 sorts + 4 execution shapes (19 named). quota-share not ported.
++
++fusion / pipeline / context-relay / auto are not target permutations.
++``apply_strategy`` refuses them. Use ``openmw.openvault.route.execution``.
++"""
+ 
+ from __future__ import annotations
+ 
+@@ -11,7 +15,17 @@ from openmw.openvault.route.sorters import (
+     sort_by_cost,
+     sort_by_usage,
+ )
+-from openmw.openvault.route.types import ComboMetrics, RouteTarget, StrategyName
++from openmw.openvault.route.types import (
++    EXECUTION_SHAPES,
++    ComboMetrics,
++    RouteTarget,
++    StrategyName,
++)
++
++
++class StrategyNotASort(ValueError):
++    """fusion / pipeline / context-relay / auto are dispatchers, not sorts."""
++
+ 
+ STRATEGY_ALIASES: dict[str, StrategyName] = {
+     "priority": "priority",
+@@ -38,6 +52,11 @@ STRATEGY_ALIASES: dict[str, StrategyName] = {
+     "reset_aware": "reset-aware",
+     "cache-optimized": "cache-optimized",
+     "cache_optimized": "cache-optimized",
++    "fusion": "fusion",
++    "pipeline": "pipeline",
++    "context-relay": "context-relay",
++    "context_relay": "context-relay",
++    "auto": "auto",
+ }
+ 
+ 
+@@ -53,7 +72,11 @@ def apply_strategy(
+     metrics: ComboMetrics | None = None,
+     cache_key: str | None = None,
+ ) -> list[RouteTarget]:
+-    """Reorder targets for the given strategy; unknown strategies pass through."""
++    """Reorder targets for a *sort* strategy. Execution shapes raise."""
++    if strategy in EXECUTION_SHAPES:
++        raise StrategyNotASort(
++            f"{strategy} is an execution shape, not a target permutation"
++        )
+     if not targets:
+         return []
+ 
+diff --git a/OpenMW/openmw/openvault/route/types.py b/OpenMW/openmw/openvault/route/types.py
+index 04ce077..81d7b56 100644
+--- a/OpenMW/openmw/openvault/route/types.py
++++ b/OpenMW/openmw/openvault/route/types.py
+@@ -21,9 +21,13 @@ StrategyName = Literal[
+     "reset-window",
+     "reset-aware",
+     "cache-optimized",
++    "fusion",
++    "pipeline",
++    "context-relay",
++    "auto",
+ ]
+ 
+-STRATEGY_NAMES: tuple[StrategyName, ...] = (
++SORT_STRATEGY_NAMES: tuple[StrategyName, ...] = (
+     "priority",
+     "weighted",
+     "fill-first",
+@@ -41,6 +45,18 @@ STRATEGY_NAMES: tuple[StrategyName, ...] = (
+     "cache-optimized",
+ )
+ 
++EXECUTION_SHAPES: tuple[StrategyName, ...] = (
++    "fusion",
++    "pipeline",
++    "context-relay",
++    "auto",
++)
++
++STRATEGY_NAMES: tuple[StrategyName, ...] = (
++    *SORT_STRATEGY_NAMES,
++    *EXECUTION_SHAPES,
++)
++
+ BreakerProfileName = Literal["oauth", "api_key", "local"]
+ 
+ 
+diff --git a/OpenMW/openmw/openvault/routers/route.py b/OpenMW/openmw/openvault/routers/route.py
+index 209cc16..1965624 100644
+--- a/OpenMW/openmw/openvault/routers/route.py
++++ b/OpenMW/openmw/openvault/routers/route.py
+@@ -13,7 +13,7 @@ from pydantic import BaseModel, Field
+ from openmw.openvault.route.breaker import get_all_breaker_statuses, reset_circuit_breaker
+ from openmw.openvault.route.registry import get_route_state, set_strategy, set_targets
+ from openmw.openvault.route.strategies import apply_strategy, normalize_strategy
+-from openmw.openvault.route.types import STRATEGY_NAMES, RouteTarget
++from openmw.openvault.route.types import EXECUTION_SHAPES, STRATEGY_NAMES, RouteTarget
+ 
+ router = APIRouter(tags=["route"])
+ 
+@@ -71,6 +71,11 @@ def api_put_strategy(body: StrategyBody) -> dict[str, Any]:
+             status_code=400,
+             detail=f"Unknown strategy {body.strategy!r}; expected one of {list(STRATEGY_NAMES)}",
+         )
++    if normalized in EXECUTION_SHAPES:
++        raise HTTPException(
++            status_code=400,
++            detail=f"{normalized} is an execution shape, not a target permutation",
++        )
+     set_strategy(normalized)
+     state = get_route_state()
+     ordered = apply_strategy(
+diff --git a/OpenMW/tests/test_execution_shapes.py b/OpenMW/tests/test_execution_shapes.py
+new file mode 100644
+index 0000000..e12c42b
+--- /dev/null
++++ b/OpenMW/tests/test_execution_shapes.py
+@@ -0,0 +1,127 @@
++"""Execution shapes are not apply_strategy permutations."""
++
++from __future__ import annotations
++
++import pytest
++from fastapi import FastAPI
++from fastapi.testclient import TestClient
++
++from openmw.openvault.route.execution import (
++    HANDOFF_EXHAUSTION,
++    PipelineStep,
++    plan_fusion,
++    pick_relay_target,
++    resolve_auto,
++    run_fusion,
++    run_pipeline,
++    should_generate_handoff,
++    ExecutionRefused,
++)
++from openmw.openvault.route.registry import reset_route_state
++from openmw.openvault.route.strategies import StrategyNotASort, apply_strategy
++from openmw.openvault.route.types import EXECUTION_SHAPES, RouteTarget
++from openmw.openvault.routers.route import router as route_router
++
++
++def _targets() -> list[RouteTarget]:
++    return [
++        RouteTarget("a", "openai", "openai/gpt-4", weight=1.0, priority=10, cost=3.0),
++        RouteTarget("b", "anthropic", "anthropic/claude", weight=5.0, priority=20, cost=1.0),
++        RouteTarget("c", "google", "google/gemini", weight=2.0, priority=30, cost=2.0),
++    ]
++
++
++@pytest.mark.parametrize("name", list(EXECUTION_SHAPES))
++def test_apply_strategy_refuses_execution_shapes(name: str) -> None:
++    with pytest.raises(StrategyNotASort):
++        apply_strategy(name, _targets())
++
++
++def test_fusion_fans_out_then_judge() -> None:
++    seen: list[str] = []
++
++    def call(model: str, *, user_text: str, stream: bool, tools, tool_choice, **_k):
++        seen.append(model)
++        if model == "p/judge":
++            assert "[Source 1]" in user_text
++            return "FINAL"
++        return f"ans-{model}"
++
++    plan = plan_fusion(["p/a", "p/b"], judge_model="p/judge")
++    assert run_fusion(plan, call, user_text="Q") == "FINAL"
++    assert seen == ["p/a", "p/b", "p/judge"]
++
++
++def test_fusion_single_is_direct() -> None:
++    plan = plan_fusion(["p/only"])
++    assert plan.mode == "direct"
++
++
++def test_pipeline_threads_and_skips_hidden() -> None:
++    seen: list[str] = []
++
++    def call(model: str, *, user_text: str, **_k):
++        seen.append(model)
++        return f"out-{model}" if model != "p/a" else "OUT_A"
++
++    out = run_pipeline(
++        [
++            PipelineStep("p/a"),
++            PipelineStep("hidden", hidden=True),
++            PipelineStep("p/b", prompt="SUMMARIZE"),
++        ],
++        call,
++        user_text="hi",
++    )
++    assert seen == ["p/a", "p/b"]
++    assert out == "out-p/b"
++
++
++def test_pipeline_empty_intermediate_fails() -> None:
++    def call(model: str, **_k):
++        return "" if model == "p/a" else "ok"
++
++    with pytest.raises(ExecutionRefused) as exc:
++        run_pipeline(
++            [PipelineStep("p/a"), PipelineStep("p/b")],
++            call,
++            user_text="hi",
++        )
++    assert exc.value.code == 502
++
++
++def test_context_relay_skips_unavailable() -> None:
++    assert pick_relay_target(
++        ["codex/x", "openai/a"],
++        available={"codex/x": False, "openai/a": True},
++    ) == "openai/a"
++
++
++def test_context_relay_warning_band() -> None:
++    common = dict(
++        provider="codex",
++        handoff_providers=["codex"],
++        session_id="s",
++        connection_id="c",
++    )
++    assert should_generate_handoff(percent_used=0.84, **common) is False
++    assert should_generate_handoff(percent_used=0.85, **common) is True
++    assert should_generate_handoff(percent_used=HANDOFF_EXHAUSTION, **common) is False
++
++
++def test_auto_must_resolve_to_sort() -> None:
++    assert resolve_auto("cache-optimized") == "cache-optimized"
++    with pytest.raises(ExecutionRefused):
++        resolve_auto("fusion")
++    with pytest.raises(ExecutionRefused):
++        resolve_auto(None)
++
++
++def test_route_api_refuses_fusion_as_sort() -> None:
++    reset_route_state()
++    app = FastAPI()
++    app.include_router(route_router)
++    client = TestClient(app, client=("127.0.0.1", 5555))
++    resp = client.put("/api/route/strategy", json={"strategy": "fusion"})
++    assert resp.status_code == 400
++    assert "execution shape" in resp.json()["detail"]
+diff --git a/OpenMW/tests/test_route_strategies.py b/OpenMW/tests/test_route_strategies.py
+index e2901cd..c561e4d 100644
+--- a/OpenMW/tests/test_route_strategies.py
++++ b/OpenMW/tests/test_route_strategies.py
+@@ -8,7 +8,7 @@ from fastapi.testclient import TestClient
+ 
+ from openmw.openvault.route.registry import reset_route_state, set_targets
+ from openmw.openvault.route.rr_state import reset_decks
+-from openmw.openvault.route.strategies import apply_strategy
++from openmw.openvault.route.strategies import StrategyNotASort, apply_strategy
+ from openmw.openvault.route.types import ComboMetrics, RouteTarget
+ from openmw.openvault.routers.route import router as route_router
+ 
+@@ -203,3 +203,8 @@ def test_cache_optimized_same_key_is_stable() -> None:
+     reversed_targets = list(reversed(_targets()))
+     second = apply_strategy("cache-optimized", reversed_targets, cache_key="conv-1")[0].execution_key
+     assert first == second
++
++
++def test_fusion_is_not_a_sort() -> None:
++    with pytest.raises(StrategyNotASort):
++        apply_strategy("fusion", _targets())
