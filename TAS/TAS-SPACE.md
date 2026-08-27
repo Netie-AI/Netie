@@ -150,6 +150,10 @@ powershell -File D:\Space\scripts\publish.ps1
 There is no test command, because there are no tests. That is the single most useful
 thing to change about this repo.
 
+Portable contract in this Netie repo (Space remote still 404): `scripts/space_leave.py`.
+AI/OCR leave without OpenVault `allowed=true` is denied. Plaintext `user.env` key write
+is denied. Local credential-store scan is denied. `python3 scripts/test_space_leave.py`.
+
 ---
 
 ## 9. Honest summary
