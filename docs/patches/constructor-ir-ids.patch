@@ -1,0 +1,56 @@
+diff --git a/engine.js b/engine.js
+index cba6339..b8eab31 100644
+--- a/engine.js
++++ b/engine.js
+@@ -116,6 +116,20 @@ function compileIR(state) {
+       error: "empty graph",
+     };
+   }
++  for (let i = 0; i < nodes.length; i++) {
++    const raw = nodes[i] && nodes[i].id;
++    if (raw === undefined || raw === null || String(raw).trim() === "") {
++      return irError(ghost, "missing id");
++    }
++  }
++  const seenIds = Object.create(null);
++  for (let i = 0; i < nodes.length; i++) {
++    const id = String(nodes[i].id);
++    if (seenIds[id]) {
++      return irError(ghost, "duplicate id: " + id);
++    }
++    seenIds[id] = true;
++  }
+   const unknown = nodes.filter(function (n) {
+     return !Object.prototype.hasOwnProperty.call(CORTEX_KIND, n.kind);
+   });
+diff --git a/tests/compiler.test.cjs b/tests/compiler.test.cjs
+index cfd5350..db16b19 100644
+--- a/tests/compiler.test.cjs
++++ b/tests/compiler.test.cjs
+@@ -99,3 +99,26 @@ test("dangling edge does not invent a node", () => {
+   assert.equal(ir.error, "dangling edge");
+   assert.deepEqual(ir.nodes, []);
+ });
++
++test("missing id does not invent a Cortex node", () => {
++  const ir = compileIR({
++    nodes: [{ kind: "connector", note: "no id" }],
++    edges: [],
++  });
++  assert.equal(ir.error, "missing id");
++  assert.deepEqual(ir.nodes, []);
++  assert.equal(ir.entry_node_id, null);
++});
++
++test("duplicate id does not emit a fake Kahn walk", () => {
++  const ir = compileIR({
++    nodes: [
++      { id: "a", kind: "connector" },
++      { id: "a", kind: "ontology" },
++    ],
++    edges: [],
++  });
++  assert.equal(ir.error, "duplicate id: a");
++  assert.deepEqual(ir.nodes, []);
++  assert.equal(ir.entry_node_id, null);
++});
