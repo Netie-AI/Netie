@@ -492,6 +492,16 @@ class ChatBodyTests(unittest.TestCase):
             resolve_relay_handoff(store, {"combo": {"strategy": "context-relay"}})
         )
 
+    def test_scope_isolates_caller_blobs(self) -> None:
+        store = RelayStore()
+        blob = RelayHandoff("s1", "", "keep going", "acct")
+        remember_relay_handoff(store, blob, scope="seat-a")
+        body = {"combo": {"strategy": "context-relay", "sessionId": "s1"}}
+        self.assertIsNone(resolve_relay_handoff(store, body, scope="seat-b"))
+        got = resolve_relay_handoff(store, body, scope="seat-a")
+        assert got is not None
+        self.assertEqual(got.summary, "keep going")
+
     def test_relay_dispatch_all_unavailable_503(self) -> None:
         with self.assertRaises(ExecutionRefused) as ctx:
             dispatch_combo(

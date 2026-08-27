@@ -104,6 +104,7 @@ class SiblingPatchTests(unittest.TestCase):
             usage = PATCHES / "openvault-hop-usage.patch"
             persist = PATCHES / "openvault-hop-persist.patch"
             anth = PATCHES / "openvault-hop-anthropic.patch"
+            scope = PATCHES / "openvault-hop-scope.patch"
             self.assertTrue(
                 crew.is_file()
                 and ctx.is_file()
@@ -121,6 +122,7 @@ class SiblingPatchTests(unittest.TestCase):
                 and usage.is_file()
                 and persist.is_file()
                 and anth.is_file()
+                and scope.is_file()
             )
             for patch in (
                 detect,
@@ -142,6 +144,7 @@ class SiblingPatchTests(unittest.TestCase):
                 usage,
                 persist,
                 anth,
+                scope,
             ):
                 check = _run(["git", "apply", "--check", str(patch)], cwd=dest)
                 self.assertEqual(check.returncode, 0, f"{patch.name}: {check.stderr}")
@@ -184,6 +187,7 @@ class SiblingPatchTests(unittest.TestCase):
             self.assertIn("resolve_relay_handoff", proxy)
             self.assertIn("In-process caller handoff store", proxy)
             self.assertIn("anthropic chat not via /v1 proxy yet", execution)
+            self.assertIn("scoped by tenant", proxy)
             app_py = (dest / "OpenMW" / "openmw" / "openvault" / "app.py").read_text(
                 encoding="utf-8"
             )

@@ -271,15 +271,22 @@ class RelayHandoff:
 
 @dataclass
 class RelayStore:
-    """In-memory stand-in for OmniRoute contextHandoffs. No SQLite."""
+    """In-memory stand-in for OmniRoute contextHandoffs. No SQLite.
 
-    by_session: dict[tuple[str, str], RelayHandoff] = field(default_factory=dict)
+    Keys are (scope, session_id, combo_name). Scope is the issued seat /
+    tenant. Empty scope is only for a private test store, never a shared
+    process bucket.
+    """
 
-    def get(self, session_id: str, combo_name: str) -> RelayHandoff | None:
-        return self.by_session.get((session_id, combo_name))
+    by_session: dict[tuple[str, str, str], RelayHandoff] = field(default_factory=dict)
 
-    def put(self, handoff: RelayHandoff) -> None:
-        self.by_session[(handoff.session_id, handoff.combo_name)] = handoff
+    def get(
+        self, session_id: str, combo_name: str, *, scope: str = ""
+    ) -> RelayHandoff | None:
+        return self.by_session.get((scope, session_id, combo_name))
+
+    def put(self, handoff: RelayHandoff, *, scope: str = "") -> None:
+        self.by_session[(scope, handoff.session_id, handoff.combo_name)] = handoff
 
 
 def resolve_handoff_providers(explicit: list[str] | None) -> list[str]:
@@ -486,27 +493,27 @@ def relay_session_from_body(body: dict[str, Any] | None) -> tuple[str, str]:
 
 
 def resolve_relay_handoff(
-    store: RelayStore, body: dict[str, Any] | None
+    store: RelayStore, body: dict[str, Any] | None, *, scope: str = ""
 ) -> RelayHandoff | None:
-    """Caller blob wins. Else in-process store. No Codex fetch."""
+    """Caller blob wins. Else in-process store for this scope. No Codex fetch."""
     caller = relay_handoff_from_body(body)
     if caller is not None:
         return caller
     session_id, combo_name = relay_session_from_body(body)
     if not session_id:
         return None
-    return store.get(session_id, combo_name)
+    return store.get(session_id, combo_name, scope=scope)
 
 
 def remember_relay_handoff(
-    store: RelayStore, handoff: RelayHandoff | None
+    store: RelayStore, handoff: RelayHandoff | None, *, scope: str = ""
 ) -> None:
-    """Keep a caller-supplied blob for the next request in this process."""
+    """Keep a caller-supplied blob for the next request in this scope."""
     if handoff is None:
         return
     if not handoff.session_id or not handoff.summary:
         return
-    store.put(handoff)
+    store.put(handoff, scope=scope)
 
 
 def user_text_from_body(body: dict[str, Any] | None) -> str:
