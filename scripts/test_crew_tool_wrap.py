@@ -11,7 +11,7 @@ import sys
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
-from crew_tool_wrap import CortexDenied, Verdict, run_tool
+from crew_tool_wrap import CortexDenied, Verdict, run_tool, wrap_deepagents_tools
 
 
 class FakeGate:
@@ -43,6 +43,13 @@ class CrewWrapTests(unittest.TestCase):
     def test_missing_gate_is_denied(self) -> None:
         with self.assertRaises(CortexDenied):
             run_tool(None, "anything", {})  # type: ignore[arg-type]
+
+    def test_deepagents_wrap_never_bypasses(self) -> None:
+        gate = FakeGate(False)
+        tools = wrap_deepagents_tools(gate, ["web_search"])
+        with self.assertRaises(CortexDenied):
+            tools["web_search"](q="secret")
+        self.assertEqual(gate.executed, [])
 
 
 if __name__ == "__main__":

@@ -59,7 +59,7 @@ So Cortex today is: a FastAPI engine with a live auto-router, a DAG runner, a to
 | **Netie Control** vs Apache Guacamole | `apache/guacamole-client` | Apache-2.0 | **1 / 10** | Guacamole is a remote-desktop gateway. Control is a 12-file operator board. Wrong analogue for RDP; right *feeling* is "watch the session." Closer licensed boards: GitHub Projects (already chosen for tickets) + Langfuse (OSS traces). | Fold Control into Crew. Do not clone Guacamole. |
 | **Pointer** vs Perplexity Computer / UACC | `uacc` on PyPI (MCP, 68 tools); `e2b-dev/open-computer-use` Apache-2.0 | MIT / Apache | **UNVERIFIABLE** HEAD. Constitution-complete | Tray holds no keys, Cortex decides, fail-closed. Founder: not working. See `TAS/TAS-POINTER.md`. | Measure Pointer HEAD. MCP-wrap UACC behind `tool_runner` if the 68 tools are the gap. |
 | **Netie Space** vs Peek / macOS Preview | Windows: PowerToys Peek. macOS: Quick Look + `altic-dev/PeekX` (MIT) | mixed | **6 / 10** as a preview app. **2 / 10** as governed | TAS-SPACE: most finished *product* in the estate (installer, PDF/OCR/video/chat). Leave-machine ungated. No tests. Name collision with DMS Spaces. Do not clone PeekX (macOS extension) into a C# WinExe. | Add CI + leave-machine gate. Rename one "Space". |
-| **Constructor** vs React Flow | `xyflow/xyflow` (`@xyflow/react`) | MIT | **2 / 10** as a node editor. **4 / 10** as a Cortex IR compiler | Live clone: 11 files, custom canvas. This VM: `node --test tests/compiler.test.cjs` **3 passed** after exporting `rankForKinds`/`compileIR`. Push to `Netie-AI/constructor` **403**. | Land the test branch when write access exists. `npm i @xyflow/react` only if the canvas must feel like React Flow. |
+| **Constructor** vs React Flow | `xyflow/xyflow` (`@xyflow/react`) | MIT | **2 / 10** as a node editor. **4 / 10** as a Cortex IR compiler | Live clone: 11 files, custom canvas. This VM: `node --test tests/compiler.test.cjs` **3 passed** after exporting `rankForKinds`/`compileIR`. Push to `Netie-AI/constructor` **403**. See `TAS/TAS-CONSTRUCTOR.md`. | Land the test branch when write access exists. `npm i @xyflow/react` only if the canvas must feel like React Flow. |
 
 ---
 
@@ -85,7 +85,9 @@ Deep Agents + LangGraph can fan out async subagents. That is a *mechanism*.
 
 Netie still has a *WIP law*: two epics in flight, ticket batching by shared mental model, every tool through Cortex. "Infinite" without that law is eight workstreams at 80 percent, which this estate already measured.
 
-Scale knob when Crew exists: N ticket runners, each a Deep Agent, Cortex `tool_runner` as the only write/read path, OpenVault on every leave-machine call. Concurrency is a config with a ledger, not a slogan.
+Scale knob when Crew exists: N ticket runners, each a Deep Agent wrapped by `wrap_deepagents_tools`, Cortex `tool_runner` as the only write/read path, OpenVault `POST /api/crew/gate` on every leave-machine call, token budget per batch, different-run verify before DONE. Concurrency is a config with a ledger, not a slogan.
+
+Netie portable contract (this repo, 2026-08-27): `scripts/crew_parallel.py` default `MAX_IN_FLIGHT = 2`; denied tools do not execute; over-budget jobs FAILED; `close_ticket` refuses same-run verify; OV gate without `allowed=true` is a refusal and strips `skill_body`.
 
 ---
 
@@ -93,7 +95,7 @@ Scale knob when Crew exists: N ticket runners, each a Deep Agent, Cortex `tool_r
 
 | Gap | Product | Why it is not a ticket yet |
 |---|---|---|
-| Space ACL + eval gate | DMS / Cortex | Already PRD-001. First. |
+| Space ACL + eval gate | DMS / Cortex | Already PRD-001. First. Portable contract in `scripts/dms_space_acl.py`: two Spaces, one warehouse, abstain outside ACL. Not wired into dms (repo 404). |
 | TAS-AIRGPT chunker corpus (tables, repeated headers, labels, multilingual embedding choice) | AirGPT | Repo not in this environment. `TAS/TAS-AIRGPT.md` is the hole list. |
 | TAS-POINTER vs UACC tool-for-tool | Pointer | Repo not in this environment. `TAS/TAS-POINTER.md`. |
 | Crew repo + Deep Agents wrap | Crew | `PRD-002` drafted; queued after Space boundary. OpenVault #44 crew_gate exists. |
@@ -110,6 +112,6 @@ Scale knob when Crew exists: N ticket runners, each a Deep Agent, Cortex `tool_r
 - Constructor clone: `node --test tests/compiler.test.cjs` -> 3 passed. Sibling push 403.
 - Analogue licenses via `gh api repos/<n> --jq .license.spdx_id` the same day.
 - Cortex / DMS / AirGPT / Pointer / Space / Control: **not cloned**. Numbers from TAS dated 2026-08-02 or UNVERIFIABLE.
-- Netie docs-ci on GitHub: job **did not start** (Actions billing). Local `python3 scripts/check_docs.py` is the gate (now includes Crew wrap tests).
+- Netie docs-ci on GitHub: job **did not start** (Actions billing: "account payments have failed or spending limit"). Local `python3 scripts/check_docs.py` is the gate (required files + laptop-ASCII + `scripts/test_*.py`).
 
 If a later session has those remotes, replace the UNVERIFIABLE rows with file:line evidence and bump the date on this file.

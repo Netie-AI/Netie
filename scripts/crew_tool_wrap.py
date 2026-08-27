@@ -7,6 +7,7 @@ No keys, no leave-machine, no second dag_runner.
 from __future__ import annotations
 
 from dataclasses import dataclass
+from collections.abc import Callable
 from typing import Any, Protocol
 
 
@@ -34,3 +35,18 @@ def run_tool(gate: CortexGate, tool: str, payload: dict[str, Any]) -> Any:
     if not verdict.allowed:
         raise CortexDenied(verdict.reason or "cortex refused")
     return gate.execute(tool, payload)
+
+
+def wrap_deepagents_tools(
+    gate: CortexGate, names: list[str]
+) -> dict[str, Callable[..., Any]]:
+    """Deep Agents (MIT) sits under this wrap. Their default is trust-the-LLM."""
+
+    def bind(tool: str) -> Callable[..., Any]:
+        def tool_fn(**payload: Any) -> Any:
+            return run_tool(gate, tool, payload)
+
+        tool_fn.__name__ = tool
+        return tool_fn
+
+    return {name: bind(name) for name in names}

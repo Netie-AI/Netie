@@ -29,6 +29,7 @@ REPOS: dict[str, Path] = {
     "AirGPT": Path("D:/AirGPT"),
     "Space": Path("D:/Space"),
     "Pointer": Path("D:/Pointer"),
+    "Constructor": Path("D:/constructor"),
     # Planned: stamp when the repo exists. Not a second Cortex.
     "Crew": Path("D:/Cortex-Crew"),
 }

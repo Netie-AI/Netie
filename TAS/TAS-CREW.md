@@ -17,6 +17,8 @@ The operator factory: a plane-4 app that *hosts* Cortex for the people who run t
 
 **It is not AirGPT.** AirGPT is the customer host shell. Crew is internal first; multiplayer customer sessions are a later AirGPT surface over Crew, not a merge of the two apps.
 
+**First artefact (in Netie, until the Crew repo exists):** `scripts/crew_tool_wrap.py`, `crew_parallel.py` (cap 2), `crew_verify.py` (different-run close), `crew_budget.py` (token cap), `crew_ledger.py` (hash chain), `crew_ov_gate.py` (OpenVault `POST /api/crew/gate`, strip bodies). Tools Cortex or OpenVault refuse do not run. This is not Deep Agents and not a second `dag_runner`.
+
 ---
 
 ## 2. Entry points (planned)
@@ -100,7 +102,7 @@ FAILED    <id>  <what broke>  <what was tried>
 
 ## 7. Shipped vs scaffold
 
-**Shipped:** nothing. Repo does not exist in this token's view of `Netie-AI`.
+**Shipped:** no Crew product repo. Netie `scripts/crew_*.py` is the portable wrap/verify/budget/ledger/gate the Crew repo must import, not a runtime to pretend is Crew.
 
 **Scaffold that must not be mistaken for shipped:** Netie Control's 12 files, Constructor's 11 files, any Grok Bot agent list sitting in another product. Those are inputs to a migration (prompt-packs -> tickets), not a runtime to transplant.
 
@@ -108,7 +110,7 @@ FAILED    <id>  <what broke>  <what was tried>
 
 ## 8. Verify (when a repo exists)
 
-Until then, this TAS is unverifiable and must be reported as such.
+Until then, this TAS is unverifiable as a *product* and must be reported as such. The wrap tests in `scripts/test_*.py` are the contract.
 
 ```
 NEEDS-YOU TAS-CREW  create Netie-AI/Cortex-Crew (or fold Control and rename)
@@ -116,7 +118,7 @@ NEEDS-YOU TAS-CREW  create Netie-AI/Cortex-Crew (or fold Control and rename)
                     with measurements against code
 ```
 
-When it exists: ruff/mypy/pytest as for any Python surface; plus a contract test that Crew cannot call a tool Cortex would refuse; plus a test that a runner cannot close a ticket without a different-run verification reference.
+When it exists: ruff/mypy/pytest as for any Python surface; plus the Netie wrap tests copied in; plus Deep Agents tools only via `wrap_deepagents_tools`.
 
 ---
 
