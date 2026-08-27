@@ -41,7 +41,16 @@ git apply docs/patches/openvault-context-headroom.patch
 cd OpenMW && uv run pytest tests/test_route_strategies.py -q
 ```
 
-Adds `context-optimized` (11th: largest known `context_window` first; no model catalog) and `headroom` (12th: `1 - max(util_5h, util_7d)`; missing util = full headroom; no provider quota fetch). Measured on this VM 2026-08-27: 16 passed. Push 403.
+Adds `context-optimized` (11th: largest known `context_window` first; no model catalog) and `headroom` (12th: `1 - max(util_5h, util_7d)`; missing util = full headroom; no provider quota fetch).
+
+Then:
+
+```
+git apply docs/patches/openvault-reset-window.patch
+cd OpenMW && uv run pytest tests/test_route_strategies.py -q
+```
+
+Adds `reset-window` (13th: soonest `reset_remaining_ms` first; unknown last; no quota fetch; tie-band rotation not ported). Measured on this VM 2026-08-27: 18 passed. Push 403.
 
 Independent of routing:
 
