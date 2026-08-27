@@ -20,6 +20,7 @@ from __future__ import annotations
 
 from dataclasses import dataclass, field
 from typing import Any, Callable, Literal
+import json
 
 SORT_STRATEGIES: tuple[str, ...] = (
     "priority",
@@ -641,4 +642,14 @@ def hop_call_model(
         return ""
 
     return call
+
+
+def sse_wrap_text(text: str) -> tuple[bytes, bytes]:
+    """SSE pair for a buffered last hop (one-survivor skip, not a second call).
+
+    Real last-hop streaming is OpenVault's httpx stream. This wrap is only
+    when the client asked for stream but dispatch already holds the text.
+    """
+    payload = json.dumps({"choices": [{"delta": {"content": str(text)}}]})
+    return f"data: {payload}\n\n".encode("utf-8"), b"data: [DONE]\n\n"
 
