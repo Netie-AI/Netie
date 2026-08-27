@@ -10,6 +10,15 @@ from __future__ import annotations
 from dataclasses import dataclass
 
 ALLOWED_SEATS = frozenset({"cursor", "claude-code", "codex"})
+BYPASS_SEATS = frozenset(
+    {
+        "grok-bot",
+        "grok-bot-reconstructed",
+        "pointer-drive",
+        "cursor-ui",
+        "claude.app",
+    }
+)
 
 
 class SeatDenied(PermissionError):
@@ -32,6 +41,8 @@ def dispatch_seat(
     if not ticket_id.strip():
         raise SeatDenied("no ticket")
     product = seat.strip().lower()
+    if product in BYPASS_SEATS:
+        raise SeatDenied("billing-bypass product")
     if product not in ALLOWED_SEATS:
         raise SeatDenied(f"not a licensed seat: {seat}")
     if not operator_logged_in:
