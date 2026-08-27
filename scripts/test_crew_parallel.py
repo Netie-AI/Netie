@@ -74,6 +74,14 @@ class CrewParallelTests(unittest.TestCase):
 
             run_tool(None, "t", {})  # type: ignore[arg-type]
 
+    def test_skill_body_job_does_not_run(self) -> None:
+        gate = CountingGate({"t"})
+        jobs = [Job("a", "t", {"skill_body": "SECRET prompt"})]
+        results = run_batch(gate, jobs, max_in_flight=1)
+        self.assertEqual(results[0].status, "FAILED")
+        self.assertIn("skill_body", results[0].detail)
+        self.assertEqual(gate.executed, [])
+
 
 if __name__ == "__main__":
     unittest.main()

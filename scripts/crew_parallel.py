@@ -11,6 +11,7 @@ from typing import Any
 
 from crew_budget import BudgetDenied, TokenBudget, estimate_tokens
 from crew_ledger import HashLedger
+from crew_ov_gate import has_bodies, strip_bodies
 from crew_tool_wrap import CortexDenied, CortexGate, run_tool
 
 MAX_IN_FLIGHT = 2
@@ -40,11 +41,13 @@ def _one(
     try:
         if gate is None:
             raise CortexDenied("no Cortex gate")
+        if has_bodies(job.payload):
+            raise CortexDenied("skill_body must never go to a child job")
         verdict = gate.check(job.tool, job.payload)
         if not verdict.allowed:
             raise CortexDenied(verdict.reason or "cortex refused")
         if budget is not None:
-            budget.charge(estimate_tokens(job.payload))
+            budget.charge(estimate_tokens(strip_bodies(job.payload)))
         out = run_tool(gate, job.tool, job.payload)
         result = JobResult(id=job.id, status="DONE", detail="ok", output=out)
     except (CortexDenied, BudgetDenied) as exc:
