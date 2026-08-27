@@ -1,0 +1,151 @@
+diff --git a/engine.js b/engine.js
+index b8eab31..a049bd2 100644
+--- a/engine.js
++++ b/engine.js
+@@ -223,6 +223,33 @@ function topo(state) {
+   return out;
+ }
+ 
++function ghostWalk(state, ghostFlag) {
++  const ir = compileIR(state);
++  if (ir.error) {
++    return { error: ir.error, log: [], order: [] };
++  }
++  const order = topo(state);
++  const log = [];
++  for (const id of order) {
++    const node = state.nodes.find((n) => n.id === id);
++    if (!node) continue;
++    const write = !ghostFlag && (node.kind === "tool_call" || node.kind === "app");
++    log.push({
++      id: node.id,
++      kind: node.kind,
++      cortex: CORTEX_KIND[node.kind],
++      ghost: ghostFlag || !write,
++      write: !!write,
++      would: node.note,
++      action_type: node.action_type || (node.kind === "tool_call" ? "export_pptx" : "agent.checked"),
++      object_type: node.object_type || null,
++      data_point: node.data_point || null,
++      fetch_from: node.fetch_from || null,
++    });
++  }
++  return { error: undefined, log: log, order: order };
++}
++
+ async function ghostRun() {
+   const C = window.Constructor;
+   const state = C.getState();
+@@ -243,34 +270,20 @@ async function ghostRun() {
+ 
+ function localGhostWalk() {
+   const C = window.Constructor;
+-  const state = C.getState();
+-  const order = topo(state);
+-  const log = [];
+-  for (const id of order) {
+-    const node = state.nodes.find((n) => n.id === id);
+-    const write = !C.ghost && (node.kind === "tool_call" || node.kind === "app");
+-    log.push({
+-      id: node.id,
+-      kind: node.kind,
+-      cortex: CORTEX_KIND[node.kind],
+-      ghost: C.ghost || !write,
+-      write: !!write,
+-      would: node.note,
+-      action_type: node.action_type || (node.kind === "tool_call" ? "export_pptx" : "agent.checked"),
+-      object_type: node.object_type || null,
+-      data_point: node.data_point || null,
+-      fetch_from: node.fetch_from || null,
+-    });
++  const walked = ghostWalk(C.getState(), C.ghost);
++  if (walked.error) {
++    C.showAudit({ mode: "ghost-refused", error: walked.error, steps: [] });
++    return "Ghost refused: " + walked.error + ". No walk.";
+   }
+-  C.markGhostWalk(order);
++  C.markGhostWalk(walked.order);
+   C.showAudit({
+     mode: C.ghost ? "ghost" : "live-local",
+     engine: cortexOrigin() ? "cortex-origin" : "pages-sketch",
+-    steps: log,
++    steps: walked.log,
+   });
+   return (
+     (C.ghost ? "Ghost run (no writes). " : "Local walk. Tool/app nodes would write. ") +
+-    log.length +
++    walked.log.length +
+     " steps. Audit panel has the ledger."
+   );
+ }
+@@ -677,5 +690,6 @@ if (typeof module !== "undefined" && module.exports) {
+     rankForKinds,
+     scoreApproach,
+     topo,
++    ghostWalk,
+   };
+ }
+diff --git a/tests/compiler.test.cjs b/tests/compiler.test.cjs
+index db16b19..4d83e65 100644
+--- a/tests/compiler.test.cjs
++++ b/tests/compiler.test.cjs
+@@ -6,6 +6,7 @@ const {
+   compileIR,
+   rankForKinds,
+   topo,
++  ghostWalk,
+ } = require("../engine.js");
+ 
+ test("foundry path ranks orchestrator-subagent first", () => {
+@@ -122,3 +123,51 @@ test("duplicate id does not emit a fake Kahn walk", () => {
+   assert.deepEqual(ir.nodes, []);
+   assert.equal(ir.entry_node_id, null);
+ });
++
++test("ghostWalk refuses a cycle instead of walking leftovers", () => {
++  const walked = ghostWalk(
++    {
++      nodes: [
++        { id: "a", kind: "connector" },
++        { id: "b", kind: "ontology" },
++      ],
++      edges: [
++        { from: "a", to: "b" },
++        { from: "b", to: "a" },
++      ],
++    },
++    true
++  );
++  assert.equal(walked.error, "cycle");
++  assert.deepEqual(walked.log, []);
++  assert.deepEqual(walked.order, []);
++});
++
++test("ghostWalk refuses a dangling edge instead of inventing a step", () => {
++  const walked = ghostWalk(
++    {
++      nodes: [{ id: "a", kind: "connector" }],
++      edges: [{ from: "a", to: "missing" }],
++    },
++    true
++  );
++  assert.equal(walked.error, "dangling edge");
++  assert.deepEqual(walked.log, []);
++});
++
++test("ghostWalk logs a valid DAG in topo order", () => {
++  const walked = ghostWalk(
++    {
++      nodes: [
++        { id: "c", kind: "connector", note: "in" },
++        { id: "a", kind: "app", note: "out" },
++      ],
++      edges: [{ from: "c", to: "a" }],
++    },
++    true
++  );
++  assert.equal(walked.error, undefined);
++  assert.deepEqual(walked.order, ["c", "a"]);
++  assert.equal(walked.log.length, 2);
++  assert.equal(walked.log[0].write, false);
++});

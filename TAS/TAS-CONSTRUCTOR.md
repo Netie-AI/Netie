@@ -29,9 +29,9 @@ HEAD `engine.js` compiled IR for Cortex kinds. Ranking mixed foundry-boost into 
 node --test tests/compiler.test.cjs
 ```
 
-**11 passed** on this VM 2026-08-27 after `constructor-ir-ids.patch`: verify-rank, ghost false, empty graph / unknown kind / cycle / dangling edge / missing id / duplicate id invent no Cortex nodes.
+**14 passed** on this VM 2026-08-27 after `constructor-ghost-refuse.patch`: verify-rank, ghost false, empty graph / unknown kind / cycle / dangling edge / missing id / duplicate id invent no Cortex nodes; `ghostWalk` refuses those instead of walking `topo()` leftovers.
 
-Patches: `docs/patches/constructor-compiler-tests.patch` then `docs/patches/constructor-empty-graph.patch` then `docs/patches/constructor-ir-refuse.patch` then `docs/patches/constructor-ir-ids.patch` (also a `test.yml` workflow). Push 403.
+Patches: `docs/patches/constructor-compiler-tests.patch` then `docs/patches/constructor-empty-graph.patch` then `docs/patches/constructor-ir-refuse.patch` then `docs/patches/constructor-ir-ids.patch` then `docs/patches/constructor-ghost-refuse.patch` (also a `test.yml` workflow). Push 403.
 
 GitHub on default `landing-9-first-path`: **pages.yml** is green. There is **no unit-test workflow** on HEAD until that patch lands.
 
@@ -41,7 +41,7 @@ GitHub on default `landing-9-first-path`: **pages.yml** is green. There is **no 
 
 | Boundary | Today |
 |---|---|
-| Ghost dry-run | `compileIR` sets `ghost` from state or `window.Constructor.ghost` |
+| Ghost dry-run | `ghostWalk` uses `compileIR`; refuse means empty log, no leftover cycle walk. `topo()` still appends leftovers for the UI |
 | Writes | Cortex, not Constructor |
 | Keys | none in this tree; engine URL is Cortex |
 
