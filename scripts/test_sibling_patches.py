@@ -5,8 +5,8 @@ Constructor has no unit-test workflow on HEAD. This gate clones it, applies
 docs/patches/constructor-compiler-tests.patch then constructor-empty-graph.patch
 then constructor-ir-refuse.patch then constructor-ir-ids.patch then
 constructor-ghost-refuse.patch then constructor-ir-emit.patch then
-constructor-tool-action.patch then constructor-inspect-action.patch then constructor-inspect-object.patch then constructor-inspect-tier.patch, and runs
-node --test (23 passed).
+constructor-tool-action.patch then constructor-inspect-action.patch then constructor-inspect-object.patch then constructor-inspect-tier.patch then constructor-chat-object.patch, and runs
+node --test (24 passed).
 OpenVault patches are apply-checked on origin/main (full OpenMW pytest needs uv).
 """
 
@@ -44,6 +44,7 @@ class SiblingPatchTests(unittest.TestCase):
         eighth = PATCHES / "constructor-inspect-action.patch"
         ninth = PATCHES / "constructor-inspect-object.patch"
         tenth = PATCHES / "constructor-inspect-tier.patch"
+        eleventh = PATCHES / "constructor-chat-object.patch"
         self.assertTrue(
             first.is_file()
             and second.is_file()
@@ -55,6 +56,7 @@ class SiblingPatchTests(unittest.TestCase):
             and eighth.is_file()
             and ninth.is_file()
             and tenth.is_file()
+            and eleventh.is_file()
         )
         with tempfile.TemporaryDirectory() as tmp:
             dest = Path(tmp) / "constructor"
@@ -82,12 +84,13 @@ class SiblingPatchTests(unittest.TestCase):
                 eighth,
                 ninth,
                 tenth,
+                eleventh,
             ):
                 applied = _run(["git", "apply", str(patch)], cwd=dest)
                 self.assertEqual(applied.returncode, 0, applied.stderr)
             tests = _run(["node", "--test", "tests/compiler.test.cjs"], cwd=dest)
             self.assertEqual(tests.returncode, 0, tests.stdout + tests.stderr)
-            self.assertIn("pass 23", tests.stdout + tests.stderr)
+            self.assertIn("pass 24", tests.stdout + tests.stderr)
 
     def test_openvault_patches_apply_on_main(self) -> None:
         detect = PATCHES / "openvault-detect-stacks.patch"
