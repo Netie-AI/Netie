@@ -47,7 +47,7 @@ FreeRoute is **OpenVault `:5000/v1`**, not a process on `:20128`. OmniRoute rema
 
 Shipped strategies on **main** (8): priority, weighted, fill-first, round-robin, p2c, random, least-used, cost-optimized.
 
-This VM patches (not on main, push 403): 15 *sorts* through `cache-optimized`, then 4 *execution shapes* that `apply_strategy` refuses. Portable: `scripts/freeroute_execution.py` (`dispatch_combo`, `hop_call_model`, `classify_hop_status`, `sse_wrap_text`, `resolve_relay_handoff`). `/v1` fail-closes nameless fusion; with `combo.models` sequential hop posts classify like the key walk; last hop may SSE; context-relay uses caller available/handoff and persists caller blobs in-process (no Codex fetch). Usage names the last hop and copies that hop's `usage` (not OmniRoute parallel quorum-grace). `model: auto` stays catalog pick.
+This VM patches (not on main, push 403): 15 *sorts* through `cache-optimized`, then 4 *execution shapes* that `apply_strategy` refuses. Portable: `scripts/freeroute_execution.py` (`dispatch_combo`, `hop_call_model`, `classify_hop_status`, `sse_wrap_text`, `resolve_relay_handoff`). `/v1` fail-closes nameless fusion; with `combo.models` sequential hop posts classify like the key walk; last hop may SSE; context-relay uses caller available/handoff and persists caller blobs in-process (no Codex fetch). Anthropic-only shape hops return 503 `anthropic chat not via /v1 proxy yet` (no Messages API). Usage names the last hop and copies that hop's `usage` (not OmniRoute parallel quorum-grace). `model: auto` stays catalog pick.
 
 Not shipped vs OmniRoute: provider catalog at OmniRoute scale, token compression, MCP/A2A, autoCombo scoring, quorum-grace timers, Codex quota fetch, Electron Next-on-20128.
 
@@ -69,7 +69,7 @@ Vault SQLite (sealed), optional Redis for FreeRoute buckets, `openvault.local.js
 
 ## 7. Shipped vs scaffold
 
-**Shipped enough to test:** vault, gate refuse paths, FreeRoute metering/tests, 8 sorts on `main` (9th-15th sorts plus 4 execution-shape contracts in `docs/patches/`, 68 tests passed here, push 403), Pages adapter code, Next UI, Electron shell, NVMe library, CI.
+**Shipped enough to test:** vault, gate refuse paths, FreeRoute metering/tests, 8 sorts on `main` (9th-15th sorts plus 4 execution-shape contracts in `docs/patches/`, 70 tests passed here, push 403), Pages adapter code, Next UI, Electron shell, NVMe library, CI.
 
 **Local evidence 2026-08-27** (clone HEAD `3030cad`, this VM):
 

@@ -582,6 +582,36 @@ class HopWalkTests(unittest.TestCase):
             call("gpt-mini", user_text="Q")
         self.assertEqual(ctx.exception.code, 400)
 
+    def test_anthropic_only_hops_name_the_skip(self) -> None:
+        hops = [Hop("k1", "claude", "anthropic", True)]
+        seen: list[str] = []
+
+        def post(hop: Hop, *, model: str, **_k: object) -> str:
+            seen.append(hop.execution_key)
+            return "should-not-post"
+
+        call = hop_call_model(hops, post)
+        with self.assertRaises(ExecutionRefused) as ctx:
+            call("claude", user_text="Q")
+        self.assertEqual(ctx.exception.code, 503)
+        self.assertIn("anthropic chat not via /v1 proxy yet", str(ctx.exception))
+        self.assertEqual(seen, [])
+
+    def test_anthropic_hop_is_skipped_when_openai_can_serve(self) -> None:
+        hops = [
+            Hop("k1", "gpt-mini", "anthropic", True),
+            Hop("k2", "gpt-mini", "openai", True),
+        ]
+        seen: list[str] = []
+
+        def post(hop: Hop, *, model: str, **_k: object) -> str:
+            seen.append(hop.execution_key)
+            return "ok"
+
+        call = hop_call_model(hops, post)
+        self.assertEqual(call("gpt-mini", user_text="Q"), "ok")
+        self.assertEqual(seen, ["k2"])
+
 
 class HopClassifyTests(unittest.TestCase):
     def test_success_keep(self) -> None:
