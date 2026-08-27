@@ -133,6 +133,15 @@ cd OpenMW && uv run pytest tests/test_route_strategies.py tests/test_execution_s
 
 `/v1` context-relay reads caller `combo.available` and `combo.handoff` (or `contextHandoff`). Skip unavailable; inject the handoff blob; all-unavailable is 503. No Codex quota fetch. Not OmniRoute SQLite contextHandoffs. Measured 2026-08-27: 62 passed. Push 403.
 
+Then:
+
+```
+git apply docs/patches/openvault-hop-trace.patch
+cd OpenMW && uv run pytest tests/test_route_strategies.py tests/test_execution_shapes.py tests/test_execution_chat.py tests/test_freeroute_acceptance.py -q
+```
+
+Usage ledger names the last successful hop (`vault_key_id` / provider / model_served), not `provider=dispatch`. Panel members before the judge are not each a ledger row (one request, one row). Measured 2026-08-27: 64 passed. Push 403.
+
 Independent of routing:
 
 ```
