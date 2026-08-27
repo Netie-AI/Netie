@@ -14,6 +14,7 @@ from airgpt_chunk import (
     CORPUS_RAGGED,
     CORPUS_REPEATED_HEADER,
     chunk_table,
+    retrieve_space,
 )
 
 
@@ -43,6 +44,34 @@ class AirgptChunkTests(unittest.TestCase):
         self.assertEqual(chunks[1].labels, ("warehouse: south",))
         north_body = chunks[0].text.split("\n", 1)[1]
         self.assertNotIn("B,2", north_body)
+
+    def test_north_retrieve_does_not_cite_south(self) -> None:
+        chunks = chunk_table(CORPUS_LABELED)
+        north = retrieve_space(chunks, space="north", query="A,1")
+        self.assertEqual(north["status"], "OK")
+        self.assertEqual(len(north["chunks"]), 1)
+        self.assertIn("A,1", north["chunks"][0].text)
+        south_leak = retrieve_space(chunks, space="north", query="B,2")
+        self.assertEqual(south_leak["status"], "ABSTAIN")
+        self.assertEqual(south_leak["chunks"], [])
+
+    def test_incomplete_row_is_not_evidence(self) -> None:
+        labeled_ragged = """# warehouse: ops
+sku|qty|dest
+B2|3
+"""
+        chunks = chunk_table(labeled_ragged)
+        self.assertEqual(len(chunks), 1)
+        self.assertTrue(chunks[0].incomplete)
+        out = retrieve_space(chunks, space="ops", query="B2")
+        self.assertEqual(out["status"], "ABSTAIN")
+        self.assertEqual(out["chunks"], [])
+
+    def test_unlabeled_chunk_does_not_join_a_named_space(self) -> None:
+        chunks = chunk_table(CORPUS_REPEATED_HEADER)
+        out = retrieve_space(chunks, space="north", query="a,1")
+        self.assertEqual(out["status"], "ABSTAIN")
+        self.assertEqual(out["chunks"], [])
 
 
 if __name__ == "__main__":

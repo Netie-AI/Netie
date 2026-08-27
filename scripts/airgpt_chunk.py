@@ -2,7 +2,8 @@
 
 AirGPT rag/ingest.py is UNVERIFIABLE here. This is the corpus that HEAD must pass:
 repeated headers are not extra rows, ragged rows do not invent cells, # labels
-become metadata. Space isolation is still a dms/AirGPT caller problem.
+become metadata. retrieve_space cites only complete chunks labeled for that
+Space. Unlabeled and incomplete rows are not evidence.
 """
 
 from __future__ import annotations
@@ -77,3 +78,41 @@ def chunk_table(text: str) -> list[Chunk]:
             )
         )
     return out
+
+
+def _space_of(chunk: Chunk) -> str:
+    for lab in chunk.labels:
+        if ":" in lab:
+            return lab.split(":", 1)[1].strip()
+        if lab.strip():
+            return lab.strip()
+    return ""
+
+
+def retrieve_space(chunks: list[Chunk], *, space: str, query: str) -> dict:
+    """Cite only complete chunks labeled for this Space. No cross-space leak.
+
+    Unlabeled and incomplete rows are not evidence. Empty query abstains.
+    """
+    want = (space or "").strip()
+    needle = (query or "").strip().lower()
+    if not want:
+        return {"status": "ABSTAIN", "reason": "no space", "chunks": []}
+    if not needle:
+        return {"status": "ABSTAIN", "reason": "no query", "chunks": []}
+    hits: list[Chunk] = []
+    for chunk in chunks:
+        if chunk.incomplete:
+            continue
+        if _space_of(chunk) != want:
+            continue
+        if needle not in chunk.text.lower():
+            continue
+        hits.append(chunk)
+    if not hits:
+        return {
+            "status": "ABSTAIN",
+            "reason": f"space {want} has no cite for {query.strip()}",
+            "chunks": [],
+        }
+    return {"status": "OK", "space": want, "chunks": list(hits)}

@@ -2,7 +2,11 @@
 
 live_ask today mints from demo_acl() (every table). Two customers in one room
 is a demo we cannot give. This module is the failing test that slice must pass:
-a Space sees only the tables it was granted, and abstains otherwise.
+a Space sees only the tables it was granted, only from the warehouse it is
+bound to, and abstains otherwise.
+
+HEAD has two DuckDBs (Studio bronze vs Cortex serving). An uploaded sheet is
+unreachable by chat, silently. Naming the warehouse is the fail-close.
 
 Not a second Cortex. Not a warehouse ChatGPT overlay.
 """
@@ -12,6 +16,7 @@ from __future__ import annotations
 from collections.abc import Mapping
 
 Acl = Mapping[str, frozenset[str]]
+Binds = Mapping[str, str]
 
 
 class SpaceDenied(PermissionError):
@@ -31,6 +36,13 @@ def tables_for_space(acl: Acl, space_id: str) -> frozenset[str]:
     return tables
 
 
+def warehouse_for_space(binds: Binds, space_id: str) -> str:
+    wid = (binds.get(space_id) or "").strip()
+    if not wid:
+        raise SpaceDenied(f"unbound space {space_id}")
+    return wid
+
+
 def may_read(acl: Acl, space_id: str, table: str) -> bool:
     try:
         return table in tables_for_space(acl, space_id)
@@ -46,7 +58,33 @@ def mint_manifest(acl: Acl, space_id: str) -> tuple[str, ...]:
     return tuple(sorted(granted))
 
 
-def answer_or_abstain(acl: Acl, space_id: str, table: str, rows: list[dict]) -> dict:
+def answer_or_abstain(
+    acl: Acl,
+    space_id: str,
+    table: str,
+    rows: list[dict],
+    *,
+    warehouse_id: str,
+    binds: Binds,
+    sql: str,
+) -> dict:
+    try:
+        bound = warehouse_for_space(binds, space_id)
+    except SpaceDenied as exc:
+        return {"status": "ABSTAIN", "reason": str(exc), "rows": []}
+    asked = (warehouse_id or "").strip()
+    if asked != bound:
+        return {
+            "status": "ABSTAIN",
+            "reason": f"space {space_id} bound to {bound}, asked {asked or 'none'}",
+            "rows": [],
+        }
+    if not (sql or "").strip():
+        return {
+            "status": "ABSTAIN",
+            "reason": f"space {space_id} answer has no SQL",
+            "rows": [],
+        }
     if not may_read(acl, space_id, table):
         return {
             "status": "ABSTAIN",
@@ -65,4 +103,10 @@ def answer_or_abstain(acl: Acl, space_id: str, table: str, rows: list[dict]) -> 
                 "rows": [],
             }
         cleaned.append(dict(row))
-    return {"status": "OK", "table": table, "rows": cleaned}
+    return {
+        "status": "OK",
+        "table": table,
+        "warehouse_id": bound,
+        "sql": sql.strip(),
+        "rows": cleaned,
+    }
