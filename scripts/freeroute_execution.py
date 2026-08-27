@@ -414,6 +414,42 @@ def combo_models_from_body(body: dict[str, Any] | None) -> list[Any]:
     return []
 
 
+def relay_available_from_body(body: dict[str, Any] | None) -> dict[str, bool] | None:
+    """Caller-supplied availability. Missing keys default available. No quota fetch."""
+    if not isinstance(body, dict):
+        return None
+    combo = body.get("combo")
+    if not isinstance(combo, dict):
+        return None
+    raw = combo.get("available")
+    if not isinstance(raw, dict) or not raw:
+        return None
+    out: dict[str, bool] = {}
+    for key, value in raw.items():
+        if isinstance(value, bool):
+            out[str(key)] = value
+    return out or None
+
+
+def relay_handoff_from_body(body: dict[str, Any] | None) -> RelayHandoff | None:
+    """Caller-supplied handoff blob. Not OmniRoute SQLite contextHandoffs."""
+    if not isinstance(body, dict):
+        return None
+    combo = body.get("combo")
+    if not isinstance(combo, dict):
+        return None
+    raw = combo.get("handoff") or combo.get("contextHandoff")
+    if not isinstance(raw, dict):
+        return None
+    session_id = str(raw.get("session_id") or raw.get("sessionId") or "").strip()
+    summary = str(raw.get("summary") or "").strip()
+    if not session_id or not summary:
+        return None
+    combo_name = str(raw.get("combo_name") or raw.get("comboName") or "").strip()
+    from_account = str(raw.get("from_account") or raw.get("fromAccount") or "").strip()
+    return RelayHandoff(session_id, combo_name, summary, from_account)
+
+
 def user_text_from_body(body: dict[str, Any] | None) -> str:
     if not isinstance(body, dict):
         return ""

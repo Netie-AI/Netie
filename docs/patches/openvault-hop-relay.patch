@@ -1,0 +1,213 @@
+diff --git a/OpenMW/openmw/openvault/route/execution.py b/OpenMW/openmw/openvault/route/execution.py
+index d7ecfa0..2652682 100644
+--- a/OpenMW/openmw/openvault/route/execution.py
++++ b/OpenMW/openmw/openvault/route/execution.py
+@@ -329,6 +329,42 @@ def combo_models_from_body(body: dict[str, Any] | None) -> list[Any]:
+     return []
+ 
+ 
++def relay_available_from_body(body: dict[str, Any] | None) -> dict[str, bool] | None:
++    """Caller-supplied availability. Missing keys default available. No quota fetch."""
++    if not isinstance(body, dict):
++        return None
++    combo = body.get("combo")
++    if not isinstance(combo, dict):
++        return None
++    raw = combo.get("available")
++    if not isinstance(raw, dict) or not raw:
++        return None
++    out: dict[str, bool] = {}
++    for key, value in raw.items():
++        if isinstance(value, bool):
++            out[str(key)] = value
++    return out or None
++
++
++def relay_handoff_from_body(body: dict[str, Any] | None) -> RelayHandoff | None:
++    """Caller-supplied handoff blob. Not OmniRoute SQLite contextHandoffs."""
++    if not isinstance(body, dict):
++        return None
++    combo = body.get("combo")
++    if not isinstance(combo, dict):
++        return None
++    raw = combo.get("handoff") or combo.get("contextHandoff")
++    if not isinstance(raw, dict):
++        return None
++    session_id = str(raw.get("session_id") or raw.get("sessionId") or "").strip()
++    summary = str(raw.get("summary") or "").strip()
++    if not session_id or not summary:
++        return None
++    combo_name = str(raw.get("combo_name") or raw.get("comboName") or "").strip()
++    from_account = str(raw.get("from_account") or raw.get("fromAccount") or "").strip()
++    return RelayHandoff(session_id, combo_name, summary, from_account)
++
++
+ def user_text_from_body(body: dict[str, Any] | None) -> str:
+     if not isinstance(body, dict):
+         return ""
+diff --git a/OpenMW/openmw/openvault/vault/proxy.py b/OpenMW/openmw/openvault/vault/proxy.py
+index 31c69a3..6dc05d6 100644
+--- a/OpenMW/openmw/openvault/vault/proxy.py
++++ b/OpenMW/openmw/openvault/vault/proxy.py
+@@ -21,6 +21,8 @@ from openmw.openvault.route.execution import (
+     dispatch_combo,
+     extract_assistant_text,
+     hop_call_model,
++    relay_available_from_body,
++    relay_handoff_from_body,
+     shape_from_chat_body,
+     sse_wrap_text,
+     user_text_from_body,
+@@ -456,6 +458,8 @@ def _run_execution_shape(
+             tools=body.get("tools"),
+             tool_choice=body.get("tool_choice"),
+             judge_model=combo.get("judgeModel") or combo.get("judge_model"),
++            available=relay_available_from_body(body),
++            handoff=relay_handoff_from_body(body),
+         )
+     except ExecutionRefused as exc:
+         if "non-retryable" in exc.message:
+diff --git a/OpenMW/tests/test_execution_chat.py b/OpenMW/tests/test_execution_chat.py
+index be0760a..c6e9852 100644
+--- a/OpenMW/tests/test_execution_chat.py
++++ b/OpenMW/tests/test_execution_chat.py
+@@ -414,3 +414,91 @@ def test_v1_stream_500_falls_through_to_sse(
+     assert mock.send.call_count == 2
+ 
+ 
++def test_v1_context_relay_skips_unavailable(
++    vault: KeyVault, monkeypatch: pytest.MonkeyPatch, tmp_path: Path
++) -> None:
++    _healthy(vault, "relay-hop", priority=1)
++    client = _client(vault, tmp_path, monkeypatch)
++    _seat, headers = issue_key(client, label="relay-skip-seat")
++    mock = _client_mock()
++    mock.post = MagicMock(side_effect=[_ok("picked")])
++    with patch("openmw.openvault.vault.proxy.httpx.Client", return_value=mock):
++        resp = client.post(
++            "/v1/chat/completions",
++            json={
++                "model": "auto",
++                "messages": [{"role": "user", "content": "hi"}],
++                "combo": {
++                    "strategy": "context-relay",
++                    "models": ["gpt-4o", "gpt-4o-mini"],
++                    "available": {"gpt-4o": False, "gpt-4o-mini": True},
++                },
++            },
++            headers=headers,
++        )
++    assert resp.status_code == 200, resp.text
++    assert resp.json()["choices"][0]["message"]["content"] == "picked"
++    assert mock.post.call_count == 1
++    assert mock.post.call_args.kwargs["json"]["model"] == "gpt-4o-mini"
++
++
++def test_v1_context_relay_injects_handoff(
++    vault: KeyVault, monkeypatch: pytest.MonkeyPatch, tmp_path: Path
++) -> None:
++    _healthy(vault, "relay-hop", priority=1)
++    client = _client(vault, tmp_path, monkeypatch)
++    _seat, headers = issue_key(client, label="relay-handoff-seat")
++    mock = _client_mock()
++    mock.post = MagicMock(side_effect=[_ok("ok")])
++    with patch("openmw.openvault.vault.proxy.httpx.Client", return_value=mock):
++        resp = client.post(
++            "/v1/chat/completions",
++            json={
++                "model": "auto",
++                "messages": [{"role": "user", "content": "hello"}],
++                "combo": {
++                    "strategy": "context-relay",
++                    "models": ["gpt-4o-mini"],
++                    "handoff": {
++                        "sessionId": "s1",
++                        "summary": "keep going",
++                        "fromAccount": "acct",
++                    },
++                },
++            },
++            headers=headers,
++        )
++    assert resp.status_code == 200, resp.text
++    user = mock.post.call_args.kwargs["json"]["messages"][-1]["content"]
++    assert "context_handoff" in user
++    assert "keep going" in user
++
++
++def test_v1_context_relay_all_unavailable_503(
++    vault: KeyVault, monkeypatch: pytest.MonkeyPatch, tmp_path: Path
++) -> None:
++    _healthy(vault, "relay-hop", priority=1)
++    client = _client(vault, tmp_path, monkeypatch)
++    _seat, headers = issue_key(client, label="relay-none-seat")
++    mock = _client_mock()
++    mock.post = MagicMock(side_effect=[_ok("nope")])
++    with patch("openmw.openvault.vault.proxy.httpx.Client", return_value=mock):
++        resp = client.post(
++            "/v1/chat/completions",
++            json={
++                "model": "auto",
++                "messages": [{"role": "user", "content": "hi"}],
++                "combo": {
++                    "strategy": "context-relay",
++                    "models": ["gpt-4o-mini"],
++                    "available": {"gpt-4o-mini": False},
++                },
++            },
++            headers=headers,
++        )
++    assert resp.status_code == 503, resp.text
++    assert "no available relay target" in resp.json()["error"]["message"]
++    assert mock.post.call_count == 0
++
++
++
+diff --git a/OpenMW/tests/test_execution_shapes.py b/OpenMW/tests/test_execution_shapes.py
+index 0e05d26..eb81d29 100644
+--- a/OpenMW/tests/test_execution_shapes.py
++++ b/OpenMW/tests/test_execution_shapes.py
+@@ -19,6 +19,8 @@ from openmw.openvault.route.execution import (
+     pick_hop,
+     plan_fusion,
+     pick_relay_target,
++    relay_available_from_body,
++    relay_handoff_from_body,
+     resolve_auto,
+     run_fusion,
+     run_pipeline,
+@@ -219,3 +221,34 @@ def test_sse_wrap_text_is_buffered() -> None:
+     assert first.startswith(b"data: ")
+     assert b"hello" in first
+     assert done == b"data: [DONE]\n\n"
++
++
++def test_relay_available_from_combo() -> None:
++    body = {
++        "combo": {
++            "strategy": "context-relay",
++            "models": ["codex/x", "gpt-mini"],
++            "available": {"codex/x": False, "gpt-mini": True},
++        }
++    }
++    assert relay_available_from_body(body) == {"codex/x": False, "gpt-mini": True}
++    assert relay_available_from_body({"combo": {"strategy": "context-relay"}}) is None
++
++
++def test_relay_handoff_requires_session_and_summary() -> None:
++    assert relay_handoff_from_body({"combo": {"handoff": {"summary": "x"}}}) is None
++    got = relay_handoff_from_body(
++        {
++            "combo": {
++                "handoff": {
++                    "sessionId": "s1",
++                    "summary": "keep going",
++                    "fromAccount": "acct",
++                }
++            }
++        }
++    )
++    assert got is not None
++    assert got.session_id == "s1"
++    assert got.summary == "keep going"
++    assert got.from_account == "acct"
