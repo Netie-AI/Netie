@@ -11,7 +11,7 @@
 - Product specs: DMS Space ACL, AirGPT table chunks, Pointer unlabeled click, Space leave-machine, Control board view.
 - Accessible remotes: Netie (this), OpenVault public (`main` CI green 2026-08-27, STATUS ~78%, HT1 not done), constructor public (pages.yml green).
 - 404 to this token: Cortex, dms, AirGPT, Pointer, Space, Control, KB, Cortex-Crew.
-- Sibling push 403: patches in `docs/patches/`. Constructor compiler **9 passed**. OpenVault: 15 sorts + 4 execution shapes. `/v1` last-hop usage is measured, not a reservation. Tests **65 passed**. C2/MIN_TESTS stand. No Cortex #42.
+- Sibling push 403: patches in `docs/patches/`. Constructor compiler **11 passed**. OpenVault: 15 sorts + 4 execution shapes. `/v1` last-hop usage is measured, not a reservation. Tests **65 passed**. C2/MIN_TESTS stand. No Cortex #42.
 
 ## Next (blocked on founder clicks in `docs/ACCESS.md`)
 
