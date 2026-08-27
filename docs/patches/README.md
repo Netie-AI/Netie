@@ -191,6 +191,15 @@ cd OpenMW && uv run pytest tests/test_route_strategies.py tests/test_execution_s
 
 No matching hop raises 503 `no hop can serve model` instead of empty-dispatch. Not a fake 200. Measured 2026-08-27: 73 passed. Push 403.
 
+Then:
+
+```
+git apply docs/patches/openvault-hop-bound.patch
+cd OpenMW && uv run pytest tests/test_route_strategies.py tests/test_execution_shapes.py tests/test_execution_chat.py tests/test_freeroute_acceptance.py -q
+```
+
+In-process handoff store keeps at most 32 blobs per issued seat; oldest session is evicted. Other seats are untouched. Not OmniRoute SQLite. Measured 2026-08-27: 74 passed. Push 403.
+
 Independent of routing:
 
 ```

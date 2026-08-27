@@ -52,6 +52,7 @@ FUSION_MAX_PANEL = 40
 HANDOFF_WARNING = 0.85
 HANDOFF_EXHAUSTION = 0.95
 DEFAULT_HANDOFF_PROVIDERS: tuple[str, ...] = ("codex",)
+MAX_RELAY_PER_SCOPE = 32
 
 
 class StrategyNotASort(ValueError):
@@ -286,7 +287,17 @@ class RelayStore:
         return self.by_session.get((scope, session_id, combo_name))
 
     def put(self, handoff: RelayHandoff, *, scope: str = "") -> None:
-        self.by_session[(scope, handoff.session_id, handoff.combo_name)] = handoff
+        key = (scope, handoff.session_id, handoff.combo_name)
+        if key in self.by_session:
+            del self.by_session[key]
+        self.by_session[key] = handoff
+        scoped = [k for k in self.by_session if k[0] == scope]
+        while len(scoped) > MAX_RELAY_PER_SCOPE:
+            oldest = next(k for k in self.by_session if k[0] == scope)
+            if oldest == key:
+                break
+            del self.by_session[oldest]
+            scoped = [k for k in self.by_session if k[0] == scope]
 
 
 def resolve_handoff_providers(explicit: list[str] | None) -> list[str]:
