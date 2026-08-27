@@ -1,0 +1,44 @@
+diff --git a/engine.js b/engine.js
+index a049bd2..9dcff95 100644
+--- a/engine.js
++++ b/engine.js
+@@ -179,7 +179,7 @@ function compileIR(state) {
+     output_node_id: output.id,
+     nodes: nodes.map((n) => {
+       let kind = CORTEX_KIND[n.kind];
+-      if (n.id === output.id) kind = "EMIT";
++      if (n.id === output.id && (n.kind === "app" || n.kind === "audit")) kind = "EMIT";
+       else if (kind === "EMIT") kind = "DETERMINISTIC_RULE";
+       return {
+         id: n.id,
+diff --git a/tests/compiler.test.cjs b/tests/compiler.test.cjs
+index 4d83e65..7f42605 100644
+--- a/tests/compiler.test.cjs
++++ b/tests/compiler.test.cjs
+@@ -171,3 +171,26 @@ test("ghostWalk logs a valid DAG in topo order", () => {
+   assert.equal(walked.log.length, 2);
+   assert.equal(walked.log[0].write, false);
+ });
++
++test("connector-only graph does not invent EMIT", () => {
++  const ir = compileIR({
++    nodes: [{ id: "c", kind: "connector", note: "in" }],
++    edges: [],
++  });
++  assert.equal(ir.error, undefined);
++  assert.equal(ir.output_node_id, "c");
++  assert.equal(ir.nodes[0].kind, "DOCUMENT_REF");
++});
++
++test("audit output is still EMIT", () => {
++  const ir = compileIR({
++    nodes: [
++      { id: "h", kind: "hypothesize" },
++      { id: "a", kind: "audit" },
++    ],
++    edges: [{ from: "h", to: "a" }],
++  });
++  assert.equal(ir.error, undefined);
++  assert.equal(ir.nodes.find((n) => n.id === "a").kind, "EMIT");
++  assert.equal(ir.nodes.find((n) => n.id === "h").kind, "DOCUMENT_REF");
++});
