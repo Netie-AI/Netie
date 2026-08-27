@@ -4,8 +4,9 @@
 Constructor has no unit-test workflow on HEAD. This gate clones it, applies
 docs/patches/constructor-compiler-tests.patch then constructor-empty-graph.patch
 then constructor-ir-refuse.patch then constructor-ir-ids.patch then
-constructor-ghost-refuse.patch then constructor-ir-emit.patch, and runs
-node --test (16 passed).
+constructor-ghost-refuse.patch then constructor-ir-emit.patch then
+constructor-tool-action.patch, and runs
+node --test (19 passed).
 OpenVault patches are apply-checked on origin/main (full OpenMW pytest needs uv).
 """
 
@@ -39,6 +40,7 @@ class SiblingPatchTests(unittest.TestCase):
         fourth = PATCHES / "constructor-ir-ids.patch"
         fifth = PATCHES / "constructor-ghost-refuse.patch"
         sixth = PATCHES / "constructor-ir-emit.patch"
+        seventh = PATCHES / "constructor-tool-action.patch"
         self.assertTrue(
             first.is_file()
             and second.is_file()
@@ -46,6 +48,7 @@ class SiblingPatchTests(unittest.TestCase):
             and fourth.is_file()
             and fifth.is_file()
             and sixth.is_file()
+            and seventh.is_file()
         )
         with tempfile.TemporaryDirectory() as tmp:
             dest = Path(tmp) / "constructor"
@@ -62,12 +65,12 @@ class SiblingPatchTests(unittest.TestCase):
                 ]
             )
             self.assertEqual(clone.returncode, 0, clone.stderr)
-            for patch in (first, second, third, fourth, fifth, sixth):
+            for patch in (first, second, third, fourth, fifth, sixth, seventh):
                 applied = _run(["git", "apply", str(patch)], cwd=dest)
                 self.assertEqual(applied.returncode, 0, applied.stderr)
             tests = _run(["node", "--test", "tests/compiler.test.cjs"], cwd=dest)
             self.assertEqual(tests.returncode, 0, tests.stdout + tests.stderr)
-            self.assertIn("pass 16", tests.stdout + tests.stderr)
+            self.assertIn("pass 19", tests.stdout + tests.stderr)
 
     def test_openvault_patches_apply_on_main(self) -> None:
         detect = PATCHES / "openvault-detect-stacks.patch"
