@@ -1,0 +1,59 @@
+diff --git a/engine.js b/engine.js
+index 9a46230..59a2000 100644
+--- a/engine.js
++++ b/engine.js
+@@ -96,6 +96,11 @@ function listedOptions(listed, value) {
+   return want ? rows : [""].concat(rows);
+ }
+ 
++function objectForSetPoint(objectType, objects) {
++  const listed = objects && typeof objects === "object" ? Object.keys(objects) : [];
++  return listedOrEmpty(objectType, listed);
++}
++
+ function irError(ghost, message) {
+   return {
+     version: "1.0",
+@@ -505,7 +510,8 @@ async function handleChat(raw) {
+   if (setPoint) {
+     const node = C.selected && C.selected();
+     if (!node) return "Select a node first.";
+-    const obj = node.object_type && C.OBJECTS[node.object_type] ? node.object_type : "inventory";
++    const obj = objectForSetPoint(node.object_type, C.OBJECTS);
++    if (!obj) return "Set object first. Unlabeled node does not invent inventory.";
+     if (!C.OBJECTS[obj] || !C.OBJECTS[obj].points[setPoint[1]]) {
+       return "Point not on " + obj + ". " + Object.keys((C.OBJECTS[obj] && C.OBJECTS[obj].points) || {}).join(", ");
+     }
+@@ -713,5 +719,6 @@ if (typeof module !== "undefined" && module.exports) {
+     ghostWalk,
+     listedOrEmpty,
+     listedOptions,
++    objectForSetPoint,
+   };
+ }
+diff --git a/tests/compiler.test.cjs b/tests/compiler.test.cjs
+index 2b46e99..6fdfcef 100644
+--- a/tests/compiler.test.cjs
++++ b/tests/compiler.test.cjs
+@@ -9,6 +9,7 @@ const {
+   ghostWalk,
+   listedOrEmpty,
+   listedOptions,
++  objectForSetPoint,
+ } = require("../engine.js");
+ 
+ test("foundry path ranks orchestrator-subagent first", () => {
+@@ -278,3 +279,13 @@ test("inspect does not invent T0 for a missing tier", () => {
+   assert.deepEqual(listedOptions(tiers, ""), ["", "T0", "T1"]);
+   assert.deepEqual(listedOptions(tiers, "T0"), tiers);
+ });
++
++test("set point does not invent inventory for a missing object", () => {
++  const objects = {
++    inventory: { points: { sku: "string" } },
++    shipments: { points: { dest: "string" } },
++  };
++  assert.equal(objectForSetPoint("", objects), "");
++  assert.equal(objectForSetPoint("nope", objects), "");
++  assert.equal(objectForSetPoint("inventory", objects), "inventory");
++});
