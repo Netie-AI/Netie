@@ -27,6 +27,7 @@ from freeroute_execution import (
     hop_call_model,
     Hop,
     classify_hop_status,
+    sse_wrap_text,
     inject_handoff,
     pick_hop,
     pick_relay_target,
@@ -517,6 +518,12 @@ class HopClassifyTests(unittest.TestCase):
         out = classify_hop_status(None)
         self.assertEqual(out.attempt_class, "hard_fail")
         self.assertTrue(out.trip_provider_breaker)
+
+    def test_sse_wrap_is_buffered_not_a_second_call(self) -> None:
+        first, done = sse_wrap_text("hello")
+        self.assertTrue(first.startswith(b"data: "))
+        self.assertIn(b"hello", first)
+        self.assertEqual(done, b"data: [DONE]\n\n")
 
 
 if __name__ == "__main__":
