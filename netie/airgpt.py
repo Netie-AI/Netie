@@ -4,6 +4,12 @@ from __future__ import annotations
 
 import netie._scripts  # noqa: F401
 
-from airgpt_chunk import ChunkDenied, chunk_table, retrieve_space
+from airgpt_chunk import Chunk, ChunkDenied, MAX_RETRIEVE_CHARS, chunk_table, retrieve_space
 
-__all__ = ("ChunkDenied", "chunk_table", "retrieve_space")
+__all__ = (
+    "Chunk",
+    "ChunkDenied",
+    "MAX_RETRIEVE_CHARS",
+    "chunk_table",
+    "retrieve_space",
+)

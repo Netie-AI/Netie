@@ -14,8 +14,8 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 
-from netie.airgpt import retrieve_space, chunk_table
-from netie.control import project_board, run_dag, ControlDenied
+from netie.airgpt import ChunkDenied, MAX_RETRIEVE_CHARS, chunk_table, retrieve_space
+from netie.control import ControlDenied, project_board, project_session, run_dag
 from netie.cortex import RouteDenied, WRITE_ACTIONS, run_question
 from netie.crew import (
     CortexDenied,
@@ -30,9 +30,16 @@ from netie.crew import (
     run_batch,
 )
 from netie.dms import SpaceDenied, answer_or_abstain, browse_or_abstain, mint_manifest
-from netie.pointer import bind_computer, PointerDenied
-from netie.route import compile_graph, host_switchyard, SwitchyardDenied
-from netie.space import chat_preview
+from netie.pointer import PointerDenied, bind_computer, click, invoke_hand
+from netie.route import (
+    CompileDenied,
+    ShipDenied,
+    SwitchyardDenied,
+    compile_graph,
+    host_switchyard,
+    report_deploy,
+)
+from netie.space import MAX_CHAT_EXCERPT, SpaceLeaveDenied, chat_preview, ocr_cloud, persist_key
 
 
 class NetieApiTests(unittest.TestCase):
@@ -291,6 +298,112 @@ class NetieApiTests(unittest.TestCase):
         self.assertEqual(out["jepa"], "off-path")
         self.assertEqual(out["c7_sql"], "off")
         self.assertEqual(out["write"], "item.intake")
+
+    def test_airgpt_product_caller_public_api(self) -> None:
+        """AirGPT RAG: owned table splitter, not ChatGPT memory, not NVIDIA_RAG_EVAL."""
+        with self.assertRaises(ChunkDenied) as denied:
+            chunk_table("sku,qty\nA,1", splitter="nvidia_rag_eval")
+        self.assertIn("NVIDIA_RAG_EVAL", str(denied.exception))
+        table = "# warehouse: north\nsku,qty\nA,1\n# warehouse: south\nsku,qty\nB,2\n"
+        chunks = chunk_table(table)
+        north = retrieve_space(chunks, space="north", query="A")
+        self.assertEqual(north["status"], "OK")
+        south = retrieve_space(chunks, space="north", query="B")
+        self.assertEqual(south["status"], "ABSTAIN")
+        mem = retrieve_space(chunks, space="north", query="A", cross_chat_memory=True)
+        self.assertEqual(mem["status"], "ABSTAIN")
+        self.assertIn("ChatGPT", mem["reason"])
+        fat = retrieve_space(chunks, space="north", query="A", max_chars=1)
+        self.assertEqual(fat["status"], "ABSTAIN")
+        self.assertIn("DitchContext", fat["reason"])
+        self.assertEqual(MAX_RETRIEVE_CHARS, 12000)
+
+    def test_space_product_caller_public_api(self) -> None:
+        """Peek never POSTs the file. Secrets stay closed. DitchContext 12k."""
+        with self.assertRaises(SpaceLeaveDenied) as leave:
+            chat_preview("notes.txt", "hello", ov_allowed=False)
+        self.assertIn("OpenVault", str(leave.exception))
+        with self.assertRaises(SpaceLeaveDenied) as secret:
+            chat_preview(".env", "hello", ov_allowed=True)
+        self.assertIn("secret", str(secret.exception))
+        with self.assertRaises(SpaceLeaveDenied) as budget:
+            chat_preview("notes.txt", "x" * (MAX_CHAT_EXCERPT + 1), ov_allowed=True)
+        self.assertIn("DitchContext", str(budget.exception))
+        with self.assertRaises(SpaceLeaveDenied):
+            persist_key("id_rsa", False)
+        with self.assertRaises(SpaceLeaveDenied) as ocr:
+            ocr_cloud("scan.png", ov_allowed=False, local_chars=3)
+        self.assertIn("OCR", str(ocr.exception))
+
+    def test_pointer_product_caller_public_api(self) -> None:
+        """Local tray. Not e2b / Perplexity Computer. UACC brains stay out."""
+        with self.assertRaises(PointerDenied):
+            bind_computer("e2b")
+        with self.assertRaises(PointerDenied):
+            bind_computer("perplexity-computer")
+        self.assertEqual(bind_computer("uacc")["where"], "local")
+        with self.assertRaises(PointerDenied):
+            click({"role": "button"}, cortex_intent="go")
+        with self.assertRaises(PointerDenied):
+            click(
+                {"name": "password", "role": "textbox", "type": "password"},
+                cortex_intent="go",
+            )
+        with self.assertRaises(PointerDenied) as shot:
+            invoke_hand("screenshot", cortex_allowed=True, cortex_intent="see")
+        self.assertIn("uncropped", str(shot.exception))
+        with self.assertRaises(PointerDenied) as proc:
+            invoke_hand("list_processes", cortex_allowed=True, cortex_intent="see")
+        self.assertIn("process_list", str(proc.exception))
+        with self.assertRaises(PointerDenied) as js:
+            invoke_hand("browser_execute_js", cortex_allowed=True, cortex_intent="run")
+        self.assertIn("script", str(js.exception))
+
+    def test_control_product_caller_public_api(self) -> None:
+        """Crew board view. Not Guacamole. No dag_runner. No transcript."""
+        with self.assertRaises(ControlDenied):
+            run_dag("x")
+        with self.assertRaises(ControlDenied) as rdp:
+            project_board(
+                crew_index={"runs": [{"id": "r1", "kind": "rdp"}]},
+                ledger_peek=[],
+                refusals=[],
+            )
+        self.assertIn("Guacamole", str(rdp.exception))
+        with self.assertRaises(ControlDenied):
+            project_session(
+                run={"id": "r1", "transcript": "SECRET"},
+                todos=[],
+                permissions=[],
+            )
+        board = project_board(
+            crew_index={"runs": [{"id": "r1", "status": "FAILED", "ticket_id": "T1"}]},
+            ledger_peek=[],
+            refusals=[{"id": "T1", "reason": "CortexDenied"}],
+        )
+        self.assertEqual(board["product"], "crew-board")
+        kinds = {c["kind"] for c in board["cards"]}
+        self.assertIn("run", kinds)
+        self.assertIn("refusal", kinds)
+
+    def test_route_product_caller_public_api(self) -> None:
+        """Switchyard behind OV. Simulated is not HT1. xyflow is not compileIR."""
+        with self.assertRaises(SwitchyardDenied):
+            host_switchyard(ov_leave=True, vendor="llm-router")
+        hosted = host_switchyard(ov_leave=True)
+        self.assertEqual(hosted["score"], "2/10")
+        with self.assertRaises(ShipDenied):
+            report_deploy(simulated=True, observed_url=None, constructed_url=None)
+        with self.assertRaises(ShipDenied):
+            report_deploy(
+                simulated=False,
+                observed_url=None,
+                constructed_url="https://x.pages.dev",
+            )
+        with self.assertRaises(CompileDenied):
+            compile_graph(engine="@xyflow/react")
+        ir = compile_graph(engine="compileIR")
+        self.assertEqual(ir["score_compiler"], "4/10")
 
 
 if __name__ == "__main__":
