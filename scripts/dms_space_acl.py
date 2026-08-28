@@ -99,7 +99,14 @@ def answer_or_abstain(
     warehouse_id: str,
     binds: Binds,
     sql: str,
+    chat_mode: bool = False,
 ) -> dict:
+    if chat_mode:
+        return {
+            "status": "ABSTAIN",
+            "reason": "AnythingLLM overlay; warehouse answers need SQL",
+            "rows": [],
+        }
     try:
         bound = warehouse_for_space(binds, space_id)
     except SpaceDenied as exc:

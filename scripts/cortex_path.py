@@ -9,6 +9,21 @@ from __future__ import annotations
 COLD_START = ("minimal", "sequential", "dag")
 WRITE_ACTIONS = frozenset({"export_pptx", "item.intake"})
 PARKED = frozenset({"jepa", "gen-cfsm", "osr"})
+# Claude Code's job. Cortex is governed Q&A, not a coding agent.
+CODING_TOOLS = frozenset(
+    {
+        "bash",
+        "shell",
+        "execute",
+        "write_file",
+        "edit_file",
+        "ls",
+        "read_file",
+        "glob",
+        "grep",
+        "delete",
+    }
+)
 
 
 class RouteDenied(PermissionError):
@@ -52,6 +67,10 @@ def run_question(
         raise RouteDenied(f"write not in action registry: {write}")
     if write and not (actor or "").strip():
         raise RouteDenied("write needs an actor; RBAC is missing on execute modules")
+    if tool and tool.strip() in CODING_TOOLS:
+        raise RouteDenied(
+            "Cortex is not Claude Code; depend Deep Agents under tool_runner"
+        )
     if tool and not via_tool_runner:
         raise RouteDenied(f"{tool} skipped tool_runner")
     if a2a and (pack or "").strip().lower() != "dms":

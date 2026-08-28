@@ -5,7 +5,9 @@ repeated headers are not extra rows, ragged rows do not invent cells, # labels
 become metadata. retrieve_space cites only complete chunks labeled for that
 Space. Unlabeled and incomplete rows are not evidence. chat_*.md is not
 evidence (chats_as_evidence defaults false). File-scoped retrieve stays in
-the named Space.
+the named Space. NVIDIA_RAG_EVAL is a model catalog, not a chunker.
+Semantic / multilingual-adaptive split is not measured. Cross-chat memory
+is ChatGPT, not AirGPT. Retrieve over DitchContext 12k abstains.
 """
 
 from __future__ import annotations
@@ -34,6 +36,22 @@ sku,qty
 B,2
 """
 
+OWNED_SPLITTERS = frozenset({"table", "csv"})
+NOT_A_CHUNKER = frozenset(
+    {
+        "nvidia_rag_eval",
+        "nvidia_rag",
+        "semantic",
+        "multilingual_adaptive",
+        "llamaindex",
+    }
+)
+MAX_RETRIEVE_CHARS = 12000  # same DitchContext as Space Peek chat
+
+
+class ChunkDenied(PermissionError):
+    """Splitter we do not own, or a catalog claimed as a chunker."""
+
 
 @dataclass(frozen=True)
 class Chunk:
@@ -60,7 +78,28 @@ def _split_row(line: str, delim: str) -> list[str]:
     return [c.strip() for c in line.split(delim)]
 
 
-def chunk_table(text: str) -> list[Chunk]:
+def _canon(name: str) -> str:
+    return (name or "").strip().lower().replace("-", "_").replace(" ", "_")
+
+
+def _not_a_chunker(name: str) -> str | None:
+    kind = _canon(name)
+    if not kind:
+        return None
+    if "nvidia" in kind:
+        return "NVIDIA_RAG_EVAL is a model catalog, not a chunker"
+    if kind in NOT_A_CHUNKER:
+        return f"{kind} is not a chunker"
+    return None
+
+
+def chunk_table(text: str, *, splitter: str = "table") -> list[Chunk]:
+    kind = _canon(splitter) or "table"
+    reason = _not_a_chunker(kind)
+    if reason:
+        raise ChunkDenied(reason)
+    if kind not in OWNED_SPLITTERS:
+        raise ChunkDenied(f"{kind} split is not measured on HEAD")
     lines = [ln.strip() for ln in text.splitlines() if ln.strip()]
     if not lines:
         return []
@@ -112,12 +151,17 @@ def retrieve_space(
     query: str,
     source: str | None = None,
     chats_as_evidence: bool = False,
+    embedder: str | None = None,
+    cross_chat_memory: bool = False,
+    max_chars: int = MAX_RETRIEVE_CHARS,
 ) -> dict:
     """Cite only complete chunks labeled for this Space. No cross-space leak.
 
     Unlabeled and incomplete rows are not evidence. Empty query abstains.
     chat_*.md is not evidence unless chats_as_evidence. File mention (source)
-    still cannot pull another Space's file.
+    still cannot pull another Space's file. NVIDIA catalog / semantic split
+    is not a chunker. ChatGPT memory does not retrieve. Over-budget cites
+    abstain (do not silently drop rows).
     """
     want = (space or "").strip()
     needle = (query or "").strip().lower()
@@ -126,6 +170,15 @@ def retrieve_space(
         return {"status": "ABSTAIN", "reason": "no space", "chunks": []}
     if not needle:
         return {"status": "ABSTAIN", "reason": "no query", "chunks": []}
+    catalog = _not_a_chunker(embedder or "")
+    if catalog:
+        return {"status": "ABSTAIN", "reason": catalog, "chunks": []}
+    if cross_chat_memory:
+        return {
+            "status": "ABSTAIN",
+            "reason": "cross_chat_memory is ChatGPT, not AirGPT",
+            "chunks": [],
+        }
     hits: list[Chunk] = []
     skipped_chat = False
     for chunk in chunks:
@@ -146,4 +199,14 @@ def retrieve_space(
         if skipped_chat and not chats_as_evidence:
             reason = "chats_as_evidence is false"
         return {"status": "ABSTAIN", "reason": reason, "chunks": []}
+    used = 0
+    budget = max_chars if max_chars > 0 else MAX_RETRIEVE_CHARS
+    for chunk in hits:
+        used += len(chunk.text)
+        if used > budget:
+            return {
+                "status": "ABSTAIN",
+                "reason": "retrieve over DitchContext",
+                "chunks": [],
+            }
     return {"status": "OK", "space": want, "chunks": list(hits)}
