@@ -57,7 +57,7 @@ Not the same job as NVIDIA llm-router (trained task/complexity classifier on Tri
 
 ## 5. FreeBuild vs Vercel (short)
 
-Design: user machine builds, user cloud hosts, OpenVault is the button. Cloudflare Pages via wrangler is the first real adapter. STATUS: no live box has completed HT1. This is not a Vercel replacement until HT1 is green on a stranger's token.
+Design: user machine builds, user cloud hosts, OpenVault is the button. Cloudflare Pages via wrangler is the first real adapter. STATUS: no live box has completed HT1. This is not a Vercel replacement until HT1 is green on a stranger's token. Product patch `docs/patches/openvault-ship-netie.patch`: live labels go through `claim_deploy` / `netie.route.report_deploy` when Netie is installed. Score stays **2 / 10**.
 
 ---
 

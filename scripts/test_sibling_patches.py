@@ -7,7 +7,7 @@ then constructor-ir-refuse.patch then constructor-ir-ids.patch then
 constructor-ghost-refuse.patch then constructor-ir-emit.patch then
 constructor-tool-action.patch then constructor-inspect-action.patch then constructor-inspect-object.patch then constructor-inspect-tier.patch then constructor-chat-object.patch then constructor-topo-leftover.patch then constructor-ir-entry.patch then constructor-ir-output.patch then constructor-ir-object.patch then constructor-ir-bind.patch then constructor-ir-action-allow.patch then constructor-ir-intake.patch then constructor-ir-hitl.patch then constructor-ir-connected.patch then constructor-ir-note.patch then constructor-ir-cortex-post.patch then constructor-object-pick.patch then constructor-engine-order.patch, and runs
 node --test (61 passed).
-OpenVault patches apply on origin/main then `uv run pytest` on the routing+chat+crew-gate files (>= 90 passed).
+OpenVault patches apply on origin/main then `uv run pytest` on the routing+chat+crew-gate+ship-claim files (>= 90 passed).
 """
 
 from __future__ import annotations
@@ -198,6 +198,7 @@ class SiblingPatchTests(unittest.TestCase):
             quota = PATCHES / "openvault-quota-share.patch"
             strip = PATCHES / "openvault-hop-strip.patch"
             sidecar = PATCHES / "openvault-hop-sidecar.patch"
+            ship = PATCHES / "openvault-ship-netie.patch"
             self.assertTrue(
                 crew.is_file()
                 and ctx.is_file()
@@ -222,6 +223,7 @@ class SiblingPatchTests(unittest.TestCase):
                 and quota.is_file()
                 and strip.is_file()
                 and sidecar.is_file()
+                and ship.is_file()
             )
             for patch in (
                 detect,
@@ -250,6 +252,7 @@ class SiblingPatchTests(unittest.TestCase):
                 quota,
                 strip,
                 sidecar,
+                ship,
             ):
                 check = _run(["git", "apply", "--check", str(patch)], cwd=dest)
                 self.assertEqual(check.returncode, 0, f"{patch.name}: {check.stderr}")
@@ -311,12 +314,23 @@ class SiblingPatchTests(unittest.TestCase):
                 encoding="utf-8"
             )
             self.assertIn('"/api/crew/gate"', app_py)
+            claim = (
+                dest / "OpenMW" / "openmw" / "openvault" / "ship" / "netie_claim.py"
+            ).read_text(encoding="utf-8")
+            self.assertIn("from netie.route import report_deploy", claim)
+            self.assertIn("def claim_deploy", claim)
+            engine = (
+                dest / "OpenMW" / "openmw" / "openvault" / "ship" / "engine.py"
+            ).read_text(encoding="utf-8")
+            self.assertIn("claim_deploy", engine)
             if shutil.which("uv") is None:
                 self.fail("uv required to run OpenVault routing tests")
             routed = _run(
                 [
                     "uv",
                     "run",
+                    "--with",
+                    str(ROOT),
                     "pytest",
                     "tests/test_route_strategies.py",
                     "tests/test_execution_shapes.py",
@@ -324,6 +338,7 @@ class SiblingPatchTests(unittest.TestCase):
                     "tests/test_freeroute_acceptance.py",
                     "tests/test_freeroute_metering.py",
                     "tests/test_crew_gate.py",
+                    "tests/test_ship_netie_claim.py",
                     "-q",
                     "--tb=line",
                 ],
