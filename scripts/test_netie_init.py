@@ -46,6 +46,16 @@ class NetieInitTests(unittest.TestCase):
             self.assertIn("WRITE_ACTIONS", cortex_text)
             self.assertIn("not Claude Code", cortex_text)
 
+    def test_stamps_openvault_product_caller(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp) / "OpenVault"
+            root.mkdir()
+            stamp(root, "OpenVault")
+            text = (root / "CLAUDE.md").read_text(encoding="utf-8")
+            self.assertIn(CALLERS["OpenVault"], text)
+            self.assertIn("report_deploy", text)
+            self.assertIn("refuse_crew_gate", text)
+
     def test_stamps_control_product_caller(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp) / "netie-control"

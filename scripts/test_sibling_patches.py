@@ -7,7 +7,7 @@ then constructor-ir-refuse.patch then constructor-ir-ids.patch then
 constructor-ghost-refuse.patch then constructor-ir-emit.patch then
 constructor-tool-action.patch then constructor-inspect-action.patch then constructor-inspect-object.patch then constructor-inspect-tier.patch then constructor-chat-object.patch then constructor-topo-leftover.patch then constructor-ir-entry.patch then constructor-ir-output.patch then constructor-ir-object.patch then constructor-ir-bind.patch then constructor-ir-action-allow.patch then constructor-ir-intake.patch then constructor-ir-hitl.patch then constructor-ir-connected.patch then constructor-ir-note.patch then constructor-ir-cortex-post.patch then constructor-object-pick.patch then constructor-engine-order.patch then constructor-ir-post.patch then constructor-ir-kahn-nodes.patch, and runs
 node --test (62 passed).
-OpenVault patches apply on origin/main then `uv run pytest` on the routing+chat+crew-gate+ship-claim files (>= 90 passed).
+OpenVault patches apply on origin/main then `uv run pytest` on the routing+chat+crew-gate+ship-claim files (>= 90 passed). The 28th patch (`openvault-crew-netie.patch`) makes `/api/crew/gate` call `from netie.crew import refuse_crew_gate` when Netie is installed.
 """
 
 from __future__ import annotations
@@ -207,6 +207,7 @@ class SiblingPatchTests(unittest.TestCase):
             strip = PATCHES / "openvault-hop-strip.patch"
             sidecar = PATCHES / "openvault-hop-sidecar.patch"
             ship = PATCHES / "openvault-ship-netie.patch"
+            crew_netie = PATCHES / "openvault-crew-netie.patch"
             self.assertTrue(
                 crew.is_file()
                 and ctx.is_file()
@@ -232,6 +233,7 @@ class SiblingPatchTests(unittest.TestCase):
                 and strip.is_file()
                 and sidecar.is_file()
                 and ship.is_file()
+                and crew_netie.is_file()
             )
             for patch in (
                 detect,
@@ -261,6 +263,7 @@ class SiblingPatchTests(unittest.TestCase):
                 strip,
                 sidecar,
                 ship,
+                crew_netie,
             ):
                 check = _run(["git", "apply", "--check", str(patch)], cwd=dest)
                 self.assertEqual(check.returncode, 0, f"{patch.name}: {check.stderr}")
@@ -322,6 +325,12 @@ class SiblingPatchTests(unittest.TestCase):
                 encoding="utf-8"
             )
             self.assertIn('"/api/crew/gate"', app_py)
+            self.assertIn("from openmw.openvault.crew_netie import check_crew_gate", app_py)
+            crew_mod = (
+                dest / "OpenMW" / "openmw" / "openvault" / "crew_netie.py"
+            ).read_text(encoding="utf-8")
+            self.assertIn("from netie.crew import refuse_crew_gate", crew_mod)
+            self.assertIn("def check_crew_gate", crew_mod)
             claim = (
                 dest / "OpenMW" / "openmw" / "openvault" / "ship" / "netie_claim.py"
             ).read_text(encoding="utf-8")
@@ -346,6 +355,7 @@ class SiblingPatchTests(unittest.TestCase):
                     "tests/test_freeroute_acceptance.py",
                     "tests/test_freeroute_metering.py",
                     "tests/test_crew_gate.py",
+                    "tests/test_crew_netie_gate.py",
                     "tests/test_ship_netie_claim.py",
                     "-q",
                     "--tb=line",
