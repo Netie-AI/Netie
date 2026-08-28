@@ -67,7 +67,10 @@ uv add --editable git+https://github.com/Netie-AI/Netie.git
 #   from netie.crew import bind_deep_agent, wrap_deepagents_tools, execute_capability
 #   from netie.crew import search_capabilities, execute_capabilities, load_den
 #   from netie.crew import run_batch, run_open_ticket, save_checkpoint, summarise
+#   from netie.crew import TokenBudget, Factory, dispatch_seat
 # wrap every tool with Cortex tool_runner; OpenVault crew_gate for leave-machine
+# TokenBudget stops the batch; dispatch_seat refuses grok-bot / pointer-drive
+# Factory.index drops prompts; max_in_flight > 2 refuses
 ```
 
 Do not `git clone` OpenWork or Grok Bot into the tree.

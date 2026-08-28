@@ -17,7 +17,18 @@ sys.path.insert(0, str(ROOT))
 from netie.airgpt import retrieve_space, chunk_table
 from netie.control import project_board, run_dag, ControlDenied
 from netie.cortex import RouteDenied, run_question
-from netie.crew import bind_deep_agent, load_den, CortexDenied
+from netie.crew import (
+    CortexDenied,
+    Factory,
+    Job,
+    SeatDenied,
+    TokenBudget,
+    Verdict,
+    bind_deep_agent,
+    dispatch_seat,
+    load_den,
+    run_batch,
+)
 from netie.dms import answer_or_abstain
 from netie.pointer import bind_computer, PointerDenied
 from netie.route import compile_graph, host_switchyard, SwitchyardDenied
@@ -116,9 +127,10 @@ class NetieApiTests(unittest.TestCase):
                 [
                     str(py),
                     "-c",
-                    "from netie.crew import bind_deep_agent; "
+                    "from netie.crew import bind_deep_agent, TokenBudget, dispatch_seat; "
                     "from netie.cortex import run_question; "
-                    "print('ok' if callable(bind_deep_agent) and callable(run_question) else 'no')",
+                    "print('ok' if callable(bind_deep_agent) and callable(TokenBudget) "
+                    "and callable(dispatch_seat) and callable(run_question) else 'no')",
                 ],
                 capture_output=True,
                 text=True,
@@ -126,6 +138,63 @@ class NetieApiTests(unittest.TestCase):
             )
             self.assertEqual(probed.returncode, 0, probed.stderr)
             self.assertEqual(probed.stdout.strip(), "ok")
+
+    def test_crew_product_caller_public_api(self) -> None:
+        """Cortex-Crew shape: import netie.crew only, not scripts/."""
+
+        class Gate:
+            def check(self, tool: str, payload: dict) -> Verdict:
+                return Verdict(allowed=True)
+
+            def execute(self, tool: str, payload: dict) -> dict:
+                return {"tool": tool}
+
+        with self.assertRaises(ValueError) as cap:
+            run_batch(Gate(), [Job("a", "echo", {})], max_in_flight=3)
+        self.assertIn("unbounded spawn", str(cap.exception))
+
+        budget = TokenBudget(max_tokens=40)
+        results = run_batch(
+            Gate(),
+            [
+                Job("a", "echo", {"blob": "x" * 80}),
+                Job("b", "echo", {"blob": "y" * 80}),
+            ],
+            max_in_flight=1,
+            budget=budget,
+        )
+        self.assertEqual(results[0].status, "DONE")
+        self.assertEqual(results[1].status, "FAILED")
+        self.assertIn("budget", results[1].detail)
+
+        with self.assertRaises(SeatDenied) as seat:
+            dispatch_seat(
+                ticket_id="T1",
+                seat="grok-bot-reconstructed",
+                operator_logged_in=True,
+            )
+        self.assertIn("billing-bypass", str(seat.exception))
+
+        factory = Factory()
+        factory.slice_prd(
+            prd_id="PRD-002",
+            out_of_scope="no second cortex",
+            success_assertion=(
+                "WHEN a tool Cortex would refuse THE SYSTEM SHALL "
+                "leave the ticket open"
+            ),
+            epics=[("E1", "wrap", "foundation")],
+        )
+        factory.activate_epic("E1")
+        factory.file_ticket(
+            epic_id="E1",
+            ticket_id="T-secret",
+            prompt="SECRET PROMPT DO NOT INDEX",
+        )
+        dumped = str(factory.index())
+        self.assertNotIn("SECRET PROMPT", dumped)
+        with self.assertRaises(CortexDenied):
+            load_den("ee/")
 
 
 if __name__ == "__main__":
