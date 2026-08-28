@@ -1,0 +1,122 @@
+diff --git a/app.js b/app.js
+index e3f7d9e..0e69d72 100644
+--- a/app.js
++++ b/app.js
+@@ -296,12 +296,8 @@ function patchSelected(field, value) {
+   const node = state.nodes.find((n) => n.id === selectedId);
+   if (!node) return false;
+   if (field === "stream") node.stream = value === true || value === "true";
++  else if (field === "object_type") applyObjectType(node, value, OBJECTS);
+   else node[field] = value;
+-  if (field === "object_type" && OBJECTS[value]) {
+-    const first = Object.keys(OBJECTS[value].points)[0];
+-    node.data_point = first;
+-    node.data_type = OBJECTS[value].points[first];
+-  }
+   if (field === "data_point" && OBJECTS[node.object_type] && OBJECTS[node.object_type].points[value]) {
+     node.data_type = OBJECTS[node.object_type].points[value];
+   }
+diff --git a/engine.js b/engine.js
+index 34f84c0..a11c515 100644
+--- a/engine.js
++++ b/engine.js
+@@ -148,6 +148,28 @@ function objectForSetPoint(objectType, objects) {
+   return listedOrEmpty(objectType, listed);
+ }
+ 
++function applyObjectType(node, value, objects) {
++  if (!node || typeof node !== "object") return node;
++  const listed = objects && typeof objects === "object" ? Object.keys(objects) : [];
++  const ot = listedOrEmpty(value, listed);
++  node.object_type = ot;
++  if (!ot) {
++    node.data_point = "";
++    node.data_type = "";
++    return node;
++  }
++  const catalog = objects[ot] && objects[ot].points ? objects[ot].points : {};
++  const point = listedOrEmpty(node.data_point, Object.keys(catalog));
++  if (!point) {
++    node.data_point = "";
++    node.data_type = "";
++    return node;
++  }
++  node.data_point = point;
++  node.data_type = catalog[point] || "";
++  return node;
++}
++
+ function irError(ghost, message) {
+   return {
+     version: "1.0",
+@@ -896,6 +918,7 @@ if (typeof module !== "undefined" && module.exports) {
+     listedOrEmpty,
+     listedOptions,
+     objectForSetPoint,
++    applyObjectType,
+     fetchFromListed,
+     pointsForObject,
+     notesDenied,
+diff --git a/tests/compiler.test.cjs b/tests/compiler.test.cjs
+index 2fd613e..001ebb7 100644
+--- a/tests/compiler.test.cjs
++++ b/tests/compiler.test.cjs
+@@ -10,6 +10,7 @@ const {
+   listedOrEmpty,
+   listedOptions,
+   objectForSetPoint,
++  applyObjectType,
+   cortexPayload,
+   nodesWithoutNotes,
+ } = require("../engine.js");
+@@ -752,3 +753,50 @@ test("nodesWithoutNotes drops only the note field", () => {
+   assert.equal(rows[0].object_type, "inventory");
+   assert.equal("note" in rows[0], false);
+ });
++
++test("applyObjectType does not invent the first data_point", () => {
++  const objects = {
++    inventory: { points: { sku: "string", sku_name: "string" } },
++    suppliers: { points: { supplier_id: "string" } },
++  };
++  const node = { object_type: "", data_point: "", data_type: "" };
++  applyObjectType(node, "inventory", objects);
++  assert.equal(node.object_type, "inventory");
++  assert.equal(node.data_point, "");
++  assert.equal(node.data_type, "");
++});
++
++test("applyObjectType keeps a data_point still listed on the new object", () => {
++  const objects = {
++    inventory: { points: { sku: "string", supplier_id: "string" } },
++    suppliers: { points: { supplier_id: "string" } },
++  };
++  const node = {
++    object_type: "inventory",
++    data_point: "supplier_id",
++    data_type: "string",
++  };
++  applyObjectType(node, "suppliers", objects);
++  assert.equal(node.object_type, "suppliers");
++  assert.equal(node.data_point, "supplier_id");
++  assert.equal(node.data_type, "string");
++});
++
++test("applyObjectType clears a data_point not on the new object", () => {
++  const objects = {
++    inventory: { points: { sku: "string" } },
++    suppliers: { points: { supplier_id: "string" } },
++  };
++  const unlabeled = {
++    object_type: "inventory",
++    data_point: "sku",
++    data_type: "string",
++  };
++  applyObjectType(unlabeled, "suppliers", objects);
++  assert.equal(unlabeled.object_type, "suppliers");
++  assert.equal(unlabeled.data_point, "");
++  assert.equal(unlabeled.data_type, "");
++  applyObjectType(unlabeled, "hr_notes", objects);
++  assert.equal(unlabeled.object_type, "");
++  assert.equal(unlabeled.data_point, "");
++});
