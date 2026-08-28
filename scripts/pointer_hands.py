@@ -88,6 +88,7 @@ UACC_HANDS_SET = frozenset(UACC_HANDS)
 
 CLICK_HANDS = frozenset({"click", "click_element", "smart_click", "browser_click"})
 TYPE_HANDS = frozenset({"type_text", "smart_type", "browser_type"})
+KEY_HANDS = frozenset({"hotkey"})
 SECRET_HANDS = frozenset({"clipboard_read", "clipboard_write"})
 SCRIPT_HANDS = frozenset({"browser_execute_js"})
 LEAVE_HANDS = frozenset({"open_url", "launch_app", "browser_navigate"})
@@ -152,6 +153,8 @@ def invoke_hand(
             raise PointerDenied("no secret field")
         clicked = click(element, cortex_intent=cortex_intent)
         return {"hand": tool, **clicked}
+    if tool in KEY_HANDS and isinstance(element, dict) and _is_secret(element):
+        raise PointerDenied("no secret field")
     return {
         "hand": tool,
         "intent": cortex_intent.strip(),

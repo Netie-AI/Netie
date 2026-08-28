@@ -52,7 +52,13 @@ class SpaceLeaveTests(unittest.TestCase):
     def test_user_env_denied_even_when_not_marked_plaintext(self) -> None:
         with self.assertRaises(SpaceLeaveDenied) as ctx:
             persist_key(r"%LOCALAPPDATA%\NetieSpace\user.env", plaintext=False)
-        self.assertIn("env file", str(ctx.exception))
+        self.assertIn("secret write", str(ctx.exception))
+
+    def test_key_file_write_denied_even_when_not_marked_plaintext(self) -> None:
+        with self.assertRaises(SpaceLeaveDenied):
+            persist_key("id_rsa", plaintext=False)
+        with self.assertRaises(SpaceLeaveDenied):
+            persist_key("certs/prod.pem", plaintext=False)
 
     def test_local_vault_scan_denied(self) -> None:
         with self.assertRaises(SpaceLeaveDenied):
@@ -64,6 +70,8 @@ class SpaceLeaveTests(unittest.TestCase):
         self.assertIn("secret preview", str(ctx.exception))
         with self.assertRaises(SpaceLeaveDenied):
             may_preview("certs/prod.pem")
+        with self.assertRaises(SpaceLeaveDenied):
+            may_preview(".netrc")
         self.assertEqual(may_preview("report.pdf"), "preview")
 
     def test_poor_ocr_does_not_grant_baidu(self) -> None:

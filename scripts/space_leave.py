@@ -45,7 +45,19 @@ def leave(
 
 
 ENV_BASENAMES = frozenset({"user.env", ".env", "env.local"})
-KEY_BASENAMES = frozenset({"id_rsa", "id_ed25519", "id_ecdsa", "credentials.json"})
+KEY_BASENAMES = frozenset(
+    {
+        "id_rsa",
+        "id_ed25519",
+        "id_ecdsa",
+        "id_dsa",
+        "credentials.json",
+        ".netrc",
+        ".npmrc",
+        ".git-credentials",
+        "authorized_keys",
+    }
+)
 KEY_SUFFIXES = frozenset({".pem", ".key", ".p12", ".pfx", ".ppk"})
 
 
@@ -53,10 +65,17 @@ def _base(path_name: str) -> str:
     return path_name.replace("\\", "/").rsplit("/", 1)[-1].lower()
 
 
-def persist_key(path_name: str, plaintext: bool) -> None:
+def _is_secret_path(path_name: str) -> bool:
     base = _base(path_name)
-    if base in ENV_BASENAMES:
-        raise SpaceLeaveDenied(f"refuse env file {path_name}")
+    lower = path_name.replace("\\", "/").lower()
+    if base in ENV_BASENAMES or base in KEY_BASENAMES:
+        return True
+    return any(lower.endswith(suf) for suf in KEY_SUFFIXES)
+
+
+def persist_key(path_name: str, plaintext: bool) -> None:
+    if _is_secret_path(path_name):
+        raise SpaceLeaveDenied(f"refuse secret write {path_name}")
     if plaintext:
         raise SpaceLeaveDenied(f"refuse plaintext key write to {path_name}")
 
@@ -68,11 +87,7 @@ def may_preview(
     ov_allowed: bool = False,
 ) -> str:
     """Peek-class preview. Secrets stay closed. Cloud/OCR needs OpenVault."""
-    base = _base(path_name)
-    lower = path_name.replace("\\", "/").lower()
-    if base in ENV_BASENAMES or base in KEY_BASENAMES:
-        raise SpaceLeaveDenied(f"refuse secret preview {path_name}")
-    if any(lower.endswith(suf) for suf in KEY_SUFFIXES):
+    if _is_secret_path(path_name):
         raise SpaceLeaveDenied(f"refuse secret preview {path_name}")
     if leave_machine and not ov_allowed:
         raise SpaceLeaveDenied("leave-machine is OpenVault")
