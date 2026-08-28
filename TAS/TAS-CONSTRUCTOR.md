@@ -29,9 +29,9 @@ HEAD `engine.js` compiled IR for Cortex kinds. Ranking mixed foundry-boost into 
 node --test tests/compiler.test.cjs
 ```
 
-**26 passed** on this VM 2026-08-28 after `constructor-ir-entry.patch`: verify-rank, ghost false, empty graph / unknown kind / cycle / dangling edge / missing id / duplicate id invent no Cortex nodes; `ghostWalk` refuses those instead of walking a fake order; `topo()` does not append leftover cyclic nodes; `compileIR` entry is the Kahn source not `nodes[0]`; connector-only graphs do not invent `EMIT` (app/audit output still does); unlabeled `tool_call` does not invent `export_pptx` (compileIR refuses; inspect shows `(pick)`); unlabeled object does not invent `inventory`; unlabeled tier does not invent `T0` (compileIR emits null; inspect shows `(pick)`); unlabeled `set point` does not invent `inventory`.
+**28 passed** on this VM 2026-08-28 after `constructor-ir-output.patch`: verify-rank, ghost false, empty graph / unknown kind / cycle / dangling edge / missing id / duplicate id invent no Cortex nodes; `ghostWalk` refuses those instead of walking a fake order; `topo()` does not append leftover cyclic nodes; `compileIR` entry is the Kahn source not `nodes[0]`; `compileIR` output is the Kahn sink app (or last Kahn node when no app/audit) not array-last; connector-only graphs do not invent `EMIT` (app/audit output still does); unlabeled `tool_call` does not invent `export_pptx` (compileIR refuses; inspect shows `(pick)`); unlabeled object does not invent `inventory`; unlabeled tier does not invent `T0` (compileIR emits null; inspect shows `(pick)`); unlabeled `set point` does not invent `inventory`.
 
-Patches: `docs/patches/constructor-compiler-tests.patch` then `docs/patches/constructor-empty-graph.patch` then `docs/patches/constructor-ir-refuse.patch` then `docs/patches/constructor-ir-ids.patch` then `docs/patches/constructor-ghost-refuse.patch` then `docs/patches/constructor-ir-emit.patch` then `docs/patches/constructor-tool-action.patch` then `docs/patches/constructor-inspect-action.patch` then `docs/patches/constructor-inspect-object.patch` then `docs/patches/constructor-inspect-tier.patch` then `docs/patches/constructor-chat-object.patch` then `docs/patches/constructor-topo-leftover.patch` then `docs/patches/constructor-ir-entry.patch` (also a `test.yml` workflow). Push 403.
+Patches: `docs/patches/constructor-compiler-tests.patch` then `docs/patches/constructor-empty-graph.patch` then `docs/patches/constructor-ir-refuse.patch` then `docs/patches/constructor-ir-ids.patch` then `docs/patches/constructor-ghost-refuse.patch` then `docs/patches/constructor-ir-emit.patch` then `docs/patches/constructor-tool-action.patch` then `docs/patches/constructor-inspect-action.patch` then `docs/patches/constructor-inspect-object.patch` then `docs/patches/constructor-inspect-tier.patch` then `docs/patches/constructor-chat-object.patch` then `docs/patches/constructor-topo-leftover.patch` then `docs/patches/constructor-ir-entry.patch` then `docs/patches/constructor-ir-output.patch` (also a `test.yml` workflow). Push 403.
 
 GitHub on default `landing-9-first-path`: **pages.yml** is green. There is **no unit-test workflow** on HEAD until that patch lands.
 
@@ -41,7 +41,7 @@ GitHub on default `landing-9-first-path`: **pages.yml** is green. There is **no 
 
 | Boundary | Today |
 |---|---|
-| Ghost dry-run | `ghostWalk` uses `compileIR`; refuse means empty log, no leftover cycle walk. `topo()` returns only the Kahn prefix; leftover cyclic nodes are omitted |
+| Ghost dry-run | `ghostWalk` uses `compileIR`; refuse means empty log, no leftover cycle walk. `topo()` returns only the Kahn prefix; leftover cyclic nodes are omitted. `compileIR` entry is Kahn source; output is Kahn sink app (or last Kahn node when no app/audit) |
 | Writes | Cortex, not Constructor |
 | Keys | none in this tree; engine URL is Cortex |
 
