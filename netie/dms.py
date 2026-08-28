@@ -4,6 +4,16 @@ from __future__ import annotations
 
 import netie._scripts  # noqa: F401
 
-from dms_space_acl import answer_or_abstain, browse_or_abstain
+from dms_space_acl import (
+    SpaceDenied,
+    answer_or_abstain,
+    browse_or_abstain,
+    mint_manifest,
+)
 
-__all__ = ("answer_or_abstain", "browse_or_abstain")
+__all__ = (
+    "SpaceDenied",
+    "answer_or_abstain",
+    "browse_or_abstain",
+    "mint_manifest",
+)

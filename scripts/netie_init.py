@@ -34,9 +34,26 @@ REPOS: dict[str, Path] = {
     "Crew": Path("D:/Cortex-Crew"),
 }
 
+# What each product repo imports after `uv add --editable` Netie.
+CALLERS: dict[str, str] = {
+    "Cortex": "from netie.cortex import run_question, WRITE_ACTIONS",
+    "DMS": "from netie.dms import answer_or_abstain, browse_or_abstain",
+    "OpenVault": "from netie.route import host_switchyard, report_deploy",
+    "AirGPT": "from netie.airgpt import retrieve_space, chunk_table",
+    "Space": "from netie.space import chat_preview",
+    "Pointer": "from netie.pointer import bind_computer, invoke_hand",
+    "Constructor": "from netie.route import compile_graph",
+    "Crew": "from netie.crew import bind_deep_agent, TokenBudget, dispatch_seat",
+}
+
+
+def _caller(product: str) -> str:
+    return CALLERS.get(product, "from netie.crew import bind_deep_agent")
+
 
 def _block(product: str) -> str:
     """The generated block. Same in every repo except the PRD pointer."""
+    caller = _caller(product)
     return f"""{BEGIN}
 
 ## Netie operating system
@@ -81,6 +98,12 @@ an unlock condition). Decisions go in `docs/decisions/DR-NNNN-*.md`.
 
 No per-agent files. No per-session files. No dates in filenames outside an archive.
 IDs are never reused. Full law: `D:\\Netie\\Internal\\Rules\\DOCUMENT_SYSTEM.md`.
+
+### Product caller
+
+`uv add --editable git+https://github.com/Netie-AI/Netie.git`
+
+Then `{caller}`. Non-editable wheel has no `scripts/` and raises. Do not clone Grok Bot reconstructed. Do not vendor OpenWork `ee/`. Cortex is not Claude Code.
 
 {END}"""
 
