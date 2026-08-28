@@ -18,7 +18,7 @@
 1. GitHub App select private repos (no passwords).
 2. Pay / raise https://github.com/organizations/Netie-AI/settings/billing
 3. Write on OpenVault + constructor.
-4. Wire contracts into product callers (PRD-001 in dms first).
+4. Wire contracts into product callers (PRD-001 in dms first; PRD-002 imports `scripts/crew_*.py`).
 
 ## Later
 
