@@ -19,9 +19,9 @@ Read-only cards from Crew index + Factory.index() tickets/epics + ledger peek + 
 Session permissions drop Deep Agents builtins and billing-bypass names (`search_capabilities`).
 Transcript / prompt / key leak is denied on every row (runs, tickets, epics, ledger, refusals).
 RDP / VNC / SSH / telnet / Kubernetes / Guacamole kinds refuse (Control is not a remote-desktop gateway).
-Ticket runner: `scripts/crew_runner.py` (Cortex refusal on the board, ticket stays open).
-`run_dag` raises. Score stays **2 / 10** as a board view, **1 / 10** as Guacamole.
-`python3 scripts/test_control_board.py` and `python3 scripts/test_crew_runner.py`.
+Board / session over DitchContext 12k refuse (no silent drop). Score stays **2 / 10** as a board view, **1 / 10** as Guacamole.
+Ticket runner is `scripts/crew_runner.py` (`run_open_ticket` -> Factory -> wrap). Not a second loop.
+`run_dag` on the board still refuses. `python3 scripts/test_control_board.py` and `python3 scripts/test_crew_runner.py`.
 
 ---
 

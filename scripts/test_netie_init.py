@@ -45,6 +45,16 @@ class NetieInitTests(unittest.TestCase):
             self.assertIn("WRITE_ACTIONS", cortex_text)
             self.assertIn("not Claude Code", cortex_text)
 
+    def test_stamps_control_product_caller(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp) / "netie-control"
+            root.mkdir()
+            stamp(root, "Control")
+            text = (root / "CLAUDE.md").read_text(encoding="utf-8")
+            self.assertIn(CALLERS["Control"], text)
+            self.assertIn("MAX_BOARD_CHARS", text)
+            self.assertIn("project_board", text)
+
 
 if __name__ == "__main__":
     unittest.main()

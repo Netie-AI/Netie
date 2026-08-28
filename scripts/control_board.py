@@ -5,12 +5,14 @@ Not Guacamole. Not a product. Fold into Crew; do not grow a sibling shell.
 
 from __future__ import annotations
 
+import json
 from typing import Any
 
 from crew_capabilities import search_capabilities
 
 
 FORBIDDEN_KEYS = frozenset({"skill_body", "prompt", "transcript", "api_key", "password"})
+MAX_BOARD_CHARS = 12000  # same DitchContext as DMS/AirGPT/Space
 # Control is not Apache Guacamole. Those protocols are not board cards.
 RDP_KINDS = frozenset(
     {
@@ -40,11 +42,22 @@ def _guard_row(row: dict[str, Any]) -> None:
         raise ControlDenied("Control is not Guacamole")
 
 
+def _budget_ok(blob: object, *, max_chars: int, what: str) -> None:
+    budget = max_chars if max_chars > 0 else MAX_BOARD_CHARS
+    dumped = json.dumps(blob, separators=(",", ":"), default=str)
+    if len(dumped) > budget:
+        raise ControlDenied(f"{what} over DitchContext")
+    for needle in FORBIDDEN_KEYS:
+        if needle in dumped:
+            raise ControlDenied(f"{what} contained {needle}")
+
+
 def project_board(
     *,
     crew_index: dict[str, Any],
     ledger_peek: list[dict[str, Any]],
     refusals: list[dict[str, Any]],
+    max_chars: int = MAX_BOARD_CHARS,
 ) -> dict[str, Any]:
     cards = []
     for row in crew_index.get("runs") or []:
@@ -98,11 +111,9 @@ def project_board(
         cards.append(
             {"id": row.get("id"), "kind": "refusal", "reason": row.get("reason")}
         )
-    dumped = str(cards)
-    for needle in FORBIDDEN_KEYS:
-        if needle in dumped:
-            raise ControlDenied(f"board contained {needle}")
-    return {"product": "crew-board", "cards": cards}
+    board = {"product": "crew-board", "cards": cards}
+    _budget_ok(board, max_chars=max_chars, what="board")
+    return board
 
 
 def project_session(
@@ -111,6 +122,7 @@ def project_session(
     todos: list[dict[str, Any]],
     permissions: list[str],
     handoff: dict[str, Any] | None = None,
+    max_chars: int = MAX_BOARD_CHARS,
 ) -> dict[str, Any]:
     """OpenWork-shaped session: one live run, no transcript body."""
     if not isinstance(run, dict):
@@ -135,10 +147,7 @@ def project_session(
         "permissions": search_capabilities(permissions),
         "handoff_id": (handoff or {}).get("id"),
     }
-    dumped = str(session)
-    for needle in FORBIDDEN_KEYS:
-        if needle in dumped:
-            raise ControlDenied(f"session contained {needle}")
+    _budget_ok(session, max_chars=max_chars, what="session")
     return session
 
 
