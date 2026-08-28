@@ -14,7 +14,7 @@ make ci
 
 That is `python3 -m compileall -q scripts` then `python3 scripts/check_docs.py` (required files + laptop-ASCII + all `scripts/test_*.py`). GitHub `docs-ci` jobs fail in ~3s without starting: spending limit. Empty steps, no logs. That is not a test failure. Origin (git remote) is already `origin`; we already push there. Switching hosts does not fix clone 404 or Actions billing.
 
-Measured on this VM 2026-08-28 against public clones: Netie unittest **250 passed**; constructor (18 patches) `node --test` **42 passed**; OpenVault OpenMW (25 patches) routing+chat **90 passed**; prior full OpenMW suite on 23 patches was **912 passed, 4 skipped**. Re-probed same day: Cortex/Pointer/Space/KB/Crew/AirGPT still 404.
+Measured on this VM 2026-08-28 against public clones: Netie unittest **255 passed**; constructor (18 patches) `node --test` **42 passed**; OpenVault OpenMW (25 patches) routing+chat **90 passed**; prior full OpenMW suite on 23 patches was **912 passed, 4 skipped**. Re-probed same day: Cortex/Pointer/Space/KB/Crew/AirGPT still 404.
 
 ---
 
