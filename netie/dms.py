@@ -5,6 +5,7 @@ from __future__ import annotations
 import netie._scripts  # noqa: F401
 
 from dms_space_acl import (
+    MAX_ANSWER_CHARS,
     SpaceDenied,
     answer_or_abstain,
     browse_or_abstain,
@@ -12,6 +13,7 @@ from dms_space_acl import (
 )
 
 __all__ = (
+    "MAX_ANSWER_CHARS",
     "SpaceDenied",
     "answer_or_abstain",
     "browse_or_abstain",

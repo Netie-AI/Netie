@@ -35,7 +35,13 @@ from netie.crew import (
     run_open_ticket,
     wrap_deepagents_tools,
 )
-from netie.dms import SpaceDenied, answer_or_abstain, browse_or_abstain, mint_manifest
+from netie.dms import (
+    MAX_ANSWER_CHARS,
+    SpaceDenied,
+    answer_or_abstain,
+    browse_or_abstain,
+    mint_manifest,
+)
 from netie.pointer import PointerDenied, bind_computer, click, invoke_hand
 from netie.route import (
     CompileDenied,
@@ -411,6 +417,20 @@ class NetieApiTests(unittest.TestCase):
         )
         self.assertEqual(chat["status"], "ABSTAIN")
         self.assertIn("AnythingLLM", chat["reason"])
+
+        fat = answer_or_abstain(
+            acl,
+            "space-ops",
+            "inventory",
+            [{"sku": "A"}],
+            warehouse_id="dms-demo",
+            binds=binds,
+            sql="SELECT sku FROM inventory",
+            max_chars=1,
+        )
+        self.assertEqual(fat["status"], "ABSTAIN")
+        self.assertIn("DitchContext", fat["reason"])
+        self.assertEqual(MAX_ANSWER_CHARS, 12000)
 
         bronze = browse_or_abstain(acl, "space-ops", "invoices", tier="bronze")
         self.assertEqual(bronze["status"], "ABSTAIN")
