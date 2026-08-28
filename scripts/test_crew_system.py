@@ -10,6 +10,7 @@ from typing import Any
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
+from crew_budget import TokenBudget
 from crew_factory import Factory
 from crew_ov_gate import OpenVaultCrewGate
 from crew_parallel import Job, run_batch
@@ -61,7 +62,9 @@ class CrewSystemTests(unittest.TestCase):
             Job("j1", "export_pptx", {"operator_confirm": True}),
             Job("j2", "warehouse.query", {"sql": "select 1"}),
         ]
-        results = run_batch(gate, jobs, max_in_flight=2)
+        results = run_batch(
+            gate, jobs, max_in_flight=2, budget=TokenBudget(max_tokens=10_000)
+        )
         self.assertEqual([r.status for r in results], ["DONE", "FAILED"])
         self.assertEqual(gate.executed, ["export_pptx"])
 

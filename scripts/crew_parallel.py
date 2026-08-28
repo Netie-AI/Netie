@@ -1,7 +1,8 @@
 """Capped parallel Crew runners. Every job still goes through prepare_tool.
 
 WIP law: in-flight is at most 2. Asking for more refuses unbounded spawn.
-Refused jobs (HITL, builtins, skill_body, Cortex deny) do not spend budget.
+A batch without TokenBudget refuses unbounded spend. Refused jobs
+(HITL, builtins, skill_body, Cortex deny) do not spend budget.
 This is not a second engine and not infinite subagents.
 """
 
@@ -37,15 +38,14 @@ class JobResult:
 def _one(
     gate: CortexGate,
     job: Job,
-    budget: TokenBudget | None,
+    budget: TokenBudget,
     ledger: HashLedger | None,
 ) -> JobResult:
     try:
         if has_bodies(job.payload):
             raise CortexDenied("skill_body must never go to a child job")
         name, body = prepare_tool(gate, job.tool, job.payload)
-        if budget is not None:
-            budget.charge(estimate_tokens(strip_bodies(body)))
+        budget.charge(estimate_tokens(strip_bodies(body)))
         out = gate.execute(name, body)
         result = JobResult(id=job.id, status="DONE", detail="ok", output=out)
     except (CortexDenied, BudgetDenied) as exc:
@@ -68,6 +68,10 @@ def run_batch(
     if max_in_flight > MAX_IN_FLIGHT:
         raise ValueError(
             "max_in_flight > 2 refuses unbounded spawn; WIP law"
+        )
+    if budget is None:
+        raise CortexDenied(
+            "token budget required; Deep Agents default is unbounded spend"
         )
     if not jobs:
         return []
