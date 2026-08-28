@@ -89,6 +89,8 @@ def refuse_unported_analogue(
     persist: Any = None,
     auto_combo: Any = False,
     compress: Any = False,
+    mcp: Any = False,
+    a2a: Any = False,
 ) -> None:
     """Name the OmniRoute pieces we did not port. Do not silently sequential-walk."""
     if _flag_on(parallel) or _flag_on(quorum_grace):
@@ -104,6 +106,8 @@ def refuse_unported_analogue(
         raise ExecutionRefused(501, "autoCombo scoring not ported")
     if _flag_on(compress):
         raise ExecutionRefused(501, "token compression is Cortex's job")
+    if _flag_on(mcp) or _flag_on(a2a):
+        raise ExecutionRefused(501, "MCP/A2A not ported")
 
 
 def refuse_unported_from_body(body: dict[str, Any] | None) -> None:
@@ -128,6 +132,8 @@ def refuse_unported_from_body(body: dict[str, Any] | None) -> None:
             or bag.get("token_compression")
             or bag.get("compress_tokens")
         ),
+        mcp=bag.get("mcp") or bag.get("mcp_servers"),
+        a2a=bag.get("a2a") or bag.get("a2a_messages"),
     )
 
 
@@ -685,12 +691,14 @@ def dispatch_combo(
     persist: Any = None,
     auto_combo: Any = False,
     compress: Any = False,
+    mcp: Any = False,
+    a2a: Any = False,
 ) -> str:
     """Run an execution shape. Sort names raise StrategyIsASort.
 
     Sequential hop-walk only. OmniRoute parallel quorum-grace, Codex quota
-    fetch, SQLite handoff persist, autoCombo scoring, and token compression
-    are not ported; asking for them is 501, not a silent sequential walk.
+    fetch, SQLite handoff persist, autoCombo scoring, token compression, and
+    MCP/A2A are not ported; asking for them is 501, not a silent sequential walk.
     """
     refuse_unported_analogue(
         parallel=parallel,
@@ -699,6 +707,8 @@ def dispatch_combo(
         persist=persist,
         auto_combo=auto_combo,
         compress=compress,
+        mcp=mcp,
+        a2a=a2a,
     )
     name = _norm_name(strategy)
     if name in SORT_STRATEGIES:
@@ -865,6 +875,8 @@ def hop_call_model(
             persist=kwargs.pop("persist", None),
             auto_combo=kwargs.pop("auto_combo", False),
             compress=kwargs.pop("compress", False),
+            mcp=kwargs.pop("mcp", False),
+            a2a=kwargs.pop("a2a", False),
         )
         found = hops_for_model(hops, model, serves=serves)
         if not found:
