@@ -11,6 +11,7 @@ import sys
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
+from crew_budget import BudgetDenied, TokenBudget
 from crew_tool_wrap import CortexDenied, Verdict, run_tool, wrap_deepagents_tools, require_wrapped
 
 
@@ -118,6 +119,34 @@ class CrewWrapTests(unittest.TestCase):
                 wrap_deepagents_tools(gate, ["export_pptx", name])
             self.assertIn("not a Crew tool", str(ctx.exception))
         self.assertEqual(gate.executed, [])
+
+    def test_skill_body_on_wrap_does_not_execute_or_spend(self) -> None:
+        gate = FakeGate(True)
+        budget = TokenBudget(max_tokens=100)
+        tools = wrap_deepagents_tools(gate, ["warehouse.query"], budget=budget)
+        with self.assertRaises(CortexDenied) as ctx:
+            tools["warehouse.query"](skill_body="SECRET")
+        self.assertIn("skill_body", str(ctx.exception))
+        self.assertEqual(gate.executed, [])
+        self.assertEqual(budget.spent, 0)
+
+    def test_wrap_over_budget_does_not_execute(self) -> None:
+        gate = FakeGate(True)
+        budget = TokenBudget(max_tokens=40)
+        tools = wrap_deepagents_tools(gate, ["warehouse.query"], budget=budget)
+        tools["warehouse.query"](blob="x" * 80)
+        with self.assertRaises(BudgetDenied):
+            tools["warehouse.query"](blob="y" * 80)
+        self.assertEqual(gate.executed, ["warehouse.query"])
+
+    def test_hitl_refuse_on_wrap_does_not_spend(self) -> None:
+        gate = FakeGate(True)
+        budget = TokenBudget(max_tokens=100)
+        tools = wrap_deepagents_tools(gate, ["export_pptx"], budget=budget)
+        with self.assertRaises(CortexDenied):
+            tools["export_pptx"]()
+        self.assertEqual(gate.executed, [])
+        self.assertEqual(budget.spent, 0)
 
 
 if __name__ == "__main__":

@@ -12,6 +12,7 @@ from __future__ import annotations
 
 from typing import Any, Callable
 
+from crew_budget import TokenBudget
 from crew_tool_wrap import CortexDenied, CortexGate, DEEPAGENTS_DIRECT, require_wrapped, wrap_deepagents_tools
 
 # Deep Agents 0.7.9 factory knobs that dump prompts or put filesystem back.
@@ -60,9 +61,14 @@ def bind_kwargs(
     names: list[str],
     *,
     model: Any,
+    budget: TokenBudget,
 ) -> dict[str, Any]:
     """Kwargs create_deep_agent must receive. Extra harness knobs refuse."""
-    tools = require_wrapped(names, wrap_deepagents_tools(gate, names))
+    if budget is None:
+        raise CortexDenied("token budget required; Deep Agents default is unbounded spend")
+    tools = require_wrapped(
+        names, wrap_deepagents_tools(gate, names, budget=budget)
+    )
     _model_key(model)
     return {
         "model": model,
@@ -86,13 +92,16 @@ def bind_deep_agent(
     factory: Callable[..., Any] | None = None,
     register: Callable[[str, Any], None] | None = None,
     extra: dict[str, Any] | None = None,
+    budget: TokenBudget | None = None,
 ) -> Any:
     """The only create_deep_agent call site. Builtins stay excluded."""
     bag = dict(extra or {})
     if bag:
         name = sorted(bag)[0]
         raise CortexDenied(f"{name} is not a Crew factory knob")
-    kwargs = bind_kwargs(gate, names, model=model)
+    if budget is None:
+        raise CortexDenied("token budget required; Deep Agents default is unbounded spend")
+    kwargs = bind_kwargs(gate, names, model=model, budget=budget)
     spec = _model_key(model)
     if factory is None:
         try:

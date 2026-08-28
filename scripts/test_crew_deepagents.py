@@ -10,6 +10,7 @@ from typing import Any
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
+from crew_budget import TokenBudget
 from crew_deepagents import (
     FORBIDDEN_FACTORY_KEYS,
     bind_deep_agent,
@@ -17,6 +18,9 @@ from crew_deepagents import (
     crew_harness_profile,
 )
 from crew_tool_wrap import CortexDenied, Verdict
+
+
+ROOM = TokenBudget(max_tokens=10_000)
 
 
 class FakeGate:
@@ -35,7 +39,9 @@ class CrewDeepAgentsTests(unittest.TestCase):
     def test_forbidden_covers_prompt_and_filesystem_knobs(self) -> None:
         for name in ("system_prompt", "middleware", "backend", "permissions", "skills"):
             self.assertIn(name, FORBIDDEN_FACTORY_KEYS)
-        kw = bind_kwargs(FakeGate(), ["export_pptx"], model="openai:gpt-4")
+        kw = bind_kwargs(
+            FakeGate(), ["export_pptx"], model="openai:gpt-4", budget=ROOM
+        )
         self.assertEqual(len(kw["tools"]), 1)
         self.assertIs(kw["checkpointer"], False)
         self.assertIsNone(kw["subagents"])
@@ -48,7 +54,7 @@ class CrewDeepAgentsTests(unittest.TestCase):
 
     def test_bare_model_refuses(self) -> None:
         with self.assertRaises(CortexDenied) as ctx:
-            bind_kwargs(FakeGate(), ["export_pptx"], model="gpt-4")
+            bind_kwargs(FakeGate(), ["export_pptx"], model="gpt-4", budget=ROOM)
         self.assertIn("model spec", str(ctx.exception))
 
     def test_factory_skills_refuse(self) -> None:
@@ -159,6 +165,20 @@ class CrewDeepAgentsTests(unittest.TestCase):
             )
         self.assertIn("debug", str(ctx.exception))
 
+    def test_bind_without_budget_refuses(self) -> None:
+        def factory(**_k: Any) -> str:
+            return "nope"
+
+        with self.assertRaises(CortexDenied) as ctx:
+            bind_deep_agent(
+                FakeGate(),
+                ["export_pptx"],
+                model="openai:gpt-4",
+                factory=factory,
+                register=lambda *_a: None,
+            )
+        self.assertIn("token budget", str(ctx.exception))
+
     def test_injected_factory_without_register_refuses(self) -> None:
         def factory(**_k: Any) -> str:
             return "nope"
@@ -169,6 +189,7 @@ class CrewDeepAgentsTests(unittest.TestCase):
                 ["export_pptx"],
                 model="openai:gpt-4",
                 factory=factory,
+                budget=ROOM,
             )
         self.assertIn("harness register", str(ctx.exception))
 
@@ -192,6 +213,7 @@ class CrewDeepAgentsTests(unittest.TestCase):
             model="openai:gpt-4",
             factory=factory,
             register=register,
+            budget=ROOM,
         )
         self.assertEqual(out, "agent")
         self.assertEqual(len(seen["tools"]), 1)

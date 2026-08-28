@@ -71,24 +71,42 @@ def prepare_tool(
     return name, body
 
 
-def run_tool(gate: CortexGate, tool: str, payload: dict[str, Any]) -> Any:
+def run_tool(
+    gate: CortexGate,
+    tool: str,
+    payload: dict[str, Any],
+    *,
+    budget: Any | None = None,
+) -> Any:
     """The only Crew write/read path. Parallel runners share this function.
 
     Known writes need operator_confirm=True (HITL). Deep Agents default is
-    trust-the-LLM; this is the opposite. Refusals do not execute.
+    trust-the-LLM; this is the opposite. Refusals do not execute and do not
+    spend budget. skill_body / prompt / transcript never ride the wrap.
     """
+    from crew_budget import estimate_tokens
+    from crew_ov_gate import has_bodies, strip_bodies
+
+    if has_bodies(payload or {}):
+        raise CortexDenied("skill_body must never go to a child job")
     name, body = prepare_tool(gate, tool, payload)
+    if budget is not None:
+        budget.charge(estimate_tokens(strip_bodies(body)))
     return gate.execute(name, body)
 
 
 def wrap_deepagents_tools(
-    gate: CortexGate, names: list[str]
+    gate: CortexGate,
+    names: list[str],
+    *,
+    budget: Any | None = None,
 ) -> dict[str, Callable[..., Any]]:
     """Deep Agents (MIT) sits under this wrap. Their default is trust-the-LLM.
 
     Empty or blank names refuse. An empty wrap would let create_deep_agent
     run its built-in tools ungoverned. Known writes still need
-    operator_confirm=True at call time (HITL).
+    operator_confirm=True at call time (HITL). bind_deep_agent requires a
+    TokenBudget; a wrap without one is unbounded spend.
     """
     if gate is None:
         raise CortexDenied("no Cortex gate")
@@ -109,7 +127,7 @@ def wrap_deepagents_tools(
 
     def bind(tool: str) -> Callable[..., Any]:
         def tool_fn(**payload: Any) -> Any:
-            return run_tool(gate, tool, payload)
+            return run_tool(gate, tool, payload, budget=budget)
 
         tool_fn.__name__ = tool
         return tool_fn
