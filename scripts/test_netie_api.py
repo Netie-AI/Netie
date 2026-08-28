@@ -202,6 +202,14 @@ class NetieApiTests(unittest.TestCase):
         self.assertNotIn("SECRET PROMPT", dumped)
         with self.assertRaises(CortexDenied):
             load_den("ee/")
+        with self.assertRaises(CortexDenied) as extra:
+            bind_deep_agent(
+                Gate(),
+                ["export_pptx"],
+                model="openai:gpt-4",
+                extra={"skills": ["/tmp/skill.md"]},
+            )
+        self.assertIn("skills", str(extra.exception))
 
     def test_dms_product_caller_public_api(self) -> None:
         """PRD-001 shape: import netie.dms only, not scripts/."""
@@ -282,8 +290,10 @@ class NetieApiTests(unittest.TestCase):
     def test_cortex_product_caller_public_api(self) -> None:
         """Cortex shape: import netie.cortex only. Not Claude Code, no C7."""
         self.assertIn("item.intake", WRITE_ACTIONS)
+        self.assertIn("amend.apply", WRITE_ACTIONS)
+        self.assertIn("call_action", WRITE_ACTIONS)
         with self.assertRaises(RouteDenied) as actor:
-            run_question("dag", write="item.intake", verified=True)
+            run_question("dag", write="amend.apply", verified=True)
         self.assertIn("actor", str(actor.exception))
         with self.assertRaises(RouteDenied) as c7:
             run_question("dag", verified=True, c7_sql=True)
@@ -294,10 +304,10 @@ class NetieApiTests(unittest.TestCase):
         with self.assertRaises(RouteDenied) as bash:
             run_question("dag", tool="bash", via_tool_runner=True, verified=True)
         self.assertIn("Claude Code", str(bash.exception))
-        out = run_question("dag", write="item.intake", actor="ops", verified=True)
+        out = run_question("dag", write="call_action", actor="ops", verified=True)
         self.assertEqual(out["jepa"], "off-path")
         self.assertEqual(out["c7_sql"], "off")
-        self.assertEqual(out["write"], "item.intake")
+        self.assertEqual(out["write"], "call_action")
 
     def test_airgpt_product_caller_public_api(self) -> None:
         """AirGPT RAG: owned table splitter, not ChatGPT memory, not NVIDIA_RAG_EVAL."""
