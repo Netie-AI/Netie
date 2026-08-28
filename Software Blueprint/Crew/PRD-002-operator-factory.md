@@ -65,7 +65,7 @@ uv init && uv add deepagents
 # Import Netie portable wrap; do not reimplement trust-the-LLM.
 #   scripts/crew_deepagents.py  bind_deep_agent: wrap + HarnessProfile excluded_tools
 #   scripts/crew_tool_wrap.py   wrap + HITL + Deep Agents builtins refuse
-#   scripts/crew_capabilities.py search_capabilities / execute_capability (Den-like grant)
+#   scripts/crew_capabilities.py search_capabilities / execute_capability / execute_capabilities (Den-like grant, cap-2)
 #   scripts/crew_parallel.py    cap-2; prepare_tool then charge; refusals do not spend
 #   scripts/crew_checkpoint.py  ids-only; summarise is counts
 #   scripts/crew_runner.py      Cortex refusal stays on the board

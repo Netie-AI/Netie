@@ -13,7 +13,8 @@ from __future__ import annotations
 from typing import Any
 
 from crew_ov_gate import has_bodies
-from crew_tool_wrap import CortexDenied, CortexGate, DEEPAGENTS_DIRECT, run_tool
+from crew_parallel import Job, JobResult, MAX_IN_FLIGHT, run_batch
+from crew_tool_wrap import CortexDenied, CortexGate, DEEPAGENTS_DIRECT, Verdict, run_tool
 from seat_router import BYPASS_SEATS
 
 LEAVE_CAPS = frozenset(
@@ -58,3 +59,45 @@ def execute_capability(
     if cap in LEAVE_CAPS and not ov_allowed:
         raise CortexDenied("leave-machine is OpenVault")
     return run_tool(gate, cap, payload)
+
+
+class GrantedGate:
+    """Den-like policy in front of Cortex. Ungranted names never execute."""
+
+    def __init__(
+        self,
+        inner: CortexGate,
+        granted: frozenset[str] | list[str] | tuple[str, ...],
+        *,
+        ov_allowed: bool = False,
+    ) -> None:
+        self.inner = inner
+        self.granted = granted
+        self.ov_allowed = ov_allowed
+
+    def check(self, tool: str, payload: dict[str, Any]) -> Verdict:
+        cap = (tool or "").strip()
+        if cap in BYPASS_SEATS:
+            return Verdict(allowed=False, reason="billing-bypass product")
+        if cap not in search_capabilities(self.granted):
+            return Verdict(allowed=False, reason=f"capability {cap} not granted")
+        if cap in LEAVE_CAPS and not self.ov_allowed:
+            return Verdict(allowed=False, reason="leave-machine is OpenVault")
+        return self.inner.check(tool, payload)
+
+    def execute(self, tool: str, payload: dict[str, Any]) -> Any:
+        return self.inner.execute(tool, payload)
+
+
+def execute_capabilities(
+    gate: CortexGate,
+    jobs: list[Job],
+    *,
+    granted: frozenset[str] | list[str] | tuple[str, ...],
+    ov_allowed: bool = False,
+    max_in_flight: int = MAX_IN_FLIGHT,
+    budget: Any = None,
+) -> list[JobResult]:
+    """Granted capabilities in parallel. Cap-2. Ungranted jobs fail closed."""
+    wrapped = GrantedGate(gate, granted, ov_allowed=ov_allowed)
+    return run_batch(wrapped, jobs, max_in_flight=max_in_flight, budget=budget)

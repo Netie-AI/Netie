@@ -10,7 +10,8 @@ from typing import Any
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
-from crew_capabilities import execute_capability, search_capabilities
+from crew_capabilities import execute_capabilities, execute_capability, search_capabilities
+from crew_parallel import Job
 from crew_tool_wrap import CortexDenied, Verdict
 
 
@@ -93,6 +94,27 @@ class CrewCapabilityTests(unittest.TestCase):
             gate, "open_url", {}, granted=["open_url"], ov_allowed=True
         )
         self.assertEqual(out["tool"], "open_url")
+
+    def test_batch_caps_at_two_and_ungranted_does_not_execute(self) -> None:
+        gate = FakeGate()
+        with self.assertRaises(ValueError):
+            execute_capabilities(
+                gate,
+                [Job("a", "warehouse.query", {})],
+                granted=["warehouse.query"],
+                max_in_flight=3,
+            )
+        jobs = [
+            Job("a", "warehouse.query", {}),
+            Job("b", "warehouse.delete", {}),
+            Job("c", "export_pptx", {"operator_confirm": True}),
+        ]
+        results = execute_capabilities(
+            gate, jobs, granted=["warehouse.query", "export_pptx"], max_in_flight=1
+        )
+        self.assertEqual([r.status for r in results], ["DONE", "FAILED", "DONE"])
+        self.assertIn("not granted", results[1].detail)
+        self.assertEqual(gate.executed, ["warehouse.query", "export_pptx"])
 
 
 if __name__ == "__main__":

@@ -152,3 +152,30 @@ def answer_or_abstain(
         "sql": sql.strip(),
         "rows": cleaned,
     }
+
+
+def browse_or_abstain(
+    acl: Acl,
+    space_id: str,
+    table: str,
+    *,
+    tier: str,
+) -> dict:
+    """Library/Studio browse. Bronze has no HEAD allowlist; this contract does.
+
+    warehouse ChatGPT analogues still cannot see another customer's bronze.
+    """
+    name = (tier or "").strip().lower()
+    if name not in {"warehouse", "bronze"}:
+        return {
+            "status": "ABSTAIN",
+            "reason": f"bad browse tier {tier or 'none'}",
+            "rows": [],
+        }
+    if not may_read(acl, space_id, table):
+        return {
+            "status": "ABSTAIN",
+            "reason": f"space {space_id} cannot browse {table}",
+            "rows": [],
+        }
+    return {"status": "OK", "table": table, "tier": name}

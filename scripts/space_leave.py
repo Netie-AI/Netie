@@ -80,6 +80,9 @@ def persist_key(path_name: str, plaintext: bool) -> None:
         raise SpaceLeaveDenied(f"refuse plaintext key write to {path_name}")
 
 
+MAX_CHAT_EXCERPT = 12000  # TAS-SPACE DitchContext default. Peek does not chat.
+
+
 def may_preview(
     path_name: str,
     *,
@@ -92,6 +95,26 @@ def may_preview(
     if leave_machine and not ov_allowed:
         raise SpaceLeaveDenied("leave-machine is OpenVault")
     return "preview"
+
+
+def chat_preview(
+    path_name: str,
+    excerpt: str,
+    *,
+    ov_allowed: bool,
+) -> str:
+    """AI chat over a previewed file. Peek/Preview never POST the bytes.
+
+    Excerpt is leave-machine. Secrets stay closed even with an OV allow.
+    Over-budget excerpts refuse (token-cheap; DitchContext 12k).
+    """
+    blob = excerpt or ""
+    if not blob.strip():
+        raise SpaceLeaveDenied("no excerpt")
+    if len(blob) > MAX_CHAT_EXCERPT:
+        raise SpaceLeaveDenied("excerpt over DitchContext budget")
+    may_preview(path_name, leave_machine=True, ov_allowed=ov_allowed)
+    return "chat"
 
 
 def ocr_cloud(path_name: str, *, ov_allowed: bool, local_chars: int) -> str:
