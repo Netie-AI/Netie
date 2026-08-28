@@ -152,6 +152,7 @@ class SiblingPatchTests(unittest.TestCase):
             serve = PATCHES / "openvault-hop-serve.patch"
             bound = PATCHES / "openvault-hop-bound.patch"
             catalog = PATCHES / "openvault-hop-catalog.patch"
+            quota = PATCHES / "openvault-quota-share.patch"
             self.assertTrue(
                 crew.is_file()
                 and ctx.is_file()
@@ -173,6 +174,7 @@ class SiblingPatchTests(unittest.TestCase):
                 and serve.is_file()
                 and bound.is_file()
                 and catalog.is_file()
+                and quota.is_file()
             )
             for patch in (
                 detect,
@@ -198,6 +200,7 @@ class SiblingPatchTests(unittest.TestCase):
                 serve,
                 bound,
                 catalog,
+                quota,
             ):
                 check = _run(["git", "apply", "--check", str(patch)], cwd=dest)
                 self.assertEqual(check.returncode, 0, f"{patch.name}: {check.stderr}")
@@ -245,6 +248,8 @@ class SiblingPatchTests(unittest.TestCase):
             self.assertIn("MAX_RELAY_PER_SCOPE", execution)
             self.assertIn("def hop_serves_listed", execution)
             self.assertIn("Catalog membership, not resolve_model", proxy)
+            self.assertIn("quota-share is OmniRoute-internal", execution)
+            self.assertIn("unported_http", proxy)
             app_py = (dest / "OpenMW" / "openmw" / "openvault" / "app.py").read_text(
                 encoding="utf-8"
             )

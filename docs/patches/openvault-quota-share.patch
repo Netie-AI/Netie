@@ -1,0 +1,220 @@
+diff --git a/OpenMW/openmw/openvault/route/execution.py b/OpenMW/openmw/openvault/route/execution.py
+index 5f62dcb..5b90cc2 100644
+--- a/OpenMW/openmw/openvault/route/execution.py
++++ b/OpenMW/openmw/openvault/route/execution.py
+@@ -41,6 +41,43 @@ class ExecutionRefused(ValueError):
+         self.message = message
+ 
+ 
++def _flag_on(value: Any) -> bool:
++    return value not in (None, False, 0, "", "0", "false", "False")
++
++
++def refuse_unported_analogue(*, strategy: Any = None, quota_share: Any = False) -> None:
++    """Name OmniRoute-internal quota-share. Do not treat it as unknown 400."""
++    name = str(strategy or "").strip().lower().replace("_", "-")
++    if name == "quota-share" or _flag_on(quota_share):
++        raise ExecutionRefused(501, "quota-share is OmniRoute-internal, not ported")
++
++
++def refuse_unported_from_body(body: dict[str, Any] | None) -> None:
++    if not isinstance(body, dict):
++        return
++    combo = body.get("combo") if isinstance(body.get("combo"), dict) else {}
++    bag = {**body, **combo}
++    refuse_unported_analogue(
++        strategy=bag.get("strategy"),
++        quota_share=bag.get("quota_share") or bag.get("quotaShare"),
++    )
++
++
++def unported_http(
++    body: dict[str, Any] | None,
++) -> tuple[int, dict[str, Any]] | None:
++    try:
++        refuse_unported_from_body(body)
++    except ExecutionRefused as exc:
++        return exc.code, {
++            "error": {
++                "message": exc.message,
++                "type": "openvault_unported",
++            }
++        }
++    return None
++
++
+ def is_tool_bearing(tools: Any, tool_choice: Any) -> bool:
+     if not isinstance(tools, list) or not tools:
+         return False
+@@ -313,6 +350,7 @@ def resolve_auto(resolved: str | None) -> str:
+         raise ExecutionRefused(
+             400, "auto is a meta-router; caller must pass a concrete sort strategy"
+         )
++    refuse_unported_analogue(strategy=name)
+     if name in ("fusion", "pipeline", "context-relay", "auto"):
+         raise ExecutionRefused(
+             400,
+@@ -539,6 +577,7 @@ def dispatch_combo(
+     available: dict[str, bool] | None = None,
+     handoff: RelayHandoff | None = None,
+ ) -> str:
++    refuse_unported_analogue(strategy=strategy)
+     name = _norm_name(strategy)
+     if name in SORT_STRATEGY_NAMES:
+         raise StrategyIsASort(name)
+diff --git a/OpenMW/openmw/openvault/routers/route.py b/OpenMW/openmw/openvault/routers/route.py
+index 1965624..2df278c 100644
+--- a/OpenMW/openmw/openvault/routers/route.py
++++ b/OpenMW/openmw/openvault/routers/route.py
+@@ -11,6 +11,7 @@ from fastapi import APIRouter, HTTPException
+ from pydantic import BaseModel, Field
+ 
+ from openmw.openvault.route.breaker import get_all_breaker_statuses, reset_circuit_breaker
++from openmw.openvault.route.execution import ExecutionRefused, refuse_unported_analogue
+ from openmw.openvault.route.registry import get_route_state, set_strategy, set_targets
+ from openmw.openvault.route.strategies import apply_strategy, normalize_strategy
+ from openmw.openvault.route.types import EXECUTION_SHAPES, STRATEGY_NAMES, RouteTarget
+@@ -65,6 +66,10 @@ def api_get_strategy() -> dict[str, Any]:
+ 
+ @router.put("/api/route/strategy")
+ def api_put_strategy(body: StrategyBody) -> dict[str, Any]:
++    try:
++        refuse_unported_analogue(strategy=body.strategy)
++    except ExecutionRefused as exc:
++        raise HTTPException(status_code=exc.code, detail=exc.message) from exc
+     normalized = normalize_strategy(body.strategy)
+     if normalized is None:
+         raise HTTPException(
+diff --git a/OpenMW/openmw/openvault/vault/proxy.py b/OpenMW/openmw/openvault/vault/proxy.py
+index 4b08a2c..223a591 100644
+--- a/OpenMW/openmw/openvault/vault/proxy.py
++++ b/OpenMW/openmw/openvault/vault/proxy.py
+@@ -29,6 +29,7 @@ from openmw.openvault.route.execution import (
+     resolve_relay_handoff,
+     shape_from_chat_body,
+     sse_wrap_text,
++    unported_http,
+     user_text_from_body,
+ )
+ from openmw.openvault.vault.budget import estimate_tokens_for_body, prepare_hop_body
+@@ -586,6 +587,10 @@ async def chat_completions(
+     the return tuple is unpacked by four test modules that do not want it.
+     """
+     trace = trace if trace is not None else HopTrace()
++    unported = unported_http(body)
++    if unported:
++        trace.error_type = "openvault_unported"
++        return unported
+     refused = chat_shape_refusal(body)
+     if refused:
+         trace.error_type = "openvault_execution_shape"
+@@ -781,6 +786,10 @@ async def prepare_chat_stream(
+     with the correct HTTP status (streaming cannot change status mid-flight).
+     """
+     trace = trace if trace is not None else HopTrace()
++    unported = unported_http(body)
++    if unported:
++        trace.error_type = "openvault_unported"
++        return unported
+     refused = chat_shape_refusal(body)
+     if refused:
+         trace.error_type = "openvault_execution_shape"
+diff --git a/OpenMW/tests/test_execution_chat.py b/OpenMW/tests/test_execution_chat.py
+index 5d2e747..427f049 100644
+--- a/OpenMW/tests/test_execution_chat.py
++++ b/OpenMW/tests/test_execution_chat.py
+@@ -80,6 +80,44 @@ def test_v1_fusion_is_400_not_key_walk(
+     assert resp.json()["error"]["type"] == "openvault_execution_shape"
+ 
+ 
++def test_v1_quota_share_is_501_not_key_walk(
++    vault: KeyVault, monkeypatch: pytest.MonkeyPatch, tmp_path: Path
++) -> None:
++    client = _client(vault, tmp_path, monkeypatch)
++    _seat, headers = issue_key(client, label="quota-share-seat")
++    resp = client.post(
++        "/v1/chat/completions",
++        json={
++            "model": "gpt-4",
++            "messages": [{"role": "user", "content": "hi"}],
++            "combo": {"strategy": "quota-share"},
++        },
++        headers=headers,
++    )
++    assert resp.status_code == 501
++    assert resp.json()["error"]["type"] == "openvault_unported"
++    assert "quota-share" in resp.json()["error"]["message"]
++
++
++def test_v1_quota_share_stream_is_501(
++    vault: KeyVault, monkeypatch: pytest.MonkeyPatch, tmp_path: Path
++) -> None:
++    client = _client(vault, tmp_path, monkeypatch)
++    _seat, headers = issue_key(client, label="quota-share-stream-seat")
++    resp = client.post(
++        "/v1/chat/completions",
++        json={
++            "model": "gpt-4",
++            "stream": True,
++            "messages": [{"role": "user", "content": "hi"}],
++            "combo": {"strategy": "quota-share"},
++        },
++        headers=headers,
++    )
++    assert resp.status_code == 501
++    assert resp.json()["error"]["type"] == "openvault_unported"
++
++
+ def test_v1_auto_is_still_empty_pool_503(
+     vault: KeyVault, monkeypatch: pytest.MonkeyPatch, tmp_path: Path
+ ) -> None:
+diff --git a/OpenMW/tests/test_execution_shapes.py b/OpenMW/tests/test_execution_shapes.py
+index d27df6a..cde435b 100644
+--- a/OpenMW/tests/test_execution_shapes.py
++++ b/OpenMW/tests/test_execution_shapes.py
+@@ -33,6 +33,7 @@ from openmw.openvault.route.execution import (
+     shape_from_chat_body,
+     should_generate_handoff,
+     sse_wrap_text,
++    unported_http,
+     ExecutionRefused,
+ )
+ from openmw.openvault.route.registry import reset_route_state
+@@ -145,6 +146,37 @@ def test_route_api_refuses_fusion_as_sort() -> None:
+     assert "execution shape" in resp.json()["detail"]
+ 
+ 
++def test_resolve_auto_quota_share_is_501() -> None:
++    with pytest.raises(ExecutionRefused) as ctx:
++        resolve_auto("quota-share")
++    assert ctx.value.code == 501
++    assert "quota-share" in ctx.value.message
++
++
++def test_dispatch_combo_quota_share_is_501() -> None:
++    with pytest.raises(ExecutionRefused) as ctx:
++        dispatch_combo("quota-share", ["p/a"], lambda *_a, **_k: "x")
++    assert ctx.value.code == 501
++    assert "quota-share" in ctx.value.message
++
++
++def test_unported_http_combo_quota_share() -> None:
++    code, payload = unported_http({"combo": {"strategy": "quota-share"}})
++    assert code == 501
++    assert payload["error"]["type"] == "openvault_unported"
++    assert "quota-share" in payload["error"]["message"]
++
++
++def test_route_api_quota_share_is_501() -> None:
++    reset_route_state()
++    app = FastAPI()
++    app.include_router(route_router)
++    client = TestClient(app, client=("127.0.0.1", 5555))
++    resp = client.put("/api/route/strategy", json={"strategy": "quota-share"})
++    assert resp.status_code == 501
++    assert "quota-share" in resp.json()["detail"]
++
++
+ def test_model_auto_is_not_omniroute_auto() -> None:
+     assert shape_from_chat_body({"model": "auto"}) is None
+     assert chat_shape_refusal({"model": "auto"}) is None

@@ -220,6 +220,15 @@ cd OpenMW && uv run pytest tests/test_route_strategies.py tests/test_execution_s
 
 Execution-shape `serves()` is catalog membership, not `resolve_model` first-choice rewrite. Garbage ids and other-provider ids are 503 `no hop can serve model`. Empty catalog (anthropic) still owns a concrete id so the named skip can fire. Key walk is unchanged. Measured 2026-08-27: 77 passed. Push 403.
 
+Then:
+
+```
+git apply docs/patches/openvault-quota-share.patch
+cd OpenMW && uv run pytest tests/test_route_strategies.py tests/test_execution_shapes.py tests/test_execution_chat.py tests/test_freeroute_acceptance.py -q
+```
+
+`combo.strategy: quota-share` (and PUT `/api/route/strategy`) is 501 `openvault_unported`, not unknown 400 and not a key walk. OmniRoute-internal; not a 16th sort. Measured 2026-08-28: 83 passed. Push 403.
+
 Independent of routing:
 
 ```
