@@ -1,11 +1,12 @@
 # STATUS - Netie constitution repo
 
-**Branch:** `cursor/ecosystem-white-paper-ca9b` · **PR:** https://github.com/Netie-AI/Netie/pull/7
-**Local gate:** `make ci` / `python3 scripts/check_docs.py` (green).
+**Branch:** `cursor/redact-openrouter-key-0d3c`
+**Local gate:** `make ci` / `python3 scripts/check_docs.py`.
 **GitHub docs-ci:** red X, job never starts (Actions spending limit). Not a test fail.
 
 ## Now
 
+- GitGuardian OpenRouter leak: public `Keys.txt` + curl Bearer since 2026-08-02. Files removed; scan gate on; **founder must revoke** OpenRouter plus the six other keys in that dump (`docs/ACCESS.md` section 5). History still has the blobs.
 - Gap scores in `TAS/ESTATE-GAP.md`. Cortex path has no JEPA/gen-cFSM; writes need an actor; answers need `verified`; `/a2a/messages` is dms-pack only (`scripts/cortex_path.py`).
 - Crew portable contract: wrap (empty wrap / extra unwrapped names refuse; Deep Agents `task` / filesystem / `write_todos` refuse), HITL on known writes, cap-2 hard refuse above 2, parent-run, `skill` kind refused until a registry row exists, factory `index()` drops prompts, ticket runner (refusal on the board, ticket stays open), session view (no transcript), checkpoint/summarise ids-only, ledger refuses skill_body on append, refused jobs do not spend budget, seat router names billing-bypass products, WIP-2, OV gate.
 - Product specs: DMS Space ACL (warehouse bind, SQL required, row copy, SQL cannot name an ungranted table), AirGPT retrieve stays in one Space (incomplete/unlabeled not cited), Pointer UACC wrap (68 names behind Cortex; planner/clipboard/JS/secret-hotkey refuse), Space preview/write refuses secrets / ungated OCR, Control board + session (no prompts / no transcript).
@@ -15,10 +16,11 @@
 
 ## Next (blocked on founder clicks in `docs/ACCESS.md`)
 
-1. GitHub App select private repos (no passwords).
-2. Pay / raise https://github.com/organizations/Netie-AI/settings/billing
-3. Write on OpenVault + constructor.
-4. Wire contracts into product callers (PRD-001 in dms first; PRD-002 imports `scripts/crew_*.py`).
+1. Revoke leaked provider keys (ACCESS.md section 5). OpenRouter first.
+2. GitHub App select private repos (no passwords).
+3. Pay / raise https://github.com/organizations/Netie-AI/settings/billing
+4. Write on OpenVault + constructor.
+5. Wire contracts into product callers (PRD-001 in dms first; PRD-002 imports `scripts/crew_*.py`).
 
 ## Later
 
