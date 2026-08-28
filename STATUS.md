@@ -7,7 +7,7 @@
 ## Now
 
 - Gap scores in `TAS/ESTATE-GAP.md`. Cortex path has no JEPA/gen-cFSM (`scripts/cortex_path.py`).
-- Crew portable contract: wrap (empty wrap / extra unwrapped names refuse; Deep Agents `task` / filesystem / `write_todos` refuse), HITL on known writes, cap-2 hard refuse above 2, parent-run, `skill` kind refused until a registry row exists, factory `index()` drops prompts, ticket runner (refusal on the board, ticket stays open), session view (no transcript), checkpoint/summarise ids-only, ledger refuses skill_body on append, seat router names billing-bypass products, WIP-2, OV gate.
+- Crew portable contract: wrap (empty wrap / extra unwrapped names refuse; Deep Agents `task` / filesystem / `write_todos` refuse), HITL on known writes, cap-2 hard refuse above 2, parent-run, `skill` kind refused until a registry row exists, factory `index()` drops prompts, ticket runner (refusal on the board, ticket stays open), session view (no transcript), checkpoint/summarise ids-only, ledger refuses skill_body on append, refused jobs do not spend budget, seat router names billing-bypass products, WIP-2, OV gate.
 - Product specs: DMS Space ACL (warehouse bind, SQL required, row copy), AirGPT retrieve stays in one Space (incomplete/unlabeled not cited), Pointer UACC wrap (68 names behind Cortex; planner/clipboard/JS refuse), Space preview refuses secrets / ungated OCR, Control board + session (no prompts / no transcript).
 - Accessible remotes: Netie (this), OpenVault public (`main` CI green 2026-08-27, STATUS ~78%, HT1 not done), constructor public (pages.yml green).
 - 404 to this token: Cortex, dms, AirGPT, Pointer, Space, Control, KB, Cortex-Crew.
