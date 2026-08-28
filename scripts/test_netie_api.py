@@ -57,6 +57,37 @@ class NetieApiTests(unittest.TestCase):
             load_den("ee/")
         self.assertIn("ee/", str(ctx.exception))
 
+    def test_crew_harness_registers_into_deepagents(self) -> None:
+        """The profile Deep Agents lookup would apply, not only our local object."""
+        try:
+            from deepagents import register_harness_profile
+            from deepagents.profiles.harness.harness_profiles import (
+                _get_harness_profile,
+            )
+        except ImportError:
+            self.skipTest("deepagents not installed")
+
+        class Gate:
+            def check(self, tool: str, payload: dict) -> Verdict:
+                return Verdict(allowed=True)
+
+            def execute(self, tool: str, payload: dict) -> dict:
+                return {"tool": tool}
+
+        bind_deep_agent(
+            Gate(),
+            ["export_pptx"],
+            model="netie:crew-harness",
+            factory=lambda **_k: "agent",
+            register=register_harness_profile,
+        )
+        live = _get_harness_profile("netie:crew-harness")
+        self.assertIsNotNone(live)
+        excluded = set(live.excluded_tools)
+        for name in ("task", "ls", "execute", "read_file", "write_todos"):
+            self.assertIn(name, excluded)
+        self.assertIs(live.general_purpose_subagent.enabled, False)
+
     def test_cortex_is_not_claude_code(self) -> None:
         with self.assertRaises(RouteDenied) as ctx:
             run_question("dag", tool="bash", via_tool_runner=True, verified=True)
