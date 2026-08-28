@@ -37,8 +37,9 @@ REPOS: dict[str, Path] = {
 }
 
 # What each product repo imports after `uv add` Netie.
+# Cortex cannot uv-add Netie.git: it already owns the package name `netie`.
 CALLERS: dict[str, str] = {
-    "Cortex": "from netie.cortex import run_question, WRITE_ACTIONS",
+    "Cortex": "from CortexOS.constitution.cortex_path import run_question, WRITE_ACTIONS",
     "DMS": "from netie.dms import answer_or_abstain, browse_or_abstain",
     "OpenVault": "from netie.route import host_switchyard, report_deploy; from netie.crew import refuse_crew_gate",
     "AirGPT": "from netie.airgpt import retrieve_space, chunk_table",
@@ -54,9 +55,20 @@ def _caller(product: str) -> str:
     return CALLERS.get(product, "from netie.crew import bind_deep_agent")
 
 
+def _install_line(product: str) -> str:
+    if product == "Cortex":
+        return (
+            "Do not `uv add` Netie.git here: Cortex already owns the Python "
+            "package name `netie` (CortexOS alias). Apply "
+            "`docs/patches/cortex-netie-path.patch` from Netie-AI/Netie."
+        )
+    return "`uv add git+https://github.com/Netie-AI/Netie.git`"
+
+
 def _block(product: str) -> str:
     """The generated block. Same in every repo except the PRD pointer."""
     caller = _caller(product)
+    install = _install_line(product)
     return f"""{BEGIN}
 
 ## Netie operating system
@@ -104,7 +116,7 @@ IDs are never reused. Full law: `D:\\Netie\\Internal\\Rules\\DOCUMENT_SYSTEM.md`
 
 ### Product caller
 
-`uv add git+https://github.com/Netie-AI/Netie.git`
+{install}
 
 Then `{caller}`. The wheel ships contracts as `netie._contracts`. `--editable` is optional for a sibling checkout. Do not clone Grok Bot reconstructed. Do not vendor OpenWork `ee/`. Cortex is not Claude Code.
 

@@ -1,8 +1,8 @@
 diff --git a/engine.js b/engine.js
-index cf341d9..71bd72c 100644
+index 123c6af..9acf30f 100644
 --- a/engine.js
 +++ b/engine.js
-@@ -355,34 +355,41 @@ function compileIR(state) {
+@@ -356,34 +356,41 @@ function compileIR(state) {
      }
      output = sinks[0];
    }
@@ -66,29 +66,6 @@ index cf341d9..71bd72c 100644
      edges: edges.slice(),
    };
  }
-diff --git a/index.html b/index.html
-index 0dd4219..07c10d6 100644
---- a/index.html
-+++ b/index.html
-@@ -6,7 +6,7 @@
-     <title>Constructor — Netie</title>
-     <link rel="icon" href="favicon.ico" sizes="any" />
-     <link rel="icon" href="favicon.svg" type="image/svg+xml" />
--    <link rel="stylesheet" href="styles.css?v=16" />
-+    <link rel="stylesheet" href="styles.css?v=17" />
-   </head>
-   <body class="chat-open chat-snap-right">
-     <header class="top">
-@@ -121,7 +121,7 @@
-       </form>
-     </div>
- 
--    <script src="engine.js?v=15"></script>
--    <script src="app.js?v=15"></script>
-+    <script src="engine.js?v=16"></script>
-+    <script src="app.js?v=16"></script>
-   </body>
- </html>
 diff --git a/tests/compiler.test.cjs b/tests/compiler.test.cjs
 index 08d75c3..4b13df4 100644
 --- a/tests/compiler.test.cjs

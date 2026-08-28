@@ -1,0 +1,316 @@
+diff --git a/CortexOS/api/a2a_routes.py b/CortexOS/api/a2a_routes.py
+index 1c45a9d..1a185c6 100644
+--- a/CortexOS/api/a2a_routes.py
++++ b/CortexOS/api/a2a_routes.py
+@@ -2,7 +2,7 @@
+ 
+ from typing import Any
+ 
+-from fastapi import APIRouter, Depends
++from fastapi import APIRouter, Depends, HTTPException, Request
+ from fastapi.responses import JSONResponse
+ from pydantic import BaseModel
+ 
+@@ -22,9 +22,17 @@ class A2AMessageRequest(BaseModel):
+ @router.post("/messages")
+ def post_message(
+     request: A2AMessageRequest,
++    http_request: Request,
+     caller: Caller = Depends(require_role("viewer")),
+ ) -> Any:
+     _ = caller
++    from CortexOS.constitution.cortex_path import RouteDenied, run_question
++
++    pack = getattr(getattr(http_request.app.state, "pack", None), "name", "default")
++    try:
++        run_question("minimal", verified=True, pack=pack, a2a=True)
++    except RouteDenied as exc:
++        raise HTTPException(status_code=403, detail=str(exc)) from exc
+     reply = send_message(
+         to=request.to,
+         body=request.body,
+diff --git a/CortexOS/api/dms_query.py b/CortexOS/api/dms_query.py
+index 0321794..ea772bd 100644
+--- a/CortexOS/api/dms_query.py
++++ b/CortexOS/api/dms_query.py
+@@ -94,13 +94,52 @@ def register_dms_routes(app: Any) -> None:
+         pack = getattr(app.state, "pack", None)
+         if pack is None or pack.name != "dms":
+             raise HTTPException(status_code=404, detail="DMS routes require PACK=dms")
++        from CortexOS.constitution.cortex_path import RouteDenied, run_question
+         from CortexOS.dms.query_service import answer_question
++        from CortexOS.execution.session_manifests import (
++            SessionExpired,
++            SessionUnbound,
++            get_session_registry,
++        )
+ 
+         out = answer_question(
+             body.question,
+             session_id=body.session_id,
+             require_grounding=True,
+         )
++        # A successful answer needs a bound VerifiedManifest. Unbound already
++        # abstains via require_grounding; do not turn that into a 400.
++        badge = str(out.get("badge") or "").lower()
++        route = str(out.get("route") or "").lower()
++        layer = str(out.get("layer") or "").lower()
++        abstained = (
++            out.get("grant_kind") == "none"
++            or badge in {"abstain", "blocked"}
++            or route in {"abstain", "blocked", "needs_clarification", "refused"}
++            or layer in {"abstain", "blocked"}
++        )
++        bound = False
++        try:
++            get_session_registry().resolve(body.session_id)
++            bound = True
++        except (SessionUnbound, SessionExpired, Exception):
++            bound = False
++        try:
++            run_question("minimal", verified=bound or abstained, pack="dms")
++        except RouteDenied as exc:
++            out = {
++                **out,
++                "answer": str(exc),
++                "sql_used": None,
++                "chart_spec": None,
++                "rows": [],
++                "source_table": None,
++                "route": "abstain",
++                "layer": "abstain",
++                "badge": "abstain",
++                "violations_blocked": list(out.get("violations_blocked") or [])
++                + [str(exc)],
++            }
+         # Mark when warehouse tables were synced from lake.silver (medallion path).
+         if out.get("query_source") is None:
+             out["query_source"] = os.environ.get(
+diff --git a/CortexOS/constitution/__init__.py b/CortexOS/constitution/__init__.py
+new file mode 100644
+index 0000000..7a8f401
+--- /dev/null
++++ b/CortexOS/constitution/__init__.py
+@@ -0,0 +1,22 @@
++"""Netie path gates. Cortex already owns the Python package name ``netie``.
++
++Do not ``uv add git+https://github.com/Netie-AI/Netie.git`` here. That install
++would replace the CortexOS alias ``netie.*`` -> ``CortexOS.*``. Copy of
++``scripts/cortex_path.py`` from Netie-AI/Netie.
++"""
++
++from CortexOS.constitution.cortex_path import (
++    CODING_TOOLS,
++    WRITE_ACTIONS,
++    RouteDenied,
++    auto_route,
++    run_question,
++)
++
++__all__ = (
++    "CODING_TOOLS",
++    "WRITE_ACTIONS",
++    "RouteDenied",
++    "auto_route",
++    "run_question",
++)
+diff --git a/CortexOS/constitution/cortex_path.py b/CortexOS/constitution/cortex_path.py
+new file mode 100644
+index 0000000..6c5d87f
+--- /dev/null
++++ b/CortexOS/constitution/cortex_path.py
+@@ -0,0 +1,98 @@
++"""How Cortex routes today. JEPA and gen-cFSM are not on this path.
++
++Copy of Netie ``scripts/cortex_path.py``. Do not import the constitution
++package named ``netie`` (this repo already owns that name as a CortexOS alias).
++
++Executable form of TAS-CORTEX / ESTATE-GAP section 0. Not a serving engine.
++Invocable writes: export_pptx, item.intake, amend.apply, call_action.
++agent.checked is an event.
++"""
++
++from __future__ import annotations
++
++COLD_START = ("minimal", "sequential", "dag")
++WRITE_ACTIONS = frozenset(
++    {"export_pptx", "item.intake", "amend.apply", "call_action"}
++)
++PARKED = frozenset({"jepa", "gen-cfsm", "osr"})
++# Claude Code's job. Cortex is governed Q&A, not a coding agent.
++CODING_TOOLS = frozenset(
++    {
++        "bash",
++        "shell",
++        "execute",
++        "write_file",
++        "edit_file",
++        "ls",
++        "read_file",
++        "glob",
++        "grep",
++        "delete",
++    }
++)
++
++
++class RouteDenied(PermissionError):
++    """Parked organ or ungoverned write."""
++
++
++def auto_route(
++    *,
++    cosine: float,
++    winner_runs: int,
++    candidates: list[str],
++) -> str:
++    parked = [c for c in candidates if c.lower() in PARKED]
++    if parked:
++        raise RouteDenied(f"parked not on path: {parked}")
++    live = [c for c in candidates if c.lower() not in PARKED]
++    if not live:
++        raise RouteDenied("no live candidate")
++    if cosine >= 0.80 and winner_runs >= 3:
++        return live[0]
++    return live[min(2, len(live) - 1)]
++
++
++def run_question(
++    shape: str,
++    *,
++    write: str | None = None,
++    tool: str | None = None,
++    via_tool_runner: bool = True,
++    actor: str | None = None,
++    verified: bool = False,
++    pack: str = "default",
++    a2a: bool = False,
++    c7_sql: bool = False,
++) -> dict[str, str]:
++    if shape not in COLD_START:
++        raise RouteDenied(f"bad shape {shape}")
++    if c7_sql:
++        raise RouteDenied("C7 generated-SQL is off (17 confidently wrong)")
++    if write and write not in WRITE_ACTIONS:
++        raise RouteDenied(f"write not in action registry: {write}")
++    if write and not (actor or "").strip():
++        raise RouteDenied("write needs an actor; RBAC is missing on execute modules")
++    if tool and tool.strip() in CODING_TOOLS:
++        raise RouteDenied(
++            "Cortex is not Claude Code; depend Deep Agents under tool_runner"
++        )
++    if tool and not via_tool_runner:
++        raise RouteDenied(f"{tool} skipped tool_runner")
++    if a2a and (pack or "").strip().lower() != "dms":
++        raise RouteDenied("a2a/messages is dms-pack only")
++    if not verified:
++        raise RouteDenied("answer needs verified; HEAD leaves it optional on /dms/query")
++    return {
++        "router": "race_router.auto_route",
++        "shape": shape,
++        "dms": "keyword_cascade",
++        "c7_sql": "off",
++        "write": write or "none",
++        "tool": tool or "none",
++        "actor": (actor or "").strip() or "none",
++        "verified": "true",
++        "pack": (pack or "default").strip() or "default",
++        "jepa": "off-path",
++        "gen_cfsm": "off-path",
++    }
+diff --git a/CortexOS/execution/tool_runner.py b/CortexOS/execution/tool_runner.py
+index b79c39b..e3c5768 100644
+--- a/CortexOS/execution/tool_runner.py
++++ b/CortexOS/execution/tool_runner.py
+@@ -157,6 +157,29 @@ def run_tool_call(
+         _ledger(actor, "action.tool_call_denied", payload, db_path=db_path)
+         raise ToolCallError(reason, verdict=verdict, detail=payload)
+ 
++    # Netie constitution path. Copied into CortexOS.constitution; do not
++    # ``uv add`` Netie.git (this repo owns the package name ``netie``).
++    from CortexOS.constitution.cortex_path import (
++        CODING_TOOLS,
++        WRITE_ACTIONS,
++        RouteDenied,
++        run_question,
++    )
++
++    write = tool_name if tool_name in WRITE_ACTIONS else None
++    try:
++        run_question(
++            "minimal",
++            write=write,
++            tool=tool_name if tool_name in CODING_TOOLS else None,
++            via_tool_runner=True,
++            actor=actor,
++            verified=True,
++            pack="dms",
++        )
++    except RouteDenied as exc:
++        _deny("constitution", str(exc))
++
+     if tool_name not in allowed_action_tools(db_path):
+         _deny("allowlist", f"tool {tool_name!r} not a registered action type")
+ 
+diff --git a/tests/dms/test_constitution_path.py b/tests/dms/test_constitution_path.py
+new file mode 100644
+index 0000000..e80e55f
+--- /dev/null
++++ b/tests/dms/test_constitution_path.py
+@@ -0,0 +1,56 @@
++"""Product caller for Netie cortex_path. No uv-add of the netie package."""
++
++from __future__ import annotations
++
++import pytest
++
++from CortexOS.constitution.cortex_path import CODING_TOOLS, RouteDenied, run_question
++
++
++def test_unverified_answer_is_refused() -> None:
++    with pytest.raises(RouteDenied) as ctx:
++        run_question("minimal")
++    assert "verified" in str(ctx.value)
++
++
++def test_coding_tools_refused_even_via_tool_runner() -> None:
++    for name in ("bash", "ls", "read_file"):
++        assert name in CODING_TOOLS
++        with pytest.raises(RouteDenied) as ctx:
++            run_question(
++                "minimal",
++                tool=name,
++                via_tool_runner=True,
++                verified=True,
++                pack="dms",
++            )
++        assert "Claude Code" in str(ctx.value)
++
++
++def test_tool_runner_refuses_bash(tmp_path, monkeypatch) -> None:
++    db = tmp_path / "ledger.db"
++    monkeypatch.delenv("DMS_LEDGER_DSN", raising=False)
++    monkeypatch.setenv("DMS_OPS_DB", str(db))
++    from netie.execution.tool_runner import ToolCallError, run_tool_call
++
++    with pytest.raises(ToolCallError) as ctx:
++        run_tool_call("bash", {}, actor="steward", run_id="b1", db_path=db)
++    assert "Claude Code" in str(ctx.value)
++
++
++def test_a2a_is_dms_pack_only() -> None:
++    with pytest.raises(RouteDenied) as ctx:
++        run_question("minimal", verified=True, a2a=True)
++    assert "dms-pack" in str(ctx.value)
++    out = run_question("minimal", verified=True, pack="dms", a2a=True)
++    assert out["pack"] == "dms"
++
++
++def test_export_pptx_needs_an_actor() -> None:
++    with pytest.raises(RouteDenied) as ctx:
++        run_question("minimal", write="export_pptx", verified=True)
++    assert "actor" in str(ctx.value)
++    out = run_question(
++        "minimal", write="export_pptx", actor="steward", verified=True, pack="dms"
++    )
++    assert out["write"] == "export_pptx"

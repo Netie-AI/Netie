@@ -1,21 +1,21 @@
 diff --git a/app.js b/app.js
-index 3dac344..ba80aa5 100644
+index c503566..9ec1738 100644
 --- a/app.js
 +++ b/app.js
-@@ -197,7 +197,7 @@ const LINKS = [
-   { id: "lead_of_contact", from: "leads", to: "contacts", via: "contact_id" },
-   { id: "incident_at_location", from: "incidents", to: "locations", via: "location_id" },
+@@ -237,7 +237,7 @@ const LINKS = [
+   { id: "match_of_image", from: "matches", to: "images", via: "image_id" },
+   { id: "match_of_suspect", from: "matches", to: "suspects", via: "suspect_id" },
  ];
--const ACTIONS = ["export_pptx", "item.intake", "agent.checked"];
-+const ACTIONS = ["export_pptx", "item.intake", "amend.apply", "call_action", "agent.checked"];
+-const ACTIONS = ["export_pptx", "item.intake", "agent.checked", "image.enhance", "suspect.match"];
++const ACTIONS = ["export_pptx", "item.intake", "amend.apply", "call_action", "agent.checked", "image.enhance", "suspect.match"];
  const FETCH_PLACES = [
    "warehouse.inventory",
    "warehouse.suppliers",
 diff --git a/engine.js b/engine.js
-index 4797328..b0844c5 100644
+index 62b8068..012d6cf 100644
 --- a/engine.js
 +++ b/engine.js
-@@ -91,8 +91,8 @@ function listedOrEmpty(value, listed) {
+@@ -92,8 +92,8 @@ function listedOrEmpty(value, listed) {
  }
  
  const DEFAULT_OBJECTS = ["inventory", "suppliers"];
@@ -26,15 +26,15 @@ index 4797328..b0844c5 100644
  const DATA_TYPES = ["string", "number", "integer", "boolean", "date"];
  const DEFAULT_OBJECT_POINTS = {
    inventory: [
-@@ -673,7 +673,7 @@ async function handleChat(raw) {
-   }
+@@ -688,7 +688,7 @@ async function handleChat(raw) {
    const setAct = t.match(/^set action (\S+)$/);
    if (setAct) {
--    if (C.ACTIONS.indexOf(setAct[1]) < 0) return "Action must be export_pptx, item.intake, or agent.checked.";
-+    if (C.ACTIONS.indexOf(setAct[1]) < 0) return "Action must be export_pptx, item.intake, amend.apply, call_action, or agent.checked.";
+     if (C.ACTIONS.indexOf(setAct[1]) < 0) {
+-      return "Action must be export_pptx, item.intake, agent.checked, image.enhance, or suspect.match.";
++      return "Action must be export_pptx, item.intake, amend.apply, call_action, agent.checked, image.enhance, or suspect.match.";
+     }
      return C.patchSelected("action_type", setAct[1]) ? "Action " + setAct[1] + "." : "Select a node first.";
    }
-   const setFetch = t.match(/^set fetch (.+)$/);
 diff --git a/tests/compiler.test.cjs b/tests/compiler.test.cjs
 index a085846..cd2d767 100644
 --- a/tests/compiler.test.cjs

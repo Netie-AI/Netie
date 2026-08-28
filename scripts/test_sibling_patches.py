@@ -8,10 +8,12 @@ constructor-ghost-refuse.patch then constructor-ir-emit.patch then
 constructor-tool-action.patch then constructor-inspect-action.patch then constructor-inspect-object.patch then constructor-inspect-tier.patch then constructor-chat-object.patch then constructor-topo-leftover.patch then constructor-ir-entry.patch then constructor-ir-output.patch then constructor-ir-object.patch then constructor-ir-bind.patch then constructor-ir-action-allow.patch then constructor-ir-intake.patch then constructor-ir-hitl.patch then constructor-ir-connected.patch then constructor-ir-note.patch then constructor-ir-cortex-post.patch then constructor-object-pick.patch then constructor-engine-order.patch then constructor-ir-post.patch then constructor-ir-kahn-nodes.patch, and runs
 node --test (62 passed).
 OpenVault patches apply on origin/main then `uv run pytest` on the routing+chat+crew-gate+ship-claim files (>= 90 passed). The 28th patch (`openvault-crew-netie.patch`) makes `/api/crew/gate` call `from netie.crew import refuse_crew_gate` when Netie is installed.
+Cortex `cortex-netie-path.patch` applies on origin/main (do not uv-add Netie.git). dms `dms-netie-acl.patch` applies on origin/main (`live_ask` / browse through `netie.dms` when installed).
 """
 
 from __future__ import annotations
 
+import importlib.util
 import re
 import shutil
 import subprocess
@@ -368,6 +370,121 @@ class SiblingPatchTests(unittest.TestCase):
             found = re.search(r"(\d+) passed", blob)
             self.assertIsNotNone(found, blob[-500:])
             self.assertGreaterEqual(int(found.group(1)), 90)
+
+    def test_cortex_netie_path_applies_on_main(self) -> None:
+        patch = PATCHES / "cortex-netie-path.patch"
+        self.assertTrue(patch.is_file())
+        with tempfile.TemporaryDirectory() as tmp:
+            dest = Path(tmp) / "Cortex"
+            clone = _run(
+                [
+                    "git",
+                    "clone",
+                    "--depth",
+                    "1",
+                    "--branch",
+                    "main",
+                    "https://github.com/Netie-AI/Cortex.git",
+                    str(dest),
+                ],
+                timeout=180,
+            )
+            self.assertEqual(clone.returncode, 0, clone.stderr)
+            applied = _run(["git", "apply", str(patch)], cwd=dest)
+            self.assertEqual(applied.returncode, 0, applied.stderr)
+            path_py = dest / "CortexOS" / "constitution" / "cortex_path.py"
+            self.assertTrue(path_py.is_file())
+            blob = path_py.read_text(encoding="utf-8")
+            self.assertIn("CODING_TOOLS", blob)
+            self.assertIn("package name", blob)
+            query = (dest / "CortexOS" / "api" / "dms_query.py").read_text(
+                encoding="utf-8"
+            )
+            self.assertIn(
+                "from CortexOS.constitution.cortex_path import RouteDenied, run_question",
+                query,
+            )
+            runner = (dest / "CortexOS" / "execution" / "tool_runner.py").read_text(
+                encoding="utf-8"
+            )
+            self.assertIn("CODING_TOOLS", runner)
+            a2a = (dest / "CortexOS" / "api" / "a2a_routes.py").read_text(
+                encoding="utf-8"
+            )
+            self.assertIn("a2a=True", a2a)
+            probed = _run(
+                [
+                    sys.executable,
+                    "-c",
+                    "import sys; sys.path.insert(0, '.'); "
+                    "from CortexOS.constitution.cortex_path import RouteDenied, run_question; "
+                    "raised = False\n"
+                    "try:\n"
+                    "    run_question('minimal')\n"
+                    "except RouteDenied as exc:\n"
+                    "    raised = 'verified' in str(exc)\n"
+                    "print('ok' if raised else 'no')",
+                ],
+                cwd=dest,
+            )
+            self.assertEqual(probed.returncode, 0, probed.stderr + probed.stdout)
+            self.assertEqual(probed.stdout.strip(), "ok")
+
+    def test_dms_netie_acl_applies_on_main(self) -> None:
+        patch = PATCHES / "dms-netie-acl.patch"
+        self.assertTrue(patch.is_file())
+        with tempfile.TemporaryDirectory() as tmp:
+            dest = Path(tmp) / "dms"
+            clone = _run(
+                [
+                    "git",
+                    "clone",
+                    "--depth",
+                    "1",
+                    "--branch",
+                    "main",
+                    "https://github.com/Netie-AI/dms.git",
+                    str(dest),
+                ],
+                timeout=180,
+            )
+            self.assertEqual(clone.returncode, 0, clone.stderr)
+            applied = _run(["git", "apply", str(patch)], cwd=dest)
+            self.assertEqual(applied.returncode, 0, applied.stderr)
+            mod = dest / "packages" / "executor" / "dms_executor" / "netie_acl.py"
+            self.assertTrue(mod.is_file())
+            blob = mod.read_text(encoding="utf-8")
+            self.assertIn("from netie.dms import", blob)
+            live = (
+                dest / "packages" / "executor" / "dms_executor" / "__init__.py"
+            ).read_text(encoding="utf-8")
+            self.assertIn("_apply_netie_acl", live)
+            spec = importlib.util.spec_from_file_location("netie_acl", mod)
+            self.assertIsNotNone(spec)
+            loaded = importlib.util.module_from_spec(spec)
+            assert spec is not None and spec.loader is not None
+            spec.loader.exec_module(loaded)
+            out = loaded.answer_or_abstain(
+                {"space-ops": frozenset({"inventory"})},
+                "space-ops",
+                "invoices",
+                [{"id": 1}],
+                warehouse_id="default",
+                binds={"space-ops": "default"},
+                sql="SELECT id FROM invoices",
+            )
+            self.assertEqual(out["status"], "ABSTAIN")
+            chat = loaded.answer_or_abstain(
+                {"space-ops": frozenset({"inventory"})},
+                "space-ops",
+                "inventory",
+                [{"sku": "A"}],
+                warehouse_id="default",
+                binds={"space-ops": "default"},
+                sql="SELECT sku FROM inventory",
+                chat_mode=True,
+            )
+            self.assertEqual(chat["status"], "ABSTAIN")
 
 
 if __name__ == "__main__":

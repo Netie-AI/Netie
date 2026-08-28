@@ -45,6 +45,11 @@ class NetieInitTests(unittest.TestCase):
             self.assertIn(CALLERS["Cortex"], cortex_text)
             self.assertIn("WRITE_ACTIONS", cortex_text)
             self.assertIn("not Claude Code", cortex_text)
+            self.assertIn("CortexOS.constitution.cortex_path", cortex_text)
+            self.assertNotIn(
+                "uv add git+https://github.com/Netie-AI/Netie.git",
+                cortex_text,
+            )
 
     def test_stamps_openvault_product_caller(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:

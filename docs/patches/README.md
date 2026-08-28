@@ -284,3 +284,26 @@ cd OpenMW && uv run pytest tests/test_crew_gate.py tests/test_contract.py -q
 ```
 
 Adds `POST /api/crew/gate`: location + allowed, never a skill body. Unknown kinds (including `skill` until a registry row exists) refuse. This is not OpenVault PR #44 (that RFC also adds Netie-KB signposts). Measured 2026-08-27: 17 passed with contract tests.
+
+## Cortex (`Netie-AI/Cortex`)
+
+Do not `uv add git+https://github.com/Netie-AI/Netie.git`. Cortex already owns the Python package name `netie` (CortexOS alias). From the Cortex repo root, on `main` (`bf4ecee`):
+
+```
+git apply docs/patches/cortex-netie-path.patch
+python3 -m pytest tests/dms/test_constitution_path.py -k "not tool_runner" -q
+```
+
+Copies `scripts/cortex_path.py` to `CortexOS/constitution/cortex_path.py`. `/dms/query` post-checks a bound VerifiedManifest before a non-abstain answer (unbound still abstains, not 400). `tool_runner` refuses coding-agent tools (`bash` / filesystem) before the ontology allowlist. `/a2a/messages` calls `run_question(..., pack=dms, a2a=True)`. C2 allowlist does not grow. Score stays **4/10** governed Q&A. Push 403.
+
+## DMS (`Netie-AI/dms`)
+
+dms package name is `dms`, so `uv add git+https://github.com/Netie-AI/Netie.git` is the intended caller. From the dms repo root, on `main` (`3f9a9be`):
+
+```
+git apply docs/patches/dms-netie-acl.patch
+uv add git+https://github.com/Netie-AI/Netie.git
+pytest tests/test_netie_acl.py tests/test_space_acl_boundary.py tests/test_live_ask.py -q
+```
+
+`live_ask` runs Cortex through `guard_live_answer` (`from netie.dms import answer_or_abstain` when installed; same rule locally otherwise). Warehouse/bronze preview with `space_id` calls `browse_or_abstain`. Without a Space, personal/company-default mint is unchanged. Score stays **3/10**. Push 403.

@@ -1,8 +1,8 @@
 diff --git a/app.js b/app.js
-index 9ae9c90..fa59c48 100644
+index 2e5d2ce..b2d6270 100644
 --- a/app.js
 +++ b/app.js
-@@ -615,10 +615,14 @@ function fieldInput(name, label, value, placeholder) {
+@@ -671,10 +671,14 @@ function fieldInput(name, label, value, placeholder) {
  }
  
  function eventFieldsHtml(node) {
@@ -21,8 +21,8 @@ index 9ae9c90..fa59c48 100644
    const allowed = actionsForObject(obj);
    const action = listedOrEmpty(node.action_type, allowed);
    const persona = node.persona && PERSONAS.indexOf(node.persona) >= 0 ? node.persona : KINDS[node.kind].persona;
-@@ -629,9 +633,9 @@ function eventFieldsHtml(node) {
-   const bindSource = node.kind === "ingest" || node.kind === "connector";
+@@ -685,9 +689,9 @@ function eventFieldsHtml(node) {
+   const bindSource = node.kind === "ingest" || node.kind === "connector" || node.kind === "enhance";
    let html =
      fieldSelect("persona", "Persona", PERSONAS, persona) +
 -    fieldSelect("object_type", objectLabel, Object.keys(OBJECTS), obj) +
