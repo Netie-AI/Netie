@@ -1,0 +1,107 @@
+diff --git a/engine.js b/engine.js
+index 1ae870f..885f6e2 100644
+--- a/engine.js
++++ b/engine.js
+@@ -216,7 +216,7 @@ function nodesWithoutNotes(nodes) {
+ }
+ 
+ function cortexPayload(state) {
+-  // compileIR is the gate. Raw canvas never POSTs to Cortex.
++  // compileIR is the gate and the body. Raw canvas never POSTs to Cortex.
+   const ir = compileIR(state || {});
+   if (ir.error) {
+     return { error: ir.error, body: null };
+@@ -224,8 +224,13 @@ function cortexPayload(state) {
+   return {
+     error: undefined,
+     body: {
+-      nodes: nodesWithoutNotes((state && state.nodes) || []),
+-      edges: ((state && state.edges) || []).slice(),
++      version: ir.version,
++      engine: ir.engine,
++      ghost: ir.ghost,
++      entry_node_id: ir.entry_node_id,
++      output_node_id: ir.output_node_id,
++      nodes: ir.nodes,
++      edges: ir.edges,
+     },
+   };
+ }
+diff --git a/index.html b/index.html
+index 7817137..57c7cc6 100644
+--- a/index.html
++++ b/index.html
+@@ -4,7 +4,7 @@
+     <meta charset="utf-8" />
+     <meta name="viewport" content="width=device-width, initial-scale=1" />
+     <title>Constructor — Netie</title>
+-    <link rel="stylesheet" href="styles.css?v=4" />
++    <link rel="stylesheet" href="styles.css?v=5" />
+   </head>
+   <body>
+     <header class="top">
+@@ -75,7 +75,7 @@
+       </form>
+     </section>
+ 
+-    <script src="engine.js?v=4"></script>
+-    <script src="app.js?v=4"></script>
++    <script src="engine.js?v=5"></script>
++    <script src="app.js?v=5"></script>
+   </body>
+ </html>
+diff --git a/tests/compiler.test.cjs b/tests/compiler.test.cjs
+index 009cd9a..10adf9e 100644
+--- a/tests/compiler.test.cjs
++++ b/tests/compiler.test.cjs
+@@ -727,6 +727,8 @@ test("cortexPayload strips notes and does not POST a leaked body", () => {
+     edges: [],
+   });
+   assert.equal(packed.error, undefined);
++  assert.equal(packed.body.engine, "cortex");
++  assert.equal(packed.body.nodes[0].kind, "DOCUMENT_REF");
+   assert.equal("note" in packed.body.nodes[0], false);
+   const leak = cortexPayload({
+     nodes: [{ id: "c", kind: "connector", note: "skill_body: SECRET" }],
+@@ -736,6 +738,41 @@ test("cortexPayload strips notes and does not POST a leaked body", () => {
+   assert.equal(leak.body, null);
+ });
+ 
++test("cortexPayload POSTs compileIR not the canvas", () => {
++  const packed = cortexPayload({
++    nodes: [
++      {
++        id: "c",
++        kind: "connector",
++        object_type: "hr_notes",
++        data_point: "salary",
++        action_type: "bash",
++        x: 9,
++        note: "in",
++      },
++    ],
++    edges: [],
++  });
++  assert.equal(packed.error, undefined);
++  const n = packed.body.nodes[0];
++  assert.equal(n.kind, "DOCUMENT_REF");
++  assert.equal(n.constructor_kind, "connector");
++  assert.equal(n.object_type, null);
++  assert.equal(n.data_point, null);
++  assert.equal(n.action_type, null);
++  assert.equal("x" in n, false);
++  assert.equal("note" in n, false);
++  assert.equal(n.requires_confirm, false);
++  const write = cortexPayload({
++    nodes: [{ id: "t", kind: "tool_call", action_type: "export_pptx" }],
++    edges: [],
++  });
++  assert.equal(write.error, undefined);
++  assert.equal(write.body.nodes[0].kind, "TOOL_CALL");
++  assert.equal(write.body.nodes[0].action_type, "export_pptx");
++  assert.equal(write.body.nodes[0].requires_confirm, true);
++});
++
+ test("cortexPayload refuses a disconnected graph before Cortex", () => {
+   const packed = cortexPayload({
+     nodes: [
