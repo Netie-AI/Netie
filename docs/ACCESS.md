@@ -2,7 +2,9 @@
 
 Do not paste GitHub, email, or 2FA secrets into chat. NETIE.md forbids credential intercept. A password in this thread is a leak.
 
-This cloud environment currently has **only** `github.com/Netie-AI/Netie`. Cortex, dms, AirGPT, Pointer, Space, Control, and Netie-KB return 404 to the agent token. OpenVault and constructor clone as public; **push** is 403.
+This cloud environment currently has **only** `github.com/Netie-AI/Netie`. Cortex, dms, AirGPT, Pointer, Space, Control, Netie-KB, and Cortex-Crew return 404 to the agent token. OpenVault and constructor clone as public; **push** is 403.
+
+Re-probed 2026-08-28: same 404s (including `jian-hong/AirGPT`). OpenVault `main` still `62bb1c7` (GitHub CI success). constructor `landing-9-first-path` still `ee3a6cf` (pages.yml success, no unit-test workflow on HEAD).
 
 Local CI is the gate until GitHub Actions billing works:
 
@@ -24,9 +26,10 @@ python3 scripts/check_docs.py
    - `Netie-AI/Space`
    - `Netie-AI/netie-control`
    - `Netie-AI/Netie-KB`
-3. AirGPT: if it still lives at `jian-hong/AirGPT`, either transfer it into `Netie-AI` or install the Cursor GitHub App on the `jian-hong` account and grant that repo. Do not paste that account password here.
-4. Cursor environment: `https://cursor.com/dashboard/cloud-agents/environments/e/eb1a4238-9fe4-11f1-b532-320a589b8025` -> add the same repo URLs. The next Cloud Agent then gets them in its GitHub token.
-5. Do **not** add `b-nnett/grok-bot-0.18-reconstructed`.
+3. Create empty `Netie-AI/Cortex-Crew` (do not clone OpenWork or Grok Bot). Then add that repo to the same App list. Import `scripts/crew_*.py`. `uv add deepagents`.
+4. AirGPT: if it still lives at `jian-hong/AirGPT`, either transfer it into `Netie-AI` or install the Cursor GitHub App on the `jian-hong` account and grant that repo. Do not paste that account password here.
+5. Cursor environment: `https://cursor.com/dashboard/cloud-agents/environments/e/eb1a4238-9fe4-11f1-b532-320a589b8025` -> add the same repo URLs. The next Cloud Agent then gets them in its GitHub token.
+6. Do **not** add `b-nnett/grok-bot-0.18-reconstructed`.
 
 A fine-grained PAT is a fallback if the App UI is stuck: GitHub -> Settings -> Developer settings -> Fine-grained tokens -> Contents read on those repos. Store it in the Cursor environment secrets UI, not in chat.
 
