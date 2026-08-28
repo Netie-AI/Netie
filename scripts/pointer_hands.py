@@ -3,9 +3,9 @@
 Names from `uacc` 1.1.0 on PyPI (MIT, 68 MCP tools). We do not vendor or
 import that package. Cortex must allow each name. Planner / workflow /
 memory / history / clipboard / ungoverned JS / ungated leave-machine /
-uncropped screenshot / page dump / process list / env dump refuse.
-Paint overlay and hover/drag on a secret field refuse. UACC kill-distance
-and user-override stay out (Cortex is the gate).
+uncropped screenshot / page dump / process list / env dump / window dump
+refuse. Paint overlay and hover/drag on a secret field refuse. UACC
+kill-distance and user-override stay out (Cortex is the gate).
 """
 
 from __future__ import annotations
@@ -96,6 +96,7 @@ SECRET_HANDS = frozenset({"clipboard_read", "clipboard_write"})
 SCRIPT_HANDS = frozenset({"browser_execute_js"})
 LEAVE_HANDS = frozenset({"open_url", "launch_app", "browser_navigate"})
 # Full-frame pixels (password fields, OTP, cookies). Crop must be a labeled non-secret.
+# get_screen_info is the unenhanced dump; enhanced is already here.
 SCREEN_HANDS = frozenset(
     {
         "screenshot",
@@ -103,6 +104,7 @@ SCREEN_HANDS = frozenset(
         "compare_snapshots",
         "get_screen_diff",
         "detect_elements_visual",
+        "get_screen_info",
         "get_screen_info_enhanced",
         "vlm_locate_element",
     }
@@ -113,6 +115,8 @@ MOTION_HANDS = frozenset({"hover", "drag", "wait_for_element"})
 PAGE_HANDS = frozenset({"browser_get_page_info"})
 # Process table / env dump is surveillance.
 PROCESS_HANDS = frozenset({"list_processes", "get_system_info"})
+# Window titles dump the desktop (password-manager, banking). Not a Pointer hand.
+WINDOW_HANDS = frozenset({"list_windows", "get_active_window"})
 # Overlay on a password/OTP field (or the whole screen) is capture.
 PAINT_HANDS = frozenset({"paint_image", "paint_preset"})
 # UACC's own safety plane is a second policy. Cortex is the gate.
@@ -171,6 +175,8 @@ def invoke_hand(
         if tool == "get_system_info":
             raise PointerDenied("env_dump_refused")
         raise PointerDenied("process_list_refused")
+    if tool in WINDOW_HANDS:
+        raise PointerDenied("window_dump_refused")
     if tool in PAGE_HANDS:
         raise PointerDenied("no page dump")
     if tool in LEAVE_HANDS and not ov_leave:
