@@ -1,6 +1,6 @@
 # STATUS - Netie constitution repo
 
-**Branch:** `cursor/redact-openrouter-key-0d3c`
+**Branch:** `cursor/redact-openrouter-key-0d3c` · **PR:** https://github.com/Netie-AI/Netie/pull/10
 **Local gate:** `make ci` / `python3 scripts/check_docs.py`.
 **GitHub docs-ci:** red X, job never starts (Actions spending limit). Not a test fail.
 
