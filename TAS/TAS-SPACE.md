@@ -151,7 +151,7 @@ There is no test command, because there are no tests. That is the single most us
 thing to change about this repo.
 
 Portable contract in this Netie repo (Space remote still 404): `scripts/space_leave.py`.
-AI/OCR leave without OpenVault `allowed=true` is denied. `user.env` / `.env` / `env.local` / `id_rsa` / `.pem` / `.netrc` writes are denied even when not marked plaintext. Local credential-store scan is denied. Peek-class preview refuses env/key files. Poor local OCR is not a Baidu leave-machine grant. `python3 scripts/test_space_leave.py`.
+AI/OCR leave without OpenVault `allowed=true` is denied. `user.env` / `.env` / `env.local` / `id_rsa` / `.pem` / `.netrc` writes are denied even when not marked plaintext. Local credential-store scan is denied. Peek-class preview refuses env/key files. Poor local OCR is not a Baidu leave-machine grant. `chat_preview` is leave-machine (Peek never POSTs the file); excerpts over the DitchContext 12k budget refuse. `python3 scripts/test_space_leave.py`.
 
 ---
 

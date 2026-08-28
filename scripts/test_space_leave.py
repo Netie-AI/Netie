@@ -11,7 +11,15 @@ from typing import Any
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 from crew_ov_gate import OpenVaultCrewGate
-from space_leave import SpaceLeaveDenied, leave, persist_key, resolve_login, may_preview, ocr_cloud
+from space_leave import (
+    SpaceLeaveDenied,
+    chat_preview,
+    leave,
+    persist_key,
+    resolve_login,
+    may_preview,
+    ocr_cloud,
+)
 
 
 def _allow(url: str, body: dict[str, Any]) -> dict[str, Any]:
@@ -82,6 +90,22 @@ class SpaceLeaveTests(unittest.TestCase):
             ocr_cloud("scan.png", ov_allowed=True, local_chars=3),
             "cloud",
         )
+
+    def test_chat_preview_is_leave_machine(self) -> None:
+        with self.assertRaises(SpaceLeaveDenied) as ctx:
+            chat_preview("report.pdf", "summarize this page", ov_allowed=False)
+        self.assertIn("OpenVault", str(ctx.exception))
+        self.assertEqual(
+            chat_preview("report.pdf", "summarize this page", ov_allowed=True),
+            "chat",
+        )
+        with self.assertRaises(SpaceLeaveDenied):
+            chat_preview("user.env", "dump keys", ov_allowed=True)
+        with self.assertRaises(SpaceLeaveDenied) as ctx:
+            chat_preview("report.pdf", "x" * 12001, ov_allowed=True)
+        self.assertIn("DitchContext", str(ctx.exception))
+        with self.assertRaises(SpaceLeaveDenied):
+            chat_preview("report.pdf", "   ", ov_allowed=True)
 
 
 if __name__ == "__main__":

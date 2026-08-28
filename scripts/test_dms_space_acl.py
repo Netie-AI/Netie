@@ -13,6 +13,7 @@ from dms_space_acl import (
     DEMO_ALL_TABLES,
     SpaceDenied,
     answer_or_abstain,
+    browse_or_abstain,
     mint_manifest,
     tables_for_space,
     warehouse_for_space,
@@ -140,6 +141,16 @@ class SpaceAclTests(unittest.TestCase):
     def test_unbound_space_denied(self) -> None:
         with self.assertRaises(SpaceDenied):
             warehouse_for_space({"space-ops": "dms-demo"}, "space-finance")
+
+    def test_bronze_browse_still_needs_grant(self) -> None:
+        leak = browse_or_abstain(ACL, "space-ops", "invoices", tier="bronze")
+        self.assertEqual(leak["status"], "ABSTAIN")
+        self.assertEqual(leak["rows"], [])
+        ok = browse_or_abstain(ACL, "space-ops", "inventory", tier="bronze")
+        self.assertEqual(ok["status"], "OK")
+        self.assertEqual(ok["tier"], "bronze")
+        bad = browse_or_abstain(ACL, "space-ops", "inventory", tier="lake")
+        self.assertEqual(bad["status"], "ABSTAIN")
 
 
 if __name__ == "__main__":
