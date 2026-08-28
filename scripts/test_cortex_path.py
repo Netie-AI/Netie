@@ -59,6 +59,13 @@ class CortexPathTests(unittest.TestCase):
         out = run_question("dag", verified=True, pack="dms", a2a=True)
         self.assertEqual(out["pack"], "dms")
 
+    def test_c7_generated_sql_stays_off(self) -> None:
+        with self.assertRaises(RouteDenied) as ctx:
+            run_question("dag", verified=True, c7_sql=True)
+        self.assertIn("C7", str(ctx.exception))
+        out = run_question("dag", verified=True)
+        self.assertEqual(out["c7_sql"], "off")
+
     def test_web_tool_must_use_tool_runner(self) -> None:
         with self.assertRaises(RouteDenied) as ctx:
             run_question(

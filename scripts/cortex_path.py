@@ -42,9 +42,12 @@ def run_question(
     verified: bool = False,
     pack: str = "default",
     a2a: bool = False,
+    c7_sql: bool = False,
 ) -> dict[str, str]:
     if shape not in COLD_START:
         raise RouteDenied(f"bad shape {shape}")
+    if c7_sql:
+        raise RouteDenied("C7 generated-SQL is off (17 confidently wrong)")
     if write and write not in WRITE_ACTIONS:
         raise RouteDenied(f"write not in action registry: {write}")
     if write and not (actor or "").strip():

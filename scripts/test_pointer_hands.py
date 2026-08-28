@@ -155,6 +155,15 @@ class PointerHandsTests(unittest.TestCase):
             )
         self.assertIn("process_list", str(ctx.exception))
 
+    def test_system_info_is_env_dump(self) -> None:
+        with self.assertRaises(PointerDenied) as ctx:
+            invoke_hand(
+                "get_system_info",
+                cortex_allowed=True,
+                cortex_intent="read the laptop env",
+            )
+        self.assertIn("env_dump", str(ctx.exception))
+
     def test_page_info_is_secret_dump(self) -> None:
         with self.assertRaises(PointerDenied) as ctx:
             invoke_hand(
@@ -203,6 +212,52 @@ class PointerHandsTests(unittest.TestCase):
                 cortex_intent="find icons",
             )
         self.assertIn("screenshot_uncropped", str(ctx.exception))
+        with self.assertRaises(PointerDenied) as ctx:
+            invoke_hand(
+                "get_screen_info_enhanced",
+                cortex_allowed=True,
+                cortex_intent="dump the desktop",
+            )
+        self.assertIn("screenshot_uncropped", str(ctx.exception))
+        with self.assertRaises(PointerDenied) as ctx:
+            invoke_hand(
+                "vlm_locate_element",
+                cortex_allowed=True,
+                cortex_intent="find the icon",
+            )
+        self.assertIn("screenshot_uncropped", str(ctx.exception))
+        out = invoke_hand(
+            "vlm_locate_element",
+            cortex_allowed=True,
+            cortex_intent="find save",
+            element={"role": "button", "name": "Save"},
+        )
+        self.assertTrue(out["crop"])
+
+    def test_paint_on_secret_field_refuses(self) -> None:
+        with self.assertRaises(PointerDenied) as ctx:
+            invoke_hand(
+                "paint_image",
+                cortex_allowed=True,
+                cortex_intent="highlight the pin",
+            )
+        self.assertIn("paint_uncropped", str(ctx.exception))
+        with self.assertRaises(PointerDenied) as ctx:
+            invoke_hand(
+                "paint_preset",
+                cortex_allowed=True,
+                cortex_intent="cover the pin",
+                element={"role": "textbox", "name": "otp"},
+            )
+        self.assertIn("secret", str(ctx.exception))
+        out = invoke_hand(
+            "paint_image",
+            cortex_allowed=True,
+            cortex_intent="mark save",
+            element={"role": "button", "name": "Save"},
+        )
+        self.assertEqual(out["hand"], "paint_image")
+        self.assertTrue(out["crop"])
 
     def test_does_not_import_uacc(self) -> None:
         src = Path(__file__).with_name("pointer_hands.py").read_text(encoding="utf-8")
