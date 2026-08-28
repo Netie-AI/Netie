@@ -5,8 +5,8 @@ Constructor has no unit-test workflow on HEAD. This gate clones it, applies
 docs/patches/constructor-compiler-tests.patch then constructor-empty-graph.patch
 then constructor-ir-refuse.patch then constructor-ir-ids.patch then
 constructor-ghost-refuse.patch then constructor-ir-emit.patch then
-constructor-tool-action.patch then constructor-inspect-action.patch then constructor-inspect-object.patch then constructor-inspect-tier.patch then constructor-chat-object.patch then constructor-topo-leftover.patch then constructor-ir-entry.patch then constructor-ir-output.patch then constructor-ir-object.patch then constructor-ir-bind.patch then constructor-ir-action-allow.patch then constructor-ir-intake.patch then constructor-ir-hitl.patch then constructor-ir-connected.patch then constructor-ir-note.patch then constructor-ir-cortex-post.patch then constructor-object-pick.patch then constructor-engine-order.patch, and runs
-node --test (61 passed).
+constructor-tool-action.patch then constructor-inspect-action.patch then constructor-inspect-object.patch then constructor-inspect-tier.patch then constructor-chat-object.patch then constructor-topo-leftover.patch then constructor-ir-entry.patch then constructor-ir-output.patch then constructor-ir-object.patch then constructor-ir-bind.patch then constructor-ir-action-allow.patch then constructor-ir-intake.patch then constructor-ir-hitl.patch then constructor-ir-connected.patch then constructor-ir-note.patch then constructor-ir-cortex-post.patch then constructor-object-pick.patch then constructor-engine-order.patch then constructor-ir-post.patch, and runs
+node --test (62 passed).
 OpenVault patches apply on origin/main then `uv run pytest` on the routing+chat+crew-gate+ship-claim files (>= 90 passed).
 """
 
@@ -65,6 +65,7 @@ class SiblingPatchTests(unittest.TestCase):
         twenty_second = PATCHES / "constructor-ir-cortex-post.patch"
         twenty_third = PATCHES / "constructor-object-pick.patch"
         twenty_fourth = PATCHES / "constructor-engine-order.patch"
+        twenty_fifth = PATCHES / "constructor-ir-post.patch"
         self.assertTrue(
             first.is_file()
             and second.is_file()
@@ -90,6 +91,7 @@ class SiblingPatchTests(unittest.TestCase):
             and twenty_second.is_file()
             and twenty_third.is_file()
             and twenty_fourth.is_file()
+            and twenty_fifth.is_file()
         )
         with tempfile.TemporaryDirectory() as tmp:
             dest = Path(tmp) / "constructor"
@@ -131,12 +133,13 @@ class SiblingPatchTests(unittest.TestCase):
                 twenty_second,
                 twenty_third,
                 twenty_fourth,
+                twenty_fifth,
             ):
                 applied = _run(["git", "apply", str(patch)], cwd=dest)
                 self.assertEqual(applied.returncode, 0, applied.stderr)
             tests = _run(["node", "--test", "tests/compiler.test.cjs"], cwd=dest)
             self.assertEqual(tests.returncode, 0, tests.stdout + tests.stderr)
-            self.assertIn("pass 61", tests.stdout + tests.stderr)
+            self.assertIn("pass 62", tests.stdout + tests.stderr)
             engine = (dest / "engine.js").read_text(encoding="utf-8")
             self.assertIn(
                 'WRITE_ACTIONS = ["export_pptx", "item.intake", "amend.apply", "call_action"]',
@@ -144,6 +147,7 @@ class SiblingPatchTests(unittest.TestCase):
             )
             self.assertIn("NOTE_LEAK", engine)
             self.assertIn("function cortexPayload", engine)
+            self.assertIn("nodes: ir.nodes", engine)
             self.assertIn("function applyObjectType", engine)
             self.assertIn("function bindWhenReady", engine)
             app = (dest / "app.js").read_text(encoding="utf-8")
