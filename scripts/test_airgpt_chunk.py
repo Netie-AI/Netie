@@ -13,6 +13,7 @@ from airgpt_chunk import (
     CORPUS_LABELED,
     CORPUS_RAGGED,
     CORPUS_REPEATED_HEADER,
+    Chunk,
     chunk_table,
     retrieve_space,
 )
@@ -72,6 +73,63 @@ B2|3
         out = retrieve_space(chunks, space="north", query="a,1")
         self.assertEqual(out["status"], "ABSTAIN")
         self.assertEqual(out["chunks"], [])
+
+    def test_chat_md_is_not_evidence(self) -> None:
+        chunks = [
+            Chunk(
+                text="sku,qty\nA,1",
+                header="sku,qty",
+                incomplete=False,
+                labels=("warehouse: north",),
+                source="spaces/5/chat_abc.md",
+            ),
+            Chunk(
+                text="sku,qty\nA,1",
+                header="sku,qty",
+                incomplete=False,
+                labels=("warehouse: north",),
+                source="spaces/5/inventory.csv",
+            ),
+        ]
+        out = retrieve_space(chunks, space="north", query="A,1")
+        self.assertEqual(out["status"], "OK")
+        self.assertEqual(len(out["chunks"]), 1)
+        self.assertTrue(out["chunks"][0].source.endswith("inventory.csv"))
+        chat_only = retrieve_space(
+            chunks[:1], space="north", query="A,1", source="chat_abc.md"
+        )
+        self.assertEqual(chat_only["status"], "ABSTAIN")
+        self.assertIn("chats_as_evidence", chat_only["reason"])
+        opted = retrieve_space(
+            chunks[:1], space="north", query="A,1", chats_as_evidence=True
+        )
+        self.assertEqual(opted["status"], "OK")
+
+    def test_file_mention_stays_in_space(self) -> None:
+        chunks = [
+            Chunk(
+                text="sku,qty\nA,1",
+                header="sku,qty",
+                incomplete=False,
+                labels=("warehouse: north",),
+                source="inventory.csv",
+            ),
+            Chunk(
+                text="sku,qty\nA,1",
+                header="sku,qty",
+                incomplete=False,
+                labels=("warehouse: south",),
+                source="hr.csv",
+            ),
+        ]
+        leak = retrieve_space(chunks, space="north", query="A,1", source="hr.csv")
+        self.assertEqual(leak["status"], "ABSTAIN")
+        self.assertEqual(leak["chunks"], [])
+        ok = retrieve_space(
+            chunks, space="north", query="A,1", source="inventory.csv"
+        )
+        self.assertEqual(ok["status"], "OK")
+        self.assertEqual(ok["chunks"][0].source, "inventory.csv")
 
 
 if __name__ == "__main__":

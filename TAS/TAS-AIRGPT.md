@@ -41,7 +41,7 @@ Asked: regex-friendly on broken tables, repeated headers, keyword labels, multil
 
 **What we cannot claim:** regex vs semantic split, table reconstitution, embedding model picker, multilingual adaptive routing. Those need `rag/` on HEAD.
 
-Portable corpus in this repo (AirGPT still 404): `scripts/airgpt_chunk.py`. Repeated headers are not extra rows, ragged short rows do not invent cells, extra cells are dropped (not a nameless column), `# warehouse:` labels stick to following rows. `retrieve_space` cites only complete chunks labeled for that Space; unlabeled and incomplete rows are not evidence; north cannot cite south. `python3 scripts/test_airgpt_chunk.py`. Not LlamaIndex; a splitter we own until HEAD is measured.
+Portable corpus in this repo (AirGPT still 404): `scripts/airgpt_chunk.py`. Repeated headers are not extra rows, ragged short rows do not invent cells, extra cells are dropped (not a nameless column), `# warehouse:` labels stick to following rows. `retrieve_space` cites only complete chunks labeled for that Space; unlabeled and incomplete rows are not evidence; north cannot cite south; `chat_*.md` is not evidence (`chats_as_evidence` defaults false); file mention cannot pull another Space's file. `python3 scripts/test_airgpt_chunk.py`. Not LlamaIndex; a splitter we own until HEAD is measured.
 
 Closest licensed kits *after* measure, not before: LlamaIndex (MIT) or a small splitter we own. Do not paste ChatGPT.
 
