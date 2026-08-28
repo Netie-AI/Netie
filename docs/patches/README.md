@@ -4,6 +4,8 @@ Apply on a machine with write access. Do not vendor OpenWork or Grok Bot.
 
 ## Constructor (`Netie-AI/constructor`)
 
+HEAD `eebff20` has no `tests/compiler.test.cjs` on GitHub. Netie 26 patches: `node --test` **62 passed**. Crew/Cortex also import `scripts/constructor_ir.py` and `constructor_action_bind.py`. Do not vendor Activeflow/Activepieces.
+
 From the constructor repo root, on `landing-9-first-path`:
 
 ```

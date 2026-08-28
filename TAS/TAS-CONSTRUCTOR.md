@@ -1,7 +1,7 @@
 # TAS-CONSTRUCTOR - Constructor technical architecture
 
 **Plane:** 4 (consumer canvas) · **Repo:** `Netie-AI/constructor` (public)
-**Measured:** 2026-08-27 against clone default `landing-9-first-path`. This token cannot push (403).
+**Measured:** 2026-08-28 against clone default `landing-9-first-path` HEAD `eebff20`. This token cannot push (403). GitHub HEAD has no `tests/compiler.test.cjs`. Netie 26 patches: **62 passed**. Portable `constructor_ir.py` is the Python import for Crew/Cortex, not a replacement for those patches.
 
 ---
 
@@ -9,7 +9,15 @@
 
 A ChatGPT-style box that compiles a canvas graph into Cortex IR: connector -> ontology -> insight -> foundry -> app. Ghost mode dry-runs. Ranks three Cortex coordination patterns and applies the winner.
 
-**Is not:** n8n, Activepieces, React Flow, or a second `dag_runner`. README forbids cloning n8n/Activepieces. Engine stays Cortex.
+**Is not:** n8n, Activepieces, React Flow, or a second `dag_runner`. README forbids cloning n8n/Activepieces. Engine stays Cortex. `E:\\Cortex\\myactiveflow` / `myactivepieces` are study notes for piece catalogs, not trees to copy.
+
+Portable import for Crew/Cortex agents (this repo):
+
+```
+python3 scripts/test_constructor_ir.py
+```
+
+`scripts/constructor_ir.py` fail-closes empty/unknown/cycle/dangling/missing ids, Kahn entry/sink, unlabeled object/action, assumed chat `inventory` / `export_pptx` / `T0`. `scripts/constructor_action_bind.py` binds a label to Cortex `WRITE_ACTIONS`. Unknown piece refuses. Do not rebuild the 26 JS patches here.
 
 ---
 

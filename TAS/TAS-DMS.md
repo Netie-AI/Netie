@@ -11,6 +11,9 @@ against code, not documentation.
 A FastAPI + React consumer app over the Cortex engine: Spaces, Studio ingest, governed
 chat, audit, pipelines. It talks to Cortex over HTTP only and never imports `CortexOS`.
 
+Palantir-class study notes (`E:\\mycogitorium`, `E:\\mysemantica`, `E:\\myzep`): ontology
+and evidence shape only. Do not clone Palantir. Portable Space ACL: `scripts/dms_space_acl.py`.
+
 ---
 
 ## 2. Entry points

@@ -57,6 +57,7 @@ def run_question(
     tool: str | None = None,
     via_tool_runner: bool = True,
     actor: str | None = None,
+    role: str | None = None,
     verified: bool = False,
     pack: str = "default",
     a2a: bool = False,
@@ -74,6 +75,8 @@ def run_question(
         raise RouteDenied(
             "Cortex is not Claude Code; depend Deep Agents under tool_runner"
         )
+    if (write or tool) and not (role or "").strip():
+        raise RouteDenied("execute needs a role")
     if tool and not via_tool_runner:
         raise RouteDenied(f"{tool} skipped tool_runner")
     if a2a and (pack or "").strip().lower() != "dms":
@@ -88,6 +91,7 @@ def run_question(
         "write": write or "none",
         "tool": tool or "none",
         "actor": (actor or "").strip() or "none",
+        "role": (role or "").strip() or "none",
         "verified": "true",
         "pack": (pack or "default").strip() or "default",
         "jepa": "off-path",

@@ -1,7 +1,7 @@
 # TAS-CONTROL - Netie Control technical architecture
 
-**Plane:** 4 (operator board view) · **Repo:** `Netie-AI/netie-control` (this token: not found)
-**Measured:** 2026-08-27 from founder inventory and DR-0001. Not cloned.
+**Plane:** 4 (operator board view) · **Repo:** `Netie-AI/netie-control` (public, 2026-08-28)
+**Measured:** clone exists (`CHANGELOG.md`, `netie_control/`, tests). Founder `E:\\Netie\\mypaperclip` is the UX study, not Apache Guacamole.
 
 ---
 
@@ -13,7 +13,7 @@ The board *view* of Cortex-Crew: estate gate, ledger/manifest/refusal cards, who
 
 DR-0001: fold into Crew when Crew exists. Do not grow a sibling shell.
 
-Portable view in this Netie repo (Control remote still 404): `scripts/control_board.py`.
+Portable view in this Netie repo: `scripts/control_board.py`.
 Read-only cards from Crew index + Factory.index() tickets/epics + ledger peek + refusals.
 `project_session` is one live run: ids, todos, permissions, hand-off id. No transcript.
 Session permissions drop Deep Agents builtins and billing-bypass names (`search_capabilities`).
@@ -34,5 +34,5 @@ Guacamole is a remote-desktop gateway (Apache-2.0). Control is a ticket/ledger b
 ## 3. Verify
 
 ```
-NEEDS-YOU TAS-CONTROL  add Netie-AI/netie-control or merge those 12 files into Crew
+NEEDS-YOU TAS-CONTROL  fold netie-control into Cortex-Crew when that repo exists
 ```

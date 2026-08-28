@@ -38,6 +38,8 @@ from netie.crew import (
     execute_capability,
     load_den,
     refuse_crew_gate,
+    persist,
+    resume,
     run_batch,
     run_open_ticket,
     wrap_deepagents_tools,
@@ -52,9 +54,14 @@ from netie.dms import (
 from netie.pointer import PointerDenied, bind_computer, click, invoke_hand
 from netie.route import (
     CompileDenied,
+    ConstructorIRDenied,
+    FreePoolRefused,
     ShipDenied,
     SwitchyardDenied,
+    assist_free_pool,
+    bind_action,
     compile_graph,
+    compile_ir,
     host_switchyard,
     report_deploy,
 )
@@ -70,6 +77,8 @@ class NetieApiTests(unittest.TestCase):
 
         self.assertIn("crew_harness_profile", crew_mod.__all__)
         self.assertIn("refuse_crew_gate", crew_mod.__all__)
+        self.assertIn("persist", crew_mod.__all__)
+        self.assertIn("resume", crew_mod.__all__)
         self.assertNotIn("bind_kwargs", crew_mod.__all__)
         with self.assertRaises(CortexDenied) as ctx:
             load_den("ee/")

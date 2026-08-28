@@ -1,8 +1,7 @@
 # TAS-CORTEX - Cortex technical architecture
 
-**Plane:** 3 (reasoning and governance) · **Repo:** `Netie-AI/Cortex` · `D:\Cortex`
-**Measured:** 2026-08-02. Route counts were obtained by **building the app**, not by
-reading source.
+**Plane:** 3 (reasoning and governance) · **Repo:** `Netie-AI/Cortex` (public) · HEAD `bf4ecee` (2026-08-28)
+**Measured:** 2026-08-02 app build plus 2026-08-28 public clone. `E:\\Cortex\\myguaca` / `myrakazo` are UI-token study notes. Cortex does not vendor Guacamole.
 
 ---
 
@@ -18,13 +17,14 @@ no CUDA path. `grep "chat/completions"` across `CortexOS` returns nothing. Token
 bought through litellm (self-hosted vLLM default `http://127.0.0.1:8000/v1`) or via
 OpenVault FreeRoute. See `NETIE.md` section 2 for why that is a deliberate decline.
 
-Portable path check in this constitution repo (Cortex still 404 here):
+Portable path check in this constitution repo:
 `scripts/cortex_path.py` / `python3 scripts/test_cortex_path.py`. JEPA and gen-cFSM are
 refused as route candidates. A tool that skips `tool_runner` is refused. Coding-agent tools (`bash` / filesystem)
 are refused even via `tool_runner` (Cortex is not Claude Code). A write
-without an actor is refused (`require_role` is still absent on HEAD execute
-modules). An answer without `verified=True` is refused (HEAD leaves it optional
-on `/dms/query`). `/a2a/messages` is dms-pack only.
+without an actor is refused. A write or tool without `role` is refused (HEAD execute
+modules still lack `require_role`; the portable contract now fails closed). An answer
+without `verified=True` is refused (HEAD leaves it optional on `/dms/query`).
+`/a2a/messages` is dms-pack only.
 
 ---
 

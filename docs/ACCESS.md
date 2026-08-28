@@ -2,9 +2,9 @@
 
 Do not paste GitHub, email, or 2FA secrets into chat. NETIE.md forbids credential intercept. A password in this thread is a leak.
 
-This cloud environment currently has **only** `github.com/Netie-AI/Netie`. Cortex, dms, AirGPT, Pointer, Space, Control, Netie-KB, and Cortex-Crew return 404 to the agent token. OpenVault and constructor clone as public; **push** is 403.
+This cloud environment currently clones public `Netie-AI/{Netie,Cortex,OpenVault,constructor,Pointer,dms,netie-control,Netie-KB}`. **Push** to OpenVault and constructor is 403. **Still 404:** Cortex-Crew, Space, AirGPT (`jian-hong/AirGPT` also 404 to this token).
 
-Re-probed 2026-08-28: same 404s (including `jian-hong/AirGPT`). OpenVault `main` still `62bb1c7` (GitHub CI success). constructor `landing-9-first-path` still `eebff20` (pages.yml success, no unit-test workflow on HEAD).
+Re-probed 2026-08-28: Cortex/Pointer/dms/control/KB/constructor/OpenVault clone. Cortex-Crew still missing. OpenVault `main` still `62bb1c7` (GitHub CI success). constructor `landing-9-first-path` `eebff20` (pages.yml success; Netie 26 patches, 62 compiler tests).
 
 Local CI is the gate until GitHub Actions billing works:
 
