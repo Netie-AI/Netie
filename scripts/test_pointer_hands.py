@@ -146,7 +146,21 @@ class PointerHandsTests(unittest.TestCase):
         self.assertEqual(out["hand"], "get_screen_diff")
         self.assertTrue(out["crop"])
 
-    def test_process_list_refuses(self) -> None:
+    def test_window_list_is_desktop_dump(self) -> None:
+        with self.assertRaises(PointerDenied) as ctx:
+            invoke_hand(
+                "list_windows",
+                cortex_allowed=True,
+                cortex_intent="see every window title",
+            )
+        self.assertIn("window_dump", str(ctx.exception))
+        with self.assertRaises(PointerDenied) as ctx:
+            invoke_hand(
+                "get_active_window",
+                cortex_allowed=True,
+                cortex_intent="read the focused title",
+            )
+        self.assertIn("window_dump", str(ctx.exception))
         with self.assertRaises(PointerDenied) as ctx:
             invoke_hand(
                 "list_processes",
@@ -219,6 +233,20 @@ class PointerHandsTests(unittest.TestCase):
                 cortex_intent="dump the desktop",
             )
         self.assertIn("screenshot_uncropped", str(ctx.exception))
+        with self.assertRaises(PointerDenied) as ctx:
+            invoke_hand(
+                "get_screen_info",
+                cortex_allowed=True,
+                cortex_intent="dump the desktop",
+            )
+        self.assertIn("screenshot_uncropped", str(ctx.exception))
+        out = invoke_hand(
+            "get_screen_info",
+            cortex_allowed=True,
+            cortex_intent="crop the save button",
+            element={"role": "button", "name": "Save"},
+        )
+        self.assertTrue(out["crop"])
         with self.assertRaises(PointerDenied) as ctx:
             invoke_hand(
                 "vlm_locate_element",

@@ -519,6 +519,12 @@ class NetieApiTests(unittest.TestCase):
         with self.assertRaises(PointerDenied) as proc:
             invoke_hand("list_processes", cortex_allowed=True, cortex_intent="see")
         self.assertIn("process_list", str(proc.exception))
+        with self.assertRaises(PointerDenied) as windows:
+            invoke_hand("list_windows", cortex_allowed=True, cortex_intent="see")
+        self.assertIn("window_dump", str(windows.exception))
+        with self.assertRaises(PointerDenied) as info:
+            invoke_hand("get_screen_info", cortex_allowed=True, cortex_intent="see")
+        self.assertIn("uncropped", str(info.exception))
         with self.assertRaises(PointerDenied) as js:
             invoke_hand("browser_execute_js", cortex_allowed=True, cortex_intent="run")
         self.assertIn("script", str(js.exception))
