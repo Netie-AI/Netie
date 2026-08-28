@@ -1,0 +1,88 @@
+diff --git a/engine.js b/engine.js
+index 33ac914..49dfd4e 100644
+--- a/engine.js
++++ b/engine.js
+@@ -85,20 +85,35 @@ function rankForKinds(kinds) {
+ }
+ 
+ function compileIR(state) {
++  const nodes = (state && state.nodes) || [];
++  const edges = (state && state.edges) || [];
++  const ghost = !!(
++    (state && state.ghost) ||
++    (typeof window !== "undefined" && window.Constructor && window.Constructor.ghost)
++  );
++  if (!nodes.length) {
++    return {
++      version: "1.0",
++      engine: "cortex",
++      ghost: ghost,
++      entry_node_id: null,
++      output_node_id: null,
++      nodes: [],
++      edges: edges.slice(),
++      error: "empty graph",
++    };
++  }
+   const output =
+-    [...state.nodes].reverse().find((n) => n.kind === "app") ||
+-    [...state.nodes].reverse().find((n) => n.kind === "audit") ||
+-    state.nodes[state.nodes.length - 1];
++    [...nodes].reverse().find((n) => n.kind === "app") ||
++    [...nodes].reverse().find((n) => n.kind === "audit") ||
++    nodes[nodes.length - 1];
+   return {
+     version: "1.0",
+     engine: "cortex",
+-    ghost: !!(
+-      state.ghost ||
+-      (typeof window !== "undefined" && window.Constructor && window.Constructor.ghost)
+-    ),
+-    entry_node_id: state.nodes[0].id,
++    ghost: ghost,
++    entry_node_id: nodes[0].id,
+     output_node_id: output.id,
+-    nodes: state.nodes.map((n) => {
++    nodes: nodes.map((n) => {
+       let kind = CORTEX_KIND[n.kind] || "DOCUMENT_REF";
+       if (n.id === output.id) kind = "EMIT";
+       else if (kind === "EMIT") kind = "DETERMINISTIC_RULE";
+@@ -117,7 +132,7 @@ function compileIR(state) {
+         requires_confirm: n.kind === "tool_call",
+       };
+     }),
+-    edges: state.edges.slice(),
++    edges: edges.slice(),
+   };
+ }
+ 
+diff --git a/tests/compiler.test.cjs b/tests/compiler.test.cjs
+index de9fd5c..8f782da 100644
+--- a/tests/compiler.test.cjs
++++ b/tests/compiler.test.cjs
+@@ -43,3 +43,25 @@ test("topo lists sources before sinks", () => {
+   });
+   assert.deepEqual(order, ["a", "b", "c"]);
+ });
++
++test("verify path ranks generator-verifier first", () => {
++  const ranked = rankForKinds(["hypothesize", "audit"]);
++  assert.equal(ranked[0].id, "generator_verifier");
++});
++
++test("ghost is false when unset", () => {
++  const ir = compileIR({
++    nodes: [{ id: "c", kind: "connector", note: "in" }],
++    edges: [],
++  });
++  assert.equal(ir.ghost, false);
++  assert.equal(ir.error, undefined);
++});
++
++test("empty graph does not invent Cortex nodes", () => {
++  const ir = compileIR({ nodes: [], edges: [] });
++  assert.equal(ir.engine, "cortex");
++  assert.equal(ir.error, "empty graph");
++  assert.deepEqual(ir.nodes, []);
++  assert.equal(ir.entry_node_id, null);
++});

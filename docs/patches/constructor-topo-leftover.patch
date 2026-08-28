@@ -1,0 +1,45 @@
+diff --git a/engine.js b/engine.js
+index 59a2000..68f0863 100644
+--- a/engine.js
++++ b/engine.js
+@@ -242,9 +242,7 @@ function topo(state) {
+       if (incoming[e.to] === 0) q.push(e.to);
+     }
+   }
+-  for (const n of state.nodes) {
+-    if (!out.includes(n.id)) out.push(n.id);
+-  }
++  // Kahn leftovers are a cycle, not an order. Do not invent one for the UI.
+   return out;
+ }
+ 
+diff --git a/tests/compiler.test.cjs b/tests/compiler.test.cjs
+index 6fdfcef..6591689 100644
+--- a/tests/compiler.test.cjs
++++ b/tests/compiler.test.cjs
+@@ -48,6 +48,25 @@ test("topo lists sources before sinks", () => {
+   assert.deepEqual(order, ["a", "b", "c"]);
+ });
+ 
++test("topo does not append leftover cyclic nodes", () => {
++  const mixed = topo({
++    nodes: [{ id: "a" }, { id: "b" }, { id: "free" }],
++    edges: [
++      { from: "a", to: "b" },
++      { from: "b", to: "a" },
++    ],
++  });
++  assert.deepEqual(mixed, ["free"]);
++  const cycle = topo({
++    nodes: [{ id: "a" }, { id: "b" }],
++    edges: [
++      { from: "a", to: "b" },
++      { from: "b", to: "a" },
++    ],
++  });
++  assert.deepEqual(cycle, []);
++});
++
+ test("verify path ranks generator-verifier first", () => {
+   const ranked = rankForKinds(["hypothesize", "audit"]);
+   assert.equal(ranked[0].id, "generator_verifier");

@@ -1,0 +1,95 @@
+diff --git a/OpenMW/openmw/openvault/route/execution.py b/OpenMW/openmw/openvault/route/execution.py
+index 60797d7..9ac0289 100644
+--- a/OpenMW/openmw/openvault/route/execution.py
++++ b/OpenMW/openmw/openvault/route/execution.py
+@@ -606,10 +606,18 @@ def hop_call_model(
+     serves: Callable[[Hop, str], bool] | None = None,
+ ) -> CallModel:
+     def call(model: str, **kwargs: Any) -> str:
++        skipped_anthropic = False
++        tried = False
+         for hop in hops_for_model(hops, model, serves=serves):
++            if (hop.provider or "").strip().lower() == "anthropic":
++                skipped_anthropic = True
++                continue
++            tried = True
+             text = post(hop, model=model, **kwargs)
+             if text and str(text).strip():
+                 return str(text)
++        if skipped_anthropic and not tried:
++            raise ExecutionRefused(503, "anthropic chat not via /v1 proxy yet")
+         return ""
+ 
+     return call
+diff --git a/OpenMW/tests/test_execution_chat.py b/OpenMW/tests/test_execution_chat.py
+index 276ffba..0f18873 100644
+--- a/OpenMW/tests/test_execution_chat.py
++++ b/OpenMW/tests/test_execution_chat.py
+@@ -690,6 +690,40 @@ def test_v1_fusion_usage_is_last_hop_not_panel_sum(
+     assert row["total_tokens"] != 200
+ 
+ 
++def test_v1_anthropic_only_shape_names_the_skip(
++    vault: KeyVault, monkeypatch: pytest.MonkeyPatch, tmp_path: Path
++) -> None:
++    rec = vault.create(
++        label="anth-hop",
++        provider="anthropic",
++        secret="sk-ant-test-anth-hop-aaaaaaaa",
++        role="primary",
++        priority=1,
++        base_url="https://api.anthropic.com",
++    )
++    vault.set_precheck(rec.id, status="ok", latency_ms=1.0, error=None)
++    client = _client(vault, tmp_path, monkeypatch)
++    _seat, headers = issue_key(client, label="anth-shape-seat")
++    mock = _client_mock()
++    mock.post = MagicMock(side_effect=[_ok("nope")])
++    with patch("openmw.openvault.vault.proxy.httpx.Client", return_value=mock):
++        resp = client.post(
++            "/v1/chat/completions",
++            json={
++                "model": "auto",
++                "messages": [{"role": "user", "content": "hi"}],
++                "combo": {
++                    "strategy": "fusion",
++                    "models": ["claude-opus-4"],
++                },
++            },
++            headers=headers,
++        )
++    assert resp.status_code == 503, resp.text
++    assert "anthropic chat not via /v1 proxy yet" in resp.json()["error"]["message"]
++    assert mock.post.call_count == 0
++
++
+ 
+ 
+ 
+diff --git a/OpenMW/tests/test_execution_shapes.py b/OpenMW/tests/test_execution_shapes.py
+index 57b588d..eaa9fac 100644
+--- a/OpenMW/tests/test_execution_shapes.py
++++ b/OpenMW/tests/test_execution_shapes.py
+@@ -220,6 +220,22 @@ def test_hop_call_model_falls_through_empty() -> None:
+     assert [h.execution_key for h in hops_for_model(hops, "gpt-mini")] == ["k1", "k2"]
+ 
+ 
++def test_hop_call_model_anthropic_only_names_the_skip() -> None:
++    hops = [Hop("k1", "claude", "anthropic", True)]
++    seen: list[str] = []
++
++    def post(hop: Hop, *, model: str, **_k: object) -> str:
++        seen.append(hop.execution_key)
++        return "should-not-post"
++
++    call = hop_call_model(hops, post)
++    with pytest.raises(ExecutionRefused) as ctx:
++        call("claude", user_text="Q")
++    assert ctx.value.code == 503
++    assert "anthropic chat not via /v1 proxy yet" in str(ctx.value)
++    assert seen == []
++
++
+ def test_sse_wrap_text_is_buffered() -> None:
+     first, done = sse_wrap_text("hello")
+     assert first.startswith(b"data: ")

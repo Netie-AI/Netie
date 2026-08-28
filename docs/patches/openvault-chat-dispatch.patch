@@ -1,0 +1,310 @@
+diff --git a/OpenMW/openmw/openvault/route/execution.py b/OpenMW/openmw/openvault/route/execution.py
+index 78ba549..73cdb80 100644
+--- a/OpenMW/openmw/openvault/route/execution.py
++++ b/OpenMW/openmw/openvault/route/execution.py
+@@ -1,7 +1,8 @@
+ """Fusion / pipeline / context-relay / auto: execution shapes, not sorts.
+ 
+ Algorithm ports of OmniRoute combo dispatch. We do not vendor combo.ts.
+-apply_strategy refuses these names. Chat /v1 is not wired to run_fusion yet.
++apply_strategy refuses these names. /v1 fail-closes on these names (does not
++walk vault keys as a panel). Call ``dispatch_combo`` with combo.models.
+ 
+ Honesty:
+ - fusion: no quorum-grace timers, no admission lanes, no vision filter.
+@@ -285,3 +286,124 @@ def resolve_auto(resolved: str | None) -> str:
+     if name not in SORT_STRATEGY_NAMES:
+         raise ExecutionRefused(400, f"auto cannot resolve to unknown strategy {name!r}")
+     return name
++
++
++MODEL_SHAPES: tuple[str, ...] = ("fusion", "pipeline", "context-relay")
++
++
++class StrategyIsASort(ValueError):
++    def __init__(self, strategy: str) -> None:
++        super().__init__(f"{strategy} is a sort; use apply_strategy")
++        self.strategy = strategy
++
++
++def _norm_name(value: Any) -> str:
++    return str(value or "").strip().lower().replace("_", "-")
++
++
++def shape_from_chat_body(body: dict[str, Any] | None) -> str | None:
++    """`model: auto` is OpenVault catalog pick, never OmniRoute auto."""
++    if not isinstance(body, dict):
++        return None
++    combo = body.get("combo")
++    if isinstance(combo, dict):
++        name = _norm_name(combo.get("strategy"))
++        if name in ("fusion", "pipeline", "context-relay", "auto"):
++            return name
++    name = _norm_name(body.get("strategy"))
++    if name in ("fusion", "pipeline", "context-relay", "auto"):
++        return name
++    name = _norm_name(body.get("model"))
++    if name in MODEL_SHAPES:
++        return name
++    return None
++
++
++def chat_shape_refusal(body: dict[str, Any] | None) -> dict[str, Any] | None:
++    shape = shape_from_chat_body(body)
++    if shape is None:
++        return None
++    return {
++        "error": {
++            "message": (
++                f"{shape} is an execution shape, not a vault-key walk. "
++                "Call dispatch_combo with combo.models; /v1 does not fan-out keys "
++                "as a panel."
++            ),
++            "type": "openvault_execution_shape",
++        }
++    }
++
++
++def steps_from_models(models: list[Any]) -> list[PipelineStep]:
++    out: list[PipelineStep] = []
++    for item in models:
++        if isinstance(item, PipelineStep):
++            out.append(item)
++        elif isinstance(item, str):
++            out.append(PipelineStep(item))
++        elif isinstance(item, dict):
++            out.append(
++                PipelineStep(
++                    model=str(item.get("model") or item.get("execution_key") or ""),
++                    prompt=item.get("prompt") if isinstance(item.get("prompt"), str) else None,
++                    hidden=bool(item.get("hidden") or item.get("isHidden")),
++                )
++            )
++    return out
++
++
++def dispatch_combo(
++    strategy: str,
++    models: list[Any],
++    call_model: CallModel,
++    *,
++    user_text: str = "",
++    stream: bool = False,
++    tools: Any = None,
++    tool_choice: Any = None,
++    judge_model: str | None = None,
++    resolved: str | None = None,
++    available: dict[str, bool] | None = None,
++    handoff: RelayHandoff | None = None,
++) -> str:
++    name = _norm_name(strategy)
++    if name in SORT_STRATEGY_NAMES:
++        raise StrategyIsASort(name)
++    if name == "auto":
++        raise StrategyIsASort(resolve_auto(resolved))
++    if name == "fusion":
++        ids = [s.model for s in steps_from_models(models)]
++        plan = plan_fusion(
++            ids, judge_model=judge_model, tools=tools, tool_choice=tool_choice
++        )
++        return run_fusion(
++            plan,
++            call_model,
++            user_text=user_text,
++            stream=stream,
++            tools=tools,
++            tool_choice=tool_choice,
++        )
++    if name == "pipeline":
++        return run_pipeline(
++            steps_from_models(models),
++            call_model,
++            user_text=user_text,
++            stream=stream,
++            tools=tools,
++            tool_choice=tool_choice,
++        )
++    if name == "context-relay":
++        ids = [s.model for s in steps_from_models(models) if not s.hidden]
++        picked = pick_relay_target(ids, available=available)
++        if picked is None:
++            raise ExecutionRefused(503, "no available relay target")
++        return call_model(
++            picked,
++            user_text=inject_handoff(user_text, handoff),
++            stream=stream,
++            tools=tools,
++            tool_choice=tool_choice,
++        )
++    raise ExecutionRefused(400, f"unknown execution shape {name!r}")
+diff --git a/OpenMW/openmw/openvault/vault/proxy.py b/OpenMW/openmw/openvault/vault/proxy.py
+index fa3908e..1f579d4 100644
+--- a/OpenMW/openmw/openvault/vault/proxy.py
++++ b/OpenMW/openmw/openvault/vault/proxy.py
+@@ -12,6 +12,7 @@ import structlog
+ 
+ from openmw.openvault.route.attempt import AttemptOutcome, classify_attempt
+ from openmw.openvault.route.breaker import get_circuit_breaker
++from openmw.openvault.route.execution import chat_shape_refusal
+ from openmw.openvault.vault.budget import estimate_tokens_for_body, prepare_hop_body
+ from openmw.openvault.vault.fallback import FallbackManager
+ from openmw.openvault.vault.precheck import _default_base_url
+@@ -215,6 +216,10 @@ async def chat_completions(
+     the return tuple is unpacked by four test modules that do not want it.
+     """
+     trace = trace if trace is not None else HopTrace()
++    refused = chat_shape_refusal(body)
++    if refused:
++        trace.error_type = "openvault_execution_shape"
++        return 400, refused
+     candidates = fallback.ordered_candidates(affinity_key=affinity_key_for(body, tenant=tenant))
+     if not candidates:
+         return 503, _no_candidates_refusal(vault)
+@@ -402,6 +407,10 @@ async def prepare_chat_stream(
+     with the correct HTTP status (streaming cannot change status mid-flight).
+     """
+     trace = trace if trace is not None else HopTrace()
++    refused = chat_shape_refusal(body)
++    if refused:
++        trace.error_type = "openvault_execution_shape"
++        return 400, refused
+     candidates = fallback.ordered_candidates(affinity_key=affinity_key_for(body, tenant=tenant))
+     if not candidates:
+         return 503, _no_candidates_refusal(vault)
+diff --git a/OpenMW/tests/test_execution_chat.py b/OpenMW/tests/test_execution_chat.py
+new file mode 100644
+index 0000000..30dff90
+--- /dev/null
++++ b/OpenMW/tests/test_execution_chat.py
+@@ -0,0 +1,77 @@
++""" /v1 fail-closes on fusion/pipeline/context-relay. model=auto is catalog pick."""
++
++from __future__ import annotations
++
++from pathlib import Path
++
++import pytest
++from conftest import issue_key
++from cryptography.fernet import Fernet
++from fastapi.testclient import TestClient
++
++from openmw.openvault.app import create_app
++from openmw.openvault.vault.crypto import Seal
++from openmw.openvault.vault.store import KeyVault
++
++
++@pytest.fixture()
++def vault(tmp_path: Path) -> KeyVault:
++    seal = Seal(Fernet.generate_key())
++    return KeyVault(db_path=tmp_path / "keys.db", seal=seal)
++
++
++def _client(vault: KeyVault, tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> TestClient:
++    monkeypatch.setenv("OPENVAULT_HOME", str(tmp_path / "home"))
++    app = create_app(
++        vault=vault,
++        mock_health=True,
++        enable_precheck_loop=False,
++        cortex_url="http://127.0.0.1:9",
++    )
++    return TestClient(app, client=("127.0.0.1", 5555))
++
++
++def test_v1_fusion_is_400_not_key_walk(
++    vault: KeyVault, monkeypatch: pytest.MonkeyPatch, tmp_path: Path
++) -> None:
++    client = _client(vault, tmp_path, monkeypatch)
++    _seat, headers = issue_key(client, label="fusion-seat")
++    resp = client.post(
++        "/v1/chat/completions",
++        json={"model": "fusion", "messages": [{"role": "user", "content": "hi"}]},
++        headers=headers,
++    )
++    assert resp.status_code == 400
++    assert resp.json()["error"]["type"] == "openvault_execution_shape"
++
++
++def test_v1_auto_is_still_empty_pool_503(
++    vault: KeyVault, monkeypatch: pytest.MonkeyPatch, tmp_path: Path
++) -> None:
++    client = _client(vault, tmp_path, monkeypatch)
++    _seat, headers = issue_key(client, label="auto-seat")
++    resp = client.post(
++        "/v1/chat/completions",
++        json={"model": "auto", "messages": [{"role": "user", "content": "hi"}]},
++        headers=headers,
++    )
++    assert resp.status_code == 503
++    assert resp.json()["error"]["type"] == "openvault_no_keys"
++
++
++def test_v1_combo_pipeline_is_400(
++    vault: KeyVault, monkeypatch: pytest.MonkeyPatch, tmp_path: Path
++) -> None:
++    client = _client(vault, tmp_path, monkeypatch)
++    _seat, headers = issue_key(client, label="pipe-seat")
++    resp = client.post(
++        "/v1/chat/completions",
++        json={
++            "model": "gpt-4",
++            "messages": [{"role": "user", "content": "hi"}],
++            "combo": {"strategy": "pipeline", "models": ["p/a", "p/b"]},
++        },
++        headers=headers,
++    )
++    assert resp.status_code == 400
++    assert resp.json()["error"]["type"] == "openvault_execution_shape"
+diff --git a/OpenMW/tests/test_execution_shapes.py b/OpenMW/tests/test_execution_shapes.py
+index e12c42b..793b765 100644
+--- a/OpenMW/tests/test_execution_shapes.py
++++ b/OpenMW/tests/test_execution_shapes.py
+@@ -9,11 +9,15 @@ from fastapi.testclient import TestClient
+ from openmw.openvault.route.execution import (
+     HANDOFF_EXHAUSTION,
+     PipelineStep,
++    StrategyIsASort,
++    chat_shape_refusal,
++    dispatch_combo,
+     plan_fusion,
+     pick_relay_target,
+     resolve_auto,
+     run_fusion,
+     run_pipeline,
++    shape_from_chat_body,
+     should_generate_handoff,
+     ExecutionRefused,
+ )
+@@ -125,3 +129,33 @@ def test_route_api_refuses_fusion_as_sort() -> None:
+     resp = client.put("/api/route/strategy", json={"strategy": "fusion"})
+     assert resp.status_code == 400
+     assert "execution shape" in resp.json()["detail"]
++
++
++def test_model_auto_is_not_omniroute_auto() -> None:
++    assert shape_from_chat_body({"model": "auto"}) is None
++    assert chat_shape_refusal({"model": "auto"}) is None
++
++
++def test_model_fusion_refuses_as_chat_shape() -> None:
++    payload = chat_shape_refusal({"model": "fusion"})
++    assert payload is not None
++    assert payload["error"]["type"] == "openvault_execution_shape"
++
++
++def test_dispatch_combo_sort_raises() -> None:
++    with pytest.raises(StrategyIsASort):
++        dispatch_combo("priority", ["a"], lambda *_a, **_k: "x")
++
++
++def test_dispatch_combo_fusion() -> None:
++    seen: list[str] = []
++
++    def call(model: str, **_k):
++        seen.append(model)
++        return f"ans-{model}"
++
++    out = dispatch_combo(
++        "fusion", ["p/a", "p/b"], call, user_text="Q", judge_model="p/judge"
++    )
++    assert seen == ["p/a", "p/b", "p/judge"]
++    assert out == "ans-p/judge"

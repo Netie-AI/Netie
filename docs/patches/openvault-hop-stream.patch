@@ -1,0 +1,360 @@
+diff --git a/OpenMW/openmw/openvault/route/execution.py b/OpenMW/openmw/openvault/route/execution.py
+index 415c7de..d7ecfa0 100644
+--- a/OpenMW/openmw/openvault/route/execution.py
++++ b/OpenMW/openmw/openvault/route/execution.py
+@@ -15,6 +15,7 @@ from __future__ import annotations
+ 
+ from dataclasses import dataclass, field
+ from typing import Any, Callable, Literal
++import json
+ 
+ from openmw.openvault.route.types import SORT_STRATEGY_NAMES
+ 
+@@ -504,3 +505,9 @@ def hop_call_model(
+         return ""
+ 
+     return call
++
++
++def sse_wrap_text(text: str) -> tuple[bytes, bytes]:
++    """SSE pair for a buffered last hop (one-survivor skip, not a second call)."""
++    payload = json.dumps({"choices": [{"delta": {"content": str(text)}}]})
++    return f"data: {payload}\n\n".encode("utf-8"), b"data: [DONE]\n\n"
+diff --git a/OpenMW/openmw/openvault/vault/proxy.py b/OpenMW/openmw/openvault/vault/proxy.py
+index 8a433e0..31c69a3 100644
+--- a/OpenMW/openmw/openvault/vault/proxy.py
++++ b/OpenMW/openmw/openvault/vault/proxy.py
+@@ -22,6 +22,7 @@ from openmw.openvault.route.execution import (
+     extract_assistant_text,
+     hop_call_model,
+     shape_from_chat_body,
++    sse_wrap_text,
+     user_text_from_body,
+ )
+ from openmw.openvault.vault.budget import estimate_tokens_for_body, prepare_hop_body
+@@ -219,20 +220,15 @@ def _run_execution_shape(
+     timeout_s: float,
+     trace: HopTrace,
+     tenant: str,
+-) -> tuple[int, dict[str, Any]]:
++) -> tuple[int, dict[str, Any] | AsyncIterator[bytes]]:
+     """Sequential hop-walk for fusion/pipeline/context-relay. Not parallel.
+ 
+     Execution-shape posts use the same classify_attempt / _apply_outcome as
+-    the key walk. No quorum-grace. Streaming is refused.
++    the key walk. Last hop may SSE (panel/steps stay buffered). No quorum-grace.
+     """
+-    if body.get("stream"):
+-        trace.error_type = "openvault_execution_shape"
+-        return 400, {
+-            "error": {
+-                "message": "streaming execution shapes are not wired",
+-                "type": "openvault_execution_shape",
+-            }
+-        }
++    want_stream = bool(body.get("stream"))
++    stream_holder: dict[str, AsyncIterator[bytes]] = {}
++    stream_hold = "\x1eopenvault-stream-hold\x1e"
+     shape = shape_from_chat_body(body) or ""
+     if shape == "auto":
+         trace.error_type = "openvault_execution_shape"
+@@ -291,20 +287,111 @@ def _run_execution_shape(
+         hop_body: dict[str, Any] = {
+             "model": resolved,
+             "messages": messages,
+-            "stream": False,
++            "stream": bool(stream),
+         }
+         if tools:
+             hop_body["tools"] = tools
+             if tool_choice is not None:
+                 hop_body["tool_choice"] = tool_choice
++        headers_out = {
++            "Authorization": f"Bearer {secret}",
++            "Content-Type": "application/json",
++        }
++        if stream:
++            headers_out["Accept"] = "text/event-stream"
++            client = httpx.Client(timeout=timeout_s)
++            try:
++                req = client.build_request(
++                    "POST",
++                    f"{base}/chat/completions",
++                    headers=headers_out,
++                    json=hop_body,
++                )
++                resp = client.send(req, stream=True)
++            except httpx.TimeoutException:
++                client.close()
++                outcome = classify_attempt(None, "timeout")
++                _apply_outcome(
++                    vault,
++                    fallback,
++                    key_id=rec.id,
++                    provider=rec.provider,
++                    outcome=outcome,
++                    error="timeout",
++                )
++                return ""
++            except httpx.HTTPError as exc:
++                client.close()
++                outcome = classify_attempt(None, str(exc))
++                _apply_outcome(
++                    vault,
++                    fallback,
++                    key_id=rec.id,
++                    provider=rec.provider,
++                    outcome=outcome,
++                    error=str(exc),
++                )
++                return ""
++            except Exception:
++                client.close()
++                outcome = classify_attempt(None, "transport_error")
++                _apply_outcome(
++                    vault,
++                    fallback,
++                    key_id=rec.id,
++                    provider=rec.provider,
++                    outcome=outcome,
++                    error="transport_error",
++                )
++                return ""
++            raw_headers = resp.headers if isinstance(resp.headers, dict) else {}
++            body_text = ""
++            failed = resp.status_code >= 400
++            if failed:
++                try:
++                    raw = resp.read()
++                    if isinstance(raw, (bytes, bytearray)):
++                        body_text = raw.decode("utf-8", errors="replace")
++                    else:
++                        body_text = str(raw or "")
++                except Exception:
++                    body_text = str(getattr(resp, "text", "") or "")
++                resp.close()
++                client.close()
++            outcome = classify_attempt(resp.status_code, body_text, headers=raw_headers)
++            err = "" if outcome.attempt_class == "success" else f"HTTP {resp.status_code}"
++            _apply_outcome(
++                vault,
++                fallback,
++                key_id=rec.id,
++                provider=rec.provider,
++                outcome=outcome,
++                error=err,
++            )
++            if outcome.job == "dead":
++                raise ExecutionRefused(400, "request rejected by upstream (non-retryable)")
++            if outcome.attempt_class != "success":
++                return ""
++
++            async def _byte_iter(
++                response: httpx.Response = resp,
++                owned: httpx.Client = client,
++            ) -> AsyncIterator[bytes]:
++                try:
++                    for chunk in response.iter_bytes():
++                        if chunk:
++                            yield chunk
++                finally:
++                    response.close()
++                    owned.close()
++
++            stream_holder["iter"] = _byte_iter()
++            return stream_hold
+         try:
+             with httpx.Client(timeout=timeout_s) as client:
+                 resp = client.post(
+                     f"{base}/chat/completions",
+-                    headers={
+-                        "Authorization": f"Bearer {secret}",
+-                        "Content-Type": "application/json",
+-                    },
++                    headers=headers_out,
+                     json=hop_body,
+                 )
+         except httpx.TimeoutException:
+@@ -365,7 +452,7 @@ def _run_execution_shape(
+             models,
+             hop_call_model(hops, post, serves=serves),
+             user_text=user_text_from_body(body),
+-            stream=False,
++            stream=want_stream,
+             tools=body.get("tools"),
+             tool_choice=body.get("tool_choice"),
+             judge_model=combo.get("judgeModel") or combo.get("judge_model"),
+@@ -392,6 +479,27 @@ def _run_execution_shape(
+                 "type": "openvault_execution_shape",
+             }
+         }
++    if want_stream:
++        held = stream_holder.get("iter")
++        if held is not None:
++            trace.note_served(provider="dispatch", model=shape, vault_key_id="")
++            return 200, held
++        if text and str(text).strip() and text != stream_hold:
++            first, done = sse_wrap_text(text)
++
++            async def _wrapped() -> AsyncIterator[bytes]:
++                yield first
++                yield done
++
++            trace.note_served(provider="dispatch", model=shape, vault_key_id="")
++            return 200, _wrapped()
++        trace.error_type = "openvault_execution_shape"
++        return 503, {
++            "error": {
++                "message": "all execution-shape hops failed",
++                "type": "openvault_execution_shape",
++            }
++        }
+     if not (text and str(text).strip()):
+         trace.error_type = "openvault_execution_shape"
+         return 503, {
+diff --git a/OpenMW/tests/test_execution_chat.py b/OpenMW/tests/test_execution_chat.py
+index 698ffc1..be0760a 100644
+--- a/OpenMW/tests/test_execution_chat.py
++++ b/OpenMW/tests/test_execution_chat.py
+@@ -299,3 +299,118 @@ def test_v1_open_breaker_skips_hop_without_post(
+     assert "hops failed" in resp.json()["error"]["message"]
+     assert mock.post.call_count == 0
+ 
++
++def _sse_ok(*chunks: bytes) -> MagicMock:
++    resp = MagicMock()
++    resp.status_code = 200
++    resp.headers = {"content-type": "text/event-stream"}
++    resp.text = ""
++    resp.iter_bytes = MagicMock(return_value=iter(chunks))
++    resp.read = MagicMock(return_value=b"")
++    resp.close = MagicMock()
++    return resp
++
++
++def test_v1_nameless_fusion_stream_still_400(
++    vault: KeyVault, monkeypatch: pytest.MonkeyPatch, tmp_path: Path
++) -> None:
++    client = _client(vault, tmp_path, monkeypatch)
++    _seat, headers = issue_key(client, label="fusion-stream-seat")
++    resp = client.post(
++        "/v1/chat/completions",
++        json={
++            "model": "fusion",
++            "stream": True,
++            "messages": [{"role": "user", "content": "hi"}],
++        },
++        headers=headers,
++    )
++    assert resp.status_code == 400
++    assert resp.json()["error"]["type"] == "openvault_execution_shape"
++
++
++def test_v1_pipeline_stream_last_hop_is_sse(
++    vault: KeyVault, monkeypatch: pytest.MonkeyPatch, tmp_path: Path
++) -> None:
++    _healthy(vault, "pipe-hop", priority=1)
++    client = _client(vault, tmp_path, monkeypatch)
++    _seat, headers = issue_key(client, label="pipe-stream-seat")
++    mock = _client_mock()
++    mock.build_request = MagicMock(return_value=object())
++    mock.post = MagicMock(side_effect=[_ok("OUT_A")])
++    mock.send = MagicMock(
++        return_value=_sse_ok(
++            b'data: {"choices":[{"delta":{"content":"Z"}}]}\n\n',
++            b"data: [DONE]\n\n",
++        )
++    )
++    with patch("openmw.openvault.vault.proxy.httpx.Client", return_value=mock):
++        with client.stream(
++            "POST",
++            "/v1/chat/completions",
++            json={
++                "model": "auto",
++                "stream": True,
++                "messages": [{"role": "user", "content": "hi"}],
++                "combo": {
++                    "strategy": "pipeline",
++                    "models": ["gpt-4o-mini", "gpt-4o"],
++                },
++            },
++            headers=headers,
++        ) as resp:
++            assert resp.status_code == 200, resp.read()
++            assert "text/event-stream" in (resp.headers.get("content-type") or "")
++            body = b"".join(resp.iter_bytes())
++    assert b"Z" in body
++    assert b"[DONE]" in body
++    assert mock.post.call_count == 1
++    assert mock.send.call_count == 1
++    first_json = mock.post.call_args.kwargs["json"]
++    assert first_json["stream"] is False
++    assert first_json["messages"][-1]["content"] == "hi"
++    second_json = mock.send.call_args.args[0] if mock.send.call_args.args else None
++    sent_json = mock.send.call_args.kwargs.get("json")
++    if sent_json is None:
++        req = mock.build_request.call_args
++        sent_json = req.kwargs["json"]
++    assert sent_json["stream"] is True
++    assert sent_json["messages"][-1]["content"] == "OUT_A"
++
++
++def test_v1_stream_500_falls_through_to_sse(
++    vault: KeyVault, monkeypatch: pytest.MonkeyPatch, tmp_path: Path
++) -> None:
++    _healthy(vault, "hop-a", priority=1)
++    _healthy(vault, "hop-b", priority=2)
++    client = _client(vault, tmp_path, monkeypatch)
++    _seat, headers = issue_key(client, label="stream-fail-seat")
++    mock = _client_mock()
++    mock.build_request = MagicMock(return_value=object())
++    bad = _http_err(500, "boom")
++    bad.read = MagicMock(return_value=b"boom")
++    bad.close = MagicMock()
++    mock.send = MagicMock(
++        side_effect=[
++            bad,
++            _sse_ok(b"data: solo\n\n", b"data: [DONE]\n\n"),
++        ]
++    )
++    with patch("openmw.openvault.vault.proxy.httpx.Client", return_value=mock):
++        with client.stream(
++            "POST",
++            "/v1/chat/completions",
++            json={
++                "model": "auto",
++                "stream": True,
++                "messages": [{"role": "user", "content": "Q"}],
++                "combo": {"strategy": "fusion", "models": ["gpt-4o-mini"]},
++            },
++            headers=headers,
++        ) as resp:
++            assert resp.status_code == 200, resp.read()
++            body = b"".join(resp.iter_bytes())
++    assert b"solo" in body
++    assert mock.send.call_count == 2
++
++
+diff --git a/OpenMW/tests/test_execution_shapes.py b/OpenMW/tests/test_execution_shapes.py
+index bf990ee..0e05d26 100644
+--- a/OpenMW/tests/test_execution_shapes.py
++++ b/OpenMW/tests/test_execution_shapes.py
+@@ -24,6 +24,7 @@ from openmw.openvault.route.execution import (
+     run_pipeline,
+     shape_from_chat_body,
+     should_generate_handoff,
++    sse_wrap_text,
+     ExecutionRefused,
+ )
+ from openmw.openvault.route.registry import reset_route_state
+@@ -211,3 +212,10 @@ def test_hop_call_model_falls_through_empty() -> None:
+     assert call("gpt-mini", user_text="Q") == "ok"
+     assert seen == ["k1", "k2"]
+     assert [h.execution_key for h in hops_for_model(hops, "gpt-mini")] == ["k1", "k2"]
++
++
++def test_sse_wrap_text_is_buffered() -> None:
++    first, done = sse_wrap_text("hello")
++    assert first.startswith(b"data: ")
++    assert b"hello" in first
++    assert done == b"data: [DONE]\n\n"

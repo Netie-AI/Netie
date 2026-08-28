@@ -1,0 +1,153 @@
+diff --git a/.github/workflows/test.yml b/.github/workflows/test.yml
+new file mode 100644
+index 0000000..ab0c5e7
+--- /dev/null
++++ b/.github/workflows/test.yml
+@@ -0,0 +1,16 @@
++name: test
++
++on:
++  push:
++  pull_request:
++
++jobs:
++  compiler:
++    runs-on: ubuntu-latest
++    steps:
++      - uses: actions/checkout@v4
++      - uses: actions/setup-node@v4
++        with:
++          node-version: "22"
++      - name: Constructor compiler
++        run: node --test tests/compiler.test.cjs
+diff --git a/engine.js b/engine.js
+index adc61d0..33ac914 100644
+--- a/engine.js
++++ b/engine.js
+@@ -72,6 +72,18 @@ function scoreApproach(row) {
+   return row.audit * 2 + statusWeight(row.cortex_status) - row.cost - row.blast;
+ }
+ 
++function rankForKinds(kinds) {
++  const set = kinds instanceof Set ? kinds : new Set(kinds);
++  const foundry = ["ontology", "insight", "foundry", "app"].every((k) => set.has(k));
++  const verify = set.has("hypothesize") && set.has("audit") && !foundry;
++  return APPROACHES.map((row) => {
++    let score = scoreApproach(row);
++    if (foundry && row.id === "orchestrator_subagent") score += 20;
++    if (verify && row.id === "generator_verifier") score += 20;
++    return Object.assign({}, row, { score: score });
++  }).sort((a, b) => b.score - a.score);
++}
++
+ function compileIR(state) {
+   const output =
+     [...state.nodes].reverse().find((n) => n.kind === "app") ||
+@@ -80,7 +92,10 @@ function compileIR(state) {
+   return {
+     version: "1.0",
+     engine: "cortex",
+-    ghost: !!window.Constructor.ghost,
++    ghost: !!(
++      state.ghost ||
++      (typeof window !== "undefined" && window.Constructor && window.Constructor.ghost)
++    ),
+     entry_node_id: state.nodes[0].id,
+     output_node_id: output.id,
+     nodes: state.nodes.map((n) => {
+@@ -218,15 +233,9 @@ async function rankApproaches() {
+       return ranked;
+     }
+   }
+-  const kinds = new Set(window.Constructor.getState().nodes.map((n) => n.kind));
+-  const foundry = ["ontology", "insight", "foundry", "app"].every((k) => kinds.has(k));
+-  const verify = kinds.has("hypothesize") && kinds.has("audit") && !foundry;
+-  const ranked = APPROACHES.map((row) => {
+-    let score = scoreApproach(row);
+-    if (foundry && row.id === "orchestrator_subagent") score += 20;
+-    if (verify && row.id === "generator_verifier") score += 20;
+-    return Object.assign({}, row, { score: score });
+-  }).sort((a, b) => b.score - a.score);
++  const ranked = rankForKinds(
++    window.Constructor.getState().nodes.map((n) => n.kind)
++  );
+   const box = document.getElementById("approaches");
+   box.innerHTML = ranked
+     .map((row, i) => {
+@@ -573,8 +582,21 @@ function bindChat() {
+   rankApproaches();
+ }
+ 
+-if (document.readyState === "loading") {
+-  document.addEventListener("DOMContentLoaded", bindChat);
+-} else {
+-  bindChat();
++if (typeof document !== "undefined") {
++  if (document.readyState === "loading") {
++    document.addEventListener("DOMContentLoaded", bindChat);
++  } else {
++    bindChat();
++  }
++}
++
++if (typeof module !== "undefined" && module.exports) {
++  module.exports = {
++    APPROACHES,
++    CORTEX_KIND,
++    compileIR,
++    rankForKinds,
++    scoreApproach,
++    topo,
++  };
+ }
+diff --git a/tests/compiler.test.cjs b/tests/compiler.test.cjs
+new file mode 100644
+index 0000000..de9fd5c
+--- /dev/null
++++ b/tests/compiler.test.cjs
+@@ -0,0 +1,45 @@
++"use strict";
++
++const { test } = require("node:test");
++const assert = require("node:assert/strict");
++const {
++  compileIR,
++  rankForKinds,
++  topo,
++} = require("../engine.js");
++
++test("foundry path ranks orchestrator-subagent first", () => {
++  const ranked = rankForKinds(["connector", "ontology", "insight", "foundry", "app"]);
++  assert.equal(ranked[0].id, "orchestrator_subagent");
++});
++
++test("compileIR emits Cortex kinds and marks the app node EMIT", () => {
++  const ir = compileIR({
++    ghost: true,
++    nodes: [
++      { id: "c", kind: "connector", note: "in" },
++      { id: "o", kind: "ontology", note: "types" },
++      { id: "a", kind: "app", note: "out" },
++    ],
++    edges: [
++      { from: "c", to: "o" },
++      { from: "o", to: "a" },
++    ],
++  });
++  assert.equal(ir.engine, "cortex");
++  assert.equal(ir.ghost, true);
++  assert.equal(ir.output_node_id, "a");
++  assert.equal(ir.nodes.find((n) => n.id === "a").kind, "EMIT");
++  assert.equal(ir.nodes.find((n) => n.id === "c").kind, "DOCUMENT_REF");
++});
++
++test("topo lists sources before sinks", () => {
++  const order = topo({
++    nodes: [{ id: "a" }, { id: "b" }, { id: "c" }],
++    edges: [
++      { from: "a", to: "b" },
++      { from: "b", to: "c" },
++    ],
++  });
++  assert.deepEqual(order, ["a", "b", "c"]);
++});
