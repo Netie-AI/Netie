@@ -1,0 +1,222 @@
+diff --git a/engine.js b/engine.js
+index 184e1de..388799e 100644
+--- a/engine.js
++++ b/engine.js
+@@ -91,6 +91,47 @@ function listedOrEmpty(value, listed) {
+ }
+ 
+ const DEFAULT_OBJECTS = ["inventory", "suppliers"];
++const DATA_TYPES = ["string", "number", "integer", "boolean", "date"];
++const DEFAULT_OBJECT_POINTS = {
++  inventory: [
++    "sku",
++    "sku_name",
++    "category",
++    "supplier_id",
++    "location_id",
++    "storage_bin",
++    "quantity_kg",
++    "reorder_level_kg",
++    "unit_cost_myr",
++    "last_restocked",
++    "expiry_date",
++    "is_hazardous",
++  ],
++  suppliers: [
++    "supplier_id",
++    "supplier_name",
++    "country",
++    "lead_time_days",
++    "payment_terms",
++    "last_audit_date",
++    "risk_score",
++  ],
++};
++
++function pointsForObject(name, catalog) {
++  if (catalog && catalog[name] && Array.isArray(catalog[name])) return catalog[name];
++  return DEFAULT_OBJECT_POINTS[name] || [];
++}
++
++function fetchFromListed(fetch, listed, objectType) {
++  const raw = String(fetch || "").trim();
++  if (!raw) return "";
++  const parts = raw.split(".");
++  const table = parts.length >= 2 ? parts[1] : parts[0];
++  if (!objectType || !Array.isArray(listed) || listed.indexOf(table) < 0) return "";
++  if (table !== objectType) return "";
++  return raw;
++}
+ 
+ function listedOptions(listed, value) {
+   const rows = Array.isArray(listed) ? listed.slice() : [];
+@@ -212,6 +253,7 @@ function compileIR(state) {
+     output = byId[order[order.length - 1]];
+   }
+   const listedObjects = Array.isArray(state.objects) ? state.objects : DEFAULT_OBJECTS;
++  const pointCatalog = state.object_points && typeof state.object_points === "object" ? state.object_points : null;
+   return {
+     version: "1.0",
+     engine: "cortex",
+@@ -222,15 +264,18 @@ function compileIR(state) {
+       let kind = CORTEX_KIND[n.kind];
+       if (n.id === output.id && (n.kind === "app" || n.kind === "audit")) kind = "EMIT";
+       else if (kind === "EMIT") kind = "DETERMINISTIC_RULE";
++      const obj = listedOrEmpty(n.object_type, listedObjects);
++      const points = pointsForObject(obj, pointCatalog);
++      const point = obj ? listedOrEmpty(n.data_point, points) : "";
+       return {
+         id: n.id,
+         kind: kind,
+         constructor_kind: n.kind,
+-        object_type: listedOrEmpty(n.object_type, listedObjects) || null,
+-        data_point: n.data_point || null,
+-        data_type: n.data_type || null,
++        object_type: obj || null,
++        data_point: point || null,
++        data_type: point ? listedOrEmpty(n.data_type, DATA_TYPES) || null : null,
+         action_type: n.action_type || null,
+-        fetch_from: n.fetch_from || null,
++        fetch_from: fetchFromListed(n.fetch_from, listedObjects, obj) || null,
+         tier: listedOrEmpty(n.tier, ["T0", "T1"]) || null,
+         stream: !!n.stream,
+         note: n.note,
+@@ -283,8 +328,8 @@ function ghostWalk(state, ghostFlag) {
+       would: node.note,
+       action_type: node.action_type || null,
+       object_type: compiled ? compiled.object_type : null,
+-      data_point: node.data_point || null,
+-      fetch_from: node.fetch_from || null,
++      data_point: compiled ? compiled.data_point : null,
++      fetch_from: compiled ? compiled.fetch_from : null,
+     });
+   }
+   return { error: undefined, log: log, order: order };
+@@ -735,5 +780,7 @@ if (typeof module !== "undefined" && module.exports) {
+     listedOrEmpty,
+     listedOptions,
+     objectForSetPoint,
++    fetchFromListed,
++    pointsForObject,
+   };
+ }
+diff --git a/tests/compiler.test.cjs b/tests/compiler.test.cjs
+index 05ce073..72e10ce 100644
+--- a/tests/compiler.test.cjs
++++ b/tests/compiler.test.cjs
+@@ -401,3 +401,115 @@ test("ghostWalk does not log an unlisted object_type", () => {
+   assert.equal(walked.error, undefined);
+   assert.equal(walked.log[0].object_type, null);
+ });
++
++test("compileIR drops fetch_from that names an unlisted table", () => {
++  const bad = compileIR({
++    nodes: [
++      {
++        id: "c",
++        kind: "connector",
++        object_type: "inventory",
++        fetch_from: "warehouse.hr_notes",
++      },
++    ],
++    edges: [],
++  });
++  assert.equal(bad.nodes[0].fetch_from, null);
++  const ok = compileIR({
++    nodes: [
++      {
++        id: "c",
++        kind: "connector",
++        object_type: "inventory",
++        fetch_from: "warehouse.inventory",
++      },
++    ],
++    edges: [],
++  });
++  assert.equal(ok.nodes[0].fetch_from, "warehouse.inventory");
++  const mismatch = compileIR({
++    nodes: [
++      {
++        id: "c",
++        kind: "connector",
++        object_type: "inventory",
++        fetch_from: "warehouse.suppliers",
++      },
++    ],
++    edges: [],
++  });
++  assert.equal(mismatch.nodes[0].fetch_from, null);
++});
++
++test("compileIR drops a data_point that is not on the listed object", () => {
++  const bad = compileIR({
++    nodes: [
++      {
++        id: "c",
++        kind: "connector",
++        object_type: "inventory",
++        data_point: "salary",
++        data_type: "number",
++      },
++    ],
++    edges: [],
++  });
++  assert.equal(bad.nodes[0].object_type, "inventory");
++  assert.equal(bad.nodes[0].data_point, null);
++  assert.equal(bad.nodes[0].data_type, null);
++  const ok = compileIR({
++    nodes: [
++      {
++        id: "c",
++        kind: "connector",
++        object_type: "inventory",
++        data_point: "sku",
++        data_type: "string",
++      },
++    ],
++    edges: [],
++  });
++  assert.equal(ok.nodes[0].data_point, "sku");
++  assert.equal(ok.nodes[0].data_type, "string");
++});
++
++test("compileIR drops data_point when object_type was unlisted", () => {
++  const ir = compileIR({
++    nodes: [
++      {
++        id: "c",
++        kind: "connector",
++        object_type: "hr_notes",
++        data_point: "sku",
++        data_type: "string",
++        fetch_from: "warehouse.inventory",
++      },
++    ],
++    edges: [],
++  });
++  assert.equal(ir.nodes[0].object_type, null);
++  assert.equal(ir.nodes[0].data_point, null);
++  assert.equal(ir.nodes[0].data_type, null);
++  assert.equal(ir.nodes[0].fetch_from, null);
++});
++
++test("ghostWalk matches IR fetch_from and data_point", () => {
++  const walked = ghostWalk(
++    {
++      nodes: [
++        {
++          id: "c",
++          kind: "connector",
++          object_type: "inventory",
++          data_point: "salary",
++          fetch_from: "warehouse.hr_notes",
++        },
++      ],
++      edges: [],
++    },
++    true
++  );
++  assert.equal(walked.log[0].object_type, "inventory");
++  assert.equal(walked.log[0].data_point, null);
++  assert.equal(walked.log[0].fetch_from, null);
++});
