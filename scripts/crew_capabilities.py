@@ -12,6 +12,7 @@ from __future__ import annotations
 
 from typing import Any
 
+from crew_budget import TokenBudget
 from crew_ov_gate import has_bodies
 from crew_parallel import Job, JobResult, MAX_IN_FLIGHT, run_batch
 from crew_tool_wrap import CortexDenied, CortexGate, DEEPAGENTS_DIRECT, Verdict, run_tool
@@ -42,6 +43,7 @@ def execute_capability(
     *,
     granted: frozenset[str] | list[str] | tuple[str, ...],
     ov_allowed: bool = False,
+    budget: TokenBudget | None = None,
 ) -> Any:
     """One granted capability through Cortex. Ungranted does not execute."""
     cap = (name or "").strip()
@@ -58,7 +60,9 @@ def execute_capability(
         raise CortexDenied("skill_body must never go to a child job")
     if cap in LEAVE_CAPS and not ov_allowed:
         raise CortexDenied("leave-machine is OpenVault")
-    return run_tool(gate, cap, payload)
+    if budget is None:
+        raise CortexDenied("token budget required; Deep Agents default is unbounded spend")
+    return run_tool(gate, cap, payload, budget=budget)
 
 
 class GrantedGate:
@@ -111,8 +115,10 @@ def execute_capabilities(
     granted: frozenset[str] | list[str] | tuple[str, ...],
     ov_allowed: bool = False,
     max_in_flight: int = MAX_IN_FLIGHT,
-    budget: Any = None,
+    budget: TokenBudget | None = None,
 ) -> list[JobResult]:
     """Granted capabilities in parallel. Cap-2. Ungranted jobs fail closed."""
+    if budget is None:
+        raise CortexDenied("token budget required; Deep Agents default is unbounded spend")
     wrapped = GrantedGate(gate, granted, ov_allowed=ov_allowed)
     return run_batch(wrapped, jobs, max_in_flight=max_in_flight, budget=budget)

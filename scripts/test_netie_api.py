@@ -28,8 +28,11 @@ from netie.crew import (
     bind_deep_agent,
     crew_harness_profile,
     dispatch_seat,
+    execute_capabilities,
+    execute_capability,
     load_den,
     run_batch,
+    run_open_ticket,
     wrap_deepagents_tools,
 )
 from netie.dms import SpaceDenied, answer_or_abstain, browse_or_abstain, mint_manifest
@@ -283,6 +286,35 @@ class NetieApiTests(unittest.TestCase):
         with self.assertRaises(CortexDenied) as body:
             tools["echo"](skill_body="SECRET")
         self.assertIn("skill_body", str(body.exception))
+        with self.assertRaises(CortexDenied) as cap:
+            execute_capability(Gate(), "echo", {}, granted=["echo"])
+        self.assertIn("token budget", str(cap.exception))
+        cap_budget = TokenBudget(max_tokens=40)
+        execute_capability(
+            Gate(),
+            "echo",
+            {"blob": "x" * 80},
+            granted=["echo"],
+            budget=cap_budget,
+        )
+        with self.assertRaises(BudgetDenied):
+            execute_capability(
+                Gate(),
+                "echo",
+                {"blob": "y" * 80},
+                granted=["echo"],
+                budget=cap_budget,
+            )
+        with self.assertRaises(CortexDenied) as batch:
+            execute_capabilities(
+                Gate(), [Job("a", "echo", {})], granted=["echo"]
+            )
+        self.assertIn("token budget", str(batch.exception))
+        with self.assertRaises(CortexDenied) as ticket:
+            run_open_ticket(
+                factory, "T-secret", gate=Gate(), tool="echo", payload={}
+            )
+        self.assertIn("token budget", str(ticket.exception))
         try:
             profile = crew_harness_profile()
         except CortexDenied:

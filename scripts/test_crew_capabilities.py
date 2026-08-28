@@ -10,6 +10,7 @@ from typing import Any
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
+from crew_budget import BudgetDenied, TokenBudget
 from crew_capabilities import (
     execute_capabilities,
     execute_capability,
@@ -18,6 +19,9 @@ from crew_capabilities import (
 )
 from crew_parallel import Job
 from crew_tool_wrap import CortexDenied, Verdict
+
+
+ROOM = TokenBudget(max_tokens=10_000)
 
 
 class FakeGate:
@@ -52,7 +56,7 @@ class CrewCapabilityTests(unittest.TestCase):
         gate = FakeGate()
         with self.assertRaises(CortexDenied) as ctx:
             execute_capability(
-                gate, "item.intake", {"sku": "A"}, granted=["item.intake"]
+                gate, "item.intake", {"sku": "A"}, granted=["item.intake"], budget=ROOM
             )
         self.assertIn("HITL", str(ctx.exception))
         self.assertEqual(gate.executed, [])
@@ -61,6 +65,7 @@ class CrewCapabilityTests(unittest.TestCase):
             "item.intake",
             {"sku": "A", "operator_confirm": True},
             granted=["item.intake"],
+            budget=ROOM,
         )
         self.assertEqual(out["tool"], "item.intake")
         self.assertEqual(gate.executed, ["item.intake"])
@@ -96,9 +101,38 @@ class CrewCapabilityTests(unittest.TestCase):
         self.assertIn("OpenVault", str(ctx.exception))
         self.assertEqual(gate.executed, [])
         out = execute_capability(
-            gate, "open_url", {}, granted=["open_url"], ov_allowed=True
+            gate, "open_url", {}, granted=["open_url"], ov_allowed=True, budget=ROOM
         )
         self.assertEqual(out["tool"], "open_url")
+
+    def test_granted_without_budget_refuses(self) -> None:
+        gate = FakeGate()
+        with self.assertRaises(CortexDenied) as ctx:
+            execute_capability(
+                gate, "warehouse.query", {}, granted=["warehouse.query"]
+            )
+        self.assertIn("token budget", str(ctx.exception))
+        self.assertEqual(gate.executed, [])
+
+    def test_over_budget_capability_does_not_execute(self) -> None:
+        gate = FakeGate()
+        budget = TokenBudget(max_tokens=40)
+        execute_capability(
+            gate,
+            "warehouse.query",
+            {"blob": "x" * 80},
+            granted=["warehouse.query"],
+            budget=budget,
+        )
+        with self.assertRaises(BudgetDenied):
+            execute_capability(
+                gate,
+                "warehouse.query",
+                {"blob": "y" * 80},
+                granted=["warehouse.query"],
+                budget=budget,
+            )
+        self.assertEqual(gate.executed, ["warehouse.query"])
 
     def test_batch_caps_at_two_and_ungranted_does_not_execute(self) -> None:
         gate = FakeGate()
@@ -108,6 +142,7 @@ class CrewCapabilityTests(unittest.TestCase):
                 [Job("a", "warehouse.query", {})],
                 granted=["warehouse.query"],
                 max_in_flight=3,
+                budget=ROOM,
             )
         jobs = [
             Job("a", "warehouse.query", {}),
@@ -115,7 +150,11 @@ class CrewCapabilityTests(unittest.TestCase):
             Job("c", "export_pptx", {"operator_confirm": True}),
         ]
         results = execute_capabilities(
-            gate, jobs, granted=["warehouse.query", "export_pptx"], max_in_flight=1
+            gate,
+            jobs,
+            granted=["warehouse.query", "export_pptx"],
+            max_in_flight=1,
+            budget=ROOM,
         )
         self.assertEqual([r.status for r in results], ["DONE", "FAILED", "DONE"])
         self.assertIn("not granted", results[1].detail)

@@ -10,6 +10,7 @@ from __future__ import annotations
 from typing import Any
 
 from control_board import project_board
+from crew_budget import BudgetDenied, TokenBudget
 from crew_factory import Factory, FactoryDenied
 from crew_ov_gate import has_bodies
 from crew_tool_wrap import CortexDenied, CortexGate, run_tool
@@ -22,6 +23,7 @@ def run_open_ticket(
     gate: CortexGate,
     tool: str,
     payload: dict[str, Any],
+    budget: TokenBudget | None = None,
 ) -> dict[str, Any]:
     ticket = factory.tickets.get(ticket_id)
     if ticket is None or ticket.status != "open":
@@ -29,15 +31,17 @@ def run_open_ticket(
     body = dict(payload or {})
     if has_bodies(body) or "prompt" in body:
         raise CortexDenied("skill_body must never go to a child job")
+    if budget is None:
+        raise CortexDenied("token budget required; Deep Agents default is unbounded spend")
     try:
-        out = run_tool(gate, tool, body)
+        out = run_tool(gate, tool, body, budget=budget)
         result: dict[str, Any] = {
             "status": "DONE",
             "ticket_id": ticket_id,
             "output": out,
             "refusal": None,
         }
-    except CortexDenied as exc:
+    except (CortexDenied, BudgetDenied) as exc:
         result = {
             "status": "FAILED",
             "ticket_id": ticket_id,
