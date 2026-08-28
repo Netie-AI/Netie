@@ -11,8 +11,21 @@ from crew_capabilities import search_capabilities
 
 
 FORBIDDEN_KEYS = frozenset({"skill_body", "prompt", "transcript", "api_key", "password"})
-# Control is not Apache Guacamole. RDP/VNC names are not board cards.
-RDP_KINDS = frozenset({"rdp", "vnc", "guacamole", "guacd", "remote_desktop"})
+# Control is not Apache Guacamole. Those protocols are not board cards.
+RDP_KINDS = frozenset(
+    {
+        "rdp",
+        "vnc",
+        "guacamole",
+        "guacd",
+        "remote_desktop",
+        "ssh",
+        "telnet",
+        "kubernetes",
+        "k8s",
+        "k8s_exec",
+    }
+)
 
 
 class ControlDenied(PermissionError):
@@ -108,8 +121,7 @@ def project_session(
     for row in rows:
         if not isinstance(row, dict):
             continue
-        if any(k in row for k in FORBIDDEN_KEYS):
-            raise ControlDenied("session leaked a body")
+        _guard_row(row)
     session = {
         "product": "crew-session",
         "run_id": run.get("id"),

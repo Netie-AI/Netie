@@ -17,7 +17,7 @@ A ChatGPT-style box that compiles a canvas graph into Cortex IR: connector -> on
 
 xyflow is a node editor. Constructor is 11 files (custom canvas in `app.js` / `engine.js` / `index.html`). Score: **2 / 10** as an editor, **4 / 10** as a Cortex IR compiler.
 
-`npm i @xyflow/react` only if the canvas must *feel* like React Flow. Do not replace `compileIR`.
+`npm i @xyflow/react` only if the canvas must *feel* like React Flow. Do not replace `compileIR`. Portable `scripts/constructor_honesty.py` refuses `@xyflow/react` as the compiler.
 
 ---
 

@@ -10,7 +10,12 @@ from typing import Any
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
-from crew_capabilities import execute_capabilities, execute_capability, search_capabilities
+from crew_capabilities import (
+    execute_capabilities,
+    execute_capability,
+    load_den,
+    search_capabilities,
+)
 from crew_parallel import Job
 from crew_tool_wrap import CortexDenied, Verdict
 
@@ -115,6 +120,14 @@ class CrewCapabilityTests(unittest.TestCase):
         self.assertEqual([r.status for r in results], ["DONE", "FAILED", "DONE"])
         self.assertIn("not granted", results[1].detail)
         self.assertEqual(gate.executed, ["warehouse.query", "export_pptx"])
+
+    def test_openwork_ee_is_not_a_den(self) -> None:
+        with self.assertRaises(CortexDenied) as ctx:
+            load_den("different-ai/openwork/ee/")
+        self.assertIn("ee/", str(ctx.exception))
+        with self.assertRaises(CortexDenied) as ctx:
+            load_den("crew_capabilities")
+        self.assertIn("search_capabilities", str(ctx.exception))
 
 
 if __name__ == "__main__":

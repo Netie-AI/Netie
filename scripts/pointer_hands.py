@@ -211,3 +211,27 @@ def invoke_hand(
         "intent": cortex_intent.strip(),
         "status": "allowed",
     }
+
+
+HOSTED_COMPUTERS = frozenset(
+    {
+        "e2b",
+        "open-computer-use",
+        "open_computer_use",
+        "perplexity-computer",
+        "perplexity_computer",
+        "hosted-desktop",
+        "hosted_desktop",
+    }
+)
+
+
+def bind_computer(vendor: str) -> dict[str, str]:
+    """Pointer is a local tray. Not Perplexity Computer, not e2b."""
+    name = (vendor or "").strip().lower().replace(" ", "-")
+    canon = name.replace("_", "-")
+    if "e2b" in canon or "perplexity" in canon or canon in HOSTED_COMPUTERS:
+        raise PointerDenied("Pointer is a local tray, not a hosted computer")
+    if canon in {"uacc", "pointer"}:
+        return {"vendor": canon, "where": "local"}
+    raise PointerDenied(f"unknown computer {vendor or 'none'}")

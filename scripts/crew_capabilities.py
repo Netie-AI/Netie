@@ -89,6 +89,21 @@ class GrantedGate:
         return self.inner.execute(tool, payload)
 
 
+def load_den(source: str) -> dict[str, str]:
+    """OpenWork ee/ is FSL. Crew's Den-like policy is this module."""
+    blob = (source or "").strip().lower().replace("\\", "/")
+    padded = f"/{blob.strip('/')}/"
+    if (
+        "openwork-ee" in blob
+        or "openwork/ee" in blob
+        or "/ee/" in padded
+        or blob.rstrip("/").endswith("/ee")
+        or blob in {"ee", "ee/"}
+    ):
+        raise CortexDenied("do not vendor OpenWork ee/")
+    raise CortexDenied("Den-like policy is search_capabilities, not a second desktop")
+
+
 def execute_capabilities(
     gate: CortexGate,
     jobs: list[Job],
