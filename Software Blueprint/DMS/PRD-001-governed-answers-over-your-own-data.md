@@ -132,7 +132,7 @@ Measured on the DMS envelope from `POST /v1/chat/ask`, not on Cortex-side state.
 Licensed bootstrap when `Netie-AI/dms` is reachable:
 
 ```
-uv add --editable git+https://github.com/Netie-AI/Netie.git
+uv add git+https://github.com/Netie-AI/Netie.git
 from netie.dms import answer_or_abstain, browse_or_abstain
 ```
 

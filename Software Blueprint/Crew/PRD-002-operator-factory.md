@@ -62,7 +62,7 @@ Yes. That is why every tool is wrapped. If the wrap is missing, Crew is wrong.
 
 ```bash
 uv init && uv add deepagents
-uv add --editable git+https://github.com/Netie-AI/Netie.git
+uv add git+https://github.com/Netie-AI/Netie.git
 # or sibling: uv add --editable ../Netie --extra crew
 #   from netie.crew import bind_deep_agent, crew_harness_profile, wrap_deepagents_tools, execute_capability
 #   from netie.crew import search_capabilities, execute_capabilities, load_den

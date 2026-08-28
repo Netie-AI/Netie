@@ -21,9 +21,10 @@ class NetieInitTests(unittest.TestCase):
             stamp(root, "DMS")
             text = (root / "CLAUDE.md").read_text(encoding="utf-8")
             self.assertIn(
-                "uv add --editable git+https://github.com/Netie-AI/Netie.git",
+                "uv add git+https://github.com/Netie-AI/Netie.git",
                 text,
             )
+            self.assertNotIn("Non-editable wheel has no", text)
             self.assertIn(CALLERS["DMS"], text)
             self.assertIn("Do not clone Grok Bot reconstructed", text)
             self.assertIn("OpenWork", text)

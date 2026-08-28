@@ -18,7 +18,10 @@ crew = ["deepagents==0.7.9"]
 Repository = "https://github.com/Netie-AI/Netie"
 
 [tool.setuptools]
-packages = ["netie"]
+packages = ["netie", "netie._contracts"]
+
+[tool.setuptools.package-dir]
+"netie._contracts" = "scripts"
 
 [tool.setuptools.package-data]
 netie = ["py.typed"]

@@ -1,4 +1,4 @@
-"""Locate this repo's scripts/ for sibling checkout or editable install."""
+"""Locate contract modules: editable sibling scripts/ or wheel netie/_contracts."""
 
 from __future__ import annotations
 
@@ -9,13 +9,15 @@ _HERE = Path(__file__).resolve().parent
 
 
 def scripts_dir() -> Path:
-    """Repo-root scripts/. Editable uv install keeps this layout."""
+    """Repo-root scripts/ on an editable checkout, else the bundled wheel copy."""
     sibling = _HERE.parent / "scripts"
     if (sibling / "crew_deepagents.py").is_file():
         return sibling
+    bundled = _HERE / "_contracts"
+    if (bundled / "crew_deepagents.py").is_file():
+        return bundled
     raise ImportError(
-        "Netie contracts need the repo scripts/ tree. "
-        "uv add --editable git+https://github.com/Netie-AI/Netie.git"
+        "Netie contracts missing. uv add git+https://github.com/Netie-AI/Netie.git"
     )
 
 
