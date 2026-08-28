@@ -19,11 +19,12 @@ git apply docs/patches/constructor-inspect-object.patch
 git apply docs/patches/constructor-inspect-tier.patch
 git apply docs/patches/constructor-chat-object.patch
 git apply docs/patches/constructor-topo-leftover.patch
+git apply docs/patches/constructor-ir-entry.patch
 node --test tests/compiler.test.cjs
 ```
 
-Adds `rankForKinds`, empty-graph IR (no invented Cortex nodes), refuse unknown kinds / cycles / dangling edges / missing ids / duplicate ids, `ghostWalk` that refuses those instead of walking a fake order, `EMIT` only on app/audit output (connector-only does not invent EMIT), unlabeled `tool_call` does not invent `export_pptx` (compileIR refuses; inspect shows `(pick)` not a silent first-choice), unlabeled object does not invent `inventory`, unlabeled tier does not invent `T0` (compileIR emits null; inspect shows `(pick)`), unlabeled `set point` does not invent `inventory`, `topo()` does not append leftover cyclic nodes, node `--test`, and `.github/workflows/test.yml`.
-Measured on this VM 2026-08-27: 25 passed.
+Adds `rankForKinds`, empty-graph IR (no invented Cortex nodes), refuse unknown kinds / cycles / dangling edges / missing ids / duplicate ids, `ghostWalk` that refuses those instead of walking a fake order, `EMIT` only on app/audit output (connector-only does not invent EMIT), unlabeled `tool_call` does not invent `export_pptx` (compileIR refuses; inspect shows `(pick)` not a silent first-choice), unlabeled object does not invent `inventory`, unlabeled tier does not invent `T0` (compileIR emits null; inspect shows `(pick)`), unlabeled `set point` does not invent `inventory`, `topo()` does not append leftover cyclic nodes, `compileIR` entry is the Kahn source not `nodes[0]`, node `--test`, and `.github/workflows/test.yml`.
+Measured on this VM 2026-08-28: 26 passed.
 
 ## OpenVault (`Netie-AI/OpenVault`)
 
