@@ -73,6 +73,7 @@ class ControlBoardTests(unittest.TestCase):
         self.assertEqual(session["product"], "crew-session")
         self.assertEqual(session["run_id"], "p1")
         self.assertEqual(session["handoff_id"], "h1")
+        self.assertEqual(session["permissions"], ["warehouse.query"])
         self.assertNotIn("transcript", str(session))
         with self.assertRaises(ControlDenied):
             project_session(
@@ -85,6 +86,14 @@ class ControlBoardTests(unittest.TestCase):
                 todos=[],
                 permissions=[],
             )
+
+    def test_session_drops_builtin_permissions(self) -> None:
+        session = project_session(
+            run={"id": "p1", "status": "open", "ticket_id": "T1"},
+            todos=[],
+            permissions=["warehouse.query", "read_file", "grok-bot"],
+        )
+        self.assertEqual(session["permissions"], ["warehouse.query"])
 
 
 if __name__ == "__main__":

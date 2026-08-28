@@ -7,6 +7,9 @@ from __future__ import annotations
 
 from typing import Any
 
+from crew_capabilities import search_capabilities
+
+
 FORBIDDEN_KEYS = frozenset({"skill_body", "prompt", "transcript", "api_key", "password"})
 
 
@@ -112,7 +115,7 @@ def project_session(
             for t in todos
             if isinstance(t, dict)
         ],
-        "permissions": [p for p in permissions if str(p).strip()],
+        "permissions": search_capabilities(permissions),
         "handoff_id": (handoff or {}).get("id"),
     }
     dumped = str(session)

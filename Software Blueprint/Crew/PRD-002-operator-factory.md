@@ -54,7 +54,7 @@ Yes. That is why every tool is wrapped. If the wrap is missing, Crew is wrong.
 
 ## 4. Success assertion
 
-> **WHEN** an operator opens Crew, pulls one GitHub ticket with an embedded prompt, and the runner calls a tool Cortex would refuse, **THE SYSTEM SHALL** show the Cortex refusal on the board and leave the ticket open. A Deep Agents subagent completing the same ticket without that wrap is a failing test, not a feature. Same-run verify cannot close. A batch that exceeds its token budget leaves remaining jobs FAILED; HITL / Deep Agents builtin / skill_body refusals do not spend budget. Writes need `operator_confirm=True`. Deep Agents builtins (`ls` / `read_file` / `write_file` / `edit_file` / `execute` / `task` / `write_todos`) are not Crew tools. Checkpoints and summarise are ids/counts only. Leave-machine without OpenVault `allowed=true` does not run. Cap-2 parallel: `max_in_flight > 2` refuses.
+> **WHEN** an operator opens Crew, pulls one GitHub ticket with an embedded prompt, and the runner calls a tool Cortex would refuse, **THE SYSTEM SHALL** show the Cortex refusal on the board and leave the ticket open. A Deep Agents subagent completing the same ticket without that wrap is a failing test, not a feature. Same-run verify cannot close. A batch that exceeds its token budget leaves remaining jobs FAILED; HITL / Deep Agents builtin / skill_body refusals do not spend budget. Writes need `operator_confirm=True`. Deep Agents builtins (`ls` / `read_file` / `write_file` / `edit_file` / `execute` / `task` / `write_todos`) are not Crew tools. Ungranted capabilities do not run (`search_capabilities` / `execute_capability`). Checkpoints and summarise are ids/counts only. Leave-machine without OpenVault `allowed=true` does not run. Cap-2 parallel: `max_in_flight > 2` refuses.
 
 ---
 
@@ -65,6 +65,7 @@ uv init && uv add deepagents
 # Import Netie portable wrap; do not reimplement trust-the-LLM.
 #   scripts/crew_deepagents.py  bind_deep_agent: wrap + HarnessProfile excluded_tools
 #   scripts/crew_tool_wrap.py   wrap + HITL + Deep Agents builtins refuse
+#   scripts/crew_capabilities.py search_capabilities / execute_capability (Den-like grant)
 #   scripts/crew_parallel.py    cap-2; prepare_tool then charge; refusals do not spend
 #   scripts/crew_checkpoint.py  ids-only; summarise is counts
 #   scripts/crew_runner.py      Cortex refusal stays on the board
