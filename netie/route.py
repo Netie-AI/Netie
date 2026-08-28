@@ -9,12 +9,14 @@ from constructor_honesty import CompileDenied, compile_graph
 from constructor_ir import ConstructorIRDenied, compile_ir
 from freebuild_honesty import ShipDenied, report_deploy
 from freeroute_free_pool import FreePoolRefused, assist_free_pool
+from ov_memory import MemoryDenied, recall, remember
 from switchyard_honesty import SwitchyardDenied, host_switchyard
 
 __all__ = (
     "CompileDenied",
     "ConstructorIRDenied",
     "FreePoolRefused",
+    "MemoryDenied",
     "PieceDenied",
     "ShipDenied",
     "SwitchyardDenied",
@@ -23,5 +25,7 @@ __all__ = (
     "compile_graph",
     "compile_ir",
     "host_switchyard",
+    "recall",
+    "remember",
     "report_deploy",
 )

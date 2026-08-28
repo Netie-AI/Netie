@@ -4,7 +4,7 @@ Apply on a machine with write access. Do not vendor OpenWork or Grok Bot.
 
 ## Constructor (`Netie-AI/constructor`)
 
-HEAD `4896ddd` is what GitHub serves. The 26-patch stack was refreshed for unpushed `eebff20` and does **not** apply to public HEAD (`constructor-inspect-object.patch` fails on `app.js`). On `4896ddd`, apply the 11 patches that still fit, then `constructor-ir-4896ddd.patch`. `node --test` **29 passed**. Crew/Cortex also import `scripts/constructor_ir.py` and `constructor_action_bind.py`. Do not vendor Activeflow/Activepieces.
+HEAD `4896ddd` is what GitHub serves. On that SHA apply the 11 patches that still fit, then `constructor-ir-4896ddd.patch`, then `constructor-inspect-4896ddd.patch`. `node --test` **31 passed**. The original `constructor-inspect-object.patch` still fails (wrong `app.js` line). Crew/Cortex import `scripts/constructor_ir.py`. Do not vendor Activeflow.
 
 From the constructor repo root, on `landing-9-first-path` `4896ddd`:
 
@@ -21,10 +21,11 @@ git apply docs/patches/constructor-topo-leftover.patch
 git apply docs/patches/constructor-ir-entry.patch
 git apply docs/patches/constructor-ir-output.patch
 git apply docs/patches/constructor-ir-4896ddd.patch
+git apply docs/patches/constructor-inspect-4896ddd.patch
 node --test tests/compiler.test.cjs
 ```
 
-That 12th patch (this VM, 2026-08-28): drops unlisted `object_type`, does not invent `T0`, Kahn-order IR nodes, unknown `bash` action refuses, `NOTE_LEAK` on skill_body/prompt/transcript, `fetch_from` / `data_point` stay on listed objects, disconnected graphs refuse, `cortexPayload` POSTs compileIR not the canvas, `index.html` loads `engine.js` before `app.js`. **29 passed**.
+13th patch: inspect `(pick)` for object/point/tier, picking object does not invent `sku`. **31 passed**. Original `inspect-object` still fails on this SHA.
 
 The remaining 15 patches (`inspect-object` onward) stay in this folder for a constructor write token after `app.js` is rebased. They were measured at 62 passed on unpushed `eebff20`. Do not `git apply` them on `4896ddd`. Push 403.
 
@@ -275,6 +276,16 @@ uv run pytest tests/test_free_pool.py -q
 
 `pick_free_pool` uses `from netie.route import assist_free_pool` when Netie is installed. Empty free pool is 503 with `register_url` help. Catalog `api_key` is 400. Quota fetch / autoCombo / parallel stay 501. Never invent keys. Push 403.
 
+Then:
+
+```
+git apply docs/patches/openvault-free-pool-route.patch
+cd OpenMW && uv add git+https://github.com/Netie-AI/Netie.git
+uv run pytest tests/test_free_pool.py tests/test_free_pool_route.py -q
+```
+
+Adds `POST /api/route/free` on main (and after the routing stack). Body is `{catalog, register}`. Empty pool is 503 with register rows. Do not send `api_key` in catalog. Push 403.
+
 Independent of routing:
 
 ```
@@ -283,3 +294,13 @@ cd OpenMW && uv run pytest tests/test_crew_gate.py tests/test_contract.py -q
 ```
 
 Adds `POST /api/crew/gate`: location + allowed, never a skill body. Unknown kinds (including `skill` until a registry row exists) refuse. This is not OpenVault PR #44 (that RFC also adds Netie-KB signposts). Measured 2026-08-27: 17 passed with contract tests.
+
+## DMS (`Netie-AI/dms`)
+
+HEAD `3f9a9be`. `grantable_tables` already intersects Space grants. `live_ask` still mints via `demo_acl`, which still constructs `SessionAcl` by hand.
+
+```
+git apply docs/patches/dms-demo-acl-resolve.patch
+```
+
+`demo_acl` returns `resolve_session_acl(SessionContext(...))` so the serving path actually calls the resolver. Grounding refuse and session-id namespacing stay. Portable ontology stays `from netie.dms import mint_object`. Do not clone Palantir.

@@ -1,13 +1,11 @@
 #!/usr/bin/env python3
 """Accessible product repos: sibling patches still apply. python3 scripts/test_sibling_patches.py
 
-Constructor GitHub HEAD is `landing-9-first-path` `4896ddd` (not the unpushed
-eebff20 the 26-patch stack was refreshed for). This gate clones it, applies
-patches 1-8 plus topo/entry/output then constructor-ir-4896ddd.patch (12 hunks
-that fit public HEAD), and runs node --test (29 passed).
-constructor-inspect-object.patch still fails on app.js. Remaining JS patches
-stay in docs/patches for a constructor write token. Portable Python IR is
-scripts/constructor_ir.py.
+Constructor GitHub HEAD is `landing-9-first-path` `4896ddd`. This gate clones it, applies
+the 11 hunks that fit, then constructor-ir-4896ddd.patch and
+constructor-inspect-4896ddd.patch, and runs node --test (31 passed).
+constructor-inspect-object.patch still fails (wrong app.js line). Portable
+Python IR is scripts/constructor_ir.py.
 OpenVault patches apply on origin/main then `uv run pytest` on the routing+chat+crew-gate+ship-claim files (>= 90 passed). The 28th patch (`openvault-crew-netie.patch`) makes `/api/crew/gate` call `from netie.crew import refuse_crew_gate` when Netie is installed.
 """
 
@@ -72,6 +70,7 @@ class SiblingPatchTests(unittest.TestCase):
         twenty_fifth = PATCHES / "constructor-ir-post.patch"
         twenty_sixth = PATCHES / "constructor-ir-kahn-nodes.patch"
         head_ir = PATCHES / "constructor-ir-4896ddd.patch"
+        head_inspect = PATCHES / "constructor-inspect-4896ddd.patch"
         self.assertTrue(
             first.is_file()
             and second.is_file()
@@ -100,6 +99,7 @@ class SiblingPatchTests(unittest.TestCase):
             and twenty_fifth.is_file()
             and twenty_sixth.is_file()
             and head_ir.is_file()
+            and head_inspect.is_file()
         )
         with tempfile.TemporaryDirectory() as tmp:
             dest = Path(tmp) / "constructor"
@@ -129,6 +129,7 @@ class SiblingPatchTests(unittest.TestCase):
                 thirteenth,
                 fourteenth,
                 head_ir,
+                head_inspect,
             ):
                 applied = _run(["git", "apply", str(patch)], cwd=dest)
                 self.assertEqual(applied.returncode, 0, applied.stderr)
@@ -136,7 +137,7 @@ class SiblingPatchTests(unittest.TestCase):
             self.assertNotEqual(drifted.returncode, 0, drifted.stderr)
             tests = _run(["node", "--test", "tests/compiler.test.cjs"], cwd=dest)
             self.assertEqual(tests.returncode, 0, tests.stdout + tests.stderr)
-            self.assertIn("pass 29", tests.stdout + tests.stderr)
+            self.assertIn("pass 31", tests.stdout + tests.stderr)
             engine = (dest / "engine.js").read_text(encoding="utf-8")
             self.assertIn(
                 'WRITE_ACTIONS = ["export_pptx", "item.intake", "amend.apply", "call_action"]',
@@ -147,6 +148,8 @@ class SiblingPatchTests(unittest.TestCase):
             self.assertIn("nodes: ir.nodes", engine)
             app = (dest / "app.js").read_text(encoding="utf-8")
             self.assertNotIn("function applyObjectType", app)
+            self.assertIn("listedOrEmpty(node.object_type, objects)", app)
+            self.assertNotIn("Object.keys(OBJECTS[value].points)[0]", app)
             html = (dest / "index.html").read_text(encoding="utf-8")
             self.assertGreater(html.find("engine.js"), -1)
             self.assertGreater(html.find("app.js"), html.find("engine.js"))
@@ -199,6 +202,7 @@ class SiblingPatchTests(unittest.TestCase):
             ship = PATCHES / "openvault-ship-netie.patch"
             crew_netie = PATCHES / "openvault-crew-netie.patch"
             free_pool = PATCHES / "openvault-free-pool.patch"
+            free_route = PATCHES / "openvault-free-pool-route.patch"
             self.assertTrue(
                 crew.is_file()
                 and ctx.is_file()
@@ -226,6 +230,7 @@ class SiblingPatchTests(unittest.TestCase):
                 and ship.is_file()
                 and crew_netie.is_file()
                 and free_pool.is_file()
+                and free_route.is_file()
             )
             for patch in (
                 detect,
@@ -257,6 +262,7 @@ class SiblingPatchTests(unittest.TestCase):
                 ship,
                 crew_netie,
                 free_pool,
+                free_route,
             ):
                 check = _run(["git", "apply", "--check", str(patch)], cwd=dest)
                 self.assertEqual(check.returncode, 0, f"{patch.name}: {check.stderr}")
@@ -318,6 +324,7 @@ class SiblingPatchTests(unittest.TestCase):
                 encoding="utf-8"
             )
             self.assertIn('"/api/crew/gate"', app_py)
+            self.assertIn('"/api/route/free"', app_py)
             self.assertIn("from openmw.openvault.crew_netie import check_crew_gate", app_py)
             crew_mod = (
                 dest / "OpenMW" / "openmw" / "openvault" / "crew_netie.py"
@@ -356,6 +363,7 @@ class SiblingPatchTests(unittest.TestCase):
                     "tests/test_crew_netie_gate.py",
                     "tests/test_ship_netie_claim.py",
                     "tests/test_free_pool.py",
+                    "tests/test_free_pool_route.py",
                     "-q",
                     "--tb=line",
                 ],
@@ -367,6 +375,31 @@ class SiblingPatchTests(unittest.TestCase):
             found = re.search(r"(\d+) passed", blob)
             self.assertIsNotNone(found, blob[-500:])
             self.assertGreaterEqual(int(found.group(1)), 90)
+
+    def test_dms_demo_acl_resolve_applies_on_head(self) -> None:
+        patch = PATCHES / "dms-demo-acl-resolve.patch"
+        self.assertTrue(patch.is_file())
+        with tempfile.TemporaryDirectory() as tmp:
+            dest = Path(tmp) / "dms"
+            clone = _run(
+                [
+                    "git",
+                    "clone",
+                    "--depth",
+                    "1",
+                    "https://github.com/Netie-AI/dms.git",
+                    str(dest),
+                ]
+            )
+            self.assertEqual(clone.returncode, 0, clone.stderr)
+            applied = _run(["git", "apply", str(patch)], cwd=dest)
+            self.assertEqual(applied.returncode, 0, applied.stderr)
+            src = (
+                dest / "packages" / "executor" / "dms_executor" / "__init__.py"
+            ).read_text(encoding="utf-8")
+            self.assertIn("return resolve_session_acl(", src)
+            self.assertIn("acl = self.demo_acl(", src)
+            self.assertNotIn('row_predicates={t: "TRUE" for t in readable}', src)
 
 
 if __name__ == "__main__":

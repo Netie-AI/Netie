@@ -1,7 +1,7 @@
 # TAS-DMS - DMS technical architecture
 
 **Plane:** 4 (application) · **Repo:** `Netie-AI/dms` · `D:\DMS`
-**Measured:** 2026-08-28 against public `Netie-AI/dms` HEAD `3f9a9be`. `Executor.live_ask` still mints `demo_acl`. Portable Space ACL: `scripts/dms_space_acl.py`. Portable ontology: `scripts/dms_ontology.py` (objects = granted tables; Palantir vendor refuses).
+**Measured:** 2026-08-28 against public `Netie-AI/dms` HEAD `3f9a9be`. `grantable_tables` intersects Space grants. `live_ask` still calls `demo_acl`, which still constructs `SessionAcl` until `dms-demo-acl-resolve.patch`. Portable Space ACL: `scripts/dms_space_acl.py`. Portable ontology: `scripts/dms_ontology.py` (objects = granted tables; Palantir vendor refuses).
 
 ---
 
@@ -60,12 +60,13 @@ cortex_client > dms_core`, and none of the five may import `CortexOS`.
 
 ### The two that matter
 
-**Space ACL is decorative.** `Executor.live_ask` (`executor/__init__.py:213`) mints from
-`demo_acl(...)`, which at `:140-151` sets `row_predicates = {t: 'TRUE'}` over all six
-`DEMO_TABLES` **regardless of `space_id`**. Two different Spaces mint byte-identical
-predicates. The correct functions - `resolve_session_acl`, `intersect_space_grants`,
-`mint_manifest_for_session` - exist in `executor/acl.py`, are unit-tested, and have **zero
-callers**. Scoping decided in DR-0002; wiring tracked at `Netie-AI/dms#2`.
+**Space ACL on HEAD `3f9a9be`:** `grantable_tables` already calls `intersect_space_grants`
+against `DemoSessionStore` (DR-0002 seed). `demo_acl` narrows to that grantable set, so
+two Spaces no longer mint identical predicates. `live_ask` still *calls* `demo_acl`,
+which still *constructs* `SessionAcl` itself instead of returning `resolve_session_acl`.
+Netie patch `docs/patches/dms-demo-acl-resolve.patch` closes that last hop. Portable
+ontology is `from netie.dms import mint_object, evidence_or_abstain` (not imported on
+HEAD). Do not clone Palantir.
 
 **There is no authentication.** Every route is anonymous. `middleware_actor.py` trusts
 `x-dms-tenant-id`, `x-dms-actor-id` and `x-dms-role` verbatim from the request, and its
@@ -167,15 +168,17 @@ python -m pytest tests/ -q
 Measured 2026-08-02: **166 passed, 3 xfailed** in 58.73s. The 3 xfails are the strict
 Space-ACL boundary suite and are correct until `#2` lands.
 
-Portable contract in this repo (dms remote still 404): `scripts/dms_space_acl.py`.
+Portable contract in this repo: `scripts/dms_space_acl.py` + `scripts/dms_ontology.py`.
 Two Spaces, named warehouse bind, abstain outside ACL, abstain if Cortex DuckDB
 is asked for a DMS-bound Space, abstain if the answer has no SQL, abstain if SQL
 names a table the Space cannot read (JOIN punch), abstain if SQL omits the asked table,
 abstain bronze/warehouse browse of an ungranted table, abstain `chat_mode=True`
 (AnythingLLM overlay; warehouse answers need SQL), abstain an answer over
-DitchContext 12k (no silent drop).
+DitchContext 12k (no silent drop). Palantir vendor names refuse.
 `python3 scripts/test_dms_space_acl.py`.
-Not a patch on dms; the production caller is still `demo_acl()` until that repo is writable.
+`python3 scripts/test_dms_ontology.py`.
+Product patch on dms HEAD: `docs/patches/dms-demo-acl-resolve.patch` (`demo_acl` returns
+`resolve_session_acl`). Push may still be 403; apply on a write token.
 
 ```bash
 lint-imports

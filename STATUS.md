@@ -6,15 +6,15 @@
 ## Now
 
 - Leak: `Keys.txt` gone; scan gate on. **Founder must revoke** keys (`docs/ACCESS.md` §5). History still has blobs.
-- Constructor first on public `4896ddd`: 12 patches, `node --test` **29 passed**. Portable `constructor_ir.py` (+ listed object drop, Kahn emit, note leak, unknown action). `inspect-object` still drifted.
+- Constructor first on public `4896ddd`: 13 patches, `node --test` **31 passed** (inspect `(pick)` for object/point/tier). Original `inspect-object` still drifted. Portable `constructor_ir.py`.
 - Crew: `crew_durable.py` + `crew_skills.py` (skill kind needs a registry row). Cortex-Crew remote still 404.
-- OpenVault: `freeroute_free_pool.py` + `openvault-free-pool.patch` (`pick_free_pool` / register help, no keys).
-- DMS Palantir-next: `dms_ontology.py` (granted tables only). Pointer HEAD `8c0e6c2`: 15 catalog ids mapped in `pointer_hands.py`.
-- Agent lanes: `TAS/ESTATE-GAP.md` section 6.
+- OpenVault: `freeroute_free_pool.py` + `openvault-free-pool.patch` + `openvault-free-pool-route.patch` (`POST /api/route/free`). Memory: `scripts/ov_memory.py` (Graphiti/zep/graphify refuse).
+- DMS Palantir-next: `dms_ontology.py` + `dms-demo-acl-resolve.patch` (`demo_acl` returns `resolve_session_acl`). Pointer HEAD `8c0e6c2`: 15 catalog ids in `pointer_hands.py`.
+- Agent lanes: `TAS/ESTATE-GAP.md` section 6. Other org repos: section 7 (not product path).
 
 ## Next (founder clicks in `docs/ACCESS.md`)
 
-1. Revoke leaked keys. 2. Create `Netie-AI/Cortex-Crew`. 3. Pay Actions. 4. Write on OpenVault + constructor. 5. Wire dms `live_ask` off `demo_acl`.
+1. Revoke leaked keys. 2. Create `Netie-AI/Cortex-Crew`. 3. Pay Actions. 4. Write on OpenVault + constructor. 5. Land dms resolve patch; `from netie.dms import mint_object`.
 
 ## Later
 

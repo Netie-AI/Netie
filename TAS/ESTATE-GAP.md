@@ -61,7 +61,7 @@ Executable contract in this repo (Cortex remote still 404): `scripts/cortex_path
 | **Netie Control** vs Apache Guacamole | `apache/guacamole-client` | Apache-2.0 | **1 / 10** as Guacamole. **2 / 10** as a Crew board view | Wrong analogue for RDP. Portable `scripts/control_board.py` projects run / Factory ticket / epic / ledger / refusal cards plus a session view (no transcript), refuses prompt/transcript/key leaks, refuses RDP/VNC/SSH/telnet/Kubernetes/Guacamole kinds, refuses a dag_runner, and refuses a board/session over DitchContext 12k (no silent drop). `scripts/crew_runner.py` puts Cortex refusals on that board and leaves the ticket open. `Netie-AI/netie-control` is public. | Fold into Crew. Do not clone Guacamole. |
 | **Pointer** vs Perplexity Computer / UACC | `uacc` on PyPI; `e2b-dev/open-computer-use` Apache-2.0 | MIT / Apache | **3 / 10** as hands | Pointer HEAD `8c0e6c2` clones. Catalog is 15 `uacc_*` ids in `electron/netie/uacc.js` (planner labeled read on HEAD). Portable wrap maps those ids and still refuses planner/clipboard/window dump/uncropped screen-info. UACC 68 MCP names stay behind Cortex. `windows-mcp` binds local. Do not import `uacc`. | Tray callers for `bind_pointer_skill`. |
 | **Netie Space** vs Peek / macOS Preview | Windows: PowerToys Peek. macOS: Quick Look + `altic-dev/PeekX` (MIT) | mixed | **6 / 10** as a preview app. **2 / 10** as governed | TAS-SPACE: most finished product, leave-machine ungated on HEAD. Portable `scripts/space_leave.py` now refuses ungated leave, `user.env` key writes, local vault scan, secret-file preview (`.env` / `.pem` / `.netrc`), secret-file writes even when not marked plaintext (`id_rsa` / `.pem`), poor-OCR-as-Baidu-grant, and AI chat over a preview (Peek never POSTs the file; excerpt over DitchContext 12k refuses). Not wired into Space (repo 404). | Add CI + call this gate from AiService/OCR. Rename one "Space". |
-| **Constructor** vs React Flow | `xyflow/xyflow` (`@xyflow/react`) | MIT | **2 / 10** as a node editor. **4 / 10** as a Cortex IR compiler | Live clone `4896ddd`: 11 files, custom canvas, `app.js` before `engine.js` until patched. Portable `scripts/constructor_honesty.py` refuses `@xyflow/react` as the compiler (`compileIR` stays ours). This VM on public HEAD: 12 patches, `node --test` **29 passed** (listed object drop, no invented `T0`, Kahn emit, unknown action, `NOTE_LEAK`, `cortexPayload`, engine-before-app). `inspect-object` still fails. Unpushed `eebff20` 26-patch stack was 62 passed. Default branch **pages.yml green**; **no unit-test workflow** on HEAD. Push 403. See `TAS/TAS-CONSTRUCTOR.md`. | Land the 12 patches that fit `4896ddd`. Portable `scripts/constructor_ir.py` + `constructor_action_bind.py`. Do not vendor Activeflow. `npm i @xyflow/react` only if the canvas must feel like React Flow. |
+| **Constructor** vs React Flow | `xyflow/xyflow` (`@xyflow/react`) | MIT | **2 / 10** as a node editor. **4 / 10** as a Cortex IR compiler | Live clone `4896ddd`: 11 files, custom canvas, `app.js` before `engine.js` until patched. Portable `scripts/constructor_honesty.py` refuses `@xyflow/react` as the compiler (`compileIR` stays ours). This VM on public HEAD: 13 patches, `node --test` **31 passed** (listed object drop, no invented `T0`, Kahn emit, unknown action, `NOTE_LEAK`, `cortexPayload`, engine-before-app, inspect `(pick)` for object/point/tier). Original `inspect-object` still fails. Unpushed `eebff20` 26-patch stack was 62 passed. Default branch **pages.yml green**; **no unit-test workflow** on HEAD. Push 403. See `TAS/TAS-CONSTRUCTOR.md`. | Land the 13 patches that fit `4896ddd`. Portable `scripts/constructor_ir.py` + `constructor_action_bind.py`. Do not vendor Activeflow. `npm i @xyflow/react` only if the canvas must feel like React Flow. |
 
 ---
 
@@ -111,9 +111,9 @@ Netie portable contract (this repo, 2026-08-28): product repos import `from neti
 ## 5. Verify this document
 
 - OpenVault clone HEAD `62bb1c7` (2026-08-27): `route/strategies.py` on **main** still 8 of 19. After routing patches through `openvault-hop-catalog.patch`: 15 sorts + 4 named execution shapes, `/v1` fail-closes nameless fusion, hop-walks `combo.models` sequentially (empty first hop falls through; classify_attempt on posts; last hop may SSE; context-relay uses caller available/handoff and persists caller blobs in-process scoped by issued seat with a 32-blob cap; Anthropic-only hops name the skip; no matching hop is 503; execution-shape serves() is catalog-true, not first-choice rewrite; usage names the last hop and copies that hop's `usage`), `pytest tests/test_route_strategies.py tests/test_execution_shapes.py tests/test_execution_chat.py tests/test_freeroute_acceptance.py` -> **77 passed**. `STATUS.md` ~78%; HT1 not done. Earlier full OpenMW `pytest tests -q` after detect-stacks unskip: 840 passed, 4 skipped (DPAPI). Sibling push 403. **GitHub `main` CI success** 2026-08-27 (docs/status #45).
-- Constructor clone `4896ddd`: 12 patches then `node --test tests/compiler.test.cjs` -> **29 passed**. `constructor-inspect-object.patch` fails. Sibling push 403. Default **pages.yml** green; no `test.yml` on HEAD.
+- Constructor clone `4896ddd`: 13 patches then `node --test tests/compiler.test.cjs` -> **31 passed**. Original `constructor-inspect-object.patch` fails. Sibling push 403. Default **pages.yml** green; no `test.yml` on HEAD.
 - Analogues this turn: `langchain-ai/deepagents` 0.7.9 MIT; OmniRoute `ROUTING_STRATEGY_VALUES` 19 + `quota-share`; NVIDIA llm-router Apache-2.0 **deprecated** for Switchyard (portable host gate in `scripts/switchyard_honesty.py`; score stays 2/10).
-- Cortex / DMS / AirGPT / Pointer / Space / Control: Cortex `bf4ecee`, dms `3f9a9be`, Pointer `8c0e6c2`, netie-control, Netie-KB **cloned public 2026-08-28** (secret scan CLEAN). AirGPT / Space / Cortex-Crew still missing. Portable specs: `dms_space_acl.py`, `dms_ontology.py`, `airgpt_chunk.py`, `pointer_click.py`, `pointer_hands.py` (Pointer HEAD 15 catalog ids), `constructor_ir.py`, `crew_durable.py`, `crew_skills.py`, `freeroute_free_pool.py`.
+- Cortex / DMS / AirGPT / Pointer / Space / Control: Cortex `bf4ecee`, dms `3f9a9be`, Pointer `8c0e6c2`, netie-control, Netie-KB **cloned public 2026-08-28** (secret scan CLEAN). AirGPT / Space / Cortex-Crew still missing. Portable specs: `dms_space_acl.py`, `dms_ontology.py`, `airgpt_chunk.py`, `pointer_click.py`, `pointer_hands.py` (Pointer HEAD 15 catalog ids), `constructor_ir.py`, `crew_durable.py`, `crew_skills.py`, `freeroute_free_pool.py`, `ov_memory.py`. dms `grantable_tables` already intersects Space grants; `live_ask` still mints via `demo_acl`. Patch `dms-demo-acl-resolve.patch` makes that mint call `resolve_session_acl`.
 - Netie docs-ci on GitHub: job **did not start** (Actions billing). Local `python3 scripts/check_docs.py` is the gate.
 
 If a later session has those remotes, replace the UNVERIFIABLE rows with file:line evidence and bump the date on this file.
@@ -126,22 +126,41 @@ E:\\ paths are the founder's study machines. This cloud VM does not mount them. 
 
 | Local tree | Product | Already here (do not rebuild) | Next for a specialist agent |
 |---|---|---|---|
-| `E:\\Cortex\\myactiveflow`, `myactivepieces` | **Constructor first** | 12 patches on public `4896ddd`, **29 passed**. Portable `scripts/constructor_honesty.py` plus `constructor_ir.py` + `constructor_action_bind.py` | Land the 12 patches. Unknown piece refuses. No n8n clone. |
+| `E:\\Cortex\\myactiveflow`, `myactivepieces` | **Constructor first** | 13 patches on public `4896ddd`, **31 passed**. Portable `scripts/constructor_honesty.py` plus `constructor_ir.py` + `constructor_action_bind.py` | Land the 13 patches. Unknown piece refuses. No n8n clone. |
 | `E:\\Netie\\mygastown`, `E:\\openworker`, `E:\\mydeepagents` | **Cortex-Crew** | `scripts/crew_*.py` wrap/HITL/cap-2/OV gate/ids-only checkpoint. `crew_durable.py` resumes after process death. **New:** `crew_skills.py` (skill kind needs a registry row, no body) | Create `Netie-AI/Cortex-Crew`. `uv add deepagents`. Import Netie wrap. Study OpenWork session UX. Do not vendor `ee/` or gastown. |
 | `E:\\Netie\\mypaperclip` | Control, fold into Crew | Public `Netie-AI/netie-control`. Portable `control_board.py` | Merge UI into Crew. Not Guacamole. |
-| `E:\\Netie\\myOmniRoute` | **OpenVault FreeRoute** | 15 sorts + 4 shapes in patches (push 403). `scripts/freeroute_free_pool.py` + product `openvault-free-pool.patch` (`pick_free_pool`; empty pool 503 + register_url; no invented keys) | Land patches including free-pool. Do not vendor OmniRoute. |
-| `E:\\mycogitorium`, `E:\\mysemantica`, `E:\\myzep` | DMS / Palantir-class | Portable `dms_space_acl.py` + **new** `dms_ontology.py` (objects = granted tables; evidence must cite; Palantir vendor refuses). dms HEAD `3f9a9be` `live_ask` still mints `demo_acl` | PRD-001: stop `live_ask` using `demo_acl`. Ontology from granted tables. Do not clone Palantir. |
-| `E:\\mygraphiti`, `E:\\zep-go`, `E:\\mygraphify` | AirGPT / OV `memory` kind | OV gate already has `memory`. AirGPT chunker portable | Wire retrieve_space. Memory is OpenVault+Cortex, not a fourth store. |
+| `E:\\Netie\\myOmniRoute` | **OpenVault FreeRoute** | 15 sorts + 4 shapes in patches (push 403). `scripts/freeroute_free_pool.py` + `openvault-free-pool.patch` + `openvault-free-pool-route.patch` (`POST /api/route/free`; empty pool 503 + register_url; no invented keys) | Land patches including free-pool-route. Do not vendor OmniRoute. |
+| `E:\\mycogitorium`, `E:\\mysemantica`, `E:\\myzep` | DMS / Palantir-class | Portable `dms_space_acl.py` + `dms_ontology.py` (objects = granted tables; Palantir vendor refuses). HEAD `3f9a9be`: `grantable_tables` intersects; `live_ask` still mints via `demo_acl`. Patch `dms-demo-acl-resolve.patch` | Land that patch. Then `from netie.dms import mint_object, evidence_or_abstain`. Do not clone Palantir. |
+| `E:\\mygraphiti`, `E:\\zep-go`, `E:\\mygraphify` | AirGPT / OV `memory` kind | OV gate already has `memory`. AirGPT chunker portable. **New:** `scripts/ov_memory.py` (ids-only remember/recall; Graphiti/Zep/Graphify vendor refuses; no fourth store) | `from netie.route import remember, recall`. Wire retrieve_space. |
 | `E:\\Cortex\\Windows-MCP` | Pointer | `pointer_click.py` + `pointer_hands.py`. Pointer HEAD `8c0e6c2` has 15 `uacc_*` catalog ids mapped by `bind_pointer_skill`. `windows-mcp` binds local | Tray callers. Depend Windows-MCP/UACC under the wrap. |
 | `E:\\Cortex\\myguaca`, `E:\\Cortex\\myrakazo` | Cortex UI tokens only | Cortex public HEAD `bf4ecee`. Guaca/Rakazo not vendored; CSS credit only | Role gate on execute modules (`cortex_path.py` now refuses write/tool without `role`). Do not clone Guacamole into Control. |
 
 ### Agent lanes (send one specialist per lane)
 
-1. **Constructor** - on `4896ddd`: apply README 12 patches; `node --test` 29 passed; import `from netie.route import compile_ir, bind_action`. Rebase `app.js` inspect-object separately. Add `test.yml`. Do not vendor Activeflow.
+1. **Constructor** - on `4896ddd`: apply README 13 patches; `node --test` 31 passed; import `from netie.route import compile_ir, bind_action`. Original inspect-object stays drifted. Add `test.yml`. Do not vendor Activeflow.
 2. **Cortex-Crew** - new empty repo; `uv add git+https://github.com/Netie-AI/Netie.git` then `from netie.crew import bind_deep_agent, crew_harness_profile, TokenBudget, persist, resume, register_skill`; `uv add deepagents`; fold Control board; WIP 2. Do not vendor `ee/`.
-3. **OpenVault** - apply `docs/patches/` README order through `openvault-free-pool.patch`; `from netie.route import assist_free_pool` / `pick_free_pool`; never commit keys.
-4. **DMS Palantir-next** - replace `Executor.live_ask` `demo_acl` with `resolve_session_acl`; import `from netie.dms import mint_object, evidence_or_abstain`; no second warehouse brain; do not clone Palantir.
+3. **OpenVault** - apply `docs/patches/` README order through `openvault-free-pool-route.patch`; `POST /api/route/free` + `from netie.route import assist_free_pool`; never commit keys.
+4. **DMS Palantir-next** - apply `dms-demo-acl-resolve.patch` (`demo_acl` returns `resolve_session_acl`); then `from netie.dms import mint_object, evidence_or_abstain`; no second warehouse brain; do not clone Palantir.
 5. **Pointer** - `from netie.pointer import bind_pointer_skill, invoke_hand`; HEAD 15 catalog ids; Windows-MCP behind Cortex only.
 
 C2/MIN_TESTS stand. Do not mint Cortex #42. Do not clone `b-nnett/grok-bot-0.18-reconstructed`.
+
+---
+
+## 7. Other public Netie-AI repos (not the product path)
+
+Scanned 2026-08-28 via `gh repo list`. These are **not** Cortex / OpenVault / Constructor / DMS / Pointer / Crew. Do not fold them into the five lanes. Do not vendor them into plane 2/3.
+
+| Repo | What the listing says | Estate role |
+|---|---|---|
+| Cassandra | AI News Sentiment | Out of path. Not DMS, not AirGPT. |
+| VKing | (empty) | Out of path. |
+| OpenForge | (empty) | Name collision risk with FreeBuild; not OpenVault ship. |
+| AnalogCrawler | (empty) | Out of path. |
+| OpenHBM | HBM4 RTL / RISC-V LPU | Plane 0/1 silicon. NETIE.md already declines plane 1. |
+| CI-Doctor | (empty) | Tooling, not a product. |
+| AIM | LinkedIn Alternative | Out of path. Not Crew, not Control. |
+| Vertex | OpenAI for Precision Manufacturing | Historical CortexOS/Vertex mirror note in TAS-CORTEX. Not a product lane. |
+
+If a later session needs one of these, write a TAS first. Do not start a sixth lane.
 

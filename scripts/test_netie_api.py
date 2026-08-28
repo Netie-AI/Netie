@@ -60,6 +60,7 @@ from netie.route import (
     CompileDenied,
     ConstructorIRDenied,
     FreePoolRefused,
+    MemoryDenied,
     ShipDenied,
     SwitchyardDenied,
     assist_free_pool,
@@ -67,6 +68,8 @@ from netie.route import (
     compile_graph,
     compile_ir,
     host_switchyard,
+    recall,
+    remember,
     report_deploy,
 )
 from netie.space import MAX_CHAT_EXCERPT, SpaceLeaveDenied, chat_preview, ocr_cloud, persist_key
@@ -683,6 +686,17 @@ class NetieApiTests(unittest.TestCase):
 
     def test_route_product_caller_public_api(self) -> None:
         """Switchyard behind OV. Simulated is not HT1. xyflow is not compileIR."""
+        from netie import route as route_mod
+
+        self.assertIn("remember", route_mod.__all__)
+        self.assertIn("recall", route_mod.__all__)
+        row = remember("north", "chunk-1")
+        self.assertEqual(row["kind"], "memory")
+        self.assertEqual(recall([row], "north")[0]["id"], "chunk-1")
+        with self.assertRaises(MemoryDenied):
+            remember("north", "chunk-1", vendor="graphiti")
+        with self.assertRaises(MemoryDenied):
+            remember("north", "chunk-1", body="SECRET")
         with self.assertRaises(SwitchyardDenied):
             host_switchyard(ov_leave=True, vendor="llm-router")
         hosted = host_switchyard(ov_leave=True)

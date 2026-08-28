@@ -1,7 +1,7 @@
 # TAS-CONSTRUCTOR - Constructor technical architecture
 
 **Plane:** 4 (consumer canvas) · **Repo:** `Netie-AI/constructor` (public)
-**Measured:** 2026-08-28 against clone default `landing-9-first-path` HEAD `4896ddd`. This token cannot push (403). GitHub HEAD has no `tests/compiler.test.cjs`. Netie 12 patches that fit that HEAD: **29 passed**. The 26-patch / 62-pass stack was refreshed for unpushed `eebff20` and does not apply (`constructor-inspect-object.patch` fails on `app.js`). Portable `constructor_ir.py` is the Python import for Crew/Cortex.
+**Measured:** 2026-08-28 against clone default `landing-9-first-path` HEAD `4896ddd`. This token cannot push (403). GitHub HEAD has no `tests/compiler.test.cjs`. Netie 13 patches that fit that HEAD: **31 passed** (`constructor-inspect-4896ddd.patch` is inspect `(pick)` for object/point/tier). The 26-patch / 62-pass stack was refreshed for unpushed `eebff20` and does not apply (`constructor-inspect-object.patch` fails on `app.js`). Portable `constructor_ir.py` is the Python import for Crew/Cortex.
 
 ---
 
@@ -15,7 +15,10 @@ Portable import for Crew/Cortex agents (this repo):
 
 ```
 python3 scripts/test_constructor_ir.py
+python3 scripts/test_sibling_patches.py
 ```
+
+Sibling gate: 13 patches apply, 31 tests pass against constructor HEAD `4896ddd`.
 
 `scripts/constructor_ir.py` fail-closes empty/unknown/cycle/dangling/missing ids, Kahn entry/sink, unlabeled object/action, assumed chat `inventory` / `export_pptx` / `T0`. `scripts/constructor_action_bind.py` binds a label to Cortex `WRITE_ACTIONS`. Unknown piece refuses. Do not rebuild the 26 JS patches here.
 
@@ -37,7 +40,7 @@ HEAD `engine.js` compiled IR for Cortex kinds. Ranking mixed foundry-boost into 
 node --test tests/compiler.test.cjs
 ```
 
-**62 passed** was measured on unpushed `eebff20`. Public `4896ddd` after the 12 fitting patches: **29 passed** (`constructor-ir-4896ddd.patch` adds listed-object drop, no invented `T0`, Kahn emit, unknown action, `NOTE_LEAK`, `cortexPayload`, engine-before-app). `inspect-object` and later patches stay for a write token.
+**62 passed** was measured on unpushed `eebff20`. Public `4896ddd` after the 13 fitting patches: **31 passed** (`constructor-ir-4896ddd.patch` then `constructor-inspect-4896ddd.patch`: listed-object drop, no invented `T0`, Kahn emit, unknown action, `NOTE_LEAK`, `cortexPayload`, engine-before-app, inspect `(pick)` does not invent `sku`). Original `inspect-object` and later patches stay for a write token.
 
 Patches: `docs/patches/constructor-compiler-tests.patch` then `docs/patches/constructor-empty-graph.patch` then `docs/patches/constructor-ir-refuse.patch` then `docs/patches/constructor-ir-ids.patch` then `docs/patches/constructor-ghost-refuse.patch` then `docs/patches/constructor-ir-emit.patch` then `docs/patches/constructor-tool-action.patch` then `docs/patches/constructor-inspect-action.patch` then `docs/patches/constructor-inspect-object.patch` then `docs/patches/constructor-inspect-tier.patch` then `docs/patches/constructor-chat-object.patch` then `docs/patches/constructor-topo-leftover.patch` then `docs/patches/constructor-ir-entry.patch` then `docs/patches/constructor-ir-output.patch` then `docs/patches/constructor-ir-object.patch` then `docs/patches/constructor-ir-bind.patch` then `docs/patches/constructor-ir-action-allow.patch` then `docs/patches/constructor-ir-intake.patch` then `docs/patches/constructor-ir-hitl.patch` then `docs/patches/constructor-ir-connected.patch` then `docs/patches/constructor-ir-note.patch` then `docs/patches/constructor-ir-cortex-post.patch` then `docs/patches/constructor-object-pick.patch` then `docs/patches/constructor-engine-order.patch` then `docs/patches/constructor-ir-post.patch` then `docs/patches/constructor-ir-kahn-nodes.patch` (also a `test.yml` workflow). Push 403.
 
