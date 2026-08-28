@@ -1,20 +1,52 @@
 diff --git a/OpenMW/openmw/openvault/route/execution.py b/OpenMW/openmw/openvault/route/execution.py
-index 5f62dcb..5b90cc2 100644
+index 5f62dcb..c66b682 100644
 --- a/OpenMW/openmw/openvault/route/execution.py
 +++ b/OpenMW/openmw/openvault/route/execution.py
-@@ -41,6 +41,43 @@ class ExecutionRefused(ValueError):
+@@ -41,6 +41,92 @@ class ExecutionRefused(ValueError):
          self.message = message
  
  
++SQLITE_PERSIST: frozenset[str] = frozenset(
++    {"sqlite", "db", "contexthandoffs", "context-handoffs"}
++)
++
++
 +def _flag_on(value: Any) -> bool:
 +    return value not in (None, False, 0, "", "0", "false", "False")
 +
 +
-+def refuse_unported_analogue(*, strategy: Any = None, quota_share: Any = False) -> None:
-+    """Name OmniRoute-internal quota-share. Do not treat it as unknown 400."""
++def refuse_unported_analogue(
++    *,
++    parallel: Any = False,
++    quorum_grace: Any = None,
++    fetch_quota: Any = False,
++    persist: Any = None,
++    auto_combo: Any = False,
++    compress: Any = False,
++    mcp: Any = False,
++    a2a: Any = False,
++    strategy: Any = None,
++    quota_share: Any = False,
++) -> None:
++    """Name OmniRoute pieces we did not port. Do not silently sequential-walk."""
 +    name = str(strategy or "").strip().lower().replace("_", "-")
 +    if name == "quota-share" or _flag_on(quota_share):
 +        raise ExecutionRefused(501, "quota-share is OmniRoute-internal, not ported")
++    if _flag_on(parallel) or _flag_on(quorum_grace):
++        raise ExecutionRefused(501, "parallel quorum-grace not ported")
++    if _flag_on(fetch_quota):
++        raise ExecutionRefused(501, "codex quota fetch not ported")
++    persist_name = ""
++    if isinstance(persist, str):
++        persist_name = persist.strip().lower().replace("_", "-")
++    if persist_name in SQLITE_PERSIST:
++        raise ExecutionRefused(501, "sqlite handoff persist not ported")
++    if _flag_on(auto_combo):
++        raise ExecutionRefused(501, "autoCombo scoring not ported")
++    if _flag_on(compress):
++        raise ExecutionRefused(501, "token compression is Cortex's job")
++    if _flag_on(mcp) or _flag_on(a2a):
++        raise ExecutionRefused(501, "MCP/A2A not ported")
 +
 +
 +def refuse_unported_from_body(body: dict[str, Any] | None) -> None:
@@ -23,6 +55,23 @@ index 5f62dcb..5b90cc2 100644
 +    combo = body.get("combo") if isinstance(body.get("combo"), dict) else {}
 +    bag = {**body, **combo}
 +    refuse_unported_analogue(
++        parallel=bag.get("parallel"),
++        quorum_grace=bag.get("quorum_grace") or bag.get("quorumGrace"),
++        fetch_quota=(
++            bag.get("fetch_quota")
++            or bag.get("fetchQuota")
++            or bag.get("codex_quota")
++            or bag.get("fetch_codex_quota")
++        ),
++        persist=bag.get("persist") or bag.get("store") or bag.get("handoff_store"),
++        auto_combo=bag.get("autoCombo") or bag.get("auto_combo"),
++        compress=(
++            bag.get("compress")
++            or bag.get("token_compression")
++            or bag.get("compress_tokens")
++        ),
++        mcp=bag.get("mcp") or bag.get("mcp_servers"),
++        a2a=bag.get("a2a") or bag.get("a2a_messages"),
 +        strategy=bag.get("strategy"),
 +        quota_share=bag.get("quota_share") or bag.get("quotaShare"),
 +    )
@@ -46,7 +95,7 @@ index 5f62dcb..5b90cc2 100644
  def is_tool_bearing(tools: Any, tool_choice: Any) -> bool:
      if not isinstance(tools, list) or not tools:
          return False
-@@ -313,6 +350,7 @@ def resolve_auto(resolved: str | None) -> str:
+@@ -313,6 +399,7 @@ def resolve_auto(resolved: str | None) -> str:
          raise ExecutionRefused(
              400, "auto is a meta-router; caller must pass a concrete sort strategy"
          )
@@ -54,7 +103,7 @@ index 5f62dcb..5b90cc2 100644
      if name in ("fusion", "pipeline", "context-relay", "auto"):
          raise ExecutionRefused(
              400,
-@@ -539,6 +577,7 @@ def dispatch_combo(
+@@ -539,6 +626,7 @@ def dispatch_combo(
      available: dict[str, bool] | None = None,
      handoff: RelayHandoff | None = None,
  ) -> str:
@@ -120,10 +169,10 @@ index 4b08a2c..223a591 100644
      if refused:
          trace.error_type = "openvault_execution_shape"
 diff --git a/OpenMW/tests/test_execution_chat.py b/OpenMW/tests/test_execution_chat.py
-index 5d2e747..427f049 100644
+index 5d2e747..bf140e3 100644
 --- a/OpenMW/tests/test_execution_chat.py
 +++ b/OpenMW/tests/test_execution_chat.py
-@@ -80,6 +80,44 @@ def test_v1_fusion_is_400_not_key_walk(
+@@ -80,6 +80,63 @@ def test_v1_fusion_is_400_not_key_walk(
      assert resp.json()["error"]["type"] == "openvault_execution_shape"
  
  
@@ -165,11 +214,30 @@ index 5d2e747..427f049 100644
 +    assert resp.json()["error"]["type"] == "openvault_unported"
 +
 +
++def test_v1_parallel_is_501_not_key_walk(
++    vault: KeyVault, monkeypatch: pytest.MonkeyPatch, tmp_path: Path
++) -> None:
++    client = _client(vault, tmp_path, monkeypatch)
++    _seat, headers = issue_key(client, label="parallel-seat")
++    resp = client.post(
++        "/v1/chat/completions",
++        json={
++            "model": "gpt-4",
++            "messages": [{"role": "user", "content": "hi"}],
++            "parallel": True,
++        },
++        headers=headers,
++    )
++    assert resp.status_code == 501
++    assert resp.json()["error"]["type"] == "openvault_unported"
++    assert "quorum-grace" in resp.json()["error"]["message"]
++
++
  def test_v1_auto_is_still_empty_pool_503(
      vault: KeyVault, monkeypatch: pytest.MonkeyPatch, tmp_path: Path
  ) -> None:
 diff --git a/OpenMW/tests/test_execution_shapes.py b/OpenMW/tests/test_execution_shapes.py
-index d27df6a..cde435b 100644
+index d27df6a..8112d16 100644
 --- a/OpenMW/tests/test_execution_shapes.py
 +++ b/OpenMW/tests/test_execution_shapes.py
 @@ -33,6 +33,7 @@ from openmw.openvault.route.execution import (
@@ -180,7 +248,7 @@ index d27df6a..cde435b 100644
      ExecutionRefused,
  )
  from openmw.openvault.route.registry import reset_route_state
-@@ -145,6 +146,37 @@ def test_route_api_refuses_fusion_as_sort() -> None:
+@@ -145,6 +146,50 @@ def test_route_api_refuses_fusion_as_sort() -> None:
      assert "execution shape" in resp.json()["detail"]
  
  
@@ -203,6 +271,19 @@ index d27df6a..cde435b 100644
 +    assert code == 501
 +    assert payload["error"]["type"] == "openvault_unported"
 +    assert "quota-share" in payload["error"]["message"]
++
++
++def test_unported_http_parallel() -> None:
++    code, payload = unported_http({"parallel": True})
++    assert code == 501
++    assert payload["error"]["type"] == "openvault_unported"
++    assert "quorum-grace" in payload["error"]["message"]
++
++
++def test_unported_http_sqlite() -> None:
++    code, payload = unported_http({"persist": "sqlite"})
++    assert code == 501
++    assert "sqlite" in payload["error"]["message"]
 +
 +
 +def test_route_api_quota_share_is_501() -> None:

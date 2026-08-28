@@ -249,6 +249,7 @@ class SiblingPatchTests(unittest.TestCase):
             self.assertIn("def hop_serves_listed", execution)
             self.assertIn("Catalog membership, not resolve_model", proxy)
             self.assertIn("quota-share is OmniRoute-internal", execution)
+            self.assertIn("parallel quorum-grace not ported", execution)
             self.assertIn("unported_http", proxy)
             app_py = (dest / "OpenMW" / "openmw" / "openvault" / "app.py").read_text(
                 encoding="utf-8"
