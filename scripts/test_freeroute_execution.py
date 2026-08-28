@@ -302,9 +302,19 @@ class AutoTests(unittest.TestCase):
             with self.assertRaises(ExecutionRefused):
                 resolve_auto(name)
 
-    def test_unknown_refuses(self) -> None:
-        with self.assertRaises(ExecutionRefused):
+    def test_quota_share_is_named_501(self) -> None:
+        with self.assertRaises(ExecutionRefused) as ctx:
             resolve_auto("quota-share")
+        self.assertEqual(ctx.exception.code, 501)
+        self.assertIn("quota-share", ctx.exception.message)
+        with self.assertRaises(ExecutionRefused) as ctx:
+            refuse_unported_from_body({"combo": {"strategy": "quota-share"}})
+        self.assertEqual(ctx.exception.code, 501)
+
+    def test_unknown_refuses(self) -> None:
+        with self.assertRaises(ExecutionRefused) as ctx:
+            resolve_auto("nope")
+        self.assertEqual(ctx.exception.code, 400)
 
 
 class DispatchTests(unittest.TestCase):
@@ -388,6 +398,12 @@ class DispatchTests(unittest.TestCase):
         with self.assertRaises(ExecutionRefused) as ctx:
             refuse_unported_from_body({"combo": {"a2a": True}})
         self.assertEqual(ctx.exception.code, 501)
+
+    def test_quota_share_dispatch_is_named_501(self) -> None:
+        with self.assertRaises(ExecutionRefused) as ctx:
+            dispatch_combo("quota-share", ["p/a"], lambda *_a, **_k: "x")
+        self.assertEqual(ctx.exception.code, 501)
+        self.assertIn("quota-share", ctx.exception.message)
 
     def test_body_unported_flags_are_named_501(self) -> None:
         with self.assertRaises(ExecutionRefused) as ctx:
