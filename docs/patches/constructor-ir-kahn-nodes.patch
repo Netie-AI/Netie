@@ -1,0 +1,114 @@
+diff --git a/engine.js b/engine.js
+index 885f6e2..312b834 100644
+--- a/engine.js
++++ b/engine.js
+@@ -355,34 +355,41 @@ function compileIR(state) {
+     }
+     output = sinks[0];
+   }
++  const compiledById = Object.create(null);
++  for (let i = 0; i < nodes.length; i++) {
++    const n = nodes[i];
++    let kind = CORTEX_KIND[n.kind];
++    if (n.id === output.id && (n.kind === "app" || n.kind === "audit")) kind = "EMIT";
++    else if (kind === "EMIT") kind = "DETERMINISTIC_RULE";
++    const obj = listedOrEmpty(n.object_type, listedObjects);
++    const points = pointsForObject(obj, pointCatalog);
++    const point = obj ? listedOrEmpty(n.data_point, points) : "";
++    const action = listedOrEmpty(n.action_type, listedActions);
++    compiledById[n.id] = {
++      id: n.id,
++      kind: kind,
++      constructor_kind: n.kind,
++      object_type: obj || null,
++      data_point: point || null,
++      data_type: point ? listedOrEmpty(n.data_type, DATA_TYPES) || null : null,
++      action_type: action || null,
++      fetch_from: fetchFromListed(n.fetch_from, listedObjects, obj) || null,
++      tier: listedOrEmpty(n.tier, ["T0", "T1"]) || null,
++      stream: !!n.stream,
++      requires_confirm: n.kind === "tool_call" || WRITE_ACTIONS.indexOf(action) >= 0,
++    };
++  }
++  const compiled = [];
++  for (let i = 0; i < order.length; i++) {
++    compiled.push(compiledById[order[i]]);
++  }
+   return {
+     version: "1.0",
+     engine: "cortex",
+     ghost: ghost,
+     entry_node_id: order[0],
+     output_node_id: output.id,
+-    nodes: nodes.map((n) => {
+-      let kind = CORTEX_KIND[n.kind];
+-      if (n.id === output.id && (n.kind === "app" || n.kind === "audit")) kind = "EMIT";
+-      else if (kind === "EMIT") kind = "DETERMINISTIC_RULE";
+-      const obj = listedOrEmpty(n.object_type, listedObjects);
+-      const points = pointsForObject(obj, pointCatalog);
+-      const point = obj ? listedOrEmpty(n.data_point, points) : "";
+-      const action = listedOrEmpty(n.action_type, listedActions);
+-      return {
+-        id: n.id,
+-        kind: kind,
+-        constructor_kind: n.kind,
+-        object_type: obj || null,
+-        data_point: point || null,
+-        data_type: point ? listedOrEmpty(n.data_type, DATA_TYPES) || null : null,
+-        action_type: action || null,
+-        fetch_from: fetchFromListed(n.fetch_from, listedObjects, obj) || null,
+-        tier: listedOrEmpty(n.tier, ["T0", "T1"]) || null,
+-        stream: !!n.stream,
+-        requires_confirm: n.kind === "tool_call" || WRITE_ACTIONS.indexOf(action) >= 0,
+-      };
+-    }),
++    nodes: compiled,
+     edges: edges.slice(),
+   };
+ }
+diff --git a/index.html b/index.html
+index 57c7cc6..49af255 100644
+--- a/index.html
++++ b/index.html
+@@ -4,7 +4,7 @@
+     <meta charset="utf-8" />
+     <meta name="viewport" content="width=device-width, initial-scale=1" />
+     <title>Constructor — Netie</title>
+-    <link rel="stylesheet" href="styles.css?v=5" />
++    <link rel="stylesheet" href="styles.css?v=6" />
+   </head>
+   <body>
+     <header class="top">
+@@ -75,7 +75,7 @@
+       </form>
+     </section>
+ 
+-    <script src="engine.js?v=5"></script>
+-    <script src="app.js?v=5"></script>
++    <script src="engine.js?v=6"></script>
++    <script src="app.js?v=6"></script>
+   </body>
+ </html>
+diff --git a/tests/compiler.test.cjs b/tests/compiler.test.cjs
+index 10adf9e..35d3f2d 100644
+--- a/tests/compiler.test.cjs
++++ b/tests/compiler.test.cjs
+@@ -84,6 +84,18 @@ test("compileIR entry is the Kahn source, not array[0]", () => {
+   assert.equal(ir.error, undefined);
+   assert.equal(ir.entry_node_id, "src");
+   assert.equal(ir.output_node_id, "sink");
++  assert.equal(ir.nodes[0].id, "src");
++  assert.equal(ir.nodes[ir.nodes.length - 1].id, "sink");
++  const packed = cortexPayload({
++    nodes: [
++      { id: "sink", kind: "app", note: "out" },
++      { id: "src", kind: "connector", note: "in" },
++    ],
++    edges: [{ from: "src", to: "sink" }],
++  });
++  assert.equal(packed.error, undefined);
++  assert.equal(packed.body.nodes[0].id, "src");
++  assert.equal(packed.body.entry_node_id, "src");
+ });
+ 
+ test("compileIR output is the Kahn sink app, not array last app", () => {
