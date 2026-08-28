@@ -77,7 +77,7 @@ No. `live_ask` mints its manifest from `demo_acl()`, which allowlists every tabl
 regardless of `space_id`. The correct functions exist, are unit-tested, and have no
 production caller. Portable contract in Netie `scripts/dms_space_acl.py`: named warehouse
 bind, SQL required, row copy, abstain a row that declares another table, abstain Cortex
-DuckDB for a DMS-bound Space. **Two customers in one room is a demo we cannot currently
+DuckDB for a DMS-bound Space, abstain SQL that names an ungranted table. **Two customers in one room is a demo we cannot currently
 give** until that contract is the production caller.
 
 **Q: Can the system write?**
@@ -123,7 +123,8 @@ at 80 percent and nothing finished.
 > table outside that Space, **THE SYSTEM SHALL** return an abstention naming the refusal
 > - and when the question is inside the Space, return the answer, the contributing rows,
 > the SQL that ran, and a drillthrough token that reproduces them. A Space with no
-> warehouse bind, or an answer with no SQL, abstains. A Cortex DuckDB ask for a
+> warehouse bind, or an answer with no SQL, abstains. SQL that names a table
+> outside the Space grant abstains. A Cortex DuckDB ask for a
 > DMS-bound Space abstains. Row copies so a caller mutation cannot punch the warehouse.
 
 Measured on the DMS envelope from `POST /v1/chat/ask`, not on Cortex-side state.

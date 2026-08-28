@@ -13,6 +13,7 @@ Not a second Cortex. Not a warehouse ChatGPT overlay.
 
 from __future__ import annotations
 
+import re
 from collections.abc import Mapping
 
 Acl = Mapping[str, frozenset[str]]
@@ -48,6 +49,37 @@ def may_read(acl: Acl, space_id: str, table: str) -> bool:
         return table in tables_for_space(acl, space_id)
     except SpaceDenied:
         return False
+
+
+def known_tables(acl: Acl) -> frozenset[str]:
+    names: set[str] = set(DEMO_ALL_TABLES)
+    for tables in acl.values():
+        names |= set(tables)
+    return frozenset(names)
+
+
+def sql_outside_grant(
+    sql: str, *, table: str, granted: frozenset[str], universe: frozenset[str]
+) -> str | None:
+    """Reason to abstain if SQL names a table this Space cannot read.
+
+    Not a SQL parser. Word-boundary scan of known warehouse names. The asked
+    table must appear. A JOIN onto an ungranted name is a punch through the ACL.
+    """
+    blob = (sql or "").lower()
+    asked = (table or "").strip().lower()
+    if not asked:
+        return "sql has no table"
+    if not re.search(rf"\b{re.escape(asked)}\b", blob):
+        return f"sql does not name {table}"
+    for name in universe:
+        if name.lower() == asked:
+            continue
+        if not re.search(rf"\b{re.escape(name.lower())}\b", blob):
+            continue
+        if name not in granted:
+            return f"sql names {name}"
+    return None
 
 
 def mint_manifest(acl: Acl, space_id: str) -> tuple[str, ...]:
@@ -89,6 +121,16 @@ def answer_or_abstain(
         return {
             "status": "ABSTAIN",
             "reason": f"space {space_id} cannot read {table}",
+            "rows": [],
+        }
+    granted = tables_for_space(acl, space_id)
+    leak = sql_outside_grant(
+        sql, table=table, granted=granted, universe=known_tables(acl)
+    )
+    if leak:
+        return {
+            "status": "ABSTAIN",
+            "reason": f"space {space_id} {leak}",
             "rows": [],
         }
     cleaned: list[dict] = []

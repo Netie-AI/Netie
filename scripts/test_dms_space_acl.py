@@ -98,6 +98,36 @@ class SpaceAclTests(unittest.TestCase):
         self.assertEqual(out["status"], "ABSTAIN")
         self.assertEqual(out["rows"], [])
 
+    def test_sql_join_to_ungranted_table_abstains(self) -> None:
+        out = _ask(
+            "space-ops",
+            "inventory",
+            [{"sku": "A"}],
+            sql="SELECT sku FROM inventory JOIN hr_notes ON true",
+        )
+        self.assertEqual(out["status"], "ABSTAIN")
+        self.assertEqual(out["rows"], [])
+        self.assertIn("hr_notes", out["reason"])
+
+    def test_sql_join_to_granted_table_ok(self) -> None:
+        out = _ask(
+            "space-ops",
+            "inventory",
+            [{"sku": "A"}],
+            sql="SELECT sku FROM inventory JOIN shipments ON true",
+        )
+        self.assertEqual(out["status"], "OK")
+
+    def test_sql_that_omits_asked_table_abstains(self) -> None:
+        out = _ask(
+            "space-ops",
+            "inventory",
+            [{"sku": "A"}],
+            sql="SELECT 1",
+        )
+        self.assertEqual(out["status"], "ABSTAIN")
+        self.assertIn("does not name inventory", out["reason"])
+
     def test_mint_does_not_leak_demo_acl(self) -> None:
         granted = mint_manifest(ACL, "space-finance")
         self.assertEqual(granted, ("invoices",))
