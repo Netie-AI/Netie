@@ -285,6 +285,9 @@ class NetieApiTests(unittest.TestCase):
         with self.assertRaises(ValueError) as cap:
             run_batch(Gate(), [Job("a", "echo", {})], max_in_flight=3)
         self.assertIn("unbounded spawn", str(cap.exception))
+        with self.assertRaises(CortexDenied) as spend:
+            run_batch(Gate(), [Job("a", "echo", {})], max_in_flight=1)
+        self.assertIn("token budget required", str(spend.exception))
 
         budget = TokenBudget(max_tokens=40)
         results = run_batch(

@@ -12,6 +12,7 @@ from typing import Any
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
+from crew_budget import TokenBudget
 from crew_parallel import Job, run_batch
 from crew_tool_wrap import CortexDenied, Verdict
 
@@ -51,7 +52,9 @@ class CrewParallelTests(unittest.TestCase):
             Job("b", "warehouse.query", {"sql": "select 1"}),
             Job("c", "export_pptx", {"operator_confirm": True}),
         ]
-        results = run_batch(gate, jobs, max_in_flight=2)
+        results = run_batch(
+            gate, jobs, max_in_flight=2, budget=TokenBudget(max_tokens=10_000)
+        )
         self.assertEqual([r.status for r in results], ["DONE", "FAILED", "DONE"])
         self.assertEqual(gate.executed, ["export_pptx", "export_pptx"])
         self.assertIn("manifest miss", results[1].detail)
@@ -59,7 +62,9 @@ class CrewParallelTests(unittest.TestCase):
     def test_cap_is_respected(self) -> None:
         gate = CountingGate({"t"})
         jobs = [Job(str(i), "t", {}) for i in range(5)]
-        run_batch(gate, jobs, max_in_flight=2)
+        run_batch(
+            gate, jobs, max_in_flight=2, budget=TokenBudget(max_tokens=10_000)
+        )
         self.assertLessEqual(gate.peak, 2)
         self.assertEqual(len(gate.executed), 5)
 
@@ -81,10 +86,19 @@ class CrewParallelTests(unittest.TestCase):
 
             run_tool(None, "t", {})  # type: ignore[arg-type]
 
+    def test_missing_budget_does_not_execute(self) -> None:
+        gate = CountingGate({"t"})
+        with self.assertRaises(CortexDenied) as ctx:
+            run_batch(gate, [Job("x", "t", {})], max_in_flight=1)
+        self.assertIn("token budget required", str(ctx.exception))
+        self.assertEqual(gate.executed, [])
+
     def test_skill_body_job_does_not_run(self) -> None:
         gate = CountingGate({"t"})
         jobs = [Job("a", "t", {"skill_body": "SECRET prompt"})]
-        results = run_batch(gate, jobs, max_in_flight=1)
+        results = run_batch(
+            gate, jobs, max_in_flight=1, budget=TokenBudget(max_tokens=10_000)
+        )
         self.assertEqual(results[0].status, "FAILED")
         self.assertIn("skill_body", results[0].detail)
         self.assertEqual(gate.executed, [])
