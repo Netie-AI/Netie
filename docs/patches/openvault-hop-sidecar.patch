@@ -1,0 +1,144 @@
+diff --git a/OpenMW/openmw/openvault/route/execution.py b/OpenMW/openmw/openvault/route/execution.py
+index 972ed67..e57358e 100644
+--- a/OpenMW/openmw/openvault/route/execution.py
++++ b/OpenMW/openmw/openvault/route/execution.py
+@@ -128,6 +128,9 @@ def unported_http(
+ 
+ 
+ CREW_BODY_KEYS = frozenset({"skill_body", "instructions", "transcript"})
++# Sidecars next to messages. Do not recurse into messages/tools (a tool
++# schema may legally name a field `instructions`).
++CREW_SIDECARS = ("combo", "metadata", "extra")
+ HOP_DROP_KEYS = CREW_BODY_KEYS | frozenset(
+     {
+         "combo",
+@@ -156,11 +159,15 @@ HOP_DROP_KEYS = CREW_BODY_KEYS | frozenset(
+ 
+ 
+ def refuse_crew_from_body(body: dict[str, Any] | None) -> None:
+-    """Skill bodies never ride /v1 to a provider."""
++    """Skill bodies never ride /v1 to a provider. Sidecar bags too."""
+     if not isinstance(body, dict):
+         return
+-    combo = body.get("combo") if isinstance(body.get("combo"), dict) else {}
+-    for bag in (body, combo):
++    bags: list[dict[str, Any]] = [body]
++    for name in CREW_SIDECARS:
++        bag = body.get(name)
++        if isinstance(bag, dict):
++            bags.append(bag)
++    for bag in bags:
+         leak = CREW_BODY_KEYS.intersection(bag.keys())
+         if leak:
+             name = sorted(leak)[0]
+@@ -171,7 +178,19 @@ def hop_body_from_chat(body: dict[str, Any] | None) -> dict[str, Any]:
+     """Chat fields only. combo/handoff/skill_body stay off the upstream post."""
+     if not isinstance(body, dict):
+         return {}
+-    return {k: v for k, v in body.items() if k not in HOP_DROP_KEYS}
++    out: dict[str, Any] = {}
++    for key, value in body.items():
++        if key in HOP_DROP_KEYS:
++            continue
++        if isinstance(value, dict):
++            out[key] = {
++                inner_k: inner_v
++                for inner_k, inner_v in value.items()
++                if inner_k not in HOP_DROP_KEYS
++            }
++        else:
++            out[key] = value
++    return out
+ 
+ 
+ def crew_body_http(
+diff --git a/OpenMW/tests/test_execution_chat.py b/OpenMW/tests/test_execution_chat.py
+index 53197e7..f2c49ff 100644
+--- a/OpenMW/tests/test_execution_chat.py
++++ b/OpenMW/tests/test_execution_chat.py
+@@ -175,6 +175,25 @@ def test_v1_combo_transcript_is_400(
+     assert resp.json()["error"]["type"] == "openvault_crew_body"
+ 
+ 
++def test_v1_metadata_skill_body_is_400(
++    vault: KeyVault, monkeypatch: pytest.MonkeyPatch, tmp_path: Path
++) -> None:
++    client = _client(vault, tmp_path, monkeypatch)
++    _seat, headers = issue_key(client, label="meta-skill-seat")
++    resp = client.post(
++        "/v1/chat/completions",
++        json={
++            "model": "gpt-4",
++            "messages": [{"role": "user", "content": "hi"}],
++            "metadata": {"skill_body": "SECRET"},
++        },
++        headers=headers,
++    )
++    assert resp.status_code == 400
++    assert resp.json()["error"]["type"] == "openvault_crew_body"
++    assert "skill_body" in resp.json()["error"]["message"]
++
++
+ def test_v1_auto_is_still_empty_pool_503(
+     vault: KeyVault, monkeypatch: pytest.MonkeyPatch, tmp_path: Path
+ ) -> None:
+diff --git a/OpenMW/tests/test_execution_shapes.py b/OpenMW/tests/test_execution_shapes.py
+index 2223b60..884973b 100644
+--- a/OpenMW/tests/test_execution_shapes.py
++++ b/OpenMW/tests/test_execution_shapes.py
+@@ -195,6 +195,17 @@ def test_hop_body_drops_combo_and_skill_body() -> None:
+     assert hop["max_tokens"] == 16
+     assert "combo" not in hop
+     assert "skill_body" not in hop
++    hop_meta = hop_body_from_chat(
++        {
++            "messages": [{"role": "user", "content": "skill_body is a word"}],
++            "metadata": {"skill_body": "LEAK", "user": "ok"},
++            "extra": {"transcript": "LEAK"},
++        }
++    )
++    assert hop_meta["messages"][0]["content"] == "skill_body is a word"
++    assert "skill_body" not in hop_meta["metadata"]
++    assert hop_meta["metadata"]["user"] == "ok"
++    assert "transcript" not in hop_meta["extra"]
+ 
+ 
+ def test_crew_body_http_skill_body() -> None:
+@@ -204,6 +215,16 @@ def test_crew_body_http_skill_body() -> None:
+     assert "skill_body" in payload["error"]["message"]
+ 
+ 
++def test_crew_body_http_metadata_skill_body() -> None:
++    code, payload = crew_body_http({"messages": [], "metadata": {"skill_body": "SECRET"}})
++    assert code == 400
++    assert payload["error"]["type"] == "openvault_crew_body"
++    assert "skill_body" in payload["error"]["message"]
++    extra = crew_body_http({"extra": {"transcript": "SECRET"}})
++    assert extra is not None
++    assert extra[0] == 400
++
++
+ def test_route_api_quota_share_is_501() -> None:
+     reset_route_state()
+     app = FastAPI()
+diff --git a/OpenMW/tests/test_freeroute_metering.py b/OpenMW/tests/test_freeroute_metering.py
+index 6a82a9b..7c32105 100644
+--- a/OpenMW/tests/test_freeroute_metering.py
++++ b/OpenMW/tests/test_freeroute_metering.py
+@@ -608,6 +608,7 @@ class TestBudgetResolution:
+                 "max_tokens": 16,
+                 "combo": {"strategy": "fusion", "handoff": {"summary": "SECRET"}},
+                 "skill_body": "LEAK",
++                "metadata": {"skill_body": "LEAK", "user": "ok"},
+             },
+             provider="openai",
+             model="gpt-4o",
+@@ -618,6 +619,8 @@ class TestBudgetResolution:
+         assert decision.body["messages"][0]["content"] == "hi"
+         assert decision.body["max_tokens"] == 16
+         assert decision.body["model"] == "gpt-4o"
++        assert "skill_body" not in decision.body["metadata"]
++        assert decision.body["metadata"]["user"] == "ok"
+ 
+     def test_the_tightest_budget_wins(self) -> None:
+         """First-match-wins widened a deliberate 100 cap to 8000."""

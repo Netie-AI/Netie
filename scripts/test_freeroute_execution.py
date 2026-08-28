@@ -337,6 +337,26 @@ class AutoTests(unittest.TestCase):
         self.assertNotIn("combo", hop)
         self.assertNotIn("skill_body", hop)
         self.assertNotIn("parallel", hop)
+        hop_meta = hop_body_from_chat(
+            {
+                "messages": [{"role": "user", "content": "skill_body is a word"}],
+                "metadata": {"skill_body": "LEAK", "user": "ok"},
+                "extra": {"transcript": "LEAK"},
+            }
+        )
+        self.assertEqual(hop_meta["messages"][0]["content"], "skill_body is a word")
+        self.assertNotIn("skill_body", hop_meta["metadata"])
+        self.assertEqual(hop_meta["metadata"]["user"], "ok")
+        self.assertNotIn("transcript", hop_meta["extra"])
+
+    def test_metadata_skill_body_is_400(self) -> None:
+        with self.assertRaises(ExecutionRefused) as ctx:
+            refuse_crew_from_body({"messages": [], "metadata": {"skill_body": "SECRET"}})
+        self.assertEqual(ctx.exception.code, 400)
+        self.assertIn("skill_body", ctx.exception.message)
+        with self.assertRaises(ExecutionRefused) as ctx:
+            refuse_crew_from_body({"extra": {"transcript": "SECRET"}})
+        self.assertEqual(ctx.exception.code, 400)
 
     def test_unknown_refuses(self) -> None:
         with self.assertRaises(ExecutionRefused) as ctx:

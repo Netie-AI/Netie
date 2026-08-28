@@ -1,0 +1,107 @@
+diff --git a/engine.js b/engine.js
+index e40c81f..331e9ca 100644
+--- a/engine.js
++++ b/engine.js
+@@ -94,6 +94,8 @@ const DEFAULT_OBJECTS = ["inventory", "suppliers"];
+ const DEFAULT_ACTIONS = ["export_pptx", "item.intake", "amend.apply", "call_action", "agent.checked"];
+ const WRITE_ACTIONS = ["export_pptx", "item.intake", "amend.apply", "call_action"];
+ const DATA_TYPES = ["string", "number", "integer", "boolean", "date"];
++const NOTE_LEAK = ["skill_body", "prompt", "transcript", "api_key", "password"];
++const MAX_NOTE_CHARS = 12000; // same DitchContext as DMS/AirGPT/Space/Control
+ const DEFAULT_OBJECT_POINTS = {
+   inventory: [
+     "sku",
+@@ -159,6 +161,22 @@ function irError(ghost, message) {
+   };
+ }
+ 
++function notesDenied(nodes) {
++  // Canvas notes are labels. They are not a Cortex prompt bus.
++  let total = 0;
++  for (let i = 0; i < nodes.length; i++) {
++    const raw = nodes[i] && nodes[i].note;
++    const blob = raw === undefined || raw === null ? "" : String(raw);
++    total += blob.length;
++    const lower = blob.toLowerCase();
++    for (let j = 0; j < NOTE_LEAK.length; j++) {
++      if (lower.indexOf(NOTE_LEAK[j]) >= 0) return "note leaked a body";
++    }
++  }
++  if (total > MAX_NOTE_CHARS) return "notes over DitchContext";
++  return "";
++}
++
+ function compileIR(state) {
+   const nodes = (state && state.nodes) || [];
+   const edges = (state && state.edges) || [];
+@@ -232,6 +250,10 @@ function compileIR(state) {
+   if (componentCount(nodes, edges) > 1) {
+     return irError(ghost, "disconnected graph");
+   }
++  const leaked = notesDenied(nodes);
++  if (leaked) {
++    return irError(ghost, leaked);
++  }
+   const order = topo({ nodes: nodes, edges: edges });
+   if (!order.length) {
+     return irError(ghost, "no entry");
+@@ -300,7 +322,6 @@ function compileIR(state) {
+         fetch_from: fetchFromListed(n.fetch_from, listedObjects, obj) || null,
+         tier: listedOrEmpty(n.tier, ["T0", "T1"]) || null,
+         stream: !!n.stream,
+-        note: n.note,
+         requires_confirm: n.kind === "tool_call" || WRITE_ACTIONS.indexOf(action) >= 0,
+       };
+     }),
+diff --git a/tests/compiler.test.cjs b/tests/compiler.test.cjs
+index 90459e7..a8b41b0 100644
+--- a/tests/compiler.test.cjs
++++ b/tests/compiler.test.cjs
+@@ -670,3 +670,47 @@ test("compileIR fork with one app keeps that sink", () => {
+   assert.equal(ir.output_node_id, "sink");
+   assert.equal(ir.nodes.find((n) => n.id === "sink").kind, "EMIT");
+ });
++
++test("compileIR does not copy canvas notes into Cortex IR", () => {
++  const ir = compileIR({
++    nodes: [{ id: "c", kind: "connector", note: "in" }],
++    edges: [],
++  });
++  assert.equal(ir.error, undefined);
++  assert.equal("note" in ir.nodes[0], false);
++});
++
++test("compileIR refuses a note that leaked a body", () => {
++  const ir = compileIR({
++    nodes: [{ id: "c", kind: "connector", note: "skill_body: SECRET" }],
++    edges: [],
++  });
++  assert.equal(ir.error, "note leaked a body");
++  assert.deepEqual(ir.nodes, []);
++  const prompt = compileIR({
++    nodes: [{ id: "c", kind: "connector", note: "system prompt dump" }],
++    edges: [],
++  });
++  assert.equal(prompt.error, "note leaked a body");
++});
++
++test("ghostWalk refuses a transcript note", () => {
++  const walked = ghostWalk(
++    {
++      nodes: [{ id: "c", kind: "connector", note: "transcript of the room" }],
++      edges: [],
++    },
++    true
++  );
++  assert.equal(walked.error, "note leaked a body");
++  assert.deepEqual(walked.log, []);
++});
++
++test("compileIR refuses notes over DitchContext", () => {
++  const ir = compileIR({
++    nodes: [{ id: "c", kind: "connector", note: "x".repeat(12001) }],
++    edges: [],
++  });
++  assert.equal(ir.error, "notes over DitchContext");
++  assert.deepEqual(ir.nodes, []);
++});

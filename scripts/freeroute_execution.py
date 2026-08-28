@@ -146,6 +146,9 @@ def refuse_unported_from_body(body: dict[str, Any] | None) -> None:
 
 # Same keys as OpenVault crew_gate, minus `prompt` (chat clients send messages).
 CREW_BODY_KEYS = frozenset({"skill_body", "instructions", "transcript"})
+# Sidecars next to messages. Do not recurse into messages/tools (a tool
+# schema may legally name a field `instructions`).
+CREW_SIDECARS = ("combo", "metadata", "extra")
 # OpenVault routing bag. Never an OpenAI chat field. Do not drop `store`
 # (OpenAI chat completions uses it).
 HOP_DROP_KEYS = CREW_BODY_KEYS | frozenset(
@@ -176,11 +179,15 @@ HOP_DROP_KEYS = CREW_BODY_KEYS | frozenset(
 
 
 def refuse_crew_from_body(body: dict[str, Any] | None) -> None:
-    """Skill bodies never ride /v1 to a provider."""
+    """Skill bodies never ride /v1 to a provider. Sidecar bags too."""
     if not isinstance(body, dict):
         return
-    combo = body.get("combo") if isinstance(body.get("combo"), dict) else {}
-    for bag in (body, combo):
+    bags: list[dict[str, Any]] = [body]
+    for name in CREW_SIDECARS:
+        bag = body.get(name)
+        if isinstance(bag, dict):
+            bags.append(bag)
+    for bag in bags:
         leak = CREW_BODY_KEYS.intersection(bag.keys())
         if leak:
             name = sorted(leak)[0]
@@ -191,7 +198,19 @@ def hop_body_from_chat(body: dict[str, Any] | None) -> dict[str, Any]:
     """Chat fields only. combo/handoff/skill_body stay off the upstream post."""
     if not isinstance(body, dict):
         return {}
-    return {k: v for k, v in body.items() if k not in HOP_DROP_KEYS}
+    out: dict[str, Any] = {}
+    for key, value in body.items():
+        if key in HOP_DROP_KEYS:
+            continue
+        if isinstance(value, dict):
+            out[key] = {
+                inner_k: inner_v
+                for inner_k, inner_v in value.items()
+                if inner_k not in HOP_DROP_KEYS
+            }
+        else:
+            out[key] = value
+    return out
 
 
 def refuse_as_sort(strategy: str) -> None:

@@ -5,8 +5,8 @@ Constructor has no unit-test workflow on HEAD. This gate clones it, applies
 docs/patches/constructor-compiler-tests.patch then constructor-empty-graph.patch
 then constructor-ir-refuse.patch then constructor-ir-ids.patch then
 constructor-ghost-refuse.patch then constructor-ir-emit.patch then
-constructor-tool-action.patch then constructor-inspect-action.patch then constructor-inspect-object.patch then constructor-inspect-tier.patch then constructor-chat-object.patch then constructor-topo-leftover.patch then constructor-ir-entry.patch then constructor-ir-output.patch then constructor-ir-object.patch then constructor-ir-bind.patch then constructor-ir-action-allow.patch then constructor-ir-intake.patch then constructor-ir-hitl.patch then constructor-ir-connected.patch, and runs
-node --test (49 passed).
+constructor-tool-action.patch then constructor-inspect-action.patch then constructor-inspect-object.patch then constructor-inspect-tier.patch then constructor-chat-object.patch then constructor-topo-leftover.patch then constructor-ir-entry.patch then constructor-ir-output.patch then constructor-ir-object.patch then constructor-ir-bind.patch then constructor-ir-action-allow.patch then constructor-ir-intake.patch then constructor-ir-hitl.patch then constructor-ir-connected.patch then constructor-ir-note.patch, and runs
+node --test (53 passed).
 OpenVault patches apply on origin/main then `uv run pytest` on the routing+chat+crew-gate files (>= 90 passed).
 """
 
@@ -61,6 +61,7 @@ class SiblingPatchTests(unittest.TestCase):
         eighteenth = PATCHES / "constructor-ir-intake.patch"
         nineteenth = PATCHES / "constructor-ir-hitl.patch"
         twentieth = PATCHES / "constructor-ir-connected.patch"
+        twenty_first = PATCHES / "constructor-ir-note.patch"
         self.assertTrue(
             first.is_file()
             and second.is_file()
@@ -82,6 +83,7 @@ class SiblingPatchTests(unittest.TestCase):
             and eighteenth.is_file()
             and nineteenth.is_file()
             and twentieth.is_file()
+            and twenty_first.is_file()
         )
         with tempfile.TemporaryDirectory() as tmp:
             dest = Path(tmp) / "constructor"
@@ -119,17 +121,19 @@ class SiblingPatchTests(unittest.TestCase):
                 eighteenth,
                 nineteenth,
                 twentieth,
+                twenty_first,
             ):
                 applied = _run(["git", "apply", str(patch)], cwd=dest)
                 self.assertEqual(applied.returncode, 0, applied.stderr)
             tests = _run(["node", "--test", "tests/compiler.test.cjs"], cwd=dest)
             self.assertEqual(tests.returncode, 0, tests.stdout + tests.stderr)
-            self.assertIn("pass 49", tests.stdout + tests.stderr)
+            self.assertIn("pass 53", tests.stdout + tests.stderr)
             engine = (dest / "engine.js").read_text(encoding="utf-8")
             self.assertIn(
                 'WRITE_ACTIONS = ["export_pptx", "item.intake", "amend.apply", "call_action"]',
                 engine,
             )
+            self.assertIn("NOTE_LEAK", engine)
 
     def test_openvault_patches_apply_on_main(self) -> None:
         detect = PATCHES / "openvault-detect-stacks.patch"
@@ -175,6 +179,7 @@ class SiblingPatchTests(unittest.TestCase):
             catalog = PATCHES / "openvault-hop-catalog.patch"
             quota = PATCHES / "openvault-quota-share.patch"
             strip = PATCHES / "openvault-hop-strip.patch"
+            sidecar = PATCHES / "openvault-hop-sidecar.patch"
             self.assertTrue(
                 crew.is_file()
                 and ctx.is_file()
@@ -198,6 +203,7 @@ class SiblingPatchTests(unittest.TestCase):
                 and catalog.is_file()
                 and quota.is_file()
                 and strip.is_file()
+                and sidecar.is_file()
             )
             for patch in (
                 detect,
@@ -225,6 +231,7 @@ class SiblingPatchTests(unittest.TestCase):
                 catalog,
                 quota,
                 strip,
+                sidecar,
             ):
                 check = _run(["git", "apply", "--check", str(patch)], cwd=dest)
                 self.assertEqual(check.returncode, 0, f"{patch.name}: {check.stderr}")
@@ -279,6 +286,7 @@ class SiblingPatchTests(unittest.TestCase):
                 dest / "OpenMW" / "openmw" / "openvault" / "vault" / "budget.py"
             ).read_text(encoding="utf-8")
             self.assertIn("def hop_body_from_chat", execution)
+            self.assertIn("CREW_SIDECARS", execution)
             self.assertIn("crew_body_http", proxy)
             self.assertIn("hop_body_from_chat", budget)
             app_py = (dest / "OpenMW" / "openmw" / "openvault" / "app.py").read_text(
