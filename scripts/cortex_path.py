@@ -1,13 +1,16 @@
 """How Cortex routes today. JEPA and gen-cFSM are not on this path.
 
 Executable form of TAS-CORTEX / ESTATE-GAP section 0. Not a serving engine.
-Invocable writes: export_pptx and item.intake (stock mutation). agent.checked is an event.
+Invocable writes: export_pptx, item.intake, amend.apply, call_action.
+agent.checked is an event.
 """
 
 from __future__ import annotations
 
 COLD_START = ("minimal", "sequential", "dag")
-WRITE_ACTIONS = frozenset({"export_pptx", "item.intake"})
+WRITE_ACTIONS = frozenset(
+    {"export_pptx", "item.intake", "amend.apply", "call_action"}
+)
 PARKED = frozenset({"jepa", "gen-cfsm", "osr"})
 # Claude Code's job. Cortex is governed Q&A, not a coding agent.
 CODING_TOOLS = frozenset(

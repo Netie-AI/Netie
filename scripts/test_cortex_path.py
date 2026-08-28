@@ -38,6 +38,15 @@ class CortexPathTests(unittest.TestCase):
             run_question("dag", write="item.intake", verified=True)
         self.assertIn("actor", str(ctx.exception))
 
+    def test_amend_and_call_action_need_an_actor(self) -> None:
+        out = run_question("dag", write="amend.apply", actor="ops", verified=True)
+        self.assertEqual(out["write"], "amend.apply")
+        with self.assertRaises(RouteDenied) as ctx:
+            run_question("dag", write="call_action", verified=True)
+        self.assertIn("actor", str(ctx.exception))
+        out2 = run_question("dag", write="call_action", actor="ops", verified=True)
+        self.assertEqual(out2["write"], "call_action")
+
     def test_ungoverned_write_denied(self) -> None:
         with self.assertRaises(RouteDenied):
             run_question("dag", write="warehouse.delete", actor="ops", verified=True)
