@@ -1,0 +1,124 @@
+diff --git a/engine.js b/engine.js
+index 388799e..59bd626 100644
+--- a/engine.js
++++ b/engine.js
+@@ -91,6 +91,8 @@ function listedOrEmpty(value, listed) {
+ }
+ 
+ const DEFAULT_OBJECTS = ["inventory", "suppliers"];
++const DEFAULT_ACTIONS = ["export_pptx", "item.intake", "agent.checked"];
++const WRITE_ACTIONS = ["export_pptx"];
+ const DATA_TYPES = ["string", "number", "integer", "boolean", "date"];
+ const DEFAULT_OBJECT_POINTS = {
+   inventory: [
+@@ -231,13 +233,19 @@ function compileIR(state) {
+   if (!order.length) {
+     return irError(ghost, "no entry");
+   }
++  const listedObjects = Array.isArray(state.objects) ? state.objects : DEFAULT_OBJECTS;
++  const listedActions = Array.isArray(state.actions) ? state.actions : DEFAULT_ACTIONS;
++  const pointCatalog = state.object_points && typeof state.object_points === "object" ? state.object_points : null;
+   for (let i = 0; i < nodes.length; i++) {
+     const n = nodes[i];
+     if (n.kind !== "tool_call") continue;
+-    const at = n.action_type && String(n.action_type).trim();
+-    if (!at) {
++    const at = listedOrEmpty(n.action_type, listedActions);
++    if (!String(n.action_type || "").trim()) {
+       return irError(ghost, "tool_call missing action_type");
+     }
++    if (!at) {
++      return irError(ghost, "tool_call unknown action_type");
++    }
+   }
+   const byId = Object.create(null);
+   for (let i = 0; i < nodes.length; i++) byId[nodes[i].id] = nodes[i];
+@@ -252,8 +260,6 @@ function compileIR(state) {
+   if (!output) {
+     output = byId[order[order.length - 1]];
+   }
+-  const listedObjects = Array.isArray(state.objects) ? state.objects : DEFAULT_OBJECTS;
+-  const pointCatalog = state.object_points && typeof state.object_points === "object" ? state.object_points : null;
+   return {
+     version: "1.0",
+     engine: "cortex",
+@@ -267,6 +273,7 @@ function compileIR(state) {
+       const obj = listedOrEmpty(n.object_type, listedObjects);
+       const points = pointsForObject(obj, pointCatalog);
+       const point = obj ? listedOrEmpty(n.data_point, points) : "";
++      const action = listedOrEmpty(n.action_type, listedActions);
+       return {
+         id: n.id,
+         kind: kind,
+@@ -274,12 +281,12 @@ function compileIR(state) {
+         object_type: obj || null,
+         data_point: point || null,
+         data_type: point ? listedOrEmpty(n.data_type, DATA_TYPES) || null : null,
+-        action_type: n.action_type || null,
++        action_type: action || null,
+         fetch_from: fetchFromListed(n.fetch_from, listedObjects, obj) || null,
+         tier: listedOrEmpty(n.tier, ["T0", "T1"]) || null,
+         stream: !!n.stream,
+         note: n.note,
+-        requires_confirm: n.kind === "tool_call",
++        requires_confirm: n.kind === "tool_call" || WRITE_ACTIONS.indexOf(action) >= 0,
+       };
+     }),
+     edges: edges.slice(),
+@@ -326,7 +333,7 @@ function ghostWalk(state, ghostFlag) {
+       ghost: ghostFlag || !write,
+       write: !!write,
+       would: node.note,
+-      action_type: node.action_type || null,
++      action_type: compiled ? compiled.action_type : null,
+       object_type: compiled ? compiled.object_type : null,
+       data_point: compiled ? compiled.data_point : null,
+       fetch_from: compiled ? compiled.fetch_from : null,
+diff --git a/tests/compiler.test.cjs b/tests/compiler.test.cjs
+index 72e10ce..b82fd88 100644
+--- a/tests/compiler.test.cjs
++++ b/tests/compiler.test.cjs
+@@ -513,3 +513,43 @@ test("ghostWalk matches IR fetch_from and data_point", () => {
+   assert.equal(walked.log[0].data_point, null);
+   assert.equal(walked.log[0].fetch_from, null);
+ });
++
++test("tool_call unknown action_type does not compile", () => {
++  const ir = compileIR({
++    nodes: [{ id: "t", kind: "tool_call", action_type: "bash" }],
++    edges: [],
++  });
++  assert.equal(ir.error, "tool_call unknown action_type");
++  assert.deepEqual(ir.nodes, []);
++});
++
++test("unlisted action_type on a non-tool node is dropped", () => {
++  const ir = compileIR({
++    nodes: [{ id: "a", kind: "app", action_type: "emit" }],
++    edges: [],
++  });
++  assert.equal(ir.error, undefined);
++  assert.equal(ir.nodes[0].action_type, null);
++  assert.equal(ir.nodes[0].requires_confirm, false);
++});
++
++test("export_pptx on foundry requires confirm", () => {
++  const ir = compileIR({
++    nodes: [{ id: "f", kind: "foundry", action_type: "export_pptx" }],
++    edges: [],
++  });
++  assert.equal(ir.nodes[0].action_type, "export_pptx");
++  assert.equal(ir.nodes[0].requires_confirm, true);
++});
++
++test("ghostWalk refuses unknown tool_call action", () => {
++  const walked = ghostWalk(
++    {
++      nodes: [{ id: "t", kind: "tool_call", action_type: "bash" }],
++      edges: [],
++    },
++    true
++  );
++  assert.equal(walked.error, "tool_call unknown action_type");
++  assert.deepEqual(walked.log, []);
++});
