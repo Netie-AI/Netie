@@ -24,6 +24,7 @@ from freeroute_execution import (
     chat_shape_refusal,
     combo_models_from_body,
     dispatch_combo,
+    refuse_unported_from_body,
     hops_for_model,
     hop_call_model,
     hop_serves_listed,
@@ -322,6 +323,72 @@ class DispatchTests(unittest.TestCase):
             )
         self.assertEqual(ctx.exception.code, 501)
         self.assertIn("quorum-grace", ctx.exception.message)
+
+    def test_codex_quota_fetch_is_named_501(self) -> None:
+        with self.assertRaises(ExecutionRefused) as ctx:
+            dispatch_combo(
+                "fusion",
+                ["p/a"],
+                lambda *_a, **_k: "x",
+                fetch_quota=True,
+            )
+        self.assertEqual(ctx.exception.code, 501)
+        self.assertIn("quota fetch", ctx.exception.message)
+
+    def test_sqlite_persist_is_named_501(self) -> None:
+        with self.assertRaises(ExecutionRefused) as ctx:
+            dispatch_combo(
+                "pipeline",
+                ["p/a"],
+                lambda *_a, **_k: "x",
+                persist="sqlite",
+            )
+        self.assertEqual(ctx.exception.code, 501)
+        self.assertIn("sqlite", ctx.exception.message)
+
+    def test_memory_persist_is_not_sqlite(self) -> None:
+        out = dispatch_combo(
+            "pipeline",
+            ["p/a"],
+            lambda *_a, **_k: "ok",
+            persist="memory",
+        )
+        self.assertEqual(out, "ok")
+
+    def test_autocombo_and_compress_are_named_501(self) -> None:
+        with self.assertRaises(ExecutionRefused) as ctx:
+            dispatch_combo(
+                "fusion",
+                ["p/a"],
+                lambda *_a, **_k: "x",
+                auto_combo=True,
+            )
+        self.assertEqual(ctx.exception.code, 501)
+        self.assertIn("autoCombo", ctx.exception.message)
+        with self.assertRaises(ExecutionRefused) as ctx:
+            dispatch_combo(
+                "fusion",
+                ["p/a"],
+                lambda *_a, **_k: "x",
+                compress=True,
+            )
+        self.assertEqual(ctx.exception.code, 501)
+        self.assertIn("Cortex", ctx.exception.message)
+
+    def test_body_unported_flags_are_named_501(self) -> None:
+        with self.assertRaises(ExecutionRefused) as ctx:
+            chat_shape_refusal(
+                {
+                    "combo": {
+                        "strategy": "fusion",
+                        "models": ["a"],
+                        "fetch_quota": True,
+                    }
+                }
+            )
+        self.assertEqual(ctx.exception.code, 501)
+        with self.assertRaises(ExecutionRefused):
+            refuse_unported_from_body({"combo": {"persist": "sqlite"}})
 
     def test_auto_without_resolved_refuses(self) -> None:
         with self.assertRaises(ExecutionRefused):
@@ -690,6 +757,17 @@ class HopWalkTests(unittest.TestCase):
         call = hop_call_model(hops, post)
         self.assertEqual(call("gpt-mini", user_text="Q"), "ok")
         self.assertEqual(seen, ["k2"])
+
+    def test_hop_call_unported_flags_are_named_501(self) -> None:
+        call = hop_call_model(
+            [Hop("k1", "p/a", "openai", True)], lambda *_a, **_k: "x"
+        )
+        with self.assertRaises(ExecutionRefused) as ctx:
+            call("p/a", persist="sqlite")
+        self.assertEqual(ctx.exception.code, 501)
+        with self.assertRaises(ExecutionRefused) as ctx:
+            call("p/a", fetch_quota=True)
+        self.assertEqual(ctx.exception.code, 501)
 
 
 class HopClassifyTests(unittest.TestCase):

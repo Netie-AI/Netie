@@ -29,9 +29,9 @@ HEAD `engine.js` compiled IR for Cortex kinds. Ranking mixed foundry-boost into 
 node --test tests/compiler.test.cjs
 ```
 
-**24 passed** on this VM 2026-08-27 after `constructor-chat-object.patch`: verify-rank, ghost false, empty graph / unknown kind / cycle / dangling edge / missing id / duplicate id invent no Cortex nodes; `ghostWalk` refuses those instead of walking `topo()` leftovers; connector-only graphs do not invent `EMIT` (app/audit output still does); unlabeled `tool_call` does not invent `export_pptx` (compileIR refuses; inspect shows `(pick)`); unlabeled object does not invent `inventory`; unlabeled tier does not invent `T0` (compileIR emits null; inspect shows `(pick)`); unlabeled `set point` does not invent `inventory`.
+**25 passed** on this VM 2026-08-27 after `constructor-topo-leftover.patch`: verify-rank, ghost false, empty graph / unknown kind / cycle / dangling edge / missing id / duplicate id invent no Cortex nodes; `ghostWalk` refuses those instead of walking a fake order; `topo()` does not append leftover cyclic nodes; connector-only graphs do not invent `EMIT` (app/audit output still does); unlabeled `tool_call` does not invent `export_pptx` (compileIR refuses; inspect shows `(pick)`); unlabeled object does not invent `inventory`; unlabeled tier does not invent `T0` (compileIR emits null; inspect shows `(pick)`); unlabeled `set point` does not invent `inventory`.
 
-Patches: `docs/patches/constructor-compiler-tests.patch` then `docs/patches/constructor-empty-graph.patch` then `docs/patches/constructor-ir-refuse.patch` then `docs/patches/constructor-ir-ids.patch` then `docs/patches/constructor-ghost-refuse.patch` then `docs/patches/constructor-ir-emit.patch` then `docs/patches/constructor-tool-action.patch` then `docs/patches/constructor-inspect-action.patch` then `docs/patches/constructor-inspect-object.patch` then `docs/patches/constructor-inspect-tier.patch` then `docs/patches/constructor-chat-object.patch` (also a `test.yml` workflow). Push 403.
+Patches: `docs/patches/constructor-compiler-tests.patch` then `docs/patches/constructor-empty-graph.patch` then `docs/patches/constructor-ir-refuse.patch` then `docs/patches/constructor-ir-ids.patch` then `docs/patches/constructor-ghost-refuse.patch` then `docs/patches/constructor-ir-emit.patch` then `docs/patches/constructor-tool-action.patch` then `docs/patches/constructor-inspect-action.patch` then `docs/patches/constructor-inspect-object.patch` then `docs/patches/constructor-inspect-tier.patch` then `docs/patches/constructor-chat-object.patch` then `docs/patches/constructor-topo-leftover.patch` (also a `test.yml` workflow). Push 403.
 
 GitHub on default `landing-9-first-path`: **pages.yml** is green. There is **no unit-test workflow** on HEAD until that patch lands.
 
@@ -41,7 +41,7 @@ GitHub on default `landing-9-first-path`: **pages.yml** is green. There is **no 
 
 | Boundary | Today |
 |---|---|
-| Ghost dry-run | `ghostWalk` uses `compileIR`; refuse means empty log, no leftover cycle walk. `topo()` still appends leftovers for the UI |
+| Ghost dry-run | `ghostWalk` uses `compileIR`; refuse means empty log, no leftover cycle walk. `topo()` returns only the Kahn prefix; leftover cyclic nodes are omitted |
 | Writes | Cortex, not Constructor |
 | Keys | none in this tree; engine URL is Cortex |
 

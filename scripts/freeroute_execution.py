@@ -72,6 +72,65 @@ class ExecutionRefused(ValueError):
         self.message = message
 
 
+SQLITE_PERSIST: frozenset[str] = frozenset(
+    {"sqlite", "db", "contexthandoffs", "context-handoffs"}
+)
+
+
+def _flag_on(value: Any) -> bool:
+    return value not in (None, False, 0, "", "0", "false", "False")
+
+
+def refuse_unported_analogue(
+    *,
+    parallel: Any = False,
+    quorum_grace: Any = None,
+    fetch_quota: Any = False,
+    persist: Any = None,
+    auto_combo: Any = False,
+    compress: Any = False,
+) -> None:
+    """Name the OmniRoute pieces we did not port. Do not silently sequential-walk."""
+    if _flag_on(parallel) or _flag_on(quorum_grace):
+        raise ExecutionRefused(501, "parallel quorum-grace not ported")
+    if _flag_on(fetch_quota):
+        raise ExecutionRefused(501, "codex quota fetch not ported")
+    persist_name = ""
+    if isinstance(persist, str):
+        persist_name = persist.strip().lower().replace("_", "-")
+    if persist_name in SQLITE_PERSIST:
+        raise ExecutionRefused(501, "sqlite handoff persist not ported")
+    if _flag_on(auto_combo):
+        raise ExecutionRefused(501, "autoCombo scoring not ported")
+    if _flag_on(compress):
+        raise ExecutionRefused(501, "token compression is Cortex's job")
+
+
+def refuse_unported_from_body(body: dict[str, Any] | None) -> None:
+    """Chat / combo flags that would look like OmniRoute if we ignored them."""
+    if not isinstance(body, dict):
+        return
+    combo = body.get("combo") if isinstance(body.get("combo"), dict) else {}
+    bag = {**body, **combo}
+    refuse_unported_analogue(
+        parallel=bag.get("parallel"),
+        quorum_grace=bag.get("quorum_grace") or bag.get("quorumGrace"),
+        fetch_quota=(
+            bag.get("fetch_quota")
+            or bag.get("fetchQuota")
+            or bag.get("codex_quota")
+            or bag.get("fetch_codex_quota")
+        ),
+        persist=bag.get("persist") or bag.get("store") or bag.get("handoff_store"),
+        auto_combo=bag.get("autoCombo") or bag.get("auto_combo"),
+        compress=(
+            bag.get("compress")
+            or bag.get("token_compression")
+            or bag.get("compress_tokens")
+        ),
+    )
+
+
 def refuse_as_sort(strategy: str) -> None:
     name = (strategy or "").strip().lower().replace("_", "-")
     if name in EXECUTION_SHAPES:
@@ -511,6 +570,7 @@ def resolve_relay_handoff(
     store: RelayStore, body: dict[str, Any] | None, *, scope: str = ""
 ) -> RelayHandoff | None:
     """Caller blob wins. Else in-process store for this scope. No Codex fetch."""
+    refuse_unported_from_body(body)
     caller = relay_handoff_from_body(body)
     if caller is not None:
         return caller
@@ -568,7 +628,9 @@ def chat_shape_refusal(body: dict[str, Any] | None) -> dict[str, Any] | None:
 
     With models, the caller should run dispatch_combo via a hop-walk
     call_model. /v1 must not treat vault keys as a fusion panel.
+    Unported OmniRoute flags raise ExecutionRefused 501.
     """
+    refuse_unported_from_body(body)
     shape = shape_from_chat_body(body)
     if shape is None:
         return None
@@ -619,14 +681,25 @@ def dispatch_combo(
     handoff: RelayHandoff | None = None,
     parallel: bool = False,
     quorum_grace: Any = None,
+    fetch_quota: Any = False,
+    persist: Any = None,
+    auto_combo: Any = False,
+    compress: Any = False,
 ) -> str:
     """Run an execution shape. Sort names raise StrategyIsASort.
 
-    Sequential hop-walk only. OmniRoute parallel quorum-grace is not ported;
-    asking for it is 501, not a silent sequential walk.
+    Sequential hop-walk only. OmniRoute parallel quorum-grace, Codex quota
+    fetch, SQLite handoff persist, autoCombo scoring, and token compression
+    are not ported; asking for them is 501, not a silent sequential walk.
     """
-    if parallel or quorum_grace not in (None, False, 0, ""):
-        raise ExecutionRefused(501, "parallel quorum-grace not ported")
+    refuse_unported_analogue(
+        parallel=parallel,
+        quorum_grace=quorum_grace,
+        fetch_quota=fetch_quota,
+        persist=persist,
+        auto_combo=auto_combo,
+        compress=compress,
+    )
     name = _norm_name(strategy)
     if name in SORT_STRATEGIES:
         raise StrategyIsASort(name)
@@ -785,10 +858,14 @@ def hop_call_model(
     """
 
     def call(model: str, **kwargs: Any) -> str:
-        parallel = bool(kwargs.pop("parallel", False))
-        grace = kwargs.pop("quorum_grace", None)
-        if parallel or grace not in (None, False, 0, ""):
-            raise ExecutionRefused(501, "parallel quorum-grace not ported")
+        refuse_unported_analogue(
+            parallel=kwargs.pop("parallel", False),
+            quorum_grace=kwargs.pop("quorum_grace", None),
+            fetch_quota=kwargs.pop("fetch_quota", False),
+            persist=kwargs.pop("persist", None),
+            auto_combo=kwargs.pop("auto_combo", False),
+            compress=kwargs.pop("compress", False),
+        )
         found = hops_for_model(hops, model, serves=serves)
         if not found:
             raise ExecutionRefused(503, "no hop can serve model")
