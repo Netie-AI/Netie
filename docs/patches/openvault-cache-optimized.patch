@@ -1,0 +1,102 @@
+diff --git a/OpenMW/openmw/openvault/route/strategies.py b/OpenMW/openmw/openvault/route/strategies.py
+index eb08366..626b403 100644
+--- a/OpenMW/openmw/openvault/route/strategies.py
++++ b/OpenMW/openmw/openvault/route/strategies.py
+@@ -1,7 +1,9 @@
+-"""Combo routing strategies — 14 of 19 user-facing for pass 1 (+ OmniRoute quota-share internal, not ported)."""
++"""Combo routing strategies — 15 of 19 user-facing for pass 1 (+ OmniRoute quota-share internal, not ported)."""
+ 
+ from __future__ import annotations
+ 
++import hashlib
++
+ from openmw.openvault.route.rr_state import fisher_yates_shuffle, get_next_from_deck
+ from openmw.openvault.route.sorters import (
+     order_by_p2c,
+@@ -34,6 +36,8 @@ STRATEGY_ALIASES: dict[str, StrategyName] = {
+     "reset_window": "reset-window",
+     "reset-aware": "reset-aware",
+     "reset_aware": "reset-aware",
++    "cache-optimized": "cache-optimized",
++    "cache_optimized": "cache-optimized",
+ }
+ 
+ 
+@@ -47,6 +51,7 @@ def apply_strategy(
+     *,
+     combo_name: str = "default",
+     metrics: ComboMetrics | None = None,
++    cache_key: str | None = None,
+ ) -> list[RouteTarget]:
+     """Reorder targets for the given strategy; unknown strategies pass through."""
+     if not targets:
+@@ -197,4 +202,29 @@ def apply_strategy(
+         decorated.sort(key=lambda pair: (-_score(pair[1]), pair[0]))
+         return [t for _, t in decorated]
+ 
++    if strategy == "cache-optimized":
++        # Algorithm port of OmniRoute rendezvous affinity. No prefix analyzer.
++        key = (cache_key or "").strip()
++        if not key:
++            return list(targets)
++        max_high = (1 << 64) - 1
++
++        def _identity(t: RouteTarget) -> str:
++            conn = (t.connection_id or "").strip()
++            if conn:
++                return f"connection:{conn}"
++            return f"execution:{t.execution_key}"
++
++        def _score(t: RouteTarget) -> float:
++            digest = hashlib.sha256()
++            digest.update(key.encode("utf-8"))
++            digest.update(b"\0")
++            digest.update(_identity(t).encode("utf-8"))
++            high = int.from_bytes(digest.digest()[:16], "big") >> 64
++            return high / max_high
++
++        decorated = list(enumerate(targets))
++        decorated.sort(key=lambda pair: (-_score(pair[1]), pair[0]))
++        return [t for _, t in decorated]
++
+     return list(targets)
+diff --git a/OpenMW/openmw/openvault/route/types.py b/OpenMW/openmw/openvault/route/types.py
+index f28e83b..04ce077 100644
+--- a/OpenMW/openmw/openvault/route/types.py
++++ b/OpenMW/openmw/openvault/route/types.py
+@@ -20,6 +20,7 @@ StrategyName = Literal[
+     "headroom",
+     "reset-window",
+     "reset-aware",
++    "cache-optimized",
+ ]
+ 
+ STRATEGY_NAMES: tuple[StrategyName, ...] = (
+@@ -37,6 +38,7 @@ STRATEGY_NAMES: tuple[StrategyName, ...] = (
+     "headroom",
+     "reset-window",
+     "reset-aware",
++    "cache-optimized",
+ )
+ 
+ BreakerProfileName = Literal["oauth", "api_key", "local"]
+diff --git a/OpenMW/tests/test_route_strategies.py b/OpenMW/tests/test_route_strategies.py
+index 6dc1502..e2901cd 100644
+--- a/OpenMW/tests/test_route_strategies.py
++++ b/OpenMW/tests/test_route_strategies.py
+@@ -191,3 +191,15 @@ def test_reset_aware_limit_reached_last() -> None:
+     ordered = apply_strategy("reset-aware", targets)
+     assert ordered[-1].execution_key == "a"
+     assert "a" not in [t.execution_key for t in ordered[:-1]]
++
++
++def test_cache_optimized_empty_key_leaves_order() -> None:
++    ordered = apply_strategy("cache-optimized", _targets(), cache_key="")
++    assert [t.execution_key for t in ordered] == ["a", "b", "c"]
++
++
++def test_cache_optimized_same_key_is_stable() -> None:
++    first = apply_strategy("cache-optimized", _targets(), cache_key="conv-1")[0].execution_key
++    reversed_targets = list(reversed(_targets()))
++    second = apply_strategy("cache-optimized", reversed_targets, cache_key="conv-1")[0].execution_key
++    assert first == second

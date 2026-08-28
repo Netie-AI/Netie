@@ -88,3 +88,17 @@ Copy-paste. Each one is self-contained - it assumes the session knows nothing.
 > If it looks right, run it without `--dry-run`, then commit each repo separately with an
 > honest message naming what was created versus what already existed. Do not use
 > `git add -A` - stage explicit paths, because several lanes work these repos.
+
+---
+
+## 7. Bootstrap Cortex-Crew (only after PRD-001 wave 1)
+
+> Create `Netie-AI/Cortex-Crew` (or rename Control into it). Then:
+>
+> 1. `python D:\Netie\scripts\netie_init.py .`
+> 2. Read `D:\Netie\Software Blueprint\Crew\PRD-002-operator-factory.md` and `TAS/TAS-CREW.md`.
+> 3. `uv add deepagents` (MIT). Wrap every tool with Cortex `tool_runner`. Call OpenVault `POST /api/crew/gate` before leave-machine.
+> 4. Do not clone OpenWork, Deep Agents source, or Grok Bot reconstructed into the tree.
+> 5. Fold Netie Control's board views in as Crew UI, not a sibling product.
+>
+> Refuse to start if PRD-001 Space boundary is still decorative.

@@ -1,0 +1,176 @@
+diff --git a/OpenMW/openmw/openvault/route/execution.py b/OpenMW/openmw/openvault/route/execution.py
+index a5d2946..415c7de 100644
+--- a/OpenMW/openmw/openvault/route/execution.py
++++ b/OpenMW/openmw/openvault/route/execution.py
+@@ -460,23 +460,34 @@ class Hop:
+     healthy: bool = True
+ 
+ 
+-def pick_hop(
++def hops_for_model(
+     hops: list[Hop],
+     model: str,
+     *,
+     serves: Callable[[Hop, str], bool] | None = None,
+-) -> Hop | None:
++) -> list[Hop]:
+     want = (model or "").strip()
+     if not want:
+-        return None
++        return []
++    out: list[Hop] = []
+     for hop in hops:
+         if not hop.healthy:
+             continue
+         if hop.model_str == want or hop.execution_key == want:
+-            return hop
+-        if serves is not None and serves(hop, want):
+-            return hop
+-    return None
++            out.append(hop)
++        elif serves is not None and serves(hop, want):
++            out.append(hop)
++    return out
++
++
++def pick_hop(
++    hops: list[Hop],
++    model: str,
++    *,
++    serves: Callable[[Hop, str], bool] | None = None,
++) -> Hop | None:
++    found = hops_for_model(hops, model, serves=serves)
++    return found[0] if found else None
+ 
+ 
+ def hop_call_model(
+@@ -486,9 +497,10 @@ def hop_call_model(
+     serves: Callable[[Hop, str], bool] | None = None,
+ ) -> CallModel:
+     def call(model: str, **kwargs: Any) -> str:
+-        hop = pick_hop(hops, model, serves=serves)
+-        if hop is None:
+-            return ""
+-        return post(hop, model=model, **kwargs)
++        for hop in hops_for_model(hops, model, serves=serves):
++            text = post(hop, model=model, **kwargs)
++            if text and str(text).strip():
++                return str(text)
++        return ""
+ 
+     return call
+diff --git a/OpenMW/tests/test_execution_chat.py b/OpenMW/tests/test_execution_chat.py
+index e22ec4b..8c68e0d 100644
+--- a/OpenMW/tests/test_execution_chat.py
++++ b/OpenMW/tests/test_execution_chat.py
+@@ -124,3 +124,77 @@ def test_v1_fusion_with_models_posts_panel_then_judge(
+     assert mock.post.call_count == 3
+     bodies = [call.kwargs["json"]["model"] for call in mock.post.call_args_list]
+     assert bodies == ["gpt-4o-mini", "gpt-4o", "gpt-4o-mini"]
++
++
++def _healthy(vault: KeyVault, label: str, *, priority: int) -> None:
++    rec = vault.create(
++        label=label,
++        provider="openai",
++        secret=f"sk-test-{label}-aaaaaaaa",
++        role="primary",
++        priority=priority,
++        base_url="https://example.invalid/v1",
++    )
++    vault.set_precheck(rec.id, status="ok", latency_ms=1.0, error=None)
++
++
++def _client_mock() -> MagicMock:
++    mock = MagicMock()
++    mock.__enter__ = MagicMock(return_value=mock)
++    mock.__exit__ = MagicMock(return_value=False)
++    return mock
++
++
++def test_v1_pipeline_with_models_threads_steps(
++    vault: KeyVault, monkeypatch: pytest.MonkeyPatch, tmp_path: Path
++) -> None:
++    _healthy(vault, "pipe-hop", priority=1)
++    client = _client(vault, tmp_path, monkeypatch)
++    _seat, headers = issue_key(client, label="pipe-hop-seat")
++    mock = _client_mock()
++    mock.post = MagicMock(side_effect=[_ok("OUT_A"), _ok("FINAL_B")])
++    with patch("openmw.openvault.vault.proxy.httpx.Client", return_value=mock):
++        resp = client.post(
++            "/v1/chat/completions",
++            json={
++                "model": "auto",
++                "messages": [{"role": "user", "content": "hi"}],
++                "combo": {
++                    "strategy": "pipeline",
++                    "models": ["gpt-4o-mini", "gpt-4o"],
++                },
++            },
++            headers=headers,
++        )
++    assert resp.status_code == 200, resp.text
++    assert resp.json()["choices"][0]["message"]["content"] == "FINAL_B"
++    assert mock.post.call_count == 2
++    second_user = mock.post.call_args_list[1].kwargs["json"]["messages"][-1]["content"]
++    assert second_user == "OUT_A"
++
++
++def test_v1_empty_first_hop_falls_through(
++    vault: KeyVault, monkeypatch: pytest.MonkeyPatch, tmp_path: Path
++) -> None:
++    _healthy(vault, "hop-a", priority=1)
++    _healthy(vault, "hop-b", priority=2)
++    client = _client(vault, tmp_path, monkeypatch)
++    _seat, headers = issue_key(client, label="failover-seat")
++    mock = _client_mock()
++    err = MagicMock()
++    err.status_code = 500
++    err.json = MagicMock(return_value={})
++    mock.post = MagicMock(side_effect=[err, _ok("solo")])
++    with patch("openmw.openvault.vault.proxy.httpx.Client", return_value=mock):
++        resp = client.post(
++            "/v1/chat/completions",
++            json={
++                "model": "auto",
++                "messages": [{"role": "user", "content": "Q"}],
++                "combo": {"strategy": "fusion", "models": ["gpt-4o-mini"]},
++            },
++            headers=headers,
++        )
++    assert resp.status_code == 200, resp.text
++    assert resp.json()["choices"][0]["message"]["content"] == "solo"
++    assert mock.post.call_count == 2
+diff --git a/OpenMW/tests/test_execution_shapes.py b/OpenMW/tests/test_execution_shapes.py
+index c3df420..bf990ee 100644
+--- a/OpenMW/tests/test_execution_shapes.py
++++ b/OpenMW/tests/test_execution_shapes.py
+@@ -15,6 +15,7 @@ from openmw.openvault.route.execution import (
+     combo_models_from_body,
+     dispatch_combo,
+     hop_call_model,
++    hops_for_model,
+     pick_hop,
+     plan_fusion,
+     pick_relay_target,
+@@ -193,3 +194,20 @@ def test_hop_call_model_posts_picked() -> None:
+     call = hop_call_model(hops, post)
+     assert call("p/b", user_text="Q") == "ok"
+     assert seen == ["k2:p/b"]
++
++
++def test_hop_call_model_falls_through_empty() -> None:
++    hops = [
++        Hop("k1", "gpt-mini", "openai", True),
++        Hop("k2", "gpt-mini", "openai", True),
++    ]
++    seen: list[str] = []
++
++    def post(hop: Hop, *, model: str, **_k: object) -> str:
++        seen.append(hop.execution_key)
++        return "" if hop.execution_key == "k1" else "ok"
++
++    call = hop_call_model(hops, post)
++    assert call("gpt-mini", user_text="Q") == "ok"
++    assert seen == ["k1", "k2"]
++    assert [h.execution_key for h in hops_for_model(hops, "gpt-mini")] == ["k1", "k2"]

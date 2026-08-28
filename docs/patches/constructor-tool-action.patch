@@ -1,0 +1,68 @@
+diff --git a/engine.js b/engine.js
+index 9dcff95..1a16e6f 100644
+--- a/engine.js
++++ b/engine.js
+@@ -167,6 +167,14 @@ function compileIR(state) {
+   if (seen !== nodes.length) {
+     return irError(ghost, "cycle");
+   }
++  for (let i = 0; i < nodes.length; i++) {
++    const n = nodes[i];
++    if (n.kind !== "tool_call") continue;
++    const at = n.action_type && String(n.action_type).trim();
++    if (!at) {
++      return irError(ghost, "tool_call missing action_type");
++    }
++  }
+   const output =
+     [...nodes].reverse().find((n) => n.kind === "app") ||
+     [...nodes].reverse().find((n) => n.kind === "audit") ||
+@@ -241,7 +249,7 @@ function ghostWalk(state, ghostFlag) {
+       ghost: ghostFlag || !write,
+       write: !!write,
+       would: node.note,
+-      action_type: node.action_type || (node.kind === "tool_call" ? "export_pptx" : "agent.checked"),
++      action_type: node.action_type || null,
+       object_type: node.object_type || null,
+       data_point: node.data_point || null,
+       fetch_from: node.fetch_from || null,
+diff --git a/tests/compiler.test.cjs b/tests/compiler.test.cjs
+index 7f42605..c30c6c0 100644
+--- a/tests/compiler.test.cjs
++++ b/tests/compiler.test.cjs
+@@ -194,3 +194,35 @@ test("audit output is still EMIT", () => {
+   assert.equal(ir.nodes.find((n) => n.id === "a").kind, "EMIT");
+   assert.equal(ir.nodes.find((n) => n.id === "h").kind, "DOCUMENT_REF");
+ });
++
++test("unlabeled tool_call does not invent export_pptx", () => {
++  const ir = compileIR({
++    nodes: [{ id: "t", kind: "tool_call", note: "write" }],
++    edges: [],
++  });
++  assert.equal(ir.error, "tool_call missing action_type");
++  assert.deepEqual(ir.nodes, []);
++  assert.equal(ir.entry_node_id, null);
++});
++
++test("labeled tool_call keeps the caller action_type", () => {
++  const ir = compileIR({
++    nodes: [{ id: "t", kind: "tool_call", action_type: "export_pptx" }],
++    edges: [],
++  });
++  assert.equal(ir.error, undefined);
++  assert.equal(ir.nodes[0].action_type, "export_pptx");
++});
++
++test("ghostWalk refuses unlabeled tool_call instead of inventing a write", () => {
++  const walked = ghostWalk(
++    {
++      nodes: [{ id: "t", kind: "tool_call", note: "write" }],
++      edges: [],
++    },
++    true
++  );
++  assert.equal(walked.error, "tool_call missing action_type");
++  assert.deepEqual(walked.log, []);
++  assert.deepEqual(walked.order, []);
++});

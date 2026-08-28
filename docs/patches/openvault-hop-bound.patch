@@ -1,0 +1,83 @@
+diff --git a/OpenMW/openmw/openvault/route/execution.py b/OpenMW/openmw/openvault/route/execution.py
+index 7935bd6..15231fd 100644
+--- a/OpenMW/openmw/openvault/route/execution.py
++++ b/OpenMW/openmw/openvault/route/execution.py
+@@ -24,6 +24,7 @@ FUSION_MAX_PANEL = 40
+ HANDOFF_WARNING = 0.85
+ HANDOFF_EXHAUSTION = 0.95
+ DEFAULT_HANDOFF_PROVIDERS: tuple[str, ...] = ("codex",)
++MAX_RELAY_PER_SCOPE = 32
+ 
+ CallModel = Callable[..., str]
+ FusionMode = Literal["direct", "fanout"]
+@@ -219,7 +220,17 @@ class RelayStore:
+         return self.by_session.get((scope, session_id, combo_name))
+ 
+     def put(self, handoff: RelayHandoff, *, scope: str = "") -> None:
+-        self.by_session[(scope, handoff.session_id, handoff.combo_name)] = handoff
++        key = (scope, handoff.session_id, handoff.combo_name)
++        if key in self.by_session:
++            del self.by_session[key]
++        self.by_session[key] = handoff
++        scoped = [k for k in self.by_session if k[0] == scope]
++        while len(scoped) > MAX_RELAY_PER_SCOPE:
++            oldest = next(k for k in self.by_session if k[0] == scope)
++            if oldest == key:
++                break
++            del self.by_session[oldest]
++            scoped = [k for k in self.by_session if k[0] == scope]
+ 
+ 
+ _PROCESS_RELAY_STORE = RelayStore()
+diff --git a/OpenMW/tests/test_execution_shapes.py b/OpenMW/tests/test_execution_shapes.py
+index 5e3fe50..d54c798 100644
+--- a/OpenMW/tests/test_execution_shapes.py
++++ b/OpenMW/tests/test_execution_shapes.py
+@@ -8,6 +8,7 @@ from fastapi.testclient import TestClient
+ 
+ from openmw.openvault.route.execution import (
+     HANDOFF_EXHAUSTION,
++    MAX_RELAY_PER_SCOPE,
+     Hop,
+     PipelineStep,
+     StrategyIsASort,
+@@ -317,3 +318,39 @@ def test_relay_store_scope_isolates_caller_blobs() -> None:
+     got = resolve_relay_handoff(store, body, scope="seat-a")
+     assert got is not None
+     assert got.summary == "keep going"
++
++
++def test_relay_store_evicts_oldest_over_scope_cap() -> None:
++    store = RelayStore()
++    for i in range(MAX_RELAY_PER_SCOPE + 1):
++        remember_relay_handoff(
++            store, RelayHandoff(f"s{i}", "", f"sum-{i}", "acct"), scope="seat-a"
++        )
++    remember_relay_handoff(
++        store, RelayHandoff("keep", "", "other", "acct"), scope="seat-b"
++    )
++    assert (
++        resolve_relay_handoff(
++            store,
++            {"combo": {"strategy": "context-relay", "sessionId": "s0"}},
++            scope="seat-a",
++        )
++        is None
++    )
++    last = resolve_relay_handoff(
++        store,
++        {
++            "combo": {
++                "strategy": "context-relay",
++                "sessionId": f"s{MAX_RELAY_PER_SCOPE}",
++            }
++        },
++        scope="seat-a",
++    )
++    assert last is not None
++    other = resolve_relay_handoff(
++        store,
++        {"combo": {"strategy": "context-relay", "sessionId": "keep"}},
++        scope="seat-b",
++    )
++    assert other is not None

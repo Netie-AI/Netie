@@ -1,0 +1,434 @@
+diff --git a/OpenMW/openmw/openvault/route/execution.py b/OpenMW/openmw/openvault/route/execution.py
+index 73cdb80..a5d2946 100644
+--- a/OpenMW/openmw/openvault/route/execution.py
++++ b/OpenMW/openmw/openvault/route/execution.py
+@@ -319,10 +319,53 @@ def shape_from_chat_body(body: dict[str, Any] | None) -> str | None:
+     return None
+ 
+ 
++def combo_models_from_body(body: dict[str, Any] | None) -> list[Any]:
++    if not isinstance(body, dict):
++        return []
++    combo = body.get("combo")
++    if isinstance(combo, dict) and isinstance(combo.get("models"), list):
++        return list(combo["models"])
++    return []
++
++
++def user_text_from_body(body: dict[str, Any] | None) -> str:
++    if not isinstance(body, dict):
++        return ""
++    messages = body.get("messages")
++    if not isinstance(messages, list):
++        return ""
++    for msg in reversed(messages):
++        if not isinstance(msg, dict) or msg.get("role") != "user":
++            continue
++        content = msg.get("content")
++        if isinstance(content, str):
++            return content
++    return ""
++
++
++def extract_assistant_text(payload: Any) -> str:
++    if not isinstance(payload, dict):
++        return ""
++    choices = payload.get("choices")
++    if not isinstance(choices, list) or not choices:
++        return ""
++    first = choices[0]
++    if not isinstance(first, dict):
++        return ""
++    msg = first.get("message") or first.get("delta") or {}
++    if isinstance(msg, dict) and isinstance(msg.get("content"), str):
++        return msg["content"]
++    if isinstance(first.get("text"), str):
++        return first["text"]
++    return ""
++
++
+ def chat_shape_refusal(body: dict[str, Any] | None) -> dict[str, Any] | None:
+     shape = shape_from_chat_body(body)
+     if shape is None:
+         return None
++    if combo_models_from_body(body):
++        return None
+     return {
+         "error": {
+             "message": (
+@@ -407,3 +450,45 @@ def dispatch_combo(
+             tool_choice=tool_choice,
+         )
+     raise ExecutionRefused(400, f"unknown execution shape {name!r}")
++
++
++@dataclass(frozen=True)
++class Hop:
++    execution_key: str
++    model_str: str
++    provider: str = ""
++    healthy: bool = True
++
++
++def pick_hop(
++    hops: list[Hop],
++    model: str,
++    *,
++    serves: Callable[[Hop, str], bool] | None = None,
++) -> Hop | None:
++    want = (model or "").strip()
++    if not want:
++        return None
++    for hop in hops:
++        if not hop.healthy:
++            continue
++        if hop.model_str == want or hop.execution_key == want:
++            return hop
++        if serves is not None and serves(hop, want):
++            return hop
++    return None
++
++
++def hop_call_model(
++    hops: list[Hop],
++    post: Callable[..., str],
++    *,
++    serves: Callable[[Hop, str], bool] | None = None,
++) -> CallModel:
++    def call(model: str, **kwargs: Any) -> str:
++        hop = pick_hop(hops, model, serves=serves)
++        if hop is None:
++            return ""
++        return post(hop, model=model, **kwargs)
++
++    return call
+diff --git a/OpenMW/openmw/openvault/vault/proxy.py b/OpenMW/openmw/openvault/vault/proxy.py
+index 1f579d4..bc821ab 100644
+--- a/OpenMW/openmw/openvault/vault/proxy.py
++++ b/OpenMW/openmw/openvault/vault/proxy.py
+@@ -12,7 +12,18 @@ import structlog
+ 
+ from openmw.openvault.route.attempt import AttemptOutcome, classify_attempt
+ from openmw.openvault.route.breaker import get_circuit_breaker
+-from openmw.openvault.route.execution import chat_shape_refusal
++from openmw.openvault.route.execution import (
++    ExecutionRefused,
++    Hop,
++    StrategyIsASort,
++    chat_shape_refusal,
++    combo_models_from_body,
++    dispatch_combo,
++    extract_assistant_text,
++    hop_call_model,
++    shape_from_chat_body,
++    user_text_from_body,
++)
+ from openmw.openvault.vault.budget import estimate_tokens_for_body, prepare_hop_body
+ from openmw.openvault.vault.fallback import FallbackManager
+ from openmw.openvault.vault.precheck import _default_base_url
+@@ -200,6 +211,143 @@ def _apply_outcome(
+             get_circuit_breaker(provider).record_failure(status=status)
+ 
+ 
++def _run_execution_shape(
++    vault: KeyVault,
++    fallback: FallbackManager,
++    body: dict[str, Any],
++    *,
++    timeout_s: float,
++    trace: HopTrace,
++    tenant: str,
++) -> tuple[int, dict[str, Any]]:
++    """Sequential hop-walk for fusion/pipeline/context-relay. Not parallel.
++
++    No quorum-grace, no breaker park on this path. Streaming is refused.
++    """
++    if body.get("stream"):
++        trace.error_type = "openvault_execution_shape"
++        return 400, {
++            "error": {
++                "message": "streaming execution shapes are not wired",
++                "type": "openvault_execution_shape",
++            }
++        }
++    shape = shape_from_chat_body(body) or ""
++    if shape == "auto":
++        trace.error_type = "openvault_execution_shape"
++        return 400, {
++            "error": {
++                "message": "auto must resolve to a sort first",
++                "type": "openvault_execution_shape",
++            }
++        }
++    if vault.seal.is_sealed:
++        trace.error_type = "openvault_vault_sealed"
++        return _sealed_refusal()
++    candidates = fallback.ordered_candidates(affinity_key=affinity_key_for(body, tenant=tenant))
++    if not candidates:
++        return 503, _no_candidates_refusal(vault)
++
++    hops = [Hop(c.id, "", c.provider, True) for c in candidates]
++    by_id = {c.id: c for c in candidates}
++
++    def serves(hop: Hop, model: str) -> bool:
++        rec = by_id.get(hop.execution_key)
++        if rec is None:
++            return False
++        return resolve_model(rec.provider, model) is not None
++
++    def post(
++        hop: Hop,
++        *,
++        model: str,
++        user_text: str,
++        stream: bool,
++        tools: Any,
++        tool_choice: Any,
++        system: str | None = None,
++        **_k: Any,
++    ) -> str:
++        rec = by_id.get(hop.execution_key)
++        if rec is None:
++            return ""
++        resolved = resolve_model(rec.provider, model)
++        if resolved is None:
++            return ""
++        secret = vault.get_secret(rec.id)
++        if secret is None:
++            return ""
++        base = _default_base_url(rec.provider, rec.base_url)
++        if not base or rec.provider == "anthropic":
++            return ""
++        messages: list[dict[str, Any]] = []
++        if system:
++            messages.append({"role": "system", "content": system})
++        messages.append({"role": "user", "content": user_text})
++        hop_body: dict[str, Any] = {
++            "model": resolved,
++            "messages": messages,
++            "stream": False,
++        }
++        if tools:
++            hop_body["tools"] = tools
++            if tool_choice is not None:
++                hop_body["tool_choice"] = tool_choice
++        try:
++            with httpx.Client(timeout=timeout_s) as client:
++                resp = client.post(
++                    f"{base}/chat/completions",
++                    headers={
++                        "Authorization": f"Bearer {secret}",
++                        "Content-Type": "application/json",
++                    },
++                    json=hop_body,
++                )
++            if resp.status_code >= 400:
++                return ""
++            return extract_assistant_text(resp.json())
++        except Exception:
++            return ""
++
++    combo = body.get("combo") if isinstance(body.get("combo"), dict) else {}
++    models = combo_models_from_body(body)
++    try:
++        text = dispatch_combo(
++            shape,
++            models,
++            hop_call_model(hops, post, serves=serves),
++            user_text=user_text_from_body(body),
++            stream=False,
++            tools=body.get("tools"),
++            tool_choice=body.get("tool_choice"),
++            judge_model=combo.get("judgeModel") or combo.get("judge_model"),
++        )
++    except ExecutionRefused as exc:
++        trace.error_type = "openvault_execution_shape"
++        return exc.code, {
++            "error": {"message": exc.message, "type": "openvault_execution_shape"}
++        }
++    except StrategyIsASort as exc:
++        trace.error_type = "openvault_execution_shape"
++        return 400, {
++            "error": {
++                "message": str(exc),
++                "type": "openvault_execution_shape",
++            }
++        }
++    trace.note_served(provider="dispatch", model=shape, vault_key_id="")
++    return 200, {
++        "id": "ov-dispatch",
++        "object": "chat.completion",
++        "choices": [
++            {
++                "message": {"role": "assistant", "content": text},
++                "finish_reason": "stop",
++            }
++        ],
++    }
++
++
+ async def chat_completions(
+     vault: KeyVault,
+     fallback: FallbackManager,
+@@ -220,6 +368,10 @@ async def chat_completions(
+     if refused:
+         trace.error_type = "openvault_execution_shape"
+         return 400, refused
++    if shape_from_chat_body(body) and combo_models_from_body(body):
++        return _run_execution_shape(
++            vault, fallback, body, timeout_s=timeout_s, trace=trace, tenant=tenant
++        )
+     candidates = fallback.ordered_candidates(affinity_key=affinity_key_for(body, tenant=tenant))
+     if not candidates:
+         return 503, _no_candidates_refusal(vault)
+@@ -411,6 +563,10 @@ async def prepare_chat_stream(
+     if refused:
+         trace.error_type = "openvault_execution_shape"
+         return 400, refused
++    if shape_from_chat_body(body) and combo_models_from_body(body):
++        return _run_execution_shape(
++            vault, fallback, body, timeout_s=timeout_s, trace=trace, tenant=tenant
++        )
+     candidates = fallback.ordered_candidates(affinity_key=affinity_key_for(body, tenant=tenant))
+     if not candidates:
+         return 503, _no_candidates_refusal(vault)
+diff --git a/OpenMW/tests/test_execution_chat.py b/OpenMW/tests/test_execution_chat.py
+index 30dff90..e22ec4b 100644
+--- a/OpenMW/tests/test_execution_chat.py
++++ b/OpenMW/tests/test_execution_chat.py
+@@ -1,8 +1,9 @@
+-""" /v1 fail-closes on fusion/pipeline/context-relay. model=auto is catalog pick."""
++""" /v1 fail-closes nameless fusion; combo.models uses hop-walk dispatch."""
+ 
+ from __future__ import annotations
+ 
+ from pathlib import Path
++from unittest.mock import MagicMock, patch
+ 
+ import pytest
+ from conftest import issue_key
+@@ -31,6 +32,15 @@ def _client(vault: KeyVault, tmp_path: Path, monkeypatch: pytest.MonkeyPatch) ->
+     return TestClient(app, client=("127.0.0.1", 5555))
+ 
+ 
++def _ok(content: str) -> MagicMock:
++    resp = MagicMock()
++    resp.status_code = 200
++    resp.json = MagicMock(
++        return_value={"choices": [{"message": {"role": "assistant", "content": content}}]}
++    )
++    return resp
++
++
+ def test_v1_fusion_is_400_not_key_walk(
+     vault: KeyVault, monkeypatch: pytest.MonkeyPatch, tmp_path: Path
+ ) -> None:
+@@ -59,7 +69,7 @@ def test_v1_auto_is_still_empty_pool_503(
+     assert resp.json()["error"]["type"] == "openvault_no_keys"
+ 
+ 
+-def test_v1_combo_pipeline_is_400(
++def test_v1_combo_pipeline_empty_pool_is_503(
+     vault: KeyVault, monkeypatch: pytest.MonkeyPatch, tmp_path: Path
+ ) -> None:
+     client = _client(vault, tmp_path, monkeypatch)
+@@ -73,5 +83,44 @@ def test_v1_combo_pipeline_is_400(
+         },
+         headers=headers,
+     )
+-    assert resp.status_code == 400
+-    assert resp.json()["error"]["type"] == "openvault_execution_shape"
++    assert resp.status_code == 503
++    assert resp.json()["error"]["type"] == "openvault_no_keys"
++
++
++def test_v1_fusion_with_models_posts_panel_then_judge(
++    vault: KeyVault, monkeypatch: pytest.MonkeyPatch, tmp_path: Path
++) -> None:
++    rec = vault.create(
++        label="openai-hop",
++        provider="openai",
++        secret="sk-test-fusion-aaaaaaaa",
++        role="primary",
++        priority=1,
++        base_url="https://example.invalid/v1",
++    )
++    vault.set_precheck(rec.id, status="ok", latency_ms=1.0, error=None)
++    client = _client(vault, tmp_path, monkeypatch)
++    _seat, headers = issue_key(client, label="fusion-hop")
++    mock = MagicMock()
++    mock.__enter__ = MagicMock(return_value=mock)
++    mock.__exit__ = MagicMock(return_value=False)
++    mock.post = MagicMock(side_effect=[_ok("ans-a"), _ok("ans-b"), _ok("FINAL")])
++    with patch("openmw.openvault.vault.proxy.httpx.Client", return_value=mock):
++        resp = client.post(
++            "/v1/chat/completions",
++            json={
++                "model": "auto",
++                "messages": [{"role": "user", "content": "Q"}],
++                "combo": {
++                    "strategy": "fusion",
++                    "models": ["gpt-4o-mini", "gpt-4o"],
++                    "judgeModel": "gpt-4o-mini",
++                },
++            },
++            headers=headers,
++        )
++    assert resp.status_code == 200, resp.text
++    assert resp.json()["choices"][0]["message"]["content"] == "FINAL"
++    assert mock.post.call_count == 3
++    bodies = [call.kwargs["json"]["model"] for call in mock.post.call_args_list]
++    assert bodies == ["gpt-4o-mini", "gpt-4o", "gpt-4o-mini"]
+diff --git a/OpenMW/tests/test_execution_shapes.py b/OpenMW/tests/test_execution_shapes.py
+index 793b765..c3df420 100644
+--- a/OpenMW/tests/test_execution_shapes.py
++++ b/OpenMW/tests/test_execution_shapes.py
+@@ -8,10 +8,14 @@ from fastapi.testclient import TestClient
+ 
+ from openmw.openvault.route.execution import (
+     HANDOFF_EXHAUSTION,
++    Hop,
+     PipelineStep,
+     StrategyIsASort,
+     chat_shape_refusal,
++    combo_models_from_body,
+     dispatch_combo,
++    hop_call_model,
++    pick_hop,
+     plan_fusion,
+     pick_relay_target,
+     resolve_auto,
+@@ -159,3 +163,33 @@ def test_dispatch_combo_fusion() -> None:
+     )
+     assert seen == ["p/a", "p/b", "p/judge"]
+     assert out == "ans-p/judge"
++
++
++def test_combo_models_skip_refusal() -> None:
++    body = {"model": "auto", "combo": {"strategy": "fusion", "models": ["a", "b"]}}
++    assert shape_from_chat_body(body) == "fusion"
++    assert chat_shape_refusal(body) is None
++    assert combo_models_from_body(body) == ["a", "b"]
++
++
++def test_pick_hop_skips_unhealthy() -> None:
++    hops = [
++        Hop("k1", "gpt-mini", "openai", False),
++        Hop("k2", "gpt-mini", "openai", True),
++    ]
++    picked = pick_hop(hops, "gpt-mini")
++    assert picked is not None
++    assert picked.execution_key == "k2"
++
++
++def test_hop_call_model_posts_picked() -> None:
++    hops = [Hop("k1", "p/a", "openai", True), Hop("k2", "p/b", "openai", True)]
++    seen: list[str] = []
++
++    def post(hop: Hop, *, model: str, **_k: object) -> str:
++        seen.append(f"{hop.execution_key}:{model}")
++        return "ok"
++
++    call = hop_call_model(hops, post)
++    assert call("p/b", user_text="Q") == "ok"
++    assert seen == ["k2:p/b"]
