@@ -9,10 +9,12 @@ Re-probed 2026-08-28: same 404s (including `jian-hong/AirGPT`). OpenVault `main`
 Local CI is the gate until GitHub Actions billing works:
 
 ```
-python3 scripts/check_docs.py
+make ci
 ```
 
-`make ci` is the same command. GitHub `docs-ci` jobs fail in ~3s without starting: spending limit. That is not a test failure. Origin (git remote) is already `origin`; we already push there. Switching hosts does not fix clone 404 or Actions billing.
+That is `python3 -m compileall -q scripts` then `python3 scripts/check_docs.py` (required files + laptop-ASCII + all `scripts/test_*.py`). GitHub `docs-ci` jobs fail in ~3s without starting: spending limit. Empty steps, no logs. That is not a test failure. Origin (git remote) is already `origin`; we already push there. Switching hosts does not fix clone 404 or Actions billing.
+
+Measured on this VM 2026-08-28 against public clones: Netie unittest **233 passed**; constructor (14 patches) `node --test` **28 passed**; OpenVault OpenMW (23 patches) `uv run pytest tests -q --cov=openmw.openvault --cov-fail-under=75` **912 passed, 4 skipped**.
 
 ---
 
