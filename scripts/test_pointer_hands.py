@@ -113,6 +113,48 @@ class PointerHandsTests(unittest.TestCase):
         self.assertEqual(out["hand"], "hotkey")
         self.assertEqual(out["status"], "allowed")
 
+    def test_action_history_is_brain(self) -> None:
+        with self.assertRaises(PointerDenied) as ctx:
+            invoke_hand(
+                "get_action_history",
+                cortex_allowed=True,
+                cortex_intent="replay last clicks",
+            )
+        self.assertIn("brain", str(ctx.exception))
+
+    def test_uncropped_screenshot_refuses(self) -> None:
+        with self.assertRaises(PointerDenied) as ctx:
+            invoke_hand(
+                "screenshot",
+                cortex_allowed=True,
+                cortex_intent="capture the desktop",
+            )
+        self.assertIn("screenshot_uncropped", str(ctx.exception))
+        with self.assertRaises(PointerDenied):
+            invoke_hand(
+                "take_snapshot",
+                cortex_allowed=True,
+                cortex_intent="dump pixels",
+                element={"role": "textbox", "name": "Password", "type": "password"},
+            )
+        out = invoke_hand(
+            "get_screen_diff",
+            cortex_allowed=True,
+            cortex_intent="diff the save button",
+            element={"role": "button", "name": "Save"},
+        )
+        self.assertEqual(out["hand"], "get_screen_diff")
+        self.assertTrue(out["crop"])
+
+    def test_process_list_refuses(self) -> None:
+        with self.assertRaises(PointerDenied) as ctx:
+            invoke_hand(
+                "list_processes",
+                cortex_allowed=True,
+                cortex_intent="see what is running",
+            )
+        self.assertIn("process_list", str(ctx.exception))
+
     def test_does_not_import_uacc(self) -> None:
         src = Path(__file__).with_name("pointer_hands.py").read_text(encoding="utf-8")
         self.assertNotIn("import uacc", src)

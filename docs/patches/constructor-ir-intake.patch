@@ -1,0 +1,55 @@
+diff --git a/app.js b/app.js
+index 4acda9d..07dda52 100644
+--- a/app.js
++++ b/app.js
+@@ -261,7 +261,7 @@ function showInspect() {
+     '" placeholder="warehouse.inventory" />' +
+     fieldSelect("tier", "Router tier (ModelRouter, not a network LB)", listedOptions(TIERS, node.tier), tier) +
+     fieldSelect("stream", "Stream (/dms/streams flag)", ["false", "true"], node.stream ? "true" : "false") +
+-    '<p class="hint">Object/point/type write onto the DAG. Fetch/place is DuckDB (warehouse.inventory). Action export_pptx is F8; item.intake and agent.checked are events. Tier is ModelRouter T0/T1 on tool/agent, not a network LB. Stream lists /dms/streams. Pages never fetch.</p>';
++    '<p class="hint">Object/point/type write onto the DAG. Fetch/place is DuckDB (warehouse.inventory). Action export_pptx and item.intake are writes (confirm); agent.checked is an event. Tier is ModelRouter T0/T1 on tool/agent, not a network LB. Stream lists /dms/streams. Pages never fetch.</p>';
+ }
+ 
+ function fieldSelect(name, label, values, current) {
+diff --git a/engine.js b/engine.js
+index 59bd626..8125888 100644
+--- a/engine.js
++++ b/engine.js
+@@ -92,7 +92,7 @@ function listedOrEmpty(value, listed) {
+ 
+ const DEFAULT_OBJECTS = ["inventory", "suppliers"];
+ const DEFAULT_ACTIONS = ["export_pptx", "item.intake", "agent.checked"];
+-const WRITE_ACTIONS = ["export_pptx"];
++const WRITE_ACTIONS = ["export_pptx", "item.intake"];
+ const DATA_TYPES = ["string", "number", "integer", "boolean", "date"];
+ const DEFAULT_OBJECT_POINTS = {
+   inventory: [
+diff --git a/tests/compiler.test.cjs b/tests/compiler.test.cjs
+index b82fd88..a0d16ba 100644
+--- a/tests/compiler.test.cjs
++++ b/tests/compiler.test.cjs
+@@ -542,6 +542,24 @@ test("export_pptx on foundry requires confirm", () => {
+   assert.equal(ir.nodes[0].requires_confirm, true);
+ });
+ 
++test("item.intake on foundry requires confirm", () => {
++  const ir = compileIR({
++    nodes: [{ id: "f", kind: "foundry", action_type: "item.intake" }],
++    edges: [],
++  });
++  assert.equal(ir.nodes[0].action_type, "item.intake");
++  assert.equal(ir.nodes[0].requires_confirm, true);
++});
++
++test("agent.checked on foundry is an event", () => {
++  const ir = compileIR({
++    nodes: [{ id: "f", kind: "foundry", action_type: "agent.checked" }],
++    edges: [],
++  });
++  assert.equal(ir.nodes[0].action_type, "agent.checked");
++  assert.equal(ir.nodes[0].requires_confirm, false);
++});
++
+ test("ghostWalk refuses unknown tool_call action", () => {
+   const walked = ghostWalk(
+     {

@@ -78,6 +78,16 @@ class CrewWrapTests(unittest.TestCase):
         self.assertIn("HITL", str(ctx.exception))
         self.assertEqual(gate.executed, [])
 
+    def test_item_intake_needs_hitl(self) -> None:
+        gate = FakeGate(True)
+        with self.assertRaises(CortexDenied) as ctx:
+            run_tool(gate, "item.intake", {"sku": "A-1"})
+        self.assertIn("HITL", str(ctx.exception))
+        self.assertEqual(gate.executed, [])
+        out = run_tool(gate, "item.intake", {"sku": "A-1", "operator_confirm": True})
+        self.assertEqual(out["tool"], "item.intake")
+        self.assertEqual(gate.executed, ["item.intake"])
+
     def test_deepagents_filesystem_is_not_a_crew_tool(self) -> None:
         gate = FakeGate(True)
         with self.assertRaises(CortexDenied) as ctx:

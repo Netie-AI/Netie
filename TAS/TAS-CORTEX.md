@@ -115,7 +115,9 @@ with the corpus: **17 confidently wrong against a floor of 0.** Tracked at
 `Netie-AI/Cortex#12`, deferred until a real user exists.
 
 **The action registry has 25 entries and 1 is invocable** - `export_pptx`. "Actions are
-the only write path" describes a path with one action.
+the only write path" describes a path with one action. Portable `scripts/cortex_path.py`
+also lists `item.intake` as a governed warehouse write (needs an actor). `agent.checked`
+stays an event.
 
 ---
 
