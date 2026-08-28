@@ -101,6 +101,14 @@ class CrewWrapTests(unittest.TestCase):
             run_tool(gate, "write_todos", {"todos": [{"prompt": "SECRET"}]})
         self.assertEqual(gate.executed, [])
 
+    def test_deepagents_glob_grep_delete_are_not_crew_tools(self) -> None:
+        gate = FakeGate(True)
+        for name in ("glob", "grep", "delete"):
+            with self.assertRaises(CortexDenied) as ctx:
+                wrap_deepagents_tools(gate, ["export_pptx", name])
+            self.assertIn("not a Crew tool", str(ctx.exception))
+        self.assertEqual(gate.executed, [])
+
 
 if __name__ == "__main__":
     unittest.main()
