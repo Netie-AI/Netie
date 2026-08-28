@@ -1,0 +1,52 @@
+diff --git a/CortexOS/execution/agent_task.py b/CortexOS/execution/agent_task.py
+index 906b7e7..a32d23a 100644
+--- a/CortexOS/execution/agent_task.py
++++ b/CortexOS/execution/agent_task.py
+@@ -88,20 +88,12 @@ class AgentTaskTelemetry:
+ 
+ 
+ def default_broker(name: str, params: dict) -> dict:
+-    """Cortex's own tools. Web tools are built in; everything else goes through
+-    the governed F8 runner so an agent cannot reach an unregistered action."""
+-    from CortexOS.execution import web_tools
+-
+-    fn = web_tools.WEB_TOOLS.get(name)
+-    if fn is not None:
+-        return fn(**params)
+-
+-    from CortexOS.discovery.find import DISCOVERY_TOOLS
+-
+-    disc = DISCOVERY_TOOLS.get(name)
+-    if disc is not None:
+-        return disc(**(params or {}))
++    """Every tool goes through the governed F8 runner.
+ 
++    Web search/fetch and discovery used to skip ``run_tool_call``. That is
++    leave-machine without an allowlist row. Skip is refused: unregistered
++    names deny here instead of DuckDuckGo.
++    """
+     from CortexOS.execution.tool_runner import ToolCallError, run_tool_call
+ 
+     try:
+diff --git a/tests/dms/test_broker_no_skip.py b/tests/dms/test_broker_no_skip.py
+new file mode 100644
+index 0000000..21e92f3
+--- /dev/null
++++ b/tests/dms/test_broker_no_skip.py
+@@ -0,0 +1,16 @@
++"""default_broker must not skip F8. File read only; no litellm."""
++
++from __future__ import annotations
++
++from pathlib import Path
++
++
++def test_broker_source_has_no_web_or_discovery_skip() -> None:
++    path = Path(__file__).resolve().parents[2] / "CortexOS" / "execution" / "agent_task.py"
++    src = path.read_text(encoding="utf-8")
++    start = src.index("def default_broker")
++    end = src.index("\ndef ", start + 1)
++    body = src[start:end]
++    assert "WEB_TOOLS" not in body
++    assert "DISCOVERY_TOOLS" not in body
++    assert "run_tool_call" in body
