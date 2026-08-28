@@ -16,7 +16,7 @@ sys.path.insert(0, str(ROOT))
 
 from netie.airgpt import retrieve_space, chunk_table
 from netie.control import project_board, run_dag, ControlDenied
-from netie.cortex import RouteDenied, run_question
+from netie.cortex import RouteDenied, WRITE_ACTIONS, run_question
 from netie.crew import (
     CortexDenied,
     Factory,
@@ -29,7 +29,7 @@ from netie.crew import (
     load_den,
     run_batch,
 )
-from netie.dms import answer_or_abstain
+from netie.dms import SpaceDenied, answer_or_abstain, browse_or_abstain, mint_manifest
 from netie.pointer import bind_computer, PointerDenied
 from netie.route import compile_graph, host_switchyard, SwitchyardDenied
 from netie.space import chat_preview
@@ -195,6 +195,102 @@ class NetieApiTests(unittest.TestCase):
         self.assertNotIn("SECRET PROMPT", dumped)
         with self.assertRaises(CortexDenied):
             load_den("ee/")
+
+    def test_dms_product_caller_public_api(self) -> None:
+        """PRD-001 shape: import netie.dms only, not scripts/."""
+        acl = {
+            "space-ops": frozenset({"inventory", "shipments"}),
+            "space-finance": frozenset({"invoices"}),
+        }
+        binds = {"space-ops": "dms-demo", "space-finance": "dms-demo"}
+        rows = [{"sku": "A"}]
+        ok = answer_or_abstain(
+            acl,
+            "space-ops",
+            "inventory",
+            rows,
+            warehouse_id="dms-demo",
+            binds=binds,
+            sql="SELECT sku FROM inventory",
+        )
+        self.assertEqual(ok["status"], "OK")
+        ok["rows"][0]["sku"] = "LEAK"
+        self.assertEqual(rows[0]["sku"], "A")
+
+        other = answer_or_abstain(
+            acl,
+            "space-ops",
+            "invoices",
+            [{"id": 1}],
+            warehouse_id="dms-demo",
+            binds=binds,
+            sql="SELECT id FROM invoices",
+        )
+        self.assertEqual(other["status"], "ABSTAIN")
+
+        join = answer_or_abstain(
+            acl,
+            "space-ops",
+            "inventory",
+            [{"sku": "A"}],
+            warehouse_id="dms-demo",
+            binds=binds,
+            sql="SELECT sku FROM inventory JOIN hr_notes ON true",
+        )
+        self.assertEqual(join["status"], "ABSTAIN")
+
+        duck = answer_or_abstain(
+            acl,
+            "space-ops",
+            "inventory",
+            [{"sku": "A"}],
+            warehouse_id="cortex-duckdb",
+            binds=binds,
+            sql="SELECT sku FROM inventory",
+        )
+        self.assertEqual(duck["status"], "ABSTAIN")
+
+        chat = answer_or_abstain(
+            acl,
+            "space-ops",
+            "inventory",
+            [{"sku": "A"}],
+            warehouse_id="dms-demo",
+            binds=binds,
+            sql="SELECT sku FROM inventory",
+            chat_mode=True,
+        )
+        self.assertEqual(chat["status"], "ABSTAIN")
+        self.assertIn("AnythingLLM", chat["reason"])
+
+        bronze = browse_or_abstain(acl, "space-ops", "invoices", tier="bronze")
+        self.assertEqual(bronze["status"], "ABSTAIN")
+        self.assertEqual(
+            mint_manifest(acl, "space-finance"),
+            ("invoices",),
+        )
+        with self.assertRaises(SpaceDenied):
+            mint_manifest(acl, "space-missing")
+
+    def test_cortex_product_caller_public_api(self) -> None:
+        """Cortex shape: import netie.cortex only. Not Claude Code, no C7."""
+        self.assertIn("item.intake", WRITE_ACTIONS)
+        with self.assertRaises(RouteDenied) as actor:
+            run_question("dag", write="item.intake", verified=True)
+        self.assertIn("actor", str(actor.exception))
+        with self.assertRaises(RouteDenied) as c7:
+            run_question("dag", verified=True, c7_sql=True)
+        self.assertIn("C7", str(c7.exception))
+        with self.assertRaises(RouteDenied) as a2a:
+            run_question("dag", verified=True, a2a=True, pack="default")
+        self.assertIn("dms-pack", str(a2a.exception))
+        with self.assertRaises(RouteDenied) as bash:
+            run_question("dag", tool="bash", via_tool_runner=True, verified=True)
+        self.assertIn("Claude Code", str(bash.exception))
+        out = run_question("dag", write="item.intake", actor="ops", verified=True)
+        self.assertEqual(out["jepa"], "off-path")
+        self.assertEqual(out["c7_sql"], "off")
+        self.assertEqual(out["write"], "item.intake")
 
 
 if __name__ == "__main__":

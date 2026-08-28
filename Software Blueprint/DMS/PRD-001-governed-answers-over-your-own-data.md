@@ -129,6 +129,15 @@ at 80 percent and nothing finished.
 
 Measured on the DMS envelope from `POST /v1/chat/ask`, not on Cortex-side state.
 
+Licensed bootstrap when `Netie-AI/dms` is reachable:
+
+```
+uv add --editable git+https://github.com/Netie-AI/Netie.git
+from netie.dms import answer_or_abstain, browse_or_abstain
+```
+
+`chat_mode=True` abstains (AnythingLLM overlay). SQL that names an ungranted table abstains. A Cortex DuckDB warehouse id on a DMS-bound Space abstains. Do not overlay AnythingLLM.
+
 ---
 
 ## 5. Epic decomposition

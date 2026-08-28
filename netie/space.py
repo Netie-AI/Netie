@@ -4,6 +4,18 @@ from __future__ import annotations
 
 import netie._scripts  # noqa: F401
 
-from space_leave import chat_preview, may_preview, ocr_cloud, persist_key
+from space_leave import (
+    SpaceLeaveDenied,
+    chat_preview,
+    may_preview,
+    ocr_cloud,
+    persist_key,
+)
 
-__all__ = ("chat_preview", "may_preview", "ocr_cloud", "persist_key")
+__all__ = (
+    "SpaceLeaveDenied",
+    "chat_preview",
+    "may_preview",
+    "ocr_cloud",
+    "persist_key",
+)
