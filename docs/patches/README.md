@@ -254,6 +254,16 @@ cd OpenMW && uv run pytest tests/test_route_strategies.py tests/test_execution_s
 
 `metadata` / `extra` sidecar bags with `skill_body` / `transcript` / `instructions` are 400 `openvault_crew_body`. Hop posts strip those keys from sidecar dicts. Chat `messages` text may still say the word `skill_body`. Do not recurse into `tools` (a schema may name `instructions`). Measured 2026-08-28: routing+chat+crew-gate **145 passed**. Push 403.
 
+Then:
+
+```
+git apply docs/patches/openvault-ship-netie.patch
+cd OpenMW && uv add git+https://github.com/Netie-AI/Netie.git
+uv run pytest tests/test_ship_netie_claim.py -q
+```
+
+Live deploys call `claim_deploy`, which uses `from netie.route import report_deploy` when Netie is installed. Constructed URLs refuse. Simulated is not HT1. Without Netie the same rule runs locally so OpenVault CI does not hard-fail. `classify_deployment` still names simulated; this gate only runs when the engine is about to label a deploy live. Score stays **2/10** (HT1 not done). Push 403.
+
 Independent of routing:
 
 ```

@@ -1,0 +1,122 @@
+diff --git a/OpenMW/openmw/openvault/ship/engine.py b/OpenMW/openmw/openvault/ship/engine.py
+index 2d694dc..080cb30 100644
+--- a/OpenMW/openmw/openvault/ship/engine.py
++++ b/OpenMW/openmw/openvault/ship/engine.py
+@@ -921,6 +921,26 @@ def _run_ship_engine_locked(
+         )
+         dep_mode = "simulated"
+ 
++    if dep_mode == "live":
++        from openmw.openvault.ship.netie_claim import claim_deploy
++
++        try:
++            public = claim_deploy(
++                simulated=False,
++                observed_url=public or None,
++                constructed_url=None,
++            )["url"]
++        except PermissionError as exc:
++            last = steps[-1]
++            steps[-1] = EngineStep(
++                last.id,
++                last.name,
++                "fail",
++                f"live URL refused ({exc})",
++            )
++            public = ""
++            dep_mode = "failed"
++
+     status_name, ready = classify_deployment(steps, mode=dep_mode, public_url=public)
+     dep = ShipDeployment(
+         deployment_id=uuid.uuid4().hex[:12],
+diff --git a/OpenMW/openmw/openvault/ship/netie_claim.py b/OpenMW/openmw/openvault/ship/netie_claim.py
+new file mode 100644
+index 0000000..30bcf8e
+--- /dev/null
++++ b/OpenMW/openmw/openvault/ship/netie_claim.py
+@@ -0,0 +1,35 @@
++"""Live deploy URLs go through Netie report_deploy when installed.
++
++uv add git+https://github.com/Netie-AI/Netie.git
++from netie.route import report_deploy
++
++Without Netie, the same rule runs locally so OpenVault CI does not hard-fail
++before that add. Simulated stays classify_deployment's job; this module is
++only called when the engine is about to label a deploy live.
++"""
++
++from __future__ import annotations
++
++
++def claim_deploy(
++    *,
++    simulated: bool,
++    observed_url: str | None,
++    constructed_url: str | None,
++) -> dict[str, str]:
++    """Refuse a constructed or simulated URL. Parse-only live claims."""
++    try:
++        from netie.route import report_deploy
++    except ImportError:
++        if constructed_url:
++            raise PermissionError("URL must be parsed, never constructed")
++        if simulated:
++            raise PermissionError("simulated is not HT1")
++        if not observed_url:
++            raise PermissionError("no observed URL")
++        return {"status": "LIVE", "url": observed_url, "ht1": "observed"}
++    return report_deploy(
++        simulated=simulated,
++        observed_url=observed_url,
++        constructed_url=constructed_url,
++    )
+diff --git a/OpenMW/tests/test_ship_netie_claim.py b/OpenMW/tests/test_ship_netie_claim.py
+new file mode 100644
+index 0000000..f965282
+--- /dev/null
++++ b/OpenMW/tests/test_ship_netie_claim.py
+@@ -0,0 +1,44 @@
++"""Live URL claims go through Netie report_deploy when installed."""
++
++from __future__ import annotations
++
++import pytest
++
++from openmw.openvault.ship.netie_claim import claim_deploy
++
++
++def test_observed_url_is_live() -> None:
++    out = claim_deploy(
++        simulated=False,
++        observed_url="https://abc.my-app.pages.dev",
++        constructed_url=None,
++    )
++    assert out["status"] == "LIVE"
++    assert out["url"] == "https://abc.my-app.pages.dev"
++    assert out["ht1"] == "observed"
++
++
++def test_constructed_url_is_refused() -> None:
++    with pytest.raises((PermissionError, Exception)) as ctx:
++        claim_deploy(
++            simulated=False,
++            observed_url="https://abc.my-app.pages.dev",
++            constructed_url="https://guess.pages.dev",
++        )
++    msg = str(ctx.value).lower()
++    assert "constructed" in msg or "parsed" in msg
++
++
++def test_simulated_is_not_ht1() -> None:
++    with pytest.raises((PermissionError, Exception)) as ctx:
++        claim_deploy(
++            simulated=True,
++            observed_url="https://abc.my-app.pages.dev",
++            constructed_url=None,
++        )
++    assert "simulated" in str(ctx.value).lower()
++
++
++def test_empty_observed_is_refused() -> None:
++    with pytest.raises((PermissionError, Exception)):
++        claim_deploy(simulated=False, observed_url=None, constructed_url=None)
