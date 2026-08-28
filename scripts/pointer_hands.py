@@ -3,7 +3,8 @@
 Names from `uacc` 1.1.0 on PyPI (MIT, 68 MCP tools). We do not vendor or
 import that package. Cortex must allow each name. Planner / workflow /
 memory / history / clipboard / ungoverned JS / ungated leave-machine /
-uncropped screenshot / process list refuse.
+uncropped screenshot / page dump / process list refuse. Hover/drag on a
+secret field refuse.
 """
 
 from __future__ import annotations
@@ -100,8 +101,13 @@ SCREEN_HANDS = frozenset(
         "take_snapshot",
         "compare_snapshots",
         "get_screen_diff",
+        "detect_elements_visual",
     }
 )
+# Full DOM dump includes password values. Not a Pointer hand.
+PAGE_HANDS = frozenset({"browser_get_page_info"})
+# Motion on a secret field is still a secret capture.
+MOTION_HANDS = frozenset({"hover", "drag", "wait_for_element"})
 # Process table is surveillance, not a Pointer hand for an instructed region.
 PROCESS_HANDS = frozenset({"list_processes"})
 BRAIN_HANDS = frozenset(
@@ -154,8 +160,15 @@ def invoke_hand(
         raise PointerDenied("uacc brain stays out; Pointer is hands")
     if tool in PROCESS_HANDS:
         raise PointerDenied("process_list_refused")
+    if tool in PAGE_HANDS:
+        raise PointerDenied("no page dump")
     if tool in LEAVE_HANDS and not ov_leave:
         raise PointerDenied("leave-machine is OpenVault")
+    if tool in MOTION_HANDS:
+        if not isinstance(element, dict):
+            raise PointerDenied("no target")
+        clicked = click(element, cortex_intent=cortex_intent)
+        return {"hand": tool, **clicked}
     if tool in SCREEN_HANDS:
         if not isinstance(element, dict):
             raise PointerDenied("screenshot_uncropped")
@@ -174,6 +187,8 @@ def invoke_hand(
         clicked = click(element, cortex_intent=cortex_intent)
         return {"hand": tool, **clicked}
     if tool in KEY_HANDS and isinstance(element, dict) and _is_secret(element):
+        raise PointerDenied("no secret field")
+    if tool == "scroll" and isinstance(element, dict) and _is_secret(element):
         raise PointerDenied("no secret field")
     return {
         "hand": tool,

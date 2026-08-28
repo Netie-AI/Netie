@@ -155,6 +155,55 @@ class PointerHandsTests(unittest.TestCase):
             )
         self.assertIn("process_list", str(ctx.exception))
 
+    def test_page_info_is_secret_dump(self) -> None:
+        with self.assertRaises(PointerDenied) as ctx:
+            invoke_hand(
+                "browser_get_page_info",
+                cortex_allowed=True,
+                cortex_intent="read the form",
+                ov_leave=True,
+            )
+        self.assertIn("page dump", str(ctx.exception))
+
+    def test_hover_on_secret_field_refuses(self) -> None:
+        with self.assertRaises(PointerDenied) as ctx:
+            invoke_hand(
+                "hover",
+                cortex_allowed=True,
+                cortex_intent="inspect",
+                element={"role": "textbox", "name": "Password", "type": "password"},
+            )
+        self.assertIn("secret", str(ctx.exception))
+        out = invoke_hand(
+            "hover",
+            cortex_allowed=True,
+            cortex_intent="inspect save",
+            element={"role": "button", "name": "Save"},
+        )
+        self.assertEqual(out["clicked"], "Save")
+        with self.assertRaises(PointerDenied):
+            invoke_hand(
+                "scroll",
+                cortex_allowed=True,
+                cortex_intent="scroll the pin",
+                element={"role": "textbox", "name": "otp"},
+            )
+        out = invoke_hand(
+            "scroll",
+            cortex_allowed=True,
+            cortex_intent="scroll the page",
+        )
+        self.assertEqual(out["hand"], "scroll")
+
+    def test_visual_detect_needs_crop(self) -> None:
+        with self.assertRaises(PointerDenied) as ctx:
+            invoke_hand(
+                "detect_elements_visual",
+                cortex_allowed=True,
+                cortex_intent="find icons",
+            )
+        self.assertIn("screenshot_uncropped", str(ctx.exception))
+
     def test_does_not_import_uacc(self) -> None:
         src = Path(__file__).with_name("pointer_hands.py").read_text(encoding="utf-8")
         self.assertNotIn("import uacc", src)

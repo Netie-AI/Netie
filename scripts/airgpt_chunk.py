@@ -3,11 +3,14 @@
 AirGPT rag/ingest.py is UNVERIFIABLE here. This is the corpus that HEAD must pass:
 repeated headers are not extra rows, ragged rows do not invent cells, # labels
 become metadata. retrieve_space cites only complete chunks labeled for that
-Space. Unlabeled and incomplete rows are not evidence.
+Space. Unlabeled and incomplete rows are not evidence. chat_*.md is not
+evidence (chats_as_evidence defaults false). File-scoped retrieve stays in
+the named Space.
 """
 
 from __future__ import annotations
 
+import re
 from dataclasses import dataclass
 
 
@@ -38,6 +41,19 @@ class Chunk:
     header: str
     incomplete: bool
     labels: tuple[str, ...]
+    source: str = ""
+
+
+CHAT_SOURCE = re.compile(r"^chat_[^/]+\.md$", re.IGNORECASE)
+
+
+def _basename(path: str) -> str:
+    return path.replace("\\", "/").rsplit("/", 1)[-1]
+
+
+def is_chat_source(source: str) -> bool:
+    """Purged chat transcripts are not a RAG corpus (Space 5 / Good Good)."""
+    return bool(CHAT_SOURCE.fullmatch(_basename(source)))
 
 
 def _split_row(line: str, delim: str) -> list[str]:
@@ -89,30 +105,45 @@ def _space_of(chunk: Chunk) -> str:
     return ""
 
 
-def retrieve_space(chunks: list[Chunk], *, space: str, query: str) -> dict:
+def retrieve_space(
+    chunks: list[Chunk],
+    *,
+    space: str,
+    query: str,
+    source: str | None = None,
+    chats_as_evidence: bool = False,
+) -> dict:
     """Cite only complete chunks labeled for this Space. No cross-space leak.
 
     Unlabeled and incomplete rows are not evidence. Empty query abstains.
+    chat_*.md is not evidence unless chats_as_evidence. File mention (source)
+    still cannot pull another Space's file.
     """
     want = (space or "").strip()
     needle = (query or "").strip().lower()
+    want_file = _basename(source or "").strip()
     if not want:
         return {"status": "ABSTAIN", "reason": "no space", "chunks": []}
     if not needle:
         return {"status": "ABSTAIN", "reason": "no query", "chunks": []}
     hits: list[Chunk] = []
+    skipped_chat = False
     for chunk in chunks:
         if chunk.incomplete:
             continue
         if _space_of(chunk) != want:
             continue
+        if want_file and _basename(chunk.source) != want_file:
+            continue
         if needle not in chunk.text.lower():
+            continue
+        if not chats_as_evidence and is_chat_source(chunk.source):
+            skipped_chat = True
             continue
         hits.append(chunk)
     if not hits:
-        return {
-            "status": "ABSTAIN",
-            "reason": f"space {want} has no cite for {query.strip()}",
-            "chunks": [],
-        }
+        reason = f"space {want} has no cite for {query.strip()}"
+        if skipped_chat and not chats_as_evidence:
+            reason = "chats_as_evidence is false"
+        return {"status": "ABSTAIN", "reason": reason, "chunks": []}
     return {"status": "OK", "space": want, "chunks": list(hits)}
