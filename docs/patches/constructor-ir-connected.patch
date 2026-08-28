@@ -1,0 +1,183 @@
+diff --git a/engine.js b/engine.js
+index 7a2cac8..e40c81f 100644
+--- a/engine.js
++++ b/engine.js
+@@ -229,6 +229,9 @@ function compileIR(state) {
+   if (seen !== nodes.length) {
+     return irError(ghost, "cycle");
+   }
++  if (componentCount(nodes, edges) > 1) {
++    return irError(ghost, "disconnected graph");
++  }
+   const order = topo({ nodes: nodes, edges: edges });
+   if (!order.length) {
+     return irError(ghost, "no entry");
+@@ -248,7 +251,12 @@ function compileIR(state) {
+     }
+   }
+   const byId = Object.create(null);
+-  for (let i = 0; i < nodes.length; i++) byId[nodes[i].id] = nodes[i];
++  const outgoing = Object.create(null);
++  for (let i = 0; i < nodes.length; i++) {
++    byId[nodes[i].id] = nodes[i];
++    outgoing[nodes[i].id] = 0;
++  }
++  for (let i = 0; i < edges.length; i++) outgoing[edges[i].from] += 1;
+   let output = null;
+   for (let i = order.length - 1; i >= 0; i--) {
+     const n = byId[order[i]];
+@@ -258,7 +266,14 @@ function compileIR(state) {
+     }
+   }
+   if (!output) {
+-    output = byId[order[order.length - 1]];
++    const sinks = [];
++    for (let i = 0; i < nodes.length; i++) {
++      if (outgoing[nodes[i].id] === 0) sinks.push(nodes[i]);
++    }
++    if (sinks.length !== 1) {
++      return irError(ghost, "ambiguous output");
++    }
++    output = sinks[0];
+   }
+   return {
+     version: "1.0",
+@@ -314,6 +329,39 @@ function topo(state) {
+   return out;
+ }
+ 
++function componentCount(nodes, edges) {
++  // Weakly connected parts. Two workflows are not one Cortex IR.
++  if (!nodes.length) return 0;
++  const adj = Object.create(null);
++  for (let i = 0; i < nodes.length; i++) adj[nodes[i].id] = [];
++  for (let i = 0; i < edges.length; i++) {
++    const from = edges[i].from;
++    const to = edges[i].to;
++    if (!adj[from] || !adj[to]) continue;
++    adj[from].push(to);
++    adj[to].push(from);
++  }
++  const seen = Object.create(null);
++  let parts = 0;
++  for (let i = 0; i < nodes.length; i++) {
++    const start = nodes[i].id;
++    if (seen[start]) continue;
++    parts += 1;
++    const q = [start];
++    seen[start] = true;
++    while (q.length) {
++      const id = q.shift();
++      const nbrs = adj[id] || [];
++      for (let j = 0; j < nbrs.length; j++) {
++        if (seen[nbrs[j]]) continue;
++        seen[nbrs[j]] = true;
++        q.push(nbrs[j]);
++      }
++    }
++  }
++  return parts;
++}
++
+ function ghostWalk(state, ghostFlag) {
+   const ir = compileIR(state);
+   if (ir.error) {
+diff --git a/tests/compiler.test.cjs b/tests/compiler.test.cjs
+index dccecd3..90459e7 100644
+--- a/tests/compiler.test.cjs
++++ b/tests/compiler.test.cjs
+@@ -384,8 +384,9 @@ test("compileIR uses the caller object catalog", () => {
+       { id: "ok", kind: "connector", object_type: "shipments" },
+       { id: "no", kind: "connector", object_type: "inventory" },
+     ],
+-    edges: [],
++    edges: [{ from: "ok", to: "no" }],
+   });
++  assert.equal(ir.error, undefined);
+   assert.equal(ir.nodes.find((n) => n.id === "ok").object_type, "shipments");
+   assert.equal(ir.nodes.find((n) => n.id === "no").object_type, null);
+ });
+@@ -589,3 +590,83 @@ test("ghostWalk refuses unknown tool_call action", () => {
+   assert.equal(walked.error, "tool_call unknown action_type");
+   assert.deepEqual(walked.log, []);
+ });
++
++test("compileIR refuses a disconnected graph", () => {
++  const ir = compileIR({
++    nodes: [
++      { id: "a", kind: "connector" },
++      { id: "b", kind: "connector" },
++    ],
++    edges: [],
++  });
++  assert.equal(ir.error, "disconnected graph");
++  assert.deepEqual(ir.nodes, []);
++  assert.equal(ir.entry_node_id, null);
++  assert.equal(ir.output_node_id, null);
++});
++
++test("ghostWalk refuses a disconnected graph", () => {
++  const walked = ghostWalk(
++    {
++      nodes: [
++        { id: "a", kind: "connector" },
++        { id: "b", kind: "app" },
++      ],
++      edges: [],
++    },
++    true
++  );
++  assert.equal(walked.error, "disconnected graph");
++  assert.deepEqual(walked.log, []);
++});
++
++test("compileIR refuses a fork with no app", () => {
++  const ir = compileIR({
++    nodes: [
++      { id: "src", kind: "connector" },
++      { id: "left", kind: "ontology" },
++      { id: "right", kind: "ontology" },
++    ],
++    edges: [
++      { from: "src", to: "left" },
++      { from: "src", to: "right" },
++    ],
++  });
++  assert.equal(ir.error, "ambiguous output");
++  assert.deepEqual(ir.nodes, []);
++});
++
++test("compileIR join still emits the app", () => {
++  const ir = compileIR({
++    nodes: [
++      { id: "b", kind: "connector" },
++      { id: "a", kind: "connector" },
++      { id: "sink", kind: "app" },
++    ],
++    edges: [
++      { from: "a", to: "sink" },
++      { from: "b", to: "sink" },
++    ],
++  });
++  assert.equal(ir.error, undefined);
++  assert.equal(ir.output_node_id, "sink");
++  assert.equal(ir.nodes.find((n) => n.id === "sink").kind, "EMIT");
++});
++
++test("compileIR fork with one app keeps that sink", () => {
++  const ir = compileIR({
++    nodes: [
++      { id: "src", kind: "connector" },
++      { id: "side", kind: "ontology" },
++      { id: "sink", kind: "app" },
++    ],
++    edges: [
++      { from: "src", to: "side" },
++      { from: "src", to: "sink" },
++    ],
++  });
++  assert.equal(ir.error, undefined);
++  assert.equal(ir.entry_node_id, "src");
++  assert.equal(ir.output_node_id, "sink");
++  assert.equal(ir.nodes.find((n) => n.id === "sink").kind, "EMIT");
++});
