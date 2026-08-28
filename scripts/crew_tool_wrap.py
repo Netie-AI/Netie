@@ -12,6 +12,21 @@ from typing import Any, Protocol
 
 # Same write as Cortex path, plus the two DMS writes that are not invocable yet.
 HITL_WRITES = frozenset({"export_pptx", "amend.apply", "call_action"})
+# Deep Agents 0.7.9 builtins. Filesystem/shell skip Cortex. `task` is ungoverned
+# fan-out (use crew_parallel cap-2). `write_todos` stores prompt text (use factory index).
+DEEPAGENTS_DIRECT = frozenset(
+    {
+        "ls",
+        "read_file",
+        "write_file",
+        "edit_file",
+        "execute",
+        "bash",
+        "shell",
+        "task",
+        "write_todos",
+    }
+)
 
 
 class CortexDenied(PermissionError):
@@ -38,6 +53,9 @@ def run_tool(gate: CortexGate, tool: str, payload: dict[str, Any]) -> Any:
     """
     if gate is None:
         raise CortexDenied("no Cortex gate")
+    name = (tool or "").strip()
+    if name in DEEPAGENTS_DIRECT:
+        raise CortexDenied(f"Deep Agents builtin {name} is not a Crew tool")
     body = dict(payload or {})
     confirm = body.pop("operator_confirm", None)
     if tool in HITL_WRITES and confirm is not True:
@@ -65,6 +83,8 @@ def wrap_deepagents_tools(
         name = (raw or "").strip()
         if not name:
             raise CortexDenied("empty tool name")
+        if name in DEEPAGENTS_DIRECT:
+            raise CortexDenied(f"Deep Agents builtin {name} is not a Crew tool")
         if name in seen:
             continue
         seen.add(name)

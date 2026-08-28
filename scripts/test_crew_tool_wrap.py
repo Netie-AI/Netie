@@ -78,6 +78,29 @@ class CrewWrapTests(unittest.TestCase):
         self.assertIn("HITL", str(ctx.exception))
         self.assertEqual(gate.executed, [])
 
+    def test_deepagents_filesystem_is_not_a_crew_tool(self) -> None:
+        gate = FakeGate(True)
+        with self.assertRaises(CortexDenied) as ctx:
+            wrap_deepagents_tools(gate, ["read_file"])
+        self.assertIn("not a Crew tool", str(ctx.exception))
+        self.assertEqual(gate.executed, [])
+        with self.assertRaises(CortexDenied):
+            run_tool(gate, "ls", {})
+        self.assertEqual(gate.executed, [])
+
+    def test_deepagents_task_is_not_ungoverned_fanout(self) -> None:
+        gate = FakeGate(True)
+        with self.assertRaises(CortexDenied) as ctx:
+            wrap_deepagents_tools(gate, ["export_pptx", "task"])
+        self.assertIn("task", str(ctx.exception))
+        self.assertEqual(gate.executed, [])
+
+    def test_deepagents_write_todos_is_not_a_transcript(self) -> None:
+        gate = FakeGate(True)
+        with self.assertRaises(CortexDenied):
+            run_tool(gate, "write_todos", {"todos": [{"prompt": "SECRET"}]})
+        self.assertEqual(gate.executed, [])
+
 
 if __name__ == "__main__":
     unittest.main()
