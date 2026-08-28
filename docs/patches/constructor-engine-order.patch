@@ -1,8 +1,8 @@
 diff --git a/engine.js b/engine.js
-index 4f36586..947d729 100644
+index 22497cc..e56528e 100644
 --- a/engine.js
 +++ b/engine.js
-@@ -1351,12 +1351,21 @@ function bindChat() {
+@@ -1408,12 +1408,21 @@ function bindChat() {
    rankApproaches();
  }
  
@@ -29,7 +29,7 @@ index 4f36586..947d729 100644
  }
  
  if (typeof module !== "undefined" && module.exports) {
-@@ -1377,5 +1386,6 @@ if (typeof module !== "undefined" && module.exports) {
+@@ -1434,5 +1443,6 @@ if (typeof module !== "undefined" && module.exports) {
      notesDenied,
      nodesWithoutNotes,
      cortexPayload,
@@ -37,18 +37,18 @@ index 4f36586..947d729 100644
    };
  }
 diff --git a/index.html b/index.html
-index 95b0562..5a82891 100644
+index f14349d..92639b1 100644
 --- a/index.html
 +++ b/index.html
-@@ -6,7 +6,7 @@
-     <title>Constructor — Netie</title>
-     <link rel="icon" href="favicon.ico" sizes="any" />
-     <link rel="icon" href="favicon.svg" type="image/svg+xml" />
--    <link rel="stylesheet" href="styles.css?v=14" />
-+    <link rel="stylesheet" href="styles.css?v=15" />
-   </head>
-   <body class="chat-open chat-snap-right">
-     <header class="top">
+@@ -125,7 +125,7 @@
+       </form>
+     </div>
+ 
+-    <script src="app.js?v=17"></script>
+     <script src="engine.js?v=17"></script>
++    <script src="app.js?v=17"></script>
+   </body>
+ </html>
 diff --git a/tests/compiler.test.cjs b/tests/compiler.test.cjs
 index b095438..48d0605 100644
 --- a/tests/compiler.test.cjs

@@ -1,8 +1,8 @@
 diff --git a/engine.js b/engine.js
-index 947d729..cf341d9 100644
+index e56528e..123c6af 100644
 --- a/engine.js
 +++ b/engine.js
-@@ -216,7 +216,7 @@ function nodesWithoutNotes(nodes) {
+@@ -217,7 +217,7 @@ function nodesWithoutNotes(nodes) {
  }
  
  function cortexPayload(state) {
@@ -11,7 +11,7 @@ index 947d729..cf341d9 100644
    const ir = compileIR(state || {});
    if (ir.error) {
      return { error: ir.error, body: null };
-@@ -224,8 +224,13 @@ function cortexPayload(state) {
+@@ -225,8 +225,13 @@ function cortexPayload(state) {
    return {
      error: undefined,
      body: {
@@ -27,29 +27,6 @@ index 947d729..cf341d9 100644
      },
    };
  }
-diff --git a/index.html b/index.html
-index 5a82891..0dd4219 100644
---- a/index.html
-+++ b/index.html
-@@ -6,7 +6,7 @@
-     <title>Constructor — Netie</title>
-     <link rel="icon" href="favicon.ico" sizes="any" />
-     <link rel="icon" href="favicon.svg" type="image/svg+xml" />
--    <link rel="stylesheet" href="styles.css?v=15" />
-+    <link rel="stylesheet" href="styles.css?v=16" />
-   </head>
-   <body class="chat-open chat-snap-right">
-     <header class="top">
-@@ -121,7 +121,7 @@
-       </form>
-     </div>
- 
--    <script src="app.js?v=14"></script>
--    <script src="engine.js?v=14"></script>
-+    <script src="engine.js?v=15"></script>
-+    <script src="app.js?v=15"></script>
-   </body>
- </html>
 diff --git a/tests/compiler.test.cjs b/tests/compiler.test.cjs
 index 48d0605..08d75c3 100644
 --- a/tests/compiler.test.cjs
