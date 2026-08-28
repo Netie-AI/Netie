@@ -96,6 +96,23 @@ class PointerHandsTests(unittest.TestCase):
                 element={"role": "textbox", "name": "Password", "type": "password"},
             )
 
+    def test_hotkey_on_secret_field_refuses(self) -> None:
+        with self.assertRaises(PointerDenied) as ctx:
+            invoke_hand(
+                "hotkey",
+                cortex_allowed=True,
+                cortex_intent="paste",
+                element={"role": "textbox", "name": "Password", "type": "password"},
+            )
+        self.assertIn("secret", str(ctx.exception))
+        out = invoke_hand(
+            "hotkey",
+            cortex_allowed=True,
+            cortex_intent="save",
+        )
+        self.assertEqual(out["hand"], "hotkey")
+        self.assertEqual(out["status"], "allowed")
+
     def test_does_not_import_uacc(self) -> None:
         src = Path(__file__).with_name("pointer_hands.py").read_text(encoding="utf-8")
         self.assertNotIn("import uacc", src)
