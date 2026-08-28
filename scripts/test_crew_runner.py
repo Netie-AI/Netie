@@ -10,9 +10,13 @@ from typing import Any
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
+from crew_budget import TokenBudget
 from crew_factory import Factory
 from crew_runner import board_from_runs, run_open_ticket
 from crew_tool_wrap import CortexDenied, Verdict
+
+
+ROOM = TokenBudget(max_tokens=10_000)
 
 
 class Gate:
@@ -56,6 +60,7 @@ class CrewRunnerTests(unittest.TestCase):
             gate=gate,
             tool="warehouse.query",
             payload={"sql": "select 1"},
+            budget=ROOM,
         )
         self.assertEqual(result["status"], "FAILED")
         self.assertIn("manifest miss", result["refusal"])
@@ -77,6 +82,7 @@ class CrewRunnerTests(unittest.TestCase):
             gate=gate,
             tool="export_pptx",
             payload={},
+            budget=ROOM,
         )
         self.assertEqual(result["status"], "FAILED")
         self.assertIn("HITL", result["refusal"])
@@ -92,6 +98,7 @@ class CrewRunnerTests(unittest.TestCase):
             gate=gate,
             tool="export_pptx",
             payload={"operator_confirm": True},
+            budget=ROOM,
         )
         self.assertEqual(result["status"], "DONE")
         self.assertEqual(gate.executed, ["export_pptx"])
@@ -109,6 +116,47 @@ class CrewRunnerTests(unittest.TestCase):
                 payload={"prompt": "SECRET-PROMPT-XYZ"},
             )
         self.assertEqual(gate.executed, [])
+
+    def test_ticket_without_budget_refuses(self) -> None:
+        f = _factory()
+        gate = Gate()
+        with self.assertRaises(CortexDenied) as ctx:
+            run_open_ticket(
+                f,
+                "T1",
+                gate=gate,
+                tool="export_pptx",
+                payload={"operator_confirm": True},
+            )
+        self.assertIn("token budget", str(ctx.exception))
+        self.assertEqual(gate.executed, [])
+        self.assertEqual(f.tickets["T1"].status, "open")
+
+    def test_over_budget_ticket_stays_open(self) -> None:
+        f = _factory()
+        gate = Gate()
+        budget = TokenBudget(max_tokens=40)
+        ok = run_open_ticket(
+            f,
+            "T1",
+            gate=gate,
+            tool="export_pptx",
+            payload={"operator_confirm": True, "blob": "x" * 80},
+            budget=budget,
+        )
+        self.assertEqual(ok["status"], "DONE")
+        second = run_open_ticket(
+            f,
+            "T1",
+            gate=gate,
+            tool="export_pptx",
+            payload={"operator_confirm": True, "blob": "y" * 80},
+            budget=budget,
+        )
+        self.assertEqual(second["status"], "FAILED")
+        self.assertIn("budget", second["refusal"])
+        self.assertEqual(gate.executed, ["export_pptx"])
+        self.assertEqual(f.tickets["T1"].status, "open")
 
 
 if __name__ == "__main__":
