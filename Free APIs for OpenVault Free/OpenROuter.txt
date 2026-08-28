@@ -2,9 +2,11 @@ OpenROuter
 
 https://openrouter.ai/workspaces/default/keys
 
+Put the key in OPENROUTER_API_KEY. Never commit the value.
+
 curl https://openrouter.ai/api/v1/chat/completions \
   -H "Content-Type: application/json" \
-  -H "Authorization: Bearer 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" \
+  -H "Authorization: Bearer $OPENROUTER_API_KEY" \
   -d '{
   "model": "openai/gpt-4o",
   "messages": [
@@ -14,4 +16,3 @@ curl https://openrouter.ai/api/v1/chat/completions \
     }
   ]
 }'
-

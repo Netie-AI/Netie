@@ -5,3 +5,13 @@ __pycache__/
 /OmniRoute/
 /llm-router/
 /deepagents/
+
+# Local secrets. Never commit provider keys.
+Keys.txt
+env.local
+key.md
+.env
+.env.*
+!.env.example
+*.pem
+
