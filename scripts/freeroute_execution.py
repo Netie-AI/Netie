@@ -91,8 +91,13 @@ def refuse_unported_analogue(
     compress: Any = False,
     mcp: Any = False,
     a2a: Any = False,
+    strategy: Any = None,
+    quota_share: Any = False,
 ) -> None:
     """Name the OmniRoute pieces we did not port. Do not silently sequential-walk."""
+    name = str(strategy or "").strip().lower().replace("_", "-")
+    if name == "quota-share" or _flag_on(quota_share):
+        raise ExecutionRefused(501, "quota-share is OmniRoute-internal, not ported")
     if _flag_on(parallel) or _flag_on(quorum_grace):
         raise ExecutionRefused(501, "parallel quorum-grace not ported")
     if _flag_on(fetch_quota):
@@ -134,6 +139,8 @@ def refuse_unported_from_body(body: dict[str, Any] | None) -> None:
         ),
         mcp=bag.get("mcp") or bag.get("mcp_servers"),
         a2a=bag.get("a2a") or bag.get("a2a_messages"),
+        strategy=bag.get("strategy"),
+        quota_share=bag.get("quota_share") or bag.get("quotaShare"),
     )
 
 
@@ -444,6 +451,7 @@ def resolve_auto(resolved: str | None) -> str:
         raise ExecutionRefused(
             400, "auto is a meta-router; caller must pass a concrete sort strategy"
         )
+    refuse_unported_analogue(strategy=name)
     if name in EXECUTION_SHAPES:
         raise ExecutionRefused(
             400,
@@ -697,8 +705,9 @@ def dispatch_combo(
     """Run an execution shape. Sort names raise StrategyIsASort.
 
     Sequential hop-walk only. OmniRoute parallel quorum-grace, Codex quota
-    fetch, SQLite handoff persist, autoCombo scoring, token compression, and
-    MCP/A2A are not ported; asking for them is 501, not a silent sequential walk.
+    fetch, SQLite handoff persist, autoCombo scoring, token compression,
+    MCP/A2A, and internal quota-share are not ported; asking for them is 501,
+    not a silent sequential walk.
     """
     refuse_unported_analogue(
         parallel=parallel,
@@ -709,6 +718,7 @@ def dispatch_combo(
         compress=compress,
         mcp=mcp,
         a2a=a2a,
+        strategy=strategy,
     )
     name = _norm_name(strategy)
     if name in SORT_STRATEGIES:
