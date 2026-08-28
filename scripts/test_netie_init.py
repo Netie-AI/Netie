@@ -71,6 +71,20 @@ class NetieInitTests(unittest.TestCase):
             self.assertIn("MAX_BOARD_CHARS", text)
             self.assertIn("project_board", text)
 
+    def test_stamps_pointer_product_caller(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp) / "Pointer"
+            root.mkdir()
+            stamp(root, "Pointer")
+            text = (root / "CLAUDE.md").read_text(encoding="utf-8")
+            self.assertIn(CALLERS["Pointer"], text)
+            self.assertIn("bind_computer", text)
+            self.assertIn("invoke_hand", text)
+            self.assertIn(
+                "uv add git+https://github.com/Netie-AI/Netie.git",
+                text,
+            )
+
 
 if __name__ == "__main__":
     unittest.main()

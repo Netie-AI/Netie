@@ -1,7 +1,7 @@
 # TAS-CONTROL - Netie Control technical architecture
 
-**Plane:** 4 (operator board view) · **Repo:** `Netie-AI/netie-control` (this token: not found)
-**Measured:** 2026-08-27 from founder inventory and DR-0001. Not cloned.
+**Plane:** 4 (operator board view) · **Repo:** `Netie-AI/netie-control` (public clone; push 403)
+**Measured:** 2026-08-28 HEAD `82ab1ae` (12 files). FastAPI shell, 405 on secrets/route/goal/run. Not Guacamole.
 
 ---
 
@@ -13,7 +13,7 @@ The board *view* of Cortex-Crew: estate gate, ledger/manifest/refusal cards, who
 
 DR-0001: fold into Crew when Crew exists. Do not grow a sibling shell.
 
-Portable view in this Netie repo (Control remote still 404): `scripts/control_board.py`.
+Portable view in this Netie repo: `scripts/control_board.py`.
 Read-only cards from Crew index + Factory.index() tickets/epics + ledger peek + refusals.
 `project_session` is one live run: ids, todos, permissions, hand-off id. No transcript.
 Session permissions drop Deep Agents builtins and billing-bypass names (`search_capabilities`).

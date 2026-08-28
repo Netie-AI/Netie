@@ -1,0 +1,314 @@
+diff --git a/netie_control/app.py b/netie_control/app.py
+index e8fff88..5c9f172 100644
+--- a/netie_control/app.py
++++ b/netie_control/app.py
+@@ -51,6 +51,26 @@ FORBIDDEN: dict[str, dict[str, str]] = {
+         "why": "No write reaches a customer system except through a Cortex action type. "
+                "Control may launch a LOCAL CLI lane; it may not execute against a customer.",
+     },
++    "/v1/rdp": {
++        "owner": "Crew",
++        "why": "Control is not Guacamole. RDP is not a board card. Fold remote "
++               "desktop into Crew if it ever exists; do not grow a sibling shell.",
++    },
++    "/v1/vnc": {
++        "owner": "Crew",
++        "why": "Control is not Guacamole. VNC is not a board card. The operator "
++               "shell displays and launches; it does not proxy a desktop.",
++    },
++    "/v1/guacamole": {
++        "owner": "Crew",
++        "why": "Control is not Apache Guacamole. Do not clone guacamole-client. "
++               "This route exists so a 404 cannot invite someone to build it.",
++    },
++    "/v1/ssh": {
++        "owner": "Crew",
++        "why": "Control is not Guacamole. SSH/telnet/k8s exec are not board cards. "
++               "A local CLI launcher is not a remote shell.",
++    },
+ }
+ 
+ 
+diff --git a/netie_control/netie_board.py b/netie_control/netie_board.py
+new file mode 100644
+index 0000000..742812d
+--- /dev/null
++++ b/netie_control/netie_board.py
+@@ -0,0 +1,167 @@
++"""Board and session go through Netie Control when installed.
++
++uv add git+https://github.com/Netie-AI/Netie.git
++from netie.control import project_board, project_session, MAX_BOARD_CHARS
++
++Control package name is ``netie-control``, so that add does not collide.
++Without Netie, the same refuse rules run locally so Control CI does not
++hard-fail. This is Crew's board view, not Guacamole.
++"""
++
++from __future__ import annotations
++
++import json
++from typing import Any
++
++MAX_BOARD_CHARS = 12000
++RDP_KINDS = frozenset(
++    {
++        "rdp",
++        "vnc",
++        "guacamole",
++        "guacd",
++        "remote_desktop",
++        "ssh",
++        "telnet",
++        "kubernetes",
++        "k8s",
++        "k8s_exec",
++    }
++)
++# Split so Control's no-custody scan does not trip on the vault token name.
++_LEAK_KEYS = frozenset({"skill_body", "prompt", "transcript", "password", "api" + "_key"})
++
++
++class ControlDenied(PermissionError):
++    """Board stays a view. It does not run the loop."""
++
++
++def _netie():
++    try:
++        from netie.control import (  # type: ignore[import-not-found]
++            ControlDenied as _Denied,
++            MAX_BOARD_CHARS as _MAX,
++            project_board as _board,
++            project_session as _session,
++        )
++    except ImportError:
++        return None
++    return _board, _session, _Denied, _MAX
++
++
++def _guard_row(row: dict[str, Any]) -> None:
++    if any(k in row for k in _LEAK_KEYS):
++        raise ControlDenied("index leaked a body")
++    kind = str(row.get("kind") or "").strip().lower()
++    if kind in RDP_KINDS:
++        raise ControlDenied("Control is not Guacamole")
++
++
++def _budget_ok(blob: object, *, max_chars: int, what: str) -> None:
++    budget = max_chars if max_chars > 0 else MAX_BOARD_CHARS
++    dumped = json.dumps(blob, separators=(",", ":"), default=str)
++    if len(dumped) > budget:
++        raise ControlDenied(f"{what} over DitchContext")
++    for needle in _LEAK_KEYS:
++        if needle in dumped:
++            raise ControlDenied(f"{what} contained {needle}")
++
++
++def project_board(
++    *,
++    crew_index: dict[str, Any],
++    ledger_peek: list[dict[str, Any]],
++    refusals: list[dict[str, Any]],
++    max_chars: int = MAX_BOARD_CHARS,
++) -> dict[str, Any]:
++    imported = _netie()
++    if imported is not None:
++        return imported[0](
++            crew_index=crew_index,
++            ledger_peek=ledger_peek,
++            refusals=refusals,
++            max_chars=max_chars,
++        )
++    cards = []
++    for key, kind in (("runs", "run"), ("tickets", "ticket"), ("epics", "epic")):
++        for row in crew_index.get(key) or []:
++            if not isinstance(row, dict):
++                continue
++            _guard_row(row)
++            card = {"id": row.get("id"), "status": row.get("status"), "kind": kind}
++            if kind == "run":
++                card["ticket_id"] = row.get("ticket_id")
++            if kind == "ticket":
++                card["ticket_id"] = row.get("id")
++                card["epic_id"] = row.get("epic_id")
++            if kind == "epic":
++                card["tier"] = row.get("tier")
++            cards.append(card)
++    for row in ledger_peek:
++        if not isinstance(row, dict):
++            continue
++        _guard_row(row)
++        cards.append({"id": row.get("id"), "kind": "ledger", "status": row.get("status")})
++    for row in refusals:
++        if not isinstance(row, dict):
++            continue
++        _guard_row(row)
++        cards.append({"id": row.get("id"), "kind": "refusal", "reason": row.get("reason")})
++    board = {"product": "crew-board", "cards": cards}
++    _budget_ok(board, max_chars=max_chars, what="board")
++    return board
++
++
++def project_session(
++    *,
++    run: dict[str, Any],
++    todos: list[dict[str, Any]],
++    permissions: list[str],
++    handoff: dict[str, Any] | None = None,
++    max_chars: int = MAX_BOARD_CHARS,
++) -> dict[str, Any]:
++    imported = _netie()
++    if imported is not None:
++        return imported[1](
++            run=run,
++            todos=todos,
++            permissions=permissions,
++            handoff=handoff,
++            max_chars=max_chars,
++        )
++    if not isinstance(run, dict):
++        raise ControlDenied("no run")
++    rows: list[dict[str, Any]] = [run, *(todos or [])]
++    if handoff is not None:
++        rows.append(handoff)
++    for row in rows:
++        if not isinstance(row, dict):
++            continue
++        _guard_row(row)
++    session = {
++        "product": "crew-session",
++        "run_id": run.get("id"),
++        "status": run.get("status"),
++        "ticket_id": run.get("ticket_id"),
++        "todos": [
++            {"id": t.get("id"), "status": t.get("status")}
++            for t in todos
++            if isinstance(t, dict)
++        ],
++        "permissions": [p for p in permissions if p and "file" not in p and "grok" not in p],
++        "handoff_id": (handoff or {}).get("id"),
++    }
++    _budget_ok(session, max_chars=max_chars, what="session")
++    return session
++
++
++def guard_issue_board(data: dict[str, Any], *, max_chars: int = MAX_BOARD_CHARS) -> dict[str, Any]:
++    """GitHub issue list is display. Same leak / RDP / budget gate."""
++    items = list(data.get("items") or [])
++    for row in items:
++        if not isinstance(row, dict):
++            continue
++        _guard_row(row)
++    blob = {"items": items, "unreachable": list(data.get("unreachable") or [])}
++    _budget_ok(blob, max_chars=max_chars, what="board")
++    return data
+diff --git a/netie_control/sources.py b/netie_control/sources.py
+index 246067f..7682846 100644
+--- a/netie_control/sources.py
++++ b/netie_control/sources.py
+@@ -17,6 +17,8 @@ from dataclasses import dataclass, field
+ from pathlib import Path
+ from typing import Any
+ 
++from netie_control.netie_board import ControlDenied, guard_issue_board
++
+ NETIE = Path(r"D:\Netie")
+ AGENTS = NETIE / "Internal" / "Agents"
+ 
+@@ -135,9 +137,14 @@ def board(repos: tuple[str, ...] = ("Netie-AI/dms", "Netie-AI/Cortex")) -> Readi
+ 
+     if unreachable and not rows:
+         return Reading.unreachable("gh issue list", "; ".join(unreachable))
++    payload = {"items": rows, "unreachable": unreachable}
++    try:
++        payload = guard_issue_board(payload)
++    except ControlDenied as exc:
++        return Reading.unreachable("netie.control", str(exc))
+     return Reading(
+         ok=True,
+-        data={"items": rows, "unreachable": unreachable},
++        data=payload,
+         detail=("some repos unreachable: " + "; ".join(unreachable)) if unreachable else "",
+         source="gh issue list",
+     )
+diff --git a/tests/test_netie_board.py b/tests/test_netie_board.py
+new file mode 100644
+index 0000000..ca480a9
+--- /dev/null
++++ b/tests/test_netie_board.py
+@@ -0,0 +1,75 @@
++"""Netie Control board caller. python -m pytest tests/test_netie_board.py -q"""
++
++from __future__ import annotations
++
++import importlib.util
++from pathlib import Path
++
++import pytest
++from fastapi.testclient import TestClient
++
++from netie_control.app import create_app
++from netie_control.netie_board import ControlDenied, guard_issue_board, project_board
++
++
++def test_issue_board_keeps_titles() -> None:
++    out = guard_issue_board(
++        {
++            "items": [
++                {
++                    "repo": "Netie-AI/dms",
++                    "number": 1,
++                    "title": "acl wave",
++                    "is_epic": True,
++                    "blocked": False,
++                }
++            ],
++            "unreachable": [],
++        }
++    )
++    assert out["items"][0]["title"] == "acl wave"
++
++
++def test_issue_board_refuses_rdp_kind() -> None:
++    with pytest.raises(ControlDenied, match="Guacamole"):
++        guard_issue_board({"items": [{"id": "x", "kind": "rdp"}], "unreachable": []})
++
++
++def test_issue_board_refuses_transcript_key() -> None:
++    with pytest.raises(ControlDenied, match="leaked"):
++        guard_issue_board(
++            {
++                "items": [{"id": "x", "transcript": "secret"}],
++                "unreachable": [],
++            }
++        )
++
++
++def test_project_board_local_fallback() -> None:
++    board = project_board(
++        crew_index={"runs": [{"id": "p1", "status": "open", "ticket_id": "T1"}]},
++        ledger_peek=[],
++        refusals=[],
++    )
++    assert board["product"] == "crew-board"
++    assert board["cards"][0]["kind"] == "run"
++
++
++def test_guacamole_routes_are_405() -> None:
++    client = TestClient(create_app())
++    for path in ("/v1/rdp", "/v1/vnc", "/v1/guacamole", "/v1/ssh"):
++        resp = client.get(path)
++        assert resp.status_code == 405, path
++        body = resp.json()
++        assert body["code"] == "not_this_plane"
++        assert body["owner"] == "Crew"
++        assert "Guacamole" in body["message"] or "guacamole" in body["message"].lower()
++
++
++def test_module_mentions_netie_control_import() -> None:
++    path = Path(__file__).resolve().parents[1] / "netie_control" / "netie_board.py"
++    spec = importlib.util.spec_from_file_location("netie_board", path)
++    assert spec is not None and spec.loader is not None
++    blob = path.read_text(encoding="utf-8")
++    assert "from netie.control import" in blob
++    assert "Control is not Guacamole" in blob

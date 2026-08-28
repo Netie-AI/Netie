@@ -307,3 +307,26 @@ pytest tests/test_netie_acl.py tests/test_space_acl_boundary.py tests/test_live_
 ```
 
 `live_ask` runs Cortex through `guard_live_answer` (`from netie.dms import answer_or_abstain` when installed; same rule locally otherwise). Warehouse/bronze preview with `space_id` calls `browse_or_abstain`. Without a Space, personal/company-default mint is unchanged. Score stays **3/10**. Push 403.
+
+## Pointer (`Netie-AI/Pointer`)
+
+`uv add git+https://github.com/Netie-AI/Netie.git` then `from netie.pointer import bind_computer, invoke_hand`. From the Pointer repo root, on `main` (`8c0e6c2`):
+
+```
+git apply docs/patches/pointer-netie-hands.patch
+node test/netie-hands.test.js
+node test/uacc.test.js
+```
+
+UACC catalog still *names* planner / clipboard / list_windows (DR-0005). Search and `computer.status` skills drop them as executable hits. `bindComputer` refuses e2b / Perplexity Computer. Native `computer.observe` is unchanged (uncropped PNG / clipboard / window list stay Pointer's own API). Score stays **3/10** tray, **2/10** governed. Push 403.
+
+## Control (`Netie-AI/netie-control`)
+
+`uv add git+https://github.com/Netie-AI/Netie.git` then `from netie.control import project_board, project_session, MAX_BOARD_CHARS`. From the netie-control repo root, on `main` (`82ab1ae`):
+
+```
+git apply docs/patches/control-netie-board.patch
+pytest tests/test_netie_board.py tests/test_control_stays_plane_4.py -q
+```
+
+`sources.board` runs gh issues through `guard_issue_board` (`from netie.control import project_board` when installed; same refuse locally otherwise). `/v1/rdp` `/v1/vnc` `/v1/guacamole` `/v1/ssh` answer 405. Score stays **1/10** Guacamole, **2/10** board. Push 403.

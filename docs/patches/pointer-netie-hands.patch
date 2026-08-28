@@ -1,0 +1,273 @@
+diff --git a/electron/netie/netie_hands.js b/electron/netie/netie_hands.js
+new file mode 100644
+index 0000000..e2c89a7
+--- /dev/null
++++ b/electron/netie/netie_hands.js
+@@ -0,0 +1,123 @@
++"use strict";
++/**
++ * UACC names behind Cortex. Pointer is hands, not a second brain.
++ *
++ * Mirrors Netie `scripts/pointer_hands.py` / `from netie.pointer import invoke_hand`.
++ * Does not import the `uacc` package. Planner / clipboard / window dump /
++ * uncropped screenshot / hosted computers refuse. Native computer.observe
++ * (DR-0005 loopback) stays Pointer's own API.
++ */
++
++const BRAIN = new Set([
++  "uacc_planner",
++  "uacc_query",
++  "uacc_expect",
++  "create_workflow",
++  "list_workflows",
++  "get_workflow",
++  "delete_workflow",
++  "run_workflow",
++  "start_task",
++  "get_task_status",
++  "cancel_task",
++  "list_tasks",
++  "remember_action",
++  "get_action_history",
++  "query_knowledge",
++  "recall_related_apps",
++  "memory_summary",
++  "app_action_history",
++  "vlm_analyze",
++  "execute_actions",
++]);
++
++const SECRET = new Set(["clipboard_read", "clipboard_write", "uacc_clipboard_read"]);
++const WINDOW = new Set(["list_windows", "get_active_window", "uacc_list_windows", "uacc_active_window"]);
++const PROCESS = new Set(["list_processes", "get_system_info"]);
++const OVERRIDE = new Set(["acknowledge_user_override", "set_kill_distance"]);
++const HOSTED = new Set([
++  "e2b",
++  "open-computer-use",
++  "open_computer_use",
++  "perplexity-computer",
++  "perplexity_computer",
++  "hosted-desktop",
++  "hosted_desktop",
++]);
++
++class PointerDenied extends Error {
++  constructor(message) {
++    super(message);
++    this.name = "PointerDenied";
++  }
++}
++
++function toolName(skill) {
++  if (!skill) return "";
++  if (typeof skill === "string") return skill.trim();
++  return String(skill.uacc || skill.id || "").trim();
++}
++
++function isAlwaysRefused(name) {
++  const tool = toolName(name);
++  if (!tool) return true;
++  if (BRAIN.has(tool) || BRAIN.has(tool.replace(/^uacc_/, ""))) return true;
++  if (SECRET.has(tool)) return true;
++  if (WINDOW.has(tool)) return true;
++  if (PROCESS.has(tool)) return true;
++  if (OVERRIDE.has(tool)) return true;
++  return false;
++}
++
++function refuseReason(name) {
++  const tool = toolName(name);
++  if (BRAIN.has(tool) || BRAIN.has(tool.replace(/^uacc_/, "")) || tool === "uacc_planner") {
++    return "uacc brain stays out; Pointer is hands";
++  }
++  if (SECRET.has(tool)) return "no clipboard";
++  if (WINDOW.has(tool)) return "window_dump_refused";
++  if (tool === "get_system_info") return "env_dump_refused";
++  if (PROCESS.has(tool)) return "process_list_refused";
++  if (OVERRIDE.has(tool)) return "uacc override stays out; Cortex is the gate";
++  return "no Cortex allow";
++}
++
++function filterExecutableSkills(skills) {
++  return (Array.isArray(skills) ? skills : []).filter((s) => !isAlwaysRefused(s));
++}
++
++function invokeHand(name, opts = {}) {
++  const tool = toolName(name);
++  if (!tool) throw new PointerDenied("unknown hand none");
++  if (isAlwaysRefused(tool)) throw new PointerDenied(refuseReason(tool));
++  if (opts.cortexAllowed !== true) throw new PointerDenied("no Cortex allow");
++  if (!String(opts.cortexIntent || "").trim()) throw new PointerDenied("no Cortex intent");
++  return { hand: tool, intent: String(opts.cortexIntent).trim(), status: "allowed" };
++}
++
++function bindComputer(vendor) {
++  const name = String(vendor || "")
++    .trim()
++    .toLowerCase()
++    .replace(/ /g, "-")
++    .replace(/_/g, "-");
++  if (!name) throw new PointerDenied("unknown computer none");
++  if (name.includes("e2b") || name.includes("perplexity") || HOSTED.has(name) || HOSTED.has(String(vendor || ""))) {
++    throw new PointerDenied("Pointer is a local tray, not a hosted computer");
++  }
++  if (name === "uacc" || name === "pointer") return { vendor: name, where: "local" };
++  throw new PointerDenied(`unknown computer ${vendor}`);
++}
++
++module.exports = {
++  PointerDenied,
++  BRAIN,
++  SECRET,
++  WINDOW,
++  isAlwaysRefused,
++  refuseReason,
++  filterExecutableSkills,
++  invokeHand,
++  bindComputer,
++  toolName,
++};
+diff --git a/electron/netie/uacc.js b/electron/netie/uacc.js
+index f3dc253..2941cdb 100644
+--- a/electron/netie/uacc.js
++++ b/electron/netie/uacc.js
+@@ -9,6 +9,7 @@
+ 
+ const { spawnSync } = require("child_process");
+ const { normalizeScribeLanguage, SCRIBE_LANGUAGES } = require("./scribe");
++const { filterExecutableSkills } = require("./netie_hands");
+ 
+ /** READ / observe skills that match UACC MCP tool names. */
+ const UACC_SKILLS = Object.freeze([
+@@ -75,7 +76,9 @@ function searchUaccSkills(goal) {
+     risk: s.risk,
+     actions: [],
+   }));
+-  return hits;
++  // Planner / clipboard / window dump stay named in UACC_SKILLS (DR-0005 catalog)
++  // but search does not return them as executable hits. Pointer is hands.
++  return filterExecutableSkills(hits);
+ }
+ 
+ function parseProbe(stdout, stderr, status) {
+@@ -160,7 +163,8 @@ function computerStatus(opts = {}) {
+       installed: Boolean(uacc && uacc.installed),
+       version: (uacc && uacc.version) || null,
+       reason: (uacc && uacc.reason) || null,
+-      skills: UACC_SKILLS.map((s) => s.id),
++      skills: filterExecutableSkills(UACC_SKILLS).map((s) => s.id),
++      refused: UACC_SKILLS.filter((s) => !filterExecutableSkills([s]).length).map((s) => s.id),
+     },
+     act: {
+       available: opts.actAvailable === true,
+diff --git a/package.json b/package.json
+index fc1e233..983176d 100644
+--- a/package.json
++++ b/package.json
+@@ -7,7 +7,7 @@
+   "scripts": {
+     "start": "electron electron/main.js",
+     "dev": "electron electron/main.js",
+-    "test": "node test/ecosystem.test.js && node test/vault.test.js && node test/intent.test.js && node test/zen.test.js && node test/followup.test.js && node test/driver.test.js && node test/holdkey.test.js && node test/geometry.test.js && node test/conversations.test.js && node test/stt.test.js && node test/audio.test.js && node test/live-partial.test.js && node test/transcriber.test.js && node test/agentic.test.js && node test/recipes.test.js && node test/presence.test.js && node test/clicky.test.js && node test/clicky-cursor.test.js && node test/plan-guard.test.js && node test/invariants/claude-contract.test.js && node test/invariants/governed-docs.test.js && node test/invariants/ipc-bridge.test.js && node test/invariants/word-sink.test.js && node test/word-coworker.test.js && node test/safe-path.test.js && node test/plan-describe.test.js && node test/app-target.test.js && node test/attachments.test.js && node test/clipboard-integrity.test.js && node test/coordinator.test.js && node test/mcp-abi.test.js && node test/host-serve.test.js && node test/uacc.test.js && node test/computer-act.test.js && node test/meeting.test.js && node test/coworker.test.js && node test/workspace.test.js && node test/agent-route.test.js",
++    "test": "node test/ecosystem.test.js && node test/vault.test.js && node test/intent.test.js && node test/zen.test.js && node test/followup.test.js && node test/driver.test.js && node test/holdkey.test.js && node test/geometry.test.js && node test/conversations.test.js && node test/stt.test.js && node test/audio.test.js && node test/live-partial.test.js && node test/transcriber.test.js && node test/agentic.test.js && node test/recipes.test.js && node test/presence.test.js && node test/clicky.test.js && node test/clicky-cursor.test.js && node test/plan-guard.test.js && node test/invariants/claude-contract.test.js && node test/invariants/governed-docs.test.js && node test/invariants/ipc-bridge.test.js && node test/invariants/word-sink.test.js && node test/word-coworker.test.js && node test/safe-path.test.js && node test/plan-describe.test.js && node test/app-target.test.js && node test/attachments.test.js && node test/clipboard-integrity.test.js && node test/coordinator.test.js && node test/mcp-abi.test.js && node test/host-serve.test.js && node test/netie-hands.test.js && node test/uacc.test.js && node test/computer-act.test.js && node test/meeting.test.js && node test/coworker.test.js && node test/workspace.test.js && node test/agent-route.test.js",
+     "test:e2e": "node test/e2e/golden-act.test.js",
+     "test:stress": "node test/stress/agent-loop.stress.js",
+     "test:contracts": "node test/contracts/computer-use.contract.js",
+diff --git a/test/netie-hands.test.js b/test/netie-hands.test.js
+new file mode 100644
+index 0000000..f47fb2e
+--- /dev/null
++++ b/test/netie-hands.test.js
+@@ -0,0 +1,92 @@
++"use strict";
++const assert = require("assert");
++const {
++  PointerDenied,
++  isAlwaysRefused,
++  filterExecutableSkills,
++  invokeHand,
++  bindComputer,
++} = require("../electron/netie/netie_hands");
++const { UACC_SKILLS, searchUaccSkills, computerStatus } = require("../electron/netie/uacc");
++
++let pass = 0;
++const fails = [];
++function test(name, fn) {
++  try {
++    fn();
++    pass += 1;
++    console.log("PASS " + name);
++  } catch (err) {
++    fails.push(name);
++    console.log("FAIL " + name + " -- " + err.message);
++  }
++}
++
++test("planner clipboard windows are not executable search hits", () => {
++  const hits = searchUaccSkills("uacc planner clipboard list windows");
++  const ids = hits.map((h) => h.id);
++  assert.ok(!ids.includes("uacc_planner"));
++  assert.ok(!ids.includes("uacc_clipboard_read"));
++  assert.ok(!ids.includes("uacc_list_windows"));
++  assert.ok(!ids.includes("uacc_active_window"));
++  assert.ok(!ids.includes("uacc_query"));
++});
++
++test("screen-info and find-element stay searchable hands", () => {
++  const hits = searchUaccSkills("get screen info with uacc");
++  assert.ok(hits.some((h) => h.id === "uacc_screen_info"));
++  assert.ok(hits.every((h) => h.source === "uacc-skill"));
++  assert.ok(!hits.some((h) => h.id === "uacc_planner"));
++});
++
++test("catalog still names planner; status.skills drop it", () => {
++  assert.ok(UACC_SKILLS.some((s) => s.id === "uacc_planner"));
++  const shown = computerStatus({ captureVisible: true, uacc: { installed: false } });
++  assert.ok(!shown.uacc.skills.includes("uacc_planner"));
++  assert.ok(shown.uacc.refused.includes("uacc_planner"));
++  assert.ok(shown.uacc.skills.includes("uacc_screen_info"));
++  assert.ok(shown.uacc.skills.includes("uacc_find_element"));
++});
++
++test("invokeHand refuses brain without executing", () => {
++  assert.throws(
++    () => invokeHand("uacc_planner", { cortexAllowed: true, cortexIntent: "plan" }),
++    (err) => err instanceof PointerDenied && /brain/.test(err.message)
++  );
++  assert.throws(
++    () => invokeHand("clipboard_read", { cortexAllowed: true, cortexIntent: "copy" }),
++    (err) => /clipboard/.test(err.message)
++  );
++  assert.throws(
++    () => invokeHand("list_windows", { cortexAllowed: true, cortexIntent: "see" }),
++    (err) => /window_dump/.test(err.message)
++  );
++});
++
++test("invokeHand needs Cortex allow and intent", () => {
++  assert.throws(() => invokeHand("find_element"), (err) => /no Cortex allow/.test(err.message));
++  assert.throws(
++    () => invokeHand("find_element", { cortexAllowed: true }),
++    (err) => /no Cortex intent/.test(err.message)
++  );
++  const ok = invokeHand("find_element", { cortexAllowed: true, cortexIntent: "locate Save" });
++  assert.strictEqual(ok.status, "allowed");
++  assert.strictEqual(ok.hand, "find_element");
++});
++
++test("bindComputer is a local tray", () => {
++  assert.deepStrictEqual(bindComputer("uacc"), { vendor: "uacc", where: "local" });
++  assert.deepStrictEqual(bindComputer("pointer"), { vendor: "pointer", where: "local" });
++  assert.throws(() => bindComputer("e2b"), (err) => /hosted computer/.test(err.message));
++  assert.throws(() => bindComputer("perplexity-computer"), (err) => /hosted computer/.test(err.message));
++  assert.ok(isAlwaysRefused("uacc_planner"));
++  const kept = filterExecutableSkills(UACC_SKILLS).map((s) => s.id);
++  assert.ok(kept.includes("uacc_smart_click"));
++  assert.ok(!kept.includes("uacc_clipboard_read"));
++});
++
++if (fails.length) {
++  console.error("FAILED " + fails.length + ": " + fails.join(", "));
++  process.exit(1);
++}
++console.log("ok " + pass + " passed");
