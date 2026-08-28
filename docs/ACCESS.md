@@ -4,7 +4,7 @@ Do not paste GitHub, email, or 2FA secrets into chat. NETIE.md forbids credentia
 
 This cloud environment currently clones public `Netie-AI/{Netie,Cortex,OpenVault,constructor,Pointer,dms,netie-control,Netie-KB}`. **Push** to OpenVault and constructor is 403. **Still 404:** Cortex-Crew, Space, AirGPT (`jian-hong/AirGPT` also 404 to this token).
 
-Re-probed 2026-08-28: Cortex/Pointer/dms/control/KB/constructor/OpenVault clone. Cortex-Crew still missing. OpenVault `main` still `62bb1c7` (GitHub CI success). constructor `landing-9-first-path` `eebff20` (pages.yml success; Netie 26 patches, 62 compiler tests).
+Re-probed 2026-08-28: Cortex `bf4ecee` / Pointer `8c0e6c2` / dms `3f9a9be` / control / KB / constructor `landing-9-first-path` `4896ddd` / OpenVault `62bb1c7` clone. Cortex-Crew still missing. OpenVault `main` CI success. constructor pages.yml success; public HEAD still has no `tests/compiler.test.cjs` until patches land. Netie 12 patches that fit `4896ddd`: **29** compiler tests. The 26-patch / 62-pass stack was refreshed for unpushed `eebff20` and does not apply (`inspect-object` fails).
 
 Local CI is the gate until GitHub Actions billing works:
 
@@ -14,7 +14,7 @@ make ci
 
 That is `python3 -m compileall -q scripts netie` then `python3 scripts/check_docs.py` (required files + laptop-ASCII + all `scripts/test_*.py`). GitHub `docs-ci` jobs fail in ~3s without starting: spending limit. Empty steps, no logs. That is not a test failure. Origin (git remote) is already `origin`; we already push there. Switching hosts does not fix clone 404 or Actions billing. Product callers: `uv add git+https://github.com/Netie-AI/Netie.git` (wheel ships `netie._contracts`; `--editable` is optional).
 
-Measured on this VM 2026-08-28 against public clones: Netie unittest **306 passed**; constructor (26 patches) `node --test` **62 passed**; OpenVault OpenMW (28 patches) routing+chat+crew-gate pytest **145 passed** plus ship-claim **4 passed** plus crew-netie **4 passed** (sibling `make ci` runs them). Prior full OpenMW suite on 23 patches was **912 passed, 4 skipped**. Re-probed same day: Cortex/Pointer/Space/KB/Crew/AirGPT still 404.
+Measured on this VM 2026-08-28 against public clones: constructor `4896ddd` (12 patches) `node --test` **29 passed**; OpenVault OpenMW (29 patches) routing+chat+crew-gate+free-pool pytest via sibling gate. Prior full OpenMW suite on 23 patches was **912 passed, 4 skipped**. Cortex/Pointer/dms/control/KB clone. AirGPT / Space / Cortex-Crew still 404.
 
 ---
 
@@ -49,7 +49,7 @@ Until that is green, **local** `python3 scripts/check_docs.py` (or `make ci`) is
 
 ## 3. Write access for sibling patches
 
-`cursor[bot]` cannot push to OpenVault or constructor. On a machine that can, apply patches in the order listed in `docs/patches/README.md` (routing stack then constructor). Do not skip hop-walk / hop-failover / hop-park / hop-stream / hop-relay / hop-trace / hop-usage / hop-persist / hop-anthropic / hop-scope / hop-serve / hop-bound / hop-catalog / openvault-quota-share / openvault-hop-strip / openvault-hop-sidecar / openvault-ship-netie / openvault-crew-netie or constructor-ir-refuse / constructor-ir-ids / constructor-ghost-refuse / constructor-ir-emit / constructor-tool-action / constructor-inspect-action / constructor-inspect-object / constructor-inspect-tier / constructor-chat-object / constructor-topo-leftover / constructor-ir-entry / constructor-ir-output / constructor-ir-object / constructor-ir-bind / constructor-ir-action-allow / constructor-ir-intake / constructor-ir-hitl / constructor-ir-connected / constructor-ir-note / constructor-ir-cortex-post / constructor-object-pick / constructor-engine-order / constructor-ir-post / constructor-ir-kahn-nodes; later patches assume them.
+`cursor[bot]` cannot push to OpenVault or constructor. On a machine that can, apply patches in the order listed in `docs/patches/README.md`. Constructor public HEAD is `4896ddd`: stop after `constructor-ir-4896ddd.patch` (29 passed). Do not apply `inspect-object` onward on that SHA. OpenVault: do not skip hop-walk through `openvault-free-pool.patch`. Later eebff20 patches assume inspect-object.
 
 Or add write permission for the Cursor GitHub App on those two public repos.
 

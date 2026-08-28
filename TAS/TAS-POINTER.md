@@ -1,7 +1,7 @@
 # TAS-POINTER - Pointer technical architecture
 
 **Plane:** 4 (computer control) · **Repo:** `Netie-AI/Pointer` (public, 2026-08-28)
-**Measured:** repo clones; UACC tool-for-tool vs HEAD still a specialist job. `E:\\Cortex\\Windows-MCP` depends under `pointer_hands.py`, not a vendor tree.
+**Measured:** HEAD `8c0e6c2`. `electron/netie/uacc.js` ships **15** catalog ids (`uacc_planner` .. `uacc_smart_type`). Planner is labeled read on HEAD; Netie wrap still refuses it as a second brain. `E:\\Cortex\\Windows-MCP` binds as local under `pointer_hands.py`, not a vendor tree.
 
 ---
 
@@ -42,10 +42,10 @@ MCP wrap of UACC 1.1.0's **68** public tool names: `scripts/pointer_hands.py`. C
 
 | Boundary | Required | Verified on HEAD |
 |---|---|---|
-| No keys in the tray | yes | UNVERIFIABLE |
-| Cortex decides the intent | yes | UNVERIFIABLE |
-| Fail closed on ambiguous UI | yes | UNVERIFIABLE |
-| Leave-machine via OpenVault | yes | UNVERIFIABLE |
+| No keys in the tray | yes | clone has no `Keys.txt`; vault fill is local crypto |
+| Cortex decides the intent | yes | wrap still requires `cortex_allowed` + intent |
+| Fail closed on ambiguous UI | yes | portable `pointer_click.py`; HEAD UACC skills still search-only |
+| Leave-machine via OpenVault | yes | `open_url` / navigate need `ov_leave` |
 
 ---
 
@@ -55,4 +55,4 @@ MCP wrap of UACC 1.1.0's **68** public tool names: `scripts/pointer_hands.py`. C
 NEEDS-YOU TAS-POINTER  add Netie-AI/Pointer to this environment
 ```
 
-Then: a tool-for-tool matrix against UACC, a fail-closed test (refuse to click unlabeled), and a proof the tray never reads `env.local`.
+Then: land `bind_pointer_skill` callers in the tray. HEAD catalog is 15 ids, not UACC's 68 MCP names. Planner / clipboard / window dump / uncropped screen-info still refuse.

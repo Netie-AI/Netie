@@ -4,9 +4,9 @@ Apply on a machine with write access. Do not vendor OpenWork or Grok Bot.
 
 ## Constructor (`Netie-AI/constructor`)
 
-HEAD `eebff20` has no `tests/compiler.test.cjs` on GitHub. Netie 26 patches: `node --test` **62 passed**. Crew/Cortex also import `scripts/constructor_ir.py` and `constructor_action_bind.py`. Do not vendor Activeflow/Activepieces.
+HEAD `4896ddd` is what GitHub serves. The 26-patch stack was refreshed for unpushed `eebff20` and does **not** apply to public HEAD (`constructor-inspect-object.patch` fails on `app.js`). On `4896ddd`, apply the 11 patches that still fit, then `constructor-ir-4896ddd.patch`. `node --test` **29 passed**. Crew/Cortex also import `scripts/constructor_ir.py` and `constructor_action_bind.py`. Do not vendor Activeflow/Activepieces.
 
-From the constructor repo root, on `landing-9-first-path`:
+From the constructor repo root, on `landing-9-first-path` `4896ddd`:
 
 ```
 git apply docs/patches/constructor-compiler-tests.patch
@@ -17,29 +17,16 @@ git apply docs/patches/constructor-ghost-refuse.patch
 git apply docs/patches/constructor-ir-emit.patch
 git apply docs/patches/constructor-tool-action.patch
 git apply docs/patches/constructor-inspect-action.patch
-git apply docs/patches/constructor-inspect-object.patch
-git apply docs/patches/constructor-inspect-tier.patch
-git apply docs/patches/constructor-chat-object.patch
 git apply docs/patches/constructor-topo-leftover.patch
 git apply docs/patches/constructor-ir-entry.patch
 git apply docs/patches/constructor-ir-output.patch
-git apply docs/patches/constructor-ir-object.patch
-git apply docs/patches/constructor-ir-bind.patch
-git apply docs/patches/constructor-ir-action-allow.patch
-git apply docs/patches/constructor-ir-intake.patch
-git apply docs/patches/constructor-ir-hitl.patch
-git apply docs/patches/constructor-ir-connected.patch
-git apply docs/patches/constructor-ir-note.patch
-git apply docs/patches/constructor-ir-cortex-post.patch
-git apply docs/patches/constructor-object-pick.patch
-git apply docs/patches/constructor-engine-order.patch
-git apply docs/patches/constructor-ir-post.patch
-git apply docs/patches/constructor-ir-kahn-nodes.patch
+git apply docs/patches/constructor-ir-4896ddd.patch
 node --test tests/compiler.test.cjs
 ```
 
-Adds `rankForKinds`, empty-graph IR (no invented Cortex nodes), refuse unknown kinds / cycles / dangling edges / missing ids / duplicate ids, `ghostWalk` that refuses those instead of walking a fake order, `EMIT` only on app/audit output (connector-only does not invent EMIT), unlabeled `tool_call` does not invent `export_pptx` (compileIR refuses; inspect shows `(pick)` not a silent first-choice), unlabeled object does not invent `inventory`, unlabeled tier does not invent `T0` (compileIR emits null; inspect shows `(pick)`), unlabeled `set point` does not invent `inventory`, picking `object_type` does not invent the first `data_point` (`sku`; inspect stays `(pick)`; `compileIR` still drops an unlabeled point), `index.html` loads `engine.js` before `app.js` (`listedOrEmpty` / `applyObjectType` exist on first paint; `bindWhenReady` waits for `window.Constructor`), `topo()` does not append leftover cyclic nodes, `compileIR` entry is the Kahn source not `nodes[0]`, `compileIR` output is the Kahn sink app (or unique Kahn sink when no app/audit) not array-last, `compileIR` drops unlisted `object_type` (`hr_notes` / `Insight` do not become Cortex ontology), `fetch_from` must name the node's listed object (not `warehouse.hr_notes` on inventory), `data_point` must be on that object (not `salary` on inventory), `tool_call` unknown action (`bash`) refuses, unlisted action on a non-tool node is dropped, `export_pptx` / `item.intake` / `amend.apply` / `call_action` on foundry set `requires_confirm` (`agent.checked` stays an event), disconnected graphs refuse (two workflows are not one IR), a fork with no app refuses (`ambiguous output`; a join still emits the app), canvas notes do not ride into Cortex IR (a `skill_body` / prompt / transcript note refuses; notes over DitchContext 12k refuse), ghost/run/fetch/recommend POST `cortexPayload` (compiled IR in Kahn order, not canvas array order; leaked/disconnected graphs do not leave the machine), node `--test`, and `.github/workflows/test.yml`.
-Measured on this VM 2026-08-28: 62 passed.
+That 12th patch (this VM, 2026-08-28): drops unlisted `object_type`, does not invent `T0`, Kahn-order IR nodes, unknown `bash` action refuses, `NOTE_LEAK` on skill_body/prompt/transcript, `fetch_from` / `data_point` stay on listed objects, disconnected graphs refuse, `cortexPayload` POSTs compileIR not the canvas, `index.html` loads `engine.js` before `app.js`. **29 passed**.
+
+The remaining 15 patches (`inspect-object` onward) stay in this folder for a constructor write token after `app.js` is rebased. They were measured at 62 passed on unpushed `eebff20`. Do not `git apply` them on `4896ddd`. Push 403.
 
 ## OpenVault (`Netie-AI/OpenVault`)
 
@@ -277,6 +264,16 @@ uv run pytest tests/test_crew_gate.py tests/test_crew_netie_gate.py -q
 ```
 
 `POST /api/crew/gate` calls `check_crew_gate`, which uses `from netie.crew import refuse_crew_gate` when Netie is installed. Skill bodies and unknown kinds (including `skill`) refuse with the same strings as the focused crew-gate patch. Without Netie the same rule runs locally. Vault lookup stays in OpenVault. Wrap score stays **3/10**. Push 403.
+
+Then:
+
+```
+git apply docs/patches/openvault-free-pool.patch
+cd OpenMW && uv add git+https://github.com/Netie-AI/Netie.git
+uv run pytest tests/test_free_pool.py -q
+```
+
+`pick_free_pool` uses `from netie.route import assist_free_pool` when Netie is installed. Empty free pool is 503 with `register_url` help. Catalog `api_key` is 400. Quota fetch / autoCombo / parallel stay 501. Never invent keys. Push 403.
 
 Independent of routing:
 

@@ -1,26 +1,21 @@
 # STATUS - Netie constitution repo
 
 **Branch:** `cursor/ecosystem-scale-constructor-0d3c` · **PR:** https://github.com/Netie-AI/Netie/pull/11
-**Local gate:** `make ci` (compileall + `python3 scripts/check_docs.py`). GitHub docs-ci: red X, job never starts (Actions spending limit). Not a test fail.
+**Local gate:** `make ci`. GitHub docs-ci never starts (Actions spending limit).
 
 ## Now
 
-- GitGuardian leak: `Keys.txt` dump removed in this branch; scan gate on. **Founder must revoke** OpenRouter plus the six other keys (`docs/ACCESS.md` section 5). History still has the blobs.
-- Constructor first: 26 JS patches already on main (**62 passed**). Added portable `constructor_ir.py` + `constructor_action_bind.py` (chat must not assume inventory/`export_pptx`/`T0`; unknown piece refuses). Do not vendor Activeflow.
-- Crew durable resume `crew_durable.py` plus OpenVault `freeroute_free_pool.py` (empty free pool is 503 + register help). `Netie-AI/Cortex-Crew` still missing. Handwritten map: `TAS/ESTATE-GAP.md` section 6.
+- Leak: `Keys.txt` gone; scan gate on. **Founder must revoke** keys (`docs/ACCESS.md` §5). History still has blobs.
+- Constructor first on public `4896ddd`: 12 patches, `node --test` **29 passed**. Portable `constructor_ir.py` (+ listed object drop, Kahn emit, note leak, unknown action). `inspect-object` still drifted.
+- Crew: `crew_durable.py` + `crew_skills.py` (skill kind needs a registry row). Cortex-Crew remote still 404.
+- OpenVault: `freeroute_free_pool.py` + `openvault-free-pool.patch` (`pick_free_pool` / register help, no keys).
+- DMS Palantir-next: `dms_ontology.py` (granted tables only). Pointer HEAD `8c0e6c2`: 15 catalog ids mapped in `pointer_hands.py`.
+- Agent lanes: `TAS/ESTATE-GAP.md` section 6.
 
-## Next (blocked on founder clicks in `docs/ACCESS.md`)
+## Next (founder clicks in `docs/ACCESS.md`)
 
-1. Revoke leaked provider keys (ACCESS.md section 5). OpenRouter first.
-2. GitHub App select private repos. Create `Netie-AI/Cortex-Crew`.
-3. Pay / raise https://github.com/organizations/Netie-AI/settings/billing
-4. Write on OpenVault + constructor.
-5. Wire contracts into product callers (PRD-001 in dms; PRD-002 `from netie.crew import bind_deep_agent, crew_harness_profile`).
+1. Revoke leaked keys. 2. Create `Netie-AI/Cortex-Crew`. 3. Pay Actions. 4. Write on OpenVault + constructor. 5. Wire dms `live_ask` off `demo_acl`.
 
 ## Later
 
-OpenVault HT1. AirGPT `rag/` vs corpus. Pointer vs UACC on HEAD. Palantir-class DMS after Space ACL callers.
-
-C2/MIN_TESTS stand. Do not mint Cortex #42. Do not touch Cortex PRs #4 #41 #43 #44.
-
-Do not clone `b-nnett/grok-bot-0.18-reconstructed`. Do not take account passwords.
+HT1. AirGPT `rag/`. Palantir callers in dms. Do not mint Cortex #42. Do not clone Grok Bot reconstructed.

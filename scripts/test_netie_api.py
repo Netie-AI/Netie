@@ -39,6 +39,7 @@ from netie.crew import (
     load_den,
     refuse_crew_gate,
     persist,
+    register_skill,
     resume,
     run_batch,
     run_open_ticket,
@@ -46,12 +47,15 @@ from netie.crew import (
 )
 from netie.dms import (
     MAX_ANSWER_CHARS,
+    OntologyDenied,
     SpaceDenied,
     answer_or_abstain,
     browse_or_abstain,
+    evidence_or_abstain,
     mint_manifest,
+    mint_object,
 )
-from netie.pointer import PointerDenied, bind_computer, click, invoke_hand
+from netie.pointer import PointerDenied, bind_computer, bind_pointer_skill, click, invoke_hand
 from netie.route import (
     CompileDenied,
     ConstructorIRDenied,
@@ -77,6 +81,7 @@ class NetieApiTests(unittest.TestCase):
 
         self.assertIn("crew_harness_profile", crew_mod.__all__)
         self.assertIn("refuse_crew_gate", crew_mod.__all__)
+        self.assertIn("register_skill", crew_mod.__all__)
         self.assertIn("persist", crew_mod.__all__)
         self.assertIn("resume", crew_mod.__all__)
         self.assertNotIn("bind_kwargs", crew_mod.__all__)
@@ -89,6 +94,14 @@ class NetieApiTests(unittest.TestCase):
         with self.assertRaises(CortexDenied) as kind:
             refuse_crew_gate(kind="skill", id="netie-kb.skills")
         self.assertIn("no skill registered", str(kind.exception))
+        from crew_skills import SkillRegistry
+
+        reg = SkillRegistry()
+        register_skill(reg, "netie-kb.export-pptx")
+        ok_skill = refuse_crew_gate(
+            kind="skill", id="netie-kb.export-pptx", registry=reg
+        )
+        self.assertEqual(ok_skill["status"], "ok")
         ok = refuse_crew_gate(kind="service", id="service.freeroute")
         self.assertEqual(ok["status"], "ok")
 
@@ -528,6 +541,17 @@ class NetieApiTests(unittest.TestCase):
         )
         with self.assertRaises(SpaceDenied):
             mint_manifest(acl, "space-missing")
+        self.assertEqual(mint_object(acl, "space-ops", "inventory"), "inventory")
+        with self.assertRaises(OntologyDenied):
+            mint_object(acl, "space-ops", "invoices")
+        cite = evidence_or_abstain(
+            acl,
+            "space-ops",
+            {"table": "inventory", "sku": "A"},
+            warehouse_id="dms-demo",
+            binds={"space-ops": "dms-demo", "space-finance": "dms-demo"},
+        )
+        self.assertEqual(cite["status"], "OK")
 
     def test_cortex_product_caller_public_api(self) -> None:
         """Cortex shape: import netie.cortex only. Not Claude Code, no C7."""
@@ -546,7 +570,9 @@ class NetieApiTests(unittest.TestCase):
         with self.assertRaises(RouteDenied) as bash:
             run_question("dag", tool="bash", via_tool_runner=True, verified=True)
         self.assertIn("Claude Code", str(bash.exception))
-        out = run_question("dag", write="call_action", actor="ops", verified=True)
+        out = run_question(
+            "dag", write="call_action", actor="ops", role="ops", verified=True
+        )
         self.assertEqual(out["jepa"], "off-path")
         self.assertEqual(out["c7_sql"], "off")
         self.assertEqual(out["write"], "call_action")
@@ -594,6 +620,8 @@ class NetieApiTests(unittest.TestCase):
         with self.assertRaises(PointerDenied):
             bind_computer("perplexity-computer")
         self.assertEqual(bind_computer("uacc")["where"], "local")
+        self.assertEqual(bind_computer("windows-mcp")["where"], "local")
+        self.assertEqual(bind_pointer_skill("uacc_screenshot"), "screenshot")
         with self.assertRaises(PointerDenied):
             click({"role": "button"}, cortex_intent="go")
         with self.assertRaises(PointerDenied):

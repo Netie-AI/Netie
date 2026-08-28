@@ -94,6 +94,71 @@ class ConstructorIRTests(unittest.TestCase):
             bind_action("activepieces.gmail.send")
         self.assertEqual(bind_action("export_pptx"), "export_pptx")
 
+    def test_unlisted_object_is_dropped_not_invented(self) -> None:
+        ir = compile_ir(
+            [{"id": "c", "kind": "connector", "object_type": "hr_notes"}]
+        )
+        self.assertIsNone(ir["nodes"][0]["object_type"])
+        kept = compile_ir(
+            [{"id": "c", "kind": "connector", "object_type": "inventory"}]
+        )
+        self.assertEqual(kept["nodes"][0]["object_type"], "inventory")
+
+    def test_unknown_action_and_note_leak_refuse(self) -> None:
+        with self.assertRaises(ConstructorIRDenied):
+            compile_ir(
+                [{"id": "t", "kind": "tool_call", "action_type": "bash"}]
+            )
+        with self.assertRaises(ConstructorIRDenied) as ctx:
+            compile_ir(
+                [
+                    {
+                        "id": "c",
+                        "kind": "connector",
+                        "object_type": "inventory",
+                        "note": "skill_body: SECRET",
+                    }
+                ]
+            )
+        self.assertIn("NOTE_LEAK", str(ctx.exception))
+
+    def test_kahn_order_and_disconnected_refuse(self) -> None:
+        nodes = [
+            {"id": "later", "kind": "app", "object_type": "desk"},
+            {"id": "first", "kind": "connector", "object_type": "inventory"},
+        ]
+        ir = compile_ir(nodes, [_edge("first", "later")])
+        self.assertEqual([n["id"] for n in ir["nodes"]], ["first", "later"])
+        with self.assertRaises(ConstructorIRDenied):
+            compile_ir(
+                [
+                    {"id": "a", "kind": "connector", "object_type": "inventory"},
+                    {"id": "b", "kind": "app", "object_type": "desk"},
+                ]
+            )
+        with self.assertRaises(ConstructorIRDenied):
+            compile_ir(
+                [
+                    {
+                        "id": "c",
+                        "kind": "connector",
+                        "object_type": "inventory",
+                        "data_point": "salary",
+                    }
+                ]
+            )
+        with self.assertRaises(ConstructorIRDenied):
+            compile_ir(
+                [
+                    {
+                        "id": "c",
+                        "kind": "connector",
+                        "object_type": "inventory",
+                        "fetch_from": "warehouse.hr_notes",
+                    }
+                ]
+            )
+
 
 if __name__ == "__main__":
     unittest.main()

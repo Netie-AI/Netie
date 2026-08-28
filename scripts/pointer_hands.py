@@ -156,7 +156,7 @@ def invoke_hand(
     ov_leave: bool = False,
 ) -> dict[str, Any]:
     """MCP-wrap one UACC name. Cortex allow is required. No UACC import."""
-    tool = (name or "").strip()
+    tool = bind_pointer_skill((name or "").strip()) if (name or "").strip() in POINTER_HEAD_SKILLS else (name or "").strip()
     if tool not in UACC_HANDS_SET:
         raise PointerDenied(f"unknown hand {tool or 'none'}")
     if not cortex_allowed:
@@ -219,6 +219,39 @@ def invoke_hand(
     }
 
 
+# Pointer HEAD `8c0e6c2` electron/netie/uacc.js ships 16 catalog ids.
+# `.uacc` is the PyPI tool name. Planner is labeled read on HEAD; wrap still
+# refuses it as a second brain. Windows-MCP is local under this wrap.
+POINTER_HEAD_SKILLS: dict[str, str] = {
+    "uacc_planner": "uacc_planner",
+    "uacc_screen_info": "get_screen_info",
+    "uacc_screen_info_enhanced": "get_screen_info_enhanced",
+    "uacc_screenshot": "screenshot",
+    "uacc_list_monitors": "list_monitors",
+    "uacc_find_element": "find_element",
+    "uacc_where_is": "uacc_where_is",
+    "uacc_query": "uacc_query",
+    "uacc_list_windows": "list_windows",
+    "uacc_active_window": "get_active_window",
+    "uacc_mouse_position": "get_mouse_position",
+    "uacc_wait_for_element": "wait_for_element",
+    "uacc_clipboard_read": "clipboard_read",
+    "uacc_smart_click": "smart_click",
+    "uacc_smart_type": "smart_type",
+}
+
+
+def bind_pointer_skill(pointer_id: str) -> str:
+    """Map Pointer HEAD catalog id to a UACC MCP name. Unknown stays unknown."""
+    name = (pointer_id or "").strip()
+    if name in UACC_HANDS_SET:
+        return name
+    mapped = POINTER_HEAD_SKILLS.get(name)
+    if mapped:
+        return mapped
+    raise PointerDenied(f"unknown hand {name or 'none'}")
+
+
 HOSTED_COMPUTERS = frozenset(
     {
         "e2b",
@@ -238,6 +271,6 @@ def bind_computer(vendor: str) -> dict[str, str]:
     canon = name.replace("_", "-")
     if "e2b" in canon or "perplexity" in canon or canon in HOSTED_COMPUTERS:
         raise PointerDenied("Pointer is a local tray, not a hosted computer")
-    if canon in {"uacc", "pointer"}:
+    if canon in {"uacc", "pointer", "windows-mcp"}:
         return {"vendor": canon, "where": "local"}
     raise PointerDenied(f"unknown computer {vendor or 'none'}")

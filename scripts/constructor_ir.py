@@ -8,6 +8,8 @@ from __future__ import annotations
 
 from typing import Any
 
+from cortex_path import WRITE_ACTIONS
+
 CORTEX_KIND = {
     "ingest": "DOCUMENT_REF",
     "connector": "DOCUMENT_REF",
@@ -27,10 +29,45 @@ OBJECT_KINDS = frozenset(
     {"ingest", "connector", "ontology", "insight", "foundry", "enhance", "improve"}
 )
 ASSUME_NEEDLES = ("inventory", "export_pptx", "T0")
+NOTE_LEAK = ("skill_body", "prompt", "transcript")
+MAX_NOTE_CHARS = 12000
+DEFAULT_OBJECTS = ("inventory", "suppliers")
+DEFAULT_OBJECT_POINTS: dict[str, tuple[str, ...]] = {
+    "inventory": (
+        "sku",
+        "sku_name",
+        "category",
+        "supplier_id",
+        "location_id",
+        "storage_bin",
+        "quantity_kg",
+        "reorder_level_kg",
+        "unit_cost_myr",
+        "last_restocked",
+        "expiry_date",
+        "is_hazardous",
+    ),
+    "suppliers": (
+        "supplier_id",
+        "supplier_name",
+        "country",
+        "lead_time_days",
+        "payment_terms",
+        "last_audit_date",
+        "risk_score",
+    ),
+}
 
 
 class ConstructorIRDenied(ValueError):
     """Graph does not compile. Constructor must not invent Cortex defaults."""
+
+
+def listed_or_empty(value: Any, listed: tuple[str, ...] | list[str]) -> str:
+    want = str(value or "").strip()
+    if want not in listed:
+        return ""
+    return want
 
 
 def _id(node: dict[str, Any]) -> str:
@@ -64,6 +101,30 @@ def topo(nodes: list[dict[str, Any]], edges: list[dict[str, Any]]) -> list[str]:
     return out
 
 
+def _components(nodes: list[dict[str, Any]], edges: list[dict[str, Any]]) -> int:
+    ids = [_id(n) for n in nodes]
+    adj: dict[str, set[str]] = {i: set() for i in ids}
+    for e in edges:
+        a, b = e.get("from"), e.get("to")
+        if a in adj and b in adj:
+            adj[a].add(str(b))
+            adj[b].add(str(a))
+    seen: set[str] = set()
+    n = 0
+    for start in ids:
+        if start in seen:
+            continue
+        n += 1
+        stack = [start]
+        while stack:
+            cur = stack.pop()
+            if cur in seen:
+                continue
+            seen.add(cur)
+            stack.extend(adj[cur] - seen)
+    return n
+
+
 def refuse_assumed(utterance: str, injected: dict[str, Any] | None) -> None:
     """Chat/buildGraph must not inject inventory / export_pptx / T0 unsaid."""
     text = (utterance or "").lower()
@@ -82,9 +143,13 @@ def compile_ir(
     ghost: bool = False,
     utterance: str = "",
     assumed: dict[str, Any] | None = None,
+    objects: list[str] | tuple[str, ...] | None = None,
+    object_points: dict[str, list[str] | tuple[str, ...]] | None = None,
 ) -> dict[str, Any]:
     nodes = list(nodes or [])
     edges = list(edges or [])
+    listed = tuple(objects) if objects else DEFAULT_OBJECTS
+    points = object_points or DEFAULT_OBJECT_POINTS
     if assumed:
         refuse_assumed(utterance, assumed)
     if not nodes:
@@ -98,46 +163,80 @@ def compile_ir(
         kind = n.get("kind")
         if kind not in CORTEX_KIND:
             raise ConstructorIRDenied(f"unknown kind: {kind}")
-        if kind == "tool_call" and not str(n.get("action_type") or "").strip():
-            raise ConstructorIRDenied("tool_call missing action_type")
+        note = str(n.get("note") or "")
+        if len(note) > MAX_NOTE_CHARS:
+            raise ConstructorIRDenied("NOTE_LEAK")
+        low = note.lower()
+        if any(needle in low for needle in NOTE_LEAK):
+            raise ConstructorIRDenied("NOTE_LEAK")
+        if kind == "tool_call":
+            at = str(n.get("action_type") or "").strip()
+            if not at:
+                raise ConstructorIRDenied("tool_call missing action_type")
+            if at not in WRITE_ACTIONS:
+                raise ConstructorIRDenied("tool_call unknown action_type")
         if kind in OBJECT_KINDS and not str(n.get("object_type") or "").strip():
             raise ConstructorIRDenied("unlabeled object")
         if n.get("object_type") is None and str(n.get("data_point") or "") == "":
-            if str(n.get("note") or "").lower().find("inventory") >= 0:
+            if "inventory" in low:
                 raise ConstructorIRDenied("unlabeled set point")
     ids = {_id(n) for n in nodes}
     for e in edges:
         if e.get("from") not in ids or e.get("to") not in ids:
             raise ConstructorIRDenied("dangling edge")
+    if _components(nodes, edges) > 1:
+        raise ConstructorIRDenied("disconnected")
     order = topo(nodes, edges)
     if len(order) != len(nodes):
         raise ConstructorIRDenied("cycle")
     by_id = {_id(n): n for n in nodes}
     kahn_nodes = [by_id[i] for i in order]
-    sink = next((n for n in reversed(kahn_nodes) if n.get("kind") == "app"), None)
+    apps = [n for n in kahn_nodes if n.get("kind") == "app"]
+    sink = apps[-1] if apps else None
     if sink is None:
-        sink = next((n for n in reversed(kahn_nodes) if n.get("kind") == "audit"), None)
+        audits = [n for n in kahn_nodes if n.get("kind") == "audit"]
+        sink = audits[-1] if audits else None
     if sink is None:
-        sink = kahn_nodes[-1]
+        sinks = [
+            n
+            for n in kahn_nodes
+            if not any(e.get("from") == _id(n) for e in edges)
+        ]
+        if len(sinks) != 1:
+            raise ConstructorIRDenied("ambiguous output")
+        sink = sinks[0]
     entry = kahn_nodes[0]
     ir_nodes = []
-    for n in nodes:
+    for n in kahn_nodes:
         nid = _id(n)
         kind = CORTEX_KIND[n["kind"]]
         if nid == _id(sink) and n.get("kind") in {"app", "audit"}:
             kind = "EMIT"
         elif kind == "EMIT":
             kind = "DETERMINISTIC_RULE"
+        object_type = listed_or_empty(n.get("object_type"), listed) or None
+        fetch_from = str(n.get("fetch_from") or "").strip()
+        if fetch_from:
+            want = f"warehouse.{object_type}" if object_type else ""
+            if fetch_from != want:
+                raise ConstructorIRDenied("fetch_from mismatch")
+        data_point = str(n.get("data_point") or "").strip() or None
+        if data_point:
+            allowed = tuple(points.get(object_type or "", ()) or ())
+            if data_point not in allowed:
+                raise ConstructorIRDenied("unlisted data_point")
+        action_type = str(n.get("action_type") or "").strip() or None
         ir_nodes.append(
             {
                 "id": nid,
                 "kind": kind,
                 "constructor_kind": n["kind"],
-                "object_type": n.get("object_type") or None,
-                "data_point": n.get("data_point") or None,
-                "action_type": n.get("action_type") or None,
-                "tier": n.get("tier") if n.get("tier") else None,
-                "requires_confirm": n.get("kind") == "tool_call",
+                "object_type": object_type,
+                "data_point": data_point,
+                "action_type": action_type,
+                "tier": str(n.get("tier") or "").strip() or None,
+                "requires_confirm": n.get("kind") == "tool_call"
+                or action_type in WRITE_ACTIONS,
             }
         )
     return {

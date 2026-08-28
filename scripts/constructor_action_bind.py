@@ -1,7 +1,7 @@
 """Bind a Constructor piece label to a Cortex allowlisted write.
 
 Activepieces/Activeflow catalogs stay out of this tree. Unknown piece = refuse.
-The only invocable write on the Cortex path today is export_pptx.
+Bind a label to Cortex `WRITE_ACTIONS`. Unknown piece refuses.
 """
 
 from __future__ import annotations

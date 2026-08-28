@@ -1,8 +1,7 @@
 # TAS-DMS - DMS technical architecture
 
 **Plane:** 4 (application) · **Repo:** `Netie-AI/dms` · `D:\DMS`
-**Measured:** 2026-08-02 against `feat/grounding-promote-spaces-boundary`. Verified
-against code, not documentation.
+**Measured:** 2026-08-28 against public `Netie-AI/dms` HEAD `3f9a9be`. `Executor.live_ask` still mints `demo_acl`. Portable Space ACL: `scripts/dms_space_acl.py`. Portable ontology: `scripts/dms_ontology.py` (objects = granted tables; Palantir vendor refuses).
 
 ---
 
@@ -12,7 +11,7 @@ A FastAPI + React consumer app over the Cortex engine: Spaces, Studio ingest, go
 chat, audit, pipelines. It talks to Cortex over HTTP only and never imports `CortexOS`.
 
 Palantir-class study notes (`E:\\mycogitorium`, `E:\\mysemantica`, `E:\\myzep`): ontology
-and evidence shape only. Do not clone Palantir. Portable Space ACL: `scripts/dms_space_acl.py`.
+and evidence shape only. Do not clone Palantir. Portable Space ACL: `scripts/dms_space_acl.py`. Portable ontology: `scripts/dms_ontology.py`.
 
 ---
 
