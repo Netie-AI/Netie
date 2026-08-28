@@ -7,6 +7,7 @@
     from netie.airgpt import retrieve_space, chunk_table
     from netie.pointer import bind_computer, invoke_hand
     from netie.space import chat_preview
+    from netie.control import project_board, project_session, MAX_BOARD_CHARS
 
 A non-editable wheel has no scripts/ tree and raises ImportError.
 Do not vendor OpenWork ee/ or Grok Bot reconstructed.

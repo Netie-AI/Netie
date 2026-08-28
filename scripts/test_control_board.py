@@ -9,7 +9,13 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
-from control_board import ControlDenied, project_board, project_session, run_dag
+from control_board import (
+    ControlDenied,
+    MAX_BOARD_CHARS,
+    project_board,
+    project_session,
+    run_dag,
+)
 from crew_factory import Factory
 
 
@@ -122,6 +128,27 @@ class ControlBoardTests(unittest.TestCase):
                 todos=[],
                 permissions=[],
             )
+
+    def test_over_budget_board_refuses(self) -> None:
+        with self.assertRaises(ControlDenied) as ctx:
+            project_board(
+                crew_index={
+                    "runs": [{"id": "p1", "status": "open", "ticket_id": "T1"}]
+                },
+                ledger_peek=[],
+                refusals=[],
+                max_chars=1,
+            )
+        self.assertIn("DitchContext", str(ctx.exception))
+        with self.assertRaises(ControlDenied) as ctx:
+            project_session(
+                run={"id": "p1", "status": "open", "ticket_id": "T1"},
+                todos=[],
+                permissions=[],
+                max_chars=1,
+            )
+        self.assertIn("DitchContext", str(ctx.exception))
+        self.assertEqual(MAX_BOARD_CHARS, 12000)
 
 
 if __name__ == "__main__":

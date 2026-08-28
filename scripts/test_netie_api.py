@@ -15,7 +15,13 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 
 from netie.airgpt import ChunkDenied, MAX_RETRIEVE_CHARS, chunk_table, retrieve_space
-from netie.control import ControlDenied, project_board, project_session, run_dag
+from netie.control import (
+    ControlDenied,
+    MAX_BOARD_CHARS,
+    project_board,
+    project_session,
+    run_dag,
+)
 from netie.cortex import RouteDenied, WRITE_ACTIONS, run_question
 from netie.crew import (
     BudgetDenied,
@@ -555,6 +561,15 @@ class NetieApiTests(unittest.TestCase):
         kinds = {c["kind"] for c in board["cards"]}
         self.assertIn("run", kinds)
         self.assertIn("refusal", kinds)
+        with self.assertRaises(ControlDenied) as fat:
+            project_board(
+                crew_index={"runs": [{"id": "r1", "status": "FAILED", "ticket_id": "T1"}]},
+                ledger_peek=[],
+                refusals=[],
+                max_chars=1,
+            )
+        self.assertIn("DitchContext", str(fat.exception))
+        self.assertEqual(MAX_BOARD_CHARS, 12000)
 
     def test_route_product_caller_public_api(self) -> None:
         """Switchyard behind OV. Simulated is not HT1. xyflow is not compileIR."""
