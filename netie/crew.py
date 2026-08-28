@@ -12,7 +12,7 @@ from crew_capabilities import (
     search_capabilities,
 )
 from crew_checkpoint import save_checkpoint, summarise
-from crew_deepagents import FORBIDDEN_FACTORY_KEYS, bind_deep_agent, bind_kwargs
+from crew_deepagents import FORBIDDEN_FACTORY_KEYS, bind_deep_agent, crew_harness_profile
 from crew_factory import Factory, FactoryDenied, SliceDenied
 from crew_ledger import HashLedger, LedgerDenied
 from crew_ov_gate import OpenVaultCrewGate
@@ -40,8 +40,8 @@ __all__ = (
     "Verdict",
     "VerifyDenied",
     "bind_deep_agent",
-    "bind_kwargs",
     "close_ticket",
+    "crew_harness_profile",
     "dispatch_seat",
     "estimate_tokens",
     "execute_capabilities",

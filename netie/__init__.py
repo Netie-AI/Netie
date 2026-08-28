@@ -1,7 +1,7 @@
 """Portable Netie contracts for product repos.
 
     uv add --editable git+https://github.com/Netie-AI/Netie.git
-    from netie.crew import bind_deep_agent, TokenBudget, dispatch_seat
+    from netie.crew import bind_deep_agent, crew_harness_profile, TokenBudget, dispatch_seat
     from netie.cortex import run_question
     from netie.dms import answer_or_abstain, browse_or_abstain
     from netie.airgpt import retrieve_space, chunk_table
