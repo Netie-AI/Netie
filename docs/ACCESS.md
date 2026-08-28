@@ -14,7 +14,7 @@ make ci
 
 That is `python3 -m compileall -q scripts` then `python3 scripts/check_docs.py` (required files + laptop-ASCII + all `scripts/test_*.py`). GitHub `docs-ci` jobs fail in ~3s without starting: spending limit. Empty steps, no logs. That is not a test failure. Origin (git remote) is already `origin`; we already push there. Switching hosts does not fix clone 404 or Actions billing.
 
-Measured on this VM 2026-08-28 against public clones: Netie unittest **233 passed**; constructor (17 patches) `node --test` **40 passed**; OpenVault OpenMW (23 patches) `uv run pytest tests -q --cov=openmw.openvault --cov-fail-under=75` **912 passed, 4 skipped**. Re-probed same day: Cortex/Pointer/Space/KB/Crew/AirGPT still 404.
+Measured on this VM 2026-08-28 against public clones: Netie unittest **233 passed**; constructor (17 patches) `node --test` **40 passed**; OpenVault OpenMW (24 patches) routing+chat **83 passed**; prior full OpenMW suite on 23 patches was **912 passed, 4 skipped**. Re-probed same day: Cortex/Pointer/Space/KB/Crew/AirGPT still 404.
 
 ---
 
@@ -49,7 +49,7 @@ Until that is green, **local** `python3 scripts/check_docs.py` (or `make ci`) is
 
 ## 3. Write access for sibling patches
 
-`cursor[bot]` cannot push to OpenVault or constructor. On a machine that can, apply patches in the order listed in `docs/patches/README.md` (routing stack then constructor). Do not skip hop-walk / hop-failover / hop-park / hop-stream / hop-relay / hop-trace / hop-usage / hop-persist / hop-anthropic / hop-scope / hop-serve / hop-bound / hop-catalog or constructor-ir-refuse / constructor-ir-ids / constructor-ghost-refuse / constructor-ir-emit / constructor-tool-action / constructor-inspect-action / constructor-inspect-object / constructor-inspect-tier / constructor-chat-object / constructor-topo-leftover / constructor-ir-entry / constructor-ir-output / constructor-ir-object / constructor-ir-bind / constructor-ir-action-allow; later patches assume them.
+`cursor[bot]` cannot push to OpenVault or constructor. On a machine that can, apply patches in the order listed in `docs/patches/README.md` (routing stack then constructor). Do not skip hop-walk / hop-failover / hop-park / hop-stream / hop-relay / hop-trace / hop-usage / hop-persist / hop-anthropic / hop-scope / hop-serve / hop-bound / hop-catalog / openvault-quota-share or constructor-ir-refuse / constructor-ir-ids / constructor-ghost-refuse / constructor-ir-emit / constructor-tool-action / constructor-inspect-action / constructor-inspect-object / constructor-inspect-tier / constructor-chat-object / constructor-topo-leftover / constructor-ir-entry / constructor-ir-output / constructor-ir-object / constructor-ir-bind / constructor-ir-action-allow; later patches assume them.
 
 Or add write permission for the Cursor GitHub App on those two public repos.
 
