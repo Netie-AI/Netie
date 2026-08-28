@@ -8,7 +8,7 @@ constructor-ghost-refuse.patch then constructor-ir-emit.patch then
 constructor-tool-action.patch then constructor-inspect-action.patch then constructor-inspect-object.patch then constructor-inspect-tier.patch then constructor-chat-object.patch then constructor-topo-leftover.patch then constructor-ir-entry.patch then constructor-ir-output.patch then constructor-ir-object.patch then constructor-ir-bind.patch then constructor-ir-action-allow.patch then constructor-ir-intake.patch then constructor-ir-hitl.patch then constructor-ir-connected.patch then constructor-ir-note.patch then constructor-ir-cortex-post.patch then constructor-object-pick.patch then constructor-engine-order.patch then constructor-ir-post.patch then constructor-ir-kahn-nodes.patch, and runs
 node --test (62 passed).
 OpenVault patches apply on origin/main then `uv run pytest` on the routing+chat+crew-gate+ship-claim files (>= 90 passed). The 28th patch (`openvault-crew-netie.patch`) makes `/api/crew/gate` call `from netie.crew import refuse_crew_gate` when Netie is installed.
-Cortex `cortex-netie-path.patch` applies on origin/main (do not uv-add Netie.git). dms `dms-netie-acl.patch` applies on origin/main (`live_ask` / browse through `netie.dms` when installed).
+Cortex `cortex-netie-path.patch` applies on origin/main (do not uv-add Netie.git). dms `dms-netie-acl.patch` applies on origin/main (`live_ask` / browse through `netie.dms` when installed). Pointer `pointer-netie-hands.patch` applies on origin/main (UACC search drops planner/clipboard/window dump). Control `control-netie-board.patch` applies on origin/main (`guard_issue_board` / Guacamole 405s).
 """
 
 from __future__ import annotations
@@ -485,6 +485,96 @@ class SiblingPatchTests(unittest.TestCase):
                 chat_mode=True,
             )
             self.assertEqual(chat["status"], "ABSTAIN")
+
+    def test_pointer_netie_hands_applies_on_main(self) -> None:
+        patch = PATCHES / "pointer-netie-hands.patch"
+        self.assertTrue(patch.is_file())
+        with tempfile.TemporaryDirectory() as tmp:
+            dest = Path(tmp) / "Pointer"
+            clone = _run(
+                [
+                    "git",
+                    "clone",
+                    "--depth",
+                    "1",
+                    "--branch",
+                    "main",
+                    "https://github.com/Netie-AI/Pointer.git",
+                    str(dest),
+                ],
+                timeout=180,
+            )
+            self.assertEqual(clone.returncode, 0, clone.stderr)
+            applied = _run(["git", "apply", str(patch)], cwd=dest)
+            self.assertEqual(applied.returncode, 0, applied.stderr)
+            hands = dest / "electron" / "netie" / "netie_hands.js"
+            self.assertTrue(hands.is_file())
+            blob = hands.read_text(encoding="utf-8")
+            self.assertIn("bindComputer", blob)
+            self.assertIn("hosted computer", blob)
+            uacc = (dest / "electron" / "netie" / "uacc.js").read_text(
+                encoding="utf-8"
+            )
+            self.assertIn("filterExecutableSkills", uacc)
+            probed = _run(["node", "test/netie-hands.test.js"], cwd=dest, timeout=60)
+            self.assertEqual(probed.returncode, 0, probed.stdout + probed.stderr)
+            self.assertIn("ok 6 passed", probed.stdout + probed.stderr)
+
+    def test_control_netie_board_applies_on_main(self) -> None:
+        patch = PATCHES / "control-netie-board.patch"
+        self.assertTrue(patch.is_file())
+        with tempfile.TemporaryDirectory() as tmp:
+            dest = Path(tmp) / "netie-control"
+            clone = _run(
+                [
+                    "git",
+                    "clone",
+                    "--depth",
+                    "1",
+                    "--branch",
+                    "main",
+                    "https://github.com/Netie-AI/netie-control.git",
+                    str(dest),
+                ],
+                timeout=180,
+            )
+            self.assertEqual(clone.returncode, 0, clone.stderr)
+            applied = _run(["git", "apply", str(patch)], cwd=dest)
+            self.assertEqual(applied.returncode, 0, applied.stderr)
+            mod = dest / "netie_control" / "netie_board.py"
+            self.assertTrue(mod.is_file())
+            blob = mod.read_text(encoding="utf-8")
+            self.assertIn("from netie.control import", blob)
+            app = (dest / "netie_control" / "app.py").read_text(encoding="utf-8")
+            self.assertIn('"/v1/guacamole"', app)
+            sources = (dest / "netie_control" / "sources.py").read_text(
+                encoding="utf-8"
+            )
+            self.assertIn("guard_issue_board", sources)
+            spec = importlib.util.spec_from_file_location("netie_board", mod)
+            self.assertIsNotNone(spec)
+            loaded = importlib.util.module_from_spec(spec)
+            assert spec is not None and spec.loader is not None
+            spec.loader.exec_module(loaded)
+            with self.assertRaises(loaded.ControlDenied):
+                loaded.guard_issue_board(
+                    {"items": [{"id": "x", "kind": "rdp"}], "unreachable": []}
+                )
+            kept = loaded.guard_issue_board(
+                {
+                    "items": [
+                        {
+                            "repo": "Netie-AI/dms",
+                            "number": 1,
+                            "title": "acl wave",
+                            "is_epic": True,
+                            "blocked": False,
+                        }
+                    ],
+                    "unreachable": [],
+                }
+            )
+            self.assertEqual(kept["items"][0]["title"], "acl wave")
 
 
 if __name__ == "__main__":
