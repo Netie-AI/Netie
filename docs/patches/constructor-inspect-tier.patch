@@ -1,27 +1,18 @@
 diff --git a/app.js b/app.js
-index 1069f0b..4acda9d 100644
+index fa59c48..3dac344 100644
 --- a/app.js
 +++ b/app.js
-@@ -250,7 +250,7 @@ function showInspect() {
-   let dtype = listedOrEmpty(node.data_type, types);
-   if (!dtype && point && points[point]) dtype = points[point];
-   const action = listedOrEmpty(node.action_type, ACTIONS);
--  const tier = TIERS.indexOf(node.tier) >= 0 ? node.tier : "T0";
-+  const tier = listedOrEmpty(node.tier, TIERS);
-   inspectForm.innerHTML =
-     fieldSelect("object_type", "Object (ontology)", listedOptions(objects, node.object_type), obj) +
-     fieldSelect("data_point", "Data point", listedOptions(pointKeys, node.data_point), point) +
-@@ -259,7 +259,7 @@ function showInspect() {
-     '<label>Fetch / place</label><input name="fetch_from" value="' +
-     escapeAttr(node.fetch_from || "") +
-     '" placeholder="warehouse.inventory" />' +
--    fieldSelect("tier", "Router tier (ModelRouter, not a network LB)", TIERS, tier) +
-+    fieldSelect("tier", "Router tier (ModelRouter, not a network LB)", listedOptions(TIERS, node.tier), tier) +
-     fieldSelect("stream", "Stream (/dms/streams flag)", ["false", "true"], node.stream ? "true" : "false") +
-     '<p class="hint">Object/point/type write onto the DAG. Fetch/place is DuckDB (warehouse.inventory). Action export_pptx is F8; item.intake and agent.checked are events. Tier is ModelRouter T0/T1 on tool/agent, not a network LB. Stream lists /dms/streams. Pages never fetch.</p>';
+@@ -654,7 +654,7 @@ function eventFieldsHtml(node) {
+     html += fieldSelect("action_type", "Action", listedOptions(allowed, node.action_type), action);
+   }
+   html +=
+-    fieldSelect("tier", "Router tier", TIERS, TIERS.indexOf(node.tier) >= 0 ? node.tier : "T0") +
++    fieldSelect("tier", "Router tier", listedOptions(TIERS, node.tier), listedOrEmpty(node.tier, TIERS)) +
+     fieldSelect("stream", "Stream", ["false", "true"], node.stream ? "true" : "false");
+   return html;
  }
 diff --git a/engine.js b/engine.js
-index 55c4699..9a46230 100644
+index 3aeb57a..53bdf96 100644
 --- a/engine.js
 +++ b/engine.js
 @@ -210,7 +210,7 @@ function compileIR(state) {
@@ -34,32 +25,13 @@ index 55c4699..9a46230 100644
          note: n.note,
          requires_confirm: n.kind === "tool_call",
 diff --git a/tests/compiler.test.cjs b/tests/compiler.test.cjs
-index caaf44b..2b46e99 100644
+index caaf44b..5ee9201 100644
 --- a/tests/compiler.test.cjs
 +++ b/tests/compiler.test.cjs
-@@ -250,3 +250,31 @@ test("inspect does not invent inventory for a missing object", () => {
+@@ -250,3 +250,21 @@ test("inspect does not invent inventory for a missing object", () => {
    assert.deepEqual(listedOptions(objects, ""), ["", "inventory", "shipments"]);
    assert.deepEqual(listedOptions(objects, "inventory"), objects);
  });
-+
-+test("compileIR does not invent T0 for a missing tier", () => {
-+  const unlabeled = compileIR({
-+    nodes: [{ id: "c", kind: "connector", note: "in" }],
-+    edges: [],
-+  });
-+  assert.equal(unlabeled.error, undefined);
-+  assert.equal(unlabeled.nodes[0].tier, null);
-+  const kept = compileIR({
-+    nodes: [{ id: "c", kind: "connector", note: "in", tier: "T1" }],
-+    edges: [],
-+  });
-+  assert.equal(kept.nodes[0].tier, "T1");
-+  const garbage = compileIR({
-+    nodes: [{ id: "c", kind: "connector", note: "in", tier: "T9" }],
-+    edges: [],
-+  });
-+  assert.equal(garbage.nodes[0].tier, null);
-+});
 +
 +test("inspect does not invent T0 for a missing tier", () => {
 +  const tiers = ["T0", "T1"];
@@ -68,4 +40,13 @@ index caaf44b..2b46e99 100644
 +  assert.equal(listedOrEmpty("T0", tiers), "T0");
 +  assert.deepEqual(listedOptions(tiers, ""), ["", "T0", "T1"]);
 +  assert.deepEqual(listedOptions(tiers, "T0"), tiers);
++});
++
++test("compileIR does not invent T0 for a missing tier", () => {
++  const ir = compileIR({
++    nodes: [{ id: "c", kind: "connector" }],
++    edges: [],
++  });
++  assert.equal(ir.error, undefined);
++  assert.equal(ir.nodes[0].tier, null);
 +});

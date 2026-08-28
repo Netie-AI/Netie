@@ -1,24 +1,26 @@
 diff --git a/app.js b/app.js
-index e5e5c9f..e8fc7d0 100644
+index 364cb56..9ae9c90 100644
 --- a/app.js
 +++ b/app.js
-@@ -245,13 +245,13 @@ function showInspect() {
-   const points = OBJECTS[obj].points;
+@@ -620,7 +620,7 @@ function eventFieldsHtml(node) {
    const point = node.data_point && points[node.data_point] ? node.data_point : Object.keys(points)[0];
    const dtype = node.data_type || points[point];
--  const action = ACTIONS.indexOf(node.action_type) >= 0 ? node.action_type : "export_pptx";
-+  const action = listedOrEmpty(node.action_type, ACTIONS);
-   const tier = TIERS.indexOf(node.tier) >= 0 ? node.tier : "T0";
-   inspectForm.innerHTML =
-     fieldSelect("object_type", "Object (ontology)", Object.keys(OBJECTS), obj) +
-     fieldSelect("data_point", "Data point", Object.keys(points), point) +
-     fieldSelect("data_type", "Data type", ["string", "number", "integer", "boolean", "date"], dtype) +
--    fieldSelect("action_type", "Action", ACTIONS, action) +
-+    fieldSelect("action_type", "Action", listedOptions(ACTIONS, node.action_type), action) +
-     '<label>Fetch / place</label><input name="fetch_from" value="' +
-     escapeAttr(node.fetch_from || "") +
-     '" placeholder="warehouse.inventory" />' +
-@@ -275,7 +275,7 @@ function fieldSelect(name, label, values, current) {
+   const allowed = actionsForObject(obj);
+-  const action = allowed.indexOf(node.action_type) >= 0 ? node.action_type : allowed[0];
++  const action = listedOrEmpty(node.action_type, allowed);
+   const persona = node.persona && PERSONAS.indexOf(node.persona) >= 0 ? node.persona : KINDS[node.kind].persona;
+   const sourceKind =
+     node.source_kind && SOURCE_KINDS.indexOf(node.source_kind) >= 0 ? node.source_kind : "place";
+@@ -647,7 +647,7 @@ function eventFieldsHtml(node) {
+     html += fieldSelect("fetch_from", sourceLabel, FETCH_PLACES, node.fetch_from || "warehouse.inventory");
+   }
+   if (node.kind !== "ingest") {
+-    html += fieldSelect("action_type", "Action", allowed, action);
++    html += fieldSelect("action_type", "Action", listedOptions(allowed, node.action_type), action);
+   }
+   html +=
+     fieldSelect("tier", "Router tier", TIERS, TIERS.indexOf(node.tier) >= 0 ? node.tier : "T0") +
+@@ -721,7 +721,7 @@ function fieldSelect(name, label, values, current) {
            '"' +
            (v === current ? " selected" : "") +
            ">" +
@@ -28,7 +30,7 @@ index e5e5c9f..e8fc7d0 100644
          );
        })
 diff --git a/engine.js b/engine.js
-index 1a16e6f..55c4699 100644
+index da159a3..3aeb57a 100644
 --- a/engine.js
 +++ b/engine.js
 @@ -84,6 +84,18 @@ function rankForKinds(kinds) {
@@ -50,7 +52,7 @@ index 1a16e6f..55c4699 100644
  function irError(ghost, message) {
    return {
      version: "1.0",
-@@ -699,5 +711,7 @@ if (typeof module !== "undefined" && module.exports) {
+@@ -1151,5 +1163,7 @@ if (typeof module !== "undefined" && module.exports) {
      scoreApproach,
      topo,
      ghostWalk,

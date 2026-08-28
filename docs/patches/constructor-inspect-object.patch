@@ -1,12 +1,12 @@
 diff --git a/app.js b/app.js
-index e8fc7d0..1069f0b 100644
+index 9ae9c90..fa59c48 100644
 --- a/app.js
 +++ b/app.js
-@@ -241,16 +241,20 @@ function showInspect() {
-   inspectEmpty.hidden = true;
-   inspectJson.hidden = true;
-   inspectForm.hidden = false;
--  const obj = node.object_type && OBJECTS[node.object_type] ? node.object_type : "inventory";
+@@ -615,10 +615,14 @@ function fieldInput(name, label, value, placeholder) {
+ }
+ 
+ function eventFieldsHtml(node) {
+-  const obj = node.object_type && OBJECTS[node.object_type] ? node.object_type : Object.keys(OBJECTS)[0];
 -  const points = OBJECTS[obj].points;
 -  const point = node.data_point && points[node.data_point] ? node.data_point : Object.keys(points)[0];
 -  const dtype = node.data_type || points[point];
@@ -18,18 +18,22 @@ index e8fc7d0..1069f0b 100644
 +  const types = ["string", "number", "integer", "boolean", "date"];
 +  let dtype = listedOrEmpty(node.data_type, types);
 +  if (!dtype && point && points[point]) dtype = points[point];
-   const action = listedOrEmpty(node.action_type, ACTIONS);
-   const tier = TIERS.indexOf(node.tier) >= 0 ? node.tier : "T0";
-   inspectForm.innerHTML =
--    fieldSelect("object_type", "Object (ontology)", Object.keys(OBJECTS), obj) +
+   const allowed = actionsForObject(obj);
+   const action = listedOrEmpty(node.action_type, allowed);
+   const persona = node.persona && PERSONAS.indexOf(node.persona) >= 0 ? node.persona : KINDS[node.kind].persona;
+@@ -629,9 +633,9 @@ function eventFieldsHtml(node) {
+   const bindSource = node.kind === "ingest" || node.kind === "connector";
+   let html =
+     fieldSelect("persona", "Persona", PERSONAS, persona) +
+-    fieldSelect("object_type", objectLabel, Object.keys(OBJECTS), obj) +
 -    fieldSelect("data_point", "Data point", Object.keys(points), point) +
--    fieldSelect("data_type", "Data type", ["string", "number", "integer", "boolean", "date"], dtype) +
-+    fieldSelect("object_type", "Object (ontology)", listedOptions(objects, node.object_type), obj) +
+-    fieldSelect("data_type", "Data type", ["string", "number", "integer", "boolean", "date"], dtype);
++    fieldSelect("object_type", objectLabel, listedOptions(objects, node.object_type), obj) +
 +    fieldSelect("data_point", "Data point", listedOptions(pointKeys, node.data_point), point) +
-+    fieldSelect("data_type", "Data type", listedOptions(types, dtype), dtype) +
-     fieldSelect("action_type", "Action", listedOptions(ACTIONS, node.action_type), action) +
-     '<label>Fetch / place</label><input name="fetch_from" value="' +
-     escapeAttr(node.fetch_from || "") +
++    fieldSelect("data_type", "Data type", listedOptions(types, dtype), dtype);
+   if (bindSource) {
+     html += fieldSelect("source_kind", "Source kind", SOURCE_KINDS, sourceKind);
+     if (sourceKind === "cloud") {
 diff --git a/tests/compiler.test.cjs b/tests/compiler.test.cjs
 index 67fc86a..caaf44b 100644
 --- a/tests/compiler.test.cjs
