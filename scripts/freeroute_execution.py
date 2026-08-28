@@ -144,6 +144,56 @@ def refuse_unported_from_body(body: dict[str, Any] | None) -> None:
     )
 
 
+# Same keys as OpenVault crew_gate, minus `prompt` (chat clients send messages).
+CREW_BODY_KEYS = frozenset({"skill_body", "instructions", "transcript"})
+# OpenVault routing bag. Never an OpenAI chat field. Do not drop `store`
+# (OpenAI chat completions uses it).
+HOP_DROP_KEYS = CREW_BODY_KEYS | frozenset(
+    {
+        "combo",
+        "parallel",
+        "quorum_grace",
+        "quorumGrace",
+        "persist",
+        "handoff_store",
+        "autoCombo",
+        "auto_combo",
+        "compress",
+        "token_compression",
+        "compress_tokens",
+        "mcp",
+        "mcp_servers",
+        "a2a",
+        "a2a_messages",
+        "quota_share",
+        "quotaShare",
+        "fetch_quota",
+        "fetchQuota",
+        "codex_quota",
+        "fetch_codex_quota",
+    }
+)
+
+
+def refuse_crew_from_body(body: dict[str, Any] | None) -> None:
+    """Skill bodies never ride /v1 to a provider."""
+    if not isinstance(body, dict):
+        return
+    combo = body.get("combo") if isinstance(body.get("combo"), dict) else {}
+    for bag in (body, combo):
+        leak = CREW_BODY_KEYS.intersection(bag.keys())
+        if leak:
+            name = sorted(leak)[0]
+            raise ExecutionRefused(400, f"{name} must never go to /v1")
+
+
+def hop_body_from_chat(body: dict[str, Any] | None) -> dict[str, Any]:
+    """Chat fields only. combo/handoff/skill_body stay off the upstream post."""
+    if not isinstance(body, dict):
+        return {}
+    return {k: v for k, v in body.items() if k not in HOP_DROP_KEYS}
+
+
 def refuse_as_sort(strategy: str) -> None:
     name = (strategy or "").strip().lower().replace("_", "-")
     if name in EXECUTION_SHAPES:
