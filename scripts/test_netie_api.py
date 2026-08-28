@@ -130,7 +130,8 @@ class NetieApiTests(unittest.TestCase):
     def test_pyproject_declares_editable_netie_package(self) -> None:
         text = (ROOT / "pyproject.toml").read_text(encoding="utf-8")
         self.assertIn('name = "netie"', text)
-        self.assertIn('packages = ["netie"]', text)
+        self.assertIn('packages = ["netie", "netie._contracts"]', text)
+        self.assertIn('"netie._contracts" = "scripts"', text)
         self.assertIn('crew = ["deepagents==0.7.9"]', text)
         self.assertNotIn("scripts*", text)
 
@@ -151,7 +152,61 @@ class NetieApiTests(unittest.TestCase):
             mod = importlib.util.module_from_spec(spec)
             with self.assertRaises(ImportError) as ctx:
                 spec.loader.exec_module(mod)
-            self.assertIn("uv add --editable", str(ctx.exception))
+            self.assertIn("uv add git+https://github.com/Netie-AI/Netie.git", str(ctx.exception))
+            self.assertNotIn("--editable", str(ctx.exception))
+
+    def test_wheel_uv_install_imports_crew(self) -> None:
+        """Product repos can uv add Netie without --editable."""
+        if shutil.which("uv") is None:
+            raise unittest.SkipTest("uv not on PATH")
+        with tempfile.TemporaryDirectory() as tmp:
+            src = Path(tmp) / "Netie"
+            shutil.copytree(ROOT / "netie", src / "netie")
+            shutil.copytree(ROOT / "scripts", src / "scripts")
+            shutil.copy(ROOT / "pyproject.toml", src / "pyproject.toml")
+            shutil.copy(ROOT / "STATUS.md", src / "STATUS.md")
+            venv = Path(tmp) / ".venv"
+            created = subprocess.run(
+                ["uv", "venv", str(venv)],
+                capture_output=True,
+                text=True,
+                timeout=60,
+            )
+            self.assertEqual(created.returncode, 0, created.stderr)
+            py = venv / "bin" / "python"
+            installed = subprocess.run(
+                [
+                    "uv",
+                    "pip",
+                    "install",
+                    str(src),
+                    "--python",
+                    str(py),
+                ],
+                capture_output=True,
+                text=True,
+                timeout=120,
+            )
+            self.assertEqual(installed.returncode, 0, installed.stderr + installed.stdout)
+            probed = subprocess.run(
+                [
+                    str(py),
+                    "-c",
+                    "from netie.crew import bind_deep_agent, crew_harness_profile, "
+                    "TokenBudget, dispatch_seat, wrap_deepagents_tools; "
+                    "from netie.cortex import run_question; "
+                    "from netie.route import report_deploy, compile_graph; "
+                    "print('ok' if callable(bind_deep_agent) and callable(crew_harness_profile) "
+                    "and callable(wrap_deepagents_tools) and callable(TokenBudget) "
+                    "and callable(dispatch_seat) and callable(run_question) "
+                    "and callable(report_deploy) and callable(compile_graph) else 'no')",
+                ],
+                capture_output=True,
+                text=True,
+                timeout=30,
+            )
+            self.assertEqual(probed.returncode, 0, probed.stderr)
+            self.assertEqual(probed.stdout.strip(), "ok")
 
     def test_editable_uv_install_imports_crew(self) -> None:
         if shutil.which("uv") is None:

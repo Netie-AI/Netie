@@ -36,7 +36,7 @@ REPOS: dict[str, Path] = {
     "Crew": Path("D:/Cortex-Crew"),
 }
 
-# What each product repo imports after `uv add --editable` Netie.
+# What each product repo imports after `uv add` Netie.
 CALLERS: dict[str, str] = {
     "Cortex": "from netie.cortex import run_question, WRITE_ACTIONS",
     "DMS": "from netie.dms import answer_or_abstain, browse_or_abstain",
@@ -104,9 +104,9 @@ IDs are never reused. Full law: `D:\\Netie\\Internal\\Rules\\DOCUMENT_SYSTEM.md`
 
 ### Product caller
 
-`uv add --editable git+https://github.com/Netie-AI/Netie.git`
+`uv add git+https://github.com/Netie-AI/Netie.git`
 
-Then `{caller}`. Non-editable wheel has no `scripts/` and raises. Do not clone Grok Bot reconstructed. Do not vendor OpenWork `ee/`. Cortex is not Claude Code.
+Then `{caller}`. The wheel ships contracts as `netie._contracts`. `--editable` is optional for a sibling checkout. Do not clone Grok Bot reconstructed. Do not vendor OpenWork `ee/`. Cortex is not Claude Code.
 
 {END}"""
 
