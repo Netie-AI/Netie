@@ -1,0 +1,75 @@
+diff --git a/app.js b/app.js
+index 07dda52..e3f7d9e 100644
+--- a/app.js
++++ b/app.js
+@@ -48,7 +48,7 @@ const OBJECTS = {
+     },
+   },
+ };
+-const ACTIONS = ["export_pptx", "item.intake", "agent.checked"];
++const ACTIONS = ["export_pptx", "item.intake", "amend.apply", "call_action", "agent.checked"];
+ const TIERS = ["T0", "T1"];
+ 
+ const state = load() || sample();
+@@ -261,7 +261,7 @@ function showInspect() {
+     '" placeholder="warehouse.inventory" />' +
+     fieldSelect("tier", "Router tier (ModelRouter, not a network LB)", listedOptions(TIERS, node.tier), tier) +
+     fieldSelect("stream", "Stream (/dms/streams flag)", ["false", "true"], node.stream ? "true" : "false") +
+-    '<p class="hint">Object/point/type write onto the DAG. Fetch/place is DuckDB (warehouse.inventory). Action export_pptx and item.intake are writes (confirm); agent.checked is an event. Tier is ModelRouter T0/T1 on tool/agent, not a network LB. Stream lists /dms/streams. Pages never fetch.</p>';
++    '<p class="hint">Object/point/type write onto the DAG. Fetch/place is DuckDB (warehouse.inventory). Action export_pptx, item.intake, amend.apply, and call_action are writes (confirm); agent.checked is an event. Tier is ModelRouter T0/T1 on tool/agent, not a network LB. Stream lists /dms/streams. Pages never fetch.</p>';
+ }
+ 
+ function fieldSelect(name, label, values, current) {
+diff --git a/engine.js b/engine.js
+index 8125888..7a2cac8 100644
+--- a/engine.js
++++ b/engine.js
+@@ -91,8 +91,8 @@ function listedOrEmpty(value, listed) {
+ }
+ 
+ const DEFAULT_OBJECTS = ["inventory", "suppliers"];
+-const DEFAULT_ACTIONS = ["export_pptx", "item.intake", "agent.checked"];
+-const WRITE_ACTIONS = ["export_pptx", "item.intake"];
++const DEFAULT_ACTIONS = ["export_pptx", "item.intake", "amend.apply", "call_action", "agent.checked"];
++const WRITE_ACTIONS = ["export_pptx", "item.intake", "amend.apply", "call_action"];
+ const DATA_TYPES = ["string", "number", "integer", "boolean", "date"];
+ const DEFAULT_OBJECT_POINTS = {
+   inventory: [
+@@ -590,7 +590,7 @@ async function handleChat(raw) {
+   }
+   const setAct = t.match(/^set action (\S+)$/);
+   if (setAct) {
+-    if (C.ACTIONS.indexOf(setAct[1]) < 0) return "Action must be export_pptx, item.intake, or agent.checked.";
++    if (C.ACTIONS.indexOf(setAct[1]) < 0) return "Action must be export_pptx, item.intake, amend.apply, call_action, or agent.checked.";
+     return C.patchSelected("action_type", setAct[1]) ? "Action " + setAct[1] + "." : "Select a node first.";
+   }
+   const setFetch = t.match(/^set fetch (.+)$/);
+diff --git a/tests/compiler.test.cjs b/tests/compiler.test.cjs
+index a0d16ba..dccecd3 100644
+--- a/tests/compiler.test.cjs
++++ b/tests/compiler.test.cjs
+@@ -560,6 +560,24 @@ test("agent.checked on foundry is an event", () => {
+   assert.equal(ir.nodes[0].requires_confirm, false);
+ });
+ 
++test("amend.apply on foundry requires confirm", () => {
++  const ir = compileIR({
++    nodes: [{ id: "f", kind: "foundry", action_type: "amend.apply" }],
++    edges: [],
++  });
++  assert.equal(ir.nodes[0].action_type, "amend.apply");
++  assert.equal(ir.nodes[0].requires_confirm, true);
++});
++
++test("call_action on foundry requires confirm", () => {
++  const ir = compileIR({
++    nodes: [{ id: "f", kind: "foundry", action_type: "call_action" }],
++    edges: [],
++  });
++  assert.equal(ir.nodes[0].action_type, "call_action");
++  assert.equal(ir.nodes[0].requires_confirm, true);
++});
++
+ test("ghostWalk refuses unknown tool_call action", () => {
+   const walked = ghostWalk(
+     {

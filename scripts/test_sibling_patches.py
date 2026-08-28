@@ -5,8 +5,8 @@ Constructor has no unit-test workflow on HEAD. This gate clones it, applies
 docs/patches/constructor-compiler-tests.patch then constructor-empty-graph.patch
 then constructor-ir-refuse.patch then constructor-ir-ids.patch then
 constructor-ghost-refuse.patch then constructor-ir-emit.patch then
-constructor-tool-action.patch then constructor-inspect-action.patch then constructor-inspect-object.patch then constructor-inspect-tier.patch then constructor-chat-object.patch then constructor-topo-leftover.patch then constructor-ir-entry.patch then constructor-ir-output.patch then constructor-ir-object.patch then constructor-ir-bind.patch then constructor-ir-action-allow.patch then constructor-ir-intake.patch, and runs
-node --test (42 passed).
+constructor-tool-action.patch then constructor-inspect-action.patch then constructor-inspect-object.patch then constructor-inspect-tier.patch then constructor-chat-object.patch then constructor-topo-leftover.patch then constructor-ir-entry.patch then constructor-ir-output.patch then constructor-ir-object.patch then constructor-ir-bind.patch then constructor-ir-action-allow.patch then constructor-ir-intake.patch then constructor-ir-hitl.patch, and runs
+node --test (44 passed).
 OpenVault patches apply on origin/main then `uv run pytest` on the routing+chat+crew-gate files (>= 90 passed).
 """
 
@@ -59,6 +59,7 @@ class SiblingPatchTests(unittest.TestCase):
         sixteenth = PATCHES / "constructor-ir-bind.patch"
         seventeenth = PATCHES / "constructor-ir-action-allow.patch"
         eighteenth = PATCHES / "constructor-ir-intake.patch"
+        nineteenth = PATCHES / "constructor-ir-hitl.patch"
         self.assertTrue(
             first.is_file()
             and second.is_file()
@@ -78,6 +79,7 @@ class SiblingPatchTests(unittest.TestCase):
             and sixteenth.is_file()
             and seventeenth.is_file()
             and eighteenth.is_file()
+            and nineteenth.is_file()
         )
         with tempfile.TemporaryDirectory() as tmp:
             dest = Path(tmp) / "constructor"
@@ -113,14 +115,18 @@ class SiblingPatchTests(unittest.TestCase):
                 sixteenth,
                 seventeenth,
                 eighteenth,
+                nineteenth,
             ):
                 applied = _run(["git", "apply", str(patch)], cwd=dest)
                 self.assertEqual(applied.returncode, 0, applied.stderr)
             tests = _run(["node", "--test", "tests/compiler.test.cjs"], cwd=dest)
             self.assertEqual(tests.returncode, 0, tests.stdout + tests.stderr)
-            self.assertIn("pass 42", tests.stdout + tests.stderr)
+            self.assertIn("pass 44", tests.stdout + tests.stderr)
             engine = (dest / "engine.js").read_text(encoding="utf-8")
-            self.assertIn('WRITE_ACTIONS = ["export_pptx", "item.intake"]', engine)
+            self.assertIn(
+                'WRITE_ACTIONS = ["export_pptx", "item.intake", "amend.apply", "call_action"]',
+                engine,
+            )
 
     def test_openvault_patches_apply_on_main(self) -> None:
         detect = PATCHES / "openvault-detect-stacks.patch"
