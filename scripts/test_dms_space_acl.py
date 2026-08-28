@@ -11,6 +11,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 from dms_space_acl import (
     DEMO_ALL_TABLES,
+    MAX_ANSWER_CHARS,
     SpaceDenied,
     answer_or_abstain,
     browse_or_abstain,
@@ -166,6 +167,24 @@ class SpaceAclTests(unittest.TestCase):
         self.assertEqual(out["status"], "ABSTAIN")
         self.assertIn("AnythingLLM", out["reason"])
         self.assertEqual(out["rows"], [])
+
+    def test_over_budget_answer_abstains(self) -> None:
+        fat = _ask("space-ops", "inventory", [{"sku": "A" * 80}], sql=SQL)
+        self.assertEqual(fat["status"], "OK")
+        out = answer_or_abstain(
+            ACL,
+            "space-ops",
+            "inventory",
+            [{"sku": "A" * 80}],
+            warehouse_id="dms-demo",
+            binds=BINDS,
+            sql=SQL,
+            max_chars=1,
+        )
+        self.assertEqual(out["status"], "ABSTAIN")
+        self.assertIn("DitchContext", out["reason"])
+        self.assertEqual(out["rows"], [])
+        self.assertEqual(MAX_ANSWER_CHARS, 12000)
 
 
 if __name__ == "__main__":

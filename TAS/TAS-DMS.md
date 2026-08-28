@@ -170,7 +170,8 @@ Two Spaces, named warehouse bind, abstain outside ACL, abstain if Cortex DuckDB
 is asked for a DMS-bound Space, abstain if the answer has no SQL, abstain if SQL
 names a table the Space cannot read (JOIN punch), abstain if SQL omits the asked table,
 abstain bronze/warehouse browse of an ungranted table, abstain `chat_mode=True`
-(AnythingLLM overlay; warehouse answers need SQL).
+(AnythingLLM overlay; warehouse answers need SQL), abstain an answer over
+DitchContext 12k (no silent drop).
 `python3 scripts/test_dms_space_acl.py`.
 Not a patch on dms; the production caller is still `demo_acl()` until that repo is writable.
 

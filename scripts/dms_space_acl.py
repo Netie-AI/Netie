@@ -3,7 +3,8 @@
 live_ask today mints from demo_acl() (every table). Two customers in one room
 is a demo we cannot give. This module is the failing test that slice must pass:
 a Space sees only the tables it was granted, only from the warehouse it is
-bound to, and abstains otherwise.
+bound to, and abstains otherwise. Answers over DitchContext 12k abstain
+(no silent drop). Warehouse ChatGPT analogues dump the room; we do not.
 
 HEAD has two DuckDBs (Studio bronze vs Cortex serving). An uploaded sheet is
 unreachable by chat, silently. Naming the warehouse is the fail-close.
@@ -13,6 +14,7 @@ Not a second Cortex. Not a warehouse ChatGPT overlay.
 
 from __future__ import annotations
 
+import json
 import re
 from collections.abc import Mapping
 
@@ -26,6 +28,7 @@ class SpaceDenied(PermissionError):
 
 # The production bug: a demo allowlist of every table, ignoring space_id.
 DEMO_ALL_TABLES = frozenset({"inventory", "shipments", "invoices", "hr_notes"})
+MAX_ANSWER_CHARS = 12000  # same DitchContext as AirGPT retrieve / Space Peek chat
 
 
 def tables_for_space(acl: Acl, space_id: str) -> frozenset[str]:
@@ -100,6 +103,7 @@ def answer_or_abstain(
     binds: Binds,
     sql: str,
     chat_mode: bool = False,
+    max_chars: int = MAX_ANSWER_CHARS,
 ) -> dict:
     if chat_mode:
         return {
@@ -152,6 +156,14 @@ def answer_or_abstain(
                 "rows": [],
             }
         cleaned.append(dict(row))
+    budget = max_chars if max_chars > 0 else MAX_ANSWER_CHARS
+    blob = json.dumps(cleaned, separators=(",", ":"), default=str)
+    if len(blob) > budget:
+        return {
+            "status": "ABSTAIN",
+            "reason": "answer over DitchContext",
+            "rows": [],
+        }
     return {
         "status": "OK",
         "table": table,
