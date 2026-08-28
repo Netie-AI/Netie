@@ -4,7 +4,8 @@ Names from `uacc` 1.1.0 on PyPI (MIT, 68 MCP tools). We do not vendor or
 import that package. Cortex must allow each name. Planner / workflow /
 memory / history / clipboard / ungoverned JS / ungated leave-machine /
 uncropped screenshot / page dump / process list / env dump refuse.
-Paint overlay and hover/drag on a secret field refuse.
+Paint overlay and hover/drag on a secret field refuse. UACC kill-distance
+and user-override stay out (Cortex is the gate).
 """
 
 from __future__ import annotations
@@ -114,6 +115,8 @@ PAGE_HANDS = frozenset({"browser_get_page_info"})
 PROCESS_HANDS = frozenset({"list_processes", "get_system_info"})
 # Overlay on a password/OTP field (or the whole screen) is capture.
 PAINT_HANDS = frozenset({"paint_image", "paint_preset"})
+# UACC's own safety plane is a second policy. Cortex is the gate.
+OVERRIDE_HANDS = frozenset({"acknowledge_user_override", "set_kill_distance"})
 BRAIN_HANDS = frozenset(
     {
         "uacc_planner",
@@ -162,6 +165,8 @@ def invoke_hand(
         raise PointerDenied("no ungoverned script")
     if tool in BRAIN_HANDS:
         raise PointerDenied("uacc brain stays out; Pointer is hands")
+    if tool in OVERRIDE_HANDS:
+        raise PointerDenied("uacc override stays out; Cortex is the gate")
     if tool in PROCESS_HANDS:
         if tool == "get_system_info":
             raise PointerDenied("env_dump_refused")
