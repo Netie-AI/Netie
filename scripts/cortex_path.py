@@ -38,13 +38,23 @@ def run_question(
     write: str | None = None,
     tool: str | None = None,
     via_tool_runner: bool = True,
+    actor: str | None = None,
+    verified: bool = False,
+    pack: str = "default",
+    a2a: bool = False,
 ) -> dict[str, str]:
     if shape not in COLD_START:
         raise RouteDenied(f"bad shape {shape}")
     if write and write not in WRITE_ACTIONS:
         raise RouteDenied(f"write not in action registry: {write}")
+    if write and not (actor or "").strip():
+        raise RouteDenied("write needs an actor; RBAC is missing on execute modules")
     if tool and not via_tool_runner:
         raise RouteDenied(f"{tool} skipped tool_runner")
+    if a2a and (pack or "").strip().lower() != "dms":
+        raise RouteDenied("a2a/messages is dms-pack only")
+    if not verified:
+        raise RouteDenied("answer needs verified; HEAD leaves it optional on /dms/query")
     return {
         "router": "race_router.auto_route",
         "shape": shape,
@@ -52,6 +62,9 @@ def run_question(
         "c7_sql": "off",
         "write": write or "none",
         "tool": tool or "none",
+        "actor": (actor or "").strip() or "none",
+        "verified": "true",
+        "pack": (pack or "default").strip() or "default",
         "jepa": "off-path",
         "gen_cfsm": "off-path",
     }

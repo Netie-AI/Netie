@@ -375,6 +375,20 @@ class DispatchTests(unittest.TestCase):
         self.assertEqual(ctx.exception.code, 501)
         self.assertIn("Cortex", ctx.exception.message)
 
+    def test_mcp_a2a_is_named_501(self) -> None:
+        with self.assertRaises(ExecutionRefused) as ctx:
+            dispatch_combo(
+                "pipeline",
+                ["p/a"],
+                lambda *_a, **_k: "x",
+                mcp=True,
+            )
+        self.assertEqual(ctx.exception.code, 501)
+        self.assertIn("MCP/A2A", ctx.exception.message)
+        with self.assertRaises(ExecutionRefused) as ctx:
+            refuse_unported_from_body({"combo": {"a2a": True}})
+        self.assertEqual(ctx.exception.code, 501)
+
     def test_body_unported_flags_are_named_501(self) -> None:
         with self.assertRaises(ExecutionRefused) as ctx:
             chat_shape_refusal(
