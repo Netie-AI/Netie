@@ -12,9 +12,9 @@ Local CI is the gate until GitHub Actions billing works:
 make ci
 ```
 
-That is `python3 -m compileall -q scripts` then `python3 scripts/check_docs.py` (required files + laptop-ASCII + all `scripts/test_*.py`). GitHub `docs-ci` jobs fail in ~3s without starting: spending limit. Empty steps, no logs. That is not a test failure. Origin (git remote) is already `origin`; we already push there. Switching hosts does not fix clone 404 or Actions billing.
+That is `python3 -m compileall -q scripts netie` then `python3 scripts/check_docs.py` (required files + laptop-ASCII + all `scripts/test_*.py`). GitHub `docs-ci` jobs fail in ~3s without starting: spending limit. Empty steps, no logs. That is not a test failure. Origin (git remote) is already `origin`; we already push there. Switching hosts does not fix clone 404 or Actions billing. Product callers: `uv add --editable git+https://github.com/Netie-AI/Netie.git` (non-editable wheel has no `scripts/` and raises).
 
-Measured on this VM 2026-08-28 against public clones: Netie unittest **292 passed**; constructor (18 patches) `node --test` **42 passed**; OpenVault OpenMW (25 patches) routing+chat **90 passed**; prior full OpenMW suite on 23 patches was **912 passed, 4 skipped**. Re-probed same day: Cortex/Pointer/Space/KB/Crew/AirGPT still 404.
+Measured on this VM 2026-08-28 against public clones: Netie unittest **295 passed**; constructor (18 patches) `node --test` **42 passed**; OpenVault OpenMW (25 patches) routing+chat **90 passed**; prior full OpenMW suite on 23 patches was **912 passed, 4 skipped**. Re-probed same day: Cortex/Pointer/Space/KB/Crew/AirGPT still 404.
 
 ---
 
@@ -28,7 +28,7 @@ Measured on this VM 2026-08-28 against public clones: Netie unittest **292 passe
    - `Netie-AI/Space`
    - `Netie-AI/netie-control`
    - `Netie-AI/Netie-KB`
-3. Create empty `Netie-AI/Cortex-Crew` (do not clone OpenWork or Grok Bot). Then add that repo to the same App list. `PYTHONPATH=<Netie root>` then `from netie.crew import bind_deep_agent`. `uv add deepagents`.
+3. Create empty `Netie-AI/Cortex-Crew` (do not clone OpenWork or Grok Bot). Then add that repo to the same App list. `uv add --editable git+https://github.com/Netie-AI/Netie.git` then `from netie.crew import bind_deep_agent`. `uv add deepagents`.
 4. AirGPT: if it still lives at `jian-hong/AirGPT`, either transfer it into `Netie-AI` or install the Cursor GitHub App on the `jian-hong` account and grant that repo. Do not paste that account password here.
 5. Cursor environment: `https://cursor.com/dashboard/cloud-agents/environments/e/eb1a4238-9fe4-11f1-b532-320a589b8025` -> add the same repo URLs. The next Cloud Agent then gets them in its GitHub token.
 6. Do **not** add `b-nnett/grok-bot-0.18-reconstructed`.
