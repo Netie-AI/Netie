@@ -1,13 +1,13 @@
 """How Cortex routes today. JEPA and gen-cFSM are not on this path.
 
 Executable form of TAS-CORTEX / ESTATE-GAP section 0. Not a serving engine.
-The only invocable write in this model is export_pptx.
+Invocable writes: export_pptx and item.intake (stock mutation). agent.checked is an event.
 """
 
 from __future__ import annotations
 
 COLD_START = ("minimal", "sequential", "dag")
-WRITE_ACTIONS = frozenset({"export_pptx"})
+WRITE_ACTIONS = frozenset({"export_pptx", "item.intake"})
 PARKED = frozenset({"jepa", "gen-cfsm", "osr"})
 
 

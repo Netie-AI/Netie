@@ -24,11 +24,12 @@ git apply docs/patches/constructor-ir-output.patch
 git apply docs/patches/constructor-ir-object.patch
 git apply docs/patches/constructor-ir-bind.patch
 git apply docs/patches/constructor-ir-action-allow.patch
+git apply docs/patches/constructor-ir-intake.patch
 node --test tests/compiler.test.cjs
 ```
 
-Adds `rankForKinds`, empty-graph IR (no invented Cortex nodes), refuse unknown kinds / cycles / dangling edges / missing ids / duplicate ids, `ghostWalk` that refuses those instead of walking a fake order, `EMIT` only on app/audit output (connector-only does not invent EMIT), unlabeled `tool_call` does not invent `export_pptx` (compileIR refuses; inspect shows `(pick)` not a silent first-choice), unlabeled object does not invent `inventory`, unlabeled tier does not invent `T0` (compileIR emits null; inspect shows `(pick)`), unlabeled `set point` does not invent `inventory`, `topo()` does not append leftover cyclic nodes, `compileIR` entry is the Kahn source not `nodes[0]`, `compileIR` output is the Kahn sink app (or last Kahn node when no app/audit) not array-last, `compileIR` drops unlisted `object_type` (`hr_notes` / `Insight` do not become Cortex ontology), `fetch_from` must name the node's listed object (not `warehouse.hr_notes` on inventory), `data_point` must be on that object (not `salary` on inventory), `tool_call` unknown action (`bash`) refuses, unlisted action on a non-tool node is dropped, `export_pptx` on foundry sets `requires_confirm`, node `--test`, and `.github/workflows/test.yml`.
-Measured on this VM 2026-08-28: 40 passed.
+Adds `rankForKinds`, empty-graph IR (no invented Cortex nodes), refuse unknown kinds / cycles / dangling edges / missing ids / duplicate ids, `ghostWalk` that refuses those instead of walking a fake order, `EMIT` only on app/audit output (connector-only does not invent EMIT), unlabeled `tool_call` does not invent `export_pptx` (compileIR refuses; inspect shows `(pick)` not a silent first-choice), unlabeled object does not invent `inventory`, unlabeled tier does not invent `T0` (compileIR emits null; inspect shows `(pick)`), unlabeled `set point` does not invent `inventory`, `topo()` does not append leftover cyclic nodes, `compileIR` entry is the Kahn source not `nodes[0]`, `compileIR` output is the Kahn sink app (or last Kahn node when no app/audit) not array-last, `compileIR` drops unlisted `object_type` (`hr_notes` / `Insight` do not become Cortex ontology), `fetch_from` must name the node's listed object (not `warehouse.hr_notes` on inventory), `data_point` must be on that object (not `salary` on inventory), `tool_call` unknown action (`bash`) refuses, unlisted action on a non-tool node is dropped, `export_pptx` and `item.intake` on foundry set `requires_confirm` (`agent.checked` stays an event), node `--test`, and `.github/workflows/test.yml`.
+Measured on this VM 2026-08-28: 42 passed.
 
 ## OpenVault (`Netie-AI/OpenVault`)
 

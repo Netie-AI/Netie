@@ -2,7 +2,8 @@
 
 Names from `uacc` 1.1.0 on PyPI (MIT, 68 MCP tools). We do not vendor or
 import that package. Cortex must allow each name. Planner / workflow /
-memory / clipboard / ungoverned JS / ungated leave-machine refuse.
+memory / history / clipboard / ungoverned JS / ungated leave-machine /
+uncropped screenshot / process list refuse.
 """
 
 from __future__ import annotations
@@ -92,6 +93,17 @@ KEY_HANDS = frozenset({"hotkey"})
 SECRET_HANDS = frozenset({"clipboard_read", "clipboard_write"})
 SCRIPT_HANDS = frozenset({"browser_execute_js"})
 LEAVE_HANDS = frozenset({"open_url", "launch_app", "browser_navigate"})
+# Full-frame pixels (password fields, OTP, cookies). Crop must be a labeled non-secret.
+SCREEN_HANDS = frozenset(
+    {
+        "screenshot",
+        "take_snapshot",
+        "compare_snapshots",
+        "get_screen_diff",
+    }
+)
+# Process table is surveillance, not a Pointer hand for an instructed region.
+PROCESS_HANDS = frozenset({"list_processes"})
 BRAIN_HANDS = frozenset(
     {
         "uacc_planner",
@@ -105,6 +117,7 @@ BRAIN_HANDS = frozenset(
         "cancel_task",
         "list_tasks",
         "remember_action",
+        "get_action_history",
         "query_knowledge",
         "recall_related_apps",
         "memory_summary",
@@ -139,8 +152,15 @@ def invoke_hand(
         raise PointerDenied("no ungoverned script")
     if tool in BRAIN_HANDS:
         raise PointerDenied("uacc brain stays out; Pointer is hands")
+    if tool in PROCESS_HANDS:
+        raise PointerDenied("process_list_refused")
     if tool in LEAVE_HANDS and not ov_leave:
         raise PointerDenied("leave-machine is OpenVault")
+    if tool in SCREEN_HANDS:
+        if not isinstance(element, dict):
+            raise PointerDenied("screenshot_uncropped")
+        clicked = click(element, cortex_intent=cortex_intent)
+        return {"hand": tool, "crop": True, **clicked}
     if tool in CLICK_HANDS:
         if not isinstance(element, dict):
             raise PointerDenied("no target")

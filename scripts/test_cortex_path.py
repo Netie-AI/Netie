@@ -31,6 +31,13 @@ class CortexPathTests(unittest.TestCase):
         self.assertEqual(out["actor"], "ops")
         self.assertEqual(out["verified"], "true")
 
+    def test_item_intake_is_a_governed_write(self) -> None:
+        out = run_question("dag", write="item.intake", actor="ops", verified=True)
+        self.assertEqual(out["write"], "item.intake")
+        with self.assertRaises(RouteDenied) as ctx:
+            run_question("dag", write="item.intake", verified=True)
+        self.assertIn("actor", str(ctx.exception))
+
     def test_ungoverned_write_denied(self) -> None:
         with self.assertRaises(RouteDenied):
             run_question("dag", write="warehouse.delete", actor="ops", verified=True)

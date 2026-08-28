@@ -10,8 +10,9 @@ from dataclasses import dataclass
 from collections.abc import Callable
 from typing import Any, Protocol
 
-# Same write as Cortex path, plus the two DMS writes that are not invocable yet.
-HITL_WRITES = frozenset({"export_pptx", "amend.apply", "call_action"})
+# Same writes as Cortex path, plus DMS writes that are not invocable yet.
+# item.intake is a stock mutation (warehouse write). agent.checked stays an event.
+HITL_WRITES = frozenset({"export_pptx", "item.intake", "amend.apply", "call_action"})
 # Deep Agents 0.7.9 builtins. Filesystem/shell skip Cortex. `task` is ungoverned
 # fan-out (use crew_parallel cap-2). `write_todos` stores prompt text (use factory index).
 # 0.7 also ships glob / grep / delete on FilesystemMiddleware.
