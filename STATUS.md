@@ -1,6 +1,6 @@
 # STATUS - Netie constitution repo
 
-**Branch:** `cursor/pointer-control-callers-ca9b` · **PR:** (this) · **main:** `94161af` (PR #12 merged)
+**Branch:** `cursor/cortex-web-via-runner-ca9b` · **PR:** (this) · **main:** `6b77b63` (PR #13 merged)
 **Local gate:** `make ci` (compileall + `python3 scripts/check_docs.py`). GitHub docs-ci: red X, job never starts (Actions spending limit). Not a test fail.
 
 ## Now
@@ -10,7 +10,7 @@
 - Product specs: DMS Space ACL (warehouse bind, SQL required, row copy, SQL cannot name an ungranted table, bronze browse still needs grant, `chat_mode` AnythingLLM overlay abstains, answer over DitchContext 12k abstains), AirGPT retrieve stays in one Space (incomplete/unlabeled/`chat_*.md` not cited; file mention stays in Space; NVIDIA_RAG_EVAL/semantic not a chunker; ChatGPT memory abstains; over-budget retrieve abstains), Pointer UACC wrap (68 names behind Cortex; planner/history/clipboard/JS/uncropped screenshot/`get_screen_info`/page-dump/process-list/window-dump/env-dump/secret-hotkey/uncropped-paint/uacc-override refuse; hosted e2b/Perplexity Computer refuse), Space preview/write refuses secrets / ungated OCR / ungated chat-over-preview / over-budget excerpts, Control board + session (no prompts / no transcript; RDP/VNC/SSH/Guacamole kinds refuse; over DitchContext 12k refuses). Constructor `compileIR` stays ours (`scripts/constructor_honesty.py`). Crew `load_den` refuses OpenWork `ee/`.
 - Accessible remotes (clone yes, `cursor[bot]` push 403): Netie (this; main merge works), OpenVault, constructor, Cortex `bf4ecee`, dms `3f9a9be`, Pointer `8c0e6c2`, netie-control `82ab1ae`, Netie-KB `10356e5` (`kb.py validate` OK, 58 artifacts).
 - 404 to this token: AirGPT, Space, Cortex-Crew.
-- Sibling push 403: patches in `docs/patches/`. Cortex/dms callers already on Netie main (PR #12). New: `pointer-netie-hands.patch` (UACC search drops planner/clipboard/window dump; `bindComputer` is local tray; native observe stays DR-0005). `control-netie-board.patch` (`from netie.control import project_board` when installed; `/v1/rdp` `/v1/vnc` `/v1/guacamole` `/v1/ssh` 405). C2/MIN_TESTS stand. Do not mint a new Cortex #42.
+- Sibling push 403: patches in `docs/patches/`. PR #12/#13 on main. New: `cortex-web-via-runner.patch` (`default_broker` no longer skips F8 for `web_search`/`web_fetch`/`find_*`; unregistered denies). C2/MIN_TESTS stand. Do not mint a new Cortex #42.
 
 ## Next (blocked on founder clicks in `docs/ACCESS.md`)
 

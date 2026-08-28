@@ -8,7 +8,7 @@ constructor-ghost-refuse.patch then constructor-ir-emit.patch then
 constructor-tool-action.patch then constructor-inspect-action.patch then constructor-inspect-object.patch then constructor-inspect-tier.patch then constructor-chat-object.patch then constructor-topo-leftover.patch then constructor-ir-entry.patch then constructor-ir-output.patch then constructor-ir-object.patch then constructor-ir-bind.patch then constructor-ir-action-allow.patch then constructor-ir-intake.patch then constructor-ir-hitl.patch then constructor-ir-connected.patch then constructor-ir-note.patch then constructor-ir-cortex-post.patch then constructor-object-pick.patch then constructor-engine-order.patch then constructor-ir-post.patch then constructor-ir-kahn-nodes.patch, and runs
 node --test (62 passed).
 OpenVault patches apply on origin/main then `uv run pytest` on the routing+chat+crew-gate+ship-claim files (>= 90 passed). The 28th patch (`openvault-crew-netie.patch`) makes `/api/crew/gate` call `from netie.crew import refuse_crew_gate` when Netie is installed.
-Cortex `cortex-netie-path.patch` applies on origin/main (do not uv-add Netie.git). dms `dms-netie-acl.patch` applies on origin/main (`live_ask` / browse through `netie.dms` when installed). Pointer `pointer-netie-hands.patch` applies on origin/main (UACC search drops planner/clipboard/window dump). Control `control-netie-board.patch` applies on origin/main (`guard_issue_board` / Guacamole 405s).
+Cortex `cortex-netie-path.patch` applies on origin/main (do not uv-add Netie.git). `cortex-web-via-runner.patch` applies on origin/main (`default_broker` no web/discovery skip). dms `dms-netie-acl.patch` applies on origin/main (`live_ask` / browse through `netie.dms` when installed). Pointer `pointer-netie-hands.patch` applies on origin/main (UACC search drops planner/clipboard/window dump). Control `control-netie-board.patch` applies on origin/main (`guard_issue_board` / Guacamole 405s).
 """
 
 from __future__ import annotations
@@ -575,6 +575,44 @@ class SiblingPatchTests(unittest.TestCase):
                 }
             )
             self.assertEqual(kept["items"][0]["title"], "acl wave")
+
+    def test_cortex_web_via_runner_applies_on_main(self) -> None:
+        patch = PATCHES / "cortex-web-via-runner.patch"
+        self.assertTrue(patch.is_file())
+        with tempfile.TemporaryDirectory() as tmp:
+            dest = Path(tmp) / "Cortex"
+            clone = _run(
+                [
+                    "git",
+                    "clone",
+                    "--depth",
+                    "1",
+                    "--branch",
+                    "main",
+                    "https://github.com/Netie-AI/Cortex.git",
+                    str(dest),
+                ],
+                timeout=180,
+            )
+            self.assertEqual(clone.returncode, 0, clone.stderr)
+            applied = _run(["git", "apply", str(patch)], cwd=dest)
+            self.assertEqual(applied.returncode, 0, applied.stderr)
+            broker = (dest / "CortexOS" / "execution" / "agent_task.py").read_text(
+                encoding="utf-8"
+            )
+            start = broker.index("def default_broker")
+            end = broker.index("\ndef ", start + 1)
+            body = broker[start:end]
+            self.assertNotIn("WEB_TOOLS", body)
+            self.assertNotIn("DISCOVERY_TOOLS", body)
+            self.assertIn("run_tool_call", body)
+            test_py = dest / "tests" / "dms" / "test_broker_no_skip.py"
+            self.assertTrue(test_py.is_file())
+            probed = _run(
+                [sys.executable, "-m", "pytest", str(test_py), "-q"],
+                cwd=dest,
+            )
+            self.assertEqual(probed.returncode, 0, probed.stdout + probed.stderr)
 
 
 if __name__ == "__main__":
