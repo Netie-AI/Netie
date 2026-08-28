@@ -3,7 +3,7 @@
 create_deep_agent(tools=...) is additive: filesystem / execute / task stay
 on unless a HarnessProfile excludes them. This module is the only legal
 factory: wrap first, exclude builtins, no skills/memory/subagents, no
-transcript checkpointer.
+transcript checkpointer, no system_prompt, no extra middleware/backend.
 
 Do not vendor the deepagents tree. `pip install deepagents==0.7.9`.
 """
@@ -14,7 +14,23 @@ from typing import Any, Callable
 
 from crew_tool_wrap import CortexDenied, CortexGate, DEEPAGENTS_DIRECT, require_wrapped, wrap_deepagents_tools
 
-FORBIDDEN_FACTORY_KEYS = frozenset({"skills", "memory", "subagents", "store"})
+# Deep Agents 0.7.9 factory knobs that dump prompts or put filesystem back.
+FORBIDDEN_FACTORY_KEYS = frozenset(
+    {
+        "skills",
+        "memory",
+        "subagents",
+        "store",
+        "system_prompt",
+        "middleware",
+        "backend",
+        "permissions",
+        "interrupt_on",
+        "cache",
+        "state_schema",
+        "context_schema",
+    }
+)
 
 
 def _model_key(model: Any) -> str:
@@ -53,6 +69,10 @@ def bind_kwargs(
         "skills": None,
         "memory": None,
         "checkpointer": False,
+        "system_prompt": None,
+        "middleware": (),
+        "backend": None,
+        "permissions": None,
     }
 
 
@@ -67,9 +87,8 @@ def bind_deep_agent(
 ) -> Any:
     """The only create_deep_agent call site. Builtins stay excluded."""
     bag = dict(extra or {})
-    leak = FORBIDDEN_FACTORY_KEYS.intersection(bag)
-    if leak:
-        name = sorted(leak)[0]
+    if bag:
+        name = sorted(bag)[0]
         raise CortexDenied(f"{name} is not a Crew factory knob")
     kwargs = bind_kwargs(gate, names, model=model)
     spec = _model_key(model)

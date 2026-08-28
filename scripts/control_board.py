@@ -11,10 +11,20 @@ from crew_capabilities import search_capabilities
 
 
 FORBIDDEN_KEYS = frozenset({"skill_body", "prompt", "transcript", "api_key", "password"})
+# Control is not Apache Guacamole. RDP/VNC names are not board cards.
+RDP_KINDS = frozenset({"rdp", "vnc", "guacamole", "guacd", "remote_desktop"})
 
 
 class ControlDenied(PermissionError):
     """Board stays a view. It does not run the loop."""
+
+
+def _guard_row(row: dict[str, Any]) -> None:
+    if any(k in row for k in FORBIDDEN_KEYS):
+        raise ControlDenied("index leaked a body")
+    kind = str(row.get("kind") or "").strip().lower()
+    if kind in RDP_KINDS:
+        raise ControlDenied("Control is not Guacamole")
 
 
 def project_board(
@@ -27,8 +37,7 @@ def project_board(
     for row in crew_index.get("runs") or []:
         if not isinstance(row, dict):
             continue
-        if any(k in row for k in FORBIDDEN_KEYS):
-            raise ControlDenied("index leaked a body")
+        _guard_row(row)
         cards.append(
             {
                 "id": row.get("id"),
@@ -40,8 +49,7 @@ def project_board(
     for row in crew_index.get("tickets") or []:
         if not isinstance(row, dict):
             continue
-        if any(k in row for k in FORBIDDEN_KEYS):
-            raise ControlDenied("index leaked a body")
+        _guard_row(row)
         cards.append(
             {
                 "id": row.get("id"),
@@ -54,8 +62,7 @@ def project_board(
     for row in crew_index.get("epics") or []:
         if not isinstance(row, dict):
             continue
-        if any(k in row for k in FORBIDDEN_KEYS):
-            raise ControlDenied("index leaked a body")
+        _guard_row(row)
         cards.append(
             {
                 "id": row.get("id"),
@@ -67,16 +74,14 @@ def project_board(
     for row in ledger_peek:
         if not isinstance(row, dict):
             continue
-        if any(k in row for k in FORBIDDEN_KEYS):
-            raise ControlDenied("index leaked a body")
+        _guard_row(row)
         cards.append(
             {"id": row.get("id"), "kind": "ledger", "status": row.get("status")}
         )
     for row in refusals:
         if not isinstance(row, dict):
             continue
-        if any(k in row for k in FORBIDDEN_KEYS):
-            raise ControlDenied("index leaked a body")
+        _guard_row(row)
         cards.append(
             {"id": row.get("id"), "kind": "refusal", "reason": row.get("reason")}
         )

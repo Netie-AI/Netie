@@ -95,6 +95,17 @@ class ControlBoardTests(unittest.TestCase):
         )
         self.assertEqual(session["permissions"], ["warehouse.query"])
 
+    def test_rdp_card_is_not_guacamole(self) -> None:
+        with self.assertRaises(ControlDenied) as ctx:
+            project_board(
+                crew_index={
+                    "runs": [{"id": "p1", "status": "open", "kind": "rdp"}]
+                },
+                ledger_peek=[],
+                refusals=[],
+            )
+        self.assertIn("Guacamole", str(ctx.exception))
+
 
 if __name__ == "__main__":
     unittest.main()
