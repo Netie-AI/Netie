@@ -1,27 +1,18 @@
 diff --git a/app.js b/app.js
-index 07dda52..e3f7d9e 100644
+index 3dac344..ba80aa5 100644
 --- a/app.js
 +++ b/app.js
-@@ -48,7 +48,7 @@ const OBJECTS = {
-     },
-   },
- };
+@@ -197,7 +197,7 @@ const LINKS = [
+   { id: "lead_of_contact", from: "leads", to: "contacts", via: "contact_id" },
+   { id: "incident_at_location", from: "incidents", to: "locations", via: "location_id" },
+ ];
 -const ACTIONS = ["export_pptx", "item.intake", "agent.checked"];
 +const ACTIONS = ["export_pptx", "item.intake", "amend.apply", "call_action", "agent.checked"];
- const TIERS = ["T0", "T1"];
- 
- const state = load() || sample();
-@@ -261,7 +261,7 @@ function showInspect() {
-     '" placeholder="warehouse.inventory" />' +
-     fieldSelect("tier", "Router tier (ModelRouter, not a network LB)", listedOptions(TIERS, node.tier), tier) +
-     fieldSelect("stream", "Stream (/dms/streams flag)", ["false", "true"], node.stream ? "true" : "false") +
--    '<p class="hint">Object/point/type write onto the DAG. Fetch/place is DuckDB (warehouse.inventory). Action export_pptx and item.intake are writes (confirm); agent.checked is an event. Tier is ModelRouter T0/T1 on tool/agent, not a network LB. Stream lists /dms/streams. Pages never fetch.</p>';
-+    '<p class="hint">Object/point/type write onto the DAG. Fetch/place is DuckDB (warehouse.inventory). Action export_pptx, item.intake, amend.apply, and call_action are writes (confirm); agent.checked is an event. Tier is ModelRouter T0/T1 on tool/agent, not a network LB. Stream lists /dms/streams. Pages never fetch.</p>';
- }
- 
- function fieldSelect(name, label, values, current) {
+ const FETCH_PLACES = [
+   "warehouse.inventory",
+   "warehouse.suppliers",
 diff --git a/engine.js b/engine.js
-index 8125888..7a2cac8 100644
+index 4797328..b0844c5 100644
 --- a/engine.js
 +++ b/engine.js
 @@ -91,8 +91,8 @@ function listedOrEmpty(value, listed) {
@@ -35,7 +26,7 @@ index 8125888..7a2cac8 100644
  const DATA_TYPES = ["string", "number", "integer", "boolean", "date"];
  const DEFAULT_OBJECT_POINTS = {
    inventory: [
-@@ -590,7 +590,7 @@ async function handleChat(raw) {
+@@ -673,7 +673,7 @@ async function handleChat(raw) {
    }
    const setAct = t.match(/^set action (\S+)$/);
    if (setAct) {
@@ -45,10 +36,10 @@ index 8125888..7a2cac8 100644
    }
    const setFetch = t.match(/^set fetch (.+)$/);
 diff --git a/tests/compiler.test.cjs b/tests/compiler.test.cjs
-index a0d16ba..dccecd3 100644
+index a085846..cd2d767 100644
 --- a/tests/compiler.test.cjs
 +++ b/tests/compiler.test.cjs
-@@ -560,6 +560,24 @@ test("agent.checked on foundry is an event", () => {
+@@ -550,6 +550,24 @@ test("agent.checked on foundry is an event", () => {
    assert.equal(ir.nodes[0].requires_confirm, false);
  });
  

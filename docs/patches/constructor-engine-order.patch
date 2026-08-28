@@ -1,8 +1,8 @@
 diff --git a/engine.js b/engine.js
-index a11c515..1ae870f 100644
+index 4f36586..947d729 100644
 --- a/engine.js
 +++ b/engine.js
-@@ -898,12 +898,21 @@ function bindChat() {
+@@ -1351,12 +1351,21 @@ function bindChat() {
    rankApproaches();
  }
  
@@ -29,7 +29,7 @@ index a11c515..1ae870f 100644
  }
  
  if (typeof module !== "undefined" && module.exports) {
-@@ -924,5 +933,6 @@ if (typeof module !== "undefined" && module.exports) {
+@@ -1377,5 +1386,6 @@ if (typeof module !== "undefined" && module.exports) {
      notesDenied,
      nodesWithoutNotes,
      cortexPayload,
@@ -37,30 +37,20 @@ index a11c515..1ae870f 100644
    };
  }
 diff --git a/index.html b/index.html
-index e8657c9..7817137 100644
+index 95b0562..5a82891 100644
 --- a/index.html
 +++ b/index.html
-@@ -4,7 +4,7 @@
-     <meta charset="utf-8" />
-     <meta name="viewport" content="width=device-width, initial-scale=1" />
+@@ -6,7 +6,7 @@
      <title>Constructor — Netie</title>
--    <link rel="stylesheet" href="styles.css?v=3" />
-+    <link rel="stylesheet" href="styles.css?v=4" />
+     <link rel="icon" href="favicon.ico" sizes="any" />
+     <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+-    <link rel="stylesheet" href="styles.css?v=14" />
++    <link rel="stylesheet" href="styles.css?v=15" />
    </head>
-   <body>
+   <body class="chat-open chat-snap-right">
      <header class="top">
-@@ -75,7 +75,7 @@
-       </form>
-     </section>
- 
--    <script src="app.js?v=3"></script>
--    <script src="engine.js?v=3"></script>
-+    <script src="engine.js?v=4"></script>
-+    <script src="app.js?v=4"></script>
-   </body>
- </html>
 diff --git a/tests/compiler.test.cjs b/tests/compiler.test.cjs
-index 001ebb7..009cd9a 100644
+index b095438..48d0605 100644
 --- a/tests/compiler.test.cjs
 +++ b/tests/compiler.test.cjs
 @@ -13,7 +13,10 @@ const {
@@ -74,7 +64,7 @@ index 001ebb7..009cd9a 100644
  
  test("foundry path ranks orchestrator-subagent first", () => {
    const ranked = rankForKinds(["connector", "ontology", "insight", "foundry", "app"]);
-@@ -800,3 +803,14 @@ test("applyObjectType clears a data_point not on the new object", () => {
+@@ -790,3 +793,14 @@ test("applyObjectType clears a data_point not on the new object", () => {
    assert.equal(unlabeled.object_type, "");
    assert.equal(unlabeled.data_point, "");
  });

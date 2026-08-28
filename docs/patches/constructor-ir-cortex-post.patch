@@ -1,5 +1,5 @@
 diff --git a/engine.js b/engine.js
-index 331e9ca..34f84c0 100644
+index eef0b3c..e6df1b4 100644
 --- a/engine.js
 +++ b/engine.js
 @@ -177,6 +177,37 @@ function notesDenied(nodes) {
@@ -57,7 +57,7 @@ index 331e9ca..34f84c0 100644
      C.showAudit({ mode: "cortex-ghost", remote: remote });
      if (remote && remote.ok) {
        C.markGhostWalk((remote.nodes || []).map((n) => n.id));
-@@ -451,39 +484,39 @@ function localGhostWalk() {
+@@ -484,10 +517,9 @@ function localGhostWalk() {
  
  async function rankApproaches() {
    if (cortexOrigin()) {
@@ -65,96 +65,37 @@ index 331e9ca..34f84c0 100644
 -      nodes: window.Constructor.getState().nodes,
 -      edges: window.Constructor.getState().edges,
 -    });
--    if (remote && remote.ok && Array.isArray(remote.approaches)) {
--      const recId = remote.recommendation && remote.recommendation.pattern;
--      const box = document.getElementById("approaches");
--      box.innerHTML = remote.approaches
--        .map((row) => {
--          const win = row.id === recId;
--          return (
--            '<article class="approach' +
--            (win ? " winner" : "") +
--            '"><div class="eyebrow">' +
--            (win ? "WINNER" : "ALT") +
--            " / " +
--            String(row.cortex_status || "").toUpperCase() +
--            "</div><h3>" +
--            row.name +
--            "</h3><p>" +
--            row.blurb +
--            '</p><p class="hint">' +
--            row.cortex_path +
--            "</p></article>"
--          );
--        })
--        .join("");
--      const ranked = remote.approaches.map((row) =>
--        Object.assign({}, row, { score: row.id === recId ? 99 : 0 })
--      );
--      ranked.sort((a, b) => b.score - a.score);
--      window.Constructor.lastRanking = ranked;
--      return ranked;
 +    const packed = cortexPayload(window.Constructor.getState());
 +    if (!packed.error) {
-+      const remote = await cortexPost("/cortex/constructor/recommend", packed.body);
-+      if (remote && remote.ok && Array.isArray(remote.approaches)) {
-+        const recId = remote.recommendation && remote.recommendation.pattern;
-+        const box = document.getElementById("approaches");
-+        box.innerHTML = remote.approaches
-+          .map((row) => {
-+            const win = row.id === recId;
-+            return (
-+              '<article class="approach' +
-+              (win ? " winner" : "") +
-+              '"><div class="eyebrow">' +
-+              (win ? "WINNER" : "ALT") +
-+              " / " +
-+              String(row.cortex_status || "").toUpperCase() +
-+              "</div><h3>" +
-+              row.name +
-+              "</h3><p>" +
-+              row.blurb +
-+              '</p><p class="hint">' +
-+              row.cortex_path +
-+              "</p></article>"
-+            );
-+          })
-+          .join("");
-+        const ranked = remote.approaches.map((row) =>
-+          Object.assign({}, row, { score: row.id === recId ? 99 : 0 })
-+        );
-+        ranked.sort((a, b) => b.score - a.score);
-+        window.Constructor.lastRanking = ranked;
-+        return ranked;
-+      }
++    const remote = await cortexPost("/cortex/constructor/recommend", packed.body);
+     if (remote && remote.ok && Array.isArray(remote.approaches)) {
+       const recId = remote.recommendation && remote.recommendation.pattern;
+       const box = document.getElementById("approaches");
+@@ -518,6 +550,7 @@ async function rankApproaches() {
+       window.Constructor.lastRanking = ranked;
+       return ranked;
      }
++    }
    }
    const ranked = rankForKinds(
-@@ -589,17 +622,17 @@ async function loadOntology() {
- 
- async function liveOrGhost(forceLive) {
-   const C = window.Constructor;
--  const ir = compileIR(C.getState());
-+  const packed = cortexPayload(C.getState());
-   if (forceLive) {
-     if (!cortexOrigin()) {
-       return "Live run is Cortex only (POST /cortex/constructor/run). Pages never fetch. Open http://127.0.0.1:8012/cortex . app.netie.ai/cortex is still LiteSpeed 404.";
+     window.Constructor.getState().nodes.map((n) => n.kind)
+@@ -674,10 +707,11 @@ async function liveOrGhost(forceLive) {
+       return "Live run is Cortex only (POST /cortex/constructor/run). Pages never fetch. Open http://127.0.0.1:8010/cortex .";
      }
-+    if (packed.error) {
-+      return "Cortex run refused: " + packed.error + ". No post.";
-+    }
      C.setGhost(false);
 -    const remote = await cortexPost("/cortex/constructor/run", {
 -      nodes: C.getState().nodes,
 -      edges: C.getState().edges,
 -    });
--    C.showAudit({ mode: "cortex-run", ir: ir, remote: remote });
++    const packed = cortexPayload(C.getState());
++    if (packed.error) {
++      return "Cortex run refused: " + packed.error + ". No post.";
++    }
 +    const remote = await cortexPost("/cortex/constructor/run", packed.body);
-+    C.showAudit({ mode: "cortex-run", ir: compileIR(C.getState()), remote: remote });
+     C.showAudit({ mode: "cortex-run", ir: ir, remote: remote });
      if (!remote || remote.ok === false) {
        return (
-         "Cortex run_dag failed (" +
-@@ -736,7 +769,11 @@ async function handleChat(raw) {
+@@ -827,7 +861,11 @@ async function handleChat(raw) {
      }
      const node = C.selected && C.selected();
      if (!node) return "Select a node first.";
@@ -167,7 +108,7 @@ index 331e9ca..34f84c0 100644
      C.showAudit({ mode: "cortex-fetch", remote: remote });
      if (!remote || remote.ok === false) {
        return (
-@@ -768,7 +805,7 @@ async function handleChat(raw) {
+@@ -862,7 +900,7 @@ async function handleChat(raw) {
      const ranked = await rankApproaches();
      let live = "";
      if (cortexOrigin()) {
@@ -176,7 +117,7 @@ index 331e9ca..34f84c0 100644
          nodes: [
            {
              id: "bench",
-@@ -780,6 +817,9 @@ async function handleChat(raw) {
+@@ -874,6 +912,9 @@ async function handleChat(raw) {
          ],
          edges: [],
        });
@@ -186,7 +127,7 @@ index 331e9ca..34f84c0 100644
        if (remote && remote.ok && remote.slice) {
          live = " Live DuckDB inventory rows: " + (remote.slice.row_count || 0) + ".";
        } else {
-@@ -858,5 +898,8 @@ if (typeof module !== "undefined" && module.exports) {
+@@ -1310,5 +1351,8 @@ if (typeof module !== "undefined" && module.exports) {
      objectForSetPoint,
      fetchFromListed,
      pointsForObject,
@@ -196,7 +137,7 @@ index 331e9ca..34f84c0 100644
    };
  }
 diff --git a/tests/compiler.test.cjs b/tests/compiler.test.cjs
-index a8b41b0..2fd613e 100644
+index 5a708eb..03a685f 100644
 --- a/tests/compiler.test.cjs
 +++ b/tests/compiler.test.cjs
 @@ -10,6 +10,8 @@ const {
@@ -208,7 +149,7 @@ index a8b41b0..2fd613e 100644
  } = require("../engine.js");
  
  test("foundry path ranks orchestrator-subagent first", () => {
-@@ -714,3 +716,39 @@ test("compileIR refuses notes over DitchContext", () => {
+@@ -704,3 +706,39 @@ test("compileIR refuses notes over DitchContext", () => {
    assert.equal(ir.error, "notes over DitchContext");
    assert.deepEqual(ir.nodes, []);
  });

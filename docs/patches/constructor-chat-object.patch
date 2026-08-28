@@ -1,5 +1,5 @@
 diff --git a/engine.js b/engine.js
-index 9a46230..59a2000 100644
+index 53bdf96..ef3305f 100644
 --- a/engine.js
 +++ b/engine.js
 @@ -96,6 +96,11 @@ function listedOptions(listed, value) {
@@ -14,7 +14,7 @@ index 9a46230..59a2000 100644
  function irError(ghost, message) {
    return {
      version: "1.0",
-@@ -505,7 +510,8 @@ async function handleChat(raw) {
+@@ -588,7 +593,8 @@ async function handleChat(raw) {
    if (setPoint) {
      const node = C.selected && C.selected();
      if (!node) return "Select a node first.";
@@ -24,7 +24,7 @@ index 9a46230..59a2000 100644
      if (!C.OBJECTS[obj] || !C.OBJECTS[obj].points[setPoint[1]]) {
        return "Point not on " + obj + ". " + Object.keys((C.OBJECTS[obj] && C.OBJECTS[obj].points) || {}).join(", ");
      }
-@@ -713,5 +719,6 @@ if (typeof module !== "undefined" && module.exports) {
+@@ -1165,5 +1171,6 @@ if (typeof module !== "undefined" && module.exports) {
      ghostWalk,
      listedOrEmpty,
      listedOptions,
@@ -32,7 +32,7 @@ index 9a46230..59a2000 100644
    };
  }
 diff --git a/tests/compiler.test.cjs b/tests/compiler.test.cjs
-index 2b46e99..6fdfcef 100644
+index 5ee9201..a7e6c1c 100644
 --- a/tests/compiler.test.cjs
 +++ b/tests/compiler.test.cjs
 @@ -9,6 +9,7 @@ const {
@@ -43,9 +43,9 @@ index 2b46e99..6fdfcef 100644
  } = require("../engine.js");
  
  test("foundry path ranks orchestrator-subagent first", () => {
-@@ -278,3 +279,13 @@ test("inspect does not invent T0 for a missing tier", () => {
-   assert.deepEqual(listedOptions(tiers, ""), ["", "T0", "T1"]);
-   assert.deepEqual(listedOptions(tiers, "T0"), tiers);
+@@ -268,3 +269,13 @@ test("compileIR does not invent T0 for a missing tier", () => {
+   assert.equal(ir.error, undefined);
+   assert.equal(ir.nodes[0].tier, null);
  });
 +
 +test("set point does not invent inventory for a missing object", () => {
