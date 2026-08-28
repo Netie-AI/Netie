@@ -39,6 +39,7 @@ class NetieInitTests(unittest.TestCase):
             crew_text = (crew / "CLAUDE.md").read_text(encoding="utf-8")
             cortex_text = (cortex / "CLAUDE.md").read_text(encoding="utf-8")
             self.assertIn(CALLERS["Crew"], crew_text)
+            self.assertIn("crew_harness_profile", crew_text)
             self.assertIn("TokenBudget", crew_text)
             self.assertIn(CALLERS["Cortex"], cortex_text)
             self.assertIn("WRITE_ACTIONS", cortex_text)

@@ -159,18 +159,39 @@ class CrewDeepAgentsTests(unittest.TestCase):
             )
         self.assertIn("debug", str(ctx.exception))
 
+    def test_injected_factory_without_register_refuses(self) -> None:
+        def factory(**_k: Any) -> str:
+            return "nope"
+
+        with self.assertRaises(CortexDenied) as ctx:
+            bind_deep_agent(
+                FakeGate(),
+                ["export_pptx"],
+                model="openai:gpt-4",
+                factory=factory,
+            )
+        self.assertIn("harness register", str(ctx.exception))
+
     def test_injected_factory_gets_wrapped_tools(self) -> None:
+        try:
+            crew_harness_profile()
+        except CortexDenied:
+            self.skipTest("deepagents not installed")
         seen: dict[str, Any] = {}
 
         def factory(**kw: Any) -> str:
             seen.update(kw)
             return "agent"
 
+        def register(spec: str, profile: Any) -> None:
+            seen.setdefault("profiles", {})[spec] = profile
+
         out = bind_deep_agent(
             FakeGate(),
             ["export_pptx"],
             model="openai:gpt-4",
             factory=factory,
+            register=register,
         )
         self.assertEqual(out, "agent")
         self.assertEqual(len(seen["tools"]), 1)
@@ -178,6 +199,11 @@ class CrewDeepAgentsTests(unittest.TestCase):
         self.assertIsNone(seen["subagents"])
         self.assertIsNone(seen["system_prompt"])
         self.assertEqual(seen["middleware"], ())
+        profile = seen["profiles"]["openai:gpt-4"]
+        excluded = set(profile.excluded_tools)
+        for name in ("task", "ls", "execute", "read_file"):
+            self.assertIn(name, excluded)
+        self.assertIs(profile.general_purpose_subagent.enabled, False)
 
     def test_profile_excludes_builtins_when_installed(self) -> None:
         try:

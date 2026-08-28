@@ -25,9 +25,11 @@ from netie.crew import (
     TokenBudget,
     Verdict,
     bind_deep_agent,
+    crew_harness_profile,
     dispatch_seat,
     load_den,
     run_batch,
+    wrap_deepagents_tools,
 )
 from netie.dms import SpaceDenied, answer_or_abstain, browse_or_abstain, mint_manifest
 from netie.pointer import PointerDenied, bind_computer, click, invoke_hand
@@ -45,6 +47,12 @@ from netie.space import MAX_CHAT_EXCERPT, SpaceLeaveDenied, chat_preview, ocr_cl
 class NetieApiTests(unittest.TestCase):
     def test_crew_bind_is_the_factory(self) -> None:
         self.assertTrue(callable(bind_deep_agent))
+        self.assertTrue(callable(crew_harness_profile))
+        self.assertTrue(callable(wrap_deepagents_tools))
+        from netie import crew as crew_mod
+
+        self.assertIn("crew_harness_profile", crew_mod.__all__)
+        self.assertNotIn("bind_kwargs", crew_mod.__all__)
         with self.assertRaises(CortexDenied) as ctx:
             load_den("ee/")
         self.assertIn("ee/", str(ctx.exception))
@@ -134,9 +142,11 @@ class NetieApiTests(unittest.TestCase):
                 [
                     str(py),
                     "-c",
-                    "from netie.crew import bind_deep_agent, TokenBudget, dispatch_seat; "
+                    "from netie.crew import bind_deep_agent, crew_harness_profile, "
+                    "TokenBudget, dispatch_seat, wrap_deepagents_tools; "
                     "from netie.cortex import run_question; "
-                    "print('ok' if callable(bind_deep_agent) and callable(TokenBudget) "
+                    "print('ok' if callable(bind_deep_agent) and callable(crew_harness_profile) "
+                    "and callable(wrap_deepagents_tools) and callable(TokenBudget) "
                     "and callable(dispatch_seat) and callable(run_question) else 'no')",
                 ],
                 capture_output=True,
@@ -210,6 +220,45 @@ class NetieApiTests(unittest.TestCase):
                 extra={"skills": ["/tmp/skill.md"]},
             )
         self.assertIn("skills", str(extra.exception))
+        with self.assertRaises(CortexDenied) as wrap:
+            wrap_deepagents_tools(Gate(), [])
+        self.assertIn("trust-the-LLM", str(wrap.exception))
+        with self.assertRaises(CortexDenied) as injected:
+            bind_deep_agent(
+                Gate(),
+                ["export_pptx"],
+                model="openai:gpt-4",
+                factory=lambda **_k: "nope",
+            )
+        self.assertIn("harness register", str(injected.exception))
+        try:
+            profile = crew_harness_profile()
+        except CortexDenied:
+            profile = None
+        if profile is None:
+            return
+        excluded = set(profile.excluded_tools)
+        for name in ("task", "ls", "execute", "read_file", "write_file", "glob", "grep"):
+            self.assertIn(name, excluded)
+        self.assertIs(profile.general_purpose_subagent.enabled, False)
+        seen: dict = {}
+
+        def factory(**kw: object) -> str:
+            return "agent"
+
+        def register(spec: str, hooked: object) -> None:
+            seen[spec] = hooked
+
+        bind_deep_agent(
+            Gate(),
+            ["export_pptx"],
+            model="openai:gpt-4",
+            factory=factory,
+            register=register,
+        )
+        hooked = seen["openai:gpt-4"]
+        self.assertIn("task", set(hooked.excluded_tools))
+        self.assertIs(hooked.general_purpose_subagent.enabled, False)
 
     def test_dms_product_caller_public_api(self) -> None:
         """PRD-001 shape: import netie.dms only, not scripts/."""

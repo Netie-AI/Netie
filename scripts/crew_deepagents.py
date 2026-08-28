@@ -100,9 +100,13 @@ def bind_deep_agent(
         except ImportError as exc:
             raise CortexDenied("deepagents not installed") from exc
         factory = create_deep_agent
-        register = register_harness_profile
-    if register is not None:
-        profile = crew_harness_profile()
-        register(spec, profile)
-        register(spec.split(":", 1)[0], profile)
+        if register is None:
+            register = register_harness_profile
+    if register is None:
+        raise CortexDenied(
+            "harness register required; Deep Agents default is trust-the-LLM"
+        )
+    profile = crew_harness_profile()
+    register(spec, profile)
+    register(spec.split(":", 1)[0], profile)
     return factory(**kwargs)

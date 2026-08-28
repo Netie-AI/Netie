@@ -43,7 +43,7 @@ CALLERS: dict[str, str] = {
     "Space": "from netie.space import chat_preview",
     "Pointer": "from netie.pointer import bind_computer, invoke_hand",
     "Constructor": "from netie.route import compile_graph",
-    "Crew": "from netie.crew import bind_deep_agent, TokenBudget, dispatch_seat",
+    "Crew": "from netie.crew import bind_deep_agent, crew_harness_profile, TokenBudget, dispatch_seat",
 }
 
 
