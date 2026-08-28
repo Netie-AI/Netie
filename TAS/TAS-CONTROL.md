@@ -18,6 +18,7 @@ Read-only cards from Crew index + Factory.index() tickets/epics + ledger peek + 
 `project_session` is one live run: ids, todos, permissions, hand-off id. No transcript.
 Session permissions drop Deep Agents builtins and billing-bypass names (`search_capabilities`).
 Transcript / prompt / key leak is denied on every row (runs, tickets, epics, ledger, refusals).
+RDP / VNC / Guacamole kinds refuse (Control is not a remote-desktop gateway).
 Ticket runner: `scripts/crew_runner.py` (Cortex refusal on the board, ticket stays open).
 `run_dag` raises. Score stays **2 / 10** as a board view, **1 / 10** as Guacamole.
 `python3 scripts/test_control_board.py` and `python3 scripts/test_crew_runner.py`.

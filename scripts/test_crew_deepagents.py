@@ -10,7 +10,12 @@ from typing import Any
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
-from crew_deepagents import bind_deep_agent, bind_kwargs, crew_harness_profile
+from crew_deepagents import (
+    FORBIDDEN_FACTORY_KEYS,
+    bind_deep_agent,
+    bind_kwargs,
+    crew_harness_profile,
+)
 from crew_tool_wrap import CortexDenied, Verdict
 
 
@@ -27,13 +32,19 @@ class FakeGate:
 
 
 class CrewDeepAgentsTests(unittest.TestCase):
-    def test_bind_kwargs_are_wrapped_only(self) -> None:
+    def test_forbidden_covers_prompt_and_filesystem_knobs(self) -> None:
+        for name in ("system_prompt", "middleware", "backend", "permissions", "skills"):
+            self.assertIn(name, FORBIDDEN_FACTORY_KEYS)
         kw = bind_kwargs(FakeGate(), ["export_pptx"], model="openai:gpt-4")
         self.assertEqual(len(kw["tools"]), 1)
         self.assertIs(kw["checkpointer"], False)
         self.assertIsNone(kw["subagents"])
         self.assertIsNone(kw["skills"])
         self.assertIsNone(kw["memory"])
+        self.assertIsNone(kw["system_prompt"])
+        self.assertEqual(kw["middleware"], ())
+        self.assertIsNone(kw["backend"])
+        self.assertIsNone(kw["permissions"])
 
     def test_bare_model_refuses(self) -> None:
         with self.assertRaises(CortexDenied) as ctx:
@@ -81,6 +92,48 @@ class CrewDeepAgentsTests(unittest.TestCase):
             )
         self.assertIn("subagents", str(ctx.exception))
 
+    def test_factory_system_prompt_refuses(self) -> None:
+        def factory(**_k: Any) -> str:
+            return "nope"
+
+        with self.assertRaises(CortexDenied) as ctx:
+            bind_deep_agent(
+                FakeGate(),
+                ["export_pptx"],
+                model="openai:gpt-4",
+                factory=factory,
+                extra={"system_prompt": "SECRET skill body"},
+            )
+        self.assertIn("system_prompt", str(ctx.exception))
+
+    def test_factory_middleware_refuses(self) -> None:
+        def factory(**_k: Any) -> str:
+            return "nope"
+
+        with self.assertRaises(CortexDenied) as ctx:
+            bind_deep_agent(
+                FakeGate(),
+                ["export_pptx"],
+                model="openai:gpt-4",
+                factory=factory,
+                extra={"middleware": ["filesystem"]},
+            )
+        self.assertIn("middleware", str(ctx.exception))
+
+    def test_factory_backend_refuses(self) -> None:
+        def factory(**_k: Any) -> str:
+            return "nope"
+
+        with self.assertRaises(CortexDenied) as ctx:
+            bind_deep_agent(
+                FakeGate(),
+                ["export_pptx"],
+                model="openai:gpt-4",
+                factory=factory,
+                extra={"backend": "local"},
+            )
+        self.assertIn("backend", str(ctx.exception))
+
     def test_injected_factory_gets_wrapped_tools(self) -> None:
         seen: dict[str, Any] = {}
 
@@ -98,6 +151,8 @@ class CrewDeepAgentsTests(unittest.TestCase):
         self.assertEqual(len(seen["tools"]), 1)
         self.assertIs(seen["checkpointer"], False)
         self.assertIsNone(seen["subagents"])
+        self.assertIsNone(seen["system_prompt"])
+        self.assertEqual(seen["middleware"], ())
 
     def test_profile_excludes_builtins_when_installed(self) -> None:
         try:
