@@ -15,7 +15,7 @@ from crew_checkpoint import save_checkpoint, summarise
 from crew_deepagents import FORBIDDEN_FACTORY_KEYS, bind_deep_agent, crew_harness_profile
 from crew_factory import Factory, FactoryDenied, SliceDenied
 from crew_ledger import HashLedger, LedgerDenied
-from crew_ov_gate import OpenVaultCrewGate
+from crew_ov_gate import OpenVaultCrewGate, refuse_crew_gate
 from crew_parallel import MAX_IN_FLIGHT, Job, JobResult, run_batch
 from crew_runner import run_open_ticket
 from crew_tool_wrap import CortexDenied, Verdict, wrap_deepagents_tools
@@ -34,6 +34,7 @@ __all__ = (
     "JobResult",
     "LedgerDenied",
     "OpenVaultCrewGate",
+    "refuse_crew_gate",
     "SeatDenied",
     "SliceDenied",
     "TokenBudget",

@@ -9,6 +9,7 @@
     from netie.space import chat_preview
     from netie.control import project_board, project_session, MAX_BOARD_CHARS
     from netie.route import host_switchyard, report_deploy, compile_graph
+    from netie.crew import refuse_crew_gate
 
 A wheel ships the contract modules as netie._contracts. Editable checkout still works.
 Do not vendor OpenWork ee/ or Grok Bot reconstructed.

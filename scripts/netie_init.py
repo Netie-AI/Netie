@@ -40,7 +40,7 @@ REPOS: dict[str, Path] = {
 CALLERS: dict[str, str] = {
     "Cortex": "from netie.cortex import run_question, WRITE_ACTIONS",
     "DMS": "from netie.dms import answer_or_abstain, browse_or_abstain",
-    "OpenVault": "from netie.route import host_switchyard, report_deploy",
+    "OpenVault": "from netie.route import host_switchyard, report_deploy; from netie.crew import refuse_crew_gate",
     "AirGPT": "from netie.airgpt import retrieve_space, chunk_table",
     "Space": "from netie.space import chat_preview",
     "Pointer": "from netie.pointer import bind_computer, invoke_hand",

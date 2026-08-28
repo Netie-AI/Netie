@@ -37,6 +37,7 @@ from netie.crew import (
     execute_capabilities,
     execute_capability,
     load_den,
+    refuse_crew_gate,
     run_batch,
     run_open_ticket,
     wrap_deepagents_tools,
@@ -68,10 +69,19 @@ class NetieApiTests(unittest.TestCase):
         from netie import crew as crew_mod
 
         self.assertIn("crew_harness_profile", crew_mod.__all__)
+        self.assertIn("refuse_crew_gate", crew_mod.__all__)
         self.assertNotIn("bind_kwargs", crew_mod.__all__)
         with self.assertRaises(CortexDenied) as ctx:
             load_den("ee/")
         self.assertIn("ee/", str(ctx.exception))
+        with self.assertRaises(CortexDenied) as gate:
+            refuse_crew_gate(kind="skill", id="netie-kb.skills", skill_body="SECRET")
+        self.assertIn("skill_body", str(gate.exception))
+        with self.assertRaises(CortexDenied) as kind:
+            refuse_crew_gate(kind="skill", id="netie-kb.skills")
+        self.assertIn("no skill registered", str(kind.exception))
+        ok = refuse_crew_gate(kind="service", id="service.freeroute")
+        self.assertEqual(ok["status"], "ok")
 
     def test_crew_harness_registers_into_deepagents(self) -> None:
         """The profile Deep Agents lookup would apply, not only our local object."""
@@ -194,12 +204,13 @@ class NetieApiTests(unittest.TestCase):
                     str(py),
                     "-c",
                     "from netie.crew import bind_deep_agent, crew_harness_profile, "
-                    "TokenBudget, dispatch_seat, wrap_deepagents_tools; "
+                    "TokenBudget, dispatch_seat, wrap_deepagents_tools, refuse_crew_gate; "
                     "from netie.cortex import run_question; "
                     "from netie.route import report_deploy, compile_graph; "
                     "print('ok' if callable(bind_deep_agent) and callable(crew_harness_profile) "
                     "and callable(wrap_deepagents_tools) and callable(TokenBudget) "
-                    "and callable(dispatch_seat) and callable(run_question) "
+                    "and callable(dispatch_seat) and callable(refuse_crew_gate) "
+                    "and callable(run_question) "
                     "and callable(report_deploy) and callable(compile_graph) else 'no')",
                 ],
                 capture_output=True,
@@ -247,11 +258,12 @@ class NetieApiTests(unittest.TestCase):
                     str(py),
                     "-c",
                     "from netie.crew import bind_deep_agent, crew_harness_profile, "
-                    "TokenBudget, dispatch_seat, wrap_deepagents_tools; "
+                    "TokenBudget, dispatch_seat, wrap_deepagents_tools, refuse_crew_gate; "
                     "from netie.cortex import run_question; "
                     "print('ok' if callable(bind_deep_agent) and callable(crew_harness_profile) "
                     "and callable(wrap_deepagents_tools) and callable(TokenBudget) "
-                    "and callable(dispatch_seat) and callable(run_question) else 'no')",
+                    "and callable(dispatch_seat) and callable(refuse_crew_gate) "
+                    "and callable(run_question) else 'no')",
                 ],
                 capture_output=True,
                 text=True,

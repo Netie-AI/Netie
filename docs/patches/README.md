@@ -266,6 +266,16 @@ uv run pytest tests/test_ship_netie_claim.py -q
 
 Live deploys call `claim_deploy`, which uses `from netie.route import report_deploy` when Netie is installed. Constructed URLs refuse. Simulated is not HT1. Without Netie the same rule runs locally so OpenVault CI does not hard-fail. `classify_deployment` still names simulated; this gate only runs when the engine is about to label a deploy live. Score stays **2/10** (HT1 not done). Push 403.
 
+Then:
+
+```
+git apply docs/patches/openvault-crew-netie.patch
+cd OpenMW && uv add git+https://github.com/Netie-AI/Netie.git
+uv run pytest tests/test_crew_gate.py tests/test_crew_netie_gate.py -q
+```
+
+`POST /api/crew/gate` calls `check_crew_gate`, which uses `from netie.crew import refuse_crew_gate` when Netie is installed. Skill bodies and unknown kinds (including `skill`) refuse with the same strings as the focused crew-gate patch. Without Netie the same rule runs locally. Vault lookup stays in OpenVault. Wrap score stays **3/10**. Push 403.
+
 Independent of routing:
 
 ```

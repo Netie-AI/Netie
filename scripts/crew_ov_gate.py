@@ -48,6 +48,27 @@ def has_bodies(obj: Any) -> bool:
     return False
 
 
+def refuse_crew_gate(
+    *,
+    kind: str,
+    id: str = "",
+    skill_body: object | None = None,
+    prompt: object | None = None,
+    instructions: object | None = None,
+    transcript: object | None = None,
+) -> dict[str, str]:
+    """OpenVault /api/crew/gate body check. Vault lookup stays in OpenVault."""
+    if any(
+        value is not None
+        for value in (skill_body, prompt, instructions, transcript)
+    ):
+        raise CortexDenied("skill_body must never go to the gate")
+    k = (kind or "").strip()
+    if k not in REGISTERED_KINDS:
+        raise CortexDenied(f"no {k or 'kind'} registered as '{id}'")
+    return {"status": "ok", "kind": k}
+
+
 @dataclass(frozen=True)
 class GateAsk:
     kind: str
@@ -72,14 +93,8 @@ class OpenVaultCrewGate:
             raise CortexDenied("no OpenVault crew_gate")
         if self._post is None:
             raise CortexDenied("no OpenVault transport")
+        refuse_crew_gate(kind=ask.kind, id=ask.id)
         payload = asdict(ask)
-        if "skill_body" in payload:
-            raise CortexDenied("skill_body must never go to the gate")
-        kind = (ask.kind or "").strip()
-        if kind not in REGISTERED_KINDS:
-            raise CortexDenied(
-                f"no {kind or 'kind'} registered as '{ask.id}'"
-            )
         url = f"{self.base_url}/api/crew/gate"
         try:
             raw = self._post(url, payload)
