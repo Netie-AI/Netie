@@ -103,6 +103,7 @@ class NetieApiTests(unittest.TestCase):
         excluded = set(live.excluded_tools)
         for name in ("task", "ls", "execute", "read_file", "write_todos"):
             self.assertIn(name, excluded)
+        self.assertIn("SummarizationMiddleware", set(live.excluded_middleware))
         self.assertIs(live.general_purpose_subagent.enabled, False)
 
     def test_cortex_is_not_claude_code(self) -> None:
@@ -391,6 +392,7 @@ class NetieApiTests(unittest.TestCase):
         excluded = set(profile.excluded_tools)
         for name in ("task", "ls", "execute", "read_file", "write_file", "glob", "grep"):
             self.assertIn(name, excluded)
+        self.assertIn("SummarizationMiddleware", set(profile.excluded_middleware))
         self.assertIs(profile.general_purpose_subagent.enabled, False)
         seen: dict = {}
 
@@ -410,6 +412,7 @@ class NetieApiTests(unittest.TestCase):
         )
         hooked = seen["openai:gpt-4"]
         self.assertIn("task", set(hooked.excluded_tools))
+        self.assertIn("SummarizationMiddleware", set(hooked.excluded_middleware))
         self.assertIs(hooked.general_purpose_subagent.enabled, False)
 
     def test_dms_product_caller_public_api(self) -> None:
