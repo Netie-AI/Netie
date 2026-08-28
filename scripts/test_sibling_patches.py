@@ -7,11 +7,13 @@ then constructor-ir-refuse.patch then constructor-ir-ids.patch then
 constructor-ghost-refuse.patch then constructor-ir-emit.patch then
 constructor-tool-action.patch then constructor-inspect-action.patch then constructor-inspect-object.patch then constructor-inspect-tier.patch then constructor-chat-object.patch then constructor-topo-leftover.patch then constructor-ir-entry.patch then constructor-ir-output.patch then constructor-ir-object.patch then constructor-ir-bind.patch then constructor-ir-action-allow.patch then constructor-ir-intake.patch, and runs
 node --test (42 passed).
-OpenVault patches are apply-checked on origin/main (full OpenMW pytest needs uv).
+OpenVault patches apply on origin/main then `uv run pytest` on the routing+chat+crew-gate files (>= 90 passed).
 """
 
 from __future__ import annotations
 
+import re
+import shutil
 import subprocess
 import sys
 import tempfile
@@ -22,13 +24,18 @@ ROOT = Path(__file__).resolve().parents[1]
 PATCHES = ROOT / "docs" / "patches"
 
 
-def _run(cmd: list[str], cwd: Path | None = None) -> subprocess.CompletedProcess[str]:
+def _run(
+    cmd: list[str],
+    cwd: Path | None = None,
+    *,
+    timeout: int = 120,
+) -> subprocess.CompletedProcess[str]:
     return subprocess.run(
         cmd,
         cwd=str(cwd) if cwd else None,
         capture_output=True,
         text=True,
-        timeout=120,
+        timeout=timeout,
     )
 
 
@@ -269,6 +276,30 @@ class SiblingPatchTests(unittest.TestCase):
                 encoding="utf-8"
             )
             self.assertIn('"/api/crew/gate"', app_py)
+            if shutil.which("uv") is None:
+                self.fail("uv required to run OpenVault routing tests")
+            routed = _run(
+                [
+                    "uv",
+                    "run",
+                    "pytest",
+                    "tests/test_route_strategies.py",
+                    "tests/test_execution_shapes.py",
+                    "tests/test_execution_chat.py",
+                    "tests/test_freeroute_acceptance.py",
+                    "tests/test_freeroute_metering.py",
+                    "tests/test_crew_gate.py",
+                    "-q",
+                    "--tb=line",
+                ],
+                cwd=dest / "OpenMW",
+                timeout=180,
+            )
+            blob = routed.stdout + routed.stderr
+            self.assertEqual(routed.returncode, 0, blob[-4000:])
+            found = re.search(r"(\d+) passed", blob)
+            self.assertIsNotNone(found, blob[-500:])
+            self.assertGreaterEqual(int(found.group(1)), 90)
 
 
 if __name__ == "__main__":

@@ -1,7 +1,9 @@
 name: docs-ci
 
-# Gate for the constitution repo: laptop-ASCII on governed markdown, required files present.
-# Does not claim product CI (Cortex/DMS/OpenVault) is green.
+# Gate for the constitution repo: laptop-ASCII, required files, and patched
+# public product tests (constructor node --test, OpenVault routing pytest).
+# GitHub job may still be a billing red X (spending limit). Local `make ci`
+# is the merge gate until that is paid.
 
 on:
   push:
@@ -13,6 +15,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+
+      - uses: astral-sh/setup-uv@v6
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
 
       - name: Governed docs gate
         run: |
