@@ -77,6 +77,17 @@ class CortexPathTests(unittest.TestCase):
         )
         self.assertEqual(out["tool"], "web_search")
 
+    def test_coding_tools_are_not_claude_code(self) -> None:
+        with self.assertRaises(RouteDenied) as ctx:
+            run_question(
+                "dag", tool="bash", via_tool_runner=True, verified=True
+            )
+        self.assertIn("Claude Code", str(ctx.exception))
+        with self.assertRaises(RouteDenied):
+            run_question(
+                "dag", tool="write_file", via_tool_runner=True, verified=True
+            )
+
 
 if __name__ == "__main__":
     unittest.main()

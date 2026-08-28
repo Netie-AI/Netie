@@ -29,6 +29,8 @@ FORBIDDEN_FACTORY_KEYS = frozenset(
         "cache",
         "state_schema",
         "context_schema",
+        "response_format",
+        "debug",
     }
 )
 

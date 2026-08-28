@@ -134,6 +134,31 @@ class CrewDeepAgentsTests(unittest.TestCase):
             )
         self.assertIn("backend", str(ctx.exception))
 
+    def test_factory_response_format_and_debug_refuse(self) -> None:
+        def factory(**_k: Any) -> str:
+            return "nope"
+
+        with self.assertRaises(CortexDenied) as ctx:
+            bind_deep_agent(
+                FakeGate(),
+                ["export_pptx"],
+                model="openai:gpt-4",
+                factory=factory,
+                extra={"response_format": {"type": "json"}},
+            )
+        self.assertIn("response_format", str(ctx.exception))
+        self.assertIn("response_format", FORBIDDEN_FACTORY_KEYS)
+        self.assertIn("debug", FORBIDDEN_FACTORY_KEYS)
+        with self.assertRaises(CortexDenied) as ctx:
+            bind_deep_agent(
+                FakeGate(),
+                ["export_pptx"],
+                model="openai:gpt-4",
+                factory=factory,
+                extra={"debug": True},
+            )
+        self.assertIn("debug", str(ctx.exception))
+
     def test_injected_factory_gets_wrapped_tools(self) -> None:
         seen: dict[str, Any] = {}
 

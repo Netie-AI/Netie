@@ -14,6 +14,7 @@ from airgpt_chunk import (
     CORPUS_RAGGED,
     CORPUS_REPEATED_HEADER,
     Chunk,
+    ChunkDenied,
     chunk_table,
     retrieve_space,
 )
@@ -130,6 +131,38 @@ B2|3
         )
         self.assertEqual(ok["status"], "OK")
         self.assertEqual(ok["chunks"][0].source, "inventory.csv")
+
+    def test_nvidia_rag_eval_is_not_a_chunker(self) -> None:
+        with self.assertRaises(ChunkDenied) as ctx:
+            chunk_table(CORPUS_LABELED, splitter="nvidia_rag_eval")
+        self.assertIn("model catalog", str(ctx.exception))
+        with self.assertRaises(ChunkDenied) as ctx:
+            chunk_table(CORPUS_LABELED, splitter="semantic")
+        self.assertIn("not a chunker", str(ctx.exception))
+        out = retrieve_space(
+            chunk_table(CORPUS_LABELED),
+            space="north",
+            query="A,1",
+            embedder="NVIDIA_RAG_EVAL",
+        )
+        self.assertEqual(out["status"], "ABSTAIN")
+        self.assertIn("model catalog", out["reason"])
+
+    def test_cross_chat_memory_is_chatgpt(self) -> None:
+        chunks = chunk_table(CORPUS_LABELED)
+        out = retrieve_space(
+            chunks, space="north", query="A,1", cross_chat_memory=True
+        )
+        self.assertEqual(out["status"], "ABSTAIN")
+        self.assertIn("ChatGPT", out["reason"])
+
+    def test_over_budget_retrieve_abstains(self) -> None:
+        chunks = chunk_table(CORPUS_LABELED)
+        out = retrieve_space(chunks, space="north", query="A,1", max_chars=1)
+        self.assertEqual(out["status"], "ABSTAIN")
+        self.assertIn("DitchContext", out["reason"])
+        ok = retrieve_space(chunks, space="north", query="A,1")
+        self.assertEqual(ok["status"], "OK")
 
 
 if __name__ == "__main__":

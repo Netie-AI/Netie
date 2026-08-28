@@ -152,6 +152,21 @@ class SpaceAclTests(unittest.TestCase):
         bad = browse_or_abstain(ACL, "space-ops", "inventory", tier="lake")
         self.assertEqual(bad["status"], "ABSTAIN")
 
+    def test_chat_mode_is_anythingllm_overlay(self) -> None:
+        out = answer_or_abstain(
+            ACL,
+            "space-ops",
+            "inventory",
+            [{"sku": "A"}],
+            warehouse_id="dms-demo",
+            binds=BINDS,
+            sql=SQL,
+            chat_mode=True,
+        )
+        self.assertEqual(out["status"], "ABSTAIN")
+        self.assertIn("AnythingLLM", out["reason"])
+        self.assertEqual(out["rows"], [])
+
 
 if __name__ == "__main__":
     unittest.main()
