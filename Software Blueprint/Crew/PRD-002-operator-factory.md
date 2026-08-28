@@ -62,14 +62,10 @@ Yes. That is why every tool is wrapped. If the wrap is missing, Crew is wrong.
 
 ```bash
 uv init && uv add deepagents
-# Import Netie portable wrap; do not reimplement trust-the-LLM.
-#   scripts/crew_deepagents.py  bind_deep_agent: wrap + HarnessProfile excluded_tools; system_prompt/middleware/backend refuse
-#   scripts/crew_tool_wrap.py   wrap + HITL + Deep Agents builtins refuse
-#   scripts/crew_capabilities.py search_capabilities / execute_capability / execute_capabilities (Den-like grant, cap-2)
-#   scripts/crew_parallel.py    cap-2; prepare_tool then charge; refusals do not spend
-#   scripts/crew_checkpoint.py  ids-only; summarise is counts
-#   scripts/crew_runner.py      Cortex refusal stays on the board
-#   scripts/crew_ov_gate.py     POST /api/crew/gate; skill kind refused until a registry row
+# Sibling Netie checkout on PYTHONPATH. Do not reimplement trust-the-LLM.
+#   from netie.crew import bind_deep_agent, wrap_deepagents_tools, execute_capability
+#   from netie.crew import search_capabilities, execute_capabilities, load_den
+#   from netie.crew import run_batch, run_open_ticket, save_checkpoint, summarise
 # wrap every tool with Cortex tool_runner; OpenVault crew_gate for leave-machine
 ```
 
