@@ -1,0 +1,91 @@
+diff --git a/engine.js b/engine.js
+index a11c515..1ae870f 100644
+--- a/engine.js
++++ b/engine.js
+@@ -898,12 +898,21 @@ function bindChat() {
+   rankApproaches();
+ }
+ 
+-if (typeof document !== "undefined") {
+-  if (document.readyState === "loading") {
+-    document.addEventListener("DOMContentLoaded", bindChat);
+-  } else {
+-    bindChat();
++function bindWhenReady() {
++  if (typeof document === "undefined") return;
++  if (!window.Constructor) {
++    if (document.readyState === "loading") {
++      document.addEventListener("DOMContentLoaded", bindWhenReady);
++      return;
++    }
++    setTimeout(bindWhenReady, 0);
++    return;
+   }
++  bindChat();
++}
++
++if (typeof document !== "undefined") {
++  bindWhenReady();
+ }
+ 
+ if (typeof module !== "undefined" && module.exports) {
+@@ -924,5 +933,6 @@ if (typeof module !== "undefined" && module.exports) {
+     notesDenied,
+     nodesWithoutNotes,
+     cortexPayload,
++    bindWhenReady,
+   };
+ }
+diff --git a/index.html b/index.html
+index e8657c9..7817137 100644
+--- a/index.html
++++ b/index.html
+@@ -4,7 +4,7 @@
+     <meta charset="utf-8" />
+     <meta name="viewport" content="width=device-width, initial-scale=1" />
+     <title>Constructor — Netie</title>
+-    <link rel="stylesheet" href="styles.css?v=3" />
++    <link rel="stylesheet" href="styles.css?v=4" />
+   </head>
+   <body>
+     <header class="top">
+@@ -75,7 +75,7 @@
+       </form>
+     </section>
+ 
+-    <script src="app.js?v=3"></script>
+-    <script src="engine.js?v=3"></script>
++    <script src="engine.js?v=4"></script>
++    <script src="app.js?v=4"></script>
+   </body>
+ </html>
+diff --git a/tests/compiler.test.cjs b/tests/compiler.test.cjs
+index 001ebb7..009cd9a 100644
+--- a/tests/compiler.test.cjs
++++ b/tests/compiler.test.cjs
+@@ -13,7 +13,10 @@ const {
+   applyObjectType,
+   cortexPayload,
+   nodesWithoutNotes,
++  bindWhenReady,
+ } = require("../engine.js");
++const fs = require("node:fs");
++const path = require("node:path");
+ 
+ test("foundry path ranks orchestrator-subagent first", () => {
+   const ranked = rankForKinds(["connector", "ontology", "insight", "foundry", "app"]);
+@@ -800,3 +803,14 @@ test("applyObjectType clears a data_point not on the new object", () => {
+   assert.equal(unlabeled.object_type, "");
+   assert.equal(unlabeled.data_point, "");
+ });
++
++test("index.html loads engine.js before app.js", () => {
++  const html = fs.readFileSync(path.join(__dirname, "..", "index.html"), "utf8");
++  const engineAt = html.indexOf("engine.js");
++  const appAt = html.indexOf("app.js");
++  assert.ok(engineAt >= 0 && appAt > engineAt);
++});
++
++test("bindWhenReady is a no-op without a document", () => {
++  bindWhenReady();
++});
