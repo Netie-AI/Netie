@@ -63,6 +63,7 @@ Yes. That is why every tool is wrapped. If the wrap is missing, Crew is wrong.
 ```bash
 uv init && uv add deepagents
 # Import Netie portable wrap; do not reimplement trust-the-LLM.
+#   scripts/crew_deepagents.py  bind_deep_agent: wrap + HarnessProfile excluded_tools
 #   scripts/crew_tool_wrap.py   wrap + HITL + Deep Agents builtins refuse
 #   scripts/crew_parallel.py    cap-2; prepare_tool then charge; refusals do not spend
 #   scripts/crew_checkpoint.py  ids-only; summarise is counts

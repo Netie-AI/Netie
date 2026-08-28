@@ -14,12 +14,16 @@ from typing import Any, Protocol
 HITL_WRITES = frozenset({"export_pptx", "amend.apply", "call_action"})
 # Deep Agents 0.7.9 builtins. Filesystem/shell skip Cortex. `task` is ungoverned
 # fan-out (use crew_parallel cap-2). `write_todos` stores prompt text (use factory index).
+# 0.7 also ships glob / grep / delete on FilesystemMiddleware.
 DEEPAGENTS_DIRECT = frozenset(
     {
         "ls",
         "read_file",
         "write_file",
         "edit_file",
+        "delete",
+        "glob",
+        "grep",
         "execute",
         "bash",
         "shell",
