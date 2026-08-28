@@ -112,7 +112,8 @@ buckets; `action_value.py:4-5` says so.
 runs first (39 `re.search`, 37 `return MetricPlan`); the L2 block starts at `:1513` gated
 on `DMS_L2_ENABLED` (off) plus an OpenVault ping plus the leave-machine gate. Measured on
 with the corpus: **17 confidently wrong against a floor of 0.** Tracked at
-`Netie-AI/Cortex#12`, deferred until a real user exists.
+`Netie-AI/Cortex#12`, deferred until a real user exists. Portable
+`scripts/cortex_path.py` refuses `c7_sql=True` with that reason.
 
 **The action registry has 25 entries and 1 is invocable** - `export_pptx`. "Actions are
 the only write path" describes a path with one action. Portable `scripts/cortex_path.py`

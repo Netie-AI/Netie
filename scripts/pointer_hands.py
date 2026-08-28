@@ -3,8 +3,8 @@
 Names from `uacc` 1.1.0 on PyPI (MIT, 68 MCP tools). We do not vendor or
 import that package. Cortex must allow each name. Planner / workflow /
 memory / history / clipboard / ungoverned JS / ungated leave-machine /
-uncropped screenshot / page dump / process list refuse. Hover/drag on a
-secret field refuse.
+uncropped screenshot / page dump / process list / env dump refuse.
+Paint overlay and hover/drag on a secret field refuse.
 """
 
 from __future__ import annotations
@@ -102,14 +102,18 @@ SCREEN_HANDS = frozenset(
         "compare_snapshots",
         "get_screen_diff",
         "detect_elements_visual",
+        "get_screen_info_enhanced",
+        "vlm_locate_element",
     }
 )
+# Hover/drag/wait reuse fail-closed click (secret field refuses).
+MOTION_HANDS = frozenset({"hover", "drag", "wait_for_element"})
 # Full DOM dump includes password values. Not a Pointer hand.
 PAGE_HANDS = frozenset({"browser_get_page_info"})
-# Motion on a secret field is still a secret capture.
-MOTION_HANDS = frozenset({"hover", "drag", "wait_for_element"})
-# Process table is surveillance, not a Pointer hand for an instructed region.
-PROCESS_HANDS = frozenset({"list_processes"})
+# Process table / env dump is surveillance.
+PROCESS_HANDS = frozenset({"list_processes", "get_system_info"})
+# Overlay on a password/OTP field (or the whole screen) is capture.
+PAINT_HANDS = frozenset({"paint_image", "paint_preset"})
 BRAIN_HANDS = frozenset(
     {
         "uacc_planner",
@@ -159,11 +163,18 @@ def invoke_hand(
     if tool in BRAIN_HANDS:
         raise PointerDenied("uacc brain stays out; Pointer is hands")
     if tool in PROCESS_HANDS:
+        if tool == "get_system_info":
+            raise PointerDenied("env_dump_refused")
         raise PointerDenied("process_list_refused")
     if tool in PAGE_HANDS:
         raise PointerDenied("no page dump")
     if tool in LEAVE_HANDS and not ov_leave:
         raise PointerDenied("leave-machine is OpenVault")
+    if tool in PAINT_HANDS:
+        if not isinstance(element, dict):
+            raise PointerDenied("paint_uncropped")
+        clicked = click(element, cortex_intent=cortex_intent)
+        return {"hand": tool, "crop": True, **clicked}
     if tool in MOTION_HANDS:
         if not isinstance(element, dict):
             raise PointerDenied("no target")
