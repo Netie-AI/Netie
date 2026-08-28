@@ -18,6 +18,7 @@ from netie.airgpt import ChunkDenied, MAX_RETRIEVE_CHARS, chunk_table, retrieve_
 from netie.control import ControlDenied, project_board, project_session, run_dag
 from netie.cortex import RouteDenied, WRITE_ACTIONS, run_question
 from netie.crew import (
+    BudgetDenied,
     CortexDenied,
     Factory,
     Job,
@@ -80,6 +81,7 @@ class NetieApiTests(unittest.TestCase):
             model="netie:crew-harness",
             factory=lambda **_k: "agent",
             register=register_harness_profile,
+            budget=TokenBudget(max_tokens=10_000),
         )
         live = _get_harness_profile("netie:crew-harness")
         self.assertIsNotNone(live)
@@ -254,14 +256,33 @@ class NetieApiTests(unittest.TestCase):
         with self.assertRaises(CortexDenied) as wrap:
             wrap_deepagents_tools(Gate(), [])
         self.assertIn("trust-the-LLM", str(wrap.exception))
+        with self.assertRaises(CortexDenied) as unbounded:
+            bind_deep_agent(
+                Gate(),
+                ["export_pptx"],
+                model="openai:gpt-4",
+                factory=lambda **_k: "nope",
+                register=lambda *_a: None,
+            )
+        self.assertIn("token budget", str(unbounded.exception))
+        room = TokenBudget(max_tokens=10_000)
         with self.assertRaises(CortexDenied) as injected:
             bind_deep_agent(
                 Gate(),
                 ["export_pptx"],
                 model="openai:gpt-4",
                 factory=lambda **_k: "nope",
+                budget=room,
             )
         self.assertIn("harness register", str(injected.exception))
+        wrap_budget = TokenBudget(max_tokens=40)
+        tools = wrap_deepagents_tools(Gate(), ["echo"], budget=wrap_budget)
+        tools["echo"](blob="x" * 80)
+        with self.assertRaises(BudgetDenied):
+            tools["echo"](blob="y" * 80)
+        with self.assertRaises(CortexDenied) as body:
+            tools["echo"](skill_body="SECRET")
+        self.assertIn("skill_body", str(body.exception))
         try:
             profile = crew_harness_profile()
         except CortexDenied:
@@ -286,6 +307,7 @@ class NetieApiTests(unittest.TestCase):
             model="openai:gpt-4",
             factory=factory,
             register=register,
+            budget=TokenBudget(max_tokens=10_000),
         )
         hooked = seen["openai:gpt-4"]
         self.assertIn("task", set(hooked.excluded_tools))
