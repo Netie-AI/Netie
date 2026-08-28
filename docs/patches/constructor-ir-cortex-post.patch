@@ -1,0 +1,250 @@
+diff --git a/engine.js b/engine.js
+index 331e9ca..34f84c0 100644
+--- a/engine.js
++++ b/engine.js
+@@ -177,6 +177,37 @@ function notesDenied(nodes) {
+   return "";
+ }
+ 
++function nodesWithoutNotes(nodes) {
++  const out = [];
++  for (let i = 0; i < (nodes || []).length; i++) {
++    const n = nodes[i];
++    if (!n || typeof n !== "object") continue;
++    const row = {};
++    for (const k in n) {
++      if (!Object.prototype.hasOwnProperty.call(n, k)) continue;
++      if (k === "note") continue;
++      row[k] = n[k];
++    }
++    out.push(row);
++  }
++  return out;
++}
++
++function cortexPayload(state) {
++  // compileIR is the gate. Raw canvas never POSTs to Cortex.
++  const ir = compileIR(state || {});
++  if (ir.error) {
++    return { error: ir.error, body: null };
++  }
++  return {
++    error: undefined,
++    body: {
++      nodes: nodesWithoutNotes((state && state.nodes) || []),
++      edges: ((state && state.edges) || []).slice(),
++    },
++  };
++}
++
+ function compileIR(state) {
+   const nodes = (state && state.nodes) || [];
+   const edges = (state && state.edges) || [];
+@@ -415,10 +446,12 @@ async function ghostRun() {
+   const C = window.Constructor;
+   const state = C.getState();
+   if (cortexOrigin()) {
+-    const remote = await cortexPost("/cortex/constructor/ghost", {
+-      nodes: state.nodes,
+-      edges: state.edges,
+-    });
++    const packed = cortexPayload(state);
++    if (packed.error) {
++      C.showAudit({ mode: "ghost-refused", error: packed.error, steps: [] });
++      return "Ghost refused: " + packed.error + ". No Cortex post.";
++    }
++    const remote = await cortexPost("/cortex/constructor/ghost", packed.body);
+     C.showAudit({ mode: "cortex-ghost", remote: remote });
+     if (remote && remote.ok) {
+       C.markGhostWalk((remote.nodes || []).map((n) => n.id));
+@@ -451,39 +484,39 @@ function localGhostWalk() {
+ 
+ async function rankApproaches() {
+   if (cortexOrigin()) {
+-    const remote = await cortexPost("/cortex/constructor/recommend", {
+-      nodes: window.Constructor.getState().nodes,
+-      edges: window.Constructor.getState().edges,
+-    });
+-    if (remote && remote.ok && Array.isArray(remote.approaches)) {
+-      const recId = remote.recommendation && remote.recommendation.pattern;
+-      const box = document.getElementById("approaches");
+-      box.innerHTML = remote.approaches
+-        .map((row) => {
+-          const win = row.id === recId;
+-          return (
+-            '<article class="approach' +
+-            (win ? " winner" : "") +
+-            '"><div class="eyebrow">' +
+-            (win ? "WINNER" : "ALT") +
+-            " / " +
+-            String(row.cortex_status || "").toUpperCase() +
+-            "</div><h3>" +
+-            row.name +
+-            "</h3><p>" +
+-            row.blurb +
+-            '</p><p class="hint">' +
+-            row.cortex_path +
+-            "</p></article>"
+-          );
+-        })
+-        .join("");
+-      const ranked = remote.approaches.map((row) =>
+-        Object.assign({}, row, { score: row.id === recId ? 99 : 0 })
+-      );
+-      ranked.sort((a, b) => b.score - a.score);
+-      window.Constructor.lastRanking = ranked;
+-      return ranked;
++    const packed = cortexPayload(window.Constructor.getState());
++    if (!packed.error) {
++      const remote = await cortexPost("/cortex/constructor/recommend", packed.body);
++      if (remote && remote.ok && Array.isArray(remote.approaches)) {
++        const recId = remote.recommendation && remote.recommendation.pattern;
++        const box = document.getElementById("approaches");
++        box.innerHTML = remote.approaches
++          .map((row) => {
++            const win = row.id === recId;
++            return (
++              '<article class="approach' +
++              (win ? " winner" : "") +
++              '"><div class="eyebrow">' +
++              (win ? "WINNER" : "ALT") +
++              " / " +
++              String(row.cortex_status || "").toUpperCase() +
++              "</div><h3>" +
++              row.name +
++              "</h3><p>" +
++              row.blurb +
++              '</p><p class="hint">' +
++              row.cortex_path +
++              "</p></article>"
++            );
++          })
++          .join("");
++        const ranked = remote.approaches.map((row) =>
++          Object.assign({}, row, { score: row.id === recId ? 99 : 0 })
++        );
++        ranked.sort((a, b) => b.score - a.score);
++        window.Constructor.lastRanking = ranked;
++        return ranked;
++      }
+     }
+   }
+   const ranked = rankForKinds(
+@@ -589,17 +622,17 @@ async function loadOntology() {
+ 
+ async function liveOrGhost(forceLive) {
+   const C = window.Constructor;
+-  const ir = compileIR(C.getState());
++  const packed = cortexPayload(C.getState());
+   if (forceLive) {
+     if (!cortexOrigin()) {
+       return "Live run is Cortex only (POST /cortex/constructor/run). Pages never fetch. Open http://127.0.0.1:8012/cortex . app.netie.ai/cortex is still LiteSpeed 404.";
+     }
++    if (packed.error) {
++      return "Cortex run refused: " + packed.error + ". No post.";
++    }
+     C.setGhost(false);
+-    const remote = await cortexPost("/cortex/constructor/run", {
+-      nodes: C.getState().nodes,
+-      edges: C.getState().edges,
+-    });
+-    C.showAudit({ mode: "cortex-run", ir: ir, remote: remote });
++    const remote = await cortexPost("/cortex/constructor/run", packed.body);
++    C.showAudit({ mode: "cortex-run", ir: compileIR(C.getState()), remote: remote });
+     if (!remote || remote.ok === false) {
+       return (
+         "Cortex run_dag failed (" +
+@@ -736,7 +769,11 @@ async function handleChat(raw) {
+     }
+     const node = C.selected && C.selected();
+     if (!node) return "Select a node first.";
+-    const remote = await cortexPost("/cortex/constructor/fetch", { nodes: [node], edges: [] });
++    const packed = cortexPayload({ nodes: [node], edges: [] });
++    if (packed.error) {
++      return "Fetch refused: " + packed.error + ". No Cortex post.";
++    }
++    const remote = await cortexPost("/cortex/constructor/fetch", packed.body);
+     C.showAudit({ mode: "cortex-fetch", remote: remote });
+     if (!remote || remote.ok === false) {
+       return (
+@@ -768,7 +805,7 @@ async function handleChat(raw) {
+     const ranked = await rankApproaches();
+     let live = "";
+     if (cortexOrigin()) {
+-      const remote = await cortexPost("/cortex/constructor/fetch", {
++      const packed = cortexPayload({
+         nodes: [
+           {
+             id: "bench",
+@@ -780,6 +817,9 @@ async function handleChat(raw) {
+         ],
+         edges: [],
+       });
++      const remote = packed.error
++        ? { ok: false, error: packed.error }
++        : await cortexPost("/cortex/constructor/fetch", packed.body);
+       if (remote && remote.ok && remote.slice) {
+         live = " Live DuckDB inventory rows: " + (remote.slice.row_count || 0) + ".";
+       } else {
+@@ -858,5 +898,8 @@ if (typeof module !== "undefined" && module.exports) {
+     objectForSetPoint,
+     fetchFromListed,
+     pointsForObject,
++    notesDenied,
++    nodesWithoutNotes,
++    cortexPayload,
+   };
+ }
+diff --git a/tests/compiler.test.cjs b/tests/compiler.test.cjs
+index a8b41b0..2fd613e 100644
+--- a/tests/compiler.test.cjs
++++ b/tests/compiler.test.cjs
+@@ -10,6 +10,8 @@ const {
+   listedOrEmpty,
+   listedOptions,
+   objectForSetPoint,
++  cortexPayload,
++  nodesWithoutNotes,
+ } = require("../engine.js");
+ 
+ test("foundry path ranks orchestrator-subagent first", () => {
+@@ -714,3 +716,39 @@ test("compileIR refuses notes over DitchContext", () => {
+   assert.equal(ir.error, "notes over DitchContext");
+   assert.deepEqual(ir.nodes, []);
+ });
++
++test("cortexPayload strips notes and does not POST a leaked body", () => {
++  const packed = cortexPayload({
++    nodes: [{ id: "c", kind: "connector", note: "in" }],
++    edges: [],
++  });
++  assert.equal(packed.error, undefined);
++  assert.equal("note" in packed.body.nodes[0], false);
++  const leak = cortexPayload({
++    nodes: [{ id: "c", kind: "connector", note: "skill_body: SECRET" }],
++    edges: [],
++  });
++  assert.equal(leak.error, "note leaked a body");
++  assert.equal(leak.body, null);
++});
++
++test("cortexPayload refuses a disconnected graph before Cortex", () => {
++  const packed = cortexPayload({
++    nodes: [
++      { id: "a", kind: "connector" },
++      { id: "b", kind: "app" },
++    ],
++    edges: [],
++  });
++  assert.equal(packed.error, "disconnected graph");
++  assert.equal(packed.body, null);
++});
++
++test("nodesWithoutNotes drops only the note field", () => {
++  const rows = nodesWithoutNotes([
++    { id: "c", kind: "connector", note: "in", object_type: "inventory" },
++  ]);
++  assert.equal(rows[0].id, "c");
++  assert.equal(rows[0].object_type, "inventory");
++  assert.equal("note" in rows[0], false);
++});
