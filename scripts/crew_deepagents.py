@@ -1,8 +1,10 @@
 """Depend Deep Agents (MIT) under the wrap. Never beside it.
 
 create_deep_agent(tools=...) is additive: filesystem / execute / task stay
-on unless a HarnessProfile excludes them. This module is the only legal
-factory: wrap first, exclude builtins, no skills/memory/subagents, no
+on unless a HarnessProfile excludes them. SummarizationMiddleware is on
+the default stack and writes /conversation_history/{session}.md (a
+transcript dump). This module is the only legal factory: wrap first,
+exclude builtins, drop that middleware, no skills/memory/subagents, no
 transcript checkpointer, no system_prompt, no extra middleware/backend.
 
 Do not vendor the deepagents tree. `pip install deepagents==0.7.9`.
@@ -44,6 +46,11 @@ def _model_key(model: Any) -> str:
     return spec
 
 
+# Public alias on Deep Agents 0.7.9 SummarizationMiddleware. Off the stack
+# it matches nothing and create_deep_agent raises; only this name is safe.
+CREW_EXCLUDED_MIDDLEWARE = frozenset({"SummarizationMiddleware"})
+
+
 def crew_harness_profile() -> Any:
     """Profile that strips Deep Agents builtins. Register under the model key."""
     try:
@@ -52,6 +59,7 @@ def crew_harness_profile() -> Any:
         raise CortexDenied("deepagents not installed") from exc
     return HarnessProfile(
         excluded_tools=frozenset(DEEPAGENTS_DIRECT),
+        excluded_middleware=CREW_EXCLUDED_MIDDLEWARE,
         general_purpose_subagent=GeneralPurposeSubagentProfile(enabled=False),
     )
 

@@ -225,6 +225,7 @@ class CrewDeepAgentsTests(unittest.TestCase):
         excluded = set(profile.excluded_tools)
         for name in ("task", "ls", "execute", "read_file"):
             self.assertIn(name, excluded)
+        self.assertIn("SummarizationMiddleware", set(profile.excluded_middleware))
         self.assertIs(profile.general_purpose_subagent.enabled, False)
 
     def test_profile_excludes_builtins_when_installed(self) -> None:
@@ -235,6 +236,7 @@ class CrewDeepAgentsTests(unittest.TestCase):
         excluded = set(profile.excluded_tools)
         for name in ("task", "ls", "glob", "grep", "delete", "execute", "write_todos"):
             self.assertIn(name, excluded)
+        self.assertIn("SummarizationMiddleware", set(profile.excluded_middleware))
         self.assertIs(profile.general_purpose_subagent.enabled, False)
 
 
