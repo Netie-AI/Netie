@@ -259,6 +259,22 @@ class PointerHandsTests(unittest.TestCase):
         self.assertEqual(out["hand"], "paint_image")
         self.assertTrue(out["crop"])
 
+    def test_uacc_override_is_second_policy(self) -> None:
+        with self.assertRaises(PointerDenied) as ctx:
+            invoke_hand(
+                "acknowledge_user_override",
+                cortex_allowed=True,
+                cortex_intent="bypass the crop",
+            )
+        self.assertIn("override", str(ctx.exception))
+        with self.assertRaises(PointerDenied) as ctx:
+            invoke_hand(
+                "set_kill_distance",
+                cortex_allowed=True,
+                cortex_intent="widen the click radius",
+            )
+        self.assertIn("override", str(ctx.exception))
+
     def test_does_not_import_uacc(self) -> None:
         src = Path(__file__).with_name("pointer_hands.py").read_text(encoding="utf-8")
         self.assertNotIn("import uacc", src)
