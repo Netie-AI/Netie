@@ -65,6 +65,28 @@ class BudgetLedgerGateTests(unittest.TestCase):
         self.assertEqual(budget.spent, 0)
         self.assertEqual(gate.executed, [])
 
+    def test_hitl_refuse_does_not_charge(self) -> None:
+        gate = CountingGate({"export_pptx"})
+        budget = TokenBudget(max_tokens=100)
+        results = run_batch(
+            gate, [Job("a", "export_pptx", {})], budget=budget
+        )
+        self.assertEqual(results[0].status, "FAILED")
+        self.assertIn("HITL", results[0].detail)
+        self.assertEqual(budget.spent, 0)
+        self.assertEqual(gate.executed, [])
+
+    def test_deepagents_builtin_does_not_charge(self) -> None:
+        gate = CountingGate({"read_file"})
+        budget = TokenBudget(max_tokens=100)
+        results = run_batch(
+            gate, [Job("a", "read_file", {})], budget=budget
+        )
+        self.assertEqual(results[0].status, "FAILED")
+        self.assertIn("not a Crew tool", results[0].detail)
+        self.assertEqual(budget.spent, 0)
+        self.assertEqual(gate.executed, [])
+
     def test_ledger_detects_tamper(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
             path = Path(tmp) / "crew.jsonl"

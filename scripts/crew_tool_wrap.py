@@ -45,25 +45,35 @@ class CortexGate(Protocol):
     def execute(self, tool: str, payload: dict[str, Any]) -> Any: ...
 
 
-def run_tool(gate: CortexGate, tool: str, payload: dict[str, Any]) -> Any:
-    """The only Crew write/read path. Parallel runners share this function.
-
-    Known writes need operator_confirm=True (HITL). Deep Agents default is
-    trust-the-LLM; this is the opposite.
-    """
+def prepare_tool(
+    gate: CortexGate, tool: str, payload: dict[str, Any]
+) -> tuple[str, dict[str, Any]]:
+    """HITL + builtin + Cortex check. Does not execute and does not spend budget."""
     if gate is None:
         raise CortexDenied("no Cortex gate")
     name = (tool or "").strip()
+    if not name:
+        raise CortexDenied("empty tool name")
     if name in DEEPAGENTS_DIRECT:
         raise CortexDenied(f"Deep Agents builtin {name} is not a Crew tool")
     body = dict(payload or {})
     confirm = body.pop("operator_confirm", None)
-    if tool in HITL_WRITES and confirm is not True:
+    if name in HITL_WRITES and confirm is not True:
         raise CortexDenied("HITL: write needs operator_confirm")
-    verdict = gate.check(tool, body)
+    verdict = gate.check(name, body)
     if not verdict.allowed:
         raise CortexDenied(verdict.reason or "cortex refused")
-    return gate.execute(tool, body)
+    return name, body
+
+
+def run_tool(gate: CortexGate, tool: str, payload: dict[str, Any]) -> Any:
+    """The only Crew write/read path. Parallel runners share this function.
+
+    Known writes need operator_confirm=True (HITL). Deep Agents default is
+    trust-the-LLM; this is the opposite. Refusals do not execute.
+    """
+    name, body = prepare_tool(gate, tool, payload)
+    return gate.execute(name, body)
 
 
 def wrap_deepagents_tools(
