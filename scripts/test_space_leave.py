@@ -80,6 +80,10 @@ class SpaceLeaveTests(unittest.TestCase):
             may_preview("certs/prod.pem")
         with self.assertRaises(SpaceLeaveDenied):
             may_preview(".netrc")
+        with self.assertRaises(SpaceLeaveDenied):
+            may_preview("Keys.txt")
+        with self.assertRaises(SpaceLeaveDenied):
+            persist_key("Keys.txt", plaintext=False)
         self.assertEqual(may_preview("report.pdf"), "preview")
 
     def test_poor_ocr_does_not_grant_baidu(self) -> None:

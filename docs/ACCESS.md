@@ -61,3 +61,16 @@ Or add write permission for the Cursor GitHub App on those two public repos.
 - Intercept logins
 - Vendor Grok Bot reconstructed
 - License-strip or rebrand OmniRoute, OpenWork, Deep Agents, xyflow, Guacamole, UACC
+- Commit provider API keys. `Keys.txt` is gitignored. Curl samples use `$OPENROUTER_API_KEY`. `python3 scripts/secrets_scan.py` fails the local gate if a live `sk-or-v1-` / `csk-` / GitHub / Anthropic token is tracked.
+
+## 5. Rotate keys leaked from this public repo (2026-08-28)
+
+GitGuardian flagged an OpenRouter key in `Free APIs for OpenVault Free/`. That file was a dump of **seven** live keys, in HEAD since 2026-08-02, on a **public** repo. Removing the files does not revoke them. Git history still has the old blobs until main is rewritten (founder-only, force-push).
+
+Revoke and issue new keys, then store them only in OpenVault / env, never in git:
+
+1. OpenRouter: https://openrouter.ai/workspaces/default/keys (the GitGuardian hit)
+2. Cerebras, Mistral, Bytez, Ollama, Aion Labs, Kilo AI (same `Keys.txt` dump)
+3. Confirm GitHub secret scanning / GitGuardian goes quiet after revoke. A still-open alert on historical commits is expected until history purge.
+
+Do not paste the old or new values into chat, issues, or this file.
