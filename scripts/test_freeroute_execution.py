@@ -25,6 +25,8 @@ from freeroute_execution import (
     combo_models_from_body,
     dispatch_combo,
     refuse_unported_from_body,
+    refuse_crew_from_body,
+    hop_body_from_chat,
     hops_for_model,
     hop_call_model,
     hop_serves_listed,
@@ -310,6 +312,31 @@ class AutoTests(unittest.TestCase):
         with self.assertRaises(ExecutionRefused) as ctx:
             refuse_unported_from_body({"combo": {"strategy": "quota-share"}})
         self.assertEqual(ctx.exception.code, 501)
+
+    def test_skill_body_never_goes_to_v1(self) -> None:
+        with self.assertRaises(ExecutionRefused) as ctx:
+            refuse_crew_from_body({"skill_body": "SECRET", "messages": []})
+        self.assertEqual(ctx.exception.code, 400)
+        self.assertIn("skill_body", ctx.exception.message)
+        with self.assertRaises(ExecutionRefused) as ctx:
+            refuse_crew_from_body({"combo": {"transcript": "SECRET"}})
+        self.assertEqual(ctx.exception.code, 400)
+
+    def test_hop_body_drops_combo_and_skill_body(self) -> None:
+        hop = hop_body_from_chat(
+            {
+                "messages": [{"role": "user", "content": "hi"}],
+                "max_tokens": 16,
+                "combo": {"strategy": "fusion", "handoff": {"summary": "SECRET"}},
+                "skill_body": "LEAK",
+                "parallel": True,
+            }
+        )
+        self.assertEqual(hop["messages"][0]["content"], "hi")
+        self.assertEqual(hop["max_tokens"], 16)
+        self.assertNotIn("combo", hop)
+        self.assertNotIn("skill_body", hop)
+        self.assertNotIn("parallel", hop)
 
     def test_unknown_refuses(self) -> None:
         with self.assertRaises(ExecutionRefused) as ctx:

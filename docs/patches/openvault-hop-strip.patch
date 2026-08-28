@@ -1,0 +1,250 @@
+diff --git a/OpenMW/openmw/openvault/route/execution.py b/OpenMW/openmw/openvault/route/execution.py
+index c66b682..972ed67 100644
+--- a/OpenMW/openmw/openvault/route/execution.py
++++ b/OpenMW/openmw/openvault/route/execution.py
+@@ -127,6 +127,68 @@ def unported_http(
+     return None
+ 
+ 
++CREW_BODY_KEYS = frozenset({"skill_body", "instructions", "transcript"})
++HOP_DROP_KEYS = CREW_BODY_KEYS | frozenset(
++    {
++        "combo",
++        "parallel",
++        "quorum_grace",
++        "quorumGrace",
++        "persist",
++        "handoff_store",
++        "autoCombo",
++        "auto_combo",
++        "compress",
++        "token_compression",
++        "compress_tokens",
++        "mcp",
++        "mcp_servers",
++        "a2a",
++        "a2a_messages",
++        "quota_share",
++        "quotaShare",
++        "fetch_quota",
++        "fetchQuota",
++        "codex_quota",
++        "fetch_codex_quota",
++    }
++)
++
++
++def refuse_crew_from_body(body: dict[str, Any] | None) -> None:
++    """Skill bodies never ride /v1 to a provider."""
++    if not isinstance(body, dict):
++        return
++    combo = body.get("combo") if isinstance(body.get("combo"), dict) else {}
++    for bag in (body, combo):
++        leak = CREW_BODY_KEYS.intersection(bag.keys())
++        if leak:
++            name = sorted(leak)[0]
++            raise ExecutionRefused(400, f"{name} must never go to /v1")
++
++
++def hop_body_from_chat(body: dict[str, Any] | None) -> dict[str, Any]:
++    """Chat fields only. combo/handoff/skill_body stay off the upstream post."""
++    if not isinstance(body, dict):
++        return {}
++    return {k: v for k, v in body.items() if k not in HOP_DROP_KEYS}
++
++
++def crew_body_http(
++    body: dict[str, Any] | None,
++) -> tuple[int, dict[str, Any]] | None:
++    try:
++        refuse_crew_from_body(body)
++    except ExecutionRefused as exc:
++        return exc.code, {
++            "error": {
++                "message": exc.message,
++                "type": "openvault_crew_body",
++            }
++        }
++    return None
++
++
+ def is_tool_bearing(tools: Any, tool_choice: Any) -> bool:
+     if not isinstance(tools, list) or not tools:
+         return False
+diff --git a/OpenMW/openmw/openvault/vault/budget.py b/OpenMW/openmw/openvault/vault/budget.py
+index b97fa40..4de9f24 100644
+--- a/OpenMW/openmw/openvault/vault/budget.py
++++ b/OpenMW/openmw/openvault/vault/budget.py
+@@ -40,6 +40,7 @@ from typing import Any
+ 
+ import structlog
+ 
++from openmw.openvault.route.execution import hop_body_from_chat
+ from openmw.openvault.vault.providers import budget_for, get_provider
+ 
+ log = structlog.get_logger()
+@@ -219,7 +220,7 @@ def prepare_hop_body(
+     not win over the ceiling, or a reasoning model with a nearly-full context
+     would get a budget that cannot fit.
+     """
+-    hop = {**body, "model": model}
++    hop = {**hop_body_from_chat(body), "model": model}
+     estimate = prompt_tokens if prompt_tokens is not None else estimate_tokens_for_body(body)
+     window = context_window_for(provider, model)
+ 
+diff --git a/OpenMW/openmw/openvault/vault/proxy.py b/OpenMW/openmw/openvault/vault/proxy.py
+index 223a591..8f3ee9d 100644
+--- a/OpenMW/openmw/openvault/vault/proxy.py
++++ b/OpenMW/openmw/openvault/vault/proxy.py
+@@ -18,6 +18,7 @@ from openmw.openvault.route.execution import (
+     StrategyIsASort,
+     chat_shape_refusal,
+     combo_models_from_body,
++    crew_body_http,
+     dispatch_combo,
+     extract_assistant_text,
+     hop_call_model,
+@@ -587,6 +588,10 @@ async def chat_completions(
+     the return tuple is unpacked by four test modules that do not want it.
+     """
+     trace = trace if trace is not None else HopTrace()
++    crew = crew_body_http(body)
++    if crew:
++        trace.error_type = "openvault_crew_body"
++        return crew
+     unported = unported_http(body)
+     if unported:
+         trace.error_type = "openvault_unported"
+@@ -786,6 +791,10 @@ async def prepare_chat_stream(
+     with the correct HTTP status (streaming cannot change status mid-flight).
+     """
+     trace = trace if trace is not None else HopTrace()
++    crew = crew_body_http(body)
++    if crew:
++        trace.error_type = "openvault_crew_body"
++        return crew
+     unported = unported_http(body)
+     if unported:
+         trace.error_type = "openvault_unported"
+diff --git a/OpenMW/tests/test_execution_chat.py b/OpenMW/tests/test_execution_chat.py
+index bf140e3..53197e7 100644
+--- a/OpenMW/tests/test_execution_chat.py
++++ b/OpenMW/tests/test_execution_chat.py
+@@ -137,6 +137,44 @@ def test_v1_parallel_is_501_not_key_walk(
+     assert "quorum-grace" in resp.json()["error"]["message"]
+ 
+ 
++def test_v1_skill_body_is_400_not_key_walk(
++    vault: KeyVault, monkeypatch: pytest.MonkeyPatch, tmp_path: Path
++) -> None:
++    client = _client(vault, tmp_path, monkeypatch)
++    _seat, headers = issue_key(client, label="skill-body-seat")
++    resp = client.post(
++        "/v1/chat/completions",
++        json={
++            "model": "gpt-4",
++            "messages": [{"role": "user", "content": "hi"}],
++            "skill_body": "SECRET prompt",
++        },
++        headers=headers,
++    )
++    assert resp.status_code == 400
++    assert resp.json()["error"]["type"] == "openvault_crew_body"
++    assert "skill_body" in resp.json()["error"]["message"]
++
++
++def test_v1_combo_transcript_is_400(
++    vault: KeyVault, monkeypatch: pytest.MonkeyPatch, tmp_path: Path
++) -> None:
++    client = _client(vault, tmp_path, monkeypatch)
++    _seat, headers = issue_key(client, label="transcript-seat")
++    resp = client.post(
++        "/v1/chat/completions",
++        json={
++            "model": "gpt-4",
++            "stream": True,
++            "messages": [{"role": "user", "content": "hi"}],
++            "combo": {"transcript": "SECRET"},
++        },
++        headers=headers,
++    )
++    assert resp.status_code == 400
++    assert resp.json()["error"]["type"] == "openvault_crew_body"
++
++
+ def test_v1_auto_is_still_empty_pool_503(
+     vault: KeyVault, monkeypatch: pytest.MonkeyPatch, tmp_path: Path
+ ) -> None:
+diff --git a/OpenMW/tests/test_execution_shapes.py b/OpenMW/tests/test_execution_shapes.py
+index 8112d16..2223b60 100644
+--- a/OpenMW/tests/test_execution_shapes.py
++++ b/OpenMW/tests/test_execution_shapes.py
+@@ -34,6 +34,8 @@ from openmw.openvault.route.execution import (
+     should_generate_handoff,
+     sse_wrap_text,
+     unported_http,
++    hop_body_from_chat,
++    crew_body_http,
+     ExecutionRefused,
+ )
+ from openmw.openvault.route.registry import reset_route_state
+@@ -180,6 +182,28 @@ def test_unported_http_sqlite() -> None:
+     assert "sqlite" in payload["error"]["message"]
+ 
+ 
++def test_hop_body_drops_combo_and_skill_body() -> None:
++    hop = hop_body_from_chat(
++        {
++            "messages": [{"role": "user", "content": "hi"}],
++            "max_tokens": 16,
++            "combo": {"strategy": "fusion", "handoff": {"summary": "SECRET"}},
++            "skill_body": "LEAK",
++        }
++    )
++    assert hop["messages"][0]["content"] == "hi"
++    assert hop["max_tokens"] == 16
++    assert "combo" not in hop
++    assert "skill_body" not in hop
++
++
++def test_crew_body_http_skill_body() -> None:
++    code, payload = crew_body_http({"skill_body": "SECRET"})
++    assert code == 400
++    assert payload["error"]["type"] == "openvault_crew_body"
++    assert "skill_body" in payload["error"]["message"]
++
++
+ def test_route_api_quota_share_is_501() -> None:
+     reset_route_state()
+     app = FastAPI()
+diff --git a/OpenMW/tests/test_freeroute_metering.py b/OpenMW/tests/test_freeroute_metering.py
+index e1b136e..6a82a9b 100644
+--- a/OpenMW/tests/test_freeroute_metering.py
++++ b/OpenMW/tests/test_freeroute_metering.py
+@@ -599,6 +599,26 @@ class TestBudgetResolution:
+         assert "max_tokens" not in decision.body
+         assert decision.body["max_completion_tokens"] == 2000
+ 
++    def test_hop_body_does_not_forward_combo_or_skill_body(self) -> None:
++        from openmw.openvault.vault.budget import prepare_hop_body
++
++        decision = prepare_hop_body(
++            {
++                "messages": [{"role": "user", "content": "hi"}],
++                "max_tokens": 16,
++                "combo": {"strategy": "fusion", "handoff": {"summary": "SECRET"}},
++                "skill_body": "LEAK",
++            },
++            provider="openai",
++            model="gpt-4o",
++        )
++        assert decision.body is not None
++        assert "combo" not in decision.body
++        assert "skill_body" not in decision.body
++        assert decision.body["messages"][0]["content"] == "hi"
++        assert decision.body["max_tokens"] == 16
++        assert decision.body["model"] == "gpt-4o"
++
+     def test_the_tightest_budget_wins(self) -> None:
+         """First-match-wins widened a deliberate 100 cap to 8000."""
+         from openmw.openvault.vault.budget import prepare_hop_body

@@ -229,6 +229,15 @@ cd OpenMW && uv run pytest tests/test_route_strategies.py tests/test_execution_s
 
 `combo.strategy: quota-share` (and PUT `/api/route/strategy`) is 501 `openvault_unported`, not unknown 400 and not a key walk. Body flags `parallel` / `quorumGrace` / `fetchQuota` / `persist: sqlite` / `autoCombo` / `compress` / `mcp` / `a2a` are the same 501, not a silent sequential walk. OmniRoute-internal quota-share is not a 16th sort. Measured 2026-08-28: 86 passed. Push 403.
 
+Then:
+
+```
+git apply docs/patches/openvault-hop-strip.patch
+cd OpenMW && uv run pytest tests/test_route_strategies.py tests/test_execution_shapes.py tests/test_execution_chat.py tests/test_freeroute_acceptance.py tests/test_freeroute_metering.py -q
+```
+
+Upstream hop posts drop `combo` / `skill_body` / `transcript` / OmniRoute flags. `/v1` with `skill_body` (or combo.transcript) is 400 `openvault_crew_body`, not a key walk. Measured 2026-08-28: routing+chat **90 passed**. Push 403.
+
 Independent of routing:
 
 ```

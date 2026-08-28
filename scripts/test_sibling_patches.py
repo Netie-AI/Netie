@@ -153,6 +153,7 @@ class SiblingPatchTests(unittest.TestCase):
             bound = PATCHES / "openvault-hop-bound.patch"
             catalog = PATCHES / "openvault-hop-catalog.patch"
             quota = PATCHES / "openvault-quota-share.patch"
+            strip = PATCHES / "openvault-hop-strip.patch"
             self.assertTrue(
                 crew.is_file()
                 and ctx.is_file()
@@ -175,6 +176,7 @@ class SiblingPatchTests(unittest.TestCase):
                 and bound.is_file()
                 and catalog.is_file()
                 and quota.is_file()
+                and strip.is_file()
             )
             for patch in (
                 detect,
@@ -201,6 +203,7 @@ class SiblingPatchTests(unittest.TestCase):
                 bound,
                 catalog,
                 quota,
+                strip,
             ):
                 check = _run(["git", "apply", "--check", str(patch)], cwd=dest)
                 self.assertEqual(check.returncode, 0, f"{patch.name}: {check.stderr}")
@@ -251,6 +254,12 @@ class SiblingPatchTests(unittest.TestCase):
             self.assertIn("quota-share is OmniRoute-internal", execution)
             self.assertIn("parallel quorum-grace not ported", execution)
             self.assertIn("unported_http", proxy)
+            budget = (
+                dest / "OpenMW" / "openmw" / "openvault" / "vault" / "budget.py"
+            ).read_text(encoding="utf-8")
+            self.assertIn("def hop_body_from_chat", execution)
+            self.assertIn("crew_body_http", proxy)
+            self.assertIn("hop_body_from_chat", budget)
             app_py = (dest / "OpenMW" / "openmw" / "openvault" / "app.py").read_text(
                 encoding="utf-8"
             )
