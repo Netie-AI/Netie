@@ -10,7 +10,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 from pointer_click import PointerDenied
-from pointer_hands import UACC_HANDS, invoke_hand
+from pointer_hands import UACC_HANDS, bind_computer, invoke_hand
 
 
 class PointerHandsTests(unittest.TestCase):
@@ -280,6 +280,17 @@ class PointerHandsTests(unittest.TestCase):
         self.assertNotIn("import uacc", src)
         self.assertNotIn("from uacc", src)
         self.assertNotIn("os.environ", src)
+
+    def test_hosted_computer_is_not_pointer(self) -> None:
+        with self.assertRaises(PointerDenied) as ctx:
+            bind_computer("e2b")
+        self.assertIn("hosted computer", str(ctx.exception))
+        with self.assertRaises(PointerDenied):
+            bind_computer("perplexity-computer")
+        with self.assertRaises(PointerDenied):
+            bind_computer("open-computer-use")
+        out = bind_computer("uacc")
+        self.assertEqual(out["where"], "local")
 
 
 if __name__ == "__main__":

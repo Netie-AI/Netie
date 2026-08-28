@@ -106,6 +106,23 @@ class ControlBoardTests(unittest.TestCase):
             )
         self.assertIn("Guacamole", str(ctx.exception))
 
+    def test_ssh_card_is_guacamole_class(self) -> None:
+        with self.assertRaises(ControlDenied) as ctx:
+            project_board(
+                crew_index={
+                    "runs": [{"id": "p1", "status": "open", "kind": "ssh"}]
+                },
+                ledger_peek=[],
+                refusals=[],
+            )
+        self.assertIn("Guacamole", str(ctx.exception))
+        with self.assertRaises(ControlDenied):
+            project_session(
+                run={"id": "p1", "status": "open", "ticket_id": "T1", "kind": "telnet"},
+                todos=[],
+                permissions=[],
+            )
+
 
 if __name__ == "__main__":
     unittest.main()
