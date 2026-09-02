@@ -15,6 +15,7 @@ from __future__ import annotations
 from typing import Any, Callable
 
 from crew_budget import TokenBudget
+from crew_ov_gate import OpenVaultCrewGate
 from crew_tool_wrap import CortexDenied, CortexGate, DEEPAGENTS_DIRECT, require_wrapped, wrap_deepagents_tools
 
 # Deep Agents 0.7.9 factory knobs that dump prompts or put filesystem back.
@@ -70,12 +71,25 @@ def bind_kwargs(
     *,
     model: Any,
     budget: TokenBudget,
+    ov: OpenVaultCrewGate | None = None,
+    ov_allowed: bool = False,
+    parent_run_id: str = "",
+    child_id: str = "",
 ) -> dict[str, Any]:
     """Kwargs create_deep_agent must receive. Extra harness knobs refuse."""
     if budget is None:
         raise CortexDenied("token budget required; Deep Agents default is unbounded spend")
     tools = require_wrapped(
-        names, wrap_deepagents_tools(gate, names, budget=budget)
+        names,
+        wrap_deepagents_tools(
+            gate,
+            names,
+            budget=budget,
+            ov=ov,
+            ov_allowed=ov_allowed,
+            parent_run_id=parent_run_id,
+            child_id=child_id,
+        ),
     )
     _model_key(model)
     return {
@@ -101,6 +115,10 @@ def bind_deep_agent(
     register: Callable[[str, Any], None] | None = None,
     extra: dict[str, Any] | None = None,
     budget: TokenBudget | None = None,
+    ov: OpenVaultCrewGate | None = None,
+    ov_allowed: bool = False,
+    parent_run_id: str = "",
+    child_id: str = "",
 ) -> Any:
     """The only create_deep_agent call site. Builtins stay excluded."""
     bag = dict(extra or {})
@@ -109,7 +127,16 @@ def bind_deep_agent(
         raise CortexDenied(f"{name} is not a Crew factory knob")
     if budget is None:
         raise CortexDenied("token budget required; Deep Agents default is unbounded spend")
-    kwargs = bind_kwargs(gate, names, model=model, budget=budget)
+    kwargs = bind_kwargs(
+        gate,
+        names,
+        model=model,
+        budget=budget,
+        ov=ov,
+        ov_allowed=ov_allowed,
+        parent_run_id=parent_run_id,
+        child_id=child_id,
+    )
     spec = _model_key(model)
     if factory is None:
         try:

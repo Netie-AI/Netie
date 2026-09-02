@@ -21,7 +21,7 @@ Session permissions drop Deep Agents builtins and billing-bypass names (`search_
 Transcript / prompt / key leak is denied on every row (runs, tickets, epics, ledger, refusals).
 RDP / VNC / SSH / telnet / Kubernetes / Guacamole kinds refuse (Control is not a remote-desktop gateway).
 Board / session over DitchContext 12k refuse (no silent drop). Score stays **2 / 10** as a board view, **1 / 10** as Guacamole.
-Ticket runner is `scripts/crew_runner.py` (`run_open_ticket` -> Factory -> wrap). Leave-machine ticket tools (`open_url` / `launch_app` / `browser_navigate` / `ocr_cloud` / `leave`) go through `execute_capability(ov=)` / `run_batch(ov=)` and POST skill ids. Cortex tools (`warehouse.query` / writes) stay on `prepare_tool` and never hit `refuse_crew_gate`. `board_from_runs` goes through `board_index` so the ticket board shows skill ids (prompts and skill_body refuse). Not a second loop.
+Ticket runner is `scripts/crew_runner.py` (`run_open_ticket` -> Factory -> wrap). Leave-machine ticket tools (`open_url` / `launch_app` / `browser_navigate` / `ocr_cloud` / `leave`) go through `execute_capability(ov=)` / `run_batch(ov=)` / `wrap_deepagents_tools(ov=)` and POST skill ids. Cortex tools (`warehouse.query` / writes) stay on `prepare_tool` and never hit `refuse_crew_gate`. `board_from_runs` goes through `board_index` so the ticket board shows skill ids (prompts and skill_body refuse). Not a second loop.
 `run_dag` on the board still refuses. `python3 scripts/test_control_board.py` and `python3 scripts/test_crew_runner.py` (`board_from_runs`).
 
 ---

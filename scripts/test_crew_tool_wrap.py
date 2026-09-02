@@ -148,6 +148,70 @@ class CrewWrapTests(unittest.TestCase):
         self.assertEqual(gate.executed, [])
         self.assertEqual(budget.spent, 0)
 
+    def test_leave_machine_wrap_posts_skill_ids(self) -> None:
+        from crew_ov_gate import OpenVaultCrewGate
+        from crew_skills import SkillRegistry, register_skill
+
+        gate = FakeGate(True)
+        seen: list[dict[str, Any]] = []
+
+        def post(url: str, body: dict[str, Any]) -> dict[str, Any]:
+            seen.append(body)
+            return {"allowed": True}
+
+        def deny(url: str, body: dict[str, Any]) -> dict[str, Any]:
+            return {"allowed": False, "reason": "vault miss"}
+
+        reg = SkillRegistry()
+        register_skill(reg, "S-0004")
+        ov = OpenVaultCrewGate("http://127.0.0.1:5000", post=post, registry=reg)
+        budget = TokenBudget(max_tokens=10_000)
+        blocked = wrap_deepagents_tools(gate, ["open_url"], budget=budget)
+        with self.assertRaises(CortexDenied) as ctx:
+            blocked["open_url"]()
+        self.assertIn("OpenVault", str(ctx.exception))
+        self.assertEqual(gate.executed, [])
+        cortex = wrap_deepagents_tools(
+            gate,
+            ["warehouse.query"],
+            budget=budget,
+            ov=ov,
+            parent_run_id="p1",
+        )
+        cortex["warehouse.query"](sql="select 1")
+        self.assertEqual(seen, [])
+        self.assertEqual(gate.executed, ["warehouse.query"])
+        missing = wrap_deepagents_tools(
+            gate, ["open_url"], budget=budget, ov=ov
+        )
+        with self.assertRaises(CortexDenied) as ids:
+            missing["open_url"]()
+        self.assertIn("parent and child", str(ids.exception))
+        self.assertEqual(seen, [])
+        tools = wrap_deepagents_tools(
+            gate,
+            ["open_url"],
+            budget=budget,
+            ov=ov,
+            parent_run_id="p1",
+        )
+        out = tools["open_url"]()
+        self.assertEqual(out["tool"], "open_url")
+        self.assertEqual(seen[0]["skill_ids"], ["S-0004"])
+        self.assertEqual(seen[0]["id"], "open_url")
+        self.assertNotIn("skill_body", str(seen[0]))
+        vault = wrap_deepagents_tools(
+            gate,
+            ["open_url"],
+            budget=budget,
+            ov=OpenVaultCrewGate("http://127.0.0.1:5000", post=deny),
+            parent_run_id="p1",
+        )
+        with self.assertRaises(CortexDenied) as miss:
+            vault["open_url"]()
+        self.assertIn("vault miss", str(miss.exception))
+        self.assertEqual(gate.executed, ["warehouse.query", "open_url"])
+
 
 if __name__ == "__main__":
     unittest.main()

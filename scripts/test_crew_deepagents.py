@@ -239,6 +239,37 @@ class CrewDeepAgentsTests(unittest.TestCase):
         self.assertIn("SummarizationMiddleware", set(profile.excluded_middleware))
         self.assertIs(profile.general_purpose_subagent.enabled, False)
 
+    def test_bind_kwargs_leave_machine_posts_skill_ids(self) -> None:
+        from crew_ov_gate import OpenVaultCrewGate
+        from crew_skills import SkillRegistry, register_skill
+
+        seen: list[dict[str, Any]] = []
+
+        def post(url: str, body: dict[str, Any]) -> dict[str, Any]:
+            seen.append(body)
+            return {"allowed": True}
+
+        reg = SkillRegistry()
+        register_skill(reg, "S-0004")
+        ov = OpenVaultCrewGate("http://127.0.0.1:5000", post=post, registry=reg)
+        gate = FakeGate()
+        kw = bind_kwargs(
+            gate,
+            ["open_url", "warehouse.query"],
+            model="openai:gpt-4",
+            budget=ROOM,
+            ov=ov,
+            parent_run_id="p1",
+        )
+        tools = {fn.__name__: fn for fn in kw["tools"]}
+        tools["warehouse.query"](sql="select 1")
+        self.assertEqual(seen, [])
+        tools["open_url"]()
+        self.assertEqual(seen[0]["skill_ids"], ["S-0004"])
+        self.assertEqual(seen[0]["id"], "open_url")
+        self.assertEqual(gate.executed, ["warehouse.query", "open_url"])
+        self.assertNotIn("skill_body", str(seen[0]))
+
 
 if __name__ == "__main__":
     unittest.main()

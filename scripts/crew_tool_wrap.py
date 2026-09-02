@@ -100,13 +100,18 @@ def wrap_deepagents_tools(
     names: list[str],
     *,
     budget: Any | None = None,
+    ov: Any = None,
+    ov_allowed: bool = False,
+    parent_run_id: str = "",
+    child_id: str = "",
 ) -> dict[str, Callable[..., Any]]:
     """Deep Agents (MIT) sits under this wrap. Their default is trust-the-LLM.
 
     Empty or blank names refuse. An empty wrap would let create_deep_agent
     run its built-in tools ungoverned. Known writes still need
     operator_confirm=True at call time (HITL). bind_deep_agent requires a
-    TokenBudget; a wrap without one is unbounded spend.
+    TokenBudget; a wrap without one is unbounded spend. Leave-machine names
+    POST skill ids when ov= is set; Cortex tools never hit refuse_crew_gate.
     """
     if gate is None:
         raise CortexDenied("no Cortex gate")
@@ -127,6 +132,16 @@ def wrap_deepagents_tools(
 
     def bind(tool: str) -> Callable[..., Any]:
         def tool_fn(**payload: Any) -> Any:
+            from crew_capabilities import LEAVE_CAPS, _leave_machine
+
+            if tool in LEAVE_CAPS:
+                _leave_machine(
+                    tool,
+                    ov_allowed=ov_allowed,
+                    ov=ov,
+                    parent_run_id=parent_run_id,
+                    child_id=(child_id or tool).strip(),
+                )
             return run_tool(gate, tool, payload, budget=budget)
 
         tool_fn.__name__ = tool
