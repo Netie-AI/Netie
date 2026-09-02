@@ -1,0 +1,241 @@
+diff --git a/electron/netie/netie_hands.js b/electron/netie/netie_hands.js
+index e2c89a7..b012aef 100644
+--- a/electron/netie/netie_hands.js
++++ b/electron/netie/netie_hands.js
+@@ -5,7 +5,7 @@
+  * Mirrors Netie `scripts/pointer_hands.py` / `from netie.pointer import invoke_hand`.
+  * Does not import the `uacc` package. Planner / clipboard / window dump /
+  * uncropped screenshot / hosted computers refuse. Native computer.observe
+- * (DR-0005 loopback) stays Pointer's own API.
++ * (DR-0005 loopback) stays Pointer's own API unless governed:true.
+  */
+ 
+ const BRAIN = new Set([
+@@ -109,6 +109,63 @@ function bindComputer(vendor) {
+   throw new PointerDenied(`unknown computer ${vendor}`);
+ }
+ 
++
++function isSecretCrop(crop) {
++  if (!crop || typeof crop !== "object") return false;
++  const itype = String(crop.type || "").trim().toLowerCase();
++  if (itype === "password" || itype === "hidden") return true;
++  const name = String(crop.name || crop.label || "").trim().toLowerCase();
++  return /password|passwd|otp|2fa|totp|api key/.test(name);
++}
++
++function guardObserve(opts = {}) {
++  const allowed = opts.cortexAllowed === true || opts.cortex_allowed === true;
++  if (!allowed) throw new PointerDenied("no Cortex allow");
++  const intent = String(opts.cortexIntent || opts.cortex_intent || "").trim();
++  if (!intent) throw new PointerDenied("no Cortex intent");
++  const clip = opts.clipboard;
++  if (clip && clip !== false && !(typeof clip === "object" && !clip.present && !clip.text)) {
++    if (typeof clip === "string" || (clip && (clip.text || clip.present))) {
++      throw new PointerDenied("no clipboard");
++    }
++  }
++  const windows = Array.isArray(opts.windows) ? opts.windows : [];
++  if (windows.length) throw new PointerDenied("window_dump_refused");
++  if (opts.foreground && typeof opts.foreground === "object") {
++    throw new PointerDenied("window_dump_refused");
++  }
++  const shot = opts.screenshot;
++  const shotPresent = Boolean(
++    shot && shot !== false && (typeof shot === "string" || shot.dataUrl || shot.present)
++  );
++  if (shotPresent) {
++    const crop = opts.crop;
++    if (!crop || typeof crop !== "object") throw new PointerDenied("screenshot_uncropped");
++    const role = String(crop.role || "").trim();
++    const name = String(crop.name || crop.label || "").trim();
++    if (!role || role === "unknown" || !name) throw new PointerDenied("screenshot_uncropped");
++    if (isSecretCrop(crop)) throw new PointerDenied("no secret field");
++    return {
++      ok: true,
++      governed: true,
++      crop: true,
++      clicked: name,
++      screenshot: { present: true, cropped: true },
++      clipboard: null,
++      windows: [],
++      foreground: null,
++    };
++  }
++  return {
++    ok: true,
++    governed: true,
++    screenshot: null,
++    clipboard: null,
++    windows: [],
++    foreground: null,
++  };
++}
++
+ module.exports = {
+   PointerDenied,
+   BRAIN,
+@@ -119,5 +176,6 @@ module.exports = {
+   filterExecutableSkills,
+   invokeHand,
+   bindComputer,
++  guardObserve,
+   toolName,
+ };
+diff --git a/electron/netie/uacc.js b/electron/netie/uacc.js
+index 2941cdb..3d70394 100644
+--- a/electron/netie/uacc.js
++++ b/electron/netie/uacc.js
+@@ -9,7 +9,7 @@
+ 
+ const { spawnSync } = require("child_process");
+ const { normalizeScribeLanguage, SCRIBE_LANGUAGES } = require("./scribe");
+-const { filterExecutableSkills } = require("./netie_hands");
++const { filterExecutableSkills, guardObserve } = require("./netie_hands");
+ 
+ /** READ / observe skills that match UACC MCP tool names. */
+ const UACC_SKILLS = Object.freeze([
+@@ -395,6 +395,9 @@ function publicCaptions(raw) {
+ }
+ 
+ function computerObserve(opts = {}) {
++  if (opts.governed === true || opts.guard_observe === true) {
++    return guardObserve(opts);
++  }
+   const status = computerStatus(opts);
+   const foreground = publicWindow(opts.foreground);
+   const windows = (Array.isArray(opts.windows) ? opts.windows : [])
+diff --git a/package.json b/package.json
+index 983176d..35d1b38 100644
+--- a/package.json
++++ b/package.json
+@@ -7,7 +7,7 @@
+   "scripts": {
+     "start": "electron electron/main.js",
+     "dev": "electron electron/main.js",
+-    "test": "node test/ecosystem.test.js && node test/vault.test.js && node test/intent.test.js && node test/zen.test.js && node test/followup.test.js && node test/driver.test.js && node test/holdkey.test.js && node test/geometry.test.js && node test/conversations.test.js && node test/stt.test.js && node test/audio.test.js && node test/live-partial.test.js && node test/transcriber.test.js && node test/agentic.test.js && node test/recipes.test.js && node test/presence.test.js && node test/clicky.test.js && node test/clicky-cursor.test.js && node test/plan-guard.test.js && node test/invariants/claude-contract.test.js && node test/invariants/governed-docs.test.js && node test/invariants/ipc-bridge.test.js && node test/invariants/word-sink.test.js && node test/word-coworker.test.js && node test/safe-path.test.js && node test/plan-describe.test.js && node test/app-target.test.js && node test/attachments.test.js && node test/clipboard-integrity.test.js && node test/coordinator.test.js && node test/mcp-abi.test.js && node test/host-serve.test.js && node test/netie-hands.test.js && node test/uacc.test.js && node test/computer-act.test.js && node test/meeting.test.js && node test/coworker.test.js && node test/workspace.test.js && node test/agent-route.test.js",
++    "test": "node test/ecosystem.test.js && node test/vault.test.js && node test/intent.test.js && node test/zen.test.js && node test/followup.test.js && node test/driver.test.js && node test/holdkey.test.js && node test/geometry.test.js && node test/conversations.test.js && node test/stt.test.js && node test/audio.test.js && node test/live-partial.test.js && node test/transcriber.test.js && node test/agentic.test.js && node test/recipes.test.js && node test/presence.test.js && node test/clicky.test.js && node test/clicky-cursor.test.js && node test/plan-guard.test.js && node test/invariants/claude-contract.test.js && node test/invariants/governed-docs.test.js && node test/invariants/ipc-bridge.test.js && node test/invariants/word-sink.test.js && node test/word-coworker.test.js && node test/safe-path.test.js && node test/plan-describe.test.js && node test/app-target.test.js && node test/attachments.test.js && node test/clipboard-integrity.test.js && node test/coordinator.test.js && node test/mcp-abi.test.js && node test/host-serve.test.js && node test/netie-hands.test.js && node test/netie-observe.test.js && node test/uacc.test.js && node test/computer-act.test.js && node test/meeting.test.js && node test/coworker.test.js && node test/workspace.test.js && node test/agent-route.test.js",
+     "test:e2e": "node test/e2e/golden-act.test.js",
+     "test:stress": "node test/stress/agent-loop.stress.js",
+     "test:contracts": "node test/contracts/computer-use.contract.js",
+diff --git a/test/netie-observe.test.js b/test/netie-observe.test.js
+new file mode 100644
+index 0000000..4ad212b
+--- /dev/null
++++ b/test/netie-observe.test.js
+@@ -0,0 +1,115 @@
++"use strict";
++const assert = require("assert");
++const { PointerDenied, guardObserve } = require("../electron/netie/netie_hands");
++const { computerObserve } = require("../electron/netie/uacc");
++
++let pass = 0;
++const fails = [];
++function test(name, fn) {
++  try {
++    fn();
++    pass += 1;
++    console.log("PASS " + name);
++  } catch (err) {
++    fails.push(name);
++    console.log("FAIL " + name + " -- " + err.message);
++  }
++}
++
++test("default observe still publishes PNG and clipboard (DR-0005)", () => {
++  const obs = computerObserve({
++    captureVisible: true,
++    screenshot: "data:image/png;base64,AAA",
++    clipboard: "paste me",
++  });
++  assert.strictEqual(obs.screenshot.present, true);
++  assert.strictEqual(obs.screenshot.dataUrl, "data:image/png;base64,AAA");
++  assert.strictEqual(obs.clipboard.present, true);
++  assert.strictEqual(obs.clipboard.text, "paste me");
++  assert.ok(!obs.governed);
++});
++
++test("default observe still lists windows", () => {
++  const obs = computerObserve({
++    captureVisible: true,
++    uacc: { installed: false },
++    foreground: { hwnd: "42", title: "Untitled - Notepad", proc: "notepad", x: 100, y: 200, width: 640, height: 480 },
++    windows: [
++      { hwnd: "42", title: "Untitled - Notepad", proc: "notepad", x: 100, y: 200, width: 640, height: 480 },
++    ],
++  });
++  assert.strictEqual(obs.foreground.title, "Untitled - Notepad");
++  assert.strictEqual(obs.windows.length, 1);
++});
++
++test("governed observe needs Cortex allow and intent", () => {
++  assert.throws(
++    () => computerObserve({ governed: true }),
++    (err) => err instanceof PointerDenied && /no Cortex allow/.test(err.message)
++  );
++  assert.throws(
++    () => computerObserve({ governed: true, cortexAllowed: true }),
++    (err) => /no Cortex intent/.test(err.message)
++  );
++  const ok = computerObserve({
++    governed: true,
++    cortexAllowed: true,
++    cortexIntent: "hud check",
++  });
++  assert.strictEqual(ok.ok, true);
++  assert.strictEqual(ok.governed, true);
++  assert.strictEqual(ok.screenshot, null);
++  assert.strictEqual(ok.clipboard, null);
++});
++
++test("governed observe refuses uncropped PNG clipboard windows", () => {
++  assert.throws(
++    () =>
++      computerObserve({
++        governed: true,
++        cortexAllowed: true,
++        cortexIntent: "see",
++        screenshot: "data:image/png;base64,AAA",
++      }),
++    (err) => /screenshot_uncropped/.test(err.message)
++  );
++  assert.throws(
++    () =>
++      computerObserve({
++        governed: true,
++        cortexAllowed: true,
++        cortexIntent: "paste",
++        clipboard: "secret",
++      }),
++    (err) => /clipboard/.test(err.message)
++  );
++  assert.throws(
++    () =>
++      computerObserve({
++        governed: true,
++        cortexAllowed: true,
++        cortexIntent: "titles",
++        windows: [{ title: "1Password" }],
++      }),
++    (err) => /window_dump/.test(err.message)
++  );
++});
++
++test("governed crop confirms without returning pixels", () => {
++  const out = guardObserve({
++    cortexAllowed: true,
++    cortexIntent: "crop Save",
++    screenshot: "data:image/png;base64,AAA",
++    crop: { role: "button", name: "Save" },
++  });
++  assert.strictEqual(out.crop, true);
++  assert.strictEqual(out.clicked, "Save");
++  assert.strictEqual(out.screenshot.cropped, true);
++  assert.ok(!out.screenshot.dataUrl);
++});
++
++if (fails.length) {
++  console.error("FAILED " + fails.length + ": " + fails.join(", "));
++  process.exit(1);
++}
++console.log("ok " + pass + " passed");

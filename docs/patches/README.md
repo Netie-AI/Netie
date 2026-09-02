@@ -2,6 +2,16 @@
 
 Apply on a machine with write access. Do not vendor OpenWork or Grok Bot.
 
+Founder one-shot (measured sibling order, does **not** push):
+
+```
+python3 scripts/apply_product_patches.py --dry-run
+python3 scripts/apply_product_patches.py --product pointer --repo /path/to/Pointer
+python3 scripts/apply_product_patches.py --all --skip-tests
+```
+
+`--push` is refused. Constructor extras `constructor-*-4896ddd.patch` stay out of `--all` (do not mix with the 26). OpenVault `crew-gate` lands before `crew-netie` (README's independent block is not apply order). Cortex never `uv add` Netie.git.
+
 ## Constructor (`Netie-AI/constructor`)
 
 From the constructor repo root, on `landing-9-first-path`:
@@ -333,15 +343,17 @@ git apply docs/patches/dms-demo-acl-resolve.patch
 
 ## Pointer (`Netie-AI/Pointer`)
 
-`uv add git+https://github.com/Netie-AI/Netie.git` then `from netie.pointer import bind_computer, invoke_hand`. From the Pointer repo root, on `main` (`8c0e6c2`):
+`uv add git+https://github.com/Netie-AI/Netie.git` then `from netie.pointer import bind_computer, invoke_hand, guard_observe`. From the Pointer repo root, on `main` (`8c0e6c2`):
 
 ```
 git apply docs/patches/pointer-netie-hands.patch
+git apply docs/patches/pointer-observe-guard.patch
 node test/netie-hands.test.js
+node test/netie-observe.test.js
 node test/uacc.test.js
 ```
 
-UACC catalog still *names* planner / clipboard / list_windows (DR-0005). Search and `computer.status` skills drop them as executable hits. `bindComputer` refuses e2b / Perplexity Computer. Native `computer.observe` is unchanged (uncropped PNG / clipboard / window list stay Pointer's own API). Portable `bind_pointer_skill` maps HEAD's 15 catalog ids onto that wrap (`windows-mcp` is local). Score stays **3/10** tray, **2/10** governed. Push 403.
+UACC catalog still *names* planner / clipboard / list_windows (DR-0005). Search and `computer.status` skills drop them as executable hits. `bindComputer` refuses e2b / Perplexity Computer. Native `computer.observe` stays Pointer's own API (uncropped PNG / clipboard / window list; `uacc.test.js` still **16 passed**). Additive `governed: true` / `guard_observe` needs Cortex allow and refuses uncropped PNG / clipboard / window dump. Portable `from netie.pointer import guard_observe`. Portable `bind_pointer_skill` maps HEAD's 15 catalog ids onto that wrap (`windows-mcp` is local). Score stays **3/10** tray, **2/10** governed until Cortex HEAD calls the guard. Push 403.
 
 ## Control (`Netie-AI/netie-control`)
 
