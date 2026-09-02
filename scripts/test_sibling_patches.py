@@ -10,7 +10,7 @@ node --test (62 passed). Extra `constructor-ir-4896ddd.patch` /
 `constructor-inspect-4896ddd.patch` are a thinner alternate stack (do not mix
 with the 26). Portable Python IR is `scripts/constructor_ir.py`.
 OpenVault patches apply on origin/main then `uv run pytest` on the routing+chat+crew-gate+ship-claim+free-pool files (>= 90 passed). The 28th patch (`openvault-crew-netie.patch`) makes `/api/crew/gate` call `from netie.crew import refuse_crew_gate` when Netie is installed. Then `openvault-free-pool.patch` + `openvault-free-pool-route.patch` add `POST /api/route/free`.
-Cortex `cortex-netie-path.patch` applies on origin/main (do not uv-add Netie.git). `cortex-web-via-runner.patch` applies on origin/main (`default_broker` no web/discovery skip). dms `dms-netie-acl.patch` applies on origin/main (`live_ask` / browse through `netie.dms` when installed). Pointer `pointer-netie-hands.patch` applies on origin/main (UACC search drops planner/clipboard/window dump). Control `control-netie-board.patch` applies on origin/main (`guard_issue_board` / Guacamole 405s).
+Cortex `cortex-netie-path.patch` applies on origin/main (do not uv-add Netie.git). `cortex-web-via-runner.patch` applies on origin/main (`default_broker` no web/discovery skip). `cortex-role-execute.patch` applies after those (`require_role` on execute modules). dms `dms-netie-acl.patch` applies on origin/main (`live_ask` / browse through `netie.dms` when installed). Pointer `pointer-netie-hands.patch` applies on origin/main (UACC search drops planner/clipboard/window dump). Control `control-netie-board.patch` applies on origin/main (`guard_issue_board` / Guacamole 405s).
 """
 
 from __future__ import annotations
@@ -655,6 +655,49 @@ class SiblingPatchTests(unittest.TestCase):
             src = test_py.read_text(encoding="utf-8")
             self.assertIn("WEB_TOOLS", src)
             self.assertIn("default_broker", src)
+
+    def test_cortex_role_execute_applies_on_main(self) -> None:
+        patch = PATCHES / "cortex-role-execute.patch"
+        self.assertTrue(patch.is_file())
+        with tempfile.TemporaryDirectory() as tmp:
+            dest = Path(tmp) / "Cortex"
+            clone = _run(
+                [
+                    "git",
+                    "clone",
+                    "--depth",
+                    "1",
+                    "--branch",
+                    "main",
+                    "https://github.com/Netie-AI/Cortex.git",
+                    str(dest),
+                ],
+                timeout=180,
+            )
+            self.assertEqual(clone.returncode, 0, clone.stderr)
+            for prior in (
+                PATCHES / "cortex-netie-path.patch",
+                PATCHES / "cortex-web-via-runner.patch",
+                patch,
+            ):
+                applied = _run(["git", "apply", str(prior)], cwd=dest)
+                self.assertEqual(applied.returncode, 0, f"{prior.name}: {applied.stderr}")
+            query = (dest / "CortexOS" / "api" / "dms_query.py").read_text(
+                encoding="utf-8"
+            )
+            self.assertIn('require_role("viewer")', query)
+            dag = (dest / "CortexOS" / "api" / "dag_run.py").read_text(encoding="utf-8")
+            self.assertIn('require_role("steward")', dag)
+            apps = (dest / "CortexOS" / "api" / "app_routes.py").read_text(
+                encoding="utf-8"
+            )
+            self.assertIn('require_role("steward")', apps)
+            chat = (dest / "CortexOS" / "api" / "chat_routes.py").read_text(
+                encoding="utf-8"
+            )
+            self.assertIn('require_role("steward")', chat)
+            f7 = (dest / "tests" / "dms" / "test_f7_rbac.py").read_text(encoding="utf-8")
+            self.assertIn("execute_modules_require_a_key", f7)
 
 
 if __name__ == "__main__":

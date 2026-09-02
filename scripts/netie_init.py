@@ -47,7 +47,7 @@ CALLERS: dict[str, str] = {
     "Pointer": "from netie.pointer import bind_computer, bind_pointer_skill, invoke_hand",
     "Constructor": "from netie.route import compile_graph, compile_ir",
     "Control": "from netie.control import project_board, project_session, MAX_BOARD_CHARS",
-    "Crew": "from netie.crew import bind_deep_agent, crew_harness_profile, TokenBudget, dispatch_seat, persist, resume, register_skill",
+    "Crew": "from netie.crew import bind_deep_agent, crew_harness_profile, TokenBudget, dispatch_seat, persist, resume, register_skill, mint_issue",
 }
 
 
