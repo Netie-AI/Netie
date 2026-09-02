@@ -935,6 +935,26 @@ class NetieApiTests(unittest.TestCase):
             host_switchyard(ov_leave=True, vendor="llm-router")
         hosted = host_switchyard(ov_leave=True)
         self.assertEqual(hosted["score"], "2/10")
+        sy_seen: list[dict] = []
+
+        def sy_post(url: str, body: dict) -> dict:
+            sy_seen.append(body)
+            return {"allowed": True}
+
+        sy_reg = SkillRegistry()
+        register_skill(sy_reg, "S-0004")
+        sy_ov = OpenVaultCrewGate(
+            "http://127.0.0.1:5000", post=sy_post, registry=sy_reg
+        )
+        hosted_ov = host_switchyard(
+            ov_leave=False,
+            ov=sy_ov,
+            parent_run_id="p1",
+            child_id="sy",
+        )
+        self.assertEqual(hosted_ov["score"], "2/10")
+        self.assertEqual(sy_seen[0]["skill_ids"], ["S-0004"])
+        self.assertNotIn("skill_body", str(sy_seen[0]))
         with self.assertRaises(ShipDenied):
             report_deploy(simulated=True, observed_url=None, constructed_url=None)
         with self.assertRaises(ShipDenied):

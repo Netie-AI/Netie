@@ -51,7 +51,7 @@ This VM patches (not on main, push 403): 15 *sorts* through `cache-optimized`, t
 
 Not shipped vs OmniRoute: provider catalog at OmniRoute scale, Electron Next-on-20128. Asking for MCP/A2A / token compression / autoCombo / quorum-grace / Codex quota fetch / SQLite persist / `quota-share` is a named 501.
 
-Not the same job as NVIDIA llm-router (trained task/complexity classifier on Triton; deprecated for NeMo Switchyard). Portable `scripts/switchyard_honesty.py`: host Switchyard behind OpenVault leave-machine; refuse vendoring `llm-router`; refuse rewriting Triton; refuse claiming FreeRoute is Switchyard. Score stays **2 / 10**.
+Not the same job as NVIDIA llm-router (trained task/complexity classifier on Triton; deprecated for NeMo Switchyard). Portable `scripts/switchyard_honesty.py`: host Switchyard behind OpenVault leave-machine; `host_switchyard(ov=)` POSTs `/api/crew/gate` with skill ids; refuse vendoring `llm-router`; refuse rewriting Triton; refuse claiming FreeRoute is Switchyard. Score stays **2 / 10**.
 
 ---
 
