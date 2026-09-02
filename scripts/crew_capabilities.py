@@ -129,16 +129,6 @@ class GrantedGate:
             return Verdict(allowed=False, reason="billing-bypass product")
         if cap not in search_capabilities(self.granted):
             return Verdict(allowed=False, reason=f"capability {cap} not granted")
-        try:
-            _leave_machine(
-                cap,
-                ov_allowed=self.ov_allowed,
-                ov=self.ov,
-                parent_run_id=self.parent_run_id,
-                child_id=self.child_id or cap,
-            )
-        except CortexDenied as exc:
-            return Verdict(allowed=False, reason=str(exc))
         return self.inner.check(tool, payload)
 
     def execute(self, tool: str, payload: dict[str, Any]) -> Any:
@@ -181,4 +171,12 @@ def execute_capabilities(
         ov=ov,
         parent_run_id=parent_run_id,
     )
-    return run_batch(wrapped, jobs, max_in_flight=max_in_flight, budget=budget)
+    return run_batch(
+        wrapped,
+        jobs,
+        max_in_flight=max_in_flight,
+        budget=budget,
+        ov=ov,
+        ov_allowed=ov_allowed,
+        parent_run_id=parent_run_id,
+    )

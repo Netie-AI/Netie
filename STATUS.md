@@ -1,13 +1,13 @@
 # STATUS - Netie constitution repo
 
-**Branch:** `cursor/ticket-leave-skill-ids-ca9b` · **PR:** (this) · **main:** `67edfe1` (docs-ci green)
+**Branch:** `cursor/batch-leave-skill-ids-ca9b` · **PR:** (this) · **main:** `bf6c278` (docs-ci green)
 
 **Local gate:** `make ci`.
 
 ## Now
 
-- `run_open_ticket(ov=)` POSTs skill ids for leave-machine tools. Cortex tools (`warehouse.query`) stay on `prepare_tool` and never hit `refuse_crew_gate`. Wrap stays **3/10**.
-- `claim_deploy(ov=)` already on main. Simulated is still not HT1. Score stays **2/10**.
+- `run_batch(ov=)` POSTs skill ids for leave-machine jobs (once per job). Cortex tools stay on `prepare_tool`. Wrap stays **3/10**.
+- Ticket runner already does the same. `claim_deploy(ov=)` on main. HT1 not done. Score stays **2/10**.
 - Founder apply-all: `python3 scripts/apply_product_patches.py --dry-run`. Product remotes clone-yes push-403. 404: AirGPT, Space, Cortex-Crew. Keys.txt gone; founder must revoke. C2/MIN_TESTS stand.
 
 ## Next (founder clicks)

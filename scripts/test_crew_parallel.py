@@ -103,6 +103,79 @@ class CrewParallelTests(unittest.TestCase):
         self.assertIn("skill_body", results[0].detail)
         self.assertEqual(gate.executed, [])
 
+    def test_leave_machine_batch_posts_skill_ids(self) -> None:
+        from crew_ov_gate import OpenVaultCrewGate
+        from crew_skills import SkillRegistry, register_skill
+
+        gate = CountingGate({"open_url", "warehouse.query"})
+        seen: list[dict[str, Any]] = []
+
+        def post(url: str, body: dict[str, Any]) -> dict[str, Any]:
+            seen.append(body)
+            return {"allowed": True}
+
+        def deny(url: str, body: dict[str, Any]) -> dict[str, Any]:
+            return {"allowed": False, "reason": "vault miss"}
+
+        reg = SkillRegistry()
+        register_skill(reg, "S-0004")
+        ov = OpenVaultCrewGate("http://127.0.0.1:5000", post=post, registry=reg)
+        blocked = run_batch(
+            gate,
+            [Job("a", "open_url", {})],
+            max_in_flight=1,
+            budget=TokenBudget(max_tokens=10_000),
+        )
+        self.assertEqual(blocked[0].status, "FAILED")
+        self.assertIn("OpenVault", blocked[0].detail)
+        self.assertEqual(gate.executed, [])
+        cortex = run_batch(
+            gate,
+            [Job("q", "warehouse.query", {"sql": "select 1"})],
+            max_in_flight=1,
+            budget=TokenBudget(max_tokens=10_000),
+            ov=ov,
+            parent_run_id="p1",
+        )
+        self.assertEqual(cortex[0].status, "DONE")
+        self.assertEqual(seen, [])
+        missing = run_batch(
+            gate,
+            [Job("a", "open_url", {})],
+            max_in_flight=1,
+            budget=TokenBudget(max_tokens=10_000),
+            ov=ov,
+        )
+        self.assertEqual(missing[0].status, "FAILED")
+        self.assertIn("parent and child", missing[0].detail)
+        self.assertEqual(seen, [])
+        ok = run_batch(
+            gate,
+            [Job("a", "open_url", {})],
+            max_in_flight=1,
+            budget=TokenBudget(max_tokens=10_000),
+            ov=ov,
+            parent_run_id="p1",
+        )
+        self.assertEqual(ok[0].status, "DONE")
+        self.assertEqual(gate.executed, ["warehouse.query", "open_url"])
+        self.assertEqual(len(seen), 1)
+        self.assertEqual(seen[0]["skill_ids"], ["S-0004"])
+        self.assertEqual(seen[0]["id"], "open_url")
+        self.assertNotIn("skill_body", str(seen[0]))
+        vault = OpenVaultCrewGate("http://127.0.0.1:5000", post=deny)
+        refused = run_batch(
+            gate,
+            [Job("a", "open_url", {})],
+            max_in_flight=1,
+            budget=TokenBudget(max_tokens=10_000),
+            ov=vault,
+            parent_run_id="p1",
+        )
+        self.assertEqual(refused[0].status, "FAILED")
+        self.assertIn("vault miss", refused[0].detail)
+        self.assertEqual(gate.executed, ["warehouse.query", "open_url"])
+
 
 if __name__ == "__main__":
     unittest.main()
