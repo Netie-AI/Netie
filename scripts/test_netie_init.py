@@ -86,6 +86,19 @@ class NetieInitTests(unittest.TestCase):
                 text,
             )
 
+    def test_stamps_kb_product_caller(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp) / "Netie-KB"
+            root.mkdir()
+            stamp(root, "KB")
+            text = (root / "CLAUDE.md").read_text(encoding="utf-8")
+            self.assertIn(CALLERS["KB"], text)
+            self.assertIn("show_brief", text)
+            self.assertIn(
+                "uv add git+https://github.com/Netie-AI/Netie.git",
+                text,
+            )
+
 
 if __name__ == "__main__":
     unittest.main()

@@ -67,6 +67,10 @@ class ApplyProductPatchesTests(unittest.TestCase):
         self.assertEqual(names[0], "pointer-netie-hands.patch")
         self.assertEqual(names[1], "pointer-observe-guard.patch")
 
+    def test_kb_index_is_a_stack(self) -> None:
+        self.assertEqual(STACKS["kb"].patches, ("kb-netie-index.patch",))
+        self.assertTrue(STACKS["kb"].uv_add_netie)
+
     def test_readme_names_each_stack_patch(self) -> None:
         readme = (ROOT / "docs" / "patches" / "README.md").read_text(encoding="utf-8")
         for name, stack in STACKS.items():

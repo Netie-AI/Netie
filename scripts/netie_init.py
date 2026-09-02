@@ -32,6 +32,7 @@ REPOS: dict[str, Path] = {
     "Constructor": Path("D:/constructor"),
     # Fold into Crew when Crew exists. Not Guacamole.
     "Control": Path("D:/netie-control"),
+    "KB": Path("D:/Netie-KB"),
     # Planned: stamp when the repo exists. Not a second Cortex.
     "Crew": Path("D:/Cortex-Crew"),
 }
@@ -47,6 +48,7 @@ CALLERS: dict[str, str] = {
     "Pointer": "from netie.pointer import bind_computer, bind_pointer_skill, invoke_hand, guard_observe",
     "Constructor": "from netie.route import compile_graph, compile_ir",
     "Control": "from netie.control import project_board, project_session, MAX_BOARD_CHARS",
+    "KB": "from netie.kb import show_brief, lookup",
     "Crew": "from netie.crew import bind_deep_agent, crew_harness_profile, TokenBudget, dispatch_seat, persist, resume, register_skill, mint_issue",
 }
 

@@ -1,0 +1,90 @@
+diff --git a/scripts/skill_server.py b/scripts/skill_server.py
+index ba1b889..0380452 100644
+--- a/scripts/skill_server.py
++++ b/scripts/skill_server.py
+@@ -77,6 +77,18 @@ def _line(art, score=None) -> str:
+     return f"{head} - {art.meta.get('title')}"
+ 
+ 
++def child_text(art) -> str:
++    """Skills leave as index rows. Corpus kinds may still dump markdown."""
++    kind = str(art.meta.get("kind") or "").strip().lower()
++    if kind == "skill":
++        try:
++            from netie.kb import show_brief
++        except ImportError:
++            return json.dumps(_brief(art))
++        return json.dumps(show_brief(dict(art.meta)))
++    return art.path.read_text(encoding="utf-8")
++
++
+ def do_search(query: str, kind: str | None, limit: int, include_unverified: bool):
+     results = []
+     for art in _artifacts():
+@@ -176,7 +188,7 @@ def _tool_text(name: str, args: dict) -> str:
+         art = do_show(str(args.get("id", "")))
+         if art is None:
+             raise ValueError(f"not found: {args.get('id')}")
+-        return art.path.read_text(encoding="utf-8")
++        return child_text(art)
+     if name == "kb_list":
+         arts = do_list(args.get("kind"))
+         if not arts:
+@@ -283,7 +295,13 @@ class Handler(BaseHTTPRequestHandler):
+             if art is None:
+                 self._json(404, {"error": "not found"})
+                 return
+-            self._send(200, art.path.read_text(encoding="utf-8").encode(), "text/markdown; charset=utf-8")
++            text = child_text(art)
++            ctype = (
++                "application/json; charset=utf-8"
++                if str(art.meta.get("kind") or "").lower() == "skill"
++                else "text/markdown; charset=utf-8"
++            )
++            self._send(200, text.encode(), ctype)
+             return
+         if url.path == "/mcp":
+             self._send(405, b"POST JSON-RPC here", "text/plain")
+diff --git a/tests/test_netie_index.py b/tests/test_netie_index.py
+new file mode 100644
+index 0000000..7a0eb5e
+--- /dev/null
++++ b/tests/test_netie_index.py
+@@ -0,0 +1,37 @@
++#!/usr/bin/env python3
++"""Skill bodies stay in the index. python3 tests/test_netie_index.py"""
++
++from __future__ import annotations
++
++import json
++import sys
++import unittest
++from pathlib import Path
++
++ROOT = Path(__file__).resolve().parents[1]
++sys.path.insert(0, str(ROOT / "scripts"))
++
++import skill_server  # noqa: E402
++
++
++class NetieIndexTests(unittest.TestCase):
++    def test_skill_show_is_brief_json(self) -> None:
++        art = skill_server.do_show("S-0001")
++        self.assertIsNotNone(art)
++        text = skill_server.child_text(art)
++        self.assertNotIn("## Steps", text)
++        row = json.loads(text)
++        self.assertEqual(row["id"], "S-0001")
++        self.assertEqual(row["kind"], "skill")
++        self.assertNotIn("skill_body", row)
++
++    def test_rule_show_keeps_corpus(self) -> None:
++        art = skill_server.do_show("R-0016")
++        self.assertIsNotNone(art)
++        text = skill_server.child_text(art)
++        self.assertIn("R-0016", text)
++        self.assertTrue(len(text) > 80)
++
++
++if __name__ == "__main__":
++    unittest.main()

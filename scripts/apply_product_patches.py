@@ -209,6 +209,13 @@ STACKS: dict[str, Stack] = {
         ),
         min_passed=51,
     ),
+    "kb": Stack(
+        repo="https://github.com/Netie-AI/Netie-KB.git",
+        branch="main",
+        patches=("kb-netie-index.patch",),
+        uv_add_netie=True,
+        verify=(["python3", "tests/test_netie_index.py"],),
+    ),
 }
 
 

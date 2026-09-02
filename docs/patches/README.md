@@ -366,3 +366,15 @@ pytest tests/test_netie_board.py tests/test_control_stays_plane_4.py -q
 ```
 
 `sources.board` runs gh issues through `guard_issue_board` (`from netie.control import project_board` when installed; same refuse locally otherwise). `/v1/rdp` `/v1/vnc` `/v1/guacamole` `/v1/ssh` answer 405. Score stays **1/10** Guacamole, **2/10** board. Push 403.
+
+## Netie-KB (`Netie-AI/Netie-KB`)
+
+`uv add git+https://github.com/Netie-AI/Netie.git` then `from netie.kb import show_brief, lookup`. From the Netie-KB repo root, on `main` (`10356e5`):
+
+```
+git apply docs/patches/kb-netie-index.patch
+python3 tests/test_netie_index.py
+```
+
+`kb_show` / GET `/item/S-*` return an index row (id, title, status), never the skill markdown body. Rules / workflows / findings / attacks still dump corpus text. `child_text` uses `from netie.kb import show_brief` when Netie is installed; same rule locally otherwise. Crew `register_skill` stays ids-only. Wrap score stays **3/10**. Push 403.
+
