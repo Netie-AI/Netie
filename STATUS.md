@@ -1,12 +1,12 @@
 # STATUS - Netie constitution repo
 
-**Branch:** `cursor/crew-skill-persist-ca9b` · **PR:** (this) · **main:** `4ef524a` (docs-ci pending)
+**Branch:** `cursor/control-board-index-ca9b` · **PR:** (this) · **main:** `fcb2d3f` (docs-ci green)
 **Local gate:** `make ci`.
 
 ## Now
 
-- Crew `persist` / `resume` keep skill ids + source. A restarted graph can spawn `kind=skill` again. Control can project those cards from the blob. Bodies still refuse. Wrap stays **3/10**.
-- KB `list_briefs` + `register_index` stay the dump path. Cortex `guard_observe` on observe tools. Scores stay **4/10** Q&A, **2/10** governed computer-use.
+- Control `board_index` stitches graph runs, Factory tickets/epics, and KB skill ids into one `crew_index`. Prompts and skill_body refuse. Score stays **2/10** board. Crew wrap stays **3/10**.
+- Crew `persist` / `resume` keep skill ids. KB `list_briefs` + `register_index` stay the dump path. Cortex `guard_observe` on observe tools.
 - Founder apply-all: `python3 scripts/apply_product_patches.py --dry-run`. Product remotes clone-yes push-403. 404: AirGPT, Space, Cortex-Crew. Keys.txt gone; founder must revoke. C2/MIN_TESTS stand.
 
 ## Next (founder clicks)
