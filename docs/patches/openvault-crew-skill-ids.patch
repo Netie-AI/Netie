@@ -19,7 +19,7 @@ index e370af8..95e8e36 100644
          except PermissionError as exc:
              payload = {
 diff --git a/OpenMW/openmw/openvault/crew_netie.py b/OpenMW/openmw/openvault/crew_netie.py
-index 85783bc..9458a8e 100644
+index 85783bc..1cc5b31 100644
 --- a/OpenMW/openmw/openvault/crew_netie.py
 +++ b/OpenMW/openmw/openvault/crew_netie.py
 @@ -23,8 +23,9 @@ def check_crew_gate(
@@ -33,7 +33,7 @@ index 85783bc..9458a8e 100644
      try:
          from netie.crew import refuse_crew_gate
      except ImportError:
-@@ -34,6 +35,12 @@ def check_crew_gate(
+@@ -34,14 +35,25 @@ def check_crew_gate(
          ):
              raise PermissionError("skill_body must never go to the gate")
          k = (kind or "").strip()
@@ -46,12 +46,27 @@ index 85783bc..9458a8e 100644
          if k not in REGISTERED_KINDS:
              raise PermissionError(f"no {k or 'kind'} registered as '{id}'")
          return {"status": "ok", "kind": k}
-@@ -44,4 +51,5 @@ def check_crew_gate(
-         prompt=prompt,
-         instructions=instructions,
-         transcript=transcript,
-+        skill_ids=skill_ids,
-     )
+-    return refuse_crew_gate(
+-        kind=kind,
+-        id=id,
+-        skill_body=skill_body,
+-        prompt=prompt,
+-        instructions=instructions,
+-        transcript=transcript,
+-    )
++    import inspect
++
++    kw = {
++        "kind": kind,
++        "id": id,
++        "skill_body": skill_body,
++        "prompt": prompt,
++        "instructions": instructions,
++        "transcript": transcript,
++    }
++    if "skill_ids" in inspect.signature(refuse_crew_gate).parameters:
++        kw["skill_ids"] = skill_ids
++    return refuse_crew_gate(**kw)
 diff --git a/OpenMW/tests/test_crew_netie_gate.py b/OpenMW/tests/test_crew_netie_gate.py
 index 571e375..96c6876 100644
 --- a/OpenMW/tests/test_crew_netie_gate.py
