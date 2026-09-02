@@ -1,0 +1,73 @@
+diff --git a/OpenMW/openmw/openvault/app.py b/OpenMW/openmw/openvault/app.py
+index e370af8..95e8e36 100644
+--- a/OpenMW/openmw/openvault/app.py
++++ b/OpenMW/openmw/openvault/app.py
+@@ -442,6 +442,7 @@ class CrewGateBody(BaseModel):
+     child_id: str = ""
+     deficit: str = ""
+     required_providers: list[str] = Field(default_factory=list)
++    skill_ids: list[str] = Field(default_factory=list)
+     skill_body: object | None = None
+     prompt: object | None = None
+     instructions: object | None = None
+@@ -1259,6 +1260,7 @@ def create_app(
+                 prompt=body.prompt,
+                 instructions=body.instructions,
+                 transcript=body.transcript,
++                skill_ids=list(body.skill_ids or []),
+             )
+         except PermissionError as exc:
+             payload = {
+diff --git a/OpenMW/openmw/openvault/crew_netie.py b/OpenMW/openmw/openvault/crew_netie.py
+index 85783bc..9458a8e 100644
+--- a/OpenMW/openmw/openvault/crew_netie.py
++++ b/OpenMW/openmw/openvault/crew_netie.py
+@@ -23,8 +23,9 @@ def check_crew_gate(
+     prompt: object | None = None,
+     instructions: object | None = None,
+     transcript: object | None = None,
++    skill_ids: list[str] | None = None,
+ ) -> dict[str, str]:
+-    """Refuse a skill body or unknown kind. Registry lookup stays in OpenVault."""
++    """Refuse a skill body or unknown kind. Skill ids are the Crew registry dump."""
+     try:
+         from netie.crew import refuse_crew_gate
+     except ImportError:
+@@ -34,6 +35,12 @@ def check_crew_gate(
+         ):
+             raise PermissionError("skill_body must never go to the gate")
+         k = (kind or "").strip()
++        sid = (id or "").strip()
++        if k == "skill":
++            listed = {str(s).strip() for s in (skill_ids or []) if str(s).strip()}
++            if sid not in listed:
++                raise PermissionError(f"no skill registered as '{sid}'")
++            return {"status": "ok", "kind": k}
+         if k not in REGISTERED_KINDS:
+             raise PermissionError(f"no {k or 'kind'} registered as '{id}'")
+         return {"status": "ok", "kind": k}
+@@ -44,4 +51,5 @@ def check_crew_gate(
+         prompt=prompt,
+         instructions=instructions,
+         transcript=transcript,
++        skill_ids=skill_ids,
+     )
+diff --git a/OpenMW/tests/test_crew_netie_gate.py b/OpenMW/tests/test_crew_netie_gate.py
+index 571e375..96c6876 100644
+--- a/OpenMW/tests/test_crew_netie_gate.py
++++ b/OpenMW/tests/test_crew_netie_gate.py
+@@ -19,6 +19,14 @@ def test_skill_kind_is_refused() -> None:
+     assert "no skill registered" in str(ctx.value)
+ 
+ 
++def test_skill_kind_ok_with_skill_ids() -> None:
++    out = check_crew_gate(kind="skill", id="S-0004", skill_ids=["S-0004"])
++    assert out["status"] == "ok"
++    assert out["kind"] == "skill"
++    with pytest.raises((PermissionError, Exception)):
++        check_crew_gate(kind="skill", id="S-0004", skill_ids=["S-9999"])
++
++
+ def test_skill_body_is_refused() -> None:
+     with pytest.raises((PermissionError, Exception)) as ctx:
+         check_crew_gate(

@@ -82,6 +82,44 @@ class CrewSkillTests(unittest.TestCase):
                 resource_id="netie-kb.export-pptx",
             )
 
+    def test_gate_post_sends_skill_ids_not_bodies(self) -> None:
+        seen: dict[str, Any] = {}
+
+        def _capture(url: str, body: dict[str, Any]) -> dict[str, Any]:
+            seen["body"] = body
+            return {
+                "allowed": True,
+                "found": True,
+                "parent_run_id": body["parent_run_id"],
+            }
+
+        reg = SkillRegistry()
+        register_skill(reg, "S-0004")
+        g = CrewGraph(
+            ov=OpenVaultCrewGate(
+                "http://127.0.0.1:5000", post=_capture, registry=reg
+            )
+        )
+        g.open_parent("p1", "T1")
+        g.spawn_child(
+            parent_id="p1",
+            child_id="c1",
+            deficit="need export",
+            kind="skill",
+            resource_id="S-0004",
+        )
+        self.assertEqual(seen["body"]["skill_ids"], ["S-0004"])
+        dumped = json.dumps(seen["body"])
+        self.assertNotIn("skill_body", dumped)
+        ok = refuse_crew_gate(kind="skill", id="S-0004", skill_ids=["S-0004"])
+        self.assertEqual(ok["status"], "ok")
+        with self.assertRaises(CortexDenied):
+            refuse_crew_gate(kind="skill", id="S-0004", skill_ids=["S-9999"])
+        with self.assertRaises(CortexDenied):
+            refuse_crew_gate(
+                kind="skill", id="S-0004", skill_ids=["S-0004"], skill_body="SECRET"
+            )
+
 
     def test_register_from_kb_is_ids_only(self) -> None:
         reg = SkillRegistry()
