@@ -29,6 +29,7 @@ from netie.crew import (
     CortexDenied,
     Factory,
     Job,
+    OpenVaultCrewGate,
     SeatDenied,
     SkillRegistry,
     TokenBudget,
@@ -467,6 +468,39 @@ class NetieApiTests(unittest.TestCase):
                 Gate(), [Job("a", "echo", {})], granted=["echo"]
             )
         self.assertIn("token budget", str(batch.exception))
+        leave_seen: list[dict] = []
+
+        def leave_post(url: str, body: dict) -> dict:
+            leave_seen.append(body)
+            return {"allowed": True}
+
+        leave_reg = SkillRegistry()
+        register_skill(leave_reg, "S-0004")
+        ov = OpenVaultCrewGate(
+            "http://127.0.0.1:5000", post=leave_post, registry=leave_reg
+        )
+        with self.assertRaises(CortexDenied) as leave_ids:
+            execute_capability(
+                Gate(),
+                "open_url",
+                {},
+                granted=["open_url"],
+                ov=ov,
+                budget=room,
+            )
+        self.assertIn("parent and child", str(leave_ids.exception))
+        execute_capability(
+            Gate(),
+            "open_url",
+            {},
+            granted=["open_url"],
+            ov=ov,
+            parent_run_id="p1",
+            child_id="c1",
+            budget=room,
+        )
+        self.assertEqual(leave_seen[0]["skill_ids"], ["S-0004"])
+        self.assertNotIn("skill_body", str(leave_seen[0]))
         with self.assertRaises(CortexDenied) as ticket:
             run_open_ticket(
                 factory, "T-secret", gate=Gate(), tool="echo", payload={}
