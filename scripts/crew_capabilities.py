@@ -13,7 +13,7 @@ from __future__ import annotations
 from typing import Any
 
 from crew_budget import TokenBudget
-from crew_ov_gate import has_bodies
+from crew_ov_gate import GateAsk, OpenVaultCrewGate, has_bodies
 from crew_parallel import Job, JobResult, MAX_IN_FLIGHT, run_batch
 from crew_tool_wrap import CortexDenied, CortexGate, DEEPAGENTS_DIRECT, Verdict, run_tool
 from seat_router import BYPASS_SEATS
@@ -21,6 +21,36 @@ from seat_router import BYPASS_SEATS
 LEAVE_CAPS = frozenset(
     {"open_url", "launch_app", "browser_navigate", "ocr_cloud", "leave"}
 )
+
+
+def _leave_machine(
+    cap: str,
+    *,
+    ov_allowed: bool,
+    ov: OpenVaultCrewGate | None,
+    parent_run_id: str,
+    child_id: str,
+) -> None:
+    """Boolean ov_allowed is the portable stand-in. `ov` POSTs crew/gate."""
+    if cap not in LEAVE_CAPS:
+        return
+    if ov is not None:
+        pid = (parent_run_id or "").strip()
+        cid = (child_id or "").strip()
+        if not pid or not cid:
+            raise CortexDenied("leave-machine needs parent and child run ids")
+        ov.allow(
+            GateAsk(
+                kind="service",
+                id=cap,
+                intent="leave",
+                parent_run_id=pid,
+                child_id=cid,
+            )
+        )
+        return
+    if not ov_allowed:
+        raise CortexDenied("leave-machine is OpenVault")
 
 
 def search_capabilities(granted: frozenset[str] | list[str] | tuple[str, ...]) -> list[str]:
@@ -43,6 +73,9 @@ def execute_capability(
     *,
     granted: frozenset[str] | list[str] | tuple[str, ...],
     ov_allowed: bool = False,
+    ov: OpenVaultCrewGate | None = None,
+    parent_run_id: str = "",
+    child_id: str = "",
     budget: TokenBudget | None = None,
 ) -> Any:
     """One granted capability through Cortex. Ungranted does not execute."""
@@ -58,8 +91,13 @@ def execute_capability(
         raise CortexDenied(f"capability {cap} not granted")
     if has_bodies(payload or {}):
         raise CortexDenied("skill_body must never go to a child job")
-    if cap in LEAVE_CAPS and not ov_allowed:
-        raise CortexDenied("leave-machine is OpenVault")
+    _leave_machine(
+        cap,
+        ov_allowed=ov_allowed,
+        ov=ov,
+        parent_run_id=parent_run_id,
+        child_id=child_id,
+    )
     if budget is None:
         raise CortexDenied("token budget required; Deep Agents default is unbounded spend")
     return run_tool(gate, cap, payload, budget=budget)
@@ -74,10 +112,16 @@ class GrantedGate:
         granted: frozenset[str] | list[str] | tuple[str, ...],
         *,
         ov_allowed: bool = False,
+        ov: OpenVaultCrewGate | None = None,
+        parent_run_id: str = "",
+        child_id: str = "",
     ) -> None:
         self.inner = inner
         self.granted = granted
         self.ov_allowed = ov_allowed
+        self.ov = ov
+        self.parent_run_id = parent_run_id
+        self.child_id = child_id
 
     def check(self, tool: str, payload: dict[str, Any]) -> Verdict:
         cap = (tool or "").strip()
@@ -85,8 +129,16 @@ class GrantedGate:
             return Verdict(allowed=False, reason="billing-bypass product")
         if cap not in search_capabilities(self.granted):
             return Verdict(allowed=False, reason=f"capability {cap} not granted")
-        if cap in LEAVE_CAPS and not self.ov_allowed:
-            return Verdict(allowed=False, reason="leave-machine is OpenVault")
+        try:
+            _leave_machine(
+                cap,
+                ov_allowed=self.ov_allowed,
+                ov=self.ov,
+                parent_run_id=self.parent_run_id,
+                child_id=self.child_id or cap,
+            )
+        except CortexDenied as exc:
+            return Verdict(allowed=False, reason=str(exc))
         return self.inner.check(tool, payload)
 
     def execute(self, tool: str, payload: dict[str, Any]) -> Any:
@@ -114,11 +166,19 @@ def execute_capabilities(
     *,
     granted: frozenset[str] | list[str] | tuple[str, ...],
     ov_allowed: bool = False,
+    ov: OpenVaultCrewGate | None = None,
+    parent_run_id: str = "",
     max_in_flight: int = MAX_IN_FLIGHT,
     budget: TokenBudget | None = None,
 ) -> list[JobResult]:
     """Granted capabilities in parallel. Cap-2. Ungranted jobs fail closed."""
     if budget is None:
         raise CortexDenied("token budget required; Deep Agents default is unbounded spend")
-    wrapped = GrantedGate(gate, granted, ov_allowed=ov_allowed)
+    wrapped = GrantedGate(
+        gate,
+        granted,
+        ov_allowed=ov_allowed,
+        ov=ov,
+        parent_run_id=parent_run_id,
+    )
     return run_batch(wrapped, jobs, max_in_flight=max_in_flight, budget=budget)

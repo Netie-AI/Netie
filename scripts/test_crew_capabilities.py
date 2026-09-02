@@ -105,6 +105,70 @@ class CrewCapabilityTests(unittest.TestCase):
         )
         self.assertEqual(out["tool"], "open_url")
 
+    def test_leave_machine_ov_posts_skill_ids(self) -> None:
+        from crew_ov_gate import OpenVaultCrewGate
+        from crew_skills import SkillRegistry, register_skill
+
+        gate = FakeGate()
+        seen: list[dict[str, Any]] = []
+
+        def post(url: str, body: dict[str, Any]) -> dict[str, Any]:
+            seen.append(body)
+            return {"allowed": True}
+
+        reg = SkillRegistry()
+        register_skill(reg, "S-0004")
+        ov = OpenVaultCrewGate("http://127.0.0.1:5000", post=post, registry=reg)
+        with self.assertRaises(CortexDenied) as missing:
+            execute_capability(
+                gate,
+                "open_url",
+                {},
+                granted=["open_url"],
+                ov=ov,
+                budget=ROOM,
+            )
+        self.assertIn("parent and child", str(missing.exception))
+        self.assertEqual(seen, [])
+        self.assertEqual(gate.executed, [])
+        out = execute_capability(
+            gate,
+            "open_url",
+            {},
+            granted=["open_url"],
+            ov=ov,
+            parent_run_id="p1",
+            child_id="c1",
+            budget=ROOM,
+        )
+        self.assertEqual(out["tool"], "open_url")
+        self.assertEqual(seen[0]["skill_ids"], ["S-0004"])
+        self.assertEqual(seen[0]["kind"], "service")
+        self.assertNotIn("skill_body", str(seen[0]))
+
+    def test_leave_machine_ov_refuse_does_not_execute(self) -> None:
+        from crew_ov_gate import OpenVaultCrewGate
+
+        gate = FakeGate()
+
+        def post(url: str, body: dict[str, Any]) -> dict[str, Any]:
+            return {"allowed": False, "reason": "vault miss"}
+
+        ov = OpenVaultCrewGate("http://127.0.0.1:5000", post=post)
+        with self.assertRaises(CortexDenied) as ctx:
+            execute_capability(
+                gate,
+                "open_url",
+                {},
+                granted=["open_url"],
+                ov=ov,
+                parent_run_id="p1",
+                child_id="c1",
+                budget=ROOM,
+            )
+        self.assertIn("vault miss", str(ctx.exception))
+        self.assertEqual(gate.executed, [])
+
     def test_granted_without_budget_refuses(self) -> None:
         gate = FakeGate()
         with self.assertRaises(CortexDenied) as ctx:
