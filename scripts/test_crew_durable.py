@@ -107,6 +107,28 @@ class CrewDurableTests(unittest.TestCase):
         )
         self.assertEqual(child.id, "c2")
 
+    def test_persist_defaults_to_ov_registry(self) -> None:
+        live_reg = SkillRegistry()
+        register_skill(live_reg, "S-0004")
+        live = CrewGraph(
+            ov=OpenVaultCrewGate(
+                "http://127.0.0.1:5000", post=_allow, registry=live_reg
+            )
+        )
+        live.open_parent("p1", "T1")
+        with tempfile.TemporaryDirectory() as tmp:
+            path = Path(tmp) / "crew.json"
+            blob = persist(path, live)
+        self.assertEqual(blob["skills"], [{"id": "S-0004", "source": "netie-kb"}])
+        dead_reg = SkillRegistry()
+        dead = CrewGraph(
+            ov=OpenVaultCrewGate(
+                "http://127.0.0.1:5000", post=_allow, registry=dead_reg
+            )
+        )
+        resume(dead, blob, tickets={"T1": "need export"})
+        self.assertTrue(dead_reg.has("S-0004"))
+
 
 if __name__ == "__main__":
     unittest.main()
