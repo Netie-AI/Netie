@@ -10,7 +10,7 @@ node --test (62 passed). Extra `constructor-ir-4896ddd.patch` /
 `constructor-inspect-4896ddd.patch` are a thinner alternate stack (do not mix
 with the 26). Portable Python IR is `scripts/constructor_ir.py`.
 OpenVault patches apply on origin/main then `uv run pytest` on the routing+chat+crew-gate+ship-claim+free-pool files (>= 90 passed). The 28th patch (`openvault-crew-netie.patch`) makes `/api/crew/gate` call `from netie.crew import refuse_crew_gate` when Netie is installed. Then `openvault-free-pool.patch` + `openvault-free-pool-route.patch` add `POST /api/route/free`.
-Cortex `cortex-netie-path.patch` applies on origin/main (do not uv-add Netie.git). `cortex-web-via-runner.patch` applies on origin/main (`default_broker` no web/discovery skip). `cortex-role-execute.patch` applies after those (`require_role` on execute modules). dms `dms-netie-acl.patch` applies on origin/main (`live_ask` / browse through `netie.dms` when installed). Pointer `pointer-netie-hands.patch` then `pointer-observe-guard.patch` apply on origin/main (UACC search drops planner/clipboard/window dump; native observe stays DR-0005; governed:true is opt-in). Control `control-netie-board.patch` applies on origin/main (`guard_issue_board` / Guacamole 405s). Founder apply-all: `scripts/apply_product_patches.py` (does not push).
+Cortex `cortex-netie-path.patch` applies on origin/main (do not uv-add Netie.git). `cortex-web-via-runner.patch` applies on origin/main (`default_broker` no web/discovery skip). `cortex-role-execute.patch` applies after those (`require_role` on execute modules). `cortex-observe-guard.patch` applies after those (`computer.observe` through guard_observe). dms `dms-netie-acl.patch` applies on origin/main (`live_ask` / browse through `netie.dms` when installed). Pointer `pointer-netie-hands.patch` then `pointer-observe-guard.patch` apply on origin/main (UACC search drops planner/clipboard/window dump; native observe stays DR-0005; governed:true is opt-in). Control `control-netie-board.patch` applies on origin/main (`guard_issue_board` / Guacamole 405s). Founder apply-all: `scripts/apply_product_patches.py` (does not push).
 """
 
 from __future__ import annotations
@@ -691,6 +691,7 @@ class SiblingPatchTests(unittest.TestCase):
                 PATCHES / "cortex-netie-path.patch",
                 PATCHES / "cortex-web-via-runner.patch",
                 patch,
+                PATCHES / "cortex-observe-guard.patch",
             ):
                 applied = _run(["git", "apply", str(prior)], cwd=dest)
                 self.assertEqual(applied.returncode, 0, f"{prior.name}: {applied.stderr}")
@@ -710,6 +711,15 @@ class SiblingPatchTests(unittest.TestCase):
             self.assertIn('require_role("steward")', chat)
             f7 = (dest / "tests" / "dms" / "test_f7_rbac.py").read_text(encoding="utf-8")
             self.assertIn("execute_modules_require_a_key", f7)
+            path_py = (dest / "CortexOS" / "constitution" / "cortex_path.py").read_text(
+                encoding="utf-8"
+            )
+            self.assertIn("OBSERVE_TOOLS", path_py)
+            self.assertIn("guard_observe", path_py)
+            runner = (dest / "CortexOS" / "execution" / "tool_runner.py").read_text(
+                encoding="utf-8"
+            )
+            self.assertIn("OBSERVE_TOOLS", runner)
 
 
 if __name__ == "__main__":

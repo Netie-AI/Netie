@@ -591,6 +591,16 @@ class NetieApiTests(unittest.TestCase):
         self.assertEqual(out["jepa"], "off-path")
         self.assertEqual(out["c7_sql"], "off")
         self.assertEqual(out["write"], "call_action")
+        with self.assertRaises(RouteDenied) as shot:
+            run_question(
+                "dag",
+                tool="computer.observe",
+                via_tool_runner=True,
+                role="ops",
+                verified=True,
+                observe={"screenshot": "data:image/png;base64,AAA"},
+            )
+        self.assertIn("uncropped", str(shot.exception))
 
     def test_airgpt_product_caller_public_api(self) -> None:
         """AirGPT RAG: owned table splitter, not ChatGPT memory, not NVIDIA_RAG_EVAL."""

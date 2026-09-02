@@ -27,10 +27,54 @@ CODING_TOOLS = frozenset(
         "delete",
     }
 )
+# Pointer native observe stays DR-0005. Cortex callers go through guard_observe.
+OBSERVE_TOOLS = frozenset(
+    {
+        "computer.observe",
+        "observe",
+        "screenshot",
+        "get_screen_info",
+        "get_screen_info_enhanced",
+        "uacc_screenshot",
+        "uacc_screen_info",
+        "uacc_screen_info_enhanced",
+    }
+)
 
 
 class RouteDenied(PermissionError):
     """Parked organ or ungoverned write."""
+
+
+def _observe_or_deny(tool: str, observe: dict | None, *, intent: str) -> None:
+    """Cortex must call guard_observe. Product copy may lack pointer_observe."""
+    name = (tool or "").strip()
+    if name not in OBSERVE_TOOLS:
+        return
+    payload = observe or {}
+    crop = payload.get("crop") if isinstance(payload.get("crop"), dict) else None
+    try:
+        from pointer_observe import PointerDenied, guard_observe
+    except ImportError:
+        if payload.get("clipboard"):
+            raise RouteDenied("no clipboard")
+        if payload.get("windows") or payload.get("foreground"):
+            raise RouteDenied("window_dump_refused")
+        if payload.get("screenshot") and crop is None:
+            raise RouteDenied("screenshot_uncropped")
+        return
+    try:
+        guard_observe(
+            cortex_allowed=True,
+            cortex_intent=intent,
+            screenshot=payload.get("screenshot"),
+            clipboard=payload.get("clipboard"),
+            windows=payload.get("windows"),
+            foreground=payload.get("foreground"),
+            crop=crop,
+        )
+    except PointerDenied as exc:
+        raise RouteDenied(str(exc)) from exc
 
 
 def auto_route(
@@ -62,6 +106,7 @@ def run_question(
     pack: str = "default",
     a2a: bool = False,
     c7_sql: bool = False,
+    observe: dict | None = None,
 ) -> dict[str, str]:
     if shape not in COLD_START:
         raise RouteDenied(f"bad shape {shape}")
@@ -79,6 +124,12 @@ def run_question(
         raise RouteDenied("execute needs a role")
     if tool and not via_tool_runner:
         raise RouteDenied(f"{tool} skipped tool_runner")
+    if tool:
+        _observe_or_deny(
+            tool,
+            observe,
+            intent=(actor or role or "observe").strip() or "observe",
+        )
     if a2a and (pack or "").strip().lower() != "dms":
         raise RouteDenied("a2a/messages is dms-pack only")
     if not verified:
@@ -94,6 +145,11 @@ def run_question(
         "role": (role or "").strip() or "none",
         "verified": "true",
         "pack": (pack or "default").strip() or "default",
+        "observe": (
+            "guard_observe"
+            if (tool or "").strip() in OBSERVE_TOOLS
+            else "off"
+        ),
         "jepa": "off-path",
         "gen_cfsm": "off-path",
     }

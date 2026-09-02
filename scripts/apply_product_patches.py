@@ -151,6 +151,7 @@ STACKS: dict[str, Stack] = {
             "cortex-netie-path.patch",
             "cortex-web-via-runner.patch",
             "cortex-role-execute.patch",
+            "cortex-observe-guard.patch",
         ),
         uv_add_netie=False,
         verify=(

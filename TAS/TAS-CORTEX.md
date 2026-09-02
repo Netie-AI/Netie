@@ -24,7 +24,8 @@ refused as route candidates. A tool that skips `tool_runner` is refused. Coding-
 are refused even via `tool_runner` (Cortex is not Claude Code). A write
 without an actor is refused (`require_role` is still absent on HEAD execute
 modules). An answer without `verified=True` is refused (HEAD leaves it optional
-on `/dms/query`). `/a2a/messages` is dms-pack only.
+on `/dms/query`). `/a2a/messages` is dms-pack only. Observe tools call
+`guard_observe` (product `cortex-observe-guard.patch`).
 
 ---
 
