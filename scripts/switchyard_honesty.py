@@ -10,6 +10,9 @@ exists. This module is the gate, not a serving engine.
 
 from __future__ import annotations
 
+from crew_ov_gate import GateAsk, OpenVaultCrewGate
+from crew_tool_wrap import CortexDenied
+
 VENDOR_TREES = frozenset(
     {
         "llm-router",
@@ -39,6 +42,9 @@ def host_switchyard(
     vendor: str | None = None,
     rewrite_triton: bool = False,
     claim: str | None = None,
+    ov: OpenVaultCrewGate | None = None,
+    parent_run_id: str = "",
+    child_id: str = "",
 ) -> dict[str, str]:
     """Depend Apache-2.0 Switchyard behind OpenVault. Never rebrand FreeRoute."""
     tree = (vendor or "").strip().lower()
@@ -51,7 +57,24 @@ def host_switchyard(
         raise SwitchyardDenied(
             "FreeRoute is cost/quota/health key pick, not Switchyard"
         )
-    if not ov_leave:
+    if ov is not None:
+        pid = (parent_run_id or "").strip()
+        cid = (child_id or "").strip()
+        if not pid or not cid:
+            raise SwitchyardDenied("leave-machine needs parent and child run ids")
+        try:
+            ov.allow(
+                GateAsk(
+                    kind="service",
+                    id="switchyard",
+                    intent="leave",
+                    parent_run_id=pid,
+                    child_id=cid,
+                )
+            )
+        except CortexDenied as exc:
+            raise SwitchyardDenied(str(exc)) from exc
+    elif not ov_leave:
         raise SwitchyardDenied("Switchyard leave-machine is OpenVault")
     return {
         "status": "hosted",
