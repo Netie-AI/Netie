@@ -256,7 +256,7 @@ def verify_stack(name: str, dest: Path, *, netie: Path) -> None:
     work = dest / stack.cwd
     env_extra: list[str] = []
     if stack.uv_add_netie and name == "openvault":
-        env_extra = ["--with", str(netie), "--reinstall-package", "netie"]
+        env_extra = ["--with-editable", str(netie)]
     for cmd in stack.verify:
         run_cmd = list(cmd)
         if run_cmd[:2] == ["uv", "run"] and env_extra:

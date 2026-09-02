@@ -369,10 +369,8 @@ class SiblingPatchTests(unittest.TestCase):
                 [
                     "uv",
                     "run",
-                    "--with",
+                    "--with-editable",
                     str(ROOT),
-                    "--reinstall-package",
-                    "netie",
                     "pytest",
                     "tests/test_route_strategies.py",
                     "tests/test_execution_shapes.py",
