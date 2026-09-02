@@ -227,6 +227,92 @@ class CrewRunnerTests(unittest.TestCase):
         with self.assertRaises(ControlDenied):
             board_from_runs(f, [], registry=Dirty())  # type: ignore[arg-type]
 
+    def test_leave_machine_ticket_posts_skill_ids(self) -> None:
+        f = _factory()
+        gate = Gate()
+        seen: list[dict[str, Any]] = []
+
+        def post(url: str, body: dict[str, Any]) -> dict[str, Any]:
+            seen.append(body)
+            return {"allowed": True}
+
+        def deny(url: str, body: dict[str, Any]) -> dict[str, Any]:
+            return {"allowed": False, "reason": "vault miss"}
+
+        reg = SkillRegistry()
+        register_skill(reg, "S-0004")
+        ov = OpenVaultCrewGate("http://127.0.0.1:5000", post=post, registry=reg)
+        cortex = run_open_ticket(
+            f,
+            "T1",
+            gate=gate,
+            tool="warehouse.query",
+            payload={"sql": "select 1"},
+            budget=ROOM,
+            ov=ov,
+            parent_run_id="p1",
+            child_id="T1",
+        )
+        self.assertEqual(cortex["status"], "FAILED")
+        self.assertIn("manifest miss", cortex["refusal"])
+        self.assertEqual(seen, [])
+        self.assertEqual(gate.executed, [])
+        blocked = run_open_ticket(
+            f,
+            "T1",
+            gate=gate,
+            tool="open_url",
+            payload={},
+            budget=ROOM,
+        )
+        self.assertEqual(blocked["status"], "FAILED")
+        self.assertIn("OpenVault", blocked["refusal"])
+        self.assertEqual(gate.executed, [])
+        missing = run_open_ticket(
+            f,
+            "T1",
+            gate=gate,
+            tool="open_url",
+            payload={},
+            budget=ROOM,
+            ov=ov,
+        )
+        self.assertEqual(missing["status"], "FAILED")
+        self.assertIn("parent and child", missing["refusal"])
+        self.assertEqual(seen, [])
+        self.assertEqual(gate.executed, [])
+        ok = run_open_ticket(
+            f,
+            "T1",
+            gate=gate,
+            tool="open_url",
+            payload={},
+            budget=ROOM,
+            ov=ov,
+            parent_run_id="p1",
+        )
+        self.assertEqual(ok["status"], "DONE")
+        self.assertEqual(gate.executed, ["open_url"])
+        self.assertEqual(seen[0]["skill_ids"], ["S-0004"])
+        self.assertEqual(seen[0]["id"], "open_url")
+        self.assertNotIn("skill_body", str(seen[0]))
+        self.assertEqual(f.tickets["T1"].status, "open")
+        vault = OpenVaultCrewGate("http://127.0.0.1:5000", post=deny)
+        refused = run_open_ticket(
+            f,
+            "T1",
+            gate=gate,
+            tool="open_url",
+            payload={},
+            budget=ROOM,
+            ov=vault,
+            parent_run_id="p1",
+        )
+        self.assertEqual(refused["status"], "FAILED")
+        self.assertIn("vault miss", refused["refusal"])
+        self.assertEqual(gate.executed, ["open_url"])
+        self.assertEqual(f.tickets["T1"].status, "open")
+
 
 if __name__ == "__main__":
     unittest.main()
