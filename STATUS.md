@@ -1,11 +1,11 @@
 # STATUS - Netie constitution repo
 
-**Branch:** `cursor/persist-ov-registry-ca9b` · **PR:** (this) · **main:** `e6a2910` (docs-ci green)
+**Branch:** `cursor/crew-board-from-runs-ca9b` · **PR:** (this) · **main:** `a2387de` (docs-ci green)
 **Local gate:** `make ci`.
 
 ## Now
 
-- `persist` / `resume` default to `graph.ov.registry`. Callers do not pass the registry a third time. Bodies still refuse. Wrap stays **3/10**.
+- `board_from_runs` goes through `board_index`. Ticket-runner boards show skill ids. `registry` defaults to `graph.ov.registry`. Bodies still refuse. Wrap stays **3/10**.
 - OpenVault gate POST carries `skill_ids`. Control `board_index` stitches graph + Factory + skills. KB `list_briefs` + `register_index` stay the dump path.
 - Founder apply-all: `python3 scripts/apply_product_patches.py --dry-run`. Product remotes clone-yes push-403. 404: AirGPT, Space, Cortex-Crew. Keys.txt gone; founder must revoke. C2/MIN_TESTS stand.
 

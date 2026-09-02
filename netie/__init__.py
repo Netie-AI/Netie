@@ -1,7 +1,7 @@
 """Portable Netie contracts for product repos.
 
     uv add git+https://github.com/Netie-AI/Netie.git
-    from netie.crew import bind_deep_agent, crew_harness_profile, TokenBudget, dispatch_seat, persist, resume, register_skill, register_from_kb, register_index, mint_issue
+    from netie.crew import bind_deep_agent, crew_harness_profile, TokenBudget, dispatch_seat, persist, resume, register_skill, register_from_kb, register_index, mint_issue, board_from_runs
     from netie.cortex import run_question
     from netie.dms import answer_or_abstain, browse_or_abstain, mint_object
     from netie.airgpt import retrieve_space, chunk_table

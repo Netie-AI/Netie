@@ -19,7 +19,7 @@ from crew_github import IssueDenied, mint_issue, run_issue
 from crew_ledger import HashLedger, LedgerDenied
 from crew_ov_gate import OpenVaultCrewGate, refuse_crew_gate
 from crew_parallel import MAX_IN_FLIGHT, Job, JobResult, run_batch
-from crew_runner import run_open_ticket
+from crew_runner import board_from_runs, run_open_ticket
 from crew_skills import (
     SkillDenied,
     SkillRegistry,
@@ -52,6 +52,7 @@ __all__ = (
     "Verdict",
     "VerifyDenied",
     "bind_deep_agent",
+    "board_from_runs",
     "close_ticket",
     "crew_harness_profile",
     "dispatch_seat",
