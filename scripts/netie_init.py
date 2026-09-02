@@ -40,14 +40,14 @@ REPOS: dict[str, Path] = {
 # Cortex cannot uv-add Netie.git: it already owns the package name `netie`.
 CALLERS: dict[str, str] = {
     "Cortex": "from CortexOS.constitution.cortex_path import run_question, WRITE_ACTIONS",
-    "DMS": "from netie.dms import answer_or_abstain, browse_or_abstain",
-    "OpenVault": "from netie.route import host_switchyard, report_deploy; from netie.crew import refuse_crew_gate",
+    "DMS": "from netie.dms import answer_or_abstain, browse_or_abstain, mint_object",
+    "OpenVault": "from netie.route import host_switchyard, report_deploy, assist_free_pool; from netie.crew import refuse_crew_gate",
     "AirGPT": "from netie.airgpt import retrieve_space, chunk_table",
     "Space": "from netie.space import chat_preview",
-    "Pointer": "from netie.pointer import bind_computer, invoke_hand",
-    "Constructor": "from netie.route import compile_graph",
+    "Pointer": "from netie.pointer import bind_computer, bind_pointer_skill, invoke_hand",
+    "Constructor": "from netie.route import compile_graph, compile_ir",
     "Control": "from netie.control import project_board, project_session, MAX_BOARD_CHARS",
-    "Crew": "from netie.crew import bind_deep_agent, crew_harness_profile, TokenBudget, dispatch_seat",
+    "Crew": "from netie.crew import bind_deep_agent, crew_harness_profile, TokenBudget, dispatch_seat, persist, resume, register_skill",
 }
 
 

@@ -37,25 +37,39 @@ from netie.crew import (
     execute_capabilities,
     execute_capability,
     load_den,
+    persist,
     refuse_crew_gate,
+    register_skill,
+    resume,
     run_batch,
     run_open_ticket,
     wrap_deepagents_tools,
 )
 from netie.dms import (
     MAX_ANSWER_CHARS,
+    OntologyDenied,
     SpaceDenied,
     answer_or_abstain,
     browse_or_abstain,
+    evidence_or_abstain,
     mint_manifest,
+    mint_object,
 )
-from netie.pointer import PointerDenied, bind_computer, click, invoke_hand
+from netie.pointer import PointerDenied, bind_computer, bind_pointer_skill, click, invoke_hand
 from netie.route import (
     CompileDenied,
+    ConstructorIRDenied,
+    FreePoolRefused,
+    MemoryDenied,
     ShipDenied,
     SwitchyardDenied,
+    assist_free_pool,
+    bind_action,
     compile_graph,
+    compile_ir,
     host_switchyard,
+    recall,
+    remember,
     report_deploy,
 )
 from netie.space import MAX_CHAT_EXCERPT, SpaceLeaveDenied, chat_preview, ocr_cloud, persist_key
@@ -70,6 +84,10 @@ class NetieApiTests(unittest.TestCase):
 
         self.assertIn("crew_harness_profile", crew_mod.__all__)
         self.assertIn("refuse_crew_gate", crew_mod.__all__)
+        self.assertIn("register_skill", crew_mod.__all__)
+        self.assertIn("persist", crew_mod.__all__)
+        self.assertIn("resume", crew_mod.__all__)
+        self.assertTrue(callable(persist) and callable(resume))
         self.assertNotIn("bind_kwargs", crew_mod.__all__)
         with self.assertRaises(CortexDenied) as ctx:
             load_den("ee/")
@@ -80,6 +98,14 @@ class NetieApiTests(unittest.TestCase):
         with self.assertRaises(CortexDenied) as kind:
             refuse_crew_gate(kind="skill", id="netie-kb.skills")
         self.assertIn("no skill registered", str(kind.exception))
+        from crew_skills import SkillRegistry
+
+        reg = SkillRegistry()
+        register_skill(reg, "netie-kb.export-pptx")
+        ok_skill = refuse_crew_gate(
+            kind="skill", id="netie-kb.export-pptx", registry=reg
+        )
+        self.assertEqual(ok_skill["status"], "ok")
         ok = refuse_crew_gate(kind="service", id="service.freeroute")
         self.assertEqual(ok["status"], "ok")
 
@@ -519,6 +545,17 @@ class NetieApiTests(unittest.TestCase):
         )
         with self.assertRaises(SpaceDenied):
             mint_manifest(acl, "space-missing")
+        self.assertEqual(mint_object(acl, "space-ops", "inventory"), "inventory")
+        with self.assertRaises(OntologyDenied):
+            mint_object(acl, "space-ops", "invoices")
+        cite = evidence_or_abstain(
+            acl,
+            "space-ops",
+            {"table": "inventory", "sku": "A"},
+            warehouse_id="dms-demo",
+            binds={"space-ops": "dms-demo", "space-finance": "dms-demo"},
+        )
+        self.assertEqual(cite["status"], "OK")
 
     def test_cortex_product_caller_public_api(self) -> None:
         """Cortex shape: import netie.cortex only. Not Claude Code, no C7."""
@@ -537,7 +574,12 @@ class NetieApiTests(unittest.TestCase):
         with self.assertRaises(RouteDenied) as bash:
             run_question("dag", tool="bash", via_tool_runner=True, verified=True)
         self.assertIn("Claude Code", str(bash.exception))
-        out = run_question("dag", write="call_action", actor="ops", verified=True)
+        with self.assertRaises(RouteDenied) as needs_role:
+            run_question("dag", write="call_action", actor="ops", verified=True)
+        self.assertIn("role", str(needs_role.exception))
+        out = run_question(
+            "dag", write="call_action", actor="ops", role="ops", verified=True
+        )
         self.assertEqual(out["jepa"], "off-path")
         self.assertEqual(out["c7_sql"], "off")
         self.assertEqual(out["write"], "call_action")
@@ -585,6 +627,8 @@ class NetieApiTests(unittest.TestCase):
         with self.assertRaises(PointerDenied):
             bind_computer("perplexity-computer")
         self.assertEqual(bind_computer("uacc")["where"], "local")
+        self.assertEqual(bind_computer("windows-mcp")["where"], "local")
+        self.assertEqual(bind_pointer_skill("uacc_screenshot"), "screenshot")
         with self.assertRaises(PointerDenied):
             click({"role": "button"}, cortex_intent="go")
         with self.assertRaises(PointerDenied):
@@ -646,6 +690,32 @@ class NetieApiTests(unittest.TestCase):
 
     def test_route_product_caller_public_api(self) -> None:
         """Switchyard behind OV. Simulated is not HT1. xyflow is not compileIR."""
+        from netie import route as route_mod
+
+        self.assertIn("remember", route_mod.__all__)
+        self.assertIn("recall", route_mod.__all__)
+        self.assertIn("compile_ir", route_mod.__all__)
+        self.assertIn("assist_free_pool", route_mod.__all__)
+        row = remember("north", "chunk-1")
+        self.assertEqual(row["kind"], "memory")
+        self.assertEqual(recall([row], "north")[0]["id"], "chunk-1")
+        with self.assertRaises(MemoryDenied):
+            remember("north", "chunk-1", vendor="graphiti")
+        with self.assertRaises(MemoryDenied):
+            remember("north", "chunk-1", body="SECRET")
+        self.assertEqual(bind_action("export_pptx"), "export_pptx")
+        ir = compile_ir(
+            [{"id": "c", "kind": "connector", "object_type": "inventory"}]
+        )
+        self.assertEqual(ir["nodes"][0]["object_type"], "inventory")
+        with self.assertRaises(ConstructorIRDenied):
+            compile_ir([])
+        pool = assist_free_pool(
+            [{"id": "groq-free", "tier": "free", "register_url": "https://console.groq.com"}]
+        )
+        self.assertEqual(pool["pool"][0]["id"], "groq-free")
+        with self.assertRaises(FreePoolRefused):
+            assist_free_pool([{"id": "paid-box", "tier": "paid"}])
         with self.assertRaises(SwitchyardDenied):
             host_switchyard(ov_leave=True, vendor="llm-router")
         hosted = host_switchyard(ov_leave=True)

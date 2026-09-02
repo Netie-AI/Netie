@@ -1,0 +1,107 @@
+diff --git a/OpenMW/openmw/openvault/app.py b/OpenMW/openmw/openvault/app.py
+index b2a1e4e..24543d0 100644
+--- a/OpenMW/openmw/openvault/app.py
++++ b/OpenMW/openmw/openvault/app.py
+@@ -1229,6 +1229,38 @@ def create_app(
+         """Uptime for this process and every mesh surface. ``up: null`` = unprobed."""
+         return uptime_payload()
+ 
++    @app.post("/api/route/free")
++    async def api_route_free(request: Request) -> JSONResponse:
++        """FREE-token pool + register help. Never invent keys. Not a 16th sort."""
++        from openmw.openvault.route.free_pool import pick_free_pool
++
++        try:
++            payload = await request.json()
++        except Exception:
++            return JSONResponse(status_code=400, content={"error": "invalid json"})
++        if not isinstance(payload, dict):
++            return JSONResponse(status_code=400, content={"error": "object body"})
++        catalog = payload.get("catalog") or []
++        if not isinstance(catalog, list):
++            return JSONResponse(status_code=400, content={"error": "catalog must be a list"})
++        try:
++            out = pick_free_pool(
++                catalog,
++                allow_paid=bool(payload.get("allow_paid")),
++                register=payload.get("register", True) is not False,
++                parallel=payload.get("parallel", False),
++                fetch_quota=payload.get("fetch_quota", False),
++                auto_combo=payload.get("auto_combo", False),
++            )
++        except Exception as exc:
++            code = int(getattr(exc, "status_code", None) or getattr(exc, "code", 503) or 503)
++            help_rows = getattr(exc, "help", [])
++            body = {"error": str(exc), "type": "no_free_hop" if code == 503 else "free_pool"}
++            if help_rows:
++                body["register"] = help_rows
++            return JSONResponse(status_code=code, content=body)
++        return JSONResponse(content=out)
++
+     @app.post("/api/gate/check")
+     def api_gate_check(body: GateCheckBody, request: Request) -> dict[str, Any]:
+         """Cortex/apps ask; OpenVault alone allows retrieve/run/deploy/leave."""
+diff --git a/OpenMW/tests/test_free_pool_route.py b/OpenMW/tests/test_free_pool_route.py
+new file mode 100644
+index 0000000..78d7b64
+--- /dev/null
++++ b/OpenMW/tests/test_free_pool_route.py
+@@ -0,0 +1,58 @@
++"""POST /api/route/free: register help, never invented keys."""
++
++from __future__ import annotations
++
++from fastapi.testclient import TestClient
++
++from openmw.openvault.app import create_app
++
++
++def _client() -> TestClient:
++    app = create_app(mock_health=True, enable_precheck_loop=False)
++    return TestClient(app, client=("127.0.0.1", 5555))
++
++
++def test_empty_pool_is_503_with_register(tmp_path, monkeypatch) -> None:
++    monkeypatch.setenv("OPENVAULT_HOME", str(tmp_path))
++    resp = _client().post(
++        "/api/route/free",
++        json={
++            "catalog": [
++                {
++                    "id": "openrouter",
++                    "tier": "paid",
++                    "register_url": "https://openrouter.ai/keys",
++                }
++            ]
++        },
++    )
++    assert resp.status_code == 503
++    body = resp.json()
++    assert body["register"][0]["register_url"] == "https://openrouter.ai/keys"
++    assert "api_key" not in resp.text
++
++
++def test_free_tier_is_200(tmp_path, monkeypatch) -> None:
++    monkeypatch.setenv("OPENVAULT_HOME", str(tmp_path))
++    resp = _client().post(
++        "/api/route/free",
++        json={
++            "catalog": [
++                {"id": "ollama", "tier": "local", "register_url": "http://127.0.0.1:11434"}
++            ]
++        },
++    )
++    assert resp.status_code == 200
++    body = resp.json()
++    assert body["pool"][0]["id"] == "ollama"
++    assert body["used_paid"] is False
++
++
++def test_catalog_key_field_is_400(tmp_path, monkeypatch) -> None:
++    monkeypatch.setenv("OPENVAULT_HOME", str(tmp_path))
++    resp = _client().post(
++        "/api/route/free",
++        json={"catalog": [{"id": "x", "tier": "free", "api_key": "SECRET"}]},
++    )
++    assert resp.status_code == 400
++    assert "SECRET" not in resp.text

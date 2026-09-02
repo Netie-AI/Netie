@@ -10,7 +10,13 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 from pointer_click import PointerDenied
-from pointer_hands import UACC_HANDS, bind_computer, invoke_hand
+from pointer_hands import (
+    POINTER_HEAD_SKILLS,
+    UACC_HANDS,
+    bind_computer,
+    bind_pointer_skill,
+    invoke_hand,
+)
 
 
 class PointerHandsTests(unittest.TestCase):
@@ -319,6 +325,44 @@ class PointerHandsTests(unittest.TestCase):
             bind_computer("open-computer-use")
         out = bind_computer("uacc")
         self.assertEqual(out["where"], "local")
+        mcp = bind_computer("windows-mcp")
+        self.assertEqual(mcp["where"], "local")
+
+    def test_pointer_head_catalog_maps_to_uacc_wrap(self) -> None:
+        self.assertEqual(len(POINTER_HEAD_SKILLS), 15)
+        self.assertEqual(bind_pointer_skill("uacc_screenshot"), "screenshot")
+        with self.assertRaises(PointerDenied) as ctx:
+            invoke_hand(
+                "uacc_planner",
+                cortex_allowed=True,
+                cortex_intent="plan the desktop",
+            )
+        self.assertIn("brain", str(ctx.exception))
+        with self.assertRaises(PointerDenied):
+            invoke_hand(
+                "uacc_clipboard_read",
+                cortex_allowed=True,
+                cortex_intent="read pasteboard",
+            )
+        with self.assertRaises(PointerDenied):
+            invoke_hand(
+                "uacc_list_windows",
+                cortex_allowed=True,
+                cortex_intent="see windows",
+            )
+        with self.assertRaises(PointerDenied):
+            invoke_hand(
+                "uacc_screen_info",
+                cortex_allowed=True,
+                cortex_intent="see",
+            )
+        click = invoke_hand(
+            "uacc_smart_click",
+            cortex_allowed=True,
+            cortex_intent="save",
+            element={"role": "button", "name": "Save"},
+        )
+        self.assertEqual(click["hand"], "smart_click")
 
 
 if __name__ == "__main__":
