@@ -40,6 +40,7 @@ from netie.crew import (
     persist,
     refuse_crew_gate,
     register_skill,
+    register_from_kb,
     resume,
     run_batch,
     run_open_ticket,
@@ -93,6 +94,8 @@ class NetieApiTests(unittest.TestCase):
         self.assertIn("crew_harness_profile", crew_mod.__all__)
         self.assertIn("refuse_crew_gate", crew_mod.__all__)
         self.assertIn("register_skill", crew_mod.__all__)
+        self.assertIn("register_from_kb", crew_mod.__all__)
+        self.assertTrue(callable(register_from_kb))
         self.assertIn("persist", crew_mod.__all__)
         self.assertIn("resume", crew_mod.__all__)
         self.assertIn("mint_issue", crew_mod.__all__)
@@ -107,7 +110,7 @@ class NetieApiTests(unittest.TestCase):
         with self.assertRaises(CortexDenied) as kind:
             refuse_crew_gate(kind="skill", id="netie-kb.skills")
         self.assertIn("no skill registered", str(kind.exception))
-        from crew_skills import SkillRegistry
+        from netie.crew import SkillRegistry
 
         reg = SkillRegistry()
         register_skill(reg, "netie-kb.export-pptx")
@@ -115,6 +118,13 @@ class NetieApiTests(unittest.TestCase):
             kind="skill", id="netie-kb.export-pptx", registry=reg
         )
         self.assertEqual(ok_skill["status"], "ok")
+        kb_reg = SkillRegistry()
+        register_from_kb(
+            kb_reg,
+            [{"id": "S-0004", "kind": "skill", "title": "Find a skill"}],
+            "S-0004",
+        )
+        self.assertTrue(kb_reg.has("S-0004"))
         ok = refuse_crew_gate(kind="service", id="service.freeroute")
         self.assertEqual(ok["status"], "ok")
 
@@ -717,7 +727,10 @@ class NetieApiTests(unittest.TestCase):
                 permissions=[],
             )
         board = project_board(
-            crew_index={"runs": [{"id": "r1", "status": "FAILED", "ticket_id": "T1"}]},
+            crew_index={
+                "runs": [{"id": "r1", "status": "FAILED", "ticket_id": "T1"}],
+                "skills": [{"id": "S-0004", "source": "netie-kb"}],
+            },
             ledger_peek=[],
             refusals=[{"id": "T1", "reason": "CortexDenied"}],
         )
@@ -725,6 +738,10 @@ class NetieApiTests(unittest.TestCase):
         kinds = {c["kind"] for c in board["cards"]}
         self.assertIn("run", kinds)
         self.assertIn("refusal", kinds)
+        self.assertIn("skill", kinds)
+        skill = [c for c in board["cards"] if c["kind"] == "skill"][0]
+        self.assertEqual(skill["id"], "S-0004")
+        self.assertNotIn("skill_body", str(board))
         with self.assertRaises(ControlDenied) as fat:
             project_board(
                 crew_index={"runs": [{"id": "r1", "status": "FAILED", "ticket_id": "T1"}]},

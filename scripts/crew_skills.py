@@ -9,6 +9,7 @@ from __future__ import annotations
 from dataclasses import dataclass, field
 
 from crew_tool_wrap import CortexDenied
+from kb_lookup import KbDenied, lookup
 
 DROP_KEYS = frozenset({"skill_body", "prompt", "instructions", "transcript", "body"})
 
@@ -52,3 +53,24 @@ def register_skill(
     if skill_body is not None:
         raise SkillDenied("skill_body must never go to the registry")
     return registry.register(skill_id, source=source)
+
+
+def register_from_kb(
+    registry: SkillRegistry,
+    rows: list[dict],
+    skill_id: str,
+    *,
+    skill_body: object | None = None,
+) -> str:
+    """Mint a Crew skill id from a Netie-KB index row. Never a body."""
+    if skill_body is not None:
+        raise SkillDenied("skill_body must never go to the registry")
+    try:
+        brief = lookup(rows, skill_id)
+    except KbDenied as exc:
+        raise SkillDenied(str(exc)) from exc
+    if str(brief.get("kind") or "").strip().lower() != "skill":
+        raise SkillDenied("not a skill")
+    return register_skill(
+        registry, brief["id"], source=str(brief.get("source") or "netie-kb")
+    )

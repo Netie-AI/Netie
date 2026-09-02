@@ -376,5 +376,5 @@ git apply docs/patches/kb-netie-index.patch
 python3 tests/test_netie_index.py
 ```
 
-`kb_show` / GET `/item/S-*` return an index row (id, title, status), never the skill markdown body. Rules / workflows / findings / attacks still dump corpus text. `child_text` uses `from netie.kb import show_brief` when Netie is installed; same rule locally otherwise. Crew `register_skill` stays ids-only. Wrap score stays **3/10**. Push 403.
+`kb_show` / GET `/item/S-*` return an index row (id, title, status), never the skill markdown body. Rules / workflows / findings / attacks still dump corpus text. `child_text` uses `from netie.kb import show_brief` when Netie is installed; same rule locally otherwise. Crew `register_skill` / `register_from_kb` stay ids-only. Wrap score stays **3/10**. Push 403.
 

@@ -30,6 +30,29 @@ class ControlBoardTests(unittest.TestCase):
         self.assertEqual(kinds, {"run", "ledger", "refusal"})
         self.assertEqual(board["product"], "crew-board")
 
+    def test_kb_skill_index_is_a_card_without_body(self) -> None:
+        board = project_board(
+            crew_index={
+                "runs": [],
+                "skills": [{"id": "S-0004", "source": "netie-kb"}],
+            },
+            ledger_peek=[],
+            refusals=[],
+        )
+        skill = [c for c in board["cards"] if c["kind"] == "skill"][0]
+        self.assertEqual(skill["id"], "S-0004")
+        self.assertEqual(skill["source"], "netie-kb")
+        with self.assertRaises(ControlDenied):
+            project_board(
+                crew_index={
+                    "skills": [
+                        {"id": "S-0001", "source": "netie-kb", "skill_body": "SECRET"}
+                    ]
+                },
+                ledger_peek=[],
+                refusals=[],
+            )
+
     def test_leaked_transcript_is_denied(self) -> None:
         with self.assertRaises(ControlDenied):
             project_board(

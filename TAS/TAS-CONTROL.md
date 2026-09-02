@@ -14,7 +14,7 @@ The board *view* of Cortex-Crew: estate gate, ledger/manifest/refusal cards, who
 DR-0001: fold into Crew when Crew exists. Do not grow a sibling shell.
 
 Portable view in this Netie repo: `scripts/control_board.py`.
-Read-only cards from Crew index + Factory.index() tickets/epics + ledger peek + refusals.
+Read-only cards from Crew index + Factory.index() tickets/epics + ledger peek + refusals + KB skill ids (no bodies).
 `project_session` is one live run: ids, todos, permissions, hand-off id. No transcript.
 Session permissions drop Deep Agents builtins and billing-bypass names (`search_capabilities`).
 Transcript / prompt / key leak is denied on every row (runs, tickets, epics, ledger, refusals).

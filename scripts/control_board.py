@@ -111,6 +111,17 @@ def project_board(
         cards.append(
             {"id": row.get("id"), "kind": "refusal", "reason": row.get("reason")}
         )
+    for row in crew_index.get("skills") or []:
+        if not isinstance(row, dict):
+            continue
+        _guard_row(row)
+        cards.append(
+            {
+                "id": row.get("id"),
+                "source": row.get("source"),
+                "kind": "skill",
+            }
+        )
     board = {"product": "crew-board", "cards": cards}
     _budget_ok(board, max_chars=max_chars, what="board")
     return board

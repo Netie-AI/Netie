@@ -30,7 +30,7 @@ Measured on this VM 2026-09-02 against public clones: Netie unittest via `make c
    - `Netie-AI/Space`
    - `Netie-AI/netie-control`
    - `Netie-AI/Netie-KB`
-3. Create empty `Netie-AI/Cortex-Crew` (do not clone OpenWork or Grok Bot). Then add that repo to the same App list. `uv add git+https://github.com/Netie-AI/Netie.git` then `from netie.crew import bind_deep_agent, crew_harness_profile, TokenBudget, dispatch_seat`. `uv add deepagents`.
+3. Create empty `Netie-AI/Cortex-Crew` (do not clone OpenWork or Grok Bot). Then add that repo to the same App list. `uv add git+https://github.com/Netie-AI/Netie.git` then `from netie.crew import bind_deep_agent, crew_harness_profile, TokenBudget, dispatch_seat, register_from_kb`. `uv add deepagents`.
 4. AirGPT: if it still lives at `jian-hong/AirGPT`, either transfer it into `Netie-AI` or install the Cursor GitHub App on the `jian-hong` account and grant that repo. Do not paste that account password here.
 5. Cursor environment: `https://cursor.com/dashboard/cloud-agents/environments/e/eb1a4238-9fe4-11f1-b532-320a589b8025` -> add the same repo URLs. The next Cloud Agent then gets them in its GitHub token. After clone: `python scripts/netie_init.py .` stamps `uv add git+https://github.com/Netie-AI/Netie.git` and the product's `from netie.*` import.
 6. Do **not** add `b-nnett/grok-bot-0.18-reconstructed`.
