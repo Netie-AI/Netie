@@ -1,5 +1,5 @@
 diff --git a/scripts/skill_server.py b/scripts/skill_server.py
-index ba1b889..0380452 100644
+index ba1b889..7816b05 100644
 --- a/scripts/skill_server.py
 +++ b/scripts/skill_server.py
 @@ -77,6 +77,18 @@ def _line(art, score=None) -> str:
@@ -21,7 +21,29 @@ index ba1b889..0380452 100644
  def do_search(query: str, kind: str | None, limit: int, include_unverified: bool):
      results = []
      for art in _artifacts():
-@@ -176,7 +188,7 @@ def _tool_text(name: str, args: dict) -> str:
+@@ -112,6 +124,21 @@ def do_list(kind: str | None):
+     return arts
+ 
+ 
++def index_rows(kind: str | None):
++    """Skill catalog. Never the markdown body."""
++    arts = do_list(kind)
++    metas = []
++    for art in arts:
++        meta = dict(art.meta)
++        meta.setdefault("id", art.id)
++        metas.append(meta)
++    try:
++        from netie.kb import list_briefs
++    except ImportError:
++        return [_brief(a) for a in arts]
++    return list_briefs(metas, kind=kind)
++
++
+ def counts() -> dict:
+     out: dict[str, int] = {k: 0 for k in KINDS}
+     for art in _artifacts():
+@@ -176,11 +203,13 @@ def _tool_text(name: str, args: dict) -> str:
          art = do_show(str(args.get("id", "")))
          if art is None:
              raise ValueError(f"not found: {args.get('id')}")
@@ -30,7 +52,30 @@ index ba1b889..0380452 100644
      if name == "kb_list":
          arts = do_list(args.get("kind"))
          if not arts:
-@@ -283,7 +295,13 @@ class Handler(BaseHTTPRequestHandler):
+             return "empty"
++        if str(args.get("kind") or "").strip().lower() == "skill":
++            return json.dumps(index_rows("skill"))
+         return "\n".join(_line(a) for a in arts)
+     raise ValueError(f"unknown tool: {name}")
+ 
+@@ -264,10 +293,15 @@ class Handler(BaseHTTPRequestHandler):
+             self._json(200, {
+                 "service": SERVER_NAME,
+                 "mcp": "POST /mcp",
+-                "rest": ["/healthz", "/search?q=&kind=&limit=", "/item/<ID>"],
++                "rest": ["/healthz", "/search?q=&kind=&limit=", "/item/<ID>", "/index?kind="],
+                 "rule": "R-0016: search here before re-deriving",
+             })
+             return
++        if url.path == "/index":
++            q = parse_qs(url.query)
++            kind = (q.get("kind") or [None])[0]
++            self._json(200, index_rows(kind))
++            return
+         if url.path == "/search":
+             q = parse_qs(url.query)
+             hits = do_search(
+@@ -283,7 +317,13 @@ class Handler(BaseHTTPRequestHandler):
              if art is None:
                  self._json(404, {"error": "not found"})
                  return
@@ -47,10 +92,10 @@ index ba1b889..0380452 100644
              self._send(405, b"POST JSON-RPC here", "text/plain")
 diff --git a/tests/test_netie_index.py b/tests/test_netie_index.py
 new file mode 100644
-index 0000000..7a0eb5e
+index 0000000..e1fea86
 --- /dev/null
 +++ b/tests/test_netie_index.py
-@@ -0,0 +1,37 @@
+@@ -0,0 +1,48 @@
 +#!/usr/bin/env python3
 +"""Skill bodies stay in the index. python3 tests/test_netie_index.py"""
 +
@@ -84,6 +129,17 @@ index 0000000..7a0eb5e
 +        text = skill_server.child_text(art)
 +        self.assertIn("R-0016", text)
 +        self.assertTrue(len(text) > 80)
++
++    def test_skill_index_is_json_briefs(self) -> None:
++        rows = skill_server.index_rows("skill")
++        self.assertTrue(rows)
++        self.assertTrue(all(r.get("kind") == "skill" for r in rows))
++        dumped = json.dumps(rows)
++        self.assertNotIn("## Steps", dumped)
++        self.assertIn("S-0001", dumped)
++        listed = json.loads(skill_server._tool_text("kb_list", {"kind": "skill"}))
++        self.assertEqual(listed[0]["kind"], "skill")
++        self.assertNotIn("## Steps", json.dumps(listed))
 +
 +
 +if __name__ == "__main__":

@@ -766,6 +766,8 @@ class SiblingPatchTests(unittest.TestCase):
             server = (dest / "scripts" / "skill_server.py").read_text(encoding="utf-8")
             self.assertIn("def child_text", server)
             self.assertIn("from netie.kb import show_brief", server)
+            self.assertIn("def index_rows", server)
+            self.assertIn('"/index?kind="', server)
             probed = _run(
                 ["python3", "tests/test_netie_index.py"], cwd=dest, timeout=60
             )

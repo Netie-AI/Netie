@@ -369,12 +369,12 @@ pytest tests/test_netie_board.py tests/test_control_stays_plane_4.py -q
 
 ## Netie-KB (`Netie-AI/Netie-KB`)
 
-`uv add git+https://github.com/Netie-AI/Netie.git` then `from netie.kb import show_brief, lookup`. From the Netie-KB repo root, on `main` (`10356e5`):
+`uv add git+https://github.com/Netie-AI/Netie.git` then `from netie.kb import show_brief, lookup, list_briefs`. From the Netie-KB repo root, on `main` (`10356e5`):
 
 ```
 git apply docs/patches/kb-netie-index.patch
 python3 tests/test_netie_index.py
 ```
 
-`kb_show` / GET `/item/S-*` return an index row (id, title, status), never the skill markdown body. Rules / workflows / findings / attacks still dump corpus text. `child_text` uses `from netie.kb import show_brief` when Netie is installed; same rule locally otherwise. Crew `register_skill` / `register_from_kb` / `register_index` stay ids-only. Wrap score stays **3/10**. Push 403.
+`kb_show` / GET `/item/S-*` return an index row (id, title, status), never the skill markdown body. GET `/index?kind=skill` and MCP `kb_list(kind=skill)` return JSON briefs (`list_briefs` when Netie is installed; `_brief` locally). Rules / workflows / findings / attacks still dump corpus text on show. `child_text` uses `from netie.kb import show_brief` when Netie is installed; same rule locally otherwise. Crew `register_index(list_briefs(rows))` is the dump path. Wrap score stays **3/10**. Push 403.
 

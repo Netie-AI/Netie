@@ -153,6 +153,22 @@ class CrewSkillTests(unittest.TestCase):
             register_index(reg, rows, skill_body="SECRET")
         empty = register_index(SkillRegistry(), [{"id": "R-0016", "kind": "rule"}])
         self.assertEqual(empty, [])
+        from kb_lookup import list_briefs
+
+        dirty = [
+            {
+                "id": "S-0001",
+                "kind": "skill",
+                "title": "fleet",
+                "body": "## Steps",
+            }
+        ]
+        with self.assertRaises(SkillDenied):
+            register_index(SkillRegistry(), dirty)
+        cleaned = SkillRegistry()
+        register_index(cleaned, list_briefs(dirty, kind="skill"))
+        self.assertTrue(cleaned.has("S-0001"))
+        self.assertNotIn("## Steps", json.dumps(cleaned.index()))
 
 
 if __name__ == "__main__":

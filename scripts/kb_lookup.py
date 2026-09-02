@@ -60,3 +60,30 @@ def lookup(
         if str(meta.get("id") or "").strip() == want:
             return show_brief(meta, body=meta.get("body"), source=source)
     raise KbDenied(f"not found: {want}")
+
+
+def list_briefs(
+    rows: list[dict[str, Any]],
+    *,
+    kind: str | None = None,
+    source: str = "netie-kb",
+) -> list[dict[str, Any]]:
+    """Catalog. Skills never carry a body even if the source row had one.
+
+    lookup / register_from_kb still refuse a skill row that carries a body.
+    Crew that wants ids from a dump with markdown calls this first, then
+    register_index.
+    """
+    want = (kind or "").strip().lower() or None
+    out: list[dict[str, Any]] = []
+    for row in rows:
+        if not isinstance(row, dict):
+            continue
+        meta = dict(row)
+        k = str(meta.get("kind") or "").strip().lower()
+        if want and k != want:
+            continue
+        meta.pop("body", None)
+        meta.pop("skill_body", None)
+        out.append(show_brief(meta, body=None, source=source))
+    return out
