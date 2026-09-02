@@ -963,6 +963,28 @@ class NetieApiTests(unittest.TestCase):
                 observed_url=None,
                 constructed_url="https://x.pages.dev",
             )
+        ship_seen: list[dict] = []
+
+        def ship_post(url: str, body: dict) -> dict:
+            ship_seen.append(body)
+            return {"allowed": True}
+
+        ship_reg = SkillRegistry()
+        register_skill(ship_reg, "S-0004")
+        ship_ov = OpenVaultCrewGate(
+            "http://127.0.0.1:5000", post=ship_post, registry=ship_reg
+        )
+        live = report_deploy(
+            simulated=False,
+            observed_url="https://demo.pages.dev",
+            constructed_url=None,
+            ov=ship_ov,
+            parent_run_id="p1",
+            child_id="ship",
+        )
+        self.assertEqual(live["ht1"], "observed")
+        self.assertEqual(ship_seen[0]["skill_ids"], ["S-0004"])
+        self.assertNotIn("skill_body", str(ship_seen[0]))
         with self.assertRaises(CompileDenied):
             compile_graph(engine="@xyflow/react")
         ir = compile_graph(engine="compileIR")
