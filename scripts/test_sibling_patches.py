@@ -10,7 +10,7 @@ node --test (62 passed). Extra `constructor-ir-4896ddd.patch` /
 `constructor-inspect-4896ddd.patch` are a thinner alternate stack (do not mix
 with the 26). Portable Python IR is `scripts/constructor_ir.py`.
 OpenVault patches apply on origin/main then `uv run pytest` on the routing+chat+crew-gate+ship-claim+free-pool files (>= 90 passed). The 28th patch (`openvault-crew-netie.patch`) makes `/api/crew/gate` call `from netie.crew import refuse_crew_gate` when Netie is installed. Then `openvault-free-pool.patch` + `openvault-free-pool-route.patch` add `POST /api/route/free`.
-Cortex `cortex-netie-path.patch` applies on origin/main (do not uv-add Netie.git). `cortex-web-via-runner.patch` applies on origin/main (`default_broker` no web/discovery skip). `cortex-role-execute.patch` applies after those (`require_role` on execute modules). dms `dms-netie-acl.patch` applies on origin/main (`live_ask` / browse through `netie.dms` when installed). Pointer `pointer-netie-hands.patch` applies on origin/main (UACC search drops planner/clipboard/window dump). Control `control-netie-board.patch` applies on origin/main (`guard_issue_board` / Guacamole 405s).
+Cortex `cortex-netie-path.patch` applies on origin/main (do not uv-add Netie.git). `cortex-web-via-runner.patch` applies on origin/main (`default_broker` no web/discovery skip). `cortex-role-execute.patch` applies after those (`require_role` on execute modules). dms `dms-netie-acl.patch` applies on origin/main (`live_ask` / browse through `netie.dms` when installed). Pointer `pointer-netie-hands.patch` then `pointer-observe-guard.patch` apply on origin/main (UACC search drops planner/clipboard/window dump; native observe stays DR-0005; governed:true is opt-in). Control `control-netie-board.patch` applies on origin/main (`guard_issue_board` / Guacamole 405s). Founder apply-all: `scripts/apply_product_patches.py` (does not push).
 """
 
 from __future__ import annotations
@@ -531,8 +531,9 @@ class SiblingPatchTests(unittest.TestCase):
             self.assertEqual(chat["status"], "ABSTAIN")
 
     def test_pointer_netie_hands_applies_on_main(self) -> None:
-        patch = PATCHES / "pointer-netie-hands.patch"
-        self.assertTrue(patch.is_file())
+        hands = PATCHES / "pointer-netie-hands.patch"
+        observe = PATCHES / "pointer-observe-guard.patch"
+        self.assertTrue(hands.is_file() and observe.is_file())
         with tempfile.TemporaryDirectory() as tmp:
             dest = Path(tmp) / "Pointer"
             clone = _run(
@@ -549,20 +550,31 @@ class SiblingPatchTests(unittest.TestCase):
                 timeout=180,
             )
             self.assertEqual(clone.returncode, 0, clone.stderr)
-            applied = _run(["git", "apply", str(patch)], cwd=dest)
-            self.assertEqual(applied.returncode, 0, applied.stderr)
-            hands = dest / "electron" / "netie" / "netie_hands.js"
-            self.assertTrue(hands.is_file())
-            blob = hands.read_text(encoding="utf-8")
+            for patch in (hands, observe):
+                applied = _run(["git", "apply", str(patch)], cwd=dest)
+                self.assertEqual(
+                    applied.returncode, 0, f"{patch.name}: {applied.stderr}"
+                )
+            blob = (dest / "electron" / "netie" / "netie_hands.js").read_text(
+                encoding="utf-8"
+            )
             self.assertIn("bindComputer", blob)
             self.assertIn("hosted computer", blob)
+            self.assertIn("guardObserve", blob)
             uacc = (dest / "electron" / "netie" / "uacc.js").read_text(
                 encoding="utf-8"
             )
             self.assertIn("filterExecutableSkills", uacc)
+            self.assertIn("governed", uacc)
             probed = _run(["node", "test/netie-hands.test.js"], cwd=dest, timeout=60)
             self.assertEqual(probed.returncode, 0, probed.stdout + probed.stderr)
             self.assertIn("ok 6 passed", probed.stdout + probed.stderr)
+            obs = _run(["node", "test/netie-observe.test.js"], cwd=dest, timeout=60)
+            self.assertEqual(obs.returncode, 0, obs.stdout + obs.stderr)
+            self.assertIn("ok 5 passed", obs.stdout + obs.stderr)
+            native = _run(["node", "test/uacc.test.js"], cwd=dest, timeout=60)
+            self.assertEqual(native.returncode, 0, native.stdout + native.stderr)
+            self.assertIn("16 passed", native.stdout + native.stderr)
 
     def test_control_netie_board_applies_on_main(self) -> None:
         patch = PATCHES / "control-netie-board.patch"

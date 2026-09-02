@@ -80,6 +80,7 @@ class NetieInitTests(unittest.TestCase):
             self.assertIn(CALLERS["Pointer"], text)
             self.assertIn("bind_computer", text)
             self.assertIn("invoke_hand", text)
+            self.assertIn("guard_observe", text)
             self.assertIn(
                 "uv add git+https://github.com/Netie-AI/Netie.git",
                 text,

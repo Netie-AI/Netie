@@ -55,7 +55,14 @@ from netie.dms import (
     mint_manifest,
     mint_object,
 )
-from netie.pointer import PointerDenied, bind_computer, bind_pointer_skill, click, invoke_hand
+from netie.pointer import (
+    PointerDenied,
+    bind_computer,
+    bind_pointer_skill,
+    click,
+    guard_observe,
+    invoke_hand,
+)
 from netie.route import (
     CompileDenied,
     ConstructorIRDenied,
@@ -652,6 +659,15 @@ class NetieApiTests(unittest.TestCase):
         with self.assertRaises(PointerDenied) as js:
             invoke_hand("browser_execute_js", cortex_allowed=True, cortex_intent="run")
         self.assertIn("script", str(js.exception))
+        with self.assertRaises(PointerDenied) as shot_obs:
+            guard_observe(
+                cortex_allowed=True,
+                cortex_intent="see",
+                screenshot="data:image/png;base64,AAA",
+            )
+        self.assertIn("uncropped", str(shot_obs.exception))
+        vis = guard_observe(cortex_allowed=True, cortex_intent="hud check")
+        self.assertTrue(vis["governed"])
 
     def test_control_product_caller_public_api(self) -> None:
         """Crew board view. Not Guacamole. No dag_runner. No transcript."""
