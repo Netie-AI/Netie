@@ -506,6 +506,44 @@ class NetieApiTests(unittest.TestCase):
                 factory, "T-secret", gate=Gate(), tool="echo", payload={}
             )
         self.assertIn("token budget", str(ticket.exception))
+        ticket_seen: list[dict] = []
+
+        def ticket_post(url: str, body: dict) -> dict:
+            ticket_seen.append(body)
+            return {"allowed": True}
+
+        ticket_reg = SkillRegistry()
+        register_skill(ticket_reg, "S-0004")
+        ticket_ov = OpenVaultCrewGate(
+            "http://127.0.0.1:5000", post=ticket_post, registry=ticket_reg
+        )
+        cortex_ticket = run_open_ticket(
+            factory,
+            "T-secret",
+            gate=Gate(),
+            tool="warehouse.query",
+            payload={"sql": "select 1"},
+            budget=room,
+            ov=ticket_ov,
+            parent_run_id="p1",
+            child_id="T-secret",
+        )
+        self.assertEqual(cortex_ticket["status"], "DONE")
+        self.assertEqual(ticket_seen, [])
+        leave_ticket = run_open_ticket(
+            factory,
+            "T-secret",
+            gate=Gate(),
+            tool="open_url",
+            payload={},
+            budget=room,
+            ov=ticket_ov,
+            parent_run_id="p1",
+        )
+        self.assertEqual(leave_ticket["status"], "DONE")
+        self.assertEqual(ticket_seen[0]["skill_ids"], ["S-0004"])
+        self.assertEqual(ticket_seen[0]["id"], "open_url")
+        self.assertNotIn("skill_body", str(ticket_seen[0]))
         try:
             profile = crew_harness_profile()
         except CortexDenied:

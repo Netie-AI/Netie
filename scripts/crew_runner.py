@@ -3,6 +3,9 @@
 PRD-002: WHEN the runner calls a tool Cortex would refuse, THE SYSTEM SHALL
 show the refusal on the board and leave the ticket open. The embedded prompt
 never goes to a child job.
+
+Leave-machine names go through execute_capability(ov=) and POST skill ids.
+Cortex tools stay on run_tool / prepare_tool. warehouse.query never POSTs.
 """
 
 from __future__ import annotations
@@ -11,8 +14,9 @@ from typing import Any
 
 from control_board import board_index, project_board
 from crew_budget import BudgetDenied, TokenBudget
+from crew_capabilities import LEAVE_CAPS, execute_capability
 from crew_factory import Factory, FactoryDenied
-from crew_ov_gate import has_bodies
+from crew_ov_gate import OpenVaultCrewGate, has_bodies
 from crew_runs import CrewGraph
 from crew_skills import SkillRegistry
 from crew_tool_wrap import CortexDenied, CortexGate, run_tool
@@ -26,6 +30,11 @@ def run_open_ticket(
     tool: str,
     payload: dict[str, Any],
     budget: TokenBudget | None = None,
+    ov: OpenVaultCrewGate | None = None,
+    ov_allowed: bool = False,
+    parent_run_id: str = "",
+    child_id: str = "",
+    granted: frozenset[str] | list[str] | tuple[str, ...] | None = None,
 ) -> dict[str, Any]:
     ticket = factory.tickets.get(ticket_id)
     if ticket is None or ticket.status != "open":
@@ -36,7 +45,23 @@ def run_open_ticket(
     if budget is None:
         raise CortexDenied("token budget required; Deep Agents default is unbounded spend")
     try:
-        out = run_tool(gate, tool, body, budget=budget)
+        name = (tool or "").strip()
+        if name in LEAVE_CAPS:
+            caps = granted if granted is not None else (name,)
+            out = execute_capability(
+                gate,
+                name,
+                body,
+                granted=caps,
+                ov_allowed=ov_allowed,
+                ov=ov,
+                parent_run_id=parent_run_id,
+                child_id=(child_id or ticket_id).strip(),
+                budget=budget,
+            )
+        else:
+            # Cortex tools stay on prepare_tool. warehouse.query never POSTs.
+            out = run_tool(gate, tool, body, budget=budget)
         result: dict[str, Any] = {
             "status": "DONE",
             "ticket_id": ticket_id,

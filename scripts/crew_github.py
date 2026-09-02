@@ -7,10 +7,11 @@ skill dump is a refusal, not a child.
 
 from __future__ import annotations
 
+from crew_budget import TokenBudget
 from crew_factory import Factory, FactoryDenied
+from crew_ov_gate import OpenVaultCrewGate
 from crew_runner import run_open_ticket
 from crew_tool_wrap import CortexDenied, CortexGate
-from crew_budget import TokenBudget
 
 
 class IssueDenied(CortexDenied):
@@ -45,6 +46,11 @@ def run_issue(
     tool: str,
     payload: dict,
     budget: TokenBudget | None = None,
+    ov: OpenVaultCrewGate | None = None,
+    ov_allowed: bool = False,
+    parent_run_id: str = "",
+    child_id: str = "",
+    granted: frozenset[str] | list[str] | tuple[str, ...] | None = None,
 ) -> dict:
     """Run the ticket. Do not copy factory.tickets[ticket_id].prompt into payload."""
     body = dict(payload or {})
@@ -52,5 +58,15 @@ def run_issue(
     if ticket is not None and ticket.prompt and ticket.prompt in str(body):
         raise IssueDenied("embedded prompt must not go to a child job")
     return run_open_ticket(
-        factory, ticket_id, gate=gate, tool=tool, payload=body, budget=budget
+        factory,
+        ticket_id,
+        gate=gate,
+        tool=tool,
+        payload=body,
+        budget=budget,
+        ov=ov,
+        ov_allowed=ov_allowed,
+        parent_run_id=parent_run_id,
+        child_id=child_id,
+        granted=granted,
     )
