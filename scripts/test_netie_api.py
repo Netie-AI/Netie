@@ -41,6 +41,7 @@ from netie.crew import (
     refuse_crew_gate,
     register_skill,
     register_from_kb,
+    register_index,
     resume,
     run_batch,
     run_open_ticket,
@@ -95,7 +96,9 @@ class NetieApiTests(unittest.TestCase):
         self.assertIn("refuse_crew_gate", crew_mod.__all__)
         self.assertIn("register_skill", crew_mod.__all__)
         self.assertIn("register_from_kb", crew_mod.__all__)
+        self.assertIn("register_index", crew_mod.__all__)
         self.assertTrue(callable(register_from_kb))
+        self.assertTrue(callable(register_index))
         self.assertIn("persist", crew_mod.__all__)
         self.assertIn("resume", crew_mod.__all__)
         self.assertIn("mint_issue", crew_mod.__all__)
@@ -125,6 +128,16 @@ class NetieApiTests(unittest.TestCase):
             "S-0004",
         )
         self.assertTrue(kb_reg.has("S-0004"))
+        bulk = SkillRegistry()
+        register_index(
+            bulk,
+            [
+                {"id": "R-0016", "kind": "rule", "title": "skills live in KB"},
+                {"id": "S-0004", "kind": "skill", "title": "Find a skill"},
+            ],
+        )
+        self.assertTrue(bulk.has("S-0004"))
+        self.assertFalse(bulk.has("R-0016"))
         ok = refuse_crew_gate(kind="service", id="service.freeroute")
         self.assertEqual(ok["status"], "ok")
 

@@ -631,6 +631,27 @@ class SiblingPatchTests(unittest.TestCase):
                 }
             )
             self.assertEqual(kept["items"][0]["title"], "acl wave")
+            skill_board = loaded.project_board(
+                crew_index={"skills": [{"id": "S-0004", "source": "netie-kb"}]},
+                ledger_peek=[],
+                refusals=[],
+            )
+            skill = [c for c in skill_board["cards"] if c["kind"] == "skill"][0]
+            self.assertEqual(skill["id"], "S-0004")
+            with self.assertRaises(loaded.ControlDenied):
+                loaded.project_board(
+                    crew_index={
+                        "skills": [
+                            {
+                                "id": "S-0001",
+                                "source": "netie-kb",
+                                "skill_body": "SECRET",
+                            }
+                        ]
+                    },
+                    ledger_peek=[],
+                    refusals=[],
+                )
 
     def test_cortex_web_via_runner_applies_on_main(self) -> None:
         patch = PATCHES / "cortex-web-via-runner.patch"
