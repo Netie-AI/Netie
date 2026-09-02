@@ -15,6 +15,7 @@ Cortex `cortex-netie-path.patch` applies on origin/main (do not uv-add Netie.git
 
 from __future__ import annotations
 
+import os
 import importlib.util
 import re
 import shutil
@@ -26,6 +27,8 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 PATCHES = ROOT / "docs" / "patches"
+_LOCAL_BIN = str(Path.home() / ".local" / "bin")
+os.environ["PATH"] = _LOCAL_BIN + os.pathsep + os.environ.get("PATH", "")
 
 
 def _run(
