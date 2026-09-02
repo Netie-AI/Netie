@@ -87,6 +87,7 @@ class NetieApiTests(unittest.TestCase):
         self.assertIn("register_skill", crew_mod.__all__)
         self.assertIn("persist", crew_mod.__all__)
         self.assertIn("resume", crew_mod.__all__)
+        self.assertIn("mint_issue", crew_mod.__all__)
         self.assertTrue(callable(persist) and callable(resume))
         self.assertNotIn("bind_kwargs", crew_mod.__all__)
         with self.assertRaises(CortexDenied) as ctx:

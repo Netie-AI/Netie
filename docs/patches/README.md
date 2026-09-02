@@ -305,10 +305,11 @@ Do not `uv add git+https://github.com/Netie-AI/Netie.git`. Cortex already owns t
 ```
 git apply docs/patches/cortex-netie-path.patch
 git apply docs/patches/cortex-web-via-runner.patch
-python3 -m pytest tests/dms/test_constitution_path.py tests/dms/test_broker_no_skip.py -k "not tool_runner" -q
+git apply docs/patches/cortex-role-execute.patch
+python3 -m pytest tests/dms/test_constitution_path.py tests/dms/test_broker_no_skip.py tests/dms/test_f7_rbac.py -k "not tool_runner" -q
 ```
 
-Copies `scripts/cortex_path.py` to `CortexOS/constitution/cortex_path.py`. `/dms/query` post-checks a bound VerifiedManifest before a non-abstain answer (unbound still abstains, not 400). `tool_runner` refuses coding-agent tools (`bash` / filesystem) before the ontology allowlist. `/a2a/messages` calls `run_question(..., pack=dms, a2a=True)`. `default_broker` no longer skips F8 for `web_search` / `web_fetch` / `find_*` (unregistered denies; C2 allowlist does not grow). Portable Netie `run_question` also requires `role` on write/tool (RBAC still missing on Cortex HEAD execute modules; the product copy is a snapshot). Score stays **4/10** governed Q&A. Push 403.
+Copies `scripts/cortex_path.py` to `CortexOS/constitution/cortex_path.py`. `/dms/query` post-checks a bound VerifiedManifest before a non-abstain answer (unbound still abstains, not 400). `tool_runner` refuses coding-agent tools (`bash` / filesystem) before the ontology allowlist. `/a2a/messages` calls `run_question(..., pack=dms, a2a=True)`. `default_broker` no longer skips F8 for `web_search` / `web_fetch` / `find_*` (unregistered denies; C2 allowlist does not grow). Then `cortex-role-execute.patch` puts `require_role` on `app_routes` / `dag_run` / `dms_query` / `chat_routes` (TAS-CORTEX named gap). Portable Netie `run_question` also requires `role` on write/tool. Score stays **4/10** governed Q&A. Push 403.
 
 ## DMS (`Netie-AI/dms`)
 

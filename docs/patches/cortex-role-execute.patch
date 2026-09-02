@@ -1,0 +1,347 @@
+diff --git a/CortexOS/api/app_routes.py b/CortexOS/api/app_routes.py
+index ee4e6e9..a68ff17 100644
+--- a/CortexOS/api/app_routes.py
++++ b/CortexOS/api/app_routes.py
+@@ -10,10 +10,11 @@ import base64
+ import binascii
+ from typing import Any
+ 
+-from fastapi import HTTPException
++from fastapi import Depends, HTTPException
+ from pydantic import BaseModel, Field
+ 
+ from CortexOS.execution import app_package, app_store, humanize
++from packs.dms.security.api_auth import Caller, require_role
+ 
+ 
+ class ImportBody(BaseModel):
+@@ -59,7 +60,10 @@ def _fail(status: int, code: str) -> None:
+ 
+ def register_app_routes(app: Any) -> None:
+     @app.post("/api/apps/import")
+-    async def import_app(body: ImportBody) -> dict[str, Any]:
++    async def import_app(
++        body: ImportBody, caller: Caller = Depends(require_role("steward"))
++    ) -> dict[str, Any]:
++        _ = caller
+         try:
+             data = base64.b64decode(body.zip_base64, validate=True)
+         except (binascii.Error, ValueError) as exc:
+@@ -71,8 +75,11 @@ def register_app_routes(app: Any) -> None:
+         return out
+ 
+     @app.post("/api/apps/import-folder")
+-    async def import_app_folder(body: ImportFolderBody) -> dict[str, Any]:
+-        """Point at a project folder — no zipping, no base64, no encoding step."""
++    async def import_app_folder(
++        body: ImportFolderBody, caller: Caller = Depends(require_role("steward"))
++    ) -> dict[str, Any]:
++        """Point at a project folder. No zipping, no base64, no encoding step."""
++        _ = caller
+         out = app_store.import_folder(body.path, name=body.name)
+         if not out.get("ok"):
+             _fail(400, str(out.get("error")))
+@@ -90,7 +97,10 @@ def register_app_routes(app: Any) -> None:
+         return {"ok": True, "app": _humanize(_found(app_store.get_app(app_id)))}
+ 
+     @app.post("/api/apps/{app_id}/approve")
+-    async def approve_app(app_id: str) -> dict[str, Any]:
++    async def approve_app(
++        app_id: str, caller: Caller = Depends(require_role("steward"))
++    ) -> dict[str, Any]:
++        _ = caller
+         app_store.init()
+         _found(app_store.get_app(app_id))
+         out = app_store.approve(app_id)
+@@ -99,7 +109,12 @@ def register_app_routes(app: Any) -> None:
+         return out
+ 
+     @app.post("/api/apps/{app_id}/reject")
+-    async def reject_app(app_id: str, body: RejectBody | None = None) -> dict[str, Any]:
++    async def reject_app(
++        app_id: str,
++        body: RejectBody | None = None,
++        caller: Caller = Depends(require_role("steward")),
++    ) -> dict[str, Any]:
++        _ = caller
+         app_store.init()
+         _found(app_store.get_app(app_id))
+         out = app_store.reject(app_id, (body.reason if body else "rejected"))
+@@ -108,7 +123,10 @@ def register_app_routes(app: Any) -> None:
+         return out
+ 
+     @app.post("/api/apps/{app_id}/rescan")
+-    async def rescan_app(app_id: str) -> dict[str, Any]:
++    async def rescan_app(
++        app_id: str, caller: Caller = Depends(require_role("steward"))
++    ) -> dict[str, Any]:
++        _ = caller
+         app_store.init()
+         _found(app_store.get_app(app_id))
+         out = app_store.rescan(app_id)
+@@ -117,7 +135,10 @@ def register_app_routes(app: Any) -> None:
+         return out
+ 
+     @app.post("/api/apps/{app_id}/start")
+-    async def start_app(app_id: str) -> dict[str, Any]:
++    async def start_app(
++        app_id: str, caller: Caller = Depends(require_role("steward"))
++    ) -> dict[str, Any]:
++        _ = caller
+         app_store.init()
+         _found(app_store.get_app(app_id))
+         out = app_store.start_app(app_id)
+@@ -127,7 +148,10 @@ def register_app_routes(app: Any) -> None:
+         return out
+ 
+     @app.post("/api/apps/{app_id}/stop")
+-    async def stop_app(app_id: str) -> dict[str, Any]:
++    async def stop_app(
++        app_id: str, caller: Caller = Depends(require_role("steward"))
++    ) -> dict[str, Any]:
++        _ = caller
+         app_store.init()
+         _found(app_store.get_app(app_id))
+         out = app_store.stop_app(app_id)
+@@ -136,9 +160,11 @@ def register_app_routes(app: Any) -> None:
+         return out
+ 
+     @app.post("/api/apps/{app_id}/dockerize")
+-    async def dockerize_app(app_id: str) -> dict[str, Any]:
+-        """Write a Dockerfile for an app that doesn't ship one — one click to
+-        make it hostable. Never overwrites an author's own Dockerfile."""
++    async def dockerize_app(
++        app_id: str, caller: Caller = Depends(require_role("steward"))
++    ) -> dict[str, Any]:
++        """Write a Dockerfile for an app that doesn't ship one. Never overwrites an author's own Dockerfile."""
++        _ = caller
+         app_store.init()
+         _found(app_store.get_app(app_id))
+         out = app_store.dockerize(app_id)
+@@ -148,7 +174,10 @@ def register_app_routes(app: Any) -> None:
+         return out
+ 
+     @app.delete("/api/apps/{app_id}")
+-    async def delete_app(app_id: str) -> dict[str, Any]:
++    async def delete_app(
++        app_id: str, caller: Caller = Depends(require_role("steward"))
++    ) -> dict[str, Any]:
++        _ = caller
+         app_store.init()
+         _found(app_store.get_app(app_id))
+         return {"ok": app_store.delete_app(app_id)}
+diff --git a/CortexOS/api/chat_routes.py b/CortexOS/api/chat_routes.py
+index aefdf9f..ef923e9 100644
+--- a/CortexOS/api/chat_routes.py
++++ b/CortexOS/api/chat_routes.py
+@@ -21,12 +21,17 @@ class AppendMessageRequest(BaseModel):
+ 
+ 
+ def register_chat_routes(app: Any) -> None:
+-    from fastapi import HTTPException
++    from fastapi import Depends, HTTPException
+ 
+     from packs.dms.chat import threads as chat_threads
++    from packs.dms.security.api_auth import Caller, require_role
+ 
+     @app.post("/dms/threads")
+-    async def dms_create_thread(body: CreateThreadRequest) -> dict[str, Any]:
++    async def dms_create_thread(
++        body: CreateThreadRequest,
++        caller: Caller = Depends(require_role("steward")),
++    ) -> dict[str, Any]:
++        _ = caller
+         pack = getattr(app.state, "pack", None)
+         if pack is None or pack.name != "dms":
+             raise HTTPException(status_code=404, detail="DMS routes require PACK=dms")
+@@ -38,7 +43,12 @@ def register_chat_routes(app: Any) -> None:
+         )
+ 
+     @app.post("/dms/threads/{thread_id}/messages")
+-    async def dms_append_message(thread_id: str, body: AppendMessageRequest) -> dict[str, Any]:
++    async def dms_append_message(
++        thread_id: str,
++        body: AppendMessageRequest,
++        caller: Caller = Depends(require_role("steward")),
++    ) -> dict[str, Any]:
++        _ = caller
+         pack = getattr(app.state, "pack", None)
+         if pack is None or pack.name != "dms":
+             raise HTTPException(status_code=404, detail="DMS routes require PACK=dms")
+@@ -55,7 +65,10 @@ def register_chat_routes(app: Any) -> None:
+             raise HTTPException(status_code=400, detail=str(exc)) from exc
+ 
+     @app.get("/dms/threads/{thread_id}/messages")
+-    async def dms_list_messages(thread_id: str) -> dict[str, Any]:
++    async def dms_list_messages(
++        thread_id: str, caller: Caller = Depends(require_role("viewer"))
++    ) -> dict[str, Any]:
++        _ = caller
+         pack = getattr(app.state, "pack", None)
+         if pack is None or pack.name != "dms":
+             raise HTTPException(status_code=404, detail="DMS routes require PACK=dms")
+diff --git a/CortexOS/api/dag_run.py b/CortexOS/api/dag_run.py
+index 5563352..93cb77d 100644
+--- a/CortexOS/api/dag_run.py
++++ b/CortexOS/api/dag_run.py
+@@ -3,11 +3,12 @@
+ import json
+ from typing import Any
+ 
+-from fastapi import HTTPException, Request
++from fastapi import Depends, HTTPException, Request
+ from netie.result import Ok
+ from pydantic import BaseModel, Field
+ 
+ from CortexOS.packaging import FeatureNotInstalled, require_extra
++from packs.dms.security.api_auth import Caller, require_role
+ 
+ 
+ class RunDAGRequest(BaseModel):
+@@ -49,7 +50,12 @@ def register_dag_run_routes(app: Any) -> None:
+     from CortexOS.api.feature_stubs import feature_not_installed_detail
+ 
+     @app.post("/run")
+-    async def run_inline_dag(request: Request, body: RunDAGRequest) -> dict[str, Any]:
++    async def run_inline_dag(
++        request: Request,
++        body: RunDAGRequest,
++        caller: Caller = Depends(require_role("steward")),
++    ) -> dict[str, Any]:
++        _ = caller
+         try:
+             require_extra("agentic", feature="dag_run")
+         except FeatureNotInstalled as exc:
+diff --git a/CortexOS/api/dms_query.py b/CortexOS/api/dms_query.py
+index 0321794..d16437e 100644
+--- a/CortexOS/api/dms_query.py
++++ b/CortexOS/api/dms_query.py
+@@ -87,10 +87,15 @@ def _missing_dataset_response() -> dict[str, Any]:
+ 
+ 
+ def register_dms_routes(app: Any) -> None:
+-    from fastapi import HTTPException, Query
++    from fastapi import Depends, HTTPException, Query
++
++    from packs.dms.security.api_auth import Caller, require_role
+ 
+     @app.post("/dms/query", response_model=DMSQueryResponse)
+-    async def dms_query(body: DMSQueryRequest) -> dict[str, Any]:
++    async def dms_query(
++        body: DMSQueryRequest, caller: Caller = Depends(require_role("viewer"))
++    ) -> dict[str, Any]:
++        _ = caller
+         pack = getattr(app.state, "pack", None)
+         if pack is None or pack.name != "dms":
+             raise HTTPException(status_code=404, detail="DMS routes require PACK=dms")
+@@ -170,7 +175,10 @@ def register_dms_routes(app: Any) -> None:
+         }
+ 
+     @app.post("/dms/propose-edit")
+-    async def dms_propose_edit(body: ProposeEditRequest) -> dict[str, Any]:
++    async def dms_propose_edit(
++        body: ProposeEditRequest, caller: Caller = Depends(require_role("steward"))
++    ) -> dict[str, Any]:
++        _ = caller
+         pack = getattr(app.state, "pack", None)
+         if pack is None or pack.name != "dms":
+             raise HTTPException(status_code=404, detail="DMS routes require PACK=dms")
+@@ -219,7 +227,10 @@ def register_dms_routes(app: Any) -> None:
+         return {"entries": _load_changelog(limit)}
+ 
+     @app.post("/dms/analyse-entry")
+-    async def dms_analyse_entry(body: AnalyseEntryRequest) -> dict[str, Any]:
++    async def dms_analyse_entry(
++        body: AnalyseEntryRequest, caller: Caller = Depends(require_role("steward"))
++    ) -> dict[str, Any]:
++        _ = caller
+         pack = getattr(app.state, "pack", None)
+         if pack is None or pack.name != "dms":
+             raise HTTPException(status_code=404, detail="DMS routes require PACK=dms")
+@@ -228,7 +239,10 @@ def register_dms_routes(app: Any) -> None:
+         return analyse_raw_entry(body.raw_text)
+ 
+     @app.post("/dms/add-entry")
+-    async def dms_add_entry(body: AddEntryRequest) -> dict[str, Any]:
++    async def dms_add_entry(
++        body: AddEntryRequest, caller: Caller = Depends(require_role("steward"))
++    ) -> dict[str, Any]:
++        _ = caller
+         pack = getattr(app.state, "pack", None)
+         if pack is None or pack.name != "dms":
+             raise HTTPException(status_code=404, detail="DMS routes require PACK=dms")
+diff --git a/tests/dms/test_f2_chat.py b/tests/dms/test_f2_chat.py
+index 255a476..e4d97e1 100644
+--- a/tests/dms/test_f2_chat.py
++++ b/tests/dms/test_f2_chat.py
+@@ -71,10 +71,12 @@ def test_chat_api_routes(ops_db):
+     netie.config._cached_config = None
+     app = create_app()
+     client = TestClient(app)
++    headers = {"X-API-Key": "dms-demo-steward-key"}
+ 
+     res = client.post(
+         "/dms/threads",
+         json={"external_ref": "email:test@example.com", "customer_label": "Test Co"},
++        headers=headers,
+     )
+     assert res.status_code == 200
+     thread_id = res.json()["thread"]["id"]
+@@ -82,11 +84,12 @@ def test_chat_api_routes(ops_db):
+     res = client.post(
+         f"/dms/threads/{thread_id}/messages",
+         json={"sender": "customer", "body": "Need stock count for SKU-99"},
++        headers=headers,
+     )
+     assert res.status_code == 200
+     assert res.json()["message"]["body"] == "Need stock count for SKU-99"
+ 
+-    res = client.get(f"/dms/threads/{thread_id}/messages")
++    res = client.get(f"/dms/threads/{thread_id}/messages", headers=headers)
+     assert res.status_code == 200
+     assert len(res.json()["messages"]) == 1
+ 
+diff --git a/tests/dms/test_f7_rbac.py b/tests/dms/test_f7_rbac.py
+index 3184a4d..8df9675 100644
+--- a/tests/dms/test_f7_rbac.py
++++ b/tests/dms/test_f7_rbac.py
+@@ -87,6 +87,14 @@ def test_invalid_key_rejected(dms_client, api_keys_env):
+     assert res.status_code == 401
+ 
+ 
++def test_execute_modules_require_a_key(dms_client):
++    """TAS-CORTEX: app_routes / dag_run / dms_query / chat_routes were missing RBAC."""
++    assert dms_client.post("/dms/query", json={"question": "x"}).status_code == 401
++    assert dms_client.post("/run", json={"dag": {"nodes": []}}).status_code == 401
++    assert dms_client.post("/api/apps/import", json={"zip_base64": "QUFB"}).status_code == 401
++    assert dms_client.post("/dms/threads", json={}).status_code == 401
++
++
+ def test_rate_limit_429(dms_client, api_keys_env, monkeypatch):
+     reset_limiter(per_minute=2)
+     headers = {"X-API-Key": api_keys_env["viewer"]}
+diff --git a/tests/test_api/test_dag_endpoint.py b/tests/test_api/test_dag_endpoint.py
+index 82cbfbb..3b93e32 100644
+--- a/tests/test_api/test_dag_endpoint.py
++++ b/tests/test_api/test_dag_endpoint.py
+@@ -46,6 +46,7 @@ def test_judged_node_end_to_end_via_test_client():
+                 "run_id": "api_run",
+                 "context": {},
+             },
++            headers={"X-API-Key": "dms-demo-steward-key"},
+         )
+     assert r.status_code == 200
+     payload = r.json()
+@@ -88,7 +89,11 @@ def test_run_cost_endpoint_returns_total_and_records():
+                 {"id": "e1", "kind": "EMIT", "tier": 0, "inputs": ["j1"]},
+             ],
+         }
+-        run = client.post("/run", json={"dag": dag, "run_id": "cost_probe"})
++        run = client.post(
++            "/run",
++            json={"dag": dag, "run_id": "cost_probe"},
++            headers={"X-API-Key": "dms-demo-steward-key"},
++        )
+         assert run.status_code == 200
+         cost = client.get("/api/engine/runs/cost_probe/cost")
+     assert cost.status_code == 200

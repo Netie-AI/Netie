@@ -15,6 +15,7 @@ from crew_checkpoint import save_checkpoint, summarise
 from crew_durable import load_disk, persist, resume
 from crew_deepagents import FORBIDDEN_FACTORY_KEYS, bind_deep_agent, crew_harness_profile
 from crew_factory import Factory, FactoryDenied, SliceDenied
+from crew_github import IssueDenied, mint_issue, run_issue
 from crew_ledger import HashLedger, LedgerDenied
 from crew_ov_gate import OpenVaultCrewGate, refuse_crew_gate
 from crew_parallel import MAX_IN_FLIGHT, Job, JobResult, run_batch
@@ -32,6 +33,7 @@ __all__ = (
     "Factory",
     "FactoryDenied",
     "HashLedger",
+    "IssueDenied",
     "Job",
     "JobResult",
     "LedgerDenied",
@@ -52,11 +54,13 @@ __all__ = (
     "execute_capability",
     "load_den",
     "load_disk",
+    "mint_issue",
     "persist",
     "refuse_crew_gate",
     "register_skill",
     "resume",
     "run_batch",
+    "run_issue",
     "run_open_ticket",
     "save_checkpoint",
     "search_capabilities",

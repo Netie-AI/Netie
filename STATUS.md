@@ -1,20 +1,17 @@
 # STATUS - Netie constitution repo
 
-**Branch:** `cursor/branch-build-scale-ca9b` · **PR:** (this) · **main:** `f6c1512`
-**Local gate:** `make ci`. GitHub docs-ci on `f6c1512` ran ~33s then failed (`python -m pytest` missing). This branch drops that invoke.
+**Branch:** `cursor/rbac-crew-issues-ca9b` · **PR:** (this) · **main:** `76c07ef` (docs-ci green)
+**Local gate:** `make ci`.
 
 ## Now
 
-- Keys: `Keys.txt` untracked; OpenROuter sample uses `$OPENROUTER_API_KEY`. Scan gate on. **Founder must revoke** (`docs/ACCESS.md` §5). History still has blobs.
-- Portable callers (scores stay): Crew `persist`/`resume`/`register_skill`; DMS `mint_object`; Pointer `bind_pointer_skill` (15 HEAD ids); route `compile_ir`/`assist_free_pool`/`remember`. Cortex `run_question` needs `role` on write/tool. Cortex stamp still `CortexOS.constitution` (do not `uv add` Netie.git).
-- Constructor sibling stays **26 patches / 62 passed**. `constructor-*-4896ddd.patch` is a thinner alternate; do not mix. OpenVault + free-pool. dms + `dms-demo-acl-resolve.patch`. C2/MIN_TESTS stand.
-- HEADs unchanged (clone yes, push 403): Cortex `bf4ecee`, dms `3f9a9be`, Pointer `8c0e6c2`, control `82ab1ae`, OpenVault `62bb1c7`, constructor `4896ddd`, KB `10356e5`. 404: AirGPT, Space, Cortex-Crew.
-- Open Netie PRs left: #11 (CONFLICTING scale, this PR supersedes), #10 (redact, folded here), #8, #6, drafts #5-#2, #1. Merged: #13 #12 #9 #7.
+- Cortex execute RBAC is a product patch (`cortex-role-execute.patch`): `require_role` on `app_routes` / `dag_run` / `dms_query` / `chat_routes`. HEAD still open. Score stays **4/10** Q&A. Do not `uv add` Netie.git into Cortex.
+- Crew: `mint_issue` / `run_issue` pull a GitHub ticket without copying the body into the child job. Cortex-Crew remote still 404. Wrap score stays **3/10**.
+- Keys.txt gone. Founder must revoke (`docs/ACCESS.md` section 5). Product remotes clone-yes push-403. 404: AirGPT, Space, Cortex-Crew. C2/MIN_TESTS stand.
 
-## Next (founder clicks in `docs/ACCESS.md`)
+## Next (founder clicks)
 
-1. Revoke leaked keys. 2. Pay https://github.com/organizations/Netie-AI/settings/billing
-3. Contents write on product remotes. 4. Land product patches. 5. Create Cortex-Crew.
+1. Revoke leaked keys. 2. Contents write on product remotes + add those URLs to env e/eb1a4238-9fe4-11f1-b532-320a589b8025, then boot a new agent. 3. Create Cortex-Crew. 4. Land Cortex/dms/Pointer/control/OpenVault/constructor patches.
 
 ## Later
 
