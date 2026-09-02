@@ -48,6 +48,7 @@ from netie.crew import (
     resume,
     run_batch,
     run_open_ticket,
+    summarise,
     wrap_deepagents_tools,
 )
 from netie.dms import (
@@ -108,6 +109,8 @@ class NetieApiTests(unittest.TestCase):
         self.assertIn("board_from_runs", crew_mod.__all__)
         self.assertTrue(callable(persist) and callable(resume))
         self.assertTrue(callable(board_from_runs))
+        self.assertTrue(callable(summarise))
+        self.assertEqual(summarise({"runs": [], "skills": []})["skill_ids"], [])
         self.assertNotIn("bind_kwargs", crew_mod.__all__)
         with self.assertRaises(CortexDenied) as ctx:
             load_den("ee/")

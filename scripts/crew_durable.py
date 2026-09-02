@@ -20,7 +20,7 @@ def persist(
     graph: CrewGraph,
     registry: SkillRegistry | None = None,
 ) -> dict[str, Any]:
-    blob = checkpoint_graph(graph, registry or getattr(graph.ov, "registry", None))
+    blob = checkpoint_graph(graph, registry)
     Path(path).write_text(json.dumps(blob), encoding="utf-8")
     return blob
 
