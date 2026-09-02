@@ -12,11 +12,13 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 from control_board import (
     ControlDenied,
     MAX_BOARD_CHARS,
+    board_index,
     project_board,
     project_session,
     run_dag,
 )
 from crew_factory import Factory
+from crew_skills import SkillRegistry, register_skill
 
 
 class ControlBoardTests(unittest.TestCase):
@@ -51,6 +53,39 @@ class ControlBoardTests(unittest.TestCase):
                 },
                 ledger_peek=[],
                 refusals=[],
+            )
+
+    def test_board_index_stitches_factory_and_skills(self) -> None:
+        f = Factory()
+        f.slice_prd(
+            prd_id="PRD-001",
+            out_of_scope="x",
+            success_assertion="WHEN x THE SYSTEM SHALL y",
+            epics=[("E1", "acl", "boundary")],
+        )
+        f.activate_epic("E1")
+        f.file_ticket(
+            epic_id="E1",
+            ticket_id="T1",
+            prompt="SECRET-PROMPT-XYZ wire space acl",
+        )
+        reg = SkillRegistry()
+        register_skill(reg, "S-0004")
+        idx = board_index(
+            graph_index={"runs": [{"id": "p1", "status": "open", "ticket_id": "T1"}]},
+            factory_index=f.index(),
+            skills=reg.index(),
+        )
+        dumped = str(idx)
+        self.assertNotIn("SECRET-PROMPT-XYZ", dumped)
+        self.assertNotIn("prompt", dumped)
+        self.assertNotIn("skill_body", dumped)
+        board = project_board(crew_index=idx, ledger_peek=[], refusals=[])
+        kinds = {c["kind"] for c in board["cards"]}
+        self.assertEqual(kinds, {"run", "ticket", "epic", "skill"})
+        with self.assertRaises(ControlDenied):
+            board_index(
+                skills=[{"id": "S-0001", "source": "netie-kb", "skill_body": "SECRET"}]
             )
 
     def test_leaked_transcript_is_denied(self) -> None:

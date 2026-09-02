@@ -52,6 +52,39 @@ def _budget_ok(blob: object, *, max_chars: int, what: str) -> None:
             raise ControlDenied(f"{what} contained {needle}")
 
 
+def board_index(
+    *,
+    graph_index: dict[str, Any] | None = None,
+    factory_index: dict[str, Any] | None = None,
+    skills: list[dict[str, Any]] | None = None,
+) -> dict[str, Any]:
+    """One ids-only crew_index. Graph runs, Factory tickets/epics, KB skill ids."""
+    out: dict[str, Any] = {
+        "runs": [],
+        "tickets": [],
+        "epics": [],
+        "skills": [],
+    }
+    if isinstance(graph_index, dict):
+        for key in ("runs", "skills"):
+            rows = graph_index.get(key)
+            if isinstance(rows, list):
+                out[key] = rows
+    if isinstance(factory_index, dict):
+        for key in ("tickets", "epics"):
+            rows = factory_index.get(key)
+            if isinstance(rows, list):
+                out[key] = rows
+    if skills is not None:
+        out["skills"] = list(skills)
+    for rows in out.values():
+        for row in rows:
+            if isinstance(row, dict):
+                _guard_row(row)
+    _budget_ok(out, max_chars=MAX_BOARD_CHARS, what="index")
+    return out
+
+
 def project_board(
     *,
     crew_index: dict[str, Any],

@@ -358,7 +358,7 @@ UACC catalog still *names* planner / clipboard / list_windows (DR-0005). Search 
 
 ## Control (`Netie-AI/netie-control`)
 
-`uv add git+https://github.com/Netie-AI/Netie.git` then `from netie.control import project_board, project_session, MAX_BOARD_CHARS`. From the netie-control repo root, on `main` (`82ab1ae`):
+`uv add git+https://github.com/Netie-AI/Netie.git` then `from netie.control import project_board, project_session, MAX_BOARD_CHARS, board_index`. From the netie-control repo root, on `main` (`82ab1ae`):
 
 ```
 git apply docs/patches/control-netie-board.patch

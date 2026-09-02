@@ -18,6 +18,7 @@ from netie.airgpt import ChunkDenied, MAX_RETRIEVE_CHARS, chunk_table, retrieve_
 from netie.control import (
     ControlDenied,
     MAX_BOARD_CHARS,
+    board_index,
     project_board,
     project_session,
     run_dag,
@@ -774,6 +775,14 @@ class NetieApiTests(unittest.TestCase):
         skill = [c for c in board["cards"] if c["kind"] == "skill"][0]
         self.assertEqual(skill["id"], "S-0004")
         self.assertNotIn("skill_body", str(board))
+        from netie import control as control_mod
+
+        self.assertIn("board_index", control_mod.__all__)
+        stitched = board_index(
+            graph_index={"runs": [{"id": "r1", "status": "FAILED", "ticket_id": "T1"}]},
+            skills=[{"id": "S-0004", "source": "netie-kb"}],
+        )
+        self.assertEqual(stitched["skills"][0]["id"], "S-0004")
         with self.assertRaises(ControlDenied) as fat:
             project_board(
                 crew_index={"runs": [{"id": "r1", "status": "FAILED", "ticket_id": "T1"}]},
