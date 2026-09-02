@@ -13,6 +13,8 @@ from __future__ import annotations
 from typing import Any
 
 from pointer_click import PointerDenied, _is_secret, click
+from crew_ov_gate import GateAsk, OpenVaultCrewGate
+from crew_tool_wrap import CortexDenied
 
 # Screen 10 + mouse 9 + window 9 + browser 7 + diff 8 + memory 7 + system 6
 # + workflow 10 + safety 2 = 68.
@@ -154,6 +156,9 @@ def invoke_hand(
     cortex_intent: str | None,
     element: dict[str, Any] | None = None,
     ov_leave: bool = False,
+    ov: OpenVaultCrewGate | None = None,
+    parent_run_id: str = "",
+    child_id: str = "",
 ) -> dict[str, Any]:
     """MCP-wrap one UACC name. Cortex allow is required. No UACC import."""
     raw = (name or "").strip()
@@ -180,8 +185,26 @@ def invoke_hand(
         raise PointerDenied("window_dump_refused")
     if tool in PAGE_HANDS:
         raise PointerDenied("no page dump")
-    if tool in LEAVE_HANDS and not ov_leave:
-        raise PointerDenied("leave-machine is OpenVault")
+    if tool in LEAVE_HANDS:
+        if ov is not None:
+            pid = (parent_run_id or "").strip()
+            cid = (child_id or "").strip()
+            if not pid or not cid:
+                raise PointerDenied("leave-machine needs parent and child run ids")
+            try:
+                ov.allow(
+                    GateAsk(
+                        kind="service",
+                        id=tool,
+                        intent="leave",
+                        parent_run_id=pid,
+                        child_id=cid,
+                    )
+                )
+            except CortexDenied as exc:
+                raise PointerDenied(str(exc)) from exc
+        elif not ov_leave:
+            raise PointerDenied("leave-machine is OpenVault")
     if tool in PAINT_HANDS:
         if not isinstance(element, dict):
             raise PointerDenied("paint_uncropped")

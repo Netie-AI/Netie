@@ -777,6 +777,34 @@ class NetieApiTests(unittest.TestCase):
         self.assertIn("uncropped", str(shot_obs.exception))
         vis = guard_observe(cortex_allowed=True, cortex_intent="hud check")
         self.assertTrue(vis["governed"])
+        with self.assertRaises(PointerDenied) as ungated:
+            invoke_hand(
+                "open_url",
+                cortex_allowed=True,
+                cortex_intent="open docs",
+            )
+        self.assertIn("OpenVault", str(ungated.exception))
+        hand_seen: list[dict] = []
+
+        def hand_post(url: str, body: dict) -> dict:
+            hand_seen.append(body)
+            return {"allowed": True}
+
+        hand_reg = SkillRegistry()
+        register_skill(hand_reg, "S-0004")
+        hand_ov = OpenVaultCrewGate(
+            "http://127.0.0.1:5000", post=hand_post, registry=hand_reg
+        )
+        invoke_hand(
+            "open_url",
+            cortex_allowed=True,
+            cortex_intent="open docs",
+            ov=hand_ov,
+            parent_run_id="p1",
+            child_id="hand",
+        )
+        self.assertEqual(hand_seen[0]["skill_ids"], ["S-0004"])
+        self.assertNotIn("skill_body", str(hand_seen[0]))
 
     def test_kb_product_caller_public_api(self) -> None:
         """Index rows only. Skill markdown never leaves lookup."""
