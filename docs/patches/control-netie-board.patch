@@ -31,10 +31,10 @@ index e8fff88..5c9f172 100644
  
 diff --git a/netie_control/netie_board.py b/netie_control/netie_board.py
 new file mode 100644
-index 0000000..943d42e
+index 0000000..6f44962
 --- /dev/null
 +++ b/netie_control/netie_board.py
-@@ -0,0 +1,178 @@
+@@ -0,0 +1,225 @@
 +"""Board and session go through Netie Control when installed.
 +
 +uv add git+https://github.com/Netie-AI/Netie.git
@@ -86,6 +86,14 @@ index 0000000..943d42e
 +    return _board, _session, _Denied, _MAX
 +
 +
++def _netie_index():
++    try:
++        from netie.control import board_index as _index  # type: ignore[import-not-found]
++    except ImportError:
++        return None
++    return _index
++
++
 +def _guard_row(row: dict[str, Any]) -> None:
 +    if any(k in row for k in _LEAK_KEYS):
 +        raise ControlDenied("index leaked a body")
@@ -102,6 +110,45 @@ index 0000000..943d42e
 +    for needle in _LEAK_KEYS:
 +        if needle in dumped:
 +            raise ControlDenied(f"{what} contained {needle}")
++
++
++def board_index(
++    *,
++    graph_index: dict[str, Any] | None = None,
++    factory_index: dict[str, Any] | None = None,
++    skills: list[dict[str, Any]] | None = None,
++) -> dict[str, Any]:
++    imported = _netie_index()
++    if imported is not None:
++        return imported(
++            graph_index=graph_index,
++            factory_index=factory_index,
++            skills=skills,
++        )
++    out: dict[str, Any] = {
++        "runs": [],
++        "tickets": [],
++        "epics": [],
++        "skills": [],
++    }
++    if isinstance(graph_index, dict):
++        for key in ("runs", "skills"):
++            rows = graph_index.get(key)
++            if isinstance(rows, list):
++                out[key] = rows
++    if isinstance(factory_index, dict):
++        for key in ("tickets", "epics"):
++            rows = factory_index.get(key)
++            if isinstance(rows, list):
++                out[key] = rows
++    if skills is not None:
++        out["skills"] = list(skills)
++    for rows in out.values():
++        for row in rows:
++            if isinstance(row, dict):
++                _guard_row(row)
++    _budget_ok(out, max_chars=MAX_BOARD_CHARS, what="index")
++    return out
 +
 +
 +def project_board(
@@ -244,10 +291,10 @@ index 246067f..7682846 100644
      )
 diff --git a/tests/test_netie_board.py b/tests/test_netie_board.py
 new file mode 100644
-index 0000000..6833f78
+index 0000000..1a2c2e7
 --- /dev/null
 +++ b/tests/test_netie_board.py
-@@ -0,0 +1,96 @@
+@@ -0,0 +1,113 @@
 +"""Netie Control board caller. python -m pytest tests/test_netie_board.py -q"""
 +
 +from __future__ import annotations
@@ -259,7 +306,7 @@ index 0000000..6833f78
 +from fastapi.testclient import TestClient
 +
 +from netie_control.app import create_app
-+from netie_control.netie_board import ControlDenied, guard_issue_board, project_board
++from netie_control.netie_board import ControlDenied, board_index, guard_issue_board, project_board
 +
 +
 +def test_issue_board_keeps_titles() -> None:
@@ -337,10 +384,27 @@ index 0000000..6833f78
 +        assert "Guacamole" in body["message"] or "guacamole" in body["message"].lower()
 +
 +
++def test_board_index_stitches_skill_ids() -> None:
++    idx = board_index(
++        graph_index={"runs": [{"id": "p1", "status": "open", "ticket_id": "T1"}]},
++        factory_index={"tickets": [{"id": "T1", "status": "open", "epic_id": "E1"}]},
++        skills=[{"id": "S-0004", "source": "netie-kb"}],
++    )
++    assert {k for k, v in idx.items() if v} >= {"runs", "tickets", "skills"}
++    board = project_board(crew_index=idx, ledger_peek=[], refusals=[])
++    kinds = {c["kind"] for c in board["cards"]}
++    assert kinds == {"run", "ticket", "skill"}
++    with pytest.raises(ControlDenied, match="leaked"):
++        board_index(
++            skills=[{"id": "S-0001", "source": "netie-kb", "skill_body": "SECRET"}]
++        )
++
++
 +def test_module_mentions_netie_control_import() -> None:
 +    path = Path(__file__).resolve().parents[1] / "netie_control" / "netie_board.py"
 +    spec = importlib.util.spec_from_file_location("netie_board", path)
 +    assert spec is not None and spec.loader is not None
 +    blob = path.read_text(encoding="utf-8")
 +    assert "from netie.control import" in blob
++    assert "board_index" in blob
 +    assert "Control is not Guacamole" in blob
