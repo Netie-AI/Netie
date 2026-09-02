@@ -84,6 +84,31 @@ def persist_key(path_name: str, plaintext: bool) -> None:
 MAX_CHAT_EXCERPT = 12000  # TAS-SPACE DitchContext default. Peek does not chat.
 
 
+def _gated_leave(
+    *,
+    ov_allowed: bool,
+    ov: OpenVaultCrewGate | None,
+    parent_run_id: str,
+    child_id: str,
+    deficit: str,
+) -> bool:
+    """Boolean ov_allowed is the stand-in. `ov` POSTs crew/gate."""
+    if ov is not None:
+        pid = (parent_run_id or "").strip()
+        cid = (child_id or "").strip()
+        if not pid or not cid:
+            raise SpaceLeaveDenied("leave-machine needs parent and child run ids")
+        leave(
+            ov,
+            intent="leave",
+            parent_run_id=pid,
+            child_id=cid,
+            deficit=deficit,
+        )
+        return True
+    return ov_allowed
+
+
 def may_preview(
     path_name: str,
     *,
@@ -103,6 +128,9 @@ def chat_preview(
     excerpt: str,
     *,
     ov_allowed: bool,
+    ov: OpenVaultCrewGate | None = None,
+    parent_run_id: str = "",
+    child_id: str = "",
 ) -> str:
     """AI chat over a previewed file. Peek/Preview never POST the bytes.
 
@@ -114,15 +142,39 @@ def chat_preview(
         raise SpaceLeaveDenied("no excerpt")
     if len(blob) > MAX_CHAT_EXCERPT:
         raise SpaceLeaveDenied("excerpt over DitchContext budget")
-    may_preview(path_name, leave_machine=True, ov_allowed=ov_allowed)
+    allowed = _gated_leave(
+        ov_allowed=ov_allowed,
+        ov=ov,
+        parent_run_id=parent_run_id,
+        child_id=child_id,
+        deficit="chat_preview",
+    )
+    may_preview(path_name, leave_machine=True, ov_allowed=allowed)
     return "chat"
 
 
-def ocr_cloud(path_name: str, *, ov_allowed: bool, local_chars: int) -> str:
+def ocr_cloud(
+    path_name: str,
+    *,
+    ov_allowed: bool,
+    local_chars: int,
+    ov: OpenVaultCrewGate | None = None,
+    parent_run_id: str = "",
+    child_id: str = "",
+) -> str:
     """Poor local OCR is not a leave-machine grant (Baidu path)."""
-    if local_chars < 20 and not ov_allowed:
+    if ov is None and local_chars < 20 and not ov_allowed:
         raise SpaceLeaveDenied("poor local OCR is not a leave-machine grant")
-    may_preview(path_name, leave_machine=True, ov_allowed=ov_allowed)
+    allowed = _gated_leave(
+        ov_allowed=ov_allowed,
+        ov=ov,
+        parent_run_id=parent_run_id,
+        child_id=child_id,
+        deficit="ocr_cloud",
+    )
+    if local_chars < 20 and not allowed:
+        raise SpaceLeaveDenied("poor local OCR is not a leave-machine grant")
+    may_preview(path_name, leave_machine=True, ov_allowed=allowed)
     return "cloud"
 
 
