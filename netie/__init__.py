@@ -6,6 +6,7 @@
     from netie.dms import answer_or_abstain, browse_or_abstain, mint_object
     from netie.airgpt import retrieve_space, chunk_table
     from netie.pointer import bind_computer, bind_pointer_skill, invoke_hand, guard_observe
+    from netie.kb import show_brief, lookup
     from netie.space import chat_preview
     from netie.control import project_board, project_session, MAX_BOARD_CHARS
     from netie.route import host_switchyard, report_deploy, compile_graph, compile_ir, assist_free_pool, remember

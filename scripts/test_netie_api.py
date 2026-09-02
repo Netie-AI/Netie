@@ -63,6 +63,7 @@ from netie.pointer import (
     guard_observe,
     invoke_hand,
 )
+from netie.kb import KbDenied, lookup, show_brief
 from netie.route import (
     CompileDenied,
     ConstructorIRDenied,
@@ -678,6 +679,25 @@ class NetieApiTests(unittest.TestCase):
         self.assertIn("uncropped", str(shot_obs.exception))
         vis = guard_observe(cortex_allowed=True, cortex_intent="hud check")
         self.assertTrue(vis["governed"])
+
+    def test_kb_product_caller_public_api(self) -> None:
+        """Index rows only. Skill markdown never leaves lookup."""
+        row = show_brief(
+            {"id": "S-0004", "kind": "skill", "title": "Find a skill", "status": "active"}
+        )
+        self.assertEqual(row["source"], "netie-kb")
+        self.assertNotIn("body", row)
+        with self.assertRaises(KbDenied) as body:
+            show_brief(
+                {"id": "S-0001", "kind": "skill", "title": "fleet"},
+                body="## Steps",
+            )
+        self.assertIn("skill_body", str(body.exception))
+        found = lookup(
+            [{"id": "S-0004", "kind": "skill", "title": "Find a skill"}],
+            "S-0004",
+        )
+        self.assertEqual(found["id"], "S-0004")
 
     def test_control_product_caller_public_api(self) -> None:
         """Crew board view. Not Guacamole. No dag_runner. No transcript."""
