@@ -2,8 +2,8 @@ name: docs-ci
 
 # Gate for the constitution repo: laptop-ASCII, required files, and patched
 # public product tests (constructor node --test, OpenVault routing pytest).
-# GitHub job may still be a billing red X (spending limit). Local `make ci`
-# is the merge gate until that is paid.
+# GitHub docs-ci on main is green (measured 2026-09-02). Local `make ci` is
+# the same command.
 
 on:
   push:
