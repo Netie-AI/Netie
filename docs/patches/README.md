@@ -286,7 +286,15 @@ cd OpenMW && uv add git+https://github.com/Netie-AI/Netie.git
 uv run pytest tests/test_crew_gate.py tests/test_crew_netie_gate.py -q
 ```
 
-`POST /api/crew/gate` calls `check_crew_gate`, which uses `from netie.crew import refuse_crew_gate` when Netie is installed. Skill bodies and unknown kinds (including `skill`) refuse with the same strings as the focused crew-gate patch. Without Netie the same rule runs locally. Vault lookup stays in OpenVault. Wrap score stays **3/10**. Push 403.
+`POST /api/crew/gate` calls `check_crew_gate`, which uses `from netie.crew import refuse_crew_gate` when Netie is installed. Skill bodies and unknown kinds refuse. `kind=skill` is ok only when the POST carries ids-only `skill_ids` that include that id (`openvault-crew-skill-ids.patch`). Without Netie the same rule runs locally. Vault lookup stays in OpenVault. Wrap score stays **3/10**. Push 403.
+
+Then:
+
+```
+git apply docs/patches/openvault-crew-skill-ids.patch
+cd OpenMW && uv add git+https://github.com/Netie-AI/Netie.git
+uv run pytest tests/test_crew_netie_gate.py -q
+```
 
 Then:
 

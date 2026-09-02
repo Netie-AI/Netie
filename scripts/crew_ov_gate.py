@@ -18,7 +18,7 @@ from __future__ import annotations
 from dataclasses import asdict, dataclass
 from typing import Any, Callable
 
-from crew_skills import SkillRegistry
+from crew_skills import SkillRegistry, register_skill
 from crew_tool_wrap import CortexDenied
 
 DROP_KEYS = frozenset({"skill_body", "prompt", "instructions", "transcript"})
@@ -58,6 +58,7 @@ def refuse_crew_gate(
     instructions: object | None = None,
     transcript: object | None = None,
     registry: SkillRegistry | None = None,
+    skill_ids: list[str] | None = None,
 ) -> dict[str, str]:
     """OpenVault /api/crew/gate body check. Vault lookup stays in OpenVault."""
     if any(
@@ -68,6 +69,10 @@ def refuse_crew_gate(
     k = (kind or "").strip()
     sid = (id or "").strip()
     if k == "skill":
+        if registry is None and skill_ids:
+            registry = SkillRegistry()
+            for listed in skill_ids:
+                register_skill(registry, str(listed))
         if registry is None or not registry.has(sid):
             raise CortexDenied(f"no skill registered as '{sid}'")
         return {"status": "ok", "kind": k}
@@ -104,6 +109,10 @@ class OpenVaultCrewGate:
             raise CortexDenied("no OpenVault transport")
         refuse_crew_gate(kind=ask.kind, id=ask.id, registry=self.registry)
         payload = asdict(ask)
+        if self.registry is not None:
+            payload["skill_ids"] = [row["id"] for row in self.registry.index()]
+        if has_bodies(payload):
+            raise CortexDenied("skill_body must never go to the gate")
         url = f"{self.base_url}/api/crew/gate"
         try:
             raw = self._post(url, payload)

@@ -9,7 +9,7 @@ constructor-tool-action.patch then constructor-inspect-action.patch then constru
 node --test (62 passed). Extra `constructor-ir-4896ddd.patch` /
 `constructor-inspect-4896ddd.patch` are a thinner alternate stack (do not mix
 with the 26). Portable Python IR is `scripts/constructor_ir.py`.
-OpenVault patches apply on origin/main then `uv run pytest` on the routing+chat+crew-gate+ship-claim+free-pool files (>= 90 passed). The 28th patch (`openvault-crew-netie.patch`) makes `/api/crew/gate` call `from netie.crew import refuse_crew_gate` when Netie is installed. Then `openvault-free-pool.patch` + `openvault-free-pool-route.patch` add `POST /api/route/free`.
+OpenVault patches apply on origin/main then `uv run pytest` on the routing+chat+crew-gate+ship-claim+free-pool files (>= 90 passed). The 28th patch (`openvault-crew-netie.patch`) makes `/api/crew/gate` call `from netie.crew import refuse_crew_gate` when Netie is installed. Then `openvault-crew-skill-ids.patch` lets kind=skill through when the POST carries ids-only `skill_ids`. Then `openvault-free-pool.patch` + `openvault-free-pool-route.patch` add `POST /api/route/free`.
 Cortex `cortex-netie-path.patch` applies on origin/main (do not uv-add Netie.git). `cortex-web-via-runner.patch` applies on origin/main (`default_broker` no web/discovery skip). `cortex-role-execute.patch` applies after those (`require_role` on execute modules). `cortex-observe-guard.patch` applies after those (`computer.observe` through guard_observe). dms `dms-netie-acl.patch` applies on origin/main (`live_ask` / browse through `netie.dms` when installed). Pointer `pointer-netie-hands.patch` then `pointer-observe-guard.patch` apply on origin/main (UACC search drops planner/clipboard/window dump; native observe stays DR-0005; governed:true is opt-in). Control `control-netie-board.patch` applies on origin/main (`guard_issue_board` / Guacamole 405s). Netie-KB `kb-netie-index.patch` applies on origin/main (skill `kb_show` is ids-only). Founder apply-all: `scripts/apply_product_patches.py` (does not push).
 """
 
@@ -215,6 +215,7 @@ class SiblingPatchTests(unittest.TestCase):
             sidecar = PATCHES / "openvault-hop-sidecar.patch"
             ship = PATCHES / "openvault-ship-netie.patch"
             crew_netie = PATCHES / "openvault-crew-netie.patch"
+            crew_ids = PATCHES / "openvault-crew-skill-ids.patch"
             free_pool = PATCHES / "openvault-free-pool.patch"
             free_route = PATCHES / "openvault-free-pool-route.patch"
             self.assertTrue(
@@ -243,6 +244,7 @@ class SiblingPatchTests(unittest.TestCase):
                 and sidecar.is_file()
                 and ship.is_file()
                 and crew_netie.is_file()
+                and crew_ids.is_file()
                 and free_pool.is_file()
                 and free_route.is_file()
             )
@@ -275,6 +277,7 @@ class SiblingPatchTests(unittest.TestCase):
                 sidecar,
                 ship,
                 crew_netie,
+                crew_ids,
                 free_pool,
                 free_route,
             ):
@@ -345,6 +348,7 @@ class SiblingPatchTests(unittest.TestCase):
             ).read_text(encoding="utf-8")
             self.assertIn("from netie.crew import refuse_crew_gate", crew_mod)
             self.assertIn("def check_crew_gate", crew_mod)
+            self.assertIn("skill_ids", crew_mod)
             free_mod = (
                 dest / "OpenMW" / "openmw" / "openvault" / "route" / "free_pool.py"
             ).read_text(encoding="utf-8")
