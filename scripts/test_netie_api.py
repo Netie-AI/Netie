@@ -65,7 +65,7 @@ from netie.pointer import (
     guard_observe,
     invoke_hand,
 )
-from netie.kb import KbDenied, lookup, show_brief
+from netie.kb import KbDenied, list_briefs, lookup, show_brief
 from netie.route import (
     CompileDenied,
     ConstructorIRDenied,
@@ -721,6 +721,25 @@ class NetieApiTests(unittest.TestCase):
             "S-0004",
         )
         self.assertEqual(found["id"], "S-0004")
+        catalog = list_briefs(
+            [
+                {
+                    "id": "S-0001",
+                    "kind": "skill",
+                    "title": "fleet",
+                    "body": "## Steps",
+                },
+                {"id": "R-0016", "kind": "rule", "title": "skills live in KB"},
+            ],
+            kind="skill",
+        )
+        self.assertEqual(catalog[0]["id"], "S-0001")
+        self.assertNotIn("body", catalog[0])
+        with self.assertRaises(KbDenied):
+            lookup(
+                [{"id": "S-0001", "kind": "skill", "title": "fleet", "body": "## Steps"}],
+                "S-0001",
+            )
 
     def test_control_product_caller_public_api(self) -> None:
         """Crew board view. Not Guacamole. No dag_runner. No transcript."""

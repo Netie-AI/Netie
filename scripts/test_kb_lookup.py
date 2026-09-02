@@ -9,7 +9,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
-from kb_lookup import KbDenied, lookup, show_brief
+from kb_lookup import KbDenied, list_briefs, lookup, show_brief
 
 
 class KbLookupTests(unittest.TestCase):
@@ -57,6 +57,28 @@ class KbLookupTests(unittest.TestCase):
     def test_id_with_drop_key_refuses(self) -> None:
         with self.assertRaises(KbDenied):
             show_brief({"id": "skill_body-1", "kind": "skill", "title": "x"})
+
+    def test_list_briefs_strips_skill_bodies(self) -> None:
+        rows = [
+            {
+                "id": "S-0001",
+                "kind": "skill",
+                "title": "fleet",
+                "body": "## Steps",
+            },
+            {"id": "R-0016", "kind": "rule", "title": "skills live in KB"},
+            {"id": "S-0004", "kind": "skill", "title": "Find a skill"},
+        ]
+        skills = list_briefs(rows, kind="skill")
+        self.assertEqual([r["id"] for r in skills], ["S-0001", "S-0004"])
+        dumped = str(skills)
+        self.assertNotIn("## Steps", dumped)
+        self.assertNotIn("skill_body", dumped)
+        self.assertNotIn("body", dumped)
+        mixed = list_briefs(rows)
+        self.assertEqual([r["id"] for r in mixed], ["S-0001", "R-0016", "S-0004"])
+        with self.assertRaises(KbDenied):
+            lookup(rows, "S-0001")
 
 
 if __name__ == "__main__":
