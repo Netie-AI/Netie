@@ -1,12 +1,12 @@
 # STATUS - Netie constitution repo
 
-**Branch:** `cursor/kb-list-briefs-ca9b` · **PR:** (this) · **main:** `7a6860c` (docs-ci pending)
+**Branch:** `cursor/crew-skill-persist-ca9b` · **PR:** (this) · **main:** `4ef524a` (docs-ci pending)
 **Local gate:** `make ci`.
 
 ## Now
 
-- KB `list_briefs` is the catalog (strips skill bodies). `lookup` still refuses a skill row that carries a body. GET `/index?kind=skill` and `kb_list(kind=skill)` return JSON briefs. Crew `register_index(list_briefs(rows))` is the dump path. Wrap stays **3/10**.
-- Cortex `guard_observe` on observe tools. Pointer native observe stays DR-0005. Scores stay **4/10** Q&A, **2/10** governed computer-use.
+- Crew `persist` / `resume` keep skill ids + source. A restarted graph can spawn `kind=skill` again. Control can project those cards from the blob. Bodies still refuse. Wrap stays **3/10**.
+- KB `list_briefs` + `register_index` stay the dump path. Cortex `guard_observe` on observe tools. Scores stay **4/10** Q&A, **2/10** governed computer-use.
 - Founder apply-all: `python3 scripts/apply_product_patches.py --dry-run`. Product remotes clone-yes push-403. 404: AirGPT, Space, Cortex-Crew. Keys.txt gone; founder must revoke. C2/MIN_TESTS stand.
 
 ## Next (founder clicks)
