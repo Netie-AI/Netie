@@ -80,9 +80,52 @@ class CrewCheckpointTests(unittest.TestCase):
         self.assertEqual(out["open"], 1)
         self.assertEqual(out["done"], 1)
         self.assertEqual(out["tokens"], "ids-only")
+        self.assertEqual(out["skills"], 0)
+        self.assertEqual(out["skill_ids"], [])
         self.assertNotIn("transcript", json.dumps(out))
         with self.assertRaises(CheckpointDenied):
             summarise({"runs": [{"id": "p1", "prompt": "SECRET"}]})
+
+    def test_summarise_counts_skill_ids_not_bodies(self) -> None:
+        from crew_skills import SkillRegistry, register_skill
+
+        idx = {
+            "runs": [{"id": "p1", "status": "open", "ticket_id": "T1"}],
+            "skills": [{"id": "S-0004", "source": "netie-kb"}],
+        }
+        out = summarise(idx)
+        self.assertEqual(out["skills"], 1)
+        self.assertEqual(out["skill_ids"], ["S-0004"])
+        self.assertNotIn("skill_body", json.dumps(out))
+        self.assertNotIn("netie-kb", json.dumps(out))
+        reg = SkillRegistry()
+        register_skill(reg, "S-0001")
+        hung = summarise({"runs": []}, registry=reg)
+        self.assertEqual(hung["skill_ids"], ["S-0001"])
+        with self.assertRaises(CheckpointDenied):
+            summarise(
+                {
+                    "runs": [],
+                    "skills": [
+                        {"id": "S-0001", "source": "netie-kb", "skill_body": "SECRET"}
+                    ],
+                }
+            )
+
+    def test_checkpoint_graph_defaults_to_ov_registry(self) -> None:
+        from crew_skills import SkillRegistry, register_skill
+
+        live_reg = SkillRegistry()
+        register_skill(live_reg, "S-0004")
+        g = CrewGraph(
+            ov=OpenVaultCrewGate(
+                "http://127.0.0.1:5000", post=_allow, registry=live_reg
+            )
+        )
+        g.open_parent("p1", "T1")
+        blob = checkpoint_graph(g)
+        self.assertEqual(blob["skills"], [{"id": "S-0004", "source": "netie-kb"}])
+        self.assertNotIn("skill_body", json.dumps(blob))
 
     def test_save_refuses_todo_prompt(self) -> None:
         with self.assertRaises(CheckpointDenied):

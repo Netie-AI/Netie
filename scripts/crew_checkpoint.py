@@ -60,15 +60,26 @@ def load_checkpoint(blob: dict[str, Any]) -> dict[str, Any]:
     return save_checkpoint(blob, todos=blob.get("todos") if isinstance(blob, dict) else None)
 
 
-def summarise(index: dict[str, Any]) -> dict[str, Any]:
-    """Deep Agents summarise, without the conversation."""
+def summarise(
+    index: dict[str, Any],
+    registry: SkillRegistry | None = None,
+) -> dict[str, Any]:
+    """Deep Agents summarise, without the conversation. Skill ids, not bodies."""
     if has_bodies(index):
         raise CheckpointDenied("summary leaked a body")
     runs = [r for r in (index.get("runs") or []) if isinstance(r, dict)]
+    skills = [s for s in (index.get("skills") or []) if isinstance(s, dict)]
+    if registry is not None:
+        skills = registry.index()
+    for row in skills:
+        if has_bodies(row):
+            raise CheckpointDenied("summary leaked a body")
     out = {
         "open": sum(1 for r in runs if r.get("status") == "open"),
         "done": sum(1 for r in runs if r.get("status") == "done"),
         "run_ids": [r.get("id") for r in runs],
+        "skills": len(skills),
+        "skill_ids": [s.get("id") for s in skills],
         "tokens": "ids-only",
     }
     dumped = json.dumps(out)
@@ -82,7 +93,9 @@ def checkpoint_graph(
     graph: CrewGraph,
     registry: SkillRegistry | None = None,
 ) -> dict[str, Any]:
+    """Ids-only blob. `registry` defaults to `graph.ov.registry` like persist."""
+    target = registry if registry is not None else getattr(graph.ov, "registry", None)
     idx = graph.index()
-    if registry is not None:
-        idx = {**idx, "skills": registry.index()}
+    if target is not None:
+        idx = {**idx, "skills": target.index()}
     return save_checkpoint(idx)
