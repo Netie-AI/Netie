@@ -224,6 +224,37 @@ class CrewCapabilityTests(unittest.TestCase):
         self.assertIn("not granted", results[1].detail)
         self.assertEqual(gate.executed, ["warehouse.query", "export_pptx"])
 
+    def test_leave_machine_batch_posts_once(self) -> None:
+        from crew_ov_gate import OpenVaultCrewGate
+        from crew_skills import SkillRegistry, register_skill
+
+        gate = FakeGate()
+        seen: list[dict[str, Any]] = []
+
+        def post(url: str, body: dict[str, Any]) -> dict[str, Any]:
+            seen.append(body)
+            return {"allowed": True}
+
+        reg = SkillRegistry()
+        register_skill(reg, "S-0004")
+        ov = OpenVaultCrewGate("http://127.0.0.1:5000", post=post, registry=reg)
+        results = execute_capabilities(
+            gate,
+            [Job("a", "open_url", {}), Job("b", "warehouse.query", {})],
+            granted=["open_url", "warehouse.query"],
+            ov=ov,
+            parent_run_id="p1",
+            max_in_flight=1,
+            budget=ROOM,
+        )
+        self.assertEqual([r.status for r in results], ["DONE", "DONE"])
+        self.assertEqual(gate.executed, ["open_url", "warehouse.query"])
+        self.assertEqual(len(seen), 1)
+        self.assertEqual(seen[0]["skill_ids"], ["S-0004"])
+        self.assertEqual(seen[0]["id"], "open_url")
+        self.assertEqual(seen[0]["child_id"], "a")
+        self.assertNotIn("skill_body", str(seen[0]))
+
     def test_openwork_ee_is_not_a_den(self) -> None:
         with self.assertRaises(CortexDenied) as ctx:
             load_den("different-ai/openwork/ee/")
