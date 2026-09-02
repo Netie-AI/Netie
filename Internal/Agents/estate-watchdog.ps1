@@ -58,33 +58,15 @@ $notes += "Grok Bot auto-start off"
 
 $ncState = "DOWN"
 try {
-    $nc = Invoke-WebRequest -Uri "http://localhost:3100/api/health" -UseBasicParsing -TimeoutSec 2
-    if ($nc.StatusCode -eq 200) { $ncState = "up GET /api/health" }
+    $nc = Invoke-WebRequest -Uri "http://127.0.0.1:8040/healthz" -UseBasicParsing -TimeoutSec 2
+    if ($nc.StatusCode -eq 200 -and $nc.Content -match "netie-control") {
+        $ncState = "up GET /healthz"
+    }
 } catch { }
 
 if ($ncState -notmatch "^up") {
-    if ($env:NETIE_CONTROL -eq "1") {
-        $paperclip = "D:\Netie\paperclip"
-        if (Test-Path (Join-Path $paperclip "package.json")) {
-            $pnpm = "npx pnpm"
-            if (Get-Command pnpm -ErrorAction SilentlyContinue) { $pnpm = "pnpm" }
-            if (-not (Test-Path (Join-Path $paperclip "node_modules"))) {
-                $notes += "Control needs pnpm install in paperclip (run once)"
-            } else {
-                Start-Process -FilePath "cmd.exe" -ArgumentList @(
-                    "/c", "cd /d `"$paperclip`" && $pnpm dev"
-                ) -WorkingDirectory $paperclip -WindowStyle Minimized
-                $notes += "started Netie Control $pnpm dev :3100"
-                Start-Sleep 12
-                try {
-                    $nc2 = Invoke-WebRequest -Uri "http://localhost:3100/api/health" -UseBasicParsing -TimeoutSec 4
-                    if ($nc2.StatusCode -eq 200) { $ncState = "up GET /api/health" }
-                } catch { }
-            }
-        }
-    } else {
-        $notes += "Control GATED (set NETIE_CONTROL=1 to boot)"
-    }
+    # Do not auto-start. netie-controlagent owns E:\NetieControl. Paperclip :3100 is not Control.
+    $notes += "Control DOWN :8040 (tree E:\NetieControl; EXTRA_STOP other writers; F-0029)"
 }
 
 $freeMB = 0
@@ -215,7 +197,7 @@ $gateLine
 - OpenVault API: $ovState  http://127.0.0.1:5000/api/healthz
 - Cortex engine: $engineState  http://127.0.0.1:8010/
 - Skill registry: $ssState  http://127.0.0.1:8030/  (Netie-KB R-0016; MCP /mcp + REST; kb_search before re-deriving)
-- Netie Control: $ncState  http://localhost:3100/api/health (GATED unless NETIE_CONTROL=1)
+- Netie Control: $ncState  http://127.0.0.1:8040/healthz (tree E:\NetieControl; EXTRA_STOP)
 - Claude Code CLI: $claude
 - Cursor agent CLI: $cursorAgent
 - Pointer app: $pointerState
