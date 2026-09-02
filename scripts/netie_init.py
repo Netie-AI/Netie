@@ -44,7 +44,7 @@ CALLERS: dict[str, str] = {
     "DMS": "from netie.dms import answer_or_abstain, browse_or_abstain, mint_object",
     "OpenVault": "from netie.route import host_switchyard, report_deploy, assist_free_pool; from netie.crew import refuse_crew_gate",
     "AirGPT": "from netie.airgpt import retrieve_space, chunk_table",
-    "Space": "from netie.space import chat_preview",
+    "Space": "from netie.space import chat_preview, leave",
     "Pointer": "from netie.pointer import bind_computer, bind_pointer_skill, invoke_hand, guard_observe",
     "Constructor": "from netie.route import compile_graph, compile_ir",
     "Control": "from netie.control import project_board, project_session, MAX_BOARD_CHARS, board_index",

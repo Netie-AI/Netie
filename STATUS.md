@@ -1,12 +1,12 @@
 # STATUS - Netie constitution repo
 
-**Branch:** `cursor/crew-leave-skill-ids-ca9b` · **PR:** (this) · **main:** `94a17b9` (docs-ci in flight)
+**Branch:** `cursor/space-leave-skill-ids-ca9b` · **PR:** (this) · **main:** `d2ea2b4` (docs-ci in flight)
 **Local gate:** `make ci`.
 
 ## Now
 
-- `execute_capability(ov=)` POSTs `/api/crew/gate` with skill ids. Boolean `ov_allowed` stays the stand-in. Bodies still refuse. Wrap stays **3/10**.
-- Session lists skill ids. Ticket-runner `board_from_runs` goes through `board_index`. `summarise` counts skill ids.
+- Space `chat_preview(ov=)` / `ocr_cloud(ov=)` POST `/api/crew/gate` with skill ids. Boolean `ov_allowed` stays the stand-in. Governed stays **2/10**.
+- Crew leave `execute_capability(ov=)` does the same. Session lists skill ids. Wrap stays **3/10**.
 - Founder apply-all: `python3 scripts/apply_product_patches.py --dry-run`. Product remotes clone-yes push-403. 404: AirGPT, Space, Cortex-Crew. Keys.txt gone; founder must revoke. C2/MIN_TESTS stand.
 
 ## Next (founder clicks)

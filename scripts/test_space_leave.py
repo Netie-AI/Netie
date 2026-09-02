@@ -111,6 +111,57 @@ class SpaceLeaveTests(unittest.TestCase):
         with self.assertRaises(SpaceLeaveDenied):
             chat_preview("report.pdf", "   ", ov_allowed=True)
 
+    def test_chat_preview_ov_posts_skill_ids(self) -> None:
+        from crew_skills import SkillRegistry, register_skill
+
+        seen: list[dict[str, Any]] = []
+
+        def post(url: str, body: dict[str, Any]) -> dict[str, Any]:
+            seen.append(body)
+            return {"allowed": True}
+
+        reg = SkillRegistry()
+        register_skill(reg, "S-0004")
+        ov = OpenVaultCrewGate("http://127.0.0.1:5000", post=post, registry=reg)
+        with self.assertRaises(SpaceLeaveDenied) as missing:
+            chat_preview("report.pdf", "summarize this page", ov_allowed=False, ov=ov)
+        self.assertIn("parent and child", str(missing.exception))
+        self.assertEqual(seen, [])
+        out = chat_preview(
+            "report.pdf",
+            "summarize this page",
+            ov_allowed=False,
+            ov=ov,
+            parent_run_id="p1",
+            child_id="chat",
+        )
+        self.assertEqual(out, "chat")
+        self.assertEqual(seen[0]["skill_ids"], ["S-0004"])
+        self.assertEqual(seen[0]["kind"], "service")
+        self.assertNotIn("skill_body", str(seen[0]))
+        with self.assertRaises(SpaceLeaveDenied):
+            chat_preview(
+                "user.env",
+                "dump keys",
+                ov_allowed=False,
+                ov=ov,
+                parent_run_id="p1",
+                child_id="chat",
+            )
+
+    def test_ocr_cloud_ov_refuse_does_not_upload(self) -> None:
+        ov = OpenVaultCrewGate("http://127.0.0.1:5000", post=_deny)
+        with self.assertRaises(SpaceLeaveDenied) as ctx:
+            ocr_cloud(
+                "scan.png",
+                ov_allowed=False,
+                local_chars=3,
+                ov=ov,
+                parent_run_id="p1",
+                child_id="ocr",
+            )
+        self.assertIn("leave refused", str(ctx.exception))
+
 
 if __name__ == "__main__":
     unittest.main()

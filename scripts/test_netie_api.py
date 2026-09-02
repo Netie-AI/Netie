@@ -87,7 +87,7 @@ from netie.route import (
     remember,
     report_deploy,
 )
-from netie.space import MAX_CHAT_EXCERPT, SpaceLeaveDenied, chat_preview, ocr_cloud, persist_key
+from netie.space import MAX_CHAT_EXCERPT, SpaceLeaveDenied, chat_preview, leave, ocr_cloud, persist_key
 
 
 class NetieApiTests(unittest.TestCase):
@@ -697,9 +697,9 @@ class NetieApiTests(unittest.TestCase):
 
     def test_space_product_caller_public_api(self) -> None:
         """Peek never POSTs the file. Secrets stay closed. DitchContext 12k."""
-        with self.assertRaises(SpaceLeaveDenied) as leave:
+        with self.assertRaises(SpaceLeaveDenied) as ungated:
             chat_preview("notes.txt", "hello", ov_allowed=False)
-        self.assertIn("OpenVault", str(leave.exception))
+        self.assertIn("OpenVault", str(ungated.exception))
         with self.assertRaises(SpaceLeaveDenied) as secret:
             chat_preview(".env", "hello", ov_allowed=True)
         self.assertIn("secret", str(secret.exception))
@@ -711,6 +711,31 @@ class NetieApiTests(unittest.TestCase):
         with self.assertRaises(SpaceLeaveDenied) as ocr:
             ocr_cloud("scan.png", ov_allowed=False, local_chars=3)
         self.assertIn("OCR", str(ocr.exception))
+        from netie import space as space_mod
+
+        self.assertIn("leave", space_mod.__all__)
+        self.assertTrue(callable(leave))
+        seen: list[dict] = []
+
+        def post(url: str, body: dict) -> dict:
+            seen.append(body)
+            return {"allowed": True}
+
+        reg = SkillRegistry()
+        register_skill(reg, "S-0004")
+        ov = OpenVaultCrewGate(
+            "http://127.0.0.1:5000", post=post, registry=reg
+        )
+        chat_preview(
+            "notes.txt",
+            "hello",
+            ov_allowed=False,
+            ov=ov,
+            parent_run_id="p1",
+            child_id="chat",
+        )
+        self.assertEqual(seen[0]["skill_ids"], ["S-0004"])
+        self.assertNotIn("skill_body", str(seen[0]))
 
     def test_pointer_product_caller_public_api(self) -> None:
         """Local tray. Not e2b / Perplexity Computer. UACC brains stay out."""
