@@ -1,0 +1,312 @@
+diff --git a/OpenMW/openmw/openvault/app.py b/OpenMW/openmw/openvault/app.py
+index 7c2b838..0ca1b8e 100644
+--- a/OpenMW/openmw/openvault/app.py
++++ b/OpenMW/openmw/openvault/app.py
+@@ -625,6 +625,9 @@ class ShipEngineBody(BaseModel):
+     monthly_cap_usd: float | None = None
+     run_build: bool = False
+     prefer_remote_openship: bool = False
++    parent_run_id: str = ""
++    child_id: str = ""
++    skill_ids: list[str] = Field(default_factory=list)
+ 
+ 
+ class ShipPreflightBody(BaseModel):
+@@ -2240,17 +2243,32 @@ def create_app(
+                 request=request,
+             )
+         try:
+-            return run_ship_engine(
+-                target=body.target,
+-                project_path=body.project_path,
+-                github_url=body.github_url,
+-                hostname=body.hostname,
+-                vps_host=body.vps_host,
+-                cloud_tier=body.cloud_tier,
+-                monthly_cap_usd=body.monthly_cap_usd,
+-                run_build=body.run_build,
+-                prefer_remote_openship=body.prefer_remote_openship,
+-            )
++            import inspect
++
++            from openmw.openvault.ship.netie_claim import bind_claim_ov
++
++            kw: dict[str, Any] = {
++                "target": body.target,
++                "project_path": body.project_path,
++                "github_url": body.github_url,
++                "hostname": body.hostname,
++                "vps_host": body.vps_host,
++                "cloud_tier": body.cloud_tier,
++                "monthly_cap_usd": body.monthly_cap_usd,
++                "run_build": body.run_build,
++                "prefer_remote_openship": body.prefer_remote_openship,
++            }
++            sig = inspect.signature(run_ship_engine)
++            if "ov" in sig.parameters:
++                ov, parent, child = bind_claim_ov(
++                    parent_run_id=body.parent_run_id,
++                    child_id=body.child_id,
++                    skill_ids=list(body.skill_ids or []),
++                )
++                kw["ov"] = ov
++                kw["parent_run_id"] = parent
++                kw["child_id"] = child
++            return run_ship_engine(**kw)
+         except DeployInProgressError as exc:
+             raise HTTPException(
+                 status_code=409,
+diff --git a/OpenMW/openmw/openvault/ship/engine.py b/OpenMW/openmw/openvault/ship/engine.py
+index 080cb30..db0fbc6 100644
+--- a/OpenMW/openmw/openvault/ship/engine.py
++++ b/OpenMW/openmw/openvault/ship/engine.py
+@@ -596,6 +596,9 @@ def run_ship_engine(
+     run_build: bool = False,
+     prefer_remote_openship: bool = False,
+     ship_env: Mapping[str, str] | None = None,
++    ov: object | None = None,
++    parent_run_id: str = "",
++    child_id: str = "",
+ ) -> dict[str, Any]:
+     """One-stop ship — FreeBuild concept in-process.
+ 
+@@ -604,6 +607,8 @@ def run_ship_engine(
+     Raises :class:`DeployInProgressError` when the same project is already being
+     deployed. ``/api/ship/engine`` is a sync endpoint, so FastAPI runs it in a
+     threadpool and two clients really can be inside this function at once.
++    ``ov`` is the Netie crew gate for a live URL claim; without it the claim
++    still parses, it just does not POST skill ids. HT1 is still not done.
+     """
+     with project_deploy_lock(
+         deploy_key(
+@@ -627,6 +632,9 @@ def run_ship_engine(
+             run_build=run_build,
+             prefer_remote_openship=prefer_remote_openship,
+             ship_env=ship_env,
++            ov=ov,
++            parent_run_id=parent_run_id,
++            child_id=child_id,
+         )
+ 
+ 
+@@ -642,6 +650,9 @@ def _run_ship_engine_locked(
+     run_build: bool = False,
+     prefer_remote_openship: bool = False,
+     ship_env: Mapping[str, str] | None = None,
++    ov: object | None = None,
++    parent_run_id: str = "",
++    child_id: str = "",
+ ) -> dict[str, Any]:
+     """The engine proper. Only ``run_ship_engine`` may call this — it holds the lock."""
+     budget = load_bill_budget()
+@@ -922,14 +933,22 @@ def _run_ship_engine_locked(
+         dep_mode = "simulated"
+ 
+     if dep_mode == "live":
++        import inspect
++
+         from openmw.openvault.ship.netie_claim import claim_deploy
+ 
+         try:
+-            public = claim_deploy(
+-                simulated=False,
+-                observed_url=public or None,
+-                constructed_url=None,
+-            )["url"]
++            kw = {
++                "simulated": False,
++                "observed_url": public or None,
++                "constructed_url": None,
++            }
++            sig = inspect.signature(claim_deploy)
++            if "ov" in sig.parameters:
++                kw["ov"] = ov
++                kw["parent_run_id"] = parent_run_id
++                kw["child_id"] = child_id or "ship"
++            public = claim_deploy(**kw)["url"]
+         except PermissionError as exc:
+             last = steps[-1]
+             steps[-1] = EngineStep(
+diff --git a/OpenMW/openmw/openvault/ship/netie_claim.py b/OpenMW/openmw/openvault/ship/netie_claim.py
+index 30bcf8e..9c4be94 100644
+--- a/OpenMW/openmw/openvault/ship/netie_claim.py
++++ b/OpenMW/openmw/openvault/ship/netie_claim.py
+@@ -6,21 +6,75 @@ from netie.route import report_deploy
+ Without Netie, the same rule runs locally so OpenVault CI does not hard-fail
+ before that add. Simulated stays classify_deployment's job; this module is
+ only called when the engine is about to label a deploy live.
++
++`ov=` forwards to report_deploy which POSTs /api/crew/gate with skill ids.
++Boolean-less: no ov means no POST (same as today). HT1 is still not a live
++Pages URL. In-process crew post so /api/ship/engine does not HTTP-loopback.
+ """
+ 
+ from __future__ import annotations
+ 
++import inspect
++from typing import Any
++
++
++def bind_claim_ov(
++    *,
++    parent_run_id: str = "",
++    child_id: str = "",
++    skill_ids: list[str] | None = None,
++) -> tuple[Any, str, str]:
++    """Gate for a live claim, or None when run ids / Netie are missing."""
++    pid = (parent_run_id or "").strip()
++    cid = (child_id or "").strip() or "ship"
++    if not pid:
++        return None, "", ""
++    try:
++        from netie.crew import OpenVaultCrewGate, SkillRegistry, register_skill
++    except ImportError:
++        return None, pid, cid
++    reg = SkillRegistry()
++    for raw in skill_ids or []:
++        sid = str(raw or "").strip()
++        if sid:
++            register_skill(reg, sid)
++
++    def post(_url: str, body: dict[str, Any]) -> dict[str, Any]:
++        try:
++            from openmw.openvault.crew_netie import check_crew_gate
++        except ImportError:
++            return {"allowed": False, "reason": "crew gate missing"}
++        kw: dict[str, Any] = {
++            "kind": body.get("kind") or "",
++            "id": body.get("id") or "",
++        }
++        if "skill_ids" in inspect.signature(check_crew_gate).parameters:
++            kw["skill_ids"] = body.get("skill_ids") or []
++        try:
++            check_crew_gate(**kw)
++            return {"allowed": True}
++        except PermissionError as exc:
++            return {"allowed": False, "reason": str(exc)}
++
++    ov = OpenVaultCrewGate("http://127.0.0.1:5000", post=post, registry=reg)
++    return ov, pid, cid
++
+ 
+ def claim_deploy(
+     *,
+     simulated: bool,
+     observed_url: str | None,
+     constructed_url: str | None,
++    ov: object | None = None,
++    parent_run_id: str = "",
++    child_id: str = "",
+ ) -> dict[str, str]:
+     """Refuse a constructed or simulated URL. Parse-only live claims."""
+     try:
+         from netie.route import report_deploy
+     except ImportError:
++        if ov is not None:
++            raise PermissionError("live claim needs Netie report_deploy to POST skill ids")
+         if constructed_url:
+             raise PermissionError("URL must be parsed, never constructed")
+         if simulated:
+@@ -28,8 +82,15 @@ def claim_deploy(
+         if not observed_url:
+             raise PermissionError("no observed URL")
+         return {"status": "LIVE", "url": observed_url, "ht1": "observed"}
+-    return report_deploy(
+-        simulated=simulated,
+-        observed_url=observed_url,
+-        constructed_url=constructed_url,
+-    )
++    kw: dict[str, Any] = {
++        "simulated": simulated,
++        "observed_url": observed_url,
++        "constructed_url": constructed_url,
++    }
++    sig = inspect.signature(report_deploy)
++    if ov is not None and "ov" in sig.parameters:
++        kw["ov"] = ov
++        if "parent_run_id" in sig.parameters:
++            kw["parent_run_id"] = parent_run_id
++            kw["child_id"] = child_id
++    return report_deploy(**kw)
+diff --git a/OpenMW/tests/test_ship_netie_claim.py b/OpenMW/tests/test_ship_netie_claim.py
+index f965282..49e634a 100644
+--- a/OpenMW/tests/test_ship_netie_claim.py
++++ b/OpenMW/tests/test_ship_netie_claim.py
+@@ -42,3 +42,77 @@ def test_simulated_is_not_ht1() -> None:
+ def test_empty_observed_is_refused() -> None:
+     with pytest.raises((PermissionError, Exception)):
+         claim_deploy(simulated=False, observed_url=None, constructed_url=None)
++
++
++def test_claim_deploy_ov_posts_skill_ids() -> None:
++    pytest.importorskip("netie.crew")
++    from typing import Any
++
++    from netie.crew import OpenVaultCrewGate, SkillRegistry, register_skill
++
++    from openmw.openvault.ship.netie_claim import bind_claim_ov
++
++    seen: list[dict[str, Any]] = []
++
++    def post(url: str, body: dict[str, Any]) -> dict[str, Any]:
++        seen.append(body)
++        return {"allowed": True}
++
++    def deny(url: str, body: dict[str, Any]) -> dict[str, Any]:
++        return {"allowed": False, "reason": "vault miss"}
++
++    none, empty_parent, empty_child = bind_claim_ov()
++    assert none is None
++    assert empty_parent == ""
++    assert empty_child == ""
++    reg = SkillRegistry()
++    register_skill(reg, "S-0004")
++    ov = OpenVaultCrewGate("http://127.0.0.1:5000", post=post, registry=reg)
++    with pytest.raises((PermissionError, Exception)) as missing:
++        claim_deploy(
++            simulated=False,
++            observed_url="https://abc.my-app.pages.dev",
++            constructed_url=None,
++            ov=ov,
++        )
++    assert "parent and child" in str(missing.value).lower()
++    assert seen == []
++    out = claim_deploy(
++        simulated=False,
++        observed_url="https://abc.my-app.pages.dev",
++        constructed_url=None,
++        ov=ov,
++        parent_run_id="p1",
++        child_id="ship",
++    )
++    assert out["status"] == "LIVE"
++    assert out["ht1"] == "observed"
++    assert seen[0]["skill_ids"] == ["S-0004"]
++    assert seen[0]["id"] == "freebuild"
++    assert "skill_body" not in str(seen[0])
++    blocked = OpenVaultCrewGate("http://127.0.0.1:5000", post=deny)
++    with pytest.raises((PermissionError, Exception)) as ctx:
++        claim_deploy(
++            simulated=False,
++            observed_url="https://abc.my-app.pages.dev",
++            constructed_url=None,
++            ov=blocked,
++            parent_run_id="p1",
++            child_id="ship",
++        )
++    assert "vault miss" in str(ctx.value).lower()
++    bound, pid, cid = bind_claim_ov(
++        parent_run_id="p1", child_id="ship", skill_ids=["S-0004"]
++    )
++    assert bound is not None
++    assert pid == "p1"
++    assert cid == "ship"
++    posted = claim_deploy(
++        simulated=False,
++        observed_url="https://abc.my-app.pages.dev",
++        constructed_url=None,
++        ov=bound,
++        parent_run_id=pid,
++        child_id=cid,
++    )
++    assert posted["ht1"] == "observed"

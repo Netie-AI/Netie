@@ -55,6 +55,10 @@ class ApplyProductPatchesTests(unittest.TestCase):
             names.index("openvault-crew-skill-ids.patch"),
             names.index("openvault-free-pool.patch"),
         )
+        self.assertLess(
+            names.index("openvault-free-pool-route.patch"),
+            names.index("openvault-ship-claim-ov.patch"),
+        )
         self.assertEqual(STACKS["openvault"].patches, OPENVAULT_STACK)
         self.assertTrue(STACKS["openvault"].uv_add_netie)
 

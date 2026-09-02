@@ -1,12 +1,12 @@
 # STATUS - Netie constitution repo
 
-**Branch:** `cursor/ship-leave-skill-ids-ca9b` · **PR:** (this) · **main:** `1bb3e6f` (docs-ci in flight)
+**Branch:** `cursor/ship-claim-ov-ca9b` · **PR:** (this) · **main:** `dbc812f` (docs-ci green)
+
 **Local gate:** `make ci`.
 
 ## Now
 
-- `report_deploy(ov=)` POSTs `/api/crew/gate` with skill ids. Simulated is still not HT1. Score stays **2/10**.
-- Switchyard / Pointer / Space / Crew leave do the same. Wrap stays **3/10**.
+- `claim_deploy(ov=)` forwards to `report_deploy` which POSTs skill ids. Live engine and `/api/ship/engine` pass the gate when `parent_run_id` is set. No run ids: parse only, no POST. Simulated is still not HT1. Score stays **2/10**.
 - Founder apply-all: `python3 scripts/apply_product_patches.py --dry-run`. Product remotes clone-yes push-403. 404: AirGPT, Space, Cortex-Crew. Keys.txt gone; founder must revoke. C2/MIN_TESTS stand.
 
 ## Next (founder clicks)
