@@ -20,7 +20,7 @@ def persist(
     graph: CrewGraph,
     registry: SkillRegistry | None = None,
 ) -> dict[str, Any]:
-    blob = checkpoint_graph(graph, registry)
+    blob = checkpoint_graph(graph, registry or getattr(graph.ov, "registry", None))
     Path(path).write_text(json.dumps(blob), encoding="utf-8")
     return blob
 
@@ -42,12 +42,13 @@ def resume(
     dumped = json.dumps(clean)
     if "prompt" in dumped or "transcript" in dumped or "skill_body" in dumped:
         raise CheckpointDenied("resume blob leaked a body")
-    if registry is not None:
+    target = registry if registry is not None else getattr(graph.ov, "registry", None)
+    if target is not None:
         for row in clean.get("skills") or []:
             if not isinstance(row, dict):
                 continue
             register_skill(
-                registry,
+                target,
                 str(row.get("id") or ""),
                 source=str(row.get("source") or "netie-kb"),
             )
