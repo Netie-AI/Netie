@@ -12,10 +12,15 @@ from typing import Any
 
 from crew_checkpoint import CheckpointDenied, checkpoint_graph, load_checkpoint
 from crew_runs import CrewGraph
+from crew_skills import SkillRegistry, register_skill
 
 
-def persist(path: str | Path, graph: CrewGraph) -> dict[str, Any]:
-    blob = checkpoint_graph(graph)
+def persist(
+    path: str | Path,
+    graph: CrewGraph,
+    registry: SkillRegistry | None = None,
+) -> dict[str, Any]:
+    blob = checkpoint_graph(graph, registry)
     Path(path).write_text(json.dumps(blob), encoding="utf-8")
     return blob
 
@@ -30,12 +35,22 @@ def resume(
     blob: dict[str, Any],
     *,
     tickets: dict[str, str],
+    registry: SkillRegistry | None = None,
 ) -> CrewGraph:
     """Rebuild open ids. `tickets` is ticket_id -> deficit from source of truth."""
     clean = load_checkpoint(blob)
     dumped = json.dumps(clean)
     if "prompt" in dumped or "transcript" in dumped or "skill_body" in dumped:
         raise CheckpointDenied("resume blob leaked a body")
+    if registry is not None:
+        for row in clean.get("skills") or []:
+            if not isinstance(row, dict):
+                continue
+            register_skill(
+                registry,
+                str(row.get("id") or ""),
+                source=str(row.get("source") or "netie-kb"),
+            )
     parents = [
         r
         for r in clean.get("runs") or []

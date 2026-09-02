@@ -11,6 +11,7 @@ from typing import Any
 
 from crew_ov_gate import DROP_KEYS, has_bodies
 from crew_runs import CrewGraph
+from crew_skills import SkillRegistry
 
 
 class CheckpointDenied(PermissionError):
@@ -39,6 +40,11 @@ def save_checkpoint(
             {"id": t.get("id"), "status": t.get("status")}
             for t in (todos or [])
             if isinstance(t, dict)
+        ],
+        "skills": [
+            {"id": s.get("id"), "source": s.get("source")}
+            for s in (index.get("skills") or [])
+            if isinstance(s, dict)
         ],
     }
     dumped = json.dumps(blob)
@@ -72,5 +78,11 @@ def summarise(index: dict[str, Any]) -> dict[str, Any]:
     return out
 
 
-def checkpoint_graph(graph: CrewGraph) -> dict[str, Any]:
-    return save_checkpoint(graph.index())
+def checkpoint_graph(
+    graph: CrewGraph,
+    registry: SkillRegistry | None = None,
+) -> dict[str, Any]:
+    idx = graph.index()
+    if registry is not None:
+        idx = {**idx, "skills": registry.index()}
+    return save_checkpoint(idx)

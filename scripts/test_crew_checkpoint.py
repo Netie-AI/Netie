@@ -38,6 +38,27 @@ class CrewCheckpointTests(unittest.TestCase):
         self.assertNotIn("transcript", dumped)
         self.assertNotIn("need skill x", dumped)
         self.assertEqual({r["id"] for r in blob["runs"]}, {"p1", "c1"})
+        self.assertEqual(blob["skills"], [])
+
+    def test_checkpoint_keeps_skill_ids_not_bodies(self) -> None:
+        from crew_skills import SkillRegistry, register_skill
+
+        g = CrewGraph(ov=OpenVaultCrewGate("http://127.0.0.1:5000", post=_allow))
+        g.open_parent("p1", "T1")
+        reg = SkillRegistry()
+        register_skill(reg, "S-0004")
+        blob = checkpoint_graph(g, reg)
+        self.assertEqual(blob["skills"], [{"id": "S-0004", "source": "netie-kb"}])
+        self.assertNotIn("skill_body", json.dumps(blob))
+        with self.assertRaises(CheckpointDenied):
+            save_checkpoint(
+                {
+                    "runs": [{"id": "p1", "status": "open"}],
+                    "skills": [
+                        {"id": "S-0001", "source": "netie-kb", "skill_body": "SECRET"}
+                    ],
+                }
+            )
 
     def test_load_refuses_a_body(self) -> None:
         with self.assertRaises(CheckpointDenied):
