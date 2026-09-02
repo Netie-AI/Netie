@@ -10,9 +10,13 @@ from typing import Any
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
+from control_board import ControlDenied
 from crew_budget import TokenBudget
 from crew_factory import Factory
+from crew_ov_gate import OpenVaultCrewGate
 from crew_runner import board_from_runs, run_open_ticket
+from crew_runs import CrewGraph
+from crew_skills import SkillRegistry, register_skill
 from crew_tool_wrap import CortexDenied, Verdict
 
 
@@ -72,6 +76,10 @@ class CrewRunnerTests(unittest.TestCase):
         self.assertNotIn("prompt", dumped)
         reasons = [c.get("reason") for c in board["cards"] if c["kind"] == "refusal"]
         self.assertTrue(any("manifest miss" in str(r) for r in reasons))
+        kinds = {c["kind"] for c in board["cards"]}
+        self.assertIn("ticket", kinds)
+        self.assertIn("epic", kinds)
+        self.assertNotIn("skill", kinds)
 
     def test_write_without_hitl_does_not_execute(self) -> None:
         f = _factory()
@@ -157,6 +165,67 @@ class CrewRunnerTests(unittest.TestCase):
         self.assertIn("budget", second["refusal"])
         self.assertEqual(gate.executed, ["export_pptx"])
         self.assertEqual(f.tickets["T1"].status, "open")
+
+    def test_board_from_runs_projects_skill_ids(self) -> None:
+        f = _factory()
+        gate = Gate()
+        result = run_open_ticket(
+            f,
+            "T1",
+            gate=gate,
+            tool="warehouse.query",
+            payload={"sql": "select 1"},
+            budget=ROOM,
+        )
+        reg = SkillRegistry()
+        register_skill(reg, "S-0004")
+        board = board_from_runs(f, [result], registry=reg)
+        dumped = str(board)
+        self.assertNotIn("SECRET-PROMPT-XYZ", dumped)
+        self.assertNotIn("prompt", dumped)
+        self.assertNotIn("skill_body", dumped)
+        skill = [c for c in board["cards"] if c["kind"] == "skill"][0]
+        self.assertEqual(skill["id"], "S-0004")
+        self.assertEqual(skill["source"], "netie-kb")
+        reasons = [c.get("reason") for c in board["cards"] if c["kind"] == "refusal"]
+        self.assertTrue(any("manifest miss" in str(r) for r in reasons))
+
+    def test_board_from_runs_defaults_to_ov_registry(self) -> None:
+        f = _factory()
+        live_reg = SkillRegistry()
+        register_skill(live_reg, "S-0004")
+        graph = CrewGraph(
+            ov=OpenVaultCrewGate(
+                "http://127.0.0.1:5000",
+                post=lambda url, body: {"allowed": True},
+                registry=live_reg,
+            )
+        )
+        graph.open_parent("p1", "T1")
+        board = board_from_runs(f, [], graph=graph)
+        kinds = {c["kind"] for c in board["cards"]}
+        self.assertEqual(kinds, {"run", "ticket", "epic", "skill"})
+        skill = [c for c in board["cards"] if c["kind"] == "skill"][0]
+        self.assertEqual(skill["id"], "S-0004")
+        run = [c for c in board["cards"] if c["kind"] == "run"][0]
+        self.assertEqual(run["id"], "p1")
+        self.assertNotIn("SECRET-PROMPT-XYZ", str(board))
+
+    def test_board_from_runs_refuses_a_skill_body(self) -> None:
+        f = _factory()
+
+        class Dirty:
+            def index(self) -> list[dict[str, str]]:
+                return [
+                    {
+                        "id": "S-0001",
+                        "source": "netie-kb",
+                        "skill_body": "SECRET",
+                    }
+                ]
+
+        with self.assertRaises(ControlDenied):
+            board_from_runs(f, [], registry=Dirty())  # type: ignore[arg-type]
 
 
 if __name__ == "__main__":

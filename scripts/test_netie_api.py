@@ -30,9 +30,11 @@ from netie.crew import (
     Factory,
     Job,
     SeatDenied,
+    SkillRegistry,
     TokenBudget,
     Verdict,
     bind_deep_agent,
+    board_from_runs,
     crew_harness_profile,
     dispatch_seat,
     execute_capabilities,
@@ -103,7 +105,9 @@ class NetieApiTests(unittest.TestCase):
         self.assertIn("persist", crew_mod.__all__)
         self.assertIn("resume", crew_mod.__all__)
         self.assertIn("mint_issue", crew_mod.__all__)
+        self.assertIn("board_from_runs", crew_mod.__all__)
         self.assertTrue(callable(persist) and callable(resume))
+        self.assertTrue(callable(board_from_runs))
         self.assertNotIn("bind_kwargs", crew_mod.__all__)
         with self.assertRaises(CortexDenied) as ctx:
             load_den("ee/")
@@ -388,6 +392,14 @@ class NetieApiTests(unittest.TestCase):
         )
         dumped = str(factory.index())
         self.assertNotIn("SECRET PROMPT", dumped)
+        skill_reg = SkillRegistry()
+        register_skill(skill_reg, "S-0004")
+        ticket_board = board_from_runs(factory, [], registry=skill_reg)
+        self.assertNotIn("SECRET PROMPT", str(ticket_board))
+        self.assertNotIn("prompt", str(ticket_board))
+        ticket_kinds = {c["kind"] for c in ticket_board["cards"]}
+        self.assertIn("ticket", ticket_kinds)
+        self.assertIn("skill", ticket_kinds)
         with self.assertRaises(CortexDenied):
             load_den("ee/")
         with self.assertRaises(CortexDenied) as extra:

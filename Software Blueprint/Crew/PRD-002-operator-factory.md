@@ -66,7 +66,7 @@ uv add git+https://github.com/Netie-AI/Netie.git
 # or sibling: uv add --editable ../Netie --extra crew
 #   from netie.crew import bind_deep_agent, crew_harness_profile, wrap_deepagents_tools, execute_capability
 #   from netie.crew import search_capabilities, execute_capabilities, load_den
-#   from netie.crew import run_batch, run_open_ticket, save_checkpoint, summarise
+#   from netie.crew import run_batch, run_open_ticket, board_from_runs, save_checkpoint, summarise
 #   from netie.crew import TokenBudget, Factory, dispatch_seat, register_from_kb, register_index
 # wrap every tool with Cortex tool_runner; OpenVault crew_gate for leave-machine
 # TokenBudget is required on bind_deep_agent and stops the batch; dispatch_seat refuses grok-bot / pointer-drive
