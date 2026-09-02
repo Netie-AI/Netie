@@ -1,0 +1,165 @@
+diff --git a/CortexOS/constitution/cortex_path.py b/CortexOS/constitution/cortex_path.py
+index 6c5d87f..9ba052c 100644
+--- a/CortexOS/constitution/cortex_path.py
++++ b/CortexOS/constitution/cortex_path.py
+@@ -30,12 +30,40 @@ CODING_TOOLS = frozenset(
+         "delete",
+     }
+ )
++# Pointer native observe stays DR-0005. Cortex callers go through this gate.
++OBSERVE_TOOLS = frozenset(
++    {
++        "computer.observe",
++        "observe",
++        "screenshot",
++        "get_screen_info",
++        "get_screen_info_enhanced",
++        "uacc_screenshot",
++        "uacc_screen_info",
++        "uacc_screen_info_enhanced",
++    }
++)
+ 
+ 
+ class RouteDenied(PermissionError):
+     """Parked organ or ungoverned write."""
+ 
+ 
++def _observe_or_deny(tool: str, observe: dict | None, *, intent: str) -> None:
++    name = (tool or "").strip()
++    if name not in OBSERVE_TOOLS:
++        return
++    payload = observe or {}
++    crop = payload.get("crop") if isinstance(payload.get("crop"), dict) else None
++    if payload.get("clipboard"):
++        raise RouteDenied("no clipboard")
++    if payload.get("windows") or payload.get("foreground"):
++        raise RouteDenied("window_dump_refused")
++    if payload.get("screenshot") and crop is None:
++        raise RouteDenied("screenshot_uncropped")
++    _ = intent
++
++
+ def auto_route(
+     *,
+     cosine: float,
+@@ -64,6 +92,7 @@ def run_question(
+     pack: str = "default",
+     a2a: bool = False,
+     c7_sql: bool = False,
++    observe: dict | None = None,
+ ) -> dict[str, str]:
+     if shape not in COLD_START:
+         raise RouteDenied(f"bad shape {shape}")
+@@ -79,6 +108,12 @@ def run_question(
+         )
+     if tool and not via_tool_runner:
+         raise RouteDenied(f"{tool} skipped tool_runner")
++    if tool:
++        _observe_or_deny(
++            tool,
++            observe,
++            intent=(actor or "observe").strip() or "observe",
++        )
+     if a2a and (pack or "").strip().lower() != "dms":
+         raise RouteDenied("a2a/messages is dms-pack only")
+     if not verified:
+@@ -93,6 +128,11 @@ def run_question(
+         "actor": (actor or "").strip() or "none",
+         "verified": "true",
+         "pack": (pack or "default").strip() or "default",
++        "observe": (
++            "guard_observe"
++            if (tool or "").strip() in OBSERVE_TOOLS
++            else "off"
++        ),
+         "jepa": "off-path",
+         "gen_cfsm": "off-path",
+     }
+diff --git a/CortexOS/execution/tool_runner.py b/CortexOS/execution/tool_runner.py
+index e3c5768..661fc83 100644
+--- a/CortexOS/execution/tool_runner.py
++++ b/CortexOS/execution/tool_runner.py
+@@ -161,21 +161,24 @@ def run_tool_call(
+     # ``uv add`` Netie.git (this repo owns the package name ``netie``).
+     from CortexOS.constitution.cortex_path import (
+         CODING_TOOLS,
++        OBSERVE_TOOLS,
+         WRITE_ACTIONS,
+         RouteDenied,
+         run_question,
+     )
+ 
+     write = tool_name if tool_name in WRITE_ACTIONS else None
++    gated = tool_name if tool_name in CODING_TOOLS or tool_name in OBSERVE_TOOLS else None
+     try:
+         run_question(
+             "minimal",
+             write=write,
+-            tool=tool_name if tool_name in CODING_TOOLS else None,
++            tool=gated,
+             via_tool_runner=True,
+             actor=actor,
+             verified=True,
+             pack="dms",
++            observe=raw_params if tool_name in OBSERVE_TOOLS else None,
+         )
+     except RouteDenied as exc:
+         _deny("constitution", str(exc))
+diff --git a/tests/dms/test_constitution_path.py b/tests/dms/test_constitution_path.py
+index e80e55f..7024cd6 100644
+--- a/tests/dms/test_constitution_path.py
++++ b/tests/dms/test_constitution_path.py
+@@ -4,7 +4,12 @@ from __future__ import annotations
+ 
+ import pytest
+ 
+-from CortexOS.constitution.cortex_path import CODING_TOOLS, RouteDenied, run_question
++from CortexOS.constitution.cortex_path import (
++    CODING_TOOLS,
++    OBSERVE_TOOLS,
++    RouteDenied,
++    run_question,
++)
+ 
+ 
+ def test_unverified_answer_is_refused() -> None:
+@@ -46,6 +51,38 @@ def test_a2a_is_dms_pack_only() -> None:
+     assert out["pack"] == "dms"
+ 
+ 
++def test_observe_png_and_clipboard_refuse() -> None:
++    assert "computer.observe" in OBSERVE_TOOLS
++    out = run_question(
++        "minimal",
++        tool="computer.observe",
++        via_tool_runner=True,
++        verified=True,
++        pack="dms",
++    )
++    assert out["observe"] == "guard_observe"
++    with pytest.raises(RouteDenied) as ctx:
++        run_question(
++            "minimal",
++            tool="computer.observe",
++            via_tool_runner=True,
++            verified=True,
++            pack="dms",
++            observe={"screenshot": "data:image/png;base64,AAA"},
++        )
++    assert "screenshot_uncropped" in str(ctx.value)
++    with pytest.raises(RouteDenied) as clip:
++        run_question(
++            "minimal",
++            tool="screenshot",
++            via_tool_runner=True,
++            verified=True,
++            pack="dms",
++            observe={"clipboard": "secret"},
++        )
++    assert "clipboard" in str(clip.value)
++
++
+ def test_export_pptx_needs_an_actor() -> None:
+     with pytest.raises(RouteDenied) as ctx:
+         run_question("minimal", write="export_pptx", verified=True)

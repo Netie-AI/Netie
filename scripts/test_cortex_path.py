@@ -127,6 +127,35 @@ class CortexPathTests(unittest.TestCase):
             )
         self.assertIn("role", str(ctx.exception))
 
+    def test_observe_goes_through_guard_observe(self) -> None:
+        out = run_question(
+            "dag",
+            tool="computer.observe",
+            via_tool_runner=True,
+            role="ops",
+            verified=True,
+        )
+        self.assertEqual(out["observe"], "guard_observe")
+        with self.assertRaises(RouteDenied) as ctx:
+            run_question(
+                "dag",
+                tool="computer.observe",
+                via_tool_runner=True,
+                role="ops",
+                verified=True,
+                observe={"screenshot": "data:image/png;base64,AAA"},
+            )
+        self.assertIn("screenshot_uncropped", str(ctx.exception))
+        with self.assertRaises(RouteDenied):
+            run_question(
+                "dag",
+                tool="screenshot",
+                via_tool_runner=True,
+                role="ops",
+                verified=True,
+                observe={"clipboard": "secret"},
+            )
+
 
 if __name__ == "__main__":
     unittest.main()

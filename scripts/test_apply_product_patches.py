@@ -58,6 +58,7 @@ class ApplyProductPatchesTests(unittest.TestCase):
                 "cortex-netie-path.patch",
                 "cortex-web-via-runner.patch",
                 "cortex-role-execute.patch",
+                "cortex-observe-guard.patch",
             ),
         )
 
