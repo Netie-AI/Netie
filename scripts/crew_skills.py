@@ -74,3 +74,27 @@ def register_from_kb(
     return register_skill(
         registry, brief["id"], source=str(brief.get("source") or "netie-kb")
     )
+
+
+def register_index(
+    registry: SkillRegistry,
+    rows: list[dict],
+    *,
+    skill_body: object | None = None,
+) -> list[str]:
+    """Register every skill id from a Netie-KB dump. Skip corpus kinds. Never a body."""
+    if skill_body is not None:
+        raise SkillDenied("skill_body must never go to the registry")
+    skills: list[dict] = []
+    for row in rows:
+        if not isinstance(row, dict):
+            continue
+        kind = str(row.get("kind") or "").strip().lower()
+        if kind != "skill":
+            continue
+        if row.get("body") is not None or row.get("skill_body") is not None:
+            raise SkillDenied("skill_body must never go to the registry")
+        skills.append(row)
+    return [
+        register_from_kb(registry, rows, str(row.get("id") or "")) for row in skills
+    ]

@@ -20,7 +20,13 @@ from crew_ledger import HashLedger, LedgerDenied
 from crew_ov_gate import OpenVaultCrewGate, refuse_crew_gate
 from crew_parallel import MAX_IN_FLIGHT, Job, JobResult, run_batch
 from crew_runner import run_open_ticket
-from crew_skills import SkillDenied, SkillRegistry, register_skill, register_from_kb
+from crew_skills import (
+    SkillDenied,
+    SkillRegistry,
+    register_from_kb,
+    register_index,
+    register_skill,
+)
 from crew_tool_wrap import CortexDenied, Verdict, wrap_deepagents_tools
 from crew_verify import VerifyDenied, close_ticket
 from seat_router import SeatDenied, dispatch_seat
@@ -59,6 +65,7 @@ __all__ = (
     "refuse_crew_gate",
     "register_skill",
     "register_from_kb",
+    "register_index",
     "resume",
     "run_batch",
     "run_issue",

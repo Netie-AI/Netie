@@ -365,7 +365,7 @@ git apply docs/patches/control-netie-board.patch
 pytest tests/test_netie_board.py tests/test_control_stays_plane_4.py -q
 ```
 
-`sources.board` runs gh issues through `guard_issue_board` (`from netie.control import project_board` when installed; same refuse locally otherwise). `/v1/rdp` `/v1/vnc` `/v1/guacamole` `/v1/ssh` answer 405. Score stays **1/10** Guacamole, **2/10** board. Push 403.
+`sources.board` runs gh issues through `guard_issue_board` (`from netie.control import project_board` when installed; same refuse locally otherwise). Local fallback also projects `crew_index["skills"]` as id/source cards. `/v1/rdp` `/v1/vnc` `/v1/guacamole` `/v1/ssh` answer 405. Score stays **1/10** Guacamole, **2/10** board. Push 403.
 
 ## Netie-KB (`Netie-AI/Netie-KB`)
 
@@ -376,5 +376,5 @@ git apply docs/patches/kb-netie-index.patch
 python3 tests/test_netie_index.py
 ```
 
-`kb_show` / GET `/item/S-*` return an index row (id, title, status), never the skill markdown body. Rules / workflows / findings / attacks still dump corpus text. `child_text` uses `from netie.kb import show_brief` when Netie is installed; same rule locally otherwise. Crew `register_skill` / `register_from_kb` stay ids-only. Wrap score stays **3/10**. Push 403.
+`kb_show` / GET `/item/S-*` return an index row (id, title, status), never the skill markdown body. Rules / workflows / findings / attacks still dump corpus text. `child_text` uses `from netie.kb import show_brief` when Netie is installed; same rule locally otherwise. Crew `register_skill` / `register_from_kb` / `register_index` stay ids-only. Wrap score stays **3/10**. Push 403.
 

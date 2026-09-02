@@ -31,10 +31,10 @@ index e8fff88..5c9f172 100644
  
 diff --git a/netie_control/netie_board.py b/netie_control/netie_board.py
 new file mode 100644
-index 0000000..742812d
+index 0000000..943d42e
 --- /dev/null
 +++ b/netie_control/netie_board.py
-@@ -0,0 +1,167 @@
+@@ -0,0 +1,178 @@
 +"""Board and session go through Netie Control when installed.
 +
 +uv add git+https://github.com/Netie-AI/Netie.git
@@ -144,6 +144,17 @@ index 0000000..742812d
 +            continue
 +        _guard_row(row)
 +        cards.append({"id": row.get("id"), "kind": "refusal", "reason": row.get("reason")})
++    for row in crew_index.get("skills") or []:
++        if not isinstance(row, dict):
++            continue
++        _guard_row(row)
++        cards.append(
++            {
++                "id": row.get("id"),
++                "source": row.get("source"),
++                "kind": "skill",
++            }
++        )
 +    board = {"product": "crew-board", "cards": cards}
 +    _budget_ok(board, max_chars=max_chars, what="board")
 +    return board
@@ -233,10 +244,10 @@ index 246067f..7682846 100644
      )
 diff --git a/tests/test_netie_board.py b/tests/test_netie_board.py
 new file mode 100644
-index 0000000..ca480a9
+index 0000000..6833f78
 --- /dev/null
 +++ b/tests/test_netie_board.py
-@@ -0,0 +1,75 @@
+@@ -0,0 +1,96 @@
 +"""Netie Control board caller. python -m pytest tests/test_netie_board.py -q"""
 +
 +from __future__ import annotations
@@ -292,6 +303,27 @@ index 0000000..ca480a9
 +    )
 +    assert board["product"] == "crew-board"
 +    assert board["cards"][0]["kind"] == "run"
++
++
++def test_project_board_skill_index_is_ids_only() -> None:
++    board = project_board(
++        crew_index={"skills": [{"id": "S-0004", "source": "netie-kb"}]},
++        ledger_peek=[],
++        refusals=[],
++    )
++    skill = [c for c in board["cards"] if c["kind"] == "skill"][0]
++    assert skill["id"] == "S-0004"
++    assert skill["source"] == "netie-kb"
++    with pytest.raises(ControlDenied, match="leaked"):
++        project_board(
++            crew_index={
++                "skills": [
++                    {"id": "S-0001", "source": "netie-kb", "skill_body": "SECRET"}
++                ]
++            },
++            ledger_peek=[],
++            refusals=[],
++        )
 +
 +
 +def test_guacamole_routes_are_405() -> None:

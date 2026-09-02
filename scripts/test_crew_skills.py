@@ -13,7 +13,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 from crew_ov_gate import OpenVaultCrewGate, refuse_crew_gate
 from crew_runs import CrewGraph
-from crew_skills import SkillDenied, SkillRegistry, register_from_kb, register_skill
+from crew_skills import SkillDenied, SkillRegistry, register_from_kb, register_index, register_skill
 from crew_tool_wrap import CortexDenied
 
 
@@ -127,6 +127,32 @@ class CrewSkillTests(unittest.TestCase):
             )
         with self.assertRaises(SkillDenied):
             register_from_kb(reg, rows, "S-0004", skill_body="SECRET")
+
+    def test_register_index_skips_corpus_and_refuses_bodies(self) -> None:
+        reg = SkillRegistry()
+        rows = [
+            {"id": "R-0016", "kind": "rule", "title": "skills live in KB"},
+            {"id": "S-0004", "kind": "skill", "title": "Find a skill"},
+            {"id": "S-0001", "kind": "skill", "title": "fleet"},
+        ]
+        ids = register_index(reg, rows)
+        self.assertEqual(ids, ["S-0004", "S-0001"])
+        self.assertTrue(reg.has("S-0004"))
+        self.assertTrue(reg.has("S-0001"))
+        dumped = json.dumps(reg.index())
+        self.assertNotIn("skill_body", dumped)
+        self.assertNotIn("Find a skill", dumped)
+        ok = refuse_crew_gate(kind="skill", id="S-0001", registry=reg)
+        self.assertEqual(ok["status"], "ok")
+        with self.assertRaises(SkillDenied):
+            register_index(
+                SkillRegistry(),
+                [{"id": "S-0001", "kind": "skill", "title": "fleet", "body": "## Steps"}],
+            )
+        with self.assertRaises(SkillDenied):
+            register_index(reg, rows, skill_body="SECRET")
+        empty = register_index(SkillRegistry(), [{"id": "R-0016", "kind": "rule"}])
+        self.assertEqual(empty, [])
 
 
 if __name__ == "__main__":
