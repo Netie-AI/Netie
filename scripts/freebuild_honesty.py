@@ -10,6 +10,9 @@ from __future__ import annotations
 
 import re
 
+from crew_ov_gate import GateAsk, OpenVaultCrewGate
+from crew_tool_wrap import CortexDenied
+
 URL_RE = re.compile(r"https://[^\s]+")
 
 
@@ -31,6 +34,9 @@ def report_deploy(
     simulated: bool,
     observed_url: str | None,
     constructed_url: str | None,
+    ov: OpenVaultCrewGate | None = None,
+    parent_run_id: str = "",
+    child_id: str = "",
 ) -> dict[str, str]:
     if constructed_url:
         raise ShipDenied("URL must be parsed, never constructed")
@@ -38,4 +44,21 @@ def report_deploy(
         raise ShipDenied("simulated is not HT1")
     if not observed_url:
         raise ShipDenied("no observed URL")
+    if ov is not None:
+        pid = (parent_run_id or "").strip()
+        cid = (child_id or "").strip()
+        if not pid or not cid:
+            raise ShipDenied("leave-machine needs parent and child run ids")
+        try:
+            ov.allow(
+                GateAsk(
+                    kind="service",
+                    id="freebuild",
+                    intent="leave",
+                    parent_run_id=pid,
+                    child_id=cid,
+                )
+            )
+        except CortexDenied as exc:
+            raise ShipDenied(str(exc)) from exc
     return {"status": "LIVE", "url": observed_url, "ht1": "observed"}
