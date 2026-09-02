@@ -138,6 +138,7 @@ class ControlBoardTests(unittest.TestCase):
         self.assertEqual(session["run_id"], "p1")
         self.assertEqual(session["handoff_id"], "h1")
         self.assertEqual(session["permissions"], ["warehouse.query"])
+        self.assertEqual(session["skill_ids"], [])
         self.assertNotIn("transcript", str(session))
         with self.assertRaises(ControlDenied):
             project_session(
@@ -158,6 +159,27 @@ class ControlBoardTests(unittest.TestCase):
             permissions=["warehouse.query", "read_file", "grok-bot"],
         )
         self.assertEqual(session["permissions"], ["warehouse.query"])
+
+    def test_session_lists_skill_ids_not_bodies(self) -> None:
+        session = project_session(
+            run={"id": "p1", "status": "open", "ticket_id": "T1"},
+            todos=[],
+            permissions=["warehouse.query"],
+            skills=[{"id": "S-0004", "source": "netie-kb"}],
+        )
+        self.assertEqual(session["skill_ids"], ["S-0004"])
+        dumped = str(session)
+        self.assertNotIn("skill_body", dumped)
+        self.assertNotIn("netie-kb", dumped)
+        with self.assertRaises(ControlDenied):
+            project_session(
+                run={"id": "p1", "status": "open", "ticket_id": "T1"},
+                todos=[],
+                permissions=[],
+                skills=[
+                    {"id": "S-0001", "source": "netie-kb", "skill_body": "SECRET"}
+                ],
+            )
 
     def test_rdp_card_is_not_guacamole(self) -> None:
         with self.assertRaises(ControlDenied) as ctx:

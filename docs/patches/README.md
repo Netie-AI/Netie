@@ -373,7 +373,7 @@ git apply docs/patches/control-netie-board.patch
 pytest tests/test_netie_board.py tests/test_control_stays_plane_4.py -q
 ```
 
-`sources.board` runs gh issues through `guard_issue_board` (`from netie.control import project_board` when installed; same refuse locally otherwise). Local fallback also projects `crew_index["skills"]` as id/source cards and exposes `board_index` (graph runs + Factory tickets + skill ids). `/v1/rdp` `/v1/vnc` `/v1/guacamole` `/v1/ssh` answer 405. Score stays **1/10** Guacamole, **2/10** board. Push 403.
+`sources.board` runs gh issues through `guard_issue_board` (`from netie.control import project_board` when installed; same refuse locally otherwise). Local fallback also projects `crew_index["skills"]` as id/source cards, exposes `board_index` (graph runs + Factory tickets + skill ids), and `project_session` lists skill ids. `/v1/rdp` `/v1/vnc` `/v1/guacamole` `/v1/ssh` answer 405. Score stays **1/10** Guacamole, **2/10** board. Push 403.
 
 ## Netie-KB (`Netie-AI/Netie-KB`)
 

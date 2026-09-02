@@ -166,14 +166,17 @@ def project_session(
     todos: list[dict[str, Any]],
     permissions: list[str],
     handoff: dict[str, Any] | None = None,
+    skills: list[dict[str, Any]] | None = None,
     max_chars: int = MAX_BOARD_CHARS,
 ) -> dict[str, Any]:
-    """OpenWork-shaped session: one live run, no transcript body."""
+    """OpenWork-shaped session: one live run, skill ids, no transcript body."""
     if not isinstance(run, dict):
         raise ControlDenied("no run")
     rows: list[dict[str, Any]] = [run, *(todos or [])]
     if handoff is not None:
         rows.append(handoff)
+    skill_rows = [s for s in (skills or []) if isinstance(s, dict)]
+    rows.extend(skill_rows)
     for row in rows:
         if not isinstance(row, dict):
             continue
@@ -190,6 +193,7 @@ def project_session(
         ],
         "permissions": search_capabilities(permissions),
         "handoff_id": (handoff or {}).get("id"),
+        "skill_ids": [s.get("id") for s in skill_rows],
     }
     _budget_ok(session, max_chars=max_chars, what="session")
     return session

@@ -798,6 +798,14 @@ class NetieApiTests(unittest.TestCase):
             skills=[{"id": "S-0004", "source": "netie-kb"}],
         )
         self.assertEqual(stitched["skills"][0]["id"], "S-0004")
+        live = project_session(
+            run={"id": "r1", "status": "FAILED", "ticket_id": "T1"},
+            todos=[],
+            permissions=["warehouse.query"],
+            skills=[{"id": "S-0004", "source": "netie-kb"}],
+        )
+        self.assertEqual(live["skill_ids"], ["S-0004"])
+        self.assertNotIn("skill_body", str(live))
         with self.assertRaises(ControlDenied) as fat:
             project_board(
                 crew_index={"runs": [{"id": "r1", "status": "FAILED", "ticket_id": "T1"}]},
