@@ -39,6 +39,8 @@ node --test tests/compiler.test.cjs
 Adds `rankForKinds`, empty-graph IR (no invented Cortex nodes), refuse unknown kinds / cycles / dangling edges / missing ids / duplicate ids, `ghostWalk` that refuses those instead of walking a fake order, `EMIT` only on app/audit output (connector-only does not invent EMIT), unlabeled `tool_call` does not invent `export_pptx` (compileIR refuses; inspect shows `(pick)` not a silent first-choice), unlabeled object does not invent `inventory`, unlabeled tier does not invent `T0` (compileIR emits null; inspect shows `(pick)`), unlabeled `set point` does not invent `inventory`, picking `object_type` does not invent the first `data_point` (`sku`; inspect stays `(pick)`; `compileIR` still drops an unlabeled point), `index.html` loads `engine.js` before `app.js` (`listedOrEmpty` / `applyObjectType` exist on first paint; `bindWhenReady` waits for `window.Constructor`), `topo()` does not append leftover cyclic nodes, `compileIR` entry is the Kahn source not `nodes[0]`, `compileIR` output is the Kahn sink app (or unique Kahn sink when no app/audit) not array-last, `compileIR` drops unlisted `object_type` (`hr_notes` / `Insight` do not become Cortex ontology), `fetch_from` must name the node's listed object (not `warehouse.hr_notes` on inventory), `data_point` must be on that object (not `salary` on inventory), `tool_call` unknown action (`bash`) refuses, unlisted action on a non-tool node is dropped, `export_pptx` / `item.intake` / `amend.apply` / `call_action` on foundry set `requires_confirm` (`agent.checked` stays an event), disconnected graphs refuse (two workflows are not one IR), a fork with no app refuses (`ambiguous output`; a join still emits the app), canvas notes do not ride into Cortex IR (a `skill_body` / prompt / transcript note refuses; notes over DitchContext 12k refuse), ghost/run/fetch/recommend POST `cortexPayload` (compiled IR in Kahn order, not canvas array order; leaked/disconnected graphs do not leave the machine), node `--test`, and `.github/workflows/test.yml`.
 Measured on this VM 2026-08-28: 62 passed.
 
+Optional thinner stack (do **not** mix with the 26): `constructor-ir-4896ddd.patch` then `constructor-inspect-4896ddd.patch`. Portable Python IR is `scripts/constructor_ir.py` (`from netie.route import compile_ir`).
+
 ## OpenVault (`Netie-AI/OpenVault`)
 
 From the OpenVault repo root, on `main`:
@@ -276,6 +278,17 @@ uv run pytest tests/test_crew_gate.py tests/test_crew_netie_gate.py -q
 
 `POST /api/crew/gate` calls `check_crew_gate`, which uses `from netie.crew import refuse_crew_gate` when Netie is installed. Skill bodies and unknown kinds (including `skill`) refuse with the same strings as the focused crew-gate patch. Without Netie the same rule runs locally. Vault lookup stays in OpenVault. Wrap score stays **3/10**. Push 403.
 
+Then:
+
+```
+git apply docs/patches/openvault-free-pool.patch
+git apply docs/patches/openvault-free-pool-route.patch
+cd OpenMW && uv add git+https://github.com/Netie-AI/Netie.git
+uv run pytest tests/test_free_pool.py tests/test_free_pool_route.py -q
+```
+
+`POST /api/route/free` picks FREE-tier hops (`from netie.route import assist_free_pool` when Netie is installed; same rule locally otherwise). Empty free pool is 503 with register-url help, never an invented key. Catalog must not carry `api_key`. Quota fetch / autoCombo / parallel stay 501. Not a 16th sort. Score stays **4/10** gateway. Push 403.
+
 Independent of routing:
 
 ```
@@ -295,7 +308,7 @@ git apply docs/patches/cortex-web-via-runner.patch
 python3 -m pytest tests/dms/test_constitution_path.py tests/dms/test_broker_no_skip.py -k "not tool_runner" -q
 ```
 
-Copies `scripts/cortex_path.py` to `CortexOS/constitution/cortex_path.py`. `/dms/query` post-checks a bound VerifiedManifest before a non-abstain answer (unbound still abstains, not 400). `tool_runner` refuses coding-agent tools (`bash` / filesystem) before the ontology allowlist. `/a2a/messages` calls `run_question(..., pack=dms, a2a=True)`. `default_broker` no longer skips F8 for `web_search` / `web_fetch` / `find_*` (unregistered denies; C2 allowlist does not grow). Score stays **4/10** governed Q&A. Push 403.
+Copies `scripts/cortex_path.py` to `CortexOS/constitution/cortex_path.py`. `/dms/query` post-checks a bound VerifiedManifest before a non-abstain answer (unbound still abstains, not 400). `tool_runner` refuses coding-agent tools (`bash` / filesystem) before the ontology allowlist. `/a2a/messages` calls `run_question(..., pack=dms, a2a=True)`. `default_broker` no longer skips F8 for `web_search` / `web_fetch` / `find_*` (unregistered denies; C2 allowlist does not grow). Portable Netie `run_question` also requires `role` on write/tool (RBAC still missing on Cortex HEAD execute modules; the product copy is a snapshot). Score stays **4/10** governed Q&A. Push 403.
 
 ## DMS (`Netie-AI/dms`)
 
@@ -309,6 +322,14 @@ pytest tests/test_netie_acl.py tests/test_space_acl_boundary.py tests/test_live_
 
 `live_ask` runs Cortex through `guard_live_answer` (`from netie.dms import answer_or_abstain` when installed; same rule locally otherwise). Warehouse/bronze preview with `space_id` calls `browse_or_abstain`. Without a Space, personal/company-default mint is unchanged. Score stays **3/10**. Push 403.
 
+Then:
+
+```
+git apply docs/patches/dms-demo-acl-resolve.patch
+```
+
+`demo_acl` returns `resolve_session_acl` (SourceGrant rows) instead of `row_predicates={t: "TRUE"}`. Portable `from netie.dms import mint_object`. Score stays **3/10**. Push 403.
+
 ## Pointer (`Netie-AI/Pointer`)
 
 `uv add git+https://github.com/Netie-AI/Netie.git` then `from netie.pointer import bind_computer, invoke_hand`. From the Pointer repo root, on `main` (`8c0e6c2`):
@@ -319,7 +340,7 @@ node test/netie-hands.test.js
 node test/uacc.test.js
 ```
 
-UACC catalog still *names* planner / clipboard / list_windows (DR-0005). Search and `computer.status` skills drop them as executable hits. `bindComputer` refuses e2b / Perplexity Computer. Native `computer.observe` is unchanged (uncropped PNG / clipboard / window list stay Pointer's own API). Score stays **3/10** tray, **2/10** governed. Push 403.
+UACC catalog still *names* planner / clipboard / list_windows (DR-0005). Search and `computer.status` skills drop them as executable hits. `bindComputer` refuses e2b / Perplexity Computer. Native `computer.observe` is unchanged (uncropped PNG / clipboard / window list stay Pointer's own API). Portable `bind_pointer_skill` maps HEAD's 15 catalog ids onto that wrap (`windows-mcp` is local). Score stays **3/10** tray, **2/10** governed. Push 403.
 
 ## Control (`Netie-AI/netie-control`)
 

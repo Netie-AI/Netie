@@ -56,6 +56,7 @@ KEY_BASENAMES = frozenset(
         ".npmrc",
         ".git-credentials",
         "authorized_keys",
+        "keys.txt",
     }
 )
 KEY_SUFFIXES = frozenset({".pem", ".key", ".p12", ".pfx", ".ppk"})

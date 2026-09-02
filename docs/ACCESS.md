@@ -4,7 +4,9 @@ Do not paste GitHub, email, or 2FA secrets into chat. NETIE.md forbids credentia
 
 This cloud environment currently has **only** `github.com/Netie-AI/Netie` in the Cursor env list. Public clones (HTTP 200) with **push** still 403: Cortex, dms, OpenVault, constructor, Pointer, netie-control, Netie-KB. AirGPT, Space, and Cortex-Crew return 404.
 
-Re-probed 2026-08-28: Cortex HEAD `bf4ecee`, dms HEAD `3f9a9be`, Pointer HEAD `8c0e6c2`, netie-control HEAD `82ab1ae`, Netie-KB HEAD `10356e5` (`kb.py validate` OK, 58 artifacts). OpenVault `main` still `62bb1c7` (GitHub CI success). constructor `landing-9-first-path` `4896ddd` (pages.yml success, no unit-test workflow on HEAD; constructor patches refreshed for this tip). Do not `uv add` Netie.git into Cortex (package name `netie` is the CortexOS alias). dms / Pointer / netie-control may `uv add git+https://github.com/Netie-AI/Netie.git`.
+Re-probed 2026-09-02: Cortex HEAD `bf4ecee`, dms HEAD `3f9a9be`, Pointer HEAD `8c0e6c2`, netie-control HEAD `82ab1ae`, Netie-KB HEAD `10356e5` (`kb.py validate` OK, 58 artifacts). OpenVault `main` still `62bb1c7` (GitHub CI success). constructor `landing-9-first-path` `4896ddd` (pages.yml success, no unit-test workflow on HEAD). Do not `uv add` Netie.git into Cortex (package name `netie` is the CortexOS alias). dms / Pointer / netie-control may `uv add git+https://github.com/Netie-AI/Netie.git`.
+
+`Keys.txt` is untracked. Curl samples use `$OPENROUTER_API_KEY`. Founder must revoke leaked keys (section 5). History still has blobs until a founder rewrite.
 
 Local CI is the gate until GitHub Actions billing works:
 
@@ -12,9 +14,9 @@ Local CI is the gate until GitHub Actions billing works:
 make ci
 ```
 
-That is `python3 -m compileall -q scripts netie` then `python3 scripts/check_docs.py` (required files + laptop-ASCII + all `scripts/test_*.py`). GitHub `docs-ci` jobs fail in ~3s without starting: spending limit. Empty steps, no logs. That is not a test failure. Origin (git remote) is already `origin`; we already push there. Switching hosts does not fix clone 404 or Actions billing. Product callers: `uv add git+https://github.com/Netie-AI/Netie.git` (wheel ships `netie._contracts`; `--editable` is optional).
+That is `python3 -m compileall -q scripts netie` then `python3 scripts/check_docs.py` (required files + laptop-ASCII + all `scripts/test_*.py`). GitHub `docs-ci` on `f6c1512` **did start** (~33s) and failed a real test (`python -m pytest` not installed). This branch drops that invoke. Older commits may still die in ~3s on the spending limit. Pay or raise: `https://github.com/organizations/Netie-AI/settings/billing`. Origin (git remote) is already `origin`; we already push there. Switching hosts does not fix clone 404 or Actions billing. Product callers: `uv add git+https://github.com/Netie-AI/Netie.git` (wheel ships `netie._contracts`; `--editable` is optional).
 
-Measured on this VM 2026-08-28 against public clones: Netie unittest via `make ci`; constructor (26 patches) `node --test` **62 passed**; OpenVault OpenMW (28 patches) routing+chat+crew-gate pytest **145 passed** plus ship-claim **4 passed** plus crew-netie **4 passed** (sibling `make ci` runs them). Cortex constitution path tests **3 passed** after `cortex-netie-path.patch` (stdlib; tool_runner bash test needs the Cortex suite). `cortex-web-via-runner.patch` broker skip test **1 passed**. dms `netie_acl` module is stdlib plus optional `netie.dms`. Pointer `netie-hands.test.js` **6 passed** after `pointer-netie-hands.patch` (uacc.test.js still **16 passed**; native observe unchanged). Control `test_netie_board.py` + plane-4 **51 passed** after `control-netie-board.patch` (needs fastapi). Netie-KB `kb.py validate` OK (58 artifacts). AirGPT/Space/Crew still 404.
+Measured on this VM 2026-09-02 against public clones: Netie unittest via `make ci`; constructor (26 patches) `node --test` **62 passed**; OpenVault OpenMW (28 patches + free-pool) routing+chat+crew-gate pytest plus ship-claim plus crew-netie plus free-pool (sibling `make ci` runs them). Cortex constitution path tests after `cortex-netie-path.patch` (stdlib). `cortex-web-via-runner.patch` broker skip is a file-read assert (no pytest). dms `netie_acl` module is stdlib plus optional `netie.dms`; `dms-demo-acl-resolve.patch` makes `demo_acl` return `resolve_session_acl`. Pointer `netie-hands.test.js` **6 passed** after `pointer-netie-hands.patch` (uacc.test.js still **16 passed**; native observe unchanged). Control `test_netie_board.py` + plane-4 **51 passed** after `control-netie-board.patch` (needs fastapi). Netie-KB `kb.py validate` OK (58 artifacts). AirGPT/Space/Crew still 404.
 
 ---
 
@@ -43,13 +45,13 @@ Jobs never start. Annotation: account payments failed or spending limit.
 
 Pay or raise the limit: `https://github.com/organizations/Netie-AI/settings/billing`
 
-Until that is green, **local** `python3 scripts/check_docs.py` (or `make ci`) is the estate gate. Commit `afb773b` GitHub check is the same billing annotation, not a test failure. OpenVault `main` CI is already green. Constructor has green `pages.yml` and no unit-test workflow on HEAD.
+Until that is green, **local** `python3 scripts/check_docs.py` (or `make ci`) is the estate gate. `f6c1512` GitHub check **did run** and failed missing pytest; this branch fixes that invoke. Older 1-5s fails are still billing. OpenVault `main` CI is already green. Constructor has green `pages.yml` and no unit-test workflow on HEAD.
 
 ---
 
 ## 3. Write access for sibling patches
 
-`cursor[bot]` cannot push to OpenVault, constructor, Cortex, dms, Pointer, or netie-control. On a machine that can, apply patches in the order listed in `docs/patches/README.md` (routing stack then constructor, then `cortex-netie-path.patch` then `cortex-web-via-runner.patch` on Cortex `main`, then `dms-netie-acl.patch` on dms `main`, then `pointer-netie-hands.patch` on Pointer `main`, then `control-netie-board.patch` on netie-control `main`). Do not skip hop-walk / hop-failover / hop-park / hop-stream / hop-relay / hop-trace / hop-usage / hop-persist / hop-anthropic / hop-scope / hop-serve / hop-bound / hop-catalog / openvault-quota-share / openvault-hop-strip / openvault-hop-sidecar / openvault-ship-netie / openvault-crew-netie or constructor-ir-refuse / constructor-ir-ids / constructor-ghost-refuse / constructor-ir-emit / constructor-tool-action / constructor-inspect-action / constructor-inspect-object / constructor-inspect-tier / constructor-chat-object / constructor-topo-leftover / constructor-ir-entry / constructor-ir-output / constructor-ir-object / constructor-ir-bind / constructor-ir-action-allow / constructor-ir-intake / constructor-ir-hitl / constructor-ir-connected / constructor-ir-note / constructor-ir-cortex-post / constructor-object-pick / constructor-engine-order / constructor-ir-post / constructor-ir-kahn-nodes; later patches assume them.
+`cursor[bot]` cannot push to OpenVault, constructor, Cortex, dms, Pointer, or netie-control. On a machine that can, apply patches in the order listed in `docs/patches/README.md` (routing stack then constructor, then `cortex-netie-path.patch` then `cortex-web-via-runner.patch` on Cortex `main`, then `dms-netie-acl.patch` then `dms-demo-acl-resolve.patch` on dms `main`, then `pointer-netie-hands.patch` on Pointer `main`, then `control-netie-board.patch` on netie-control `main`). Do not skip hop-walk / hop-failover / hop-park / hop-stream / hop-relay / hop-trace / hop-usage / hop-persist / hop-anthropic / hop-scope / hop-serve / hop-bound / hop-catalog / openvault-quota-share / openvault-hop-strip / openvault-hop-sidecar / openvault-ship-netie / openvault-crew-netie / openvault-free-pool / openvault-free-pool-route or constructor-ir-refuse / constructor-ir-ids / constructor-ghost-refuse / constructor-ir-emit / constructor-tool-action / constructor-inspect-action / constructor-inspect-object / constructor-inspect-tier / constructor-chat-object / constructor-topo-leftover / constructor-ir-entry / constructor-ir-output / constructor-ir-object / constructor-ir-bind / constructor-ir-action-allow / constructor-ir-intake / constructor-ir-hitl / constructor-ir-connected / constructor-ir-note / constructor-ir-cortex-post / constructor-object-pick / constructor-engine-order / constructor-ir-post / constructor-ir-kahn-nodes; later patches assume them. Do not mix `constructor-*-4896ddd.patch` with that 26-stack.
 
 Or add write permission for the Cursor GitHub App on those public repos (Cortex, dms, Pointer, netie-control now clone; they still need Contents write).
 
@@ -61,3 +63,16 @@ Or add write permission for the Cursor GitHub App on those public repos (Cortex,
 - Intercept logins
 - Vendor Grok Bot reconstructed
 - License-strip or rebrand OmniRoute, OpenWork, Deep Agents, xyflow, Guacamole, UACC
+- Commit provider API keys. `Keys.txt` is gitignored. Curl samples use `$OPENROUTER_API_KEY`. `python3 scripts/secrets_scan.py` fails the local gate if a live `sk-or-v1-` / `csk-` / GitHub / Anthropic token is tracked.
+
+## 5. Rotate keys leaked from this public repo (2026-08-28)
+
+GitGuardian flagged an OpenRouter key in `Free APIs for OpenVault Free/`. That dump had live provider keys, in HEAD since 2026-08-02, on a **public** repo. Removing the files does not revoke them. Git history still has the old blobs until main is rewritten (founder-only, force-push).
+
+Revoke and issue new keys, then store them only in OpenVault / env, never in git:
+
+1. OpenRouter: https://openrouter.ai/workspaces/default/keys (the GitGuardian hit)
+2. Cerebras, Mistral, Bytez, Ollama, Aion Labs, Kilo AI (same `Keys.txt` dump)
+3. Confirm GitHub secret scanning / GitGuardian goes quiet after revoke. A still-open alert on historical commits is expected until history purge.
+
+Do not paste the old or new values into chat, issues, or this file.
