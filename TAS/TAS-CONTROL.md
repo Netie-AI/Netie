@@ -16,7 +16,7 @@ DR-0001: fold into Crew when Crew exists. Do not grow a sibling shell.
 Portable view in this Netie repo: `scripts/control_board.py`.
 Read-only cards from Crew index + Factory.index() tickets/epics + ledger peek + refusals + KB skill ids (no bodies).
 `board_index` stitches graph runs, Factory tickets/epics, and skill ids into one `crew_index` (prompts and skill_body refuse).
-`project_session` is one live run: ids, todos, permissions, hand-off id. No transcript.
+`project_session` is one live run: ids, todos, permissions, hand-off id, skill ids. No transcript.
 Session permissions drop Deep Agents builtins and billing-bypass names (`search_capabilities`).
 Transcript / prompt / key leak is denied on every row (runs, tickets, epics, ledger, refusals).
 RDP / VNC / SSH / telnet / Kubernetes / Guacamole kinds refuse (Control is not a remote-desktop gateway).

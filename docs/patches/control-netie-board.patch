@@ -31,10 +31,10 @@ index e8fff88..5c9f172 100644
  
 diff --git a/netie_control/netie_board.py b/netie_control/netie_board.py
 new file mode 100644
-index 0000000..6f44962
+index 0000000..54b6ef7
 --- /dev/null
 +++ b/netie_control/netie_board.py
-@@ -0,0 +1,225 @@
+@@ -0,0 +1,233 @@
 +"""Board and session go through Netie Control when installed.
 +
 +uv add git+https://github.com/Netie-AI/Netie.git
@@ -47,6 +47,7 @@ index 0000000..6f44962
 +
 +from __future__ import annotations
 +
++import inspect
 +import json
 +from typing import Any
 +
@@ -213,22 +214,28 @@ index 0000000..6f44962
 +    todos: list[dict[str, Any]],
 +    permissions: list[str],
 +    handoff: dict[str, Any] | None = None,
++    skills: list[dict[str, Any]] | None = None,
 +    max_chars: int = MAX_BOARD_CHARS,
 +) -> dict[str, Any]:
 +    imported = _netie()
 +    if imported is not None:
-+        return imported[1](
-+            run=run,
-+            todos=todos,
-+            permissions=permissions,
-+            handoff=handoff,
-+            max_chars=max_chars,
-+        )
++        kw: dict[str, Any] = {
++            "run": run,
++            "todos": todos,
++            "permissions": permissions,
++            "handoff": handoff,
++            "max_chars": max_chars,
++        }
++        if "skills" in inspect.signature(imported[1]).parameters:
++            kw["skills"] = skills
++        return imported[1](**kw)
 +    if not isinstance(run, dict):
 +        raise ControlDenied("no run")
 +    rows: list[dict[str, Any]] = [run, *(todos or [])]
 +    if handoff is not None:
 +        rows.append(handoff)
++    skill_rows = [s for s in (skills or []) if isinstance(s, dict)]
++    rows.extend(skill_rows)
 +    for row in rows:
 +        if not isinstance(row, dict):
 +            continue
@@ -245,6 +252,7 @@ index 0000000..6f44962
 +        ],
 +        "permissions": [p for p in permissions if p and "file" not in p and "grok" not in p],
 +        "handoff_id": (handoff or {}).get("id"),
++        "skill_ids": [s.get("id") for s in skill_rows],
 +    }
 +    _budget_ok(session, max_chars=max_chars, what="session")
 +    return session
@@ -291,10 +299,10 @@ index 246067f..7682846 100644
      )
 diff --git a/tests/test_netie_board.py b/tests/test_netie_board.py
 new file mode 100644
-index 0000000..1a2c2e7
+index 0000000..1db6c43
 --- /dev/null
 +++ b/tests/test_netie_board.py
-@@ -0,0 +1,113 @@
+@@ -0,0 +1,131 @@
 +"""Netie Control board caller. python -m pytest tests/test_netie_board.py -q"""
 +
 +from __future__ import annotations
@@ -306,7 +314,7 @@ index 0000000..1a2c2e7
 +from fastapi.testclient import TestClient
 +
 +from netie_control.app import create_app
-+from netie_control.netie_board import ControlDenied, board_index, guard_issue_board, project_board
++from netie_control.netie_board import ControlDenied, board_index, guard_issue_board, project_board, project_session
 +
 +
 +def test_issue_board_keeps_titles() -> None:
@@ -397,6 +405,24 @@ index 0000000..1a2c2e7
 +    with pytest.raises(ControlDenied, match="leaked"):
 +        board_index(
 +            skills=[{"id": "S-0001", "source": "netie-kb", "skill_body": "SECRET"}]
++        )
++
++
++def test_project_session_lists_skill_ids() -> None:
++    session = project_session(
++        run={"id": "p1", "status": "open", "ticket_id": "T1"},
++        todos=[],
++        permissions=["warehouse.query"],
++        skills=[{"id": "S-0004", "source": "netie-kb"}],
++    )
++    assert session["skill_ids"] == ["S-0004"]
++    assert "skill_body" not in str(session)
++    with pytest.raises(ControlDenied, match="leaked"):
++        project_session(
++            run={"id": "p1", "status": "open", "ticket_id": "T1"},
++            todos=[],
++            permissions=[],
++            skills=[{"id": "S-0001", "source": "netie-kb", "skill_body": "SECRET"}],
 +        )
 +
 +

@@ -682,6 +682,27 @@ class SiblingPatchTests(unittest.TestCase):
                         }
                     ]
                 )
+            session = loaded.project_session(
+                run={"id": "p1", "status": "open", "ticket_id": "T1"},
+                todos=[],
+                permissions=["warehouse.query"],
+                skills=[{"id": "S-0004", "source": "netie-kb"}],
+            )
+            self.assertEqual(session["skill_ids"], ["S-0004"])
+            self.assertNotIn("skill_body", str(session))
+            with self.assertRaises(loaded.ControlDenied):
+                loaded.project_session(
+                    run={"id": "p1", "status": "open", "ticket_id": "T1"},
+                    todos=[],
+                    permissions=[],
+                    skills=[
+                        {
+                            "id": "S-0001",
+                            "source": "netie-kb",
+                            "skill_body": "SECRET",
+                        }
+                    ],
+                )
 
     def test_cortex_web_via_runner_applies_on_main(self) -> None:
         patch = PATCHES / "cortex-web-via-runner.patch"

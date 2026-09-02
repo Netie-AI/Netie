@@ -1,12 +1,12 @@
 # STATUS - Netie constitution repo
 
-**Branch:** `cursor/crew-summarise-skills-ca9b` · **PR:** (this) · **main:** `5051848` (docs-ci green)
+**Branch:** `cursor/session-skill-ids-ca9b` · **PR:** (this) · **main:** `3e850db` (docs-ci green)
 **Local gate:** `make ci`.
 
 ## Now
 
-- `summarise` counts skill ids. `checkpoint_graph` defaults to `graph.ov.registry`. Bodies still refuse. Wrap stays **3/10**.
-- Ticket-runner `board_from_runs` goes through `board_index`. OpenVault gate POST carries `skill_ids`. KB `list_briefs` + `register_index` stay the dump path.
+- `project_session` lists skill ids. Control patch local fallback matches. Bodies still refuse. Wrap stays **3/10**. Board stays **2/10**.
+- Ticket-runner `board_from_runs` goes through `board_index`. `summarise` counts skill ids. OpenVault gate POST carries `skill_ids`.
 - Founder apply-all: `python3 scripts/apply_product_patches.py --dry-run`. Product remotes clone-yes push-403. 404: AirGPT, Space, Cortex-Crew. Keys.txt gone; founder must revoke. C2/MIN_TESTS stand.
 
 ## Next (founder clicks)
