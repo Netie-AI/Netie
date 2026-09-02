@@ -103,7 +103,7 @@ Netie portable contract (this repo, 2026-08-28): product repos import `from neti
 | Crew repo + Deep Agents wrap | Crew | `PRD-002` drafted; queued after Space boundary. Portable HITL + ticket runner + ids-only checkpoint + `search_capabilities` / `execute_capability` exist in Netie (`scripts/crew_runner.py`, `scripts/crew_checkpoint.py`, `scripts/crew_capabilities.py`). OpenVault #44 crew_gate exists; focused `openvault-crew-gate.patch` fail-closes unknown kinds on `main`; `openvault-crew-netie.patch` wires that endpoint through Netie when installed. |
 | HT1 live Cloudflare Pages | OpenVault | HUMAN_STOP on OpenVault #18 |
 | Leave-machine on Space AI path | Space | Repo not in this environment. Portable `may_preview` / `chat_preview` / `ocr_cloud` / `persist_key` refuse secrets, ungated chat-over-preview, over-budget excerpts, and Baidu-on-poor-OCR. `chat_preview(ov=)` POSTs skill ids. |
-| GitHub Actions billing | Netie docs-ci | Job never started: spending limit. Founder path: `docs/ACCESS.md`. Local `make ci` / `python3 scripts/check_docs.py` is the gate. OpenVault main CI is already green. |
+| GitHub Actions docs-ci | Netie | **Closed as a hole:** `docs-ci` on `main` is green (measured 2026-09-02, 2 checks). Older 1-5s fails were billing, not a code ticket. Local `make ci` is the same gate. |
 | Sibling repo write | OpenVault, constructor, Cortex, dms | cursor[bot] 403 on push. Patches in `docs/patches/`. |
 
 ---
@@ -119,6 +119,6 @@ Netie portable contract (this repo, 2026-08-28): product repos import `from neti
 - netie-control clone HEAD `82ab1ae` (2026-08-28): public. `control-netie-board.patch`: gh board through `guard_issue_board`; Guacamole routes 405. pytest **51 passed**. Push 403. Score stays 1/10 Guacamole, 2/10 board.
 - Netie-KB clone HEAD `10356e5` (2026-08-28): public. `kb.py validate` OK (58 artifacts). `kb-netie-index.patch`: skill `kb_show` / GET `/item/S-*` / GET `/index?kind=skill` / `kb_list(kind=skill)` are ids-only. Push 403.
 - Still 404: AirGPT, Space, Cortex-Crew. Portable specs: `dms_space_acl.py`, `dms_ontology.py`, `airgpt_chunk.py`, `pointer_click.py`, `pointer_hands.py`, `pointer_observe.py`, `kb_lookup.py`, `space_leave.py`, `constructor_ir.py`, `crew_durable.py`, `crew_skills.py`, `freeroute_free_pool.py`, `ov_memory.py`.
-- Netie docs-ci on GitHub: `f6c1512` **did run** (~33s) and failed missing pytest; this branch drops that invoke. Older jobs may still die in ~3s on Actions billing. Local `python3 scripts/check_docs.py` is the gate (required files + laptop-ASCII + `scripts/test_*.py`). `Keys.txt` untracked; founder must revoke (`docs/ACCESS.md` section 5).
+- Netie docs-ci on GitHub: `main` is green (measured 2026-09-02: `d87abd4` and the ship/ticket/batch/wrap commits before it, 2 checks). Older 1-5s jobs were billing, not a code ticket. Local `python3 scripts/check_docs.py` is the same gate (required files + laptop-ASCII + `scripts/test_*.py`). `Keys.txt` untracked; founder must revoke (`docs/ACCESS.md` section 5).
 
 If a later session has those remotes, replace the UNVERIFIABLE rows with file:line evidence and bump the date on this file.

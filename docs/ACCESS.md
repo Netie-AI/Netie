@@ -8,13 +8,13 @@ Re-probed 2026-09-02: Cortex HEAD `bf4ecee`, dms HEAD `3f9a9be`, Pointer HEAD `8
 
 `Keys.txt` is untracked. Curl samples use `$OPENROUTER_API_KEY`. Founder must revoke leaked keys (section 5). History still has blobs until a founder rewrite.
 
-Local CI is the gate until GitHub Actions billing works:
+Local CI is the same gate GitHub `docs-ci` runs:
 
 ```
 make ci
 ```
 
-That is `python3 -m compileall -q scripts netie` then `python3 scripts/check_docs.py` (required files + laptop-ASCII + all `scripts/test_*.py`). GitHub `docs-ci` on `f6c1512` **did start** (~33s) and failed a real test (`python -m pytest` not installed). This branch drops that invoke. Older commits may still die in ~3s on the spending limit. Pay or raise: `https://github.com/organizations/Netie-AI/settings/billing`. Origin (git remote) is already `origin`; we already push there. Switching hosts does not fix clone 404 or Actions billing. Product callers: `uv add git+https://github.com/Netie-AI/Netie.git` (wheel ships `netie._contracts`; `--editable` is optional).
+That is `python3 -m compileall -q scripts netie` then `python3 scripts/check_docs.py` (required files + laptop-ASCII + all `scripts/test_*.py`). GitHub `docs-ci` on `main` is green (measured 2026-09-02: `d87abd4` and the ship/ticket/batch/wrap commits before it, 2 checks). Older 1-5s red X jobs were org billing; those are not a code ticket. Pay or raise: `https://github.com/organizations/Netie-AI/settings/billing`. Origin (git remote) is already `origin`; we already push there. Switching hosts does not fix clone 404. Product callers: `uv add git+https://github.com/Netie-AI/Netie.git` (wheel ships `netie._contracts`; `--editable` is optional).
 
 Measured on this VM 2026-09-02 against public clones: Netie unittest via `make ci`; constructor (26 patches) `node --test` **62 passed**; OpenVault OpenMW (28 patches + free-pool) routing+chat+crew-gate pytest plus ship-claim plus crew-netie plus free-pool (sibling `make ci` runs them). Cortex constitution path tests after `cortex-netie-path.patch` (stdlib). `cortex-web-via-runner.patch` broker skip is a file-read assert (no pytest). dms `netie_acl` module is stdlib plus optional `netie.dms`; `dms-demo-acl-resolve.patch` makes `demo_acl` return `resolve_session_acl`. Pointer `netie-hands.test.js` **6 passed** after `pointer-netie-hands.patch`; additive `pointer-observe-guard.patch` (`netie-observe.test.js` **5 passed**; `uacc.test.js` still **16 passed**; native observe unchanged). Founder apply-all: `python3 scripts/apply_product_patches.py`. Control `test_netie_board.py` + plane-4 **51 passed** after `control-netie-board.patch` (needs fastapi). Netie-KB `kb.py validate` OK (58 artifacts); `kb-netie-index.patch` skill show is ids-only. AirGPT/Space/Crew still 404.
 
@@ -39,13 +39,13 @@ A fine-grained PAT is a fallback if the App UI is stuck: GitHub -> Settings -> D
 
 ---
 
-## 2. GitHub Actions billing (Netie docs-ci)
+## 2. GitHub Actions (Netie docs-ci)
 
-Jobs never start. Annotation: account payments failed or spending limit.
+`docs-ci` on `main` now runs for real and is green (measured 2026-09-02, 2 checks). Local `make ci` is the same command and is still the merge gate this agent runs.
 
-Pay or raise the limit: `https://github.com/organizations/Netie-AI/settings/billing`
+Older 1-5s red X jobs were org billing. Do not treat those as a code ticket. Pay or raise: `https://github.com/organizations/Netie-AI/settings/billing`
 
-Until that is green, **local** `python3 scripts/check_docs.py` (or `make ci`) is the estate gate. `f6c1512` GitHub check **did run** and failed missing pytest; this branch fixes that invoke. Older 1-5s fails are still billing. OpenVault `main` CI is already green. Constructor has green `pages.yml` and no unit-test workflow on HEAD.
+OpenVault `main` CI is already green. Constructor has green `pages.yml` and no unit-test workflow on HEAD.
 
 ---
 

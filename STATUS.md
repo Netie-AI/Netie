@@ -1,13 +1,13 @@
 # STATUS - Netie constitution repo
 
-**Branch:** `cursor/wrap-leave-skill-ids-ca9b` · **PR:** (this) · **main:** `c59576b` (docs-ci green)
+**Branch:** `cursor/docs-ci-honest-ca9b` · **PR:** (this) · **main:** `d87abd4` (docs-ci green)
 
-**Local gate:** `make ci`.
+**Local gate:** `make ci` (same command as GitHub `docs-ci`).
 
 ## Now
 
-- `wrap_deepagents_tools(ov=)` / `bind_deep_agent(ov=)` POST skill ids for leave-machine names. Cortex tools stay on `prepare_tool`. Wrap stays **3/10**.
-- Ticket/batch/ship leave already on main. HT1 not done. Score stays **2/10**.
+- GitHub `docs-ci` on `main` is green (measured 2026-09-02, 2 checks). Older 1-5s red X jobs were billing, not a code ticket.
+- Crew wrap leave-machine POSTs are on main. Wrap stays **3/10**. HT1 not done. Score stays **2/10**.
 - Founder apply-all: `python3 scripts/apply_product_patches.py --dry-run`. Product remotes clone-yes push-403. 404: AirGPT, Space, Cortex-Crew. Keys.txt gone; founder must revoke. C2/MIN_TESTS stand.
 
 ## Next (founder clicks)
