@@ -13,7 +13,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 from crew_ov_gate import OpenVaultCrewGate, refuse_crew_gate
 from crew_runs import CrewGraph
-from crew_skills import SkillDenied, SkillRegistry, register_skill
+from crew_skills import SkillDenied, SkillRegistry, register_from_kb, register_skill
 from crew_tool_wrap import CortexDenied
 
 
@@ -81,6 +81,52 @@ class CrewSkillTests(unittest.TestCase):
                 kind="skill",
                 resource_id="netie-kb.export-pptx",
             )
+
+
+    def test_register_from_kb_is_ids_only(self) -> None:
+        reg = SkillRegistry()
+        rows = [
+            {
+                "id": "S-0004",
+                "kind": "skill",
+                "title": "Find a skill",
+                "status": "active",
+            }
+        ]
+        sid = register_from_kb(reg, rows, "S-0004")
+        self.assertEqual(sid, "S-0004")
+        self.assertTrue(reg.has("S-0004"))
+        self.assertEqual(reg.index()[0]["source"], "netie-kb")
+        ok = refuse_crew_gate(kind="skill", id="S-0004", registry=reg)
+        self.assertEqual(ok["status"], "ok")
+        g = CrewGraph(
+            ov=OpenVaultCrewGate(
+                "http://127.0.0.1:5000", post=_allow, registry=reg
+            )
+        )
+        g.open_parent("p1", "T1")
+        child = g.spawn_child(
+            parent_id="p1",
+            child_id="c-kb",
+            deficit="need export",
+            kind="skill",
+            resource_id="S-0004",
+        )
+        self.assertEqual(child.id, "c-kb")
+        with self.assertRaises(SkillDenied):
+            register_from_kb(
+                reg,
+                [{"id": "S-0001", "kind": "skill", "title": "fleet", "body": "## Steps"}],
+                "S-0001",
+            )
+        with self.assertRaises(SkillDenied):
+            register_from_kb(
+                reg,
+                [{"id": "R-0016", "kind": "rule", "title": "skills live in KB"}],
+                "R-0016",
+            )
+        with self.assertRaises(SkillDenied):
+            register_from_kb(reg, rows, "S-0004", skill_body="SECRET")
 
 
 if __name__ == "__main__":
