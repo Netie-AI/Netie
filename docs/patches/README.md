@@ -276,7 +276,7 @@ cd OpenMW && uv add git+https://github.com/Netie-AI/Netie.git
 uv run pytest tests/test_ship_netie_claim.py -q
 ```
 
-Live deploys call `claim_deploy`, which uses `from netie.route import report_deploy` when Netie is installed. Constructed URLs refuse. Simulated is not HT1. Without Netie the same rule runs locally so OpenVault CI does not hard-fail. `classify_deployment` still names simulated; this gate only runs when the engine is about to label a deploy live. Score stays **2/10** (HT1 not done). Push 403.
+Live deploys call `claim_deploy`, which uses `from netie.route import report_deploy` when Netie is installed. Constructed URLs refuse. Simulated is not HT1. Without Netie the same rule runs locally so OpenVault CI does not hard-fail. `classify_deployment` still names simulated; this gate only runs when the engine is about to label a deploy live. Follow-on `openvault-ship-claim-ov.patch` forwards `ov=` through that claim. Score stays **2/10** (HT1 not done). Push 403.
 
 Then:
 
@@ -306,6 +306,16 @@ uv run pytest tests/test_free_pool.py tests/test_free_pool_route.py -q
 ```
 
 `POST /api/route/free` picks FREE-tier hops (`from netie.route import assist_free_pool` when Netie is installed; same rule locally otherwise). Empty free pool is 503 with register-url help, never an invented key. Catalog must not carry `api_key`. Quota fetch / autoCombo / parallel stay 501. Not a 16th sort. Score stays **4/10** gateway. Push 403.
+
+Then:
+
+```
+git apply docs/patches/openvault-ship-claim-ov.patch
+cd OpenMW && uv add git+https://github.com/Netie-AI/Netie.git
+uv run pytest tests/test_ship_netie_claim.py -q
+```
+
+`claim_deploy(ov=)` forwards to `report_deploy` which POSTs `/api/crew/gate` with skill ids. The live engine label and `/api/ship/engine` pass that gate when `parent_run_id` is on the body (`bind_claim_ov`; in-process crew post, no HTTP loopback). Without run ids the claim still parses and does not POST. Simulated is not HT1. Score stays **2/10**. Push 403.
 
 Independent of routing:
 

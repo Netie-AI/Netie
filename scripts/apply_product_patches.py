@@ -96,6 +96,7 @@ OPENVAULT_STACK: tuple[str, ...] = (
     "openvault-crew-skill-ids.patch",
     "openvault-free-pool.patch",
     "openvault-free-pool-route.patch",
+    "openvault-ship-claim-ov.patch",
 )
 
 
