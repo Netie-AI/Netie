@@ -652,6 +652,32 @@ class SiblingPatchTests(unittest.TestCase):
                     ledger_peek=[],
                     refusals=[],
                 )
+            stitched = loaded.board_index(
+                graph_index={
+                    "runs": [{"id": "p1", "status": "open", "ticket_id": "T1"}]
+                },
+                factory_index={
+                    "tickets": [{"id": "T1", "status": "open", "epic_id": "E1"}]
+                },
+                skills=[{"id": "S-0004", "source": "netie-kb"}],
+            )
+            kinds = {
+                c["kind"]
+                for c in loaded.project_board(
+                    crew_index=stitched, ledger_peek=[], refusals=[]
+                )["cards"]
+            }
+            self.assertEqual(kinds, {"run", "ticket", "skill"})
+            with self.assertRaises(loaded.ControlDenied):
+                loaded.board_index(
+                    skills=[
+                        {
+                            "id": "S-0001",
+                            "source": "netie-kb",
+                            "skill_body": "SECRET",
+                        }
+                    ]
+                )
 
     def test_cortex_web_via_runner_applies_on_main(self) -> None:
         patch = PATCHES / "cortex-web-via-runner.patch"

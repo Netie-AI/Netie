@@ -1,12 +1,12 @@
 # STATUS - Netie constitution repo
 
-**Branch:** `cursor/control-board-index-ca9b` · **PR:** (this) · **main:** `fcb2d3f` (docs-ci green)
+**Branch:** `cursor/control-board-index-patch-ca9b` · **PR:** (this) · **main:** `99efcee` (docs-ci pending)
 **Local gate:** `make ci`.
 
 ## Now
 
-- Control `board_index` stitches graph runs, Factory tickets/epics, and KB skill ids into one `crew_index`. Prompts and skill_body refuse. Score stays **2/10** board. Crew wrap stays **3/10**.
-- Crew `persist` / `resume` keep skill ids. KB `list_briefs` + `register_index` stay the dump path. Cortex `guard_observe` on observe tools.
+- Control product patch local fallback has `board_index` (graph runs + Factory tickets + skill ids). Prompts and skill_body refuse. Score stays **2/10** board. Wrap stays **3/10**.
+- Crew `persist` / `resume` keep skill ids. KB `list_briefs` + `register_index` stay the dump path.
 - Founder apply-all: `python3 scripts/apply_product_patches.py --dry-run`. Product remotes clone-yes push-403. 404: AirGPT, Space, Cortex-Crew. Keys.txt gone; founder must revoke. C2/MIN_TESTS stand.
 
 ## Next (founder clicks)
