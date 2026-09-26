@@ -16,6 +16,9 @@ ROOT = Path(__file__).resolve().parents[1]
 
 REQUIRED = [
     "NETIE.md",
+    "README.md",
+    "AGENTS.md",
+    "CLAUDE.md",
     "STATUS.md",
     "Internal/Agents/AGENT_SYSTEM.md",
     "Internal/Rules/DOCUMENT_SYSTEM.md",
@@ -39,6 +42,9 @@ REQUIRED = [
 
 ASCII_ROOTS = [
     "NETIE.md",
+    "README.md",
+    "AGENTS.md",
+    "CLAUDE.md",
     "STATUS.md",
     "Internal",
     "TAS",
