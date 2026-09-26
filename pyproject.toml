@@ -7,7 +7,7 @@ name = "netie"
 version = "0.0.1"
 description = "Portable Netie contracts: Crew Deep Agents wrap, Cortex path, Space ACL"
 requires-python = ">=3.11"
-readme = "STATUS.md"
+readme = "README.md"
 license = { text = "MIT" }
 dependencies = []
 
