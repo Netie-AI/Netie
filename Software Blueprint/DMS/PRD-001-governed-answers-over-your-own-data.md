@@ -224,6 +224,7 @@ the right epic instead of becoming a duplicate.
 | F-TBD-7 | 2026-09-26 | DMS session (founder) | Defect: one bronze name starting with a digit (`bronze.2024_sales`) makes every generated-SQL ask on that Space abstain `submit_failed`, even SQL not touching it | Netie-AI/dms#277 (open) | BUILD_NOW - ticket for epic-agent. Verified: `packages/executor/dms_executor/manifest.py:199,223` `cortex_row_predicates` raises `manifest_key_invalid` for the whole Space; `bronze.py:46` `_safe_table_stem` lets a digit-first stem land. Fix at landing or refuse named at ingest; never loosen the key rule |
 | F-TBD-8 | 2026-09-26 | DMS session (founder) | Defect: a second Space ingesting the same source overwrites the shared bronze table; first Space abstains `validate:ungranted` and its stored ontology points at rewritten rows | Netie-AI/dms#277 (open); also breaks Netie-AI/dms#173 EPIC-020b acceptance "into bronze under the Space" | BUILD_NOW - ticket for epic-agent. Verified: `bronze.py:125` `_claim_table_name` treats same source string as same owner regardless of `space_id`; registry keyed on `table_name` (`bronze.py:85`, `:168`). If the registry key changes, DR first |
 | F-TBD-9 | 2026-09-26 | DMS session (founder) | Defect: SQL-source ingest lands every bronze column as VARCHAR; generated SUM/AVG on numeric columns fail validation or need CASTs. Largest known BIRD accuracy cost (dms CHANGELOG 2026-09-26) | Netie-AI/dms#277 (open); lift measured under Netie-AI/dms#264 A1-02 | BUILD_NOW - ticket for epic-agent. Verified: `db_connector.py:481` `_fetch` str()s every value; `bronze.py:849` `write_bronze_rows` creates VARCHAR only. Types from the source catalog, not inferred from values |
+| F-TBD-10 | 2026-10-01 | DMS session (founder) | Scope narrowing: keep ONE product, DMS (ask a spreadsheet or database, get the number with the SQL and rows, or a refusal; Malaysia SME install). Cortex only as the gate DMS already calls (manifest check, ledger append, abstain) plus the execution path DMS submits to; no new router, crew, JEPA, Liberty or planner; when a model is wanted, call DeepSeek or Cursor through the one existing model path. Netie and Netie-KB stay as notes, no features. OpenVault stays as key box (keys, leave-machine gate) with OpenShip and FreeRoute retained; its NVMe, GPU, fan and mesh half is a different project, not needed to sell DMS. Everything else archived until a paying warehouse asks. Full focus on all DMS accuracy wiring | none - PRD amendment (touches section 3 and AMEND-F-TBD-5). The accuracy-wiring half is already routed: EPIC-001, EPIC-003, EPIC-004, Netie-AI/dms#257, #256, #265 (EPIC-A1/A2/A3), Netie-AI/dms#277 with F-TBD-6 to 9. No epic reopened, no ticket filed | NEEDS-YOU. No agent implemented, archived or edited NETIE.md; section 3 not edited. Founder clicks: archive any repo; amend NETIE.md by PR. Decisions: (1) Accept the section 3 additions (no new router, crew, JEPA, Liberty or planner; Cortex = the gate plus the execution path). (2) NETIE.md s3 says Cortex "decides the shape of the work" and s4 has it "plans"; gate-only contradicts both. DR-0001 (status proposed) keeps a licensed-seat router (items 5, 7) and Crew v0 (Next 4, 6): accept, supersede or reject. JEPA is already parked (DR-0001 item 10; WP-001 "What they buy first"). (3) OpenVault default: the feedback says key box only if a pilot refuses a key in an env file, NETIE.md s3 says one vault and any env.local is a cache of it, and the same message says use OpenVault; pick one. OpenShip is FreeBuild (deploy) and FreeRoute is the router (NETIE.md naming note). (4) EPIC-005a/b (amend.apply write path) are not named by the feedback and are unchanged; confirm the product still includes confirmed writes. (5) "Cursor" as model: DR-0001 item 7 allows licensed-seat dispatch only through the product's own login, never a billing bypass; confirm it means a paid API call on the one model path. (6) AMEND-F-TBD-5 is narrowed, see its status line. Premise not yet true: PRD-001 section 2 (2026-08-02, not re-checked against code today) says the Space boundary, the eval gate and manifest enforcement on /dms/query did not hold, so gate-only puts EPIC-001, 003, 004 on the critical path. EPIC-006 stays blocked on a real user's questions; "full focus on accuracy" does not unlock it |
 
 Rows `F-TBD-n` carry provisional ids. The authoritative ledger (F1 to at least F83, cited in
 `Netie-AI/dms` code and issues) is on the founder laptop and not yet pushed; dms#257 and
@@ -246,9 +247,20 @@ passing gate.** Today, the quote and the drillthrough claim would both be premat
 
 ### AMEND-F-TBD-5 - Failures become verified, reusable frames - PROPOSED - awaiting founder
 
-> **Status: PROPOSED - awaiting founder.** Drafted by the PRD Agent from ledger row
-> F-TBD-5. Tiers 0-4 are founder work: accept, edit or reject this block. Until you accept
-> it, nothing here is in scope, nothing is sliced, and no ticket may cite it.
+> **Status: PROPOSED - narrowed by F-TBD-10, awaiting founder: L4/L5 parked, L1 failure
+> ledger optional.** (Was: PROPOSED - awaiting founder.) Drafted by the PRD Agent from
+> ledger row F-TBD-5. Tiers 0-4 are founder work: accept, edit or reject this block. Until
+> you accept it, nothing here is in scope, nothing is sliced, and no ticket may cite it.
+>
+> **Narrowing note (F-TBD-10, 2026-10-01).** The distilled planner was never an epic
+> here: it is the "later" clause of ledger row F-TBD-5 and is already out of scope below.
+> What F-TBD-10 narrows is the cross-install chain: the frame-leaves-an-install clause of
+> EPIC-L2, EPIC-L3 (both move frames between tenants) and EPIC-L5 (depends on L3).
+> EPIC-L4 is a single-Space view over L1 records and depends only on L1, so it has
+> nothing to show if L1 stays plain logging. L1 is a per-Space failure record, not the F1
+> hash-chained ledger. The status line names L4/L5; L2 and L3 are not named, but L5
+> cannot run without L3 and L3 needs L2, so parking L5 alone leaves a chain with no demo.
+> Founder: park L2 to L5 together, or none. Nothing above is deleted, accepted or sliced.
 
 **In one line.** Every failure a Space produces becomes a candidate fix that only a
 verifier can promote; promoted fixes become per-industry frames that a new Space may
