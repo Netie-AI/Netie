@@ -33,6 +33,38 @@
     "NETIE-ATTRIBUTION.md"
   ],
   "series": [
-    "0001-rebrand.patch"
+    "0001-rebrand.patch",
+    "0002-gate.patch"
+  ],
+  "files_changed_stage2": [
+    "NETIE-ATTRIBUTION.md",
+    "README.md",
+    "packages/core/src/global.ts",
+    "packages/opencode/README.md",
+    "packages/opencode/bin/opencode",
+    "packages/opencode/script/build.ts",
+    "packages/opencode/src/cli/cmd/github.handler.ts",
+    "packages/opencode/src/cli/cmd/providers.ts",
+    "packages/opencode/src/cli/cmd/run/splash.ts",
+    "packages/opencode/src/cli/cmd/serve.ts",
+    "packages/opencode/src/cli/cmd/upgrade.ts",
+    "packages/opencode/src/cli/error.ts",
+    "packages/opencode/src/cli/ui.ts",
+    "packages/opencode/src/index.ts",
+    "packages/opencode/src/netie/openvault.ts",
+    "packages/opencode/src/provider/provider.ts",
+    "packages/opencode/src/tool/edit.ts",
+    "packages/opencode/src/tool/shell.ts",
+    "packages/opencode/src/tool/webfetch.ts",
+    "packages/opencode/test/cli/error.test.ts",
+    "packages/opencode/test/cli/help/__snapshots__/help-snapshots.test.ts.snap",
+    "packages/opencode/test/cli/mcp-add.test.ts",
+    "packages/opencode/test/netie/openvault-gate.test.ts",
+    "packages/opencode/test/preload.ts",
+    "packages/opencode/test/provider/provider.test.ts",
+    "packages/opencode/test/server/httpapi-exercise/environment.ts",
+    "packages/tui/src/logo.ts",
+    "packages/tui/src/util/error.ts",
+    "packages/tui/src/util/presentation.ts"
   ]
 }
