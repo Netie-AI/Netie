@@ -10,7 +10,7 @@ Stages: 0 catalogued | 1 overlay patch exists | 2 gate wired and tested | 3 ship
 
 | Netie name | Upstream | License | Feeds | Stage |
 |---|---|---|---|---|
-| AirGPT | danny-avila/LibreChat @ f10b1d91f1 | MIT | AirGPT | 1 |
+| AirGPT | danny-avila/LibreChat @ f10b1d91f1 | MIT | AirGPT | 2 |
 | Netie Control | stablyai/orca @ d17351401d | MIT | Control | 1 |
 | Crew Agent | NousResearch/hermes-agent @ e473f5a9c9 | MIT | Crew | 1 |
 | Crew Edge | zeroclaw-labs/zeroclaw @ f7bd2b9e94 | MIT OR Apache-2.0 | Crew | 1 |
@@ -21,7 +21,7 @@ Stages: 0 catalogued | 1 overlay patch exists | 2 gate wired and tested | 3 ship
 | FreeRoute Core | MiXaiLL76/auto_ai_router @ 4f8597503a | Apache-2.0 | OpenVault | 1 |
 
 - **airgpt**: Multi-provider chat shell. MIT, so it is the rebrandable base for AirGPT.
-  - Gate: Endpoints -> OpenVault /v1 only. Retrieval -> netie.airgpt retrieve_space. Cross-chat memory abstains until governed.
+  - Gate: Endpoints -> OpenVault /v1 only (0002-gate.patch, tested). Retrieval -> netie.airgpt retrieve_space (not wired). Cross-chat memory off and labeled ungoverned until it routes through Cortex actions.
 - **control**: Fleet board for parallel coding agents in isolated git worktrees. Closer analogue to Netie Control than Guacamole.
   - Gate: Board reads ids only through netie.control.project_board. Agent launches go through Crew ticket runner, never a second orchestrator.
 - **crew-agent**: Long-running personal agent with skills, sessions and messaging gateways.
