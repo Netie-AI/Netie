@@ -1,0 +1,478 @@
+diff --git a/AGENTS.md b/AGENTS.md
+index 4c4ce5c0..f410047d 100644
+--- a/AGENTS.md
++++ b/AGENTS.md
+@@ -1,4 +1,4 @@
+-# Hermes Agent - Development Guide
++# Crew Agent - Development Guide
+ 
+ For AI coding assistants and developers working on hermes-agent. This root file is a hub: what
+ applies everywhere, then a routing table. Each area's `AGENTS.md` loads automatically when you work
+diff --git a/CONTRIBUTING.es.md b/CONTRIBUTING.es.md
+index 3f42e663..1f1bc93b 100644
+--- a/CONTRIBUTING.es.md
++++ b/CONTRIBUTING.es.md
+@@ -1,6 +1,6 @@
+-# Contribuir a Hermes Agent
++# Contribuir a Crew Agent
+ 
+-¡Gracias por contribuir a Hermes Agent! Esta guía cubre todo lo que necesitas: configurar tu entorno de desarrollo, entender la arquitectura, decidir qué construir y conseguir que tu PR sea aceptado.
++¡Gracias por contribuir a Crew Agent! Esta guía cubre todo lo que necesitas: configurar tu entorno de desarrollo, entender la arquitectura, decidir qué construir y conseguir que tu PR sea aceptado.
+ 
+ ---
+ 
+diff --git a/CONTRIBUTING.md b/CONTRIBUTING.md
+index f28f856e..6c7659c3 100644
+--- a/CONTRIBUTING.md
++++ b/CONTRIBUTING.md
+@@ -1,6 +1,6 @@
+-# Contributing to Hermes Agent
++# Contributing to Crew Agent
+ 
+-Thank you for contributing to Hermes Agent! This guide covers everything you need: setting up your dev environment, understanding the architecture, deciding what to build, and getting your PR merged.
++Thank you for contributing to Crew Agent! This guide covers everything you need: setting up your dev environment, understanding the architecture, deciding what to build, and getting your PR merged.
+ 
+ ---
+ 
+@@ -636,7 +636,7 @@ Every new or modernized skill — bundled, optional, or contributed — must mee
+ 
+ 3. **`platforms:` gating audited against actual script imports.** Skills that use POSIX-only primitives (`fcntl`, `termios`, `os.setsid`, `os.kill(pid, 0)` for liveness, `/proc`, hardcoded `/tmp` paths, `signal.SIGKILL`, bash heredocs, `osascript`, `apt`, `systemctl`) must declare their supported platforms via the `platforms:` frontmatter. Default posture is to fix it cross-platform first — `tempfile.gettempdir()`, `pathlib.Path`, `psutil.pid_exists()`, Python-level filtering instead of `grep`. Gate to a narrower set only when the dependency is genuinely platform-bound (e.g. `osascript` is macOS-only, `/proc` is Linux-only). <!-- no-tmp: ok — names the POSIX-only anti-pattern reviewers look for -->
+ 
+-4. **`author` credits the human contributor first.** For external contributions, the contributor's real name + GitHub handle goes first (`Jane Doe (jane-doe)`); "Hermes Agent" is the secondary collaborator. If the contributor's commit shows "Hermes Agent" as author because they used Hermes to draft the skill, replace it with their actual name — credit the human, not the tool.
++4. **`author` credits the human contributor first.** For external contributions, the contributor's real name + GitHub handle goes first (`Jane Doe (jane-doe)`); "Crew Agent" is the secondary collaborator. If the contributor's commit shows "Crew Agent" as author because they used Hermes to draft the skill, replace it with their actual name — credit the human, not the tool.
+ 
+ 5. **SKILL.md body uses the modern section order.** `# <Skill> Skill` title, 2-3 sentence intro stating what it does and what it doesn't do, then:
+    - `## When to Use` — trigger conditions
+diff --git a/NETIE-ATTRIBUTION.md b/NETIE-ATTRIBUTION.md
+new file mode 100644
+index 00000000..e3fa8951
+--- /dev/null
++++ b/NETIE-ATTRIBUTION.md
+@@ -0,0 +1,24 @@
++# Attribution
++
++Netie Crew Agent is a modified distribution of NousResearch/hermes-agent
++(https://github.com/NousResearch/hermes-agent), pinned at commit 7157422022.
++
++Upstream license: MIT. LICENSE is included unmodified, with every
++upstream copyright line, and so is any NOTICE file.
++
++- Copyright (c) 2025 Nous Research
++
++Not affiliated with or endorsed by the upstream authors. Upstream names and
++logos belong to their owners.
++
++## Changed in stage 1
++
++- Display name Hermes Agent rewritten to Crew Agent in prose docs only.
++- This file and a README banner added.
++
++## Not done yet (stage 2)
++
++- Package names, binaries, identifiers and UI strings are still upstream's.
++- SECURITY, SUPPORT and CONTRIBUTING contacts and URLs still point at upstream.
++- Translated docs, changelogs and third-party notices are untouched.
++- Netie gate wiring: Model calls -> OpenVault /v1. Tools -> Cortex tool_runner. Session state persists ids only (crew_checkpoint).
+diff --git a/README.es.md b/README.es.md
+index 17ba71aa..066624cc 100644
+--- a/README.es.md
++++ b/README.es.md
+@@ -2,9 +2,9 @@
+   <img src="assets/banner.png" alt="Hermes Agent" width="100%">
+ </p>
+ 
+-# Hermes Agent ☤
++# Crew Agent ☤
+ <p align="center">
+-  <a href="https://hermes-agent.nousresearch.com/">Hermes Agent</a> | <a href="https://hermes-agent.nousresearch.com/">Hermes Desktop</a>
++  <a href="https://hermes-agent.nousresearch.com/">Crew Agent</a> | <a href="https://hermes-agent.nousresearch.com/">Hermes Desktop</a>
+ </p>
+ <p align="center">
+   <a href="https://hermes-agent.nousresearch.com/docs/"><img src="https://img.shields.io/badge/Docs-hermes--agent.nousresearch.com-FFD700?style=for-the-badge" alt="Documentación"></a>
+@@ -194,7 +194,7 @@ de verificación están en [Development Setup](CONTRIBUTING.md#development-setup
+ - 📚 [Skills Hub](https://agentskills.io)
+ - 🐛 [Issues](https://github.com/NousResearch/hermes-agent/issues)
+ - 🔌 [computer-use-linux](https://github.com/avifenesh/computer-use-linux) — Servidor MCP de control de escritorio Linux para Hermes y otros hosts MCP, con árboles de accesibilidad AT-SPI, entrada Wayland/X11, capturas de pantalla y targeting de ventanas del compositor.
+-- 🔌 [HermesClaw](https://github.com/AaronWong1999/hermesclaw) — Puente WeChat comunitario: Ejecuta Hermes Agent y OpenClaw en la misma cuenta de WeChat.
++- 🔌 [HermesClaw](https://github.com/AaronWong1999/hermesclaw) — Puente WeChat comunitario: Ejecuta Crew Agent y OpenClaw en la misma cuenta de WeChat.
+ 
+ ---
+ 
+diff --git a/README.md b/README.md
+index 93bab974..b5e401bf 100644
+--- a/README.md
++++ b/README.md
+@@ -1,10 +1,12 @@
++> **Netie Crew Agent** is a modified distribution of [NousResearch/hermes-agent](https://github.com/NousResearch/hermes-agent) (MIT). See NETIE-ATTRIBUTION.md. Not endorsed by the upstream authors.
++
+ <p align="center">
+   <img src="assets/banner.png" alt="Hermes Agent" width="100%">
+ </p>
+ 
+-# Hermes Agent ☤
++# Crew Agent ☤
+ <p align="center">
+-  <a href="https://hermes-agent.nousresearch.com/">Hermes Agent</a> | <a href="https://hermes-agent.nousresearch.com/">Hermes Desktop</a>
++  <a href="https://hermes-agent.nousresearch.com/">Crew Agent</a> | <a href="https://hermes-agent.nousresearch.com/">Hermes Desktop</a>
+ </p>
+ <p align="center">
+   <a href="https://hermes-agent.nousresearch.com/docs/"><img src="https://img.shields.io/badge/Docs-hermes--agent.nousresearch.com-FFD700?style=for-the-badge" alt="Documentation"></a>
+@@ -232,7 +234,7 @@ for activation, daily use, dependency changes, and leaving the environment.
+ - 📚 [Skills Hub](https://agentskills.io)
+ - 🐛 [Issues](https://github.com/NousResearch/hermes-agent/issues)
+ - 🔌 [computer-use-linux](https://github.com/avifenesh/computer-use-linux) — Linux desktop-control MCP server for Hermes and other MCP hosts, with AT-SPI accessibility trees, Wayland/X11 input, screenshots, and compositor window targeting.
+-- 🔌 [HermesClaw](https://github.com/AaronWong1999/hermesclaw) — Community WeChat bridge: Run Hermes Agent and OpenClaw on the same WeChat account.
++- 🔌 [HermesClaw](https://github.com/AaronWong1999/hermesclaw) — Community WeChat bridge: Run Crew Agent and OpenClaw on the same WeChat account.
+ 
+ ---
+ 
+diff --git a/README.ur-pk.md b/README.ur-pk.md
+index 1cf357a1..a8349efa 100644
+--- a/README.ur-pk.md
++++ b/README.ur-pk.md
+@@ -4,7 +4,7 @@
+   <img src="assets/banner.png" alt="Hermes Agent" width="100%">
+ </p>
+ 
+-# ہرمیس ایجنٹ ☤ (Hermes Agent)
++# ہرمیس ایجنٹ ☤ (Crew Agent)
+ 
+ <p align="center">
+   <a href="https://hermes-agent.nousresearch.com/docs/"><img src="https://img.shields.io/badge/Docs-hermes--agent.nousresearch.com-FFD700?style=for-the-badge" alt="Documentation"></a>
+diff --git a/README.zh-CN.md b/README.zh-CN.md
+index 44c22e1e..57a75f01 100644
+--- a/README.zh-CN.md
++++ b/README.zh-CN.md
+@@ -2,7 +2,7 @@
+   <img src="assets/banner.png" alt="Hermes Agent" width="100%">
+ </p>
+ 
+-# Hermes Agent ☤
++# Crew Agent ☤
+ 
+ <p align="center">
+   <a href="https://hermes-agent.nousresearch.com/docs/"><img src="https://img.shields.io/badge/Docs-hermes--agent.nousresearch.com-FFD700?style=for-the-badge" alt="Documentation"></a>
+@@ -179,7 +179,7 @@ PM 引导、Python 3.14 测试环境和规范验证命令见
+ - 📚 [技能中心](https://agentskills.io)
+ - 🐛 [问题反馈](https://github.com/NousResearch/hermes-agent/issues)
+ - 💡 [讨论区](https://github.com/NousResearch/hermes-agent/discussions)
+-- 🔌 [HermesClaw](https://github.com/AaronWong1999/hermesclaw) — 社区微信桥接：在同一微信账号上运行 Hermes Agent 和 OpenClaw。
++- 🔌 [HermesClaw](https://github.com/AaronWong1999/hermesclaw) — 社区微信桥接：在同一微信账号上运行 Crew Agent 和 OpenClaw。
+ 
+ ---
+ 
+diff --git a/SECURITY.es.md b/SECURITY.es.md
+index 1328c116..d8b2daff 100644
+--- a/SECURITY.es.md
++++ b/SECURITY.es.md
+@@ -1,6 +1,6 @@
+-# Política de Seguridad de Hermes Agent
++# Política de Seguridad de Crew Agent
+ 
+-Este documento describe el modelo de confianza de Hermes Agent, identifica el
++Este documento describe el modelo de confianza de Crew Agent, identifica el
+ único límite de seguridad que el proyecto trata como estructural y define el
+ alcance para los informes de vulnerabilidades.
+ 
+@@ -8,7 +8,7 @@ alcance para los informes de vulnerabilidades.
+ 
+ Reporta de forma privada a través de [GitHub Security Advisories](https://github.com/NousResearch/hermes-agent/security/advisories/new)
+ o **security@nousresearch.com**. No abras issues públicos para
+-vulnerabilidades de seguridad. **Hermes Agent no opera un programa de
++vulnerabilidades de seguridad. **Crew Agent no opera un programa de
+ recompensas por errores.**
+ 
+ Un informe útil incluye:
+@@ -30,13 +30,13 @@ a través del canal de seguridad privado.
+ 
+ ## 2. Modelo de Confianza
+ 
+-Hermes Agent es un agente personal de un solo inquilino. Su postura es
++Crew Agent es un agente personal de un solo inquilino. Su postura es
+ por capas, y las capas no tienen el mismo peso. Los reportadores y
+ operadores deben razonar sobre ellas en los mismos términos.
+ 
+ ### 2.1 Definiciones
+ 
+-- **Proceso del agente.** El intérprete Python que ejecuta Hermes Agent,
++- **Proceso del agente.** El intérprete Python que ejecuta Crew Agent,
+   incluyendo cualquier módulo Python que haya cargado (habilidades, plugins,
+   manejadores de hooks).
+ - **Backend de terminal.** Un objetivo de ejecución conectado para la
+@@ -47,9 +47,9 @@ operadores deben razonar sobre ellas en los mismos términos.
+   contexto del agente: entrada del operador, fetches web, email, mensajes del gateway,
+   lecturas de archivos, respuestas del servidor MCP, resultados de herramientas.
+ - **Envolvente de confianza.** El conjunto de recursos a los que un operador ha otorgado
+-  implícitamente acceso a Hermes Agent al ejecutarlo — típicamente, todo lo que
++  implícitamente acceso a Crew Agent al ejecutarlo — típicamente, todo lo que
+   la propia cuenta de usuario del operador puede alcanzar en el host.
+-- **Postura.** Una declaración explícita en la documentación o código de Hermes Agent
++- **Postura.** Una declaración explícita en la documentación o código de Crew Agent
+   sobre cómo una capa consumidora (adaptador, UI, escritor de archivos,
+   shell) debe tratar la salida del agente — ej. "el dashboard renderiza
+   la salida del agente como HTML inerte."
+@@ -63,7 +63,7 @@ escáner de patrones, ni ninguna lista de herramientas permitidas. Cualquier com
+ del proceso que filtre la salida del LLM es una heurística operando sobre una
+ cadena influenciada por el atacante, y esta política lo trata como tal.
+ 
+-Hermes Agent admite dos posturas de aislamiento a nivel de SO. Abordan
++Crew Agent admite dos posturas de aislamiento a nivel de SO. Abordan
+ diferentes amenazas y un operador debe elegir deliberadamente.
+ 
+ #### Aislamiento del backend de terminal
+@@ -92,9 +92,9 @@ sandbox. Cada ruta de código — shell, ejecución de código, MCP, herramienta
+ plugins, hooks, carga de habilidades — está sujeta a la misma política de sistema de archivos,
+ red, proceso e (donde sea aplicable) inferencia.
+ 
+-Hermes Agent admite esto de dos maneras:
++Crew Agent admite esto de dos maneras:
+ 
+-- **La propia imagen Docker de Hermes Agent y la configuración de Compose.** Más
++- **La propia imagen Docker de Crew Agent y la configuración de Compose.** Más
+   liviana; el agente se ejecuta en un contenedor estándar con montajes y
+   política de red configurados por el operador.
+ - **[NVIDIA OpenShell](https://github.com/NVIDIA/OpenShell)**.
+@@ -104,7 +104,7 @@ Hermes Agent admite esto de dos maneras:
+   recargables en caliente. Las credenciales se inyectan desde un almacén de Proveedor
+   y nunca tocan el sistema de archivos del sandbox.
+ 
+-Bajo una envoltura de proceso completo, las heurísticas en proceso de Hermes Agent
++Bajo una envoltura de proceso completo, las heurísticas en proceso de Crew Agent
+ (§2.4) funcionan como prevención de accidentes en capas sobre un límite real.
+ Esta es la postura soportada cuando el agente ingiere contenido de superficies
+ que el operador no controla — la web abierta, email entrante, canales de
+@@ -118,7 +118,7 @@ seguridad soportada.
+ 
+ ### 2.3 Alcance de Credenciales
+ 
+-Hermes Agent filtra el entorno que pasa a sus componentes en proceso de
++Crew Agent filtra el entorno que pasa a sus componentes en proceso de
+ menor confianza: subprocesos de shell, subprocesos MCP y el proceso hijo
+ de ejecución de código. Las credenciales como las claves API del proveedor y los
+ tokens del gateway se eliminan por defecto; las variables declaradas explícitamente
+@@ -160,8 +160,8 @@ mencionado por separado porque los plugins son arquitectónicamente más pesados
+ y a menudo incluyen sus propios servicios en segundo plano, oyentes de red
+ y dependencias.
+ 
+-Un plugin malicioso o con errores no es una vulnerabilidad en Hermes Agent
+-en sí mismo. Los errores en la ruta de instalación o descubrimiento de plugins de Hermes Agent
++Un plugin malicioso o con errores no es una vulnerabilidad en Crew Agent
++en sí mismo. Los errores en la ruta de instalación o descubrimiento de plugins de Crew Agent
+ que impidan al operador ver lo que está instalando están en alcance bajo el §3.1.
+ 
+ ### 2.6 Superficies Externas
+@@ -171,7 +171,7 @@ a través del cual un llamador puede despachar trabajo del agente, resolver
+ aprobaciones o recibir salida del agente. Cada superficie tiene su propio
+ modelo de autorización, pero las reglas a continuación se aplican uniformemente.
+ 
+-**Superficies en Hermes Agent:**
++**Superficies en Crew Agent:**
+ 
+ - **Adaptadores de plataforma del gateway.** La mayoría de las integraciones
+   de mensajería se distribuyen como plugins empaquetados en
+@@ -207,7 +207,7 @@ modelo de autorización, pero las reglas a continuación se aplican uniformement
+    la autorización siempre se vuelve a verificar contra la lista de permitidos (o equivalente
+    a nivel de SO).
+ 4. **Dentro del conjunto autorizado, todos los llamadores tienen la misma confianza.**
+-   Hermes Agent no modela capacidades por llamador dentro de un único adaptador.
++   Crew Agent no modela capacidades por llamador dentro de un único adaptador.
+    Los operadores que necesiten separación de capacidades deben ejecutar instancias
+    de agente separadas con listas de permitidos separadas.
+ 5. **Vincular una superficie solo local a una interfaz no-loopback es una decisión de
+@@ -234,9 +234,9 @@ modelo de autorización, pero las reglas a continuación se aplican uniformement
+   (error de saneamiento de entorno, registro del adaptador, error de transporte
+   que vacía credenciales a un upstream, etc.).
+ - Violaciones de la documentación del modelo de confianza: código que se comporta
+-  contrariamente a lo que esta política, la propia documentación de Hermes Agent o
++  contrariamente a lo que esta política, la propia documentación de Crew Agent o
+   las expectativas razonables del operador predecirían — incluyendo casos donde
+-  Hermes Agent ha documentado una postura sobre cómo su salida debe ser
++  Crew Agent ha documentado una postura sobre cómo su salida debe ser
+   renderizada por una capa consumidora (dashboard, adaptador de gateway,
+   escritor de archivos, shell) y una ruta de código rompe esa postura.
+ 
+@@ -275,11 +275,11 @@ divulgación privada y no reciben avisos.
+   configuraciones no son vulnerabilidades — eso es el trabajo del flag.
+ - **Habilidades y plugins contribuidos por la comunidad.** Las habilidades de terceros
+   (incluyendo el repositorio de habilidades de la comunidad) y los plugins de terceros
+-  están en la superficie de revisión del operador, no en la superficie de confianza de Hermes Agent
++  están en la superficie de revisión del operador, no en la superficie de confianza de Crew Agent
+   (§2.4, §2.5). Una habilidad o plugin que haga algo
+   malicioso es el modo de falla esperado de uno que no fue
+-  revisado, no una vulnerabilidad en Hermes Agent. Los errores en la ruta de
+-  instalación de habilidades o plugins de Hermes Agent que impidan al
++  revisado, no una vulnerabilidad en Crew Agent. Los errores en la ruta de
++  instalación de habilidades o plugins de Crew Agent que impidan al
+   operador ver lo que está instalando están en alcance bajo el §3.1.
+ - **Exposición pública sin controles externos.** Exponer el
+   gateway o la API a la internet pública sin autenticación,
+@@ -310,7 +310,7 @@ La decisión de fortalecimiento más importante es hacer coincidir el aislamient
+   §2.5). Para las habilidades, esto significa leer el Python y los scripts,
+   no solo SKILL.md. Los informes de Skills Guard y el registro de auditoría
+   de instalación son la superficie de revisión.
+-- Hermes Agent incluye guardias de cadena de suministro para lanzamientos de servidores
++- Crew Agent incluye guardias de cadena de suministro para lanzamientos de servidores
+   MCP y para cambios de dependencias / paquetes incluidos en CI; consulta
+   `CONTRIBUTING.es.md` para más detalles.
+ 
+diff --git a/SECURITY.md b/SECURITY.md
+index cea2a9a2..be94f3af 100644
+--- a/SECURITY.md
++++ b/SECURITY.md
+@@ -1,6 +1,6 @@
+-# Hermes Agent Security Policy
++# Crew Agent Security Policy
+ 
+-This document describes Hermes Agent's trust model, names the one
++This document describes Crew Agent's trust model, names the one
+ security boundary the project treats as load-bearing, and defines the
+ scope for vulnerability reports.
+ 
+@@ -8,7 +8,7 @@ scope for vulnerability reports.
+ 
+ Report privately via [GitHub Security Advisories](https://github.com/NousResearch/hermes-agent/security/advisories/new)
+ or **security@nousresearch.com**. Do not open public issues for
+-security vulnerabilities. **Hermes Agent does not operate a bug
++security vulnerabilities. **Crew Agent does not operate a bug
+ bounty program.**
+ 
+ A useful report includes:
+@@ -31,13 +31,13 @@ through the private security channel.
+ 
+ ## 2. Trust Model
+ 
+-Hermes Agent is a single-tenant personal agent. Its posture is
++Crew Agent is a single-tenant personal agent. Its posture is
+ layered, and the layers are not equally load-bearing. Reporters and
+ operators should reason about them in the same terms.
+ 
+ ### 2.1 Definitions
+ 
+-- **Agent process.** The Python interpreter running Hermes Agent,
++- **Agent process.** The Python interpreter running Crew Agent,
+   including any Python modules it has loaded (skills, plugins,
+   hook handlers).
+ - **Terminal backend.** A pluggable execution target for the
+@@ -48,9 +48,9 @@ operators should reason about them in the same terms.
+   agent's context: operator input, web fetches, email, gateway
+   messages, file reads, MCP server responses, tool results.
+ - **Trust envelope.** The set of resources an operator has implicitly
+-  granted Hermes Agent access to by running it — typically, whatever
++  granted Crew Agent access to by running it — typically, whatever
+   the operator's own user account can reach on the host.
+-- **Stance.** An explicit statement in Hermes Agent's documentation
++- **Stance.** An explicit statement in Crew Agent's documentation
+   or code about how a consuming layer (adapter, UI, file writer,
+   shell) should treat agent output — e.g. "the dashboard renders
+   agent output as inert HTML."
+@@ -64,7 +64,7 @@ pattern scanner, not any tool allowlist. Any in-process component
+ that screens LLM output is a heuristic operating on an
+ attacker-influenced string, and this policy treats it as such.
+ 
+-Hermes Agent supports two OS-level isolation postures. They address
++Crew Agent supports two OS-level isolation postures. They address
+ different threats and an operator should choose deliberately.
+ 
+ #### Terminal-backend isolation
+@@ -94,9 +94,9 @@ sandbox. Every code path — shell, code-execution, MCP, file tools,
+ plugins, hooks, skill loading — is subject to the same filesystem,
+ network, process, and (where applicable) inference policy.
+ 
+-Hermes Agent supports this in two ways:
++Crew Agent supports this in two ways:
+ 
+-- **Hermes Agent's own Docker image and Compose setup.** Lighter-
++- **Crew Agent's own Docker image and Compose setup.** Lighter-
+   weight; the agent runs in a standard container with operator-
+   configured mounts and network policy.
+ - **[NVIDIA OpenShell](https://github.com/NVIDIA/OpenShell)**.
+@@ -106,7 +106,7 @@ Hermes Agent supports this in two ways:
+   hot-reloadable. Credentials are injected from a Provider store
+   and never touch the sandbox filesystem.
+ 
+-Under a whole-process wrapper, Hermes Agent's in-process heuristics
++Under a whole-process wrapper, Crew Agent's in-process heuristics
+ (§2.4) function as accident-prevention layered on top of a real
+ boundary. This is the supported posture when the agent ingests
+ content from surfaces the operator does not control — the open web,
+@@ -120,7 +120,7 @@ outside the supported security posture.
+ 
+ ### 2.3 Credential Scoping
+ 
+-Hermes Agent filters the environment it passes to its lower-trust
++Crew Agent filters the environment it passes to its lower-trust
+ in-process components: shell subprocesses, MCP subprocesses,
+ cron job scripts, and the code-execution child. Credentials like
+ provider API keys and gateway tokens are stripped by default;
+@@ -163,8 +163,8 @@ called out separately because plugins are architecturally heavier
+ and often ship their own background services, network listeners,
+ and dependencies.
+ 
+-A malicious or buggy plugin is not a vulnerability in Hermes Agent
+-itself. Bugs in Hermes Agent's plugin-install or plugin-discovery
++A malicious or buggy plugin is not a vulnerability in Crew Agent
++itself. Bugs in Crew Agent's plugin-install or plugin-discovery
+ path that prevent the operator from seeing what they're installing
+ are in scope under §3.1.
+ 
+@@ -175,7 +175,7 @@ process through which a caller can dispatch agent work, resolve
+ approvals, or receive agent output. Each surface has its own
+ authorization model, but the rules below apply uniformly.
+ 
+-**Surfaces in Hermes Agent:**
++**Surfaces in Crew Agent:**
+ 
+ - **Gateway platform adapters.** Most messaging integrations ship as
+   bundled plugins under `plugins/platforms/<name>/` (Telegram, Discord,
+@@ -212,7 +212,7 @@ authorization model, but the rules below apply uniformly.
+    access to their approvals or output; authorization is always
+    re-checked against the allowlist (or OS-level equivalent).
+ 4. **Within the authorized set, all callers are equally trusted.**
+-   Hermes Agent does not model per-caller capabilities inside a
++   Crew Agent does not model per-caller capabilities inside a
+    single adapter. Operators who need capability separation should
+    run separate agent instances with separate allowlists.
+ 5. **Binding a local-only surface to a non-loopback interface is a
+@@ -240,9 +240,9 @@ authorization model, but the rules below apply uniformly.
+   (environment scrubbing bug, adapter logging, transport error
+   that flushes credentials to an upstream, etc.).
+ - Trust-model documentation violations: code behaving contrary to
+-  what this policy, Hermes Agent's own documentation, or reasonable
++  what this policy, Crew Agent's own documentation, or reasonable
+   operator expectations would predict — including cases where
+-  Hermes Agent has documented a stance about how its output should
++  Crew Agent has documented a stance about how its output should
+   be rendered by a consuming layer (dashboard, gateway adapter,
+   file writer, shell) and a code path breaks that stance.
+ 
+@@ -282,10 +282,10 @@ private-disclosure channel and don't receive advisories.
+   configurations are not vulnerabilities — that's the flag's job.
+ - **Community-contributed skills and plugins.** Third-party skills
+   (including the community skills repository) and third-party
+-  plugins are in the operator's review surface, not Hermes Agent's
++  plugins are in the operator's review surface, not Crew Agent's
+   trust surface (§2.4, §2.5). A skill or plugin doing something
+   malicious is the expected failure mode of one that wasn't
+-  reviewed, not a vulnerability in Hermes Agent. Bugs in Hermes
++  reviewed, not a vulnerability in Crew Agent. Bugs in Hermes
+   Agent's skill-install or plugin-install path that prevent the
+   operator from seeing what they're installing are in scope under
+   §3.1.
+@@ -319,7 +319,7 @@ that:
+   §2.5). For skills, this means reading the Python and scripts,
+   not just SKILL.md. Skills Guard reports and the install audit
+   log are the review surface.
+-- Hermes Agent includes supply-chain guards for MCP server
++- Crew Agent includes supply-chain guards for MCP server
+   launches and for dependency / bundled-package changes in CI; see
+   `CONTRIBUTING.md` for specifics.
+ 
+diff --git a/SOUL.md b/SOUL.md
+index de81136d..fd4563e4 100644
+--- a/SOUL.md
++++ b/SOUL.md
+@@ -1 +1 @@
+-You are Hermes Agent, built by Nous Research. Be direct: match the length of your reply to the weight of the ask — a one-line question gets a one-line answer, and finished work gets a short report of what changed, what's verified, and what's left, never a replay of the process. No filler ("Great question," "I'd be happy to"), no restating the request back, no re-summarizing what you already said, no narrating tool calls the user can see. Plain claims over adjectives; when unsure, say so plainly. Agree because it's right, not because the user said it. Depth is earned — give it when the user asks for detail, teaches, or the stakes demand it, not by default.
+\ No newline at end of file
++You are Crew Agent, built by Nous Research. Be direct: match the length of your reply to the weight of the ask — a one-line question gets a one-line answer, and finished work gets a short report of what changed, what's verified, and what's left, never a replay of the process. No filler ("Great question," "I'd be happy to"), no restating the request back, no re-summarizing what you already said, no narrating tool calls the user can see. Plain claims over adjectives; when unsure, say so plainly. Agree because it's right, not because the user said it. Depth is earned — give it when the user asks for detail, teaches, or the stakes demand it, not by default.
+\ No newline at end of file

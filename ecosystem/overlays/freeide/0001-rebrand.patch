@@ -1,0 +1,1366 @@
+diff --git a/CONTEXT.md b/CONTEXT.md
+index 5e5955d..19d7640 100644
+--- a/CONTEXT.md
++++ b/CONTEXT.md
+@@ -1,6 +1,6 @@
+-# OpenCode Session Runtime
++# FreeIDE Session Runtime
+ 
+-OpenCode sessions preserve durable conversational history while assembling the runtime context an agent needs to act correctly in its current environment.
++FreeIDE sessions preserve durable conversational history while assembling the runtime context an agent needs to act correctly in its current environment.
+ 
+ ## Language
+ 
+@@ -55,7 +55,7 @@ One process-local execution span that promotes eligible input and runs required
+ The bounded projection of a Core-executed tool result persisted in Session history and replayed to the model. A tool may shape this projection semantically, but the Tool Registry enforces the final size limit.
+ 
+ **Managed Tool Output File**:
+-A temporary file created under OpenCode's shared tool-output directory to retain complete output that was too large for Session history.
++A temporary file created under FreeIDE's shared tool-output directory to retain complete output that was too large for Session history.
+ 
+ **Model Request Options**:
+ Provider-semantic model settings selected from the Catalog and active Session variant before the LLM protocol adapter encodes them for a provider request.
+@@ -70,15 +70,15 @@ Opaque protocol-shaped data attached to assistant content and required to contin
+ **PTY Environment**:
+ The host-supplied environment overlay applied by the server when creating a PTY, observed for the request Location and resolved PTY working directory.
+ 
+-**OpenCode Client**:
+-The generated Promise and Effect APIs derived from the public `HttpApi`; **Embedded OpenCode** shares the Effect API through an in-memory `HttpClient` against the same router and handlers.
++**FreeIDE Client**:
++The generated Promise and Effect APIs derived from the public `HttpApi`; **Embedded FreeIDE** shares the Effect API through an in-memory `HttpClient` against the same router and handlers.
+ _Avoid_: Remote client
+ 
+ **SDK Contract IR**:
+ The runtime-neutral compiled representation of the authoritative `HttpApi`, preserving encoded and decoded type projections plus transport metadata so independent SDK emitters can choose their public value model and runtime interpreter.
+ 
+-**Embedded OpenCode**:
+-A scoped in-process host that structurally extends the **OpenCode Client**, supplies an in-memory HTTP transport, and exposes additional same-process capabilities directly.
++**Embedded FreeIDE**:
++A scoped in-process host that structurally extends the **FreeIDE Client**, supplies an in-memory HTTP transport, and exposes additional same-process capabilities directly.
+ _Avoid_: Local implementation
+ 
+ **Page**:
+@@ -136,12 +136,12 @@ _Avoid_: Response envelope
+ - **Model Request Options** remain provider-semantic through Catalog resolution. The Session runner maps them into the LLM package's provider-option namespace; the selected protocol adapter alone owns provider wire encoding.
+ - **Generation Controls**, protocol-semantic **Model Request Options**, and compatibility request body fields are separate Catalog domains. A shared ingestion adapter partitions legacy and models.dev AI-SDK-shaped options before routing.
+ - The **PTY Environment** is a server concern rather than a Core PTY concern. PTY creation merges caller values, then the host overlay, then Core-forced terminal invariants such as `TERM` and `OPENCODE_TERMINAL`.
+-- Networked and **Embedded OpenCode** use the same **OpenCode Client** and preserve the full HTTP encoding, routing, middleware, and decoding boundary; only the `HttpClient` transport differs.
++- Networked and **Embedded FreeIDE** use the same **FreeIDE Client** and preserve the full HTTP encoding, routing, middleware, and decoding boundary; only the `HttpClient` transport differs.
+ - The Effect-native network constructor obtains `HttpClient.HttpClient` from its environment so callers own transport selection, recording, tracing, retries, and tests. Convenience runtimes may provide a fetch transport separately.
+-- Creating **Embedded OpenCode** is scoped. Closing its owning Scope releases the in-process server resources, database resources, registrations, and fibers.
+-- **Embedded OpenCode** exposes shared client capabilities and embedded-only capabilities on one object; consumers do not navigate through a nested `.client` property.
+-- The beta **OpenCode Client** currently uses plural consumer-facing capability groups such as `sessions`; whether the stable Session namespace should instead be singular `session` must be settled before stabilization. Internal server identifiers do not implicitly define public client names.
+-- Server's concrete `HttpApi` is authoritative for shared **OpenCode Client** capabilities. Codegen compiles its Session group directly; the Effect runtime uses an equivalent Protocol-only projection so generated artifacts remain independent of Core and Server.
++- Creating **Embedded FreeIDE** is scoped. Closing its owning Scope releases the in-process server resources, database resources, registrations, and fibers.
++- **Embedded FreeIDE** exposes shared client capabilities and embedded-only capabilities on one object; consumers do not navigate through a nested `.client` property.
++- The beta **FreeIDE Client** currently uses plural consumer-facing capability groups such as `sessions`; whether the stable Session namespace should instead be singular `session` must be settled before stabilization. Internal server identifiers do not implicitly define public client names.
++- Server's concrete `HttpApi` is authoritative for shared **FreeIDE Client** capabilities. Codegen compiles its Session group directly; the Effect runtime uses an equivalent Protocol-only projection so generated artifacts remain independent of Core and Server.
+ - SDK generation reflects the public `HttpApi` once into an **SDK Contract IR**. Promise and Effect emitters share endpoint structure and transport metadata without being required to expose identical public values: an emitter may select encoded wire types, decoded domain types, compile-time brands, runtime validation, and its own execution abstraction independently.
+ - The first Effect emitter is the rich projection: it exposes decoded Effect-native values, preserves brands and schema transformations, performs runtime schema decoding, and delegates transport interpretation to `HttpApiClient`. Lighter wire-shaped Effect output remains possible through another emitter policy rather than constraining the shared IR.
+ - The rich Effect emitter regenerates private executable schemas when the **SDK Contract IR** proves that their transport semantics can be reproduced exactly. Contracts with authoritative custom transformations use the import-based Effect emitter against a Protocol-only client projection whose generated transport output is tested against Server's concrete API; the Promise emitter still derives zero-Effect structural wire types from the same IR.
+@@ -161,14 +161,14 @@ _Avoid_: Response envelope
+ - The Effect-native scoped host belongs to `@opencode-ai/sdk-next`, which will assume the existing `@opencode-ai/sdk` name after legacy consumers migrate. Client remains network-only and SDK depends one-way on Client.
+ - SDK executes Server's assembled `HttpRouter` in memory. It opens no listener and performs no network I/O, while preserving Server routing, middleware, codecs, handlers, and errors.
+ - The Effect Client and SDK re-export their decoded datatype facade from Schema so callers do not depend on internal package locations or Core's versioned names.
+-- A capability intended for both networked and **Embedded OpenCode** belongs in the authoritative public `HttpApi`; embedded-only same-process capabilities extend **Embedded OpenCode** separately.
++- A capability intended for both networked and **Embedded FreeIDE** belongs in the authoritative public `HttpApi`; embedded-only same-process capabilities extend **Embedded FreeIDE** separately.
+ - `sessions.events({ sessionID, after })` is a public durable Session event stream. It verifies the Session, replays durable events after the optional aggregate sequence, continues with newly committed durable events, excludes live-only fragments, and is transported as SSE in both networked and embedded modes.
+ - `events.subscribe()` is a distinct public instance-wide live stream for Session and non-Session activity. It has no replay guarantee and includes connection, heartbeat, and instance-disposal lifecycle events; consumers recover from disconnection by refreshing authoritative state.
+ - A Session ID is not an optional filter on `events.subscribe()`: instance-wide live events and durable Session events have different schemas, replay guarantees, cursors, lifecycle events, and failure behavior.
+-- The initial common OpenCode Client does not expose server-global event aggregation. `events.subscribe()` is bounded to the connected OpenCode instance or workspace; any future cross-instance administrative stream requires a separately designed API.
++- The initial common FreeIDE Client does not expose server-global event aggregation. `events.subscribe()` is bounded to the connected FreeIDE instance or workspace; any future cross-instance administrative stream requires a separately designed API.
+ - `events.subscribe()` does not automatically reconnect after transport loss. The live-only stream fails with `ClientError`; consumers refresh authoritative state before explicitly opening a new subscription because events missed during disconnection cannot be replayed.
+ - `sessions.events({ sessionID, after })` returns the generated HTTP client's cold durable event stream and does not build reconnection policy into the endpoint or client constructor. Transport loss fails the stream with `ClientError`. Callers may compose an explicit resuming stream above it by retaining the last observed durable sequence and opening a new subscription with `after`; any reusable resume helper remains a separate API design question.
+-- The stable `sessions.list(...)` design returns a **Page** in both networked and **Embedded OpenCode**; embedded execution does not define a separate unbounded array-returning list operation. The beta client currently preserves the existing HTTP `{ data, cursor }` envelope until emitter-level Page projection is implemented.
++- The stable `sessions.list(...)` design returns a **Page** in both networked and **Embedded FreeIDE**; embedded execution does not define a separate unbounded array-returning list operation. The beta client currently preserves the existing HTTP `{ data, cursor }` envelope until emitter-level Page projection is implemented.
+ - Session list cursors are opaque branded values carrying continuation query and ordering state. Consumers pass them back unchanged and do not inspect storage anchors or encoded filter fields.
+ - A Session list continuation accepts only its opaque cursor. Scope, filters, ordering, and page size are fixed by the initial query and carried by that cursor.
+ - `sessions.messages(...)` returns a **Page** and uses the same cursor discipline as `sessions.list(...)`: the initial request supplies `sessionID`, ordering, and page size; continuation supplies `sessionID` plus only an opaque branded message cursor carrying ordering, page size, direction, and message anchor. Using a cursor with another Session is invalid.
+@@ -179,9 +179,9 @@ _Avoid_: Response envelope
+ - **Open question**: Should a future, separately named operation expose the complete provider request context, including baseline system context, selected source contributions, and context-epoch metadata?
+ - `sessions.prompt(...)` exposes `resume?: boolean`. Omitting it preserves durable admission followed by an advisory execution wake; `resume: false` requests durable admit-only behavior.
+ - The public operation remains `sessions.prompt(...)`; `SessionInput.admit` is the internal primitive, while the public `Admission` result and `resume` option express its durable admission semantics.
+-- `sessions.create(...)` accepts an optional `location`. Omission resolves through the connected OpenCode instance's default or current location; an explicit value selects a known location. Networked and embedded transports use the same handler semantics.
++- `sessions.create(...)` accepts an optional `location`. Omission resolves through the connected FreeIDE instance's default or current location; an explicit value selects a known location. Networked and embedded transports use the same handler semantics.
+ - `sessions.switchAgent({ sessionID, agent })` is part of the common client alongside `sessions.switchModel(...)`. It affects subsequent Session activity and fails with `SessionNotFoundError` for an unknown Session.
+-- The **Embedded OpenCode** Layer delegates to the same scoped creation path; it does not define a second implementation.
++- The **Embedded FreeIDE** Layer delegates to the same scoped creation path; it does not define a second implementation.
+ - A **PTY Environment** adapter observes plugins in the request Location while passing the resolved PTY working directory to the hook; standalone servers use an empty adapter.
+ - A **Mid-Conversation System Message** lowers to the provider's native chronological instruction role when supported and to a wrapped chronological fallback otherwise.
+ - When the effective aggregate instruction set changes, its **Mid-Conversation System Message** includes the complete current ordered set and supersedes the prior aggregate value; when no ambient instructions remain, the message states that previously loaded instructions no longer apply.
+diff --git a/CONTRIBUTING.md b/CONTRIBUTING.md
+index a53e2dd..f205561 100644
+--- a/CONTRIBUTING.md
++++ b/CONTRIBUTING.md
+@@ -1,6 +1,6 @@
+-# Contributing to OpenCode
++# Contributing to FreeIDE
+ 
+-We want to make it easy for you to contribute to OpenCode. Here are the most common type of changes that get merged:
++We want to make it easy for you to contribute to FreeIDE. Here are the most common type of changes that get merged:
+ 
+ - Bug fixes
+ - Additional LSPs / Formatters
+@@ -29,7 +29,7 @@ Want to take on an issue? Leave a comment and a maintainer may assign it to you
+ New providers shouldn't require many if ANY code changes, but if you want to add support for a new provider first make a PR to:
+ https://github.com/anomalyco/models.dev
+ 
+-## Developing OpenCode
++## Developing FreeIDE
+ 
+ - Requirements: Bun 1.3+
+ - Install dependencies and start the dev server from the repo root:
+@@ -41,13 +41,13 @@ https://github.com/anomalyco/models.dev
+ 
+ ### Running against a different directory
+ 
+-By default, `bun dev` runs OpenCode in the `packages/opencode` directory. To run it against a different directory or repository:
++By default, `bun dev` runs FreeIDE in the `packages/opencode` directory. To run it against a different directory or repository:
+ 
+ ```bash
+ bun dev <directory>
+ ```
+ 
+-To run OpenCode in the root of the opencode repo itself:
++To run FreeIDE in the root of the opencode repo itself:
+ 
+ ```bash
+ bun dev .
+@@ -70,7 +70,7 @@ Then run it with:
+ Replace `<platform>` with your platform (e.g., `darwin-arm64`, `linux-x64`).
+ 
+ - Core pieces:
+-  - `packages/opencode`: OpenCode core business logic & server.
++  - `packages/opencode`: FreeIDE core business logic & server.
+   - `packages/opencode/src/cli/cmd/tui/`: The TUI code, written in SolidJS with [opentui](https://github.com/sst/opentui)
+   - `packages/app`: The shared web UI components, written in SolidJS
+   - `packages/desktop`: The native desktop app, built with Electron (wraps `packages/app`)
+@@ -96,7 +96,7 @@ opencode <directory>     # Start TUI in specific directory
+ 
+ ### Running the API Server
+ 
+-To start the OpenCode headless API server:
++To start the FreeIDE headless API server:
+ 
+ ```bash
+ bun dev serve
+@@ -112,7 +112,7 @@ bun dev serve --port 8080
+ 
+ To test UI changes during development:
+ 
+-1. **First, start the OpenCode server** (see [Running the API Server](#running-the-api-server) section above)
++1. **First, start the FreeIDE server** (see [Running the API Server](#running-the-api-server) section above)
+ 2. **Then run the web app:**
+ 
+ ```bash
+@@ -147,12 +147,12 @@ Please try to follow the [style guide](./AGENTS.md)
+ 
+ Bun debugging is currently rough around the edges. We hope this guide helps you get set up and avoid some pain points.
+ 
+-The most reliable way to debug OpenCode is to run it manually in a terminal via `bun run --inspect=<url> dev ...` and attach
++The most reliable way to debug FreeIDE is to run it manually in a terminal via `bun run --inspect=<url> dev ...` and attach
+ your debugger via that URL. Other methods can result in breakpoints being mapped incorrectly, at least in VSCode (YMMV).
+ 
+ Caveats:
+ 
+-- If you want to run the OpenCode TUI and have breakpoints triggered in the server code, you might need to run `bun dev spawn` instead of
++- If you want to run the FreeIDE TUI and have breakpoints triggered in the server code, you might need to run `bun dev spawn` instead of
+   the usual `bun dev`. This is because `bun dev` runs the server in a worker thread and breakpoints might not work there.
+ - If `spawn` does not work for you, you can debug the server separately:
+   - Debug server: `bun run --inspect=ws://localhost:6499/ --cwd packages/opencode ./src/index.ts serve --port 4096`,
+@@ -171,7 +171,7 @@ If you use VSCode, you can use our example configurations [.vscode/settings.exam
+ Some debug methods that can be problematic:
+ 
+ - Debug configurations with `"request": "launch"` can have breakpoints incorrectly mapped and thus unusable
+-- The same problem arises when running OpenCode in the VSCode `JavaScript Debug Terminal`
++- The same problem arises when running FreeIDE in the VSCode `JavaScript Debug Terminal`
+ 
+ With that said, you may want to try these methods, as they might work for you.
+ 
+@@ -250,7 +250,7 @@ These are not strictly enforced, they are just general guidelines:
+ 
+ ## Feature Requests
+ 
+-For net-new functionality, start with a design conversation. Open an issue describing the problem, your proposed approach (optional), and why it belongs in OpenCode. The core team will help decide whether it should move forward; please wait for that approval instead of opening a feature PR directly.
++For net-new functionality, start with a design conversation. Open an issue describing the problem, your proposed approach (optional), and why it belongs in FreeIDE. The core team will help decide whether it should move forward; please wait for that approval instead of opening a feature PR directly.
+ 
+ ## Issue Requirements
+ 
+diff --git a/NETIE-ATTRIBUTION.md b/NETIE-ATTRIBUTION.md
+new file mode 100644
+index 0000000..a46408a
+--- /dev/null
++++ b/NETIE-ATTRIBUTION.md
+@@ -0,0 +1,24 @@
++# Attribution
++
++Netie FreeIDE is a modified distribution of anomalyco/opencode
++(https://github.com/anomalyco/opencode), pinned at commit 907b3bc518.
++
++Upstream license: MIT. LICENSE is included unmodified, with every
++upstream copyright line, and so is any NOTICE file.
++
++- Copyright (c) 2025 opencode
++
++Not affiliated with or endorsed by the upstream authors. Upstream names and
++logos belong to their owners.
++
++## Changed in stage 1
++
++- Display name OpenCode rewritten to FreeIDE in prose docs only.
++- This file and a README banner added.
++
++## Not done yet (stage 2)
++
++- Package names, binaries, identifiers and UI strings are still upstream's.
++- SECURITY, SUPPORT and CONTRIBUTING contacts and URLs still point at upstream.
++- Translated docs, changelogs and third-party notices are untouched.
++- Netie gate wiring: Provider base URL -> OpenVault /v1. Shell, edit and fetch tools -> Cortex tool_runner and OpenVault POST /api/crew/gate.
+diff --git a/README.ar.md b/README.ar.md
+index 4361893..de57a3d 100644
+--- a/README.ar.md
++++ b/README.ar.md
+@@ -39,7 +39,7 @@
+   <a href="README.vi.md">Tiếng Việt</a>
+ </p>
+ 
+-[![OpenCode Terminal UI](packages/web/src/assets/lander/screenshot.png)](https://opencode.ai)
++[![FreeIDE Terminal UI](packages/web/src/assets/lander/screenshot.png)](https://opencode.ai)
+ 
+ ---
+ 
+@@ -66,7 +66,7 @@ nix run nixpkgs#opencode           # او github:anomalyco/opencode لاحدث 
+ 
+ ### تطبيق سطح المكتب (BETA)
+ 
+-يتوفر OpenCode ايضا كتطبيق سطح مكتب. قم بالتنزيل مباشرة من [صفحة الاصدارات](https://github.com/anomalyco/opencode/releases) او من [opencode.ai/download](https://opencode.ai/download).
++يتوفر FreeIDE ايضا كتطبيق سطح مكتب. قم بالتنزيل مباشرة من [صفحة الاصدارات](https://github.com/anomalyco/opencode/releases) او من [opencode.ai/download](https://opencode.ai/download).
+ 
+ | المنصة                | التنزيل                            |
+ | --------------------- | ---------------------------------- |
+@@ -99,7 +99,7 @@ XDG_BIN_DIR=$HOME/.local/bin curl -fsSL https://opencode.ai/install | bash
+ 
+ ### Agents
+ 
+-يتضمن OpenCode وكيليْن (Agents) مدمجين يمكنك التبديل بينهما باستخدام زر `Tab`.
++يتضمن FreeIDE وكيليْن (Agents) مدمجين يمكنك التبديل بينهما باستخدام زر `Tab`.
+ 
+ - **build** - الافتراضي، وكيل بصلاحيات كاملة لاعمال التطوير
+ - **plan** - وكيل للقراءة فقط للتحليل واستكشاف الكود
+@@ -114,15 +114,15 @@ XDG_BIN_DIR=$HOME/.local/bin curl -fsSL https://opencode.ai/install | bash
+ 
+ ### التوثيق
+ 
+-لمزيد من المعلومات حول كيفية ضبط OpenCode، [**راجع التوثيق**](https://opencode.ai/docs).
++لمزيد من المعلومات حول كيفية ضبط FreeIDE، [**راجع التوثيق**](https://opencode.ai/docs).
+ 
+ ### المساهمة
+ 
+-اذا كنت مهتما بالمساهمة في OpenCode، يرجى قراءة [contributing docs](./CONTRIBUTING.md) قبل ارسال pull request.
++اذا كنت مهتما بالمساهمة في FreeIDE، يرجى قراءة [contributing docs](./CONTRIBUTING.md) قبل ارسال pull request.
+ 
+-### البناء فوق OpenCode
++### البناء فوق FreeIDE
+ 
+-اذا كنت تعمل على مشروع مرتبط بـ OpenCode ويستخدم "opencode" كجزء من اسمه (مثل "opencode-dashboard" او "opencode-mobile")، يرجى اضافة ملاحظة في README توضح انه ليس مبنيا بواسطة فريق OpenCode ولا يرتبط بنا بأي شكل.
++اذا كنت تعمل على مشروع مرتبط بـ FreeIDE ويستخدم "opencode" كجزء من اسمه (مثل "opencode-dashboard" او "opencode-mobile")، يرجى اضافة ملاحظة في README توضح انه ليس مبنيا بواسطة فريق FreeIDE ولا يرتبط بنا بأي شكل.
+ 
+ ---
+ 
+diff --git a/README.bn.md b/README.bn.md
+index ce00a41..be2dbe7 100644
+--- a/README.bn.md
++++ b/README.bn.md
+@@ -39,7 +39,7 @@
+   <a href="README.vi.md">Tiếng Việt</a>
+ </p>
+ 
+-[![OpenCode Terminal UI](packages/web/src/assets/lander/screenshot.png)](https://opencode.ai)
++[![FreeIDE Terminal UI](packages/web/src/assets/lander/screenshot.png)](https://opencode.ai)
+ 
+ ---
+ 
+@@ -66,7 +66,7 @@ nix run nixpkgs#opencode           # or github:anomalyco/opencode for latest dev
+ 
+ ### ডেস্কটপ অ্যাপ (BETA)
+ 
+-OpenCode ডেস্কটপ অ্যাপ্লিকেশন হিসেবেও উপলব্ধ। সরাসরি [রিলিজ পেজ](https://github.com/anomalyco/opencode/releases) অথবা [opencode.ai/download](https://opencode.ai/download) থেকে ডাউনলোড করুন।
++FreeIDE ডেস্কটপ অ্যাপ্লিকেশন হিসেবেও উপলব্ধ। সরাসরি [রিলিজ পেজ](https://github.com/anomalyco/opencode/releases) অথবা [opencode.ai/download](https://opencode.ai/download) থেকে ডাউনলোড করুন।
+ 
+ | প্ল্যাটফর্ম           | ডাউনলোড                            |
+ | --------------------- | ---------------------------------- |
+@@ -99,7 +99,7 @@ XDG_BIN_DIR=$HOME/.local/bin curl -fsSL https://opencode.ai/install | bash
+ 
+ ### এজেন্টস (Agents)
+ 
+-OpenCode এ দুটি বিল্ট-ইন এজেন্ট রয়েছে যা আপনি `Tab` কি(key) দিয়ে পরিবর্তন করতে পারবেন।
++FreeIDE এ দুটি বিল্ট-ইন এজেন্ট রয়েছে যা আপনি `Tab` কি(key) দিয়ে পরিবর্তন করতে পারবেন।
+ 
+ - **build** - ডিফল্ট, ডেভেলপমেন্টের কাজের জন্য সম্পূর্ণ অ্যাক্সেসযুক্ত এজেন্ট
+ - **plan** - বিশ্লেষণ এবং কোড এক্সপ্লোরেশনের জন্য রিড-ওনলি এজেন্ট
+@@ -114,15 +114,15 @@ OpenCode এ দুটি বিল্ট-ইন এজেন্ট রয়ে
+ 
+ ### ডকুমেন্টেশন (Documentation)
+ 
+-কিভাবে OpenCode কনফিগার করবেন সে সম্পর্কে আরও তথ্যের জন্য, [**আমাদের ডকস দেখুন**](https://opencode.ai/docs)।
++কিভাবে FreeIDE কনফিগার করবেন সে সম্পর্কে আরও তথ্যের জন্য, [**আমাদের ডকস দেখুন**](https://opencode.ai/docs)।
+ 
+ ### অবদান (Contributing)
+ 
+-আপনি যদি OpenCode এ অবদান রাখতে চান, অনুগ্রহ করে একটি পুল রিকোয়েস্ট সাবমিট করার আগে আমাদের [কন্ট্রিবিউটিং ডকস](./CONTRIBUTING.md) পড়ে নিন।
++আপনি যদি FreeIDE এ অবদান রাখতে চান, অনুগ্রহ করে একটি পুল রিকোয়েস্ট সাবমিট করার আগে আমাদের [কন্ট্রিবিউটিং ডকস](./CONTRIBUTING.md) পড়ে নিন।
+ 
+-### OpenCode এর উপর বিল্ডিং (Building on OpenCode)
++### FreeIDE এর উপর বিল্ডিং (Building on FreeIDE)
+ 
+-আপনি যদি এমন প্রজেক্টে কাজ করেন যা OpenCode এর সাথে সম্পর্কিত এবং প্রজেক্টের নামের অংশ হিসেবে "opencode" ব্যবহার করেন, উদাহরণস্বরূপ "opencode-dashboard" বা "opencode-mobile", তবে দয়া করে আপনার README তে একটি নোট যোগ করে স্পষ্ট করুন যে এই প্রজেক্টটি OpenCode দল দ্বারা তৈরি হয়নি এবং আমাদের সাথে এর কোনো সরাসরি সম্পর্ক নেই।
++আপনি যদি এমন প্রজেক্টে কাজ করেন যা FreeIDE এর সাথে সম্পর্কিত এবং প্রজেক্টের নামের অংশ হিসেবে "opencode" ব্যবহার করেন, উদাহরণস্বরূপ "opencode-dashboard" বা "opencode-mobile", তবে দয়া করে আপনার README তে একটি নোট যোগ করে স্পষ্ট করুন যে এই প্রজেক্টটি FreeIDE দল দ্বারা তৈরি হয়নি এবং আমাদের সাথে এর কোনো সরাসরি সম্পর্ক নেই।
+ 
+ ---
+ 
+diff --git a/README.br.md b/README.br.md
+index 976738c..8a4d514 100644
+--- a/README.br.md
++++ b/README.br.md
+@@ -39,7 +39,7 @@
+   <a href="README.vi.md">Tiếng Việt</a>
+ </p>
+ 
+-[![OpenCode Terminal UI](packages/web/src/assets/lander/screenshot.png)](https://opencode.ai)
++[![FreeIDE Terminal UI](packages/web/src/assets/lander/screenshot.png)](https://opencode.ai)
+ 
+ ---
+ 
+@@ -66,7 +66,7 @@ nix run nixpkgs#opencode           # ou github:anomalyco/opencode para a branch
+ 
+ ### App desktop (BETA)
+ 
+-O OpenCode também está disponível como aplicativo desktop. Baixe diretamente pela [página de releases](https://github.com/anomalyco/opencode/releases) ou em [opencode.ai/download](https://opencode.ai/download).
++O FreeIDE também está disponível como aplicativo desktop. Baixe diretamente pela [página de releases](https://github.com/anomalyco/opencode/releases) ou em [opencode.ai/download](https://opencode.ai/download).
+ 
+ | Plataforma            | Download                           |
+ | --------------------- | ---------------------------------- |
+@@ -99,7 +99,7 @@ XDG_BIN_DIR=$HOME/.local/bin curl -fsSL https://opencode.ai/install | bash
+ 
+ ### Agents
+ 
+-O OpenCode inclui dois agents integrados, que você pode alternar com a tecla `Tab`.
++O FreeIDE inclui dois agents integrados, que você pode alternar com a tecla `Tab`.
+ 
+ - **build** - Padrão, agent com acesso total para trabalho de desenvolvimento
+ - **plan** - Agent somente leitura para análise e exploração de código
+@@ -114,15 +114,15 @@ Saiba mais sobre [agents](https://opencode.ai/docs/agents).
+ 
+ ### Documentação
+ 
+-Para mais informações sobre como configurar o OpenCode, [**veja nossa documentação**](https://opencode.ai/docs).
++Para mais informações sobre como configurar o FreeIDE, [**veja nossa documentação**](https://opencode.ai/docs).
+ 
+ ### Contribuir
+ 
+-Se você tem interesse em contribuir com o OpenCode, leia os [contributing docs](./CONTRIBUTING.md) antes de enviar um pull request.
++Se você tem interesse em contribuir com o FreeIDE, leia os [contributing docs](./CONTRIBUTING.md) antes de enviar um pull request.
+ 
+-### Construindo com OpenCode
++### Construindo com FreeIDE
+ 
+-Se você estiver trabalhando em um projeto relacionado ao OpenCode e estiver usando "opencode" como parte do nome (por exemplo, "opencode-dashboard" ou "opencode-mobile"), adicione uma nota no README para deixar claro que não foi construído pela equipe do OpenCode e não é afiliado a nós de nenhuma forma.
++Se você estiver trabalhando em um projeto relacionado ao FreeIDE e estiver usando "opencode" como parte do nome (por exemplo, "opencode-dashboard" ou "opencode-mobile"), adicione uma nota no README para deixar claro que não foi construído pela equipe do FreeIDE e não é afiliado a nós de nenhuma forma.
+ 
+ ---
+ 
+diff --git a/README.bs.md b/README.bs.md
+index 0adf8eb..42e3187 100644
+--- a/README.bs.md
++++ b/README.bs.md
+@@ -7,7 +7,7 @@
+     </picture>
+   </a>
+ </p>
+-<p align="center">OpenCode je open source AI agent za programiranje.</p>
++<p align="center">FreeIDE je open source AI agent za programiranje.</p>
+ <p align="center">
+   <a href="https://opencode.ai/discord"><img alt="Discord" src="https://img.shields.io/discord/1391832426048651334?style=flat-square&label=discord" /></a>
+   <a href="https://www.npmjs.com/package/opencode-ai"><img alt="npm" src="https://img.shields.io/npm/v/opencode-ai?style=flat-square" /></a>
+@@ -39,7 +39,7 @@
+   <a href="README.vi.md">Tiếng Việt</a>
+ </p>
+ 
+-[![OpenCode Terminal UI](packages/web/src/assets/lander/screenshot.png)](https://opencode.ai)
++[![FreeIDE Terminal UI](packages/web/src/assets/lander/screenshot.png)](https://opencode.ai)
+ 
+ ---
+ 
+@@ -66,7 +66,7 @@ nix run nixpkgs#opencode           # ili github:anomalyco/opencode za najnoviji
+ 
+ ### Desktop aplikacija (BETA)
+ 
+-OpenCode je dostupan i kao desktop aplikacija. Preuzmi je direktno sa [stranice izdanja](https://github.com/anomalyco/opencode/releases) ili sa [opencode.ai/download](https://opencode.ai/download).
++FreeIDE je dostupan i kao desktop aplikacija. Preuzmi je direktno sa [stranice izdanja](https://github.com/anomalyco/opencode/releases) ili sa [opencode.ai/download](https://opencode.ai/download).
+ 
+ | Platforma             | Preuzimanje                        |
+ | --------------------- | ---------------------------------- |
+@@ -99,7 +99,7 @@ XDG_BIN_DIR=$HOME/.local/bin curl -fsSL https://opencode.ai/install | bash
+ 
+ ### Agenti
+ 
+-OpenCode uključuje dva ugrađena agenta između kojih možeš prebacivati tasterom `Tab`.
++FreeIDE uključuje dva ugrađena agenta između kojih možeš prebacivati tasterom `Tab`.
+ 
+ - **build** - Podrazumijevani agent sa punim pristupom za razvoj
+ - **plan** - Agent samo za čitanje za analizu i istraživanje koda
+@@ -122,7 +122,7 @@ Ako želiš doprinositi OpenCode-u, pročitaj [upute za doprinošenje](./CONTRIB
+ 
+ ### Gradnja na OpenCode-u
+ 
+-Ako radiš na projektu koji je povezan s OpenCode-om i koristi "opencode" kao dio naziva, npr. "opencode-dashboard" ili "opencode-mobile", dodaj napomenu u svoj README da projekat nije napravio OpenCode tim i da nije povezan s nama.
++Ako radiš na projektu koji je povezan s OpenCode-om i koristi "opencode" kao dio naziva, npr. "opencode-dashboard" ili "opencode-mobile", dodaj napomenu u svoj README da projekat nije napravio FreeIDE tim i da nije povezan s nama.
+ 
+ ---
+ 
+diff --git a/README.da.md b/README.da.md
+index e8932e0..db0daa3 100644
+--- a/README.da.md
++++ b/README.da.md
+@@ -39,7 +39,7 @@
+   <a href="README.vi.md">Tiếng Việt</a>
+ </p>
+ 
+-[![OpenCode Terminal UI](packages/web/src/assets/lander/screenshot.png)](https://opencode.ai)
++[![FreeIDE Terminal UI](packages/web/src/assets/lander/screenshot.png)](https://opencode.ai)
+ 
+ ---
+ 
+@@ -66,7 +66,7 @@ nix run nixpkgs#opencode           # eller github:anomalyco/opencode for nyeste
+ 
+ ### Desktop-app (BETA)
+ 
+-OpenCode findes også som desktop-app. Download direkte fra [releases-siden](https://github.com/anomalyco/opencode/releases) eller [opencode.ai/download](https://opencode.ai/download).
++FreeIDE findes også som desktop-app. Download direkte fra [releases-siden](https://github.com/anomalyco/opencode/releases) eller [opencode.ai/download](https://opencode.ai/download).
+ 
+ | Platform              | Download                           |
+ | --------------------- | ---------------------------------- |
+@@ -99,7 +99,7 @@ XDG_BIN_DIR=$HOME/.local/bin curl -fsSL https://opencode.ai/install | bash
+ 
+ ### Agents
+ 
+-OpenCode har to indbyggede agents, som du kan skifte mellem med `Tab`-tasten.
++FreeIDE har to indbyggede agents, som du kan skifte mellem med `Tab`-tasten.
+ 
+ - **build** - Standard, agent med fuld adgang til udviklingsarbejde
+ - **plan** - Skrivebeskyttet agent til analyse og kodeudforskning
+@@ -114,15 +114,15 @@ Læs mere om [agents](https://opencode.ai/docs/agents).
+ 
+ ### Dokumentation
+ 
+-For mere info om konfiguration af OpenCode, [**se vores docs**](https://opencode.ai/docs).
++For mere info om konfiguration af FreeIDE, [**se vores docs**](https://opencode.ai/docs).
+ 
+ ### Bidrag
+ 
+-Hvis du vil bidrage til OpenCode, så læs vores [contributing docs](./CONTRIBUTING.md) før du sender en pull request.
++Hvis du vil bidrage til FreeIDE, så læs vores [contributing docs](./CONTRIBUTING.md) før du sender en pull request.
+ 
+-### Bygget på OpenCode
++### Bygget på FreeIDE
+ 
+-Hvis du arbejder på et projekt der er relateret til OpenCode og bruger "opencode" som en del af navnet; f.eks. "opencode-dashboard" eller "opencode-mobile", så tilføj en note i din README, der tydeliggør at projektet ikke er bygget af OpenCode-teamet og ikke er tilknyttet os på nogen måde.
++Hvis du arbejder på et projekt der er relateret til FreeIDE og bruger "opencode" som en del af navnet; f.eks. "opencode-dashboard" eller "opencode-mobile", så tilføj en note i din README, der tydeliggør at projektet ikke er bygget af OpenCode-teamet og ikke er tilknyttet os på nogen måde.
+ 
+ ---
+ 
+diff --git a/README.de.md b/README.de.md
+index 958386c..9595faf 100644
+--- a/README.de.md
++++ b/README.de.md
+@@ -39,7 +39,7 @@
+   <a href="README.vi.md">Tiếng Việt</a>
+ </p>
+ 
+-[![OpenCode Terminal UI](packages/web/src/assets/lander/screenshot.png)](https://opencode.ai)
++[![FreeIDE Terminal UI](packages/web/src/assets/lander/screenshot.png)](https://opencode.ai)
+ 
+ ---
+ 
+@@ -66,7 +66,7 @@ nix run nixpkgs#opencode           # oder github:anomalyco/opencode für den neu
+ 
+ ### Desktop-App (BETA)
+ 
+-OpenCode ist auch als Desktop-Anwendung verfügbar. Lade sie direkt von der [Releases-Seite](https://github.com/anomalyco/opencode/releases) oder [opencode.ai/download](https://opencode.ai/download) herunter.
++FreeIDE ist auch als Desktop-Anwendung verfügbar. Lade sie direkt von der [Releases-Seite](https://github.com/anomalyco/opencode/releases) oder [opencode.ai/download](https://opencode.ai/download) herunter.
+ 
+ | Plattform             | Download                           |
+ | --------------------- | ---------------------------------- |
+@@ -99,7 +99,7 @@ XDG_BIN_DIR=$HOME/.local/bin curl -fsSL https://opencode.ai/install | bash
+ 
+ ### Agents
+ 
+-OpenCode enthält zwei eingebaute Agents, zwischen denen du mit der `Tab`-Taste wechseln kannst.
++FreeIDE enthält zwei eingebaute Agents, zwischen denen du mit der `Tab`-Taste wechseln kannst.
+ 
+ - **build** - Standard-Agent mit vollem Zugriff für Entwicklungsarbeit
+ - **plan** - Nur-Lese-Agent für Analyse und Code-Exploration
+@@ -114,15 +114,15 @@ Mehr dazu unter [Agents](https://opencode.ai/docs/agents).
+ 
+ ### Dokumentation
+ 
+-Mehr Infos zur Konfiguration von OpenCode findest du in unseren [**Docs**](https://opencode.ai/docs).
++Mehr Infos zur Konfiguration von FreeIDE findest du in unseren [**Docs**](https://opencode.ai/docs).
+ 
+ ### Beitragen
+ 
+-Wenn du zu OpenCode beitragen möchtest, lies bitte unsere [Contributing Docs](./CONTRIBUTING.md), bevor du einen Pull Request einreichst.
++Wenn du zu FreeIDE beitragen möchtest, lies bitte unsere [Contributing Docs](./CONTRIBUTING.md), bevor du einen Pull Request einreichst.
+ 
+-### Auf OpenCode aufbauen
++### Auf FreeIDE aufbauen
+ 
+-Wenn du an einem Projekt arbeitest, das mit OpenCode zusammenhängt und "opencode" als Teil seines Namens verwendet (z.B. "opencode-dashboard" oder "opencode-mobile"), füge bitte einen Hinweis in deine README ein, dass es nicht vom OpenCode-Team gebaut wird und nicht in irgendeiner Weise mit uns verbunden ist.
++Wenn du an einem Projekt arbeitest, das mit FreeIDE zusammenhängt und "opencode" als Teil seines Namens verwendet (z.B. "opencode-dashboard" oder "opencode-mobile"), füge bitte einen Hinweis in deine README ein, dass es nicht vom OpenCode-Team gebaut wird und nicht in irgendeiner Weise mit uns verbunden ist.
+ 
+ ---
+ 
+diff --git a/README.es.md b/README.es.md
+index 39540bc..55c1e20 100644
+--- a/README.es.md
++++ b/README.es.md
+@@ -39,7 +39,7 @@
+   <a href="README.vi.md">Tiếng Việt</a>
+ </p>
+ 
+-[![OpenCode Terminal UI](packages/web/src/assets/lander/screenshot.png)](https://opencode.ai)
++[![FreeIDE Terminal UI](packages/web/src/assets/lander/screenshot.png)](https://opencode.ai)
+ 
+ ---
+ 
+@@ -66,7 +66,7 @@ nix run nixpkgs#opencode           # o github:anomalyco/opencode para la rama de
+ 
+ ### App de escritorio (BETA)
+ 
+-OpenCode también está disponible como aplicación de escritorio. Descárgala directamente desde la [página de releases](https://github.com/anomalyco/opencode/releases) o desde [opencode.ai/download](https://opencode.ai/download).
++FreeIDE también está disponible como aplicación de escritorio. Descárgala directamente desde la [página de releases](https://github.com/anomalyco/opencode/releases) o desde [opencode.ai/download](https://opencode.ai/download).
+ 
+ | Plataforma            | Descarga                           |
+ | --------------------- | ---------------------------------- |
+@@ -99,7 +99,7 @@ XDG_BIN_DIR=$HOME/.local/bin curl -fsSL https://opencode.ai/install | bash
+ 
+ ### Agentes
+ 
+-OpenCode incluye dos agentes integrados que puedes alternar con la tecla `Tab`.
++FreeIDE incluye dos agentes integrados que puedes alternar con la tecla `Tab`.
+ 
+ - **build** - Por defecto, agente con acceso completo para tareas de desarrollo
+ - **plan** - Agente de solo lectura para análisis y exploración de código
+@@ -114,15 +114,15 @@ Más información sobre [agentes](https://opencode.ai/docs/agents).
+ 
+ ### Documentación
+ 
+-Para más información sobre cómo configurar OpenCode, [**ve a nuestra documentación**](https://opencode.ai/docs).
++Para más información sobre cómo configurar FreeIDE, [**ve a nuestra documentación**](https://opencode.ai/docs).
+ 
+ ### Contribuir
+ 
+-Si te interesa contribuir a OpenCode, lee nuestras [docs de contribución](./CONTRIBUTING.md) antes de enviar un pull request.
++Si te interesa contribuir a FreeIDE, lee nuestras [docs de contribución](./CONTRIBUTING.md) antes de enviar un pull request.
+ 
+-### Proyectos basados en OpenCode
++### Proyectos basados en FreeIDE
+ 
+-Si estás trabajando en un proyecto basado en OpenCode y usas "opencode" como parte del nombre, por ejemplo, "opencode-dashboard" u "opencode-mobile", agrega una nota en tu README para aclarar que no está hecho por el equipo de OpenCode y que no está afiliado con nosotros de ninguna manera.
++Si estás trabajando en un proyecto basado en FreeIDE y usas "opencode" como parte del nombre, por ejemplo, "opencode-dashboard" u "opencode-mobile", agrega una nota en tu README para aclarar que no está hecho por el equipo de FreeIDE y que no está afiliado con nosotros de ninguna manera.
+ 
+ ---
+ 
+diff --git a/README.fr.md b/README.fr.md
+index d19c89d..9d4cfc0 100644
+--- a/README.fr.md
++++ b/README.fr.md
+@@ -39,7 +39,7 @@
+   <a href="README.vi.md">Tiếng Việt</a>
+ </p>
+ 
+-[![OpenCode Terminal UI](packages/web/src/assets/lander/screenshot.png)](https://opencode.ai)
++[![FreeIDE Terminal UI](packages/web/src/assets/lander/screenshot.png)](https://opencode.ai)
+ 
+ ---
+ 
+@@ -66,7 +66,7 @@ nix run nixpkgs#opencode           # ou github:anomalyco/opencode pour la branch
+ 
+ ### Application de bureau (BETA)
+ 
+-OpenCode est aussi disponible en application de bureau. Téléchargez-la directement depuis la [page des releases](https://github.com/anomalyco/opencode/releases) ou [opencode.ai/download](https://opencode.ai/download).
++FreeIDE est aussi disponible en application de bureau. Téléchargez-la directement depuis la [page des releases](https://github.com/anomalyco/opencode/releases) ou [opencode.ai/download](https://opencode.ai/download).
+ 
+ | Plateforme            | Téléchargement                     |
+ | --------------------- | ---------------------------------- |
+@@ -99,7 +99,7 @@ XDG_BIN_DIR=$HOME/.local/bin curl -fsSL https://opencode.ai/install | bash
+ 
+ ### Agents
+ 
+-OpenCode inclut deux agents intégrés que vous pouvez basculer avec la touche `Tab`.
++FreeIDE inclut deux agents intégrés que vous pouvez basculer avec la touche `Tab`.
+ 
+ - **build** - Par défaut, agent avec accès complet pour le travail de développement
+ - **plan** - Agent en lecture seule pour l'analyse et l'exploration du code
+@@ -114,15 +114,15 @@ En savoir plus sur les [agents](https://opencode.ai/docs/agents).
+ 
+ ### Documentation
+ 
+-Pour plus d'informations sur la configuration d'OpenCode, [**consultez notre documentation**](https://opencode.ai/docs).
++Pour plus d'informations sur la configuration d'FreeIDE, [**consultez notre documentation**](https://opencode.ai/docs).
+ 
+ ### Contribuer
+ 
+-Si vous souhaitez contribuer à OpenCode, lisez nos [docs de contribution](./CONTRIBUTING.md) avant de soumettre une pull request.
++Si vous souhaitez contribuer à FreeIDE, lisez nos [docs de contribution](./CONTRIBUTING.md) avant de soumettre une pull request.
+ 
+-### Construire avec OpenCode
++### Construire avec FreeIDE
+ 
+-Si vous travaillez sur un projet lié à OpenCode et que vous utilisez "opencode" dans le nom du projet (par exemple, "opencode-dashboard" ou "opencode-mobile"), ajoutez une note dans votre README pour préciser qu'il n'est pas construit par l'équipe OpenCode et qu'il n'est pas affilié à nous.
++Si vous travaillez sur un projet lié à FreeIDE et que vous utilisez "opencode" dans le nom du projet (par exemple, "opencode-dashboard" ou "opencode-mobile"), ajoutez une note dans votre README pour préciser qu'il n'est pas construit par l'équipe FreeIDE et qu'il n'est pas affilié à nous.
+ 
+ ---
+ 
+diff --git a/README.gr.md b/README.gr.md
+index a8412b3..46cc58d 100644
+--- a/README.gr.md
++++ b/README.gr.md
+@@ -39,7 +39,7 @@
+   <a href="README.vi.md">Tiếng Việt</a>
+ </p>
+ 
+-[![OpenCode Terminal UI](packages/web/src/assets/lander/screenshot.png)](https://opencode.ai)
++[![FreeIDE Terminal UI](packages/web/src/assets/lander/screenshot.png)](https://opencode.ai)
+ 
+ ---
+ 
+@@ -66,7 +66,7 @@ nix run nixpkgs#opencode           # ή github:anomalyco/opencode με βάση
+ 
+ ### Εφαρμογή Desktop (BETA)
+ 
+-Το OpenCode είναι επίσης διαθέσιμο ως εφαρμογή. Κατέβασε το απευθείας από τη [σελίδα εκδόσεων](https://github.com/anomalyco/opencode/releases) ή το [opencode.ai/download](https://opencode.ai/download).
++Το FreeIDE είναι επίσης διαθέσιμο ως εφαρμογή. Κατέβασε το απευθείας από τη [σελίδα εκδόσεων](https://github.com/anomalyco/opencode/releases) ή το [opencode.ai/download](https://opencode.ai/download).
+ 
+ | Πλατφόρμα             | Λήψη                               |
+ | --------------------- | ---------------------------------- |
+@@ -99,7 +99,7 @@ XDG_BIN_DIR=$HOME/.local/bin curl -fsSL https://opencode.ai/install | bash
+ 
+ ### Πράκτορες
+ 
+-Το OpenCode περιλαμβάνει δύο ενσωματωμένους πράκτορες μεταξύ των οποίων μπορείτε να εναλλάσσεστε με το πλήκτρο `Tab`.
++Το FreeIDE περιλαμβάνει δύο ενσωματωμένους πράκτορες μεταξύ των οποίων μπορείτε να εναλλάσσεστε με το πλήκτρο `Tab`.
+ 
+ - **build** - Προεπιλεγμένος πράκτορας με πλήρη πρόσβαση για εργασία πάνω σε κώδικα
+ - **plan** - Πράκτορας μόνο ανάγνωσης για ανάλυση και εξερεύνηση κώδικα
+@@ -114,15 +114,15 @@ XDG_BIN_DIR=$HOME/.local/bin curl -fsSL https://opencode.ai/install | bash
+ 
+ ### Οδηγός Χρήσης
+ 
+-Για περισσότερες πληροφορίες σχετικά με τη ρύθμιση του OpenCode, [**πλοηγήσου στον οδηγό χρήσης μας**](https://opencode.ai/docs).
++Για περισσότερες πληροφορίες σχετικά με τη ρύθμιση του FreeIDE, [**πλοηγήσου στον οδηγό χρήσης μας**](https://opencode.ai/docs).
+ 
+ ### Συνεισφορά
+ 
+-Εάν ενδιαφέρεσαι να συνεισφέρεις στο OpenCode, διαβάστε τα [οδηγό χρήσης συνεισφοράς](./CONTRIBUTING.md) πριν υποβάλεις ένα pull request.
++Εάν ενδιαφέρεσαι να συνεισφέρεις στο FreeIDE, διαβάστε τα [οδηγό χρήσης συνεισφοράς](./CONTRIBUTING.md) πριν υποβάλεις ένα pull request.
+ 
+-### Δημιουργία πάνω στο OpenCode
++### Δημιουργία πάνω στο FreeIDE
+ 
+-Εάν εργάζεσαι σε ένα έργο σχετικό με το OpenCode και χρησιμοποιείτε το "opencode" ως μέρος του ονόματός του, για παράδειγμα "opencode-dashboard" ή "opencode-mobile", πρόσθεσε μια σημείωση στο README σας για να διευκρινίσεις ότι δεν είναι κατασκευασμένο από την ομάδα του OpenCode και δεν έχει καμία σχέση με εμάς.
++Εάν εργάζεσαι σε ένα έργο σχετικό με το FreeIDE και χρησιμοποιείτε το "opencode" ως μέρος του ονόματός του, για παράδειγμα "opencode-dashboard" ή "opencode-mobile", πρόσθεσε μια σημείωση στο README σας για να διευκρινίσεις ότι δεν είναι κατασκευασμένο από την ομάδα του FreeIDE και δεν έχει καμία σχέση με εμάς.
+ 
+ ---
+ 
+diff --git a/README.it.md b/README.it.md
+index 2ed4aeb..ab670b2 100644
+--- a/README.it.md
++++ b/README.it.md
+@@ -39,7 +39,7 @@
+   <a href="README.vi.md">Tiếng Việt</a>
+ </p>
+ 
+-[![OpenCode Terminal UI](packages/web/src/assets/lander/screenshot.png)](https://opencode.ai)
++[![FreeIDE Terminal UI](packages/web/src/assets/lander/screenshot.png)](https://opencode.ai)
+ 
+ ---
+ 
+@@ -66,7 +66,7 @@ nix run nixpkgs#opencode           # oppure github:anomalyco/opencode per l’ul
+ 
+ ### App Desktop (BETA)
+ 
+-OpenCode è disponibile anche come applicazione desktop. Puoi scaricarla direttamente dalla [pagina delle release](https://github.com/anomalyco/opencode/releases) oppure da [opencode.ai/download](https://opencode.ai/download).
++FreeIDE è disponibile anche come applicazione desktop. Puoi scaricarla direttamente dalla [pagina delle release](https://github.com/anomalyco/opencode/releases) oppure da [opencode.ai/download](https://opencode.ai/download).
+ 
+ | Piattaforma           | Download                           |
+ | --------------------- | ---------------------------------- |
+@@ -99,7 +99,7 @@ XDG_BIN_DIR=$HOME/.local/bin curl -fsSL https://opencode.ai/install | bash
+ 
+ ### Agenti
+ 
+-OpenCode include due agenti integrati tra cui puoi passare usando il tasto `Tab`.
++FreeIDE include due agenti integrati tra cui puoi passare usando il tasto `Tab`.
+ 
+ - **build** – Predefinito, agente con accesso completo per il lavoro di sviluppo
+ - **plan** – Agente in sola lettura per analisi ed esplorazione del codice
+@@ -114,15 +114,15 @@ Scopri di più sugli [agenti](https://opencode.ai/docs/agents).
+ 
+ ### Documentazione
+ 
+-Per maggiori informazioni su come configurare OpenCode, [**consulta la nostra documentazione**](https://opencode.ai/docs).
++Per maggiori informazioni su come configurare FreeIDE, [**consulta la nostra documentazione**](https://opencode.ai/docs).
+ 
+ ### Contribuire
+ 
+-Se sei interessato a contribuire a OpenCode, leggi la nostra [guida alla contribuzione](./CONTRIBUTING.md) prima di inviare una pull request.
++Se sei interessato a contribuire a FreeIDE, leggi la nostra [guida alla contribuzione](./CONTRIBUTING.md) prima di inviare una pull request.
+ 
+-### Costruire su OpenCode
++### Costruire su FreeIDE
+ 
+-Se stai lavorando a un progetto correlato a OpenCode e che utilizza “opencode” come parte del nome (ad esempio “opencode-dashboard” o “opencode-mobile”), aggiungi una nota nel tuo README per chiarire che non è sviluppato dal team OpenCode e che non è affiliato in alcun modo con noi.
++Se stai lavorando a un progetto correlato a FreeIDE e che utilizza “opencode” come parte del nome (ad esempio “opencode-dashboard” o “opencode-mobile”), aggiungi una nota nel tuo README per chiarire che non è sviluppato dal team FreeIDE e che non è affiliato in alcun modo con noi.
+ 
+ ---
+ 
+diff --git a/README.ja.md b/README.ja.md
+index 75a017f..828cd20 100644
+--- a/README.ja.md
++++ b/README.ja.md
+@@ -39,7 +39,7 @@
+   <a href="README.vi.md">Tiếng Việt</a>
+ </p>
+ 
+-[![OpenCode Terminal UI](packages/web/src/assets/lander/screenshot.png)](https://opencode.ai)
++[![FreeIDE Terminal UI](packages/web/src/assets/lander/screenshot.png)](https://opencode.ai)
+ 
+ ---
+ 
+@@ -66,7 +66,7 @@ nix run nixpkgs#opencode           # または github:anomalyco/opencode で最
+ 
+ ### デスクトップアプリ (BETA)
+ 
+-OpenCode はデスクトップアプリとしても利用できます。[releases page](https://github.com/anomalyco/opencode/releases) から直接ダウンロードするか、[opencode.ai/download](https://opencode.ai/download) を利用してください。
++FreeIDE はデスクトップアプリとしても利用できます。[releases page](https://github.com/anomalyco/opencode/releases) から直接ダウンロードするか、[opencode.ai/download](https://opencode.ai/download) を利用してください。
+ 
+ | プラットフォーム      | ダウンロード                       |
+ | --------------------- | ---------------------------------- |
+@@ -99,7 +99,7 @@ XDG_BIN_DIR=$HOME/.local/bin curl -fsSL https://opencode.ai/install | bash
+ 
+ ### Agents
+ 
+-OpenCode には組み込みの Agent が2つあり、`Tab` キーで切り替えられます。
++FreeIDE には組み込みの Agent が2つあり、`Tab` キーで切り替えられます。
+ 
+ - **build** - デフォルト。開発向けのフルアクセス Agent
+ - **plan** - 分析とコード探索向けの読み取り専用 Agent
+@@ -114,15 +114,15 @@ OpenCode には組み込みの Agent が2つあり、`Tab` キーで切り替え
+ 
+ ### ドキュメント
+ 
+-OpenCode の設定については [**ドキュメント**](https://opencode.ai/docs) を参照してください。
++FreeIDE の設定については [**ドキュメント**](https://opencode.ai/docs) を参照してください。
+ 
+ ### コントリビュート
+ 
+-OpenCode に貢献したい場合は、Pull Request を送る前に [contributing docs](./CONTRIBUTING.md) を読んでください。
++FreeIDE に貢献したい場合は、Pull Request を送る前に [contributing docs](./CONTRIBUTING.md) を読んでください。
+ 
+-### OpenCode の上に構築する
++### FreeIDE の上に構築する
+ 
+-OpenCode に関連するプロジェクトで、名前に "opencode"（例: "opencode-dashboard" や "opencode-mobile"）を含める場合は、そのプロジェクトが OpenCode チームによって作られたものではなく、いかなる形でも関係がないことを README に明記してください。
++FreeIDE に関連するプロジェクトで、名前に "opencode"（例: "opencode-dashboard" や "opencode-mobile"）を含める場合は、そのプロジェクトが FreeIDE チームによって作られたものではなく、いかなる形でも関係がないことを README に明記してください。
+ 
+ ---
+ 
+diff --git a/README.ko.md b/README.ko.md
+index aa21a73..c61dc89 100644
+--- a/README.ko.md
++++ b/README.ko.md
+@@ -39,7 +39,7 @@
+   <a href="README.vi.md">Tiếng Việt</a>
+ </p>
+ 
+-[![OpenCode Terminal UI](packages/web/src/assets/lander/screenshot.png)](https://opencode.ai)
++[![FreeIDE Terminal UI](packages/web/src/assets/lander/screenshot.png)](https://opencode.ai)
+ 
+ ---
+ 
+@@ -66,7 +66,7 @@ nix run nixpkgs#opencode           # 또는 github:anomalyco/opencode 로 최신
+ 
+ ### 데스크톱 앱 (BETA)
+ 
+-OpenCode 는 데스크톱 앱으로도 제공됩니다. [releases page](https://github.com/anomalyco/opencode/releases) 에서 직접 다운로드하거나 [opencode.ai/download](https://opencode.ai/download) 를 이용하세요.
++FreeIDE 는 데스크톱 앱으로도 제공됩니다. [releases page](https://github.com/anomalyco/opencode/releases) 에서 직접 다운로드하거나 [opencode.ai/download](https://opencode.ai/download) 를 이용하세요.
+ 
+ | 플랫폼                | 다운로드                           |
+ | --------------------- | ---------------------------------- |
+@@ -99,7 +99,7 @@ XDG_BIN_DIR=$HOME/.local/bin curl -fsSL https://opencode.ai/install | bash
+ 
+ ### Agents
+ 
+-OpenCode 에는 내장 에이전트 2개가 있으며 `Tab` 키로 전환할 수 있습니다.
++FreeIDE 에는 내장 에이전트 2개가 있으며 `Tab` 키로 전환할 수 있습니다.
+ 
+ - **build** - 기본값, 개발 작업을 위한 전체 권한 에이전트
+ - **plan** - 분석 및 코드 탐색을 위한 읽기 전용 에이전트
+@@ -114,15 +114,15 @@ OpenCode 에는 내장 에이전트 2개가 있으며 `Tab` 키로 전환할 수
+ 
+ ### 문서
+ 
+-OpenCode 설정에 대한 자세한 내용은 [**문서**](https://opencode.ai/docs) 를 참고하세요.
++FreeIDE 설정에 대한 자세한 내용은 [**문서**](https://opencode.ai/docs) 를 참고하세요.
+ 
+ ### 기여하기
+ 
+-OpenCode 에 기여하고 싶다면, Pull Request 를 제출하기 전에 [contributing docs](./CONTRIBUTING.md) 를 읽어주세요.
++FreeIDE 에 기여하고 싶다면, Pull Request 를 제출하기 전에 [contributing docs](./CONTRIBUTING.md) 를 읽어주세요.
+ 
+-### OpenCode 기반으로 만들기
++### FreeIDE 기반으로 만들기
+ 
+-OpenCode 와 관련된 프로젝트를 진행하면서 이름에 "opencode"(예: "opencode-dashboard" 또는 "opencode-mobile") 를 포함한다면, README 에 해당 프로젝트가 OpenCode 팀이 만든 것이 아니며 어떤 방식으로도 우리와 제휴되어 있지 않다는 점을 명시해 주세요.
++FreeIDE 와 관련된 프로젝트를 진행하면서 이름에 "opencode"(예: "opencode-dashboard" 또는 "opencode-mobile") 를 포함한다면, README 에 해당 프로젝트가 FreeIDE 팀이 만든 것이 아니며 어떤 방식으로도 우리와 제휴되어 있지 않다는 점을 명시해 주세요.
+ 
+ ---
+ 
+diff --git a/README.md b/README.md
+index b5a4c8d..47a5836 100644
+--- a/README.md
++++ b/README.md
+@@ -1,3 +1,5 @@
++> **Netie FreeIDE** is a modified distribution of [anomalyco/opencode](https://github.com/anomalyco/opencode) (MIT). See NETIE-ATTRIBUTION.md. Not endorsed by the upstream authors.
++
+ <p align="center">
+   <a href="https://opencode.ai">
+     <picture>
+@@ -39,7 +41,7 @@
+   <a href="README.vi.md">Tiếng Việt</a>
+ </p>
+ 
+-[![OpenCode Terminal UI](packages/web/src/assets/lander/screenshot.png)](https://opencode.ai)
++[![FreeIDE Terminal UI](packages/web/src/assets/lander/screenshot.png)](https://opencode.ai)
+ 
+ ---
+ 
+@@ -66,7 +68,7 @@ nix run nixpkgs#opencode           # or github:anomalyco/opencode for latest dev
+ 
+ ### Desktop App (BETA)
+ 
+-OpenCode is also available as a desktop application. Download directly from the [releases page](https://github.com/anomalyco/opencode/releases) or [opencode.ai/download](https://opencode.ai/download).
++FreeIDE is also available as a desktop application. Download directly from the [releases page](https://github.com/anomalyco/opencode/releases) or [opencode.ai/download](https://opencode.ai/download).
+ 
+ | Platform              | Download                           |
+ | --------------------- | ---------------------------------- |
+@@ -99,7 +101,7 @@ XDG_BIN_DIR=$HOME/.local/bin curl -fsSL https://opencode.ai/install | bash
+ 
+ ### Agents
+ 
+-OpenCode includes two built-in agents you can switch between with the `Tab` key.
++FreeIDE includes two built-in agents you can switch between with the `Tab` key.
+ 
+ - **build** - Default, full-access agent for development work
+ - **plan** - Read-only agent for analysis and code exploration
+@@ -114,15 +116,15 @@ Learn more about [agents](https://opencode.ai/docs/agents).
+ 
+ ### Documentation
+ 
+-For more info on how to configure OpenCode, [**head over to our docs**](https://opencode.ai/docs).
++For more info on how to configure FreeIDE, [**head over to our docs**](https://opencode.ai/docs).
+ 
+ ### Contributing
+ 
+-If you're interested in contributing to OpenCode, please read our [contributing docs](./CONTRIBUTING.md) before submitting a pull request.
++If you're interested in contributing to FreeIDE, please read our [contributing docs](./CONTRIBUTING.md) before submitting a pull request.
+ 
+-### Building on OpenCode
++### Building on FreeIDE
+ 
+-If you are working on a project that's related to OpenCode and is using "opencode" as part of its name, for example "opencode-dashboard" or "opencode-mobile", please add a note to your README to clarify that it is not built by the OpenCode team and is not affiliated with us in any way.
++If you are working on a project that's related to FreeIDE and is using "opencode" as part of its name, for example "opencode-dashboard" or "opencode-mobile", please add a note to your README to clarify that it is not built by the FreeIDE team and is not affiliated with us in any way.
+ 
+ ---
+ 
+diff --git a/README.no.md b/README.no.md
+index 246e1db..aaed6bc 100644
+--- a/README.no.md
++++ b/README.no.md
+@@ -39,7 +39,7 @@
+   <a href="README.vi.md">Tiếng Việt</a>
+ </p>
+ 
+-[![OpenCode Terminal UI](packages/web/src/assets/lander/screenshot.png)](https://opencode.ai)
++[![FreeIDE Terminal UI](packages/web/src/assets/lander/screenshot.png)](https://opencode.ai)
+ 
+ ---
+ 
+@@ -66,7 +66,7 @@ nix run nixpkgs#opencode           # eller github:anomalyco/opencode for nyeste
+ 
+ ### Desktop-app (BETA)
+ 
+-OpenCode er også tilgjengelig som en desktop-app. Last ned direkte fra [releases-siden](https://github.com/anomalyco/opencode/releases) eller [opencode.ai/download](https://opencode.ai/download).
++FreeIDE er også tilgjengelig som en desktop-app. Last ned direkte fra [releases-siden](https://github.com/anomalyco/opencode/releases) eller [opencode.ai/download](https://opencode.ai/download).
+ 
+ | Plattform             | Nedlasting                         |
+ | --------------------- | ---------------------------------- |
+@@ -99,7 +99,7 @@ XDG_BIN_DIR=$HOME/.local/bin curl -fsSL https://opencode.ai/install | bash
+ 
+ ### Agents
+ 
+-OpenCode har to innebygde agents du kan bytte mellom med `Tab`-tasten.
++FreeIDE har to innebygde agents du kan bytte mellom med `Tab`-tasten.
+ 
+ - **build** - Standard, agent med full tilgang for utviklingsarbeid
+ - **plan** - Skrivebeskyttet agent for analyse og kodeutforsking
+@@ -114,15 +114,15 @@ Les mer om [agents](https://opencode.ai/docs/agents).
+ 
+ ### Dokumentasjon
+ 
+-For mer info om hvordan du konfigurerer OpenCode, [**se dokumentasjonen**](https://opencode.ai/docs).
++For mer info om hvordan du konfigurerer FreeIDE, [**se dokumentasjonen**](https://opencode.ai/docs).
+ 
+ ### Bidra
+ 
+-Hvis du vil bidra til OpenCode, les [contributing docs](./CONTRIBUTING.md) før du sender en pull request.
++Hvis du vil bidra til FreeIDE, les [contributing docs](./CONTRIBUTING.md) før du sender en pull request.
+ 
+-### Bygge på OpenCode
++### Bygge på FreeIDE
+ 
+-Hvis du jobber med et prosjekt som er relatert til OpenCode og bruker "opencode" som en del av navnet; for eksempel "opencode-dashboard" eller "opencode-mobile", legg inn en merknad i README som presiserer at det ikke er bygget av OpenCode-teamet og ikke er tilknyttet oss på noen måte.
++Hvis du jobber med et prosjekt som er relatert til FreeIDE og bruker "opencode" som en del av navnet; for eksempel "opencode-dashboard" eller "opencode-mobile", legg inn en merknad i README som presiserer at det ikke er bygget av OpenCode-teamet og ikke er tilknyttet oss på noen måte.
+ 
+ ---
+ 
+diff --git a/README.pl.md b/README.pl.md
+index 6b86de4..9c7d79a 100644
+--- a/README.pl.md
++++ b/README.pl.md
+@@ -39,7 +39,7 @@
+   <a href="README.vi.md">Tiếng Việt</a>
+ </p>
+ 
+-[![OpenCode Terminal UI](packages/web/src/assets/lander/screenshot.png)](https://opencode.ai)
++[![FreeIDE Terminal UI](packages/web/src/assets/lander/screenshot.png)](https://opencode.ai)
+ 
+ ---
+ 
+@@ -66,7 +66,7 @@ nix run nixpkgs#opencode           # lub github:anomalyco/opencode dla najnowsze
+ 
+ ### Aplikacja desktopowa (BETA)
+ 
+-OpenCode jest także dostępny jako aplikacja desktopowa. Pobierz ją bezpośrednio ze strony [releases](https://github.com/anomalyco/opencode/releases) lub z [opencode.ai/download](https://opencode.ai/download).
++FreeIDE jest także dostępny jako aplikacja desktopowa. Pobierz ją bezpośrednio ze strony [releases](https://github.com/anomalyco/opencode/releases) lub z [opencode.ai/download](https://opencode.ai/download).
+ 
+ | Platforma             | Pobieranie                         |
+ | --------------------- | ---------------------------------- |
+@@ -99,7 +99,7 @@ XDG_BIN_DIR=$HOME/.local/bin curl -fsSL https://opencode.ai/install | bash
+ 
+ ### Agents
+ 
+-OpenCode zawiera dwóch wbudowanych agentów, między którymi możesz przełączać się klawiszem `Tab`.
++FreeIDE zawiera dwóch wbudowanych agentów, między którymi możesz przełączać się klawiszem `Tab`.
+ 
+ - **build** - Domyślny agent z pełnym dostępem do pracy developerskiej
+ - **plan** - Agent tylko do odczytu do analizy i eksploracji kodu
+@@ -114,15 +114,15 @@ Dowiedz się więcej o [agents](https://opencode.ai/docs/agents).
+ 
+ ### Dokumentacja
+ 
+-Więcej informacji o konfiguracji OpenCode znajdziesz w [**dokumentacji**](https://opencode.ai/docs).
++Więcej informacji o konfiguracji FreeIDE znajdziesz w [**dokumentacji**](https://opencode.ai/docs).
+ 
+ ### Współtworzenie
+ 
+-Jeśli chcesz współtworzyć OpenCode, przeczytaj [contributing docs](./CONTRIBUTING.md) przed wysłaniem pull requesta.
++Jeśli chcesz współtworzyć FreeIDE, przeczytaj [contributing docs](./CONTRIBUTING.md) przed wysłaniem pull requesta.
+ 
+-### Budowanie na OpenCode
++### Budowanie na FreeIDE
+ 
+-Jeśli pracujesz nad projektem związanym z OpenCode i używasz "opencode" jako części nazwy (na przykład "opencode-dashboard" lub "opencode-mobile"), dodaj proszę notatkę do swojego README, aby wyjaśnić, że projekt nie jest tworzony przez zespół OpenCode i nie jest z nami w żaden sposób powiązany.
++Jeśli pracujesz nad projektem związanym z FreeIDE i używasz "opencode" jako części nazwy (na przykład "opencode-dashboard" lub "opencode-mobile"), dodaj proszę notatkę do swojego README, aby wyjaśnić, że projekt nie jest tworzony przez zespół FreeIDE i nie jest z nami w żaden sposób powiązany.
+ 
+ ---
+ 
+diff --git a/README.ru.md b/README.ru.md
+index c679ce6..e1cce05 100644
+--- a/README.ru.md
++++ b/README.ru.md
+@@ -39,7 +39,7 @@
+   <a href="README.vi.md">Tiếng Việt</a>
+ </p>
+ 
+-[![OpenCode Terminal UI](packages/web/src/assets/lander/screenshot.png)](https://opencode.ai)
++[![FreeIDE Terminal UI](packages/web/src/assets/lander/screenshot.png)](https://opencode.ai)
+ 
+ ---
+ 
+@@ -66,7 +66,7 @@ nix run nixpkgs#opencode           # или github:anomalyco/opencode для с
+ 
+ ### Десктопное приложение (BETA)
+ 
+-OpenCode также доступен как десктопное приложение. Скачайте его со [страницы релизов](https://github.com/anomalyco/opencode/releases) или с [opencode.ai/download](https://opencode.ai/download).
++FreeIDE также доступен как десктопное приложение. Скачайте его со [страницы релизов](https://github.com/anomalyco/opencode/releases) или с [opencode.ai/download](https://opencode.ai/download).
+ 
+ | Платформа             | Загрузка                           |
+ | --------------------- | ---------------------------------- |
+@@ -99,7 +99,7 @@ XDG_BIN_DIR=$HOME/.local/bin curl -fsSL https://opencode.ai/install | bash
+ 
+ ### Agents
+ 
+-В OpenCode есть два встроенных агента, между которыми можно переключаться клавишей `Tab`.
++В FreeIDE есть два встроенных агента, между которыми можно переключаться клавишей `Tab`.
+ 
+ - **build** - По умолчанию, агент с полным доступом для разработки
+ - **plan** - Агент только для чтения для анализа и изучения кода
+@@ -114,15 +114,15 @@ XDG_BIN_DIR=$HOME/.local/bin curl -fsSL https://opencode.ai/install | bash
+ 
+ ### Документация
+ 
+-Больше информации о том, как настроить OpenCode: [**наши docs**](https://opencode.ai/docs).
++Больше информации о том, как настроить FreeIDE: [**наши docs**](https://opencode.ai/docs).
+ 
+ ### Вклад
+ 
+-Если вы хотите внести вклад в OpenCode, прочитайте [contributing docs](./CONTRIBUTING.md) перед тем, как отправлять pull request.
++Если вы хотите внести вклад в FreeIDE, прочитайте [contributing docs](./CONTRIBUTING.md) перед тем, как отправлять pull request.
+ 
+-### Разработка на базе OpenCode
++### Разработка на базе FreeIDE
+ 
+-Если вы делаете проект, связанный с OpenCode, и используете "opencode" как часть имени (например, "opencode-dashboard" или "opencode-mobile"), добавьте примечание в README, чтобы уточнить, что проект не создан командой OpenCode и не аффилирован с нами.
++Если вы делаете проект, связанный с FreeIDE, и используете "opencode" как часть имени (например, "opencode-dashboard" или "opencode-mobile"), добавьте примечание в README, чтобы уточнить, что проект не создан командой FreeIDE и не аффилирован с нами.
+ 
+ ---
+ 
+diff --git a/README.th.md b/README.th.md
+index a70144d..68e524e 100644
+--- a/README.th.md
++++ b/README.th.md
+@@ -39,7 +39,7 @@
+   <a href="README.vi.md">Tiếng Việt</a>
+ </p>
+ 
+-[![OpenCode Terminal UI](packages/web/src/assets/lander/screenshot.png)](https://opencode.ai)
++[![FreeIDE Terminal UI](packages/web/src/assets/lander/screenshot.png)](https://opencode.ai)
+ 
+ ---
+ 
+@@ -66,7 +66,7 @@ nix run nixpkgs#opencode           # หรือ github:anomalyco/opencode ส
+ 
+ ### แอปพลิเคชันเดสก์ท็อป (เบต้า)
+ 
+-OpenCode มีให้ใช้งานเป็นแอปพลิเคชันเดสก์ท็อป ดาวน์โหลดโดยตรงจาก [หน้ารุ่น](https://github.com/anomalyco/opencode/releases) หรือ [opencode.ai/download](https://opencode.ai/download)
++FreeIDE มีให้ใช้งานเป็นแอปพลิเคชันเดสก์ท็อป ดาวน์โหลดโดยตรงจาก [หน้ารุ่น](https://github.com/anomalyco/opencode/releases) หรือ [opencode.ai/download](https://opencode.ai/download)
+ 
+ | แพลตฟอร์ม             | ดาวน์โหลด                          |
+ | --------------------- | ---------------------------------- |
+@@ -99,7 +99,7 @@ XDG_BIN_DIR=$HOME/.local/bin curl -fsSL https://opencode.ai/install | bash
+ 
+ ### เอเจนต์
+ 
+-OpenCode รวมเอเจนต์ในตัวสองตัวที่คุณสามารถสลับได้ด้วยปุ่ม `Tab`
++FreeIDE รวมเอเจนต์ในตัวสองตัวที่คุณสามารถสลับได้ด้วยปุ่ม `Tab`
+ 
+ - **build** - เอเจนต์เริ่มต้น มีสิทธิ์เข้าถึงแบบเต็มสำหรับงานพัฒนา
+ - **plan** - เอเจนต์อ่านอย่างเดียวสำหรับการวิเคราะห์และการสำรวจโค้ด
+@@ -114,15 +114,15 @@ OpenCode รวมเอเจนต์ในตัวสองตัวที
+ 
+ ### เอกสารประกอบ
+ 
+-สำหรับข้อมูลเพิ่มเติมเกี่ยวกับวิธีกำหนดค่า OpenCode [**ไปที่เอกสารของเรา**](https://opencode.ai/docs)
++สำหรับข้อมูลเพิ่มเติมเกี่ยวกับวิธีกำหนดค่า FreeIDE [**ไปที่เอกสารของเรา**](https://opencode.ai/docs)
+ 
+ ### การมีส่วนร่วม
+ 
+-หากคุณสนใจที่จะมีส่วนร่วมใน OpenCode โปรดอ่าน [เอกสารการมีส่วนร่วม](./CONTRIBUTING.md) ก่อนส่ง Pull Request
++หากคุณสนใจที่จะมีส่วนร่วมใน FreeIDE โปรดอ่าน [เอกสารการมีส่วนร่วม](./CONTRIBUTING.md) ก่อนส่ง Pull Request
+ 
+-### การสร้างบน OpenCode
++### การสร้างบน FreeIDE
+ 
+-หากคุณทำงานในโปรเจกต์ที่เกี่ยวข้องกับ OpenCode และใช้ "opencode" เป็นส่วนหนึ่งของชื่อ เช่น "opencode-dashboard" หรือ "opencode-mobile" โปรดเพิ่มหมายเหตุใน README ของคุณเพื่อชี้แจงว่าไม่ได้สร้างโดยทีม OpenCode และไม่ได้เกี่ยวข้องกับเราในทางใด
++หากคุณทำงานในโปรเจกต์ที่เกี่ยวข้องกับ FreeIDE และใช้ "opencode" เป็นส่วนหนึ่งของชื่อ เช่น "opencode-dashboard" หรือ "opencode-mobile" โปรดเพิ่มหมายเหตุใน README ของคุณเพื่อชี้แจงว่าไม่ได้สร้างโดยทีม FreeIDE และไม่ได้เกี่ยวข้องกับเราในทางใด
+ 
+ ---
+ 
+diff --git a/README.tr.md b/README.tr.md
+index aaab8f0..b7e103e 100644
+--- a/README.tr.md
++++ b/README.tr.md
+@@ -39,7 +39,7 @@
+   <a href="README.vi.md">Tiếng Việt</a>
+ </p>
+ 
+-[![OpenCode Terminal UI](packages/web/src/assets/lander/screenshot.png)](https://opencode.ai)
++[![FreeIDE Terminal UI](packages/web/src/assets/lander/screenshot.png)](https://opencode.ai)
+ 
+ ---
+ 
+@@ -66,7 +66,7 @@ nix run nixpkgs#opencode           # veya en güncel geliştirme dalı için git
+ 
+ ### Masaüstü Uygulaması (BETA)
+ 
+-OpenCode ayrıca masaüstü uygulaması olarak da mevcuttur. Doğrudan [sürüm sayfasından](https://github.com/anomalyco/opencode/releases) veya [opencode.ai/download](https://opencode.ai/download) adresinden indirebilirsiniz.
++FreeIDE ayrıca masaüstü uygulaması olarak da mevcuttur. Doğrudan [sürüm sayfasından](https://github.com/anomalyco/opencode/releases) veya [opencode.ai/download](https://opencode.ai/download) adresinden indirebilirsiniz.
+ 
+ | Platform              | İndirme                            |
+ | --------------------- | ---------------------------------- |
+@@ -99,7 +99,7 @@ XDG_BIN_DIR=$HOME/.local/bin curl -fsSL https://opencode.ai/install | bash
+ 
+ ### Ajanlar
+ 
+-OpenCode, `Tab` tuşuyla aralarında geçiş yapabileceğiniz iki yerleşik (built-in) ajan içerir.
++FreeIDE, `Tab` tuşuyla aralarında geçiş yapabileceğiniz iki yerleşik (built-in) ajan içerir.
+ 
+ - **build** - Varsayılan, geliştirme çalışmaları için tam erişimli ajan
+ - **plan** - Analiz ve kod keşfi için salt okunur ajan
+@@ -114,15 +114,15 @@ Bu dahili olarak kullanılır ve mesajlarda `@general` ile çağrılabilir.
+ 
+ ### Dokümantasyon
+ 
+-OpenCode'u nasıl yapılandıracağınız hakkında daha fazla bilgi için [**dokümantasyonumuza göz atın**](https://opencode.ai/docs).
++FreeIDE'u nasıl yapılandıracağınız hakkında daha fazla bilgi için [**dokümantasyonumuza göz atın**](https://opencode.ai/docs).
+ 
+ ### Katkıda Bulunma
+ 
+-OpenCode'a katkıda bulunmak istiyorsanız, lütfen bir pull request göndermeden önce [katkıda bulunma dokümanlarımızı](./CONTRIBUTING.md) okuyun.
++FreeIDE'a katkıda bulunmak istiyorsanız, lütfen bir pull request göndermeden önce [katkıda bulunma dokümanlarımızı](./CONTRIBUTING.md) okuyun.
+ 
+-### OpenCode Üzerine Geliştirme
++### FreeIDE Üzerine Geliştirme
+ 
+-OpenCode ile ilgili bir proje üzerinde çalışıyorsanız ve projenizin adının bir parçası olarak "opencode" kullanıyorsanız (örneğin, "opencode-dashboard" veya "opencode-mobile"), lütfen README dosyanıza projenin OpenCode ekibi tarafından geliştirilmediğini ve bizimle hiçbir şekilde bağlantılı olmadığını belirten bir not ekleyin.
++FreeIDE ile ilgili bir proje üzerinde çalışıyorsanız ve projenizin adının bir parçası olarak "opencode" kullanıyorsanız (örneğin, "opencode-dashboard" veya "opencode-mobile"), lütfen README dosyanıza projenin FreeIDE ekibi tarafından geliştirilmediğini ve bizimle hiçbir şekilde bağlantılı olmadığını belirten bir not ekleyin.
+ 
+ ---
+ 
+diff --git a/README.uk.md b/README.uk.md
+index 7cd50af..c179200 100644
+--- a/README.uk.md
++++ b/README.uk.md
+@@ -39,7 +39,7 @@
+   <a href="README.vi.md">Tiếng Việt</a>
+ </p>
+ 
+-[![OpenCode Terminal UI](packages/web/src/assets/lander/screenshot.png)](https://opencode.ai)
++[![FreeIDE Terminal UI](packages/web/src/assets/lander/screenshot.png)](https://opencode.ai)
+ 
+ ---
+ 
+@@ -66,7 +66,7 @@ nix run nixpkgs#opencode           # або github:anomalyco/opencode для н
+ 
+ ### Десктопний застосунок (BETA)
+ 
+-OpenCode також доступний як десктопний застосунок. Завантажуйте напряму зі [сторінки релізів](https://github.com/anomalyco/opencode/releases) або [opencode.ai/download](https://opencode.ai/download).
++FreeIDE також доступний як десктопний застосунок. Завантажуйте напряму зі [сторінки релізів](https://github.com/anomalyco/opencode/releases) або [opencode.ai/download](https://opencode.ai/download).
+ 
+ | Платформа             | Завантаження                       |
+ | --------------------- | ---------------------------------- |
+@@ -99,7 +99,7 @@ XDG_BIN_DIR=$HOME/.local/bin curl -fsSL https://opencode.ai/install | bash
+ 
+ ### Агенти
+ 
+-OpenCode містить два вбудовані агенти, між якими можна перемикатися клавішею `Tab`.
++FreeIDE містить два вбудовані агенти, між якими можна перемикатися клавішею `Tab`.
+ 
+ - **build** - Агент за замовчуванням із повним доступом для завдань розробки
+ - **plan** - Агент лише для читання для аналізу та дослідження коду
+@@ -114,16 +114,16 @@ OpenCode містить два вбудовані агенти, між яким
+ 
+ ### Документація
+ 
+-Щоб дізнатися більше про налаштування OpenCode, [**перейдіть до нашої документації**](https://opencode.ai/docs).
++Щоб дізнатися більше про налаштування FreeIDE, [**перейдіть до нашої документації**](https://opencode.ai/docs).
+ 
+ ### Внесок
+ 
+-Якщо ви хочете зробити внесок в OpenCode, будь ласка, прочитайте нашу [документацію для контриб'юторів](./CONTRIBUTING.md) перед надсиланням pull request.
++Якщо ви хочете зробити внесок в FreeIDE, будь ласка, прочитайте нашу [документацію для контриб'юторів](./CONTRIBUTING.md) перед надсиланням pull request.
+ 
+-### Проєкти на базі OpenCode
++### Проєкти на базі FreeIDE
+ 
+-Якщо ви працюєте над проєктом, пов'язаним з OpenCode, і використовуєте "opencode" у назві, наприклад "opencode-dashboard" або "opencode-mobile", додайте примітку до свого README.
+-Уточніть, що цей проєкт не створений командою OpenCode і жодним чином не афілійований із нами.
++Якщо ви працюєте над проєктом, пов'язаним з FreeIDE, і використовуєте "opencode" у назві, наприклад "opencode-dashboard" або "opencode-mobile", додайте примітку до свого README.
++Уточніть, що цей проєкт не створений командою FreeIDE і жодним чином не афілійований із нами.
+ 
+ ---
+ 
+diff --git a/README.vi.md b/README.vi.md
+index 7d1a4f3..ff9afe0 100644
+--- a/README.vi.md
++++ b/README.vi.md
+@@ -39,7 +39,7 @@
+   <a href="README.vi.md">Tiếng Việt</a>
+ </p>
+ 
+-[![OpenCode Terminal UI](packages/web/src/assets/lander/screenshot.png)](https://opencode.ai)
++[![FreeIDE Terminal UI](packages/web/src/assets/lander/screenshot.png)](https://opencode.ai)
+ 
+ ---
+ 
+@@ -66,7 +66,7 @@ nix run nixpkgs#opencode           # hoặc github:anomalyco/opencode cho nhánh
+ 
+ ### Ứng dụng Desktop (BETA)
+ 
+-OpenCode cũng có sẵn dưới dạng ứng dụng desktop. Tải trực tiếp từ [trang releases](https://github.com/anomalyco/opencode/releases) hoặc [opencode.ai/download](https://opencode.ai/download).
++FreeIDE cũng có sẵn dưới dạng ứng dụng desktop. Tải trực tiếp từ [trang releases](https://github.com/anomalyco/opencode/releases) hoặc [opencode.ai/download](https://opencode.ai/download).
+ 
+ | Nền tảng              | Tải xuống                          |
+ | --------------------- | ---------------------------------- |
+@@ -99,7 +99,7 @@ XDG_BIN_DIR=$HOME/.local/bin curl -fsSL https://opencode.ai/install | bash
+ 
+ ### Agents (Đại diện)
+ 
+-OpenCode bao gồm hai agent được tích hợp sẵn mà bạn có thể chuyển đổi bằng phím `Tab`.
++FreeIDE bao gồm hai agent được tích hợp sẵn mà bạn có thể chuyển đổi bằng phím `Tab`.
+ 
+ - **build** - Agent mặc định, có toàn quyền truy cập cho công việc lập trình
+ - **plan** - Agent chỉ đọc dùng để phân tích và khám phá mã nguồn
+@@ -114,15 +114,15 @@ Tìm hiểu thêm về [agents](https://opencode.ai/docs/agents).
+ 
+ ### Tài liệu
+ 
+-Để biết thêm thông tin về cách cấu hình OpenCode, [**hãy truy cập tài liệu của chúng tôi**](https://opencode.ai/docs).
++Để biết thêm thông tin về cách cấu hình FreeIDE, [**hãy truy cập tài liệu của chúng tôi**](https://opencode.ai/docs).
+ 
+ ### Đóng góp
+ 
+-Nếu bạn muốn đóng góp cho OpenCode, vui lòng đọc [tài liệu hướng dẫn đóng góp](./CONTRIBUTING.md) trước khi gửi pull request.
++Nếu bạn muốn đóng góp cho FreeIDE, vui lòng đọc [tài liệu hướng dẫn đóng góp](./CONTRIBUTING.md) trước khi gửi pull request.
+ 
+-### Xây dựng trên nền tảng OpenCode
++### Xây dựng trên nền tảng FreeIDE
+ 
+-Nếu bạn đang làm việc trên một dự án liên quan đến OpenCode và sử dụng "opencode" như một phần của tên dự án, ví dụ "opencode-dashboard" hoặc "opencode-mobile", vui lòng thêm một ghi chú vào README của bạn để làm rõ rằng dự án đó không được xây dựng bởi đội ngũ OpenCode và không liên kết với chúng tôi dưới bất kỳ hình thức nào.
++Nếu bạn đang làm việc trên một dự án liên quan đến FreeIDE và sử dụng "opencode" như một phần của tên dự án, ví dụ "opencode-dashboard" hoặc "opencode-mobile", vui lòng thêm một ghi chú vào README của bạn để làm rõ rằng dự án đó không được xây dựng bởi đội ngũ FreeIDE và không liên kết với chúng tôi dưới bất kỳ hình thức nào.
+ 
+ ---
+ 
+diff --git a/README.zh.md b/README.zh.md
+index 352e13c..c032b86 100644
+--- a/README.zh.md
++++ b/README.zh.md
+@@ -39,7 +39,7 @@
+   <a href="README.vi.md">Tiếng Việt</a>
+ </p>
+ 
+-[![OpenCode Terminal UI](packages/web/src/assets/lander/screenshot.png)](https://opencode.ai)
++[![FreeIDE Terminal UI](packages/web/src/assets/lander/screenshot.png)](https://opencode.ai)
+ 
+ ---
+ 
+@@ -66,7 +66,7 @@ nix run nixpkgs#opencode           # 或用 github:anomalyco/opencode 获取最
+ 
+ ### 桌面应用程序 (BETA)
+ 
+-OpenCode 也提供桌面版应用。可直接从 [发布页 (releases page)](https://github.com/anomalyco/opencode/releases) 或 [opencode.ai/download](https://opencode.ai/download) 下载。
++FreeIDE 也提供桌面版应用。可直接从 [发布页 (releases page)](https://github.com/anomalyco/opencode/releases) 或 [opencode.ai/download](https://opencode.ai/download) 下载。
+ 
+ | 平台                  | 下载文件                           |
+ | --------------------- | ---------------------------------- |
+@@ -99,7 +99,7 @@ XDG_BIN_DIR=$HOME/.local/bin curl -fsSL https://opencode.ai/install | bash
+ 
+ ### Agents
+ 
+-OpenCode 内置两种 Agent，可用 `Tab` 键快速切换：
++FreeIDE 内置两种 Agent，可用 `Tab` 键快速切换：
+ 
+ - **build** - 默认模式，具备完整权限，适合开发工作
+ - **plan** - 只读模式，适合代码分析与探索
+@@ -119,9 +119,9 @@ OpenCode 内置两种 Agent，可用 `Tab` 键快速切换：
+ 
+ 如有兴趣贡献代码，请在提交 PR 前阅读 [贡献指南 (Contributing Docs)](./CONTRIBUTING.md)。
+ 
+-### 基于 OpenCode 进行开发
++### 基于 FreeIDE 进行开发
+ 
+-如果你在项目名中使用了 “opencode”（如 “opencode-dashboard” 或 “opencode-mobile”），请在 README 里注明该项目不是 OpenCode 团队官方开发，且不存在隶属关系。
++如果你在项目名中使用了 “opencode”（如 “opencode-dashboard” 或 “opencode-mobile”），请在 README 里注明该项目不是 FreeIDE 团队官方开发，且不存在隶属关系。
+ 
+ ---
+ 
+diff --git a/README.zht.md b/README.zht.md
+index f09358b..86da051 100644
+--- a/README.zht.md
++++ b/README.zht.md
+@@ -39,7 +39,7 @@
+   <a href="README.vi.md">Tiếng Việt</a>
+ </p>
+ 
+-[![OpenCode Terminal UI](packages/web/src/assets/lander/screenshot.png)](https://opencode.ai)
++[![FreeIDE Terminal UI](packages/web/src/assets/lander/screenshot.png)](https://opencode.ai)
+ 
+ ---
+ 
+@@ -66,7 +66,7 @@ nix run nixpkgs#opencode           # 或使用 github:anomalyco/opencode 以取
+ 
+ ### 桌面應用程式 (BETA)
+ 
+-OpenCode 也提供桌面版應用程式。您可以直接從 [發佈頁面 (releases page)](https://github.com/anomalyco/opencode/releases) 或 [opencode.ai/download](https://opencode.ai/download) 下載。
++FreeIDE 也提供桌面版應用程式。您可以直接從 [發佈頁面 (releases page)](https://github.com/anomalyco/opencode/releases) 或 [opencode.ai/download](https://opencode.ai/download) 下載。
+ 
+ | 平台                  | 下載連結                           |
+ | --------------------- | ---------------------------------- |
+@@ -99,7 +99,7 @@ XDG_BIN_DIR=$HOME/.local/bin curl -fsSL https://opencode.ai/install | bash
+ 
+ ### Agents
+ 
+-OpenCode 內建了兩種 Agent，您可以使用 `Tab` 鍵快速切換。
++FreeIDE 內建了兩種 Agent，您可以使用 `Tab` 鍵快速切換。
+ 
+ - **build** - 預設模式，具備完整權限的 Agent，適用於開發工作。
+ - **plan** - 唯讀模式，適用於程式碼分析與探索。
+@@ -107,21 +107,21 @@ OpenCode 內建了兩種 Agent，您可以使用 `Tab` 鍵快速切換。
+   - 執行 bash 指令前會詢問權限。
+   - 非常適合用來探索陌生的程式碼庫或規劃變更。
+ 
+-此外，OpenCode 還包含一個 **general** 子 Agent，用於處理複雜搜尋與多步驟任務。此 Agent 供系統內部使用，亦可透過在訊息中輸入 `@general` 來呼叫。
++此外，FreeIDE 還包含一個 **general** 子 Agent，用於處理複雜搜尋與多步驟任務。此 Agent 供系統內部使用，亦可透過在訊息中輸入 `@general` 來呼叫。
+ 
+ 了解更多關於 [Agents](https://opencode.ai/docs/agents) 的資訊。
+ 
+ ### 線上文件
+ 
+-關於如何設定 OpenCode 的詳細資訊，請參閱我們的 [**官方文件**](https://opencode.ai/docs)。
++關於如何設定 FreeIDE 的詳細資訊，請參閱我們的 [**官方文件**](https://opencode.ai/docs)。
+ 
+ ### 參與貢獻
+ 
+-如果您有興趣參與 OpenCode 的開發，請在提交 Pull Request 前先閱讀我們的 [貢獻指南 (Contributing Docs)](./CONTRIBUTING.md)。
++如果您有興趣參與 FreeIDE 的開發，請在提交 Pull Request 前先閱讀我們的 [貢獻指南 (Contributing Docs)](./CONTRIBUTING.md)。
+ 
+-### 基於 OpenCode 進行開發
++### 基於 FreeIDE 進行開發
+ 
+-如果您正在開發與 OpenCode 相關的專案，並在名稱中使用了 "opencode"（例如 "opencode-dashboard" 或 "opencode-mobile"），請在您的 README 中加入聲明，說明該專案並非由 OpenCode 團隊開發，且與我們沒有任何隸屬關係。
++如果您正在開發與 FreeIDE 相關的專案，並在名稱中使用了 "opencode"（例如 "opencode-dashboard" 或 "opencode-mobile"），請在您的 README 中加入聲明，說明該專案並非由 FreeIDE 團隊開發，且與我們沒有任何隸屬關係。
+ 
+ ---
+ 
+diff --git a/SECURITY.md b/SECURITY.md
+index e7e59f4..c08f229 100644
+--- a/SECURITY.md
++++ b/SECURITY.md
+@@ -10,13 +10,13 @@ submit one that will be an automatic ban from the project.
+ 
+ ### Overview
+ 
+-OpenCode is an AI-powered coding assistant that runs locally on your machine. It provides an agent system with access to powerful tools including shell execution, file operations, and web access.
++FreeIDE is an AI-powered coding assistant that runs locally on your machine. It provides an agent system with access to powerful tools including shell execution, file operations, and web access.
+ 
+ ### No Sandbox
+ 
+-OpenCode does **not** sandbox the agent. The permission system exists as a UX feature to help users stay aware of what actions the agent is taking - it prompts for confirmation before executing commands, writing files, etc. However, it is not designed to provide security isolation.
++FreeIDE does **not** sandbox the agent. The permission system exists as a UX feature to help users stay aware of what actions the agent is taking - it prompts for confirmation before executing commands, writing files, etc. However, it is not designed to provide security isolation.
+ 
+-If you need true isolation, run OpenCode inside a Docker container or VM.
++If you need true isolation, run FreeIDE inside a Docker container or VM.
+ 
+ ### Server Mode
+ 
