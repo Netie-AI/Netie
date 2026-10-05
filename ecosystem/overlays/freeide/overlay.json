@@ -1,0 +1,38 @@
+{
+  "slug": "freeide",
+  "upstream": "anomalyco/opencode",
+  "base_commit": "907b3bc518fa48e90e8ec24dd327d13eee71c36c",
+  "license_sha256": "625f0f619133f89bbbb2abe37369613dfa1885eba1e50d02170deb62bb42cb6b",
+  "stripped": [],
+  "files_changed": [
+    "CONTEXT.md",
+    "CONTRIBUTING.md",
+    "README.ar.md",
+    "README.bn.md",
+    "README.br.md",
+    "README.bs.md",
+    "README.da.md",
+    "README.de.md",
+    "README.es.md",
+    "README.fr.md",
+    "README.gr.md",
+    "README.it.md",
+    "README.ja.md",
+    "README.ko.md",
+    "README.md",
+    "README.no.md",
+    "README.pl.md",
+    "README.ru.md",
+    "README.th.md",
+    "README.tr.md",
+    "README.uk.md",
+    "README.vi.md",
+    "README.zh.md",
+    "README.zht.md",
+    "SECURITY.md",
+    "NETIE-ATTRIBUTION.md"
+  ],
+  "series": [
+    "0001-rebrand.patch"
+  ]
+}

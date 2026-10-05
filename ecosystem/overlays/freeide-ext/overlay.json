@@ -1,0 +1,17 @@
+{
+  "slug": "freeide-ext",
+  "upstream": "Kilo-Org/kilocode",
+  "base_commit": "a93088bfe237992afaf64dcc14db9a1535b1cf30",
+  "license_sha256": "8a088af74e19c37e62906321b1072f593113058ed9eae507d899d41e6e5e5bb4",
+  "stripped": [],
+  "files_changed": [
+    "AGENTS.md",
+    "CODE_OF_CONDUCT.md",
+    "README.md",
+    "RELEASING.md",
+    "NETIE-ATTRIBUTION.md"
+  ],
+  "series": [
+    "0001-rebrand.patch"
+  ]
+}

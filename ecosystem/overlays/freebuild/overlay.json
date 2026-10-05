@@ -1,0 +1,38 @@
+{
+  "slug": "freebuild",
+  "upstream": "oblien/openship",
+  "base_commit": "3d33f5d31e775575626d7855d61f50e926999bce",
+  "license_sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30",
+  "stripped": [],
+  "files_changed": [
+    "CONTRIBUTING.md",
+    "README.md",
+    "SECURITY.md",
+    "TODO.md",
+    "docs/acme.md",
+    "docs/actions-local-runner.md",
+    "docs/backups.md",
+    "docs/bugfix-batch-2026-09-16.md",
+    "docs/client-icons.md",
+    "docs/cloud-capacity-economics.md",
+    "docs/cloud-monthly-capacity-rollout.md",
+    "docs/cloud-product-analytics.md",
+    "docs/dashboard-design.md",
+    "docs/installation.md",
+    "docs/issue-integration-2026-09-15.md",
+    "docs/k3s-cluster-runtime.md",
+    "docs/monitoring.md",
+    "docs/namespace-credit-alerts.md",
+    "docs/oblien-staging-cycle-report.md",
+    "docs/openship-cloud-launch.md",
+    "docs/openship-cloud-production-verification.md",
+    "docs/pr-892-review.md",
+    "docs/screenshots/ship-sdk/README.md",
+    "docs/self-hosted-clusters-and-private-networking.md",
+    "docs/ship-sdk-plan.md",
+    "NETIE-ATTRIBUTION.md"
+  ],
+  "series": [
+    "0001-rebrand.patch"
+  ]
+}

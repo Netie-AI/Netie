@@ -4,7 +4,8 @@
 what is written here. If a repo doc contradicts this file, this file wins and the repo
 doc is wrong.
 
-Version 1.0 - 2026-08-01. Amend by pull request with a stated reason, never in passing.
+Version 1.1 - 2026-10-05 (adds the adoption lane, DR-0002, proposed). Version 1.0 - 2026-08-01.
+Amend by pull request with a stated reason, never in passing.
 
 ---
 
@@ -228,6 +229,15 @@ declined, and each will be proposed again by someone who has not read this.
 | A general-purpose agent framework | LangGraph / Deep Agents exist. Our value is the gate, not the graph. |
 | A vertical we cannot sell this year | Verticals are packs on the engine, added when a customer pays for one. |
 | Blockchain, tokens, PQC crypto | No customer has asked. Revisit when a regulated client demands it in writing. |
+
+### Adoption lane (DR-0002, proposed 2026-10-05)
+
+Declining to *build* a thing is not declining to *ship* one. Permissive open-source apps are
+forked and rebranded as ecosystem surfaces, with license and notices intact and our gate on
+top. The catalog and its rules live in `ecosystem/` and
+`docs/decisions/DR-0002-adopt-and-rebrand-permissive-upstreams.md`. A fork still obeys
+sections 2 to 4: no second vault, no second orchestrator, keys and tools through OpenVault
+and Cortex. n8n, Dify, Open WebUI, NadirClaw and Routerly are not forkable for sale.
 
 ---
 

@@ -1,0 +1,39 @@
+{
+  "slug": "crew-harness",
+  "upstream": "deepseek-ai/deepseek-harness",
+  "base_commit": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+  "license_sha256": "ebb4f09972aee8608be255debaf78451a68e95c290f55c240dec2ecfa16ea6be",
+  "stripped": [],
+  "files_changed": [
+    "AGENTS.md",
+    "BRAND_GUIDELINES.md",
+    "BRAND_GUIDELINES.zh.md",
+    "CONTRIBUTING.md",
+    "CONTRIBUTING.zh.md",
+    "README.md",
+    "README.zh.md",
+    "SAFETY.md",
+    "SAFETY.zh.md",
+    "docs/architecture.md",
+    "docs/architecture.zh.md",
+    "docs/cookbook/adding-a-package.md",
+    "docs/cookbook/adding-a-package.zh.md",
+    "docs/cordis-primer.md",
+    "docs/cordis-primer.zh.md",
+    "docs/cordis-tutorial/index.md",
+    "docs/cordis-tutorial/index.zh.md",
+    "docs/deepseek-llm-api-wire-extensions.zh.md",
+    "docs/glossary.md",
+    "docs/glossary.zh.md",
+    "docs/postmortem/0003-web-agent-gui-feedback-loop.md",
+    "docs/postmortem/0003-web-agent-gui-feedback-loop.zh.md",
+    "docs/subsystems/README.md",
+    "docs/subsystems/README.zh.md",
+    "docs/user/index.md",
+    "docs/user/index.zh.md",
+    "NETIE-ATTRIBUTION.md"
+  ],
+  "series": [
+    "0001-rebrand.patch"
+  ]
+}

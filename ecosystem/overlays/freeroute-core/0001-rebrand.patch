@@ -1,0 +1,354 @@
+diff --git a/NETIE-ATTRIBUTION.md b/NETIE-ATTRIBUTION.md
+new file mode 100644
+index 0000000..52ab227
+--- /dev/null
++++ b/NETIE-ATTRIBUTION.md
+@@ -0,0 +1,26 @@
++# Attribution
++
++Netie FreeRoute Core is a modified distribution of MiXaiLL76/auto_ai_router
++(https://github.com/MiXaiLL76/auto_ai_router), pinned at commit 175a300c62.
++
++Upstream license: Apache-2.0. LICENSE is included unmodified, with every
++upstream copyright line, and so is any NOTICE file.
++
++- copyright notice that is included in or attached to the work
++- copyright license to reproduce, prepare Derivative Works of,
++- Copyright [yyyy] [name of copyright owner]
++
++Not affiliated with or endorsed by the upstream authors. Upstream names and
++logos belong to their owners.
++
++## Changed in stage 1
++
++- Display name Auto AI Router rewritten to FreeRoute Core in prose docs only.
++- This file and a README banner added.
++
++## Not done yet (stage 2)
++
++- Package names, binaries, identifiers and UI strings are still upstream's.
++- SECURITY, SUPPORT and CONTRIBUTING contacts and URLs still point at upstream.
++- Translated docs, changelogs and third-party notices are untouched.
++- Netie gate wiring: Credentials are issued by OpenVault. The router holds no key of its own.
+diff --git a/README.md b/README.md
+index 472ad41..ba467fd 100644
+--- a/README.md
++++ b/README.md
+@@ -1,4 +1,6 @@
+-# Auto AI Router
++> **Netie FreeRoute Core** is a modified distribution of [MiXaiLL76/auto_ai_router](https://github.com/MiXaiLL76/auto_ai_router) (Apache-2.0). See NETIE-ATTRIBUTION.md. Not endorsed by the upstream authors.
++
++# FreeRoute Core
+ 
+ <p align="center">
+   <img src="docs/logo.svg" alt="Auto AI Router Logo" width="120"/>
+@@ -7,7 +9,7 @@
+ [![GitHub Pages](https://img.shields.io/badge/docs-GitHub%20Pages-blue)](https://mixaill76.github.io/auto_ai_router/)
+ [![license](https://img.shields.io/github/license/MiXaiLL76/auto_ai_router.svg)](https://github.com/MiXaiLL76/auto_ai_router/blob/main/LICENSE)
+ 
+-High-performance proxy router for LLM APIs with automatic load balancing, rate limiting, and fail2ban protection. Routes requests to OpenAI, Vertex AI, Gemini AI Studio, Anthropic, Comet API, and other Auto AI Router instances.
++High-performance proxy router for LLM APIs with automatic load balancing, rate limiting, and fail2ban protection. Routes requests to OpenAI, Vertex AI, Gemini AI Studio, Anthropic, Comet API, and other FreeRoute Core instances.
+ 
+ ## Key Features
+ 
+diff --git a/docs/advanced/balancing.md b/docs/advanced/balancing.md
+index e7e440b..7026cdd 100644
+--- a/docs/advanced/balancing.md
++++ b/docs/advanced/balancing.md
+@@ -2,7 +2,7 @@
+ 
+ ## Round-Robin
+ 
+-Auto AI Router distributes requests across credentials using round-robin balancing. When multiple credentials support the same model, each request goes to the next available credential in rotation.
++FreeRoute Core distributes requests across credentials using round-robin balancing. When multiple credentials support the same model, each request goes to the next available credential in rotation.
+ 
+ ### Example
+ 
+diff --git a/docs/advanced/model_alias.md b/docs/advanced/model_alias.md
+index 7b41517..02b39ff 100644
+--- a/docs/advanced/model_alias.md
++++ b/docs/advanced/model_alias.md
+@@ -1,6 +1,6 @@
+ # Model Aliases and Model Name Mapping
+ 
+-There are two independent mechanisms for mapping model names in Auto AI Router. Choose the right one depending on your use case.
++There are two independent mechanisms for mapping model names in FreeRoute Core. Choose the right one depending on your use case.
+ 
+ |                               | `model_alias`                | `models[].model`                               |
+ | ----------------------------- | ---------------------------- | ---------------------------------------------- |
+diff --git a/docs/advanced/redis.md b/docs/advanced/redis.md
+index 295056f..6c4d832 100644
+--- a/docs/advanced/redis.md
++++ b/docs/advanced/redis.md
+@@ -1,6 +1,6 @@
+ # Redis / Valkey Integration
+ 
+-Auto AI Router supports an optional Redis (or [Valkey](https://valkey.io/)) backend that enables three features when running multiple replicas:
++FreeRoute Core supports an optional Redis (or [Valkey](https://valkey.io/)) backend that enables three features when running multiple replicas:
+ 
+ | Feature                                                          | Without Redis                                                                       | With Redis                                                         |
+ | ---------------------------------------------------------------- | ----------------------------------------------------------------------------------- | ------------------------------------------------------------------ |
+diff --git a/docs/advanced/responses.md b/docs/advanced/responses.md
+index 2b7aa57..90d40ee 100644
+--- a/docs/advanced/responses.md
++++ b/docs/advanced/responses.md
+@@ -1,6 +1,6 @@
+ # Responses API
+ 
+-Auto AI Router implements the [OpenAI Responses API](../refs/openai_responses_api.md) and routes requests natively to Anthropic, Comet API, Vertex AI, and AWS Bedrock — without converting through Chat Completions format as an intermediary.
++FreeRoute Core implements the [OpenAI Responses API](../refs/openai_responses_api.md) and routes requests natively to Anthropic, Comet API, Vertex AI, and AWS Bedrock — without converting through Chat Completions format as an intermediary.
+ 
+ ## Endpoints
+ 
+@@ -77,7 +77,7 @@ All standard Responses API parameters are supported. The table below lists the f
+ Not all providers support every parameter. See the [Provider Support](#provider-support) table below.
+ 
+ !!! note "Service tier is router-controlled"
+-`service_tier` is ignored and removed by Auto AI Router. Clients cannot select an upstream
++`service_tier` is ignored and removed by FreeRoute Core. Clients cannot select an upstream
+ service tier. The effective tier is controlled by the router/provider configuration.
+ 
+ ## Content Types
+diff --git a/docs/cli-tools/codex.md b/docs/cli-tools/codex.md
+index ef0ef1c..3445cea 100644
+--- a/docs/cli-tools/codex.md
++++ b/docs/cli-tools/codex.md
+@@ -2,12 +2,12 @@
+ 
+ [Codex CLI](https://github.com/openai/codex) is an open-source terminal coding assistant from OpenAI. It uses the OpenAI API to execute tasks, write and edit code, run shell commands, and browse files — all from the terminal.
+ 
+-Because Auto AI Router exposes an OpenAI-compatible API, Codex CLI can be pointed at the router and transparently use any configured backend (Vertex AI, Anthropic, Gemini, OpenAI, etc.).
++Because FreeRoute Core exposes an OpenAI-compatible API, Codex CLI can be pointed at the router and transparently use any configured backend (Vertex AI, Anthropic, Gemini, OpenAI, etc.).
+ 
+ ## Prerequisites
+ 
+ - Codex CLI installed: `npm install -g @openai/codex`
+-- Auto AI Router running and reachable (e.g. `http://localhost:8080`)
++- FreeRoute Core running and reachable (e.g. `http://localhost:8080`)
+ - A master key configured in your router (`server.master_key`)
+ 
+ ## Configuration
+@@ -42,7 +42,7 @@ web_search           = "disabled"
+ 
+ | Field                    | Description                                                                                    |
+ | ------------------------ | ---------------------------------------------------------------------------------------------- |
+-| `base_url`               | URL of your running Auto AI Router instance                                                    |
++| `base_url`               | URL of your running FreeRoute Core instance                                                    |
+ | `env_key`                | Environment variable that holds the master key                                                 |
+ | `stream_idle_timeout_ms` | Streaming idle timeout in milliseconds. Set high for slow providers (Vertex AI, Anthropic).    |
+ | `model`                  | Default model sent in every request. Must match a model name in the router config.             |
+@@ -67,7 +67,7 @@ The model name must match one of the models registered in the router's `models`
+ 
+ ## Using Different Backends
+ 
+-Because Auto AI Router handles credential routing, you can switch backends simply by changing the `model` field — no Codex reconfiguration needed.
++Because FreeRoute Core handles credential routing, you can switch backends simply by changing the `model` field — no Codex reconfiguration needed.
+ 
+ Example router config with multiple backends:
+ 
+diff --git a/docs/getting-started/api.md b/docs/getting-started/api.md
+index 96465a5..db3121f 100644
+--- a/docs/getting-started/api.md
++++ b/docs/getting-started/api.md
+@@ -1,6 +1,6 @@
+ # API Usage
+ 
+-Auto AI Router exposes an OpenAI-compatible API. Any client that works with the OpenAI API can be pointed at the router.
++FreeRoute Core exposes an OpenAI-compatible API. Any client that works with the OpenAI API can be pointed at the router.
+ 
+ ## Chat Completions
+ 
+diff --git a/docs/getting-started/configuration.md b/docs/getting-started/configuration.md
+index d4ee229..5b7566e 100644
+--- a/docs/getting-started/configuration.md
++++ b/docs/getting-started/configuration.md
+@@ -1,6 +1,6 @@
+ # Configuration
+ 
+-Auto AI Router is configured via a YAML file passed with the `-config` flag.
++FreeRoute Core is configured via a YAML file passed with the `-config` flag.
+ 
+ See the full example in [`config.yaml.example`](https://github.com/MiXaiLL76/auto_ai_router/blob/main/config.yaml.example).
+ 
+diff --git a/docs/index.md b/docs/index.md
+index 73399d6..247c556 100644
+--- a/docs/index.md
++++ b/docs/index.md
+@@ -1,10 +1,10 @@
+-# Auto AI Router
++# FreeRoute Core
+ 
+ High-performance proxy router for LLM APIs with automatic load balancing, rate limiting, and fail2ban protection.
+ 
+ ## Overview
+ 
+-Auto AI Router acts as a unified gateway between your applications and multiple LLM providers. It handles credential rotation, rate limit enforcement, and automatic failover — so your applications only need a single endpoint.
++FreeRoute Core acts as a unified gateway between your applications and multiple LLM providers. It handles credential rotation, rate limit enforcement, and automatic failover — so your applications only need a single endpoint.
+ 
+ ```mermaid
+ graph LR
+@@ -35,7 +35,7 @@ graph LR
+ ## Features
+ 
+ - **Multi-provider routing** — OpenAI, Vertex AI, Gemini AI Studio, Anthropic, Comet API
+-- **AIR chains** — forward to other Auto AI Router instances as fallback
++- **AIR chains** — forward to other FreeRoute Core instances as fallback
+ - **Round-robin balancing** — distribute load across multiple credentials
+ - **Two-level rate limiting** — per-credential RPM/TPM + per-model limits
+ - **Fail2ban protection** — auto-ban credentials on repeated errors
+diff --git a/docs/litellm-integration/kafka_spend_log.md b/docs/litellm-integration/kafka_spend_log.md
+index da2d756..81af894 100644
+--- a/docs/litellm-integration/kafka_spend_log.md
++++ b/docs/litellm-integration/kafka_spend_log.md
+@@ -1,6 +1,6 @@
+ # Kafka Spend Log (SpendLog → Kafka → ClickHouse)
+ 
+-Auto AI Router can publish an extended copy of every spend event to Kafka, in addition to (or instead of) writing it to the LiteLLM PostgreSQL database. From Kafka the event flows into ClickHouse for analytics via a standard ClickHouse `Kafka` table engine and a materialized view — no custom consumer service is required. PostgreSQL remains the source of truth for auth (`ValidateToken`), budgets, and the LiteLLM UI; the Kafka/ClickHouse path is a separate, independently-enabled write path for analytics.
++FreeRoute Core can publish an extended copy of every spend event to Kafka, in addition to (or instead of) writing it to the LiteLLM PostgreSQL database. From Kafka the event flows into ClickHouse for analytics via a standard ClickHouse `Kafka` table engine and a materialized view — no custom consumer service is required. PostgreSQL remains the source of truth for auth (`ValidateToken`), budgets, and the LiteLLM UI; the Kafka/ClickHouse path is a separate, independently-enabled write path for analytics.
+ 
+ For the full design rationale (gap analysis against real LiteLLM data, config decisions, open-question resolutions), see the design document: `auto_ai_router_kafka_spend_log_tz.md` in the repository root.
+ 
+@@ -87,7 +87,7 @@ See section 4 of the design document for the complete field-by-field JSON exampl
+ 
+ A reference DDL — a `Kafka`-engine table reading `air.spend_logs`, a `MergeTree` table, and a `MATERIALIZED VIEW` connecting the two — is provided at `clickhouse/init/01_spend_logs.sql`. It matches the design document's section 8 schema (columns line up 1:1 with the flat JSON event above).
+ 
+-This DDL is a reference/example for local development and for DBAs setting up a production ClickHouse cluster — Auto AI Router itself does not create, own, or administer this schema. Retention (`TTL`) and Kafka topic partitioning are likewise left to whoever operates the target cluster; the router's only responsibility is producing well-formed events to the topic.
++This DDL is a reference/example for local development and for DBAs setting up a production ClickHouse cluster — FreeRoute Core itself does not create, own, or administer this schema. Retention (`TTL`) and Kafka topic partitioning are likewise left to whoever operates the target cluster; the router's only responsibility is producing well-formed events to the topic.
+ 
+ ### Upgrading an existing ClickHouse pipeline
+ 
+diff --git a/docs/litellm-integration/litellm_auth.md b/docs/litellm-integration/litellm_auth.md
+index 98a7e98..205ea4f 100644
+--- a/docs/litellm-integration/litellm_auth.md
++++ b/docs/litellm-integration/litellm_auth.md
+@@ -1,6 +1,6 @@
+ # LiteLLM Auth & Billing Flow
+ 
+-How Auto AI Router authenticates a request against a LiteLLM Postgres database, enforces budgets/rate limits/model access, and logs spend afterwards. See [litellm_db.md](litellm_db.md) for connection/config basics and [kafka_spend_log.md](kafka_spend_log.md) for the analytics write-path.
++How FreeRoute Core authenticates a request against a LiteLLM Postgres database, enforces budgets/rate limits/model access, and logs spend afterwards. See [litellm_db.md](litellm_db.md) for connection/config basics and [kafka_spend_log.md](kafka_spend_log.md) for the analytics write-path.
+ 
+ ## Overview
+ 
+@@ -17,7 +17,7 @@ flowchart LR
+     Enforce -.-> Redis[(Redis / Valkey<br/>optional)]
+ ```
+ 
+-Everything below runs only when `litellm_db.enabled: true`. With it disabled, Auto AI Router falls back to YAML-only credentials with no per-key auth or billing.
++Everything below runs only when `litellm_db.enabled: true`. With it disabled, FreeRoute Core falls back to YAML-only credentials with no per-key auth or billing.
+ 
+ ## 1. Token validation (`authenticateRequest`)
+ 
+diff --git a/docs/litellm-integration/litellm_db.md b/docs/litellm-integration/litellm_db.md
+index fdfd5c9..362de1a 100644
+--- a/docs/litellm-integration/litellm_db.md
++++ b/docs/litellm-integration/litellm_db.md
+@@ -1,6 +1,6 @@
+ # LiteLLM Database Integration
+ 
+-Auto AI Router can integrate with a LiteLLM PostgreSQL database for spend logging and API key authentication.
++FreeRoute Core can integrate with a LiteLLM PostgreSQL database for spend logging and API key authentication.
+ 
+ Provider-based team attribution is controlled by the server-level `credential_name_as_team_id` setting, independently of the database connection settings below.
+ 
+diff --git a/docs/litellm-integration/pricing.md b/docs/litellm-integration/pricing.md
+index 1588488..5805791 100644
+--- a/docs/litellm-integration/pricing.md
++++ b/docs/litellm-integration/pricing.md
+@@ -1,6 +1,6 @@
+ # Model Pricing
+ 
+-Auto AI Router supports per-model cost calculation for spend logging. Prices are loaded from a JSON file or remote URL at startup, refreshed periodically in the background, and merged with any prices stored in the LiteLLM database.
++FreeRoute Core supports per-model cost calculation for spend logging. Prices are loaded from a JSON file or remote URL at startup, refreshed periodically in the background, and merged with any prices stored in the LiteLLM database.
+ 
+ ## Configuration
+ 
+diff --git a/docs/monitoring/otel.md b/docs/monitoring/otel.md
+index c9cdc28..3a9c380 100644
+--- a/docs/monitoring/otel.md
++++ b/docs/monitoring/otel.md
+@@ -1,6 +1,6 @@
+ # OpenTelemetry
+ 
+-Auto AI Router has built-in [OpenTelemetry](https://opentelemetry.io/) (OTEL) support and can export all three signals — **traces**, **logs**, and **metrics** — to any OTLP-compatible collector (OpenTelemetry Collector, Grafana Alloy, Tempo, Loki, Jaeger, etc.).
++FreeRoute Core has built-in [OpenTelemetry](https://opentelemetry.io/) (OTEL) support and can export all three signals — **traces**, **logs**, and **metrics** — to any OTLP-compatible collector (OpenTelemetry Collector, Grafana Alloy, Tempo, Loki, Jaeger, etc.).
+ 
+ OTEL is **disabled by default**. When disabled, no SDK components are initialized and the router behaves exactly as before: pretty stdout logs, no tracing, and pull-based Prometheus metrics only.
+ 
+diff --git a/docs/providers/air.md b/docs/providers/air.md
+index 2572a26..6e652c0 100644
+--- a/docs/providers/air.md
++++ b/docs/providers/air.md
+@@ -1,6 +1,6 @@
+-# Auto AI Router
++# FreeRoute Core
+ 
+-Use `type: air` when the upstream is another Auto AI Router instance.
++Use `type: air` when the upstream is another FreeRoute Core instance.
+ 
+ It uses the same HTTP forwarding, `/health` discovery, dynamic model sync, and fallback behavior as `type: proxy`, but declares a narrower product contract: the remote endpoint is AIR, not a generic OpenAI-compatible API.
+ 
+@@ -41,6 +41,6 @@ Roll out upstream routers first, then downstream routers. Mixed-version chains r
+ 
+ ## When to use `proxy`
+ 
+-Use `type: proxy` for generic OpenAI-compatible APIs that are not Auto AI Router instances.
++Use `type: proxy` for generic OpenAI-compatible APIs that are not FreeRoute Core instances.
+ 
+-Older `proxy_usage_format` configuration is no longer supported. Use `type: air` for Auto AI Router upstreams.
++Older `proxy_usage_format` configuration is no longer supported. Use `type: air` for FreeRoute Core upstreams.
+diff --git a/docs/providers/index.md b/docs/providers/index.md
+index 7162aac..3a322d5 100644
+--- a/docs/providers/index.md
++++ b/docs/providers/index.md
+@@ -1,6 +1,6 @@
+ # Providers
+ 
+-Auto AI Router supports multiple LLM providers. Each provider type has its own authentication method and required configuration fields.
++FreeRoute Core supports multiple LLM providers. Each provider type has its own authentication method and required configuration fields.
+ 
+ ## Provider Comparison
+ 
+@@ -15,7 +15,7 @@ Auto AI Router supports multiple LLM providers. Each provider type has its own a
+ | [Gemini AI Studio](gemini.md) | `gemini`    | `api_key`, `base_url`                                              | API Key                  |
+ | [vLLM](vllm.md)               | `vllm`      | `base_url`                                                         | Optional API Key         |
+ | [Proxy](proxy.md)             | `proxy`     | `base_url`                                                         | Optional API Key         |
+-| [Auto AI Router](air.md)      | `air`       | `base_url`                                                         | Optional API Key         |
++| [FreeRoute Core](air.md)      | `air`       | `base_url`                                                         | Optional API Key         |
+ 
+ ## Common Fields
+ 
+diff --git a/docs/providers/proxy.md b/docs/providers/proxy.md
+index 7f57c33..6df587f 100644
+--- a/docs/providers/proxy.md
++++ b/docs/providers/proxy.md
+@@ -1,6 +1,6 @@
+ # Proxy
+ 
+-The proxy provider forwards requests to a generic OpenAI-compatible API. For another Auto AI Router instance, prefer [`type: air`](air.md).
++The proxy provider forwards requests to a generic OpenAI-compatible API. For another FreeRoute Core instance, prefer [`type: air`](air.md).
+ 
+ ## Configuration
+ 
+diff --git a/docs/refs/index.md b/docs/refs/index.md
+index 3d10467..0d58288 100644
+--- a/docs/refs/index.md
++++ b/docs/refs/index.md
+@@ -16,4 +16,4 @@ Use these pages as working references for provider APIs:
+ - [OpenAI Responses API](openai_responses_api.md) - `Verified`
+ - [Vertex Gemini API](vertex_gemini_api.md) - `Partial`
+ 
+-Provider integration behavior specific to Auto AI Router remains in `docs/providers/`.
++Provider integration behavior specific to FreeRoute Core remains in `docs/providers/`.
+diff --git a/docs/refs/openai_chat_completions.md b/docs/refs/openai_chat_completions.md
+index 4e6e10a..d0571ba 100644
+--- a/docs/refs/openai_chat_completions.md
++++ b/docs/refs/openai_chat_completions.md
+@@ -88,7 +88,7 @@ ______________________________________________________________________
+ | `web_search_options` | object  | —       | Web search integration settings (for models that support it). |
+ 
+ !!! note "Service tier is router-controlled"
+-`service_tier` is ignored and removed by Auto AI Router. Clients cannot select an upstream
++`service_tier` is ignored and removed by FreeRoute Core. Clients cannot select an upstream
+ service tier. The effective tier is controlled by the router/provider configuration.
+ 
+ ______________________________________________________________________

@@ -1,0 +1,535 @@
+diff --git a/AGENTS.md b/AGENTS.md
+index 1695380..c24bd32 100644
+--- a/AGENTS.md
++++ b/AGENTS.md
+@@ -1,16 +1,16 @@
+ <!-- OPENWIKI:START -->
+ 
+-## OpenWiki
++## Netie Wiki
+ 
+ This repository has a generated `openwiki/` evidence index. It is optional just-in-time context, not required startup reading.
+ 
+ - Do not enumerate, preload, or search wikis at task start. Use retrieval when the user asks for it, when unfamiliar architecture or dependency behavior materially affects the task, or when source inspection leaves an important uncertainty. Stop once the question is grounded.
+-- When those conditions apply and OpenWiki retrieval tools are available, use `openwiki_search` for just-in-time context and `openwiki_read` for the relevant complete sections. If search returns `workspace_required`, ask which listed workspace to use and retry with its ID.
++- When those conditions apply and Netie Wiki retrieval tools are available, use `openwiki_search` for just-in-time context and `openwiki_read` for the relevant complete sections. If search returns `workspace_required`, ask which listed workspace to use and retry with its ID.
+ - Use `openwiki_list_workspaces` or `openwiki_list_wikis` when workspace membership itself needs to be discovered.
+ - If the retrieval tools are unavailable, read `openwiki/quickstart.md` and follow its links to the relevant pages.
+ - Treat source code and tests as authoritative. A brief's unknowns and review items are verification gaps, not automatic requirements.
+ - Prefer the narrowest quiet validation that proves the changed behavior. Preserve complete failure output.
+ 
+-The scheduled OpenWiki GitHub Actions workflow refreshes the repository wiki. Do not hand-edit generated OpenWiki pages unless explicitly asked; prefer updating source code/docs and letting OpenWiki regenerate.
++The scheduled Netie Wiki GitHub Actions workflow refreshes the repository wiki. Do not hand-edit generated Netie Wiki pages unless explicitly asked; prefer updating source code/docs and letting Netie Wiki regenerate.
+ 
+ <!-- OPENWIKI:END -->
+diff --git a/CLAUDE.md b/CLAUDE.md
+index 48a4bfc..1a89909 100644
+--- a/CLAUDE.md
++++ b/CLAUDE.md
+@@ -1,6 +1,6 @@
+ <!-- OPENWIKI:START -->
+ 
+-## OpenWiki
++## Netie Wiki
+ 
+ @AGENTS.md
+ 
+diff --git a/CONTRIBUTING.md b/CONTRIBUTING.md
+index db6df17..226b0c3 100644
+--- a/CONTRIBUTING.md
++++ b/CONTRIBUTING.md
+@@ -1,4 +1,4 @@
+-# Contributing to OpenWiki
++# Contributing to Netie Wiki
+ 
+ Thanks for contributing! Our standard for PR contributions is **one PR = one change**.
+ This allows us to keep reviews fast and the repo history clean.
+@@ -40,7 +40,7 @@ Install an integration backed by the current checkout with:
+ pnpm integrations:dev <bob|codex|claude|opencode|cursor|kiro|omp|antigravity|copilot>
+ ```
+ 
+-The command builds OpenWiki, refreshes the host skill, and records absolute
++The command builds Netie Wiki, refreshes the host skill, and records absolute
+ paths to the current Node executable and `dist/cli/cli.js`. Restart the coding
+ agent after installation. IBM Bob, Codex, Claude Code, OpenCode, Cursor, Kiro,
+ Oh My Pi, Antigravity CLI, and GitHub Copilot CLI install at user scope. Later source changes only
+@@ -55,11 +55,11 @@ configuration directory on every supported platform), Cursor under `~/.cursor`,
+ Kiro under `~/.kiro`, Oh My Pi under `~/.omp/agent` (default profile), and
+ Antigravity CLI under `~/.gemini`, and GitHub Copilot CLI under `~/.copilot`.
+ 
+-Pi uses the package system and is not installed by the OpenWiki integration CLI. For local development, build the package and install it with `pi install /absolute/path/to/openwiki`; do not use a local-install flag. Published users install `pi install npm:openwiki`. The package includes `dist/integrations/pi/openwiki.js` and `integrations/openwiki`; the extension starts its package-local `dist/cli/cli.js` through Node.
++Pi uses the package system and is not installed by the Netie Wiki integration CLI. For local development, build the package and install it with `pi install /absolute/path/to/openwiki`; do not use a local-install flag. Published users install `pi install npm:openwiki`. The package includes `dist/integrations/pi/openwiki.js` and `integrations/openwiki`; the extension starts its package-local `dist/cli/cli.js` through Node.
+ 
+ ## Adding a coding-agent integration
+ 
+-OpenWiki host integrations share one canonical skill, four read-only retrieval
++Netie Wiki host integrations share one canonical skill, four read-only retrieval
+ tools (`openwiki_list_workspaces`, `openwiki_list_wikis`, `openwiki_search`, and
+ `openwiki_read`), and six generation lifecycle tools:
+ `openwiki_begin`, `openwiki_submit_plan`, `openwiki_next_page`,
+@@ -67,7 +67,7 @@ tools (`openwiki_list_workspaces`, `openwiki_list_wikis`, `openwiki_search`, and
+ Add host-specific behavior to the
+ registry and config boundary rather than copying the skill or adding
+ host-specific tools. The host model researches and authors only the current
+-OpenWiki PageJob; OpenWiki owns durable run state, Claims reconciliation,
++Netie Wiki PageJob; Netie Wiki owns durable run state, Claims reconciliation,
+ finalization, metadata, provenance, and managed setup files.
+ 
+ 1. Confirm the host discovers repository skills and local stdio MCP servers.
+@@ -89,7 +89,7 @@ finalization, metadata, provenance, and managed setup files.
+    support.
+ 
+ Keep the v1 boundary narrow: host agents use their native repository tools for
+-investigation and Markdown authoring; OpenWiki owns deterministic preparation,
++investigation and Markdown authoring; Netie Wiki owns deterministic preparation,
+ finalization, metadata, provenance, and managed setup files.
+ 
+ If your change should ship in a release, also add a changeset (see below).
+diff --git a/DEVELOPMENT.md b/DEVELOPMENT.md
+index 0a4d3bb..534acd0 100644
+--- a/DEVELOPMENT.md
++++ b/DEVELOPMENT.md
+@@ -24,7 +24,7 @@ pnpm run build
+ pnpm link --global
+ ```
+ 
+-Run a dry test from the repo you want OpenWiki to inspect:
++Run a dry test from the repo you want Netie Wiki to inspect:
+ 
+ ```sh
+ cd /path/to/target/repo
+@@ -52,7 +52,7 @@ alias openwiki='node /path/to/openwiki/dist/cli/cli.js'
+ 
+ That alias can go in `~/.zshrc` if you want it to persist.
+ 
+-After changing OpenWiki source code, rebuild from this package directory:
++After changing Netie Wiki source code, rebuild from this package directory:
+ 
+ ```sh
+ pnpm run build
+diff --git a/NETIE-ATTRIBUTION.md b/NETIE-ATTRIBUTION.md
+new file mode 100644
+index 0000000..3667ba2
+--- /dev/null
++++ b/NETIE-ATTRIBUTION.md
+@@ -0,0 +1,24 @@
++# Attribution
++
++Netie Wiki is a modified distribution of langchain-ai/openwiki
++(https://github.com/langchain-ai/openwiki), pinned at commit c0173dca92.
++
++Upstream license: MIT. LICENSE is included unmodified, with every
++upstream copyright line, and so is any NOTICE file.
++
++- Copyright (c) 2026
++
++Not affiliated with or endorsed by the upstream authors. Upstream names and
++logos belong to their owners.
++
++## Changed in stage 1
++
++- Display name OpenWiki rewritten to Netie Wiki in prose docs only.
++- This file and a README banner added.
++
++## Not done yet (stage 2)
++
++- Package names, binaries, identifiers and UI strings are still upstream's.
++- SECURITY, SUPPORT and CONTRIBUTING contacts and URLs still point at upstream.
++- Translated docs, changelogs and third-party notices are untouched.
++- Netie gate wiring: Grounded claims map to Netie-KB ids. Source connectors (mail, notes) run only through OpenVault leave-machine.
+diff --git a/README.md b/README.md
+index 0ed9f5c..0532e22 100644
+--- a/README.md
++++ b/README.md
+@@ -1,3 +1,5 @@
++> **Netie Wiki** is a modified distribution of [langchain-ai/openwiki](https://github.com/langchain-ai/openwiki) (MIT). See NETIE-ATTRIBUTION.md. Not endorsed by the upstream authors.
++
+ <!-- markdownlint-disable MD033 MD041 -->
+ 
+ <div align="center">
+@@ -16,9 +18,9 @@
+ 
+ </div>
+ 
+-OpenWiki turns your codebase and knowledge sources into a linked Markdown wiki that you own. Your coding agent can use it to understand a repository, answer questions, and find context across related projects. You can read the same pages or explore them as an interactive graph.
++Netie Wiki turns your codebase and knowledge sources into a linked Markdown wiki that you own. Your coding agent can use it to understand a repository, answer questions, and find context across related projects. You can read the same pages or explore them as an interactive graph.
+ 
+-For repository wikis, OpenWiki tracks facts back to source evidence so updates can focus on what changed. Start inside your coding agent, or use the standalone CLI for repository docs, personal knowledge, and scheduled updates.
++For repository wikis, Netie Wiki tracks facts back to source evidence so updates can focus on what changed. Start inside your coding agent, or use the standalone CLI for repository docs, personal knowledge, and scheduled updates.
+ 
+ [Get started](#quick-start) · [Search and link wikis](#search-your-wiki) · [Explore](#explore-your-wiki) · [Standalone CLI](#run-openwiki-directly) · [Command reference](#command-reference)
+ 
+@@ -33,9 +35,9 @@ Portable [OKF v0.2 output](#open-knowledge-format-okf-v02) and [publishable visu
+ 
+ ## Quick start
+ 
+-The easiest way to get started is inside the coding agent you already use. OpenWiki uses that agent's authenticated model session and repository tools, so there is no separate model provider to configure.
++The easiest way to get started is inside the coding agent you already use. Netie Wiki uses that agent's authenticated model session and repository tools, so there is no separate model provider to configure.
+ 
+-### 1. Install OpenWiki
++### 1. Install Netie Wiki
+ 
+ You'll need [Node.js 22.22.0 or newer](https://nodejs.org).
+ 
+@@ -44,7 +46,7 @@ npm install -g openwiki
+ ```
+ 
+ If you use Pi, install the package through Pi in step 2 instead; a separate
+-global OpenWiki installation is not required.
++global Netie Wiki installation is not required.
+ 
+ <a id="coding-agent-integrations"></a>
+ 
+@@ -73,7 +75,7 @@ Restart your coding agent, open a repository, and ask:
+ Initialize this repository's OpenWiki from the current source and tests.
+ ```
+ 
+-Your agent researches the repository and writes a linked wiki in `openwiki/`. OpenWiki tracks its source evidence and saves progress as each page completes.
++Your agent researches the repository and writes a linked wiki in `openwiki/`. Netie Wiki tracks its source evidence and saves progress as each page completes.
+ 
+ <div align="center">
+   <img alt="Codex initializes an OpenWiki for a repository." src="./static/openwiki-codex.gif" width="880">
+@@ -94,7 +96,7 @@ Host-specific locations and notes:
+ - Oh My Pi uses `~/.omp/agent` at user scope (the default profile). Use `--project` for named profiles or a relocated `PI_CODING_AGENT_DIR`.
+ - Antigravity uses `~/.gemini/antigravity-cli/skills` and `~/.gemini/config/mcp_config.json`.
+ - GitHub Copilot CLI uses `~/.copilot/skills` and `~/.copilot/mcp-config.json` at user scope; `.github/skills` and `.github/mcp.json` at the project.
+-- Pi is separate from Oh My Pi. Pi loads OpenWiki's skill and six lifecycle tools from the npm package; use `pi install --local npm:openwiki` for a project-local install. Its extension starts the package's own CLI through Node, so `openwiki` need not be on `PATH`. Pi is not a target of `openwiki integrations install`.
++- Pi is separate from Oh My Pi. Pi loads Netie Wiki's skill and six lifecycle tools from the npm package; use `pi install --local npm:openwiki` for a project-local install. Its extension starts the package's own CLI through Node, so `openwiki` need not be on `PATH`. Pi is not a target of `openwiki integrations install`.
+ 
+ On Windows, install with a Node.js package manager (`npm install -g openwiki` or `pnpm add -g openwiki`). Installing with `bun` can fall back to compiling the `better-sqlite3` native dependency, which needs Visual Studio Build Tools with the Desktop development with C++ workload.
+ 
+@@ -105,9 +107,9 @@ On Windows, install with a Node.js package manager (`npm install -g openwiki` or
+ 
+ Host-driven runs currently support repository code wikis, not personal brains. They use repository source and tests; connector-sourced context, including LangSmith, is not yet supported.
+ 
+-The coding agent investigates the repository, plans the wiki, and writes each assigned page sequentially with its native repository tools. OpenWiki owns the durable queue, Claims validation and persistence, source-drift handling, and deterministic finalization of Claims, indexes, provenance, setup files, and metadata.
++The coding agent investigates the repository, plans the wiki, and writes each assigned page sequentially with its native repository tools. Netie Wiki owns the durable queue, Claims validation and persistence, source-drift handling, and deterministic finalization of Claims, indexes, provenance, setup files, and metadata.
+ 
+-The MCP generation lifecycle is `openwiki_begin → openwiki_submit_plan → openwiki_next_page → openwiki_submit_page → … → openwiki_finish`, with optional on-demand `openwiki_inspect_page_claims`. The host submits only sparse Claim decisions for each page: OpenWiki retains current unaffected Claims, applies explicit confirmations, revisions, additions, or retractions, and refuses to finish until the final state is durable.
++The MCP generation lifecycle is `openwiki_begin → openwiki_submit_plan → openwiki_next_page → openwiki_submit_page → … → openwiki_finish`, with optional on-demand `openwiki_inspect_page_claims`. The host submits only sparse Claim decisions for each page: Netie Wiki retains current unaffected Claims, applies explicit confirmations, revisions, additions, or retractions, and refuses to finish until the final state is durable.
+ 
+ Contributors adding another coding agent should follow [Adding a coding-agent integration](CONTRIBUTING.md#adding-a-coding-agent-integration).
+ 
+@@ -146,9 +148,9 @@ Create a workspace such as `Payments`, then select the repositories to include.
+ <details>
+ <summary><b>Finding repositories and choosing a search workspace</b></summary>
+ 
+-The finder streams Git repositories below the editable path, starting at the launch directory. Extend the path to narrow results, or Backspace toward `~` to broaden and rescan from the nearest existing directory. Each repository appears once by path: `○` marks an available OpenWiki repository and becomes `●` when selected. Repositories without OpenWiki documentation are dimmed. Selections remain pinned above the changing results and also remain in the finder.
++The finder streams Git repositories below the editable path, starting at the launch directory. Extend the path to narrow results, or Backspace toward `~` to broaden and rescan from the nearest existing directory. Each repository appears once by path: `○` marks an available Netie Wiki repository and becomes `●` when selected. Repositories without Netie Wiki documentation are dimmed. Selections remain pinned above the changing results and also remain in the finder.
+ 
+-From an OpenWiki source checkout, run the manager with `pnpm run dev link ~/dev`. The registry is stored privately under `~/.openwiki` (or `OPENWIKI_CONFIG_DIR`).
++From an Netie Wiki source checkout, run the manager with `pnpm run dev link ~/dev`. The registry is stored privately under `~/.openwiki` (or `OPENWIKI_CONFIG_DIR`).
+ 
+ Search chooses its scope as follows:
+ 
+@@ -213,7 +215,7 @@ After changing your code, ask your coding agent:
+ Update this repository's OpenWiki for changes since its last successful run.
+ ```
+ 
+-OpenWiki checks repository changes and the evidence behind existing Claims to decide what needs updating. Clean updates skip model work and leave the wiki content untouched.
++Netie Wiki checks repository changes and the evidence behind existing Claims to decide what needs updating. Clean updates skip model work and leave the wiki content untouched.
+ 
+ ### Scheduled updates
+ 
+@@ -225,32 +227,32 @@ Keep it current automatically by adding a scheduled CI job that opens a docs PR
+ - **Bitbucket Pipelines:** copy [`openwiki-update.bitbucket-pipelines.yml`](./examples/openwiki-update.bitbucket-pipelines.yml) into `bitbucket-pipelines.yml`, then schedule the `openwiki-update` pipeline.
+ 
+ <details>
+-<summary><b>Auto-merge OpenWiki PRs</b></summary>
++<summary><b>Auto-merge Netie Wiki PRs</b></summary>
+ 
+ <br>
+ 
+-Auto-merge is repository infrastructure rather than an OpenWiki runtime feature. The GitHub Actions example creates a docs-only PR and enables GitHub auto-merge only after OpenWiki finishes successfully; required branch checks and reviews still control when the PR merges. Failed runs can preserve partial documentation in the PR and explicitly disable any pending auto-merge.
++Auto-merge is repository infrastructure rather than an Netie Wiki runtime feature. The GitHub Actions example creates a docs-only PR and enables GitHub auto-merge only after Netie Wiki finishes successfully; required branch checks and reviews still control when the PR merges. Failed runs can preserve partial documentation in the PR and explicitly disable any pending auto-merge.
+ 
+ Before using the example:
+ 
+ 1. Enable **Allow auto-merge** in the repository's pull request settings.
+-2. Add branch protection or a ruleset for the default branch. Require the checks that should gate generated docs, and decide whether OpenWiki PRs still require human review.
++2. Add branch protection or a ruleset for the default branch. Require the checks that should gate generated docs, and decide whether Netie Wiki PRs still require human review.
+ 3. Create a fine-grained personal access token or GitHub App token with access only to the target repository and permissions for **Contents: read and write** and **Pull requests: read and write**. Save it as the `OPENWIKI_PR_TOKEN` Actions secret.
+-4. Copy the example to `.github/workflows/openwiki-update.yml`, choose a pinned OpenWiki version and provider, and add the provider secret.
++4. Copy the example to `.github/workflows/openwiki-update.yml`, choose a pinned Netie Wiki version and provider, and add the provider secret.
+ 
+ The dedicated token is intentional: pull requests created with the default `GITHUB_TOKEN` do not start most `pull_request` workflows, so required PR checks may never run. Organization policies may require a GitHub App token instead of a personal access token. Keep the workflow's `add-paths` restricted to generated documentation, pin every action and package version, and do not auto-merge changes to executable workflow files.
+ 
+ </details>
+ 
+-## Run OpenWiki directly
++## Run Netie Wiki directly
+ 
+-You can also use OpenWiki's own [Deep Agents](https://github.com/langchain-ai/deepagentsjs) documentation agent, including for scheduled runs and personal wikis. After [installing the CLI](#1-install-openwiki), initialize a repository wiki:
++You can also use Netie Wiki's own [Deep Agents](https://github.com/langchain-ai/deepagentsjs) documentation agent, including for scheduled runs and personal wikis. After [installing the CLI](#1-install-openwiki), initialize a repository wiki:
+ 
+ ```sh
+ openwiki --init
+ ```
+ 
+-The first run walks you through choosing a provider, credentials, and model, then writes docs to `openwiki/`. OpenWiki supports [thirteen model providers](#model-providers), including hosted models and local OpenAI-compatible endpoints.
++The first run walks you through choosing a provider, credentials, and model, then writes docs to `openwiki/`. Netie Wiki supports [thirteen model providers](#model-providers), including hosted models and local OpenAI-compatible endpoints.
+ 
+ Update an existing wiki from repository changes since its last successful run and any stale Claims:
+ 
+@@ -261,13 +263,13 @@ openwiki --update
+ <details>
+ <summary><b>Reinitializing a wiki and resuming interrupted runs</b></summary>
+ 
+-Running `openwiki --init` again replaces the existing generated repository wiki and Claims with a brand-new generation while preserving the user-authored `openwiki/INSTRUCTIONS.md` brief. On a persistent checkout, OpenWiki records in-progress repository generation in `openwiki/.run.json`, so rerunning the same command after an interruption resumes the durable page queue. Ephemeral CI runners start fresh after failure unless their workspace is preserved. A setup failure before the new run state is durable restores the previous wiki.
++Running `openwiki --init` again replaces the existing generated repository wiki and Claims with a brand-new generation while preserving the user-authored `openwiki/INSTRUCTIONS.md` brief. On a persistent checkout, Netie Wiki records in-progress repository generation in `openwiki/.run.json`, so rerunning the same command after an interruption resumes the durable page queue. Ephemeral CI runners start fresh after failure unless their workspace is preserved. A setup failure before the new run state is durable restores the previous wiki.
+ 
+ </details>
+ 
+ ### Two modes
+ 
+-OpenWiki runs in one of two modes. Bare `openwiki`, `openwiki --init`, and `openwiki --update` default to **code** mode; add the `personal` positional (or `--mode personal`) for the personal brain.
++Netie Wiki runs in one of two modes. Bare `openwiki`, `openwiki --init`, and `openwiki --update` default to **code** mode; add the `personal` positional (or `--mode personal`) for the personal brain.
+ 
+ | Mode                 | Documents              | Writes to               | Get started                |
+ | -------------------- | ---------------------- | ----------------------- | -------------------------- |
+@@ -302,13 +304,13 @@ With LangSmith tracing on, the planner and each page worker are separate traces,
+ <details>
+ <summary><b>Local state directory</b></summary>
+ 
+-OpenWiki stores local credentials, the personal wiki, connector data, conversation history, and skills under `~/.openwiki` by default. Set `OPENWIKI_CONFIG_DIR` before starting OpenWiki to use a different writable directory, such as a mounted container volume:
++Netie Wiki stores local credentials, the personal wiki, connector data, conversation history, and skills under `~/.openwiki` by default. Set `OPENWIKI_CONFIG_DIR` before starting Netie Wiki to use a different writable directory, such as a mounted container volume:
+ 
+ ```sh
+ OPENWIKI_CONFIG_DIR=/data/openwiki openwiki personal --init
+ ```
+ 
+-The override selects a separate state directory; OpenWiki does not move or delete an existing `~/.openwiki` directory. Copy any state you want to preserve yourself, and point the variable at a dedicated directory because OpenWiki restricts its permissions for the current user.
++The override selects a separate state directory; Netie Wiki does not move or delete an existing `~/.openwiki` directory. Copy any state you want to preserve yourself, and point the variable at a dedicated directory because Netie Wiki restricts its permissions for the current user.
+ 
+ </details>
+ 
+@@ -316,9 +318,9 @@ The override selects a separate state directory; OpenWiki does not move or delet
+ 
+ Your wiki stays in the repository as plain Markdown you own, with OpenWiki-managed grounding and run metadata versioned alongside it.
+ 
+-- **Agents read it as context.** On each `code` run, OpenWiki maintains an `AGENTS.md` at the repo root, and refreshes `CLAUDE.md` when the repository already has one. Claude Code reads `AGENTS.md` when no `CLAUDE.md` exists, so OpenWiki does not create one. Their managed instructions use selective, progressive `openwiki_search`/`openwiki_read` retrieval for concrete questions when available and use `openwiki/quickstart.md` as the fallback. OpenWiki only rewrites its own `<!-- OPENWIKI:START -->…<!-- OPENWIKI:END -->` block and leaves the rest of each file untouched.
++- **Agents read it as context.** On each `code` run, Netie Wiki maintains an `AGENTS.md` at the repo root, and refreshes `CLAUDE.md` when the repository already has one. Claude Code reads `AGENTS.md` when no `CLAUDE.md` exists, so Netie Wiki does not create one. Their managed instructions use selective, progressive `openwiki_search`/`openwiki_read` retrieval for concrete questions when available and use `openwiki/quickstart.md` as the fallback. Netie Wiki only rewrites its own `<!-- OPENWIKI:START -->…<!-- OPENWIKI:END -->` block and leaves the rest of each file untouched.
+ - **Grounding stays with the wiki.** Versioned claim sidecars under `openwiki/.claims/` travel with the Markdown, so the evidence needed to maintain factual pages is inspectable and reviewable.
+-- **You set the brief.** Repository-specific instructions live in `openwiki/INSTRUCTIONS.md`, a user-authored file OpenWiki reads for scope and priorities but never rewrites during normal runs.
++- **You set the brief.** Repository-specific instructions live in `openwiki/INSTRUCTIONS.md`, a user-authored file Netie Wiki reads for scope and priorities but never rewrites during normal runs.
+ - **No-op runs do not churn docs.** A clean update skips model work and leaves wiki content untouched while refreshing `.last-update.json` to record that the check ran.
+ - **Local, private config.** Provider choice, keys, and optional LangSmith tracing are saved to `~/.openwiki/.env` on your machine.
+ 
+@@ -332,13 +334,13 @@ secrets/
+ !logs/keep.log
+ ```
+ 
+-When `.openwikiignore` has active rules, OpenWiki filters filesystem discovery and restricts shell execute so ignored paths stay out of the run. This is a read boundary: ignored paths are never read, scanned, or reproduced in the docs. It does not guarantee a topic is never mentioned, since the agent may still infer an ignored area from other allowed evidence such as tests, the README, or commit messages.
++When `.openwikiignore` has active rules, Netie Wiki filters filesystem discovery and restricts shell execute so ignored paths stay out of the run. This is a read boundary: ignored paths are never read, scanned, or reproduced in the docs. It does not guarantee a topic is never mentioned, since the agent may still infer an ignored area from other allowed evidence such as tests, the README, or commit messages.
+ 
+ ## How it works
+ 
+-OpenWiki separates repository research and writing from the bookkeeping that keeps a wiki consistent. Repository pages carry their source evidence, and completed work is saved for future updates.
++Netie Wiki separates repository research and writing from the bookkeeping that keeps a wiki consistent. Repository pages carry their source evidence, and completed work is saved for future updates.
+ 
+-### OpenWiki architecture
++### Netie Wiki architecture
+ 
+ Repository generation follows an ordered queue of independently durable page jobs. Native CLI runs can process eligible pages concurrently; coding-agent integrations consume the queue sequentially. `openwiki/.run.json` checkpoints the active run and its progress. A page advances only after its Markdown, Claims, verification, and `openwiki/.page-manifest.json` entry are durable, preserving completed work and page-specific source baselines across interruptions and future runs.
+ 
+@@ -348,7 +350,7 @@ Repository generation follows an ordered queue of independently durable page job
+ 
+ ### Grounded Claims
+ 
+-OpenWiki tracks the facts behind each repository page as **Grounded Claims**. Each Claim points to versioned source evidence, such as `repo://src/server.ts#L40-L82`. When that evidence changes or disappears, OpenWiki identifies which facts need to be confirmed, rewritten, or retired.
++Netie Wiki tracks the facts behind each repository page as **Grounded Claims**. Each Claim points to versioned source evidence, such as `repo://src/server.ts#L40-L82`. When that evidence changes or disappears, Netie Wiki identifies which facts need to be confirmed, rewritten, or retired.
+ 
+ <div align="center">
+   <img alt="OpenWiki Claims reconcile code evidence into OKF page-level trust metadata." src="./static/openwiki-okf-claims.png" width="880">
+@@ -359,9 +361,9 @@ OpenWiki tracks the facts behind each repository page as **Grounded Claims**. Ea
+ 
+ Claims cover the truths future agents rely on: behavior, responsibilities, architecture, data flow, invariants, failure semantics, configuration, and security boundaries. Each records the evidence version observed when the claim was established, rather than relying only on when a Markdown file was last generated.
+ 
+-Before an update, OpenWiki checks every persisted evidence version, before even deciding whether the repository is a no-op. A stale or unresolved Claim requires work for its owning page even if the planner omits it. The page worker receives only Claims requiring attention; current issue-free Claims are retained deterministically without being repeated through every model turn. The worker explicitly confirms rechecked issue Claims, submits only revisions and additions, and names retractions. Complete current Claims remain available through on-demand inspection for broad rewrites. The Markdown stays clean; structured Claim state lives alongside it under `openwiki/.claims/`.
++Before an update, Netie Wiki checks every persisted evidence version, before even deciding whether the repository is a no-op. A stale or unresolved Claim requires work for its owning page even if the planner omits it. The page worker receives only Claims requiring attention; current issue-free Claims are retained deterministically without being repeated through every model turn. The worker explicitly confirms rechecked issue Claims, submits only revisions and additions, and names retractions. Complete current Claims remain available through on-demand inspection for broad rewrites. The Markdown stays clean; structured Claim state lives alongside it under `openwiki/.claims/`.
+ 
+-Page completion is a durability boundary. OpenWiki persists the reconciled Claims, projects verification, synchronizes the sidecar's page version, and proves the complete result before marking that page's job complete. Finalization repeats the whole-run proof before deleting `openwiki/.run.json`.
++Page completion is a durability boundary. Netie Wiki persists the reconciled Claims, projects verification, synchronizes the sidecar's page version, and proves the complete result before marking that page's job complete. Finalization repeats the whole-run proof before deleting `openwiki/.run.json`.
+ 
+ </details>
+ 
+@@ -369,14 +371,14 @@ Grounded Claims currently apply to repository code wikis and repository evidence
+ 
+ ### Open Knowledge Format (OKF v0.2)
+ 
+-OpenWiki emits [Google Open Knowledge Format (OKF) v0.2](https://github.com/GoogleCloudPlatform/knowledge-catalog/blob/main/okf/SPEC.md) bundles in both modes, so your wiki is portable to any OKF-aware tool.
++Netie Wiki emits [Google Open Knowledge Format (OKF) v0.2](https://github.com/GoogleCloudPlatform/knowledge-catalog/blob/main/okf/SPEC.md) bundles in both modes, so your wiki is portable to any OKF-aware tool.
+ 
+ <details>
+ <summary><b>Front matter, provenance, and verification metadata</b></summary>
+ 
+ - Every concept document carries YAML front matter with a non-empty `type`; all other standard fields are optional.
+ - New and freshly initialized pages receive `generated: {by, at}`. During updates, any body change, including whitespace, advances the stamp; an unchanged body retains its prior event, and front-matter-only changes do not advance it. The producer is stamped as `openwiki/<version>` (or the coding-agent host), making provenance explicit. The legacy v0.1 `timestamp` field is still tolerated on existing pages.
+-- Repository pages project their grounded Claims evidence into `sources`; OpenWiki reconciles its deterministically identified entries while preserving independently authored sources.
++- Repository pages project their grounded Claims evidence into `sources`; Netie Wiki reconciles its deterministically identified entries while preserving independently authored sources.
+ - Repository pages receive `verified: {by: openwiki/<version>, at: ...}` only after a successful page submission reconciles a non-empty complete Claims set, passes the final evidence recheck, and persists the Claims sidecar. Clean preflight alone never creates or advances verification; human and other process events are preserved.
+ - The optional v0.2 provenance, trust, and lifecycle families (`sources`, `verified`, `status`, `stale_after`) are validated when present.
+ - Standard Markdown links between concept documents express their relationships.
+@@ -387,15 +389,15 @@ OpenWiki emits [Google Open Knowledge Format (OKF) v0.2](https://github.com/Goog
+ 
+ ### Diagrams
+ 
+-OpenWiki embeds **Mermaid** diagrams wherever they make a concept clearer than prose: sequence diagrams for runtime flows, ER diagrams for data models, state diagrams for lifecycles, and flowcharts for control flow. Diagrams are grounded in the inspected source, added where they add signal, and kept in sync on `--update`. No configuration is required.
++Netie Wiki embeds **Mermaid** diagrams wherever they make a concept clearer than prose: sequence diagrams for runtime flows, ER diagrams for data models, state diagrams for lifecycles, and flowcharts for control flow. Diagrams are grounded in the inspected source, added where they add signal, and kept in sync on `--update`. No configuration is required.
+ 
+ <details>
+ <summary><b>Diagram validation and repair</b></summary>
+ 
+-After each run, OpenWiki validates every `mermaid` fence. A diagram that fails validation is converted in place to a plain `text` fence with a short comment explaining why, so it degrades to readable text instead of a broken block. The next `--update` finds that comment and repairs the diagram, so quality recovers over successive runs.
++After each run, Netie Wiki validates every `mermaid` fence. A diagram that fails validation is converted in place to a plain `text` fence with a short comment explaining why, so it degrades to readable text instead of a broken block. The next `--update` finds that comment and repairs the diagram, so quality recovers over successive runs.
+ 
+ > [!TIP]
+-> By default OpenWiki runs a lightweight, zero-dependency check that catches common breakages. For authoritative validation that matches exactly what GitHub renders, install the Mermaid parser wherever you run OpenWiki (for example in your scheduled workflow), and no broken diagram will ship:
++> By default Netie Wiki runs a lightweight, zero-dependency check that catches common breakages. For authoritative validation that matches exactly what GitHub renders, install the Mermaid parser wherever you run Netie Wiki (for example in your scheduled workflow), and no broken diagram will ship:
+ >
+ > ```sh
+ > npm install mermaid jsdom
+@@ -405,7 +407,7 @@ After each run, OpenWiki validates every `mermaid` fence. A diagram that fails v
+ 
+ ## Connect your sources
+ 
+-Beyond repository docs, OpenWiki has nine built-in connectors. In `personal` mode, OpenWiki ingests knowledge from the tools you already use, synthesizing them into your local wiki. First-run onboarding offers setup for **Custom MCP, local git repositories, Notion, Gmail, X/Twitter, Web Search, and Hacker News**. Slack is also available with its OAuth app and HTTPS callback configured.
++Beyond repository docs, Netie Wiki has nine built-in connectors. In `personal` mode, Netie Wiki ingests knowledge from the tools you already use, synthesizing them into your local wiki. First-run onboarding offers setup for **Custom MCP, local git repositories, Notion, Gmail, X/Twitter, Web Search, and Hacker News**. Slack is also available with its OAuth app and HTTPS callback configured.
+ 
+ Start a personal wiki with `openwiki personal --init`, then authenticate and ingest sources as needed:
+ 
+@@ -418,7 +420,7 @@ openwiki ingest web-search  # run one connector's sources
+ <details>
+ <summary><b>Connector details and OAuth</b></summary>
+ 
+-During an ingestion run, deterministic connector tools write raw data and manifests under `~/.openwiki/connectors/<connector>/raw/`, then source-specific agent runs synthesize the wiki under `~/.openwiki/wiki/`. You can configure the same connector more than once (for example one Web Search source for AI research and another for NBA news); OpenWiki stores them as separate instances like `web-search-1` and `web-search-2`.
++During an ingestion run, deterministic connector tools write raw data and manifests under `~/.openwiki/connectors/<connector>/raw/`, then source-specific agent runs synthesize the wiki under `~/.openwiki/wiki/`. You can configure the same connector more than once (for example one Web Search source for AI research and another for NBA news); Netie Wiki stores them as separate instances like `web-search-1` and `web-search-2`.
+ 
+ - `git-repo` reads configured local repository paths and writes compact manifests.
+ - `custom-mcp` connects to any configured HTTP or stdio MCP server and permits only explicitly safe, read-only tools.
+@@ -444,7 +446,7 @@ The connectors above feed a `personal` wiki. The **LangSmith** connector instead
+ <details>
+ <summary><b>Configure LangSmith projects, regions, and credentials</b></summary>
+ 
+-Configure it during `openwiki --init` in `code` mode. From the source menu, add LangSmith, pick your workspace region (US, EU, or APAC), and list the projects to document. OpenWiki writes a committed `openwiki/.langsmith.json` that names the workspaces and projects (never the key itself), so every teammate and CI run documents the same set. The API key is read from the environment:
++Configure it during `openwiki --init` in `code` mode. From the source menu, add LangSmith, pick your workspace region (US, EU, or APAC), and list the projects to document. Netie Wiki writes a committed `openwiki/.langsmith.json` that names the workspaces and projects (never the key itself), so every teammate and CI run documents the same set. The API key is read from the environment:
+ 
+ ```sh
+ OPENWIKI_LANGSMITH_API_KEY="<your-langsmith-key>"
+@@ -459,9 +461,9 @@ Locally the setup wizard saves this to `~/.openwiki/.env`. In CI, set it as a re
+ 
+ ## Model providers
+ 
+-These settings apply when running OpenWiki directly. Coding-agent integrations use the host's authenticated model session.
++These settings apply when running Netie Wiki directly. Coding-agent integrations use the host's authenticated model session.
+ 
+-OpenWiki supports thirteen providers. The onboarding default is OpenAI with `gpt-5.6-terra`. Choose from preset models where available or supply a custom model ID. Provider credentials are stored in `~/.openwiki/.env`.
++Netie Wiki supports thirteen providers. The onboarding default is OpenAI with `gpt-5.6-terra`. Choose from preset models where available or supply a custom model ID. Provider credentials are stored in `~/.openwiki/.env`.
+ 
+ | Provider                                                     | Credential                              |
+ | ------------------------------------------------------------ | --------------------------------------- |
+@@ -483,10 +485,10 @@ OpenWiki supports thirteen providers. The onboarding default is OpenAI with `gpt
+ 
+ The GitHub Copilot provider routes inference through the OpenAI-compatible Copilot API (`https://api.githubcopilot.com`), so teams can reuse an existing Copilot subscription instead of provisioning a separate inference key.
+ 
+-1. Select `GitHub Copilot` during `openwiki --init`. If you have an active [GitHub CLI](https://cli.github.com) session, OpenWiki detects it and offers to reuse it. Otherwise, press <kbd>Tab</kbd> at the credential prompt to run `gh auth login` and sign in.
++1. Select `GitHub Copilot` during `openwiki --init`. If you have an active [GitHub CLI](https://cli.github.com) session, Netie Wiki detects it and offers to reuse it. Otherwise, press <kbd>Tab</kbd> at the credential prompt to run `gh auth login` and sign in.
+ 2. Choose a model (for example `gpt-5.5`).
+ 
+-OpenWiki leaves the token in the GitHub CLI's own credential store. For CI or another headless environment, set `COPILOT_API_KEY` to a GitHub **OAuth token**. Personal Access Tokens are rejected by the Copilot API for third-party integrations. The local config can stay token-free:
++Netie Wiki leaves the token in the GitHub CLI's own credential store. For CI or another headless environment, set `COPILOT_API_KEY` to a GitHub **OAuth token**. Personal Access Tokens are rejected by the Copilot API for third-party integrations. The local config can stay token-free:
+ 
+ ```env
+ OPENWIKI_PROVIDER="copilot"
+@@ -512,7 +514,7 @@ BEDROCK_AWS_REGION=us-east-1
+ OPENWIKI_MODEL_ID=anthropic.claude-sonnet-5
+ ```
+ 
+-When explicit Bedrock credentials are not set, OpenWiki uses the AWS SDK default credential provider chain (OIDC/web identity, IAM roles, AWS profiles, ECS/EC2). The region resolves from `BEDROCK_AWS_REGION`, `AWS_REGION`, or `AWS_DEFAULT_REGION`. Available model IDs depend on which foundation models you have enabled in your account and region, so there is no preset list; paste the Bedrock model ID directly.
++When explicit Bedrock credentials are not set, Netie Wiki uses the AWS SDK default credential provider chain (OIDC/web identity, IAM roles, AWS profiles, ECS/EC2). The region resolves from `BEDROCK_AWS_REGION`, `AWS_REGION`, or `AWS_DEFAULT_REGION`. Available model IDs depend on which foundation models you have enabled in your account and region, so there is no preset list; paste the Bedrock model ID directly.
+ 
+ Some newer models only accept on-demand invocation through a cross-region inference profile. If you see `ValidationException: Invocation of model ID ... with on-demand throughput isn't supported`, prefix the model ID with the profile's region code, for example `us.anthropic.claude-sonnet-5`. Your IAM policy then also needs `bedrock:InvokeModel` / `InvokeModelWithResponseStream` on both the `foundation-model` and `inference-profile` resource types.
+ 
+@@ -561,7 +563,7 @@ OPENWIKI_PROVIDER=openai-chatgpt openwiki code --init
+ OPENWIKI_PROVIDER=openai-chatgpt openwiki personal --init
+ ```
+ 
+-The wizard opens `https://auth.openai.com` in your browser (and prints the URL for headless/SSH use). After you sign in, OpenWiki captures the OAuth callback, shows the signed-in email and plan, and continues to model selection. It stores the access token, refresh token, expiry, account id, email, and plan in `~/.openwiki/.env`. These are managed for you and the access token is refreshed automatically, so you normally never edit them by hand. Treat the refresh token like a password.
++The wizard opens `https://auth.openai.com` in your browser (and prints the URL for headless/SSH use). After you sign in, Netie Wiki captures the OAuth callback, shows the signed-in email and plan, and continues to model selection. It stores the access token, refresh token, expiry, account id, email, and plan in `~/.openwiki/.env`. These are managed for you and the access token is refreshed automatically, so you normally never edit them by hand. Treat the refresh token like a password.
+ 
+ </details>
+ 
+@@ -601,9 +603,9 @@ Some local servers ignore the API key value, but API-key mode still requires
+ 
+ **Microsoft Entra ID gateways.** During interactive `openwiki --init`, select
+ OpenAI-compatible, then Microsoft Entra ID. Enter the HTTPS API root, the token
+-scope accepted by your gateway, and the model ID. OpenWiki saves these settings
++scope accepted by your gateway, and the model ID. Netie Wiki saves these settings
+ for later `--update` runs; it does not ask for or store an access token. Azure
+-Identity must be configured separately in each environment that runs OpenWiki.
++Identity must be configured separately in each environment that runs Netie Wiki.
+ For non-interactive runs, set the same values explicitly:
+ 
+ ```bash
+@@ -622,13 +624,13 @@ mode. Generated CI workflows retain the mode and scope but still require you to
+ configure an unattended Azure Identity credential in CI.
+ 
+ For workload identity federation, provide `AZURE_CLIENT_ID`, `AZURE_TENANT_ID`,
+-and `AZURE_FEDERATED_TOKEN_FILE` in the environment running OpenWiki. The file
++and `AZURE_FEDERATED_TOKEN_FILE` in the environment running Netie Wiki. The file
+ variable must point to the runner-provided federated token file; do not paste
+-the token into OpenWiki or commit the file. When the file variable is set,
+-OpenWiki uses `WorkloadIdentityCredential` rather than another credential in
+-the default chain. If it is not set, OpenWiki uses `DefaultAzureCredential`.
++the token into Netie Wiki or commit the file. When the file variable is set,
++Netie Wiki uses `WorkloadIdentityCredential` rather than another credential in
++the default chain. If it is not set, Netie Wiki uses `DefaultAzureCredential`.
+ 
+-**Streaming-only gateways.** Some gateways serve only the streaming transport: a non-streaming request is either rejected outright (`Stream must be set to true`) or answered with HTTP 200 and empty content, which leaves you with a blank wiki and no error. OpenWiki issues non-streaming requests internally, so force the streaming transport for those endpoints:
++**Streaming-only gateways.** Some gateways serve only the streaming transport: a non-streaming request is either rejected outright (`Stream must be set to true`) or answered with HTTP 200 and empty content, which leaves you with a blank wiki and no error. Netie Wiki issues non-streaming requests internally, so force the streaming transport for those endpoints:
+ 
+ ```bash
+ OPENWIKI_OPENAI_COMPATIBLE_STREAMING=true
+@@ -636,7 +638,7 @@ OPENWIKI_OPENAI_COMPATIBLE_STREAMING=true
+ 
+ It stays off by default because this provider points at arbitrary third-party endpoints, where SSE is not guaranteed to survive proxies and load balancers. Enabling it also makes the client report estimated rather than server-reported token counts.
+ 
+-**Reasoning-capable gateways.** OpenAI-compatible endpoints are user-supplied, so OpenWiki does not assume that an arbitrary model supports reasoning controls. If your gateway accepts OpenAI-style reasoning effort, opt in explicitly before setting `OPENWIKI_REASONING_EFFORT`:
++**Reasoning-capable gateways.** OpenAI-compatible endpoints are user-supplied, so Netie Wiki does not assume that an arbitrary model supports reasoning controls. If your gateway accepts OpenAI-style reasoning effort, opt in explicitly before setting `OPENWIKI_REASONING_EFFORT`:
+ 
+ ```bash
+ OPENWIKI_OPENAI_COMPATIBLE_REASONING_EFFORT_SUPPORTED=true
+@@ -668,13 +670,13 @@ OPENROUTER_API_KEY=your-key
+ OPENWIKI_OPENROUTER_PROVIDER_ONLY=Novita
+ ```
+ 
+-**Output-token limit.** OpenWiki uses a 16,384-token per-request default for modern Claude 4/5 models because older LangChain model metadata otherwise limits newer Claude aliases to 4,096 tokens. Set a provider-neutral limit for the currently selected model with:
++**Output-token limit.** Netie Wiki uses a 16,384-token per-request default for modern Claude 4/5 models because older LangChain model metadata otherwise limits newer Claude aliases to 4,096 tokens. Set a provider-neutral limit for the currently selected model with:
+ 
+ ```bash
+ OPENWIKI_MAX_OUTPUT_TOKENS=16384
+ ```
+ 
+-OpenWiki maps this setting to the selected provider's request shape. Custom models otherwise retain their provider or SDK default, since their supported output windows are not known to OpenWiki.
++Netie Wiki maps this setting to the selected provider's request shape. Custom models otherwise retain their provider or SDK default, since their supported output windows are not known to Netie Wiki.
+ 
+ **OpenRouter output-token cap.** By default no `max_tokens` is sent, so OpenRouter's credit pre-check budgets for the model's full advertised output ceiling — on a low credit balance every request can fail with a 402 error. Existing installations can keep an OpenRouter-specific cap with:
+ 
+@@ -686,7 +688,7 @@ The OpenRouter-specific setting takes precedence over `OPENWIKI_MAX_OUTPUT_TOKEN
+ 
+ For native worker concurrency and provider retry settings, see [Parallel page workers](#parallel-page-workers).
+ 
+-**Bedrock stream idle timeout.** For the Bedrock provider, set `OPENWIKI_STREAM_IDLE_TIMEOUT` to control how long the client waits for the first or next streamed response chunk, for example `OPENWIKI_STREAM_IDLE_TIMEOUT=300000`. The value is milliseconds and must be an integer from `0` to `2147483647`. Set it to `0` to disable the watchdog. If unset, OpenWiki preserves the `@langchain/aws` provider default. Prefer a sufficiently long finite timeout over disabling the watchdog so a stalled stream cannot hang forever.
++**Bedrock stream idle timeout.** For the Bedrock provider, set `OPENWIKI_STREAM_IDLE_TIMEOUT` to control how long the client waits for the first or next streamed response chunk, for example `OPENWIKI_STREAM_IDLE_TIMEOUT=300000`. The value is milliseconds and must be an integer from `0` to `2147483647`. Set it to `0` to disable the watchdog. If unset, Netie Wiki preserves the `@langchain/aws` provider default. Prefer a sufficiently long finite timeout over disabling the watchdog so a stalled stream cannot hang forever.
+ 
+ **Reasoning effort.** Set `OPENWIKI_REASONING_EFFORT` to configure reasoning for a supported provider and model. OpenAI GPT-5.6 models use the Responses API values `none`, `low`, `medium`, `high`, `xhigh`, and `max`. Gemini 3.6 Flash maps `low`, `medium`, and `high` to Gemini's thinking level. NVIDIA NIM's Nemotron 3 Super supports `none`, `low`, and `high`. In an interactive chat, use `/effort` to choose an available value or `/effort default` to restore the provider default. Leave the variable unset to preserve the provider default; invalid provider, model, or effort combinations fail before a request is sent.
+ 
+@@ -721,7 +723,7 @@ In chat, `/api-key` updates the current provider key and `/langsmith-key` update
+ 
+ ## Telemetry
+ 
+-OpenWiki collects anonymous, aggregate usage data to understand how the tool is used and improve it. Telemetry is on by default and easy to turn off.
++Netie Wiki collects anonymous, aggregate usage data to understand how the tool is used and improve it. Telemetry is on by default and easy to turn off.
+ 
+ **Collected** on a single `openwiki_run` event, keyed by a random install ID in `~/.openwiki/install-id`: the command (init / update), the outcome (success / failure / no-op) with a coarse error category on failure (never the message), and at setup only, the brain mode, model provider, and configured connector names.
+ 
