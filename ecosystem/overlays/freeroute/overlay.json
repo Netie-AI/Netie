@@ -151,9 +151,22 @@
     "docs/security/SOCKET_DEV_FINDINGS.md",
     "docs/security/STEALTH_GUIDE.md",
     "docs/security/SUPPLY_CHAIN.md",
-    "NETIE-ATTRIBUTION.md"
+    "NETIE-ATTRIBUTION.md",
+    "bin/cli/program.mjs",
+    "open-sse/config/netieSubscriptionGate.ts",
+    "open-sse/config/providers/index.ts",
+    "package.json",
+    "src/lib/oauth/providers/index.ts",
+    "src/shared/constants/appConfig.ts",
+    "src/shared/constants/providerRetirement.ts",
+    "src/shared/constants/providers/apikey/index.ts",
+    "src/shared/constants/providers/noauth.ts",
+    "src/shared/constants/providers/oauth.ts",
+    "src/shared/constants/providers/web-cookie.ts",
+    "tests/unit/netie-subscription-login-gate.test.ts"
   ],
   "series": [
-    "0001-rebrand.patch"
+    "0001-rebrand.patch",
+    "0002-gate.patch"
   ]
 }
