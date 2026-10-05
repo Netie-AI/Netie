@@ -5,5 +5,6 @@ class and the invariant it rests on. "R4 held" is a valid finding.
 
 | Date | File | One line |
 |---|---|---|
+| 2026-10-05 | `2026-10-05-freeide-stage2.md` | freeide stage 2: OpenVault /v1 default provider, ids-only crew gate on shell/edit/webfetch, binary and config dir renamed; Zen free tier was a hidden vendor default; bun cannot reach GitHub tarballs here |
 | 2026-10-05 | `2026-10-05-wave1-sessions.md` | Shape and reasons for the 3 stage 2 sessions |
 | 2026-10-05 | `2026-10-05-ecosystem-lane.md` | 5 named projects are not forkable for sale; sibling patch gate is red on base; 4 tool bugs found only on real upstream trees |
