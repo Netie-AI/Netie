@@ -206,8 +206,8 @@
       "netie_name": "AirGPT",
       "brand_from": ["LibreChat"],
       "role": "Multi-provider chat shell. MIT, so it is the rebrandable base for AirGPT.",
-      "gate": "Endpoints -> OpenVault /v1 only. Retrieval -> netie.airgpt retrieve_space. Cross-chat memory abstains until governed.",
-      "stage": 1
+      "gate": "Endpoints -> OpenVault /v1 only (0002-gate.patch, tested). Retrieval -> netie.airgpt retrieve_space (not wired). Cross-chat memory off and labeled ungoverned until it routes through Cortex actions.",
+      "stage": 2
     },
     {
       "slug": "freeroute",

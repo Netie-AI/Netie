@@ -14,6 +14,15 @@
     "NETIE-ATTRIBUTION.md"
   ],
   "series": [
-    "0001-rebrand.patch"
-  ]
+    "0001-rebrand.patch",
+    "0002-gate.patch"
+  ],
+  "stage2": {
+    "patch": "0002-gate.patch",
+    "gate_test": "packages/data-provider/specs/airgpt-gate.spec.ts",
+    "run": "cd packages/data-provider && npx jest specs/airgpt-gate.spec.ts",
+    "env": "NETIE_OPENVAULT_URL",
+    "endpoint": "${NETIE_OPENVAULT_URL}/v1",
+    "memory": "disabled"
+  }
 }
