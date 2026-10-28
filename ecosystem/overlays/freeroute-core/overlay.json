@@ -27,6 +27,21 @@
     "NETIE-ATTRIBUTION.md"
   ],
   "series": [
-    "0001-rebrand.patch"
-  ]
+    "0001-rebrand.patch",
+    "0002-gate.patch"
+  ],
+  "stage2": {
+    "patch": "0002-gate.patch",
+    "gate_test": [
+      "internal/config/netie_gate_test.go",
+      "internal/proxy/netie_gate_test.go"
+    ],
+    "run": "go test ./internal/config/ ./internal/proxy/ -run 'TestNetieGate' -v",
+    "env": "NETIE_OPENVAULT_URL",
+    "seat_env": "NETIE_OPENVAULT_SEAT",
+    "credential_source": "GET ${NETIE_OPENVAULT_URL}/api/freeroute/credentials (assumed interface, see PLAN.md)",
+    "inline_keys": "refused by config.Load; dev override NETIE_DEV_ALLOW_INLINE_KEYS=1 logs every accepted key at WARN",
+    "build_proof": "not run in the cutting box (go build and go test on the upstream tree denied, see PLAN.md); catalog stage stays 1",
+    "plan": "PLAN.md"
+  }
 }

@@ -1,0 +1,1625 @@
+diff --git a/Dockerfile b/Dockerfile
+index 646ef8c..771412e 100644
+--- a/Dockerfile
++++ b/Dockerfile
+@@ -32,7 +32,7 @@ COPY . .
+ # Build the application
+ ARG VERSION=dev
+ ARG COMMIT=unknown
+-RUN go build -ldflags="-s -w -X main.Version=${VERSION} -X main.Commit=${COMMIT}" -o auto_ai_router ./cmd/server
++RUN go build -ldflags="-s -w -X main.Version=${VERSION} -X main.Commit=${COMMIT}" -o freeroute-core ./cmd/server
+ 
+ # distroless/static has no shell/wget/curl, so HEALTHCHECK below execs this
+ # tiny binary directly instead — see cmd/healthcheck.
+@@ -53,7 +53,7 @@ WORKDIR /app
+ # was never what made them runnable. The /app directory itself is a different
+ # story: WORKDIR above creates it owned by 65532, so writes under /app work
+ # for the default user only (see the uid note above).
+-COPY --from=builder /app/auto_ai_router .
++COPY --from=builder /app/freeroute-core .
+ COPY --from=builder /app/healthcheck .
+ COPY --from=builder /app/migrate .
+ 
+@@ -95,4 +95,4 @@ HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
+   CMD ["/app/healthcheck"]
+ 
+ # Run the application
+-CMD ["/app/auto_ai_router"]
++CMD ["/app/freeroute-core"]
+diff --git a/Makefile b/Makefile
+index 6811e6e..e13dfa8 100644
+--- a/Makefile
++++ b/Makefile
+@@ -1,7 +1,7 @@
+ .PHONY: build run clean test fmt vet lint vuln install-lint format help install-deps docker-build docs-install docs-serve docs-build docs-deploy test-clean kafka-up kafka-down kafka-logs kafka-ps kafka-clean kafka-clickhouse-client
+ 
+ # Build variables
+-BINARY_NAME=auto_ai_router
++BINARY_NAME=freeroute-core
+ BUILD_DIR=.
+ CMD_DIR=./cmd/server
+ GO=go
+@@ -14,7 +14,7 @@ LDFLAGS=-ldflags="-s -w -X main.Version=$(VERSION) -X main.Commit=$(COMMIT)"
+ INTERNAL_PKGS=./internal/...
+ 
+ # Docker variables
+-DOCKER_IMAGE=auto-ai-router
++DOCKER_IMAGE=freeroute-core
+ DOCKER_TAG?=latest
+ DOCKER_REGISTRY?=ghcr.io/mixaill76
+ 
+diff --git a/NETIE-ATTRIBUTION.md b/NETIE-ATTRIBUTION.md
+index 52ab227..d035c83 100644
+--- a/NETIE-ATTRIBUTION.md
++++ b/NETIE-ATTRIBUTION.md
+@@ -1,7 +1,7 @@
+ # Attribution
+ 
+ Netie FreeRoute Core is a modified distribution of MiXaiLL76/auto_ai_router
+-(https://github.com/MiXaiLL76/auto_ai_router), pinned at commit 175a300c62.
++(https://github.com/MiXaiLL76/auto_ai_router), pinned at commit 4f8597503a (ecosystem/catalog.json; the stage 1 text said 175a300c62, which was the upstream HEAD at probe time, not the pin).
+ 
+ Upstream license: Apache-2.0. LICENSE is included unmodified, with every
+ upstream copyright line, and so is any NOTICE file.
+@@ -18,9 +18,47 @@ logos belong to their owners.
+ - Display name Auto AI Router rewritten to FreeRoute Core in prose docs only.
+ - This file and a README banner added.
+ 
+-## Not done yet (stage 2)
++## Changed in stage 2 (gate wired and tested)
+ 
+-- Package names, binaries, identifiers and UI strings are still upstream's.
+-- SECURITY, SUPPORT and CONTRIBUTING contacts and URLs still point at upstream.
+-- Translated docs, changelogs and third-party notices are untouched.
+-- Netie gate wiring: Credentials are issued by OpenVault. The router holds no key of its own.
++- Custody: FreeRoute Core holds no key of its own. `internal/config/openvault.go`
++  adds a `credential_source` block (`openvault_url`, `seat`) and the loader fills
++  the credential pool from `GET {openvault_url}/api/freeroute/credentials` at
++  start-up, matching entries to `credentials:` by name. A config file that
++  carries `api_key`, `credentials_file` or `credentials_json`, literal or via
++  `os.environ/`, is refused by `config.Load` with the credential named. A
++  credential with no secret and no source, an unreachable or refusing OpenVault,
++  or a credential OpenVault issued nothing for, all stop the router.
++- Dev override: `NETIE_DEV_ALLOW_INLINE_KEYS=1` (exact value) accepts inline
++  keys and logs every one at WARN. It exists because the upstream config tests
++  write inline keys by design; `internal/config/netie_testmain_test.go` sets it
++  for that package and the gate tests clear it per case.
++- Default config and examples carry no provider key: `config.yaml.example`,
++  `docs/getting-started/configuration.md`, `docker-compose.yml`,
++  `docker-compose.chain.yml` and `examples/chain_mock/` (its nginx mock now also
++  stands in for the credential source at `/api/freeroute/credentials`).
++- Names: binary `freeroute-core` (Makefile, Dockerfile, README), Docker image
++  `freeroute-core`, compose service `freeroute-core`, start-up log line, the
++  `-config` flag help, the `type: air` migration error and one start-up warning.
++  The example OTEL `service_name` is `freeroute-core`.
++- Gate tests: `internal/config/netie_gate_test.go` (8 cases on the shipped
++  example and the real loader) and `internal/proxy/netie_gate_test.go` (2 cases:
++  the upstream sees only OpenVault-issued keys under round-robin; fail2ban and
++  fallback work on issued credentials).
++
++## Not done yet (stage 3)
++
++- Go module path `github.com/mixaill76/auto_ai_router`, Prometheus metric
++  names `auto_ai_router_*`, the Kafka `client_id` and OTEL `service_name`
++  code defaults, the otelhttp handler name and the release workflow's artifact
++  name are unchanged: each is a wire or dashboard contract and needs a build
++  plus consumer migration to rename.
++- The upstream logo (`docs/logo.svg`, referenced by README) is still upstream's.
++- `server.master_key` stays in the config file: it is the router's own
++  client-facing secret, not a provider key. Issuing it from OpenVault too is open.
++- The OpenVault issue endpoint (`/api/freeroute/credentials`, bearer seat, JSON
++  list) is the minimal interface this fork needs. It is defined here and in
++  `ecosystem/overlays/freeroute-core/PLAN.md`; OpenVault does not serve it yet.
++- Keys are fetched once at start-up. Rotation (refresh or SIGHUP reload) is not
++  wired.
++- The upstream build and test suite were not run in the box that cut this
++  patch (see PLAN.md). Stage 2 is claimed only after both run green.
+diff --git a/README.md b/README.md
+index ba467fd..bb4224e 100644
+--- a/README.md
++++ b/README.md
+@@ -28,17 +28,18 @@ High-performance proxy router for LLM APIs with automatic load balancing, rate l
+ # Build
+ git clone https://github.com/MiXaiLL76/auto_ai_router.git
+ cd auto_ai_router
+-go build -o auto_ai_router ./cmd/server/
++go build -o freeroute-core ./cmd/server/
+ 
+-# Run
+-./auto_ai_router -config config.yaml
++# Run: keys are issued by OpenVault, the config file carries none
++export NETIE_OPENVAULT_URL=http://127.0.0.1:5000
++./freeroute-core -config config.yaml
+ ```
+ 
+ Or with Docker:
+ 
+ ```bash
+-docker pull ghcr.io/mixaill76/auto_ai_router:latest
+-docker run -p 8080:8080 -v $(pwd)/config.yaml:/app/config.yaml ghcr.io/mixaill76/auto_ai_router:latest
++make docker-build   # tags freeroute-core:latest
++docker run -p 8080:8080 -e NETIE_OPENVAULT_URL=http://host.docker.internal:5000 -v $(pwd)/config.yaml:/app/config.yaml freeroute-core:latest
+ ```
+ 
+ ## Documentation
+diff --git a/cmd/server/main.go b/cmd/server/main.go
+index 6eddd86..982f6f6 100644
+--- a/cmd/server/main.go
++++ b/cmd/server/main.go
+@@ -1,4 +1,4 @@
+-// Package main is the entrypoint for the auto_ai_router proxy server.
++// Package main is the entrypoint for the FreeRoute Core proxy server.
+ package main
+ 
+ import (
+@@ -55,7 +55,7 @@ var (
+ )
+ 
+ func main() {
+-	configPath := flag.String("config", "config.yaml", "Path to configuration file")
++	configPath := flag.String("config", "config.yaml", "Path to the FreeRoute Core configuration file")
+ 	flag.Parse()
+ 
+ 	// ==================== Load Configuration ====================
+@@ -97,7 +97,7 @@ func main() {
+ 
+ 	config.PrintConfig(log, cfg)
+ 
+-	log.Info("Starting auto_ai_router",
++	log.Info("Starting FreeRoute Core",
+ 		"version", Version,
+ 		"commit", Commit,
+ 		"logging_level", cfg.Server.LoggingLevel,
+diff --git a/config.yaml.example b/config.yaml.example
+index 6ac89f1..3823197 100644
+--- a/config.yaml.example
++++ b/config.yaml.example
+@@ -50,7 +50,7 @@ otel:
+   endpoint: "localhost:4317"  # OTLP collector: host:port for grpc, host:port or URL for http (defaults: 4317 grpc / 4318 http)
+   protocol: "grpc"  # grpc | http (http/protobuf)
+   insecure: true  # Disable TLS for the exporter connection (default: true)
+-  service_name: "auto-ai-router"  # Reported as service.name resource attribute
++  service_name: "freeroute-core"  # Reported as service.name resource attribute
+   logs_enabled: true  # Ship slog records via OTLP in addition to stdout
+   traces_enabled: true  # Server/client spans + traceparent propagation to providers and chained routers
+   metric_export_interval: 60s  # OTLP metric push interval. When otel.enabled is true, metrics are always pushed via OTLP (bridged from the Prometheus registry), independently of the pull-based /metrics endpoint (which is gated by monitoring.prometheus_enabled).
+@@ -59,15 +59,23 @@ otel:
+   # headers:  # Optional headers for OTLP requests (supports os.environ/VAR_NAME)
+   #   Authorization: "os.environ/OTEL_AUTH_HEADER"
+ 
++# Netie custody (NETIE-ATTRIBUTION.md, stage 2): FreeRoute Core holds no key of
++# its own. OpenVault issues every provider credential at start-up, matched to the
++# entries below by name. This file carries routing policy only: never api_key,
++# credentials_file or credentials_json. A file that does is refused by the loader.
++# NETIE_OPENVAULT_URL alone (no credential_source block) is also accepted.
++credential_source:
++  openvault_url: "os.environ/NETIE_OPENVAULT_URL"  # e.g. http://127.0.0.1:5000, the OpenVault that issues the keys
++  seat: "os.environ/NETIE_OPENVAULT_SEAT"  # Optional: this router's issued ov_ identity, sent as a bearer token. Not a provider key.
++
+ credentials:
+-  # Direct provider credentials
++  # Direct provider credentials (keys issued by OpenVault, matched by name)
+   - name: "openai_main"
+     type: "openai"
+-    api_key: "sk-proj-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+     base_url: "https://api.openai.com"
+     # proxy_url: "os.environ/OPENAI_PROXY_URL"  # Optional: http(s):// or socks5(h)://[user:password@]host:port
+     # request_headers:  # Optional, direct providers only (not air/proxy): fixed upstream headers, override the client's.
+-    #   User-Agent: "auto-ai-router/1.0"  # e.g. when the provider's WAF rejects some client User-Agents
++    #   User-Agent: "freeroute-core/1.0"  # e.g. when the provider's WAF rejects some client User-Agents
+     #   X-Client-Hint: ""                 # empty value = never send this header
+     #   X-Provider-Token: "os.environ/PROVIDER_TOKEN"  # See docs/getting-started/configuration.md#fixed-upstream-request-headers
+     rpm: 100
+@@ -79,14 +87,12 @@ credentials:
+   - name: "vertex_ai"
+     type: "vertex-ai"
+     project_id: "your-project-id"
+-    location: "global"
+-    credentials_file: "path/to/service-account.json"
++    location: "global"  # OpenVault issues credentials_json for this name
+     rpm: 100
+     tpm: 50000
+ 
+   - name: "gemini_studio"
+     type: "gemini"
+-    api_key: "os.environ/GEMINI_API_KEY"
+     base_url: "https://generativelanguage.googleapis.com"
+     rpm: 60
+     tpm: -1
+@@ -94,7 +100,6 @@ credentials:
+   # Comet API using the Anthropic-compatible Messages API
+   - name: "comet_anthropic"
+     type: "cometapi"
+-    api_key: "os.environ/COMET_API_KEY"
+     base_url: "https://api.cometapi.com/v1"
+     rpm: 60
+     tpm: -1
+@@ -102,17 +107,16 @@ credentials:
+   # CheapGPT / AIProductiv using the Anthropic-compatible Messages API
+   - name: "cheapgpt_anthropic"
+     type: "anthropic"
+-    api_key: "os.environ/CHEAPGPT_API_KEY"
+     auth_type: "bearer"
+     base_url: "https://api.aiproductiv.ru/v1"
+     rpm: 60
+     tpm: -1
+ 
+-  # Auto AI Router chain fallback (forwards requests to another AIR instance)
++  # FreeRoute Core chain fallback (forwards requests to another FreeRoute Core instance)
+   - name: "air_fallback"
+     type: "air"
+-    base_url: "http://backup-router.local:8080"  # URL of remote Auto AI Router
+-    api_key: "sk-remote-master-key"  # Optional: remote master key
++    base_url: "http://backup-router.local:8080"  # URL of the remote FreeRoute Core
++    # Its master key, if any, is issued by OpenVault under this name too.
+     rpm: 200
+     tpm: 100000
+     is_fallback: true  # Use as fallback when primary credentials are exhausted
+diff --git a/docker-compose.chain.yml b/docker-compose.chain.yml
+index 6523ace..c61dcdd 100644
+--- a/docker-compose.chain.yml
++++ b/docker-compose.chain.yml
+@@ -1,13 +1,16 @@
+ services:
+-  auto-ai-router-01:
+-    image: ghcr.io/mixaill76/auto_ai_router:dev-latest
++  freeroute-core-01:
++    image: freeroute-core:dev-latest
+     restart: unless-stopped
++    environment:
++      # OpenVault issues every credential below by name; no key is inline.
++      - NETIE_OPENVAULT_URL=${NETIE_OPENVAULT_URL}
+ 
+     ports:
+       - "8080:8080"
+ 
+     configs:
+-      - source: auto-ai-router-01-config
++      - source: freeroute-core-01-config
+         target: /app/config.yaml
+ 
+     depends_on:
+@@ -17,8 +20,11 @@ services:
+         condition: service_healthy
+ 
+   ger01:
+-    image: ghcr.io/mixaill76/auto_ai_router:dev-latest
++    image: freeroute-core:dev-latest
+     restart: unless-stopped
++    environment:
++      # OpenVault issues every credential below by name; no key is inline.
++      - NETIE_OPENVAULT_URL=${NETIE_OPENVAULT_URL}
+     configs:
+       - source: ger01-config
+         target: /app/config.yaml
+@@ -28,21 +34,27 @@ services:
+         condition: service_healthy
+ 
+   fin01:
+-    image: ghcr.io/mixaill76/auto_ai_router:dev-latest
++    image: freeroute-core:dev-latest
+     restart: unless-stopped
++    environment:
++      # OpenVault issues every credential below by name; no key is inline.
++      - NETIE_OPENVAULT_URL=${NETIE_OPENVAULT_URL}
+     configs:
+       - source: fin01-config
+         target: /app/config.yaml
+ 
+   fra01:
+-    image: ghcr.io/mixaill76/auto_ai_router:dev-latest
++    image: freeroute-core:dev-latest
+     restart: unless-stopped
++    environment:
++      # OpenVault issues every credential below by name; no key is inline.
++      - NETIE_OPENVAULT_URL=${NETIE_OPENVAULT_URL}
+     configs:
+       - source: fra01-config
+         target: /app/config.yaml
+ 
+ configs:
+-  auto-ai-router-01-config:
++  freeroute-core-01-config:
+     content: |
+       server:
+         port: 8080
+@@ -58,19 +70,16 @@ configs:
+       credentials:
+       - name: "ger01"
+         type: "air"
+-        api_key: sk-ger01-key
+         base_url: http://ger01:8080
+ 
+       - name: "fin01"
+         type: "air"
+         is_fallback: true
+-        api_key: sk-fin01-key
+         base_url: http://fin01:8080
+ 
+       - name: "fra01"
+         type: "air"
+         is_fallback: true
+-        api_key: sk-fra01-key
+         base_url: http://fra01:8080
+ 
+   ger01-config:
+@@ -89,7 +98,6 @@ configs:
+       credentials:
+       - name: "openai_router_2"
+         type: "openai"
+-        api_key: ${OPENAI_API_KEY}
+         base_url: ${OPENAI_BASE_URL}
+ 
+       models:
+@@ -113,7 +121,6 @@ configs:
+       credentials:
+       - name: "openai_router_3"
+         type: "openai"
+-        api_key: ${OPENAI_API_KEY}
+         base_url: ${OPENAI_BASE_URL}
+ 
+       models:
+@@ -137,7 +144,6 @@ configs:
+       credentials:
+       - name: "openai_router_4"
+         type: "openai"
+-        api_key: ${OPENAI_API_KEY}
+         base_url: ${OPENAI_BASE_URL}
+ 
+       models:
+diff --git a/docker-compose.yml b/docker-compose.yml
+index a54b589..1761b80 100644
+--- a/docker-compose.yml
++++ b/docker-compose.yml
+@@ -1,10 +1,10 @@
+ services:
+-  auto-ai-router:
++  freeroute-core:
+     build:
+       context: .
+       dockerfile: Dockerfile
+ 
+-    image: ghcr.io/mixaill76/auto_ai_router:dev-latest
++    image: freeroute-core:dev-latest
+ 
+     deploy:
+       replicas: 3
+@@ -18,6 +18,9 @@ services:
+ 
+     environment:
+       - LOG_LEVEL=debug
++      # OpenVault issues every provider credential; config.yaml carries none.
++      - NETIE_OPENVAULT_URL=${NETIE_OPENVAULT_URL:-http://host.docker.internal:5000}
++      - NETIE_OPENVAULT_SEAT=${NETIE_OPENVAULT_SEAT:-}
+       # Uncomment when redis section is enabled in config.yaml:
+       - REDIS_ADDRESS=valkey:6379
+       - REDIS_PASSWORD=changeme
+diff --git a/docs/getting-started/configuration.md b/docs/getting-started/configuration.md
+index 5b7566e..b2dd7b8 100644
+--- a/docs/getting-started/configuration.md
++++ b/docs/getting-started/configuration.md
+@@ -41,10 +41,13 @@ monitoring:
+   log_errors: false
+   errors_log_path: "logs/logs.jsonl"
+ 
++credential_source:
++  openvault_url: "os.environ/NETIE_OPENVAULT_URL"
++  seat: "os.environ/NETIE_OPENVAULT_SEAT"
++
+ credentials:
+   - name: "openai_main"
+     type: "openai"
+-    api_key: "sk-proj-xxxxx"
+     base_url: "https://api.openai.com"
+     rpm: 100
+     tpm: 50000
+@@ -53,13 +56,11 @@ credentials:
+     type: "vertex-ai"
+     project_id: "your-project-id"
+     location: "global"
+-    credentials_file: "path/to/service-account.json"
+     rpm: 100
+     tpm: 50000
+ 
+   - name: "gemini_studio"
+     type: "gemini"
+-    api_key: "os.environ/GEMINI_API_KEY"
+     base_url: "https://generativelanguage.googleapis.com"
+     rpm: 60
+     tpm: -1
+@@ -67,7 +68,6 @@ credentials:
+   - name: "air_fallback"
+     type: "air"
+     base_url: "http://backup-router.local:8080"
+-    api_key: "sk-remote-master-key"
+     rpm: 200
+     tpm: 100000
+     is_fallback: true
+@@ -115,7 +115,7 @@ litellm_db:
+ | `max_idle_conns`             | int      | 200         | Maximum idle connections                                                                              |
+ | `max_idle_conns_per_host`    | int      | 20          | Maximum idle connections per host                                                                     |
+ | `logging_level`              | string   | info        | Logging level: `info`, `debug`, `error`                                                               |
+-| `master_key`                 | string   | —           | **Required.** Master key for client authentication                                                    |
++| `master_key`                 | string   | none        | **Required.** Master key for client authentication. This is the router's own client-facing secret, not a provider key |
+ | `default_models_rpm`         | int      | -1          | Default RPM limit for models (-1 = unlimited)                                                         |
+ | `credential_name_as_team_id` | bool     | false       | Use the selected provider credential name as `team_id` in spend logs when auth has no team assignment |
+ | `model_prices_link`          | string   | —           | URL or file path to model prices JSON                                                                 |
+@@ -152,9 +152,41 @@ The `fail2ban` block bans a `credential + model` pair after repeated failures at
+ !!! note
+ The `/health` endpoint is always available and cannot be disabled or reconfigured.
+ 
++## Credential source (OpenVault)
++
++FreeRoute Core holds no key of its own. The config file carries routing policy (names,
++types, base URLs, limits, weights, priorities) and OpenVault issues the secrets:
++
++```yaml
++credential_source:
++  openvault_url: "os.environ/NETIE_OPENVAULT_URL"  # e.g. http://127.0.0.1:5000
++  seat: "os.environ/NETIE_OPENVAULT_SEAT"          # optional: this router's issued ov_ identity
++```
++
++| Field           | Type   | Description                                                                                                   |
++| --------------- | ------ | ------------------------------------------------------------------------------------------------------------- |
++| `openvault_url` | string | Base URL of the OpenVault that issues this router's provider credentials. `NETIE_OPENVAULT_URL` alone also works |
++| `seat`          | string | Optional. The router's own `ov_` identity, sent as `Authorization: Bearer`. It is not a provider key            |
++
++At start-up the loader calls `GET {openvault_url}/api/freeroute/credentials` and expects
++`{"credentials": [{"name": "...", "api_key": "...", "credentials_json": "..."}]}`. Entries are
++matched to `credentials:` by `name`. The router refuses to start, with the credential named in
++the error, when:
++
++- a credential carries `api_key`, `credentials_file` or `credentials_json` in the config file,
++  literal or via `os.environ/`;
++- a credential that needs a secret has none and no credential source is configured;
++- OpenVault is unreachable, answers anything but HTTP 200, or issues no secret for a credential.
++
++`proxy`, `air` and `vllm` credentials may run without a secret, as upstream allows.
++
++Local development only: `NETIE_DEV_ALLOW_INLINE_KEYS=1` lets a file carry inline keys. Every
++accepted key is logged at WARN with the credential name. Never set it in production.
++
+ ## Credentials
+ 
+ Each credential defines a connection to an LLM provider. See [Providers](../providers/index.md) for details on each type.
++Secrets are never written here: see [Credential source (OpenVault)](#credential-source-openvault).
+ 
+ Common fields for all credentials:
+ 
+@@ -182,7 +214,6 @@ Set one `proxy_url` on a credential to route its upstream requests through a fix
+ credentials:
+   - name: openai_main
+     type: openai
+-    api_key: os.environ/OPENAI_API_KEY
+     base_url: https://api.openai.com
+     proxy_url: os.environ/OPENAI_PROXY_URL
+ ```
+@@ -213,7 +244,6 @@ Cloudflare answers `Python-urllib/*` with `403 error code: 1010`):
+ credentials:
+   - name: novita
+     type: openai
+-    api_key: os.environ/NOVITA_API_KEY
+     base_url: https://api.novita.ai/openai
+     request_headers:
+       User-Agent: "auto-ai-router/1.0"      # replaces the client's User-Agent
+@@ -254,20 +284,17 @@ matching scope. `denied_scopes` always wins over `scopes`.
+ credentials:
+   - name: shared-openai
+     type: openai
+-    api_key: "os.environ/OPENAI_KEY"
+     base_url: "https://api.openai.com/v1"
+     rpm: -1
+ 
+   - name: team-a-openai
+     type: openai
+-    api_key: "os.environ/TEAM_A_OPENAI_KEY"
+     base_url: "https://api.openai.com/v1"
+     rpm: -1
+     scopes: [team-a]
+ 
+   - name: all-except-team-a
+     type: openai
+-    api_key: "os.environ/SHARED_KEY"
+     base_url: "https://api.openai.com/v1"
+     rpm: -1
+     denied_scopes: [team-a]
+@@ -308,7 +335,6 @@ Set `reasoning_only: true` on a credential when its provider accepts only reason
+ credentials:
+   - name: anthropic-reasoning
+     type: anthropic
+-    api_key: "os.environ/ANTHROPIC_API_KEY"
+     base_url: "https://api.anthropic.com"
+     reasoning_only: true
+ ```
+@@ -361,7 +387,6 @@ credentials:
+     type: "vertex-ai"
+     project_id: "proj-1"
+     location: "global"
+-    credentials_file: "keys/proj-1.json"
+     rpm: 100
+     models: *vertex-base-models   # expands to the full list
+ 
+@@ -369,7 +394,6 @@ credentials:
+     type: "vertex-ai"
+     project_id: "proj-2"
+     location: "global"
+-    credentials_file: "keys/proj-2.json"
+     rpm: 100
+     models: *vertex-base-models   # same list, credential set to "vertex_v2"
+ ```
+@@ -392,7 +416,6 @@ credentials:
+     type: "vertex-ai"
+     project_id: "proj-1"
+     location: "global"
+-    credentials_file: "keys/proj-1.json"
+     rpm: 100
+     models:
+       - *flash               # single model from anchor
+diff --git a/examples/chain_mock/README.md b/examples/chain_mock/README.md
+index 83a2021..62d369c 100644
+--- a/examples/chain_mock/README.md
++++ b/examples/chain_mock/README.md
+@@ -91,7 +91,7 @@ Under load on `chat-smart`:
+ ## Run it
+ 
+ ```sh
+-# from the repo root — builds/tags auto-ai-router:latest locally
++# from the repo root, builds/tags freeroute-core:latest locally
+ make docker-build
+ 
+ cd examples/chain_mock
+diff --git a/examples/chain_mock/docker-compose.yml b/examples/chain_mock/docker-compose.yml
+index 96a06ac..e0cb0ab 100644
+--- a/examples/chain_mock/docker-compose.yml
++++ b/examples/chain_mock/docker-compose.yml
+@@ -1,6 +1,6 @@
+-# Multi-region AIR chain with per-priority-tier grouping (Design B).
++# Multi-region FreeRoute Core chain with per-priority-tier grouping (Design B).
+ #
+-# Requires the router image to already exist locally as auto-ai-router:latest —
++# Requires the router image to already exist locally as freeroute-core:latest;
+ # build it from the repo root first:  make docker-build
+ # This file never builds it itself, so re-run that build after any code change
+ # before `docker compose up` picks it up.
+@@ -12,7 +12,9 @@ services:
+     networks: [chain]
+ 
+   region-alpha:
+-    image: auto-ai-router:latest
++    image: freeroute-core:latest
++    environment:
++      - NETIE_OPENVAULT_URL=http://mock:9100
+     volumes:
+       - ./region-alpha/config.yaml:/app/config.yaml:ro
+     ports:
+@@ -22,7 +24,9 @@ services:
+     restart: unless-stopped
+ 
+   region-beta:
+-    image: auto-ai-router:latest
++    image: freeroute-core:latest
++    environment:
++      - NETIE_OPENVAULT_URL=http://mock:9100
+     volumes:
+       - ./region-beta/config.yaml:/app/config.yaml:ro
+     ports:
+@@ -32,7 +36,9 @@ services:
+     restart: unless-stopped
+ 
+   region-gamma:
+-    image: auto-ai-router:latest
++    image: freeroute-core:latest
++    environment:
++      - NETIE_OPENVAULT_URL=http://mock:9100
+     volumes:
+       - ./region-gamma/config.yaml:/app/config.yaml:ro
+     ports:
+@@ -42,7 +48,9 @@ services:
+     restart: unless-stopped
+ 
+   gateway:
+-    image: auto-ai-router:latest
++    image: freeroute-core:latest
++    environment:
++      - NETIE_OPENVAULT_URL=http://mock:9100
+     volumes:
+       - ./gateway/config.yaml:/app/config.yaml:ro
+     ports:
+diff --git a/examples/chain_mock/gateway/config.yaml b/examples/chain_mock/gateway/config.yaml
+index 5d65396..9c7d613 100644
+--- a/examples/chain_mock/gateway/config.yaml
++++ b/examples/chain_mock/gateway/config.yaml
+@@ -40,35 +40,34 @@ monitoring:
+ # house-direct (priority 50) is the always-up, deprioritised last resort so a
+ # load run never fully fails once every regional tier is exhausted/banned.
+ # house-reserve is the fallback pool (only the fallback mechanism uses it).
++# Keys are issued by the demo vault (mock:9100, see mock/nginx.conf), never inline.
++credential_source:
++  openvault_url: "os.environ/NETIE_OPENVAULT_URL"
++
+ credentials:
+   - name: "region-alpha"
+     type: "air"
+     base_url: "http://region-alpha:8080"
+-    api_key: "sk-alpha"
+     rpm: 100000
+ 
+   - name: "region-beta"
+     type: "air"
+     base_url: "http://region-beta:8080"
+-    api_key: "sk-beta"
+     rpm: 100000
+ 
+   - name: "region-gamma"
+     type: "air"
+     base_url: "http://region-gamma:8080"
+-    api_key: "sk-gamma"
+     rpm: 100000
+ 
+   - name: "house-direct"
+     type: "openai"
+-    api_key: "sk-mock"
+     base_url: "http://mock:9100"
+     rpm: 100000
+     priority: 50
+ 
+   - name: "house-reserve"
+     type: "openai"
+-    api_key: "sk-mock"
+     base_url: "http://mock:9100"
+     rpm: 100000
+     is_fallback: true
+diff --git a/examples/chain_mock/mock/nginx.conf b/examples/chain_mock/mock/nginx.conf
+index 747877b..51eee38 100644
+--- a/examples/chain_mock/mock/nginx.conf
++++ b/examples/chain_mock/mock/nginx.conf
+@@ -15,7 +15,16 @@ http {
+   server {
+     listen 9100;
+ 
+-    # Chat Completions — the only endpoint the leaf credentials call.
++    # Demo stand-in for the OpenVault credential source. Every router in this
++    # playground asks here at start-up (NETIE_OPENVAULT_URL=http://mock:9100)
++    # and gets the same inert key for every credential name it configured.
++    # A real deployment points NETIE_OPENVAULT_URL at OpenVault instead.
++    location = /api/freeroute/credentials {
++      default_type application/json;
++      return 200 '{"credentials":[{"name":"alpha-premium-1","api_key":"sk-mock"},{"name":"alpha-premium-2","api_key":"sk-mock"},{"name":"alpha-standard-1","api_key":"sk-mock"},{"name":"alpha-spot-1","api_key":"sk-mock"},{"name":"alpha-bulk-1","api_key":"sk-mock"},{"name":"beta-main-1","api_key":"sk-mock"},{"name":"beta-backup-1","api_key":"sk-mock"},{"name":"beta-bulk-1","api_key":"sk-mock"},{"name":"beta-reason-1","api_key":"sk-mock"},{"name":"beta-reason-2","api_key":"sk-mock"},{"name":"gamma-1","api_key":"sk-mock"},{"name":"gamma-bulk-1","api_key":"sk-mock"},{"name":"gamma-reason-1","api_key":"sk-mock"},{"name":"gamma-reserve","api_key":"sk-mock"},{"name":"region-alpha","api_key":"sk-alpha"},{"name":"region-beta","api_key":"sk-beta"},{"name":"region-gamma","api_key":"sk-gamma"},{"name":"house-direct","api_key":"sk-mock"},{"name":"house-reserve","api_key":"sk-mock"}]}';
++    }
++
++    # Chat Completions, the endpoint the leaf credentials call.
+     location / {
+       default_type application/json;
+       return 200 '{"id":"chatcmpl-mock","object":"chat.completion","created":0,"model":"mock","choices":[{"index":0,"message":{"role":"assistant","content":"ok"},"finish_reason":"stop"}],"usage":{"prompt_tokens":5,"completion_tokens":5,"total_tokens":10}}';
+diff --git a/examples/chain_mock/region-alpha/config.yaml b/examples/chain_mock/region-alpha/config.yaml
+index 582d266..b7bab56 100644
+--- a/examples/chain_mock/region-alpha/config.yaml
++++ b/examples/chain_mock/region-alpha/config.yaml
+@@ -30,10 +30,13 @@ monitoring:
+ # Only model-level `tpm` is set (10 tokens/request from the mock) — that is the
+ # number region-alpha's /health reports and the gateway meters its own traffic
+ # against, per tier.
++# Keys are issued by the demo vault (mock:9100, see mock/nginx.conf), never inline.
++credential_source:
++  openvault_url: "os.environ/NETIE_OPENVAULT_URL"
++
+ credentials:
+   - name: "alpha-premium-1"
+     type: "openai"
+-    api_key: "sk-mock"
+     base_url: "http://mock:9100"
+     rpm: 100000
+     priority: 1
+@@ -41,7 +44,6 @@ credentials:
+ 
+   - name: "alpha-premium-2"
+     type: "openai"
+-    api_key: "sk-mock"
+     base_url: "http://mock:9100"
+     rpm: 100000
+     priority: 1
+@@ -49,21 +51,18 @@ credentials:
+ 
+   - name: "alpha-standard-1"
+     type: "openai"
+-    api_key: "sk-mock"
+     base_url: "http://mock:9100"
+     rpm: 100000
+     priority: 2
+ 
+   - name: "alpha-spot-1"
+     type: "openai"
+-    api_key: "sk-mock"
+     base_url: "http://mock:9100"
+     rpm: 100000
+     priority: 3
+ 
+   - name: "alpha-bulk-1"
+     type: "openai"
+-    api_key: "sk-mock"
+     base_url: "http://mock:9100"
+     rpm: 100000
+     priority: 9
+diff --git a/examples/chain_mock/region-beta/config.yaml b/examples/chain_mock/region-beta/config.yaml
+index 9221a6e..5f791fb 100644
+--- a/examples/chain_mock/region-beta/config.yaml
++++ b/examples/chain_mock/region-beta/config.yaml
+@@ -23,38 +23,37 @@ monitoring:
+ # gateway's primary group 1 with region-alpha@tier-1 (weighted round-robin) and
+ # drops out of it once its own 150 tpm is spent, while region-beta@tier-9 sits
+ # far down the cascade as a always-available backstop.
++# Keys are issued by the demo vault (mock:9100, see mock/nginx.conf), never inline.
++credential_source:
++  openvault_url: "os.environ/NETIE_OPENVAULT_URL"
++
+ credentials:
+   - name: "beta-main-1"
+     type: "openai"
+-    api_key: "sk-mock"
+     base_url: "http://mock:9100"
+     rpm: 100000
+     priority: 1
+ 
+   - name: "beta-backup-1"
+     type: "openai"
+-    api_key: "sk-mock"
+     base_url: "http://mock:9100"
+     rpm: 100000
+     priority: 2
+ 
+   - name: "beta-bulk-1"
+     type: "openai"
+-    api_key: "sk-mock"
+     base_url: "http://mock:9100"
+     rpm: 100000
+     priority: 9
+ 
+   - name: "beta-reason-1"
+     type: "openai"
+-    api_key: "sk-mock"
+     base_url: "http://mock:9100"
+     rpm: 100000
+     priority: 1
+ 
+   - name: "beta-reason-2"
+     type: "openai"
+-    api_key: "sk-mock"
+     base_url: "http://mock:9100"
+     rpm: 100000
+     priority: 3
+diff --git a/examples/chain_mock/region-gamma/config.yaml b/examples/chain_mock/region-gamma/config.yaml
+index 9f4a186..172fbbd 100644
+--- a/examples/chain_mock/region-gamma/config.yaml
++++ b/examples/chain_mock/region-gamma/config.yaml
+@@ -26,31 +26,31 @@ monitoring:
+ #   curl -s -H 'Authorization: Bearer sk-gateway' localhost:8080/health \
+ #     | jq '.models["region-gamma:chat-smart"] | {limit_tpm, priority_tiers}'
+ #   # limit_tpm -> 120 (not 2120); tiers -> [p1 cap 120, p9 uncapped]
++# Keys are issued by the demo vault (mock:9100, see mock/nginx.conf), never inline.
++credential_source:
++  openvault_url: "os.environ/NETIE_OPENVAULT_URL"
++
+ credentials:
+   - name: "gamma-1"
+     type: "openai"
+-    api_key: "sk-mock"
+     base_url: "http://mock:9100"
+     rpm: 100000
+     priority: 1
+ 
+   - name: "gamma-bulk-1"
+     type: "openai"
+-    api_key: "sk-mock"
+     base_url: "http://mock:9100"
+     rpm: 100000
+     priority: 9
+ 
+   - name: "gamma-reason-1"
+     type: "openai"
+-    api_key: "sk-mock"
+     base_url: "http://mock:9100"
+     rpm: 100000
+     priority: 2
+ 
+   - name: "gamma-reserve"
+     type: "openai"
+-    api_key: "sk-mock"
+     base_url: "http://mock:9100"
+     rpm: 100000
+     is_fallback: true
+diff --git a/internal/config/config.go b/internal/config/config.go
+index 3ddad5a..a023fd5 100644
+--- a/internal/config/config.go
++++ b/internal/config/config.go
+@@ -242,6 +242,7 @@ type Config struct {
+ 	Server               ServerConfig               `yaml:"server"`
+ 	Fail2Ban             Fail2BanConfig             `yaml:"fail2ban,omitempty"`
+ 	Credentials          []CredentialConfig         `yaml:"credentials"`
++	CredentialSource     CredentialSourceConfig     `yaml:"credential_source,omitempty"`
+ 	Monitoring           MonitoringConfig           `yaml:"monitoring"`
+ 	Models               []ModelRPMConfig           `yaml:"models,omitempty"`
+ 	ModelAlias           map[string]string          `yaml:"model_alias,omitempty"`
+@@ -274,6 +275,7 @@ func (c *Config) UnmarshalYAML(value *yaml.Node) error {
+ 		Server               ServerConfig               `yaml:"server"`
+ 		Fail2Ban             Fail2BanConfig             `yaml:"fail2ban,omitempty"`
+ 		Credentials          []CredentialConfig         `yaml:"credentials"`
++		CredentialSource     CredentialSourceConfig     `yaml:"credential_source,omitempty"`
+ 		Monitoring           MonitoringConfig           `yaml:"monitoring"`
+ 		Models               []ModelRPMConfig           `yaml:"models,omitempty"`
+ 		ModelAlias           map[string]string          `yaml:"model_alias,omitempty"`
+@@ -298,6 +300,7 @@ func (c *Config) UnmarshalYAML(value *yaml.Node) error {
+ 	c.Server = raw.Server
+ 	c.Fail2Ban = raw.Fail2Ban
+ 	c.Credentials = raw.Credentials
++	c.CredentialSource = raw.CredentialSource
+ 	c.Monitoring = raw.Monitoring
+ 	c.Models = raw.Models
+ 	c.ModelAlias = raw.ModelAlias
+@@ -991,7 +994,7 @@ func (c *CredentialConfig) UnmarshalYAML(value *yaml.Node) error {
+ 		if name == "" {
+ 			name = "<unnamed>"
+ 		}
+-		return fmt.Errorf("credential %s: proxy_usage_format is no longer supported; use type: air for Auto AI Router upstreams or type: proxy for generic OpenAI-compatible APIs", name)
++		return fmt.Errorf("credential %s: proxy_usage_format is no longer supported; use type: air for FreeRoute Core upstreams or type: proxy for generic OpenAI-compatible APIs", name)
+ 	}
+ 
+ 	// Resolve string fields
+@@ -1879,6 +1882,11 @@ func Load(path string) (*Config, error) {
+ 		cfg.Credentials[i].Models = nil
+ 	}
+ 
++	// Netie custody gate: refuse inline keys, fill the pool from OpenVault.
++	if err := cfg.applyNetieCustody(); err != nil {
++		return nil, fmt.Errorf("netie custody gate: %w", err)
++	}
++
+ 	// Normalize credentials
+ 	cfg.Normalize()
+ 
+diff --git a/internal/config/netie_gate_test.go b/internal/config/netie_gate_test.go
+new file mode 100644
+index 0000000..06284b3
+--- /dev/null
++++ b/internal/config/netie_gate_test.go
+@@ -0,0 +1,260 @@
++package config
++
++// Netie stage 2 gate for freeroute-core (DR-0002 rule 6, NETIE.md section 3):
++// "Credentials are issued by OpenVault. The router holds no key of its own."
++//
++// Every case asserts the artifact an operator receives: the shipped example
++// config, and what the real loader (Load) does with a config file. Names are
++// string literals on purpose so this file compiles, and fails case by case,
++// on the upstream tree before the gate exists.
++
++import (
++	"bytes"
++	"encoding/json"
++	"log/slog"
++	"net/http"
++	"net/http/httptest"
++	"os"
++	"path/filepath"
++	"testing"
++
++	"github.com/stretchr/testify/assert"
++	"github.com/stretchr/testify/require"
++	"gopkg.in/yaml.v3"
++)
++
++const (
++	netieGateInertKey   = "inert-placeholder-not-a-key"
++	netieGateRefusal    = "holds no key of its own"
++	netieGateURLEnv     = "NETIE_OPENVAULT_URL"
++	netieGateSeatEnv    = "NETIE_OPENVAULT_SEAT"
++	netieGateDevEnv     = "NETIE_DEV_ALLOW_INLINE_KEYS"
++	netieGateIssuePath  = "/api/freeroute/credentials"
++	netieGateMasterLine = "  master_key: \"sk-test-master-key\"\n"
++)
++
++func netieWriteConfig(t *testing.T, body string) string {
++	t.Helper()
++	path := filepath.Join(t.TempDir(), "config.yaml")
++	require.NoError(t, os.WriteFile(path, []byte(body), 0o600))
++	return path
++}
++
++// netieClearCustodyEnv removes the dev override set by TestMain and any vault
++// pointer, so each case sees the production posture.
++func netieClearCustodyEnv(t *testing.T) {
++	t.Helper()
++	t.Setenv(netieGateDevEnv, "")
++	t.Setenv(netieGateURLEnv, "")
++	t.Setenv(netieGateSeatEnv, "")
++}
++
++func netieVault(t *testing.T, issued []map[string]string, seen *http.Request) *httptest.Server {
++	t.Helper()
++	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
++		if seen != nil {
++			*seen = *r.Clone(r.Context())
++		}
++		w.Header().Set("Content-Type", "application/json")
++		_ = json.NewEncoder(w).Encode(map[string]interface{}{"credentials": issued})
++	}))
++	t.Cleanup(server.Close)
++	return server
++}
++
++// Case 1: the shipped example config carries no provider key, in any form, and
++// names the OpenVault credential source.
++func TestNetieGate_ExampleConfigCarriesNoProviderKey(t *testing.T) {
++	data, err := os.ReadFile(filepath.Join("..", "..", "config.yaml.example"))
++	require.NoError(t, err)
++
++	var doc struct {
++		CredentialSource map[string]string        `yaml:"credential_source"`
++		Credentials      []map[string]interface{} `yaml:"credentials"`
++	}
++	require.NoError(t, yaml.Unmarshal(data, &doc))
++	require.NotEmpty(t, doc.Credentials, "example config lists credentials")
++
++	for _, cred := range doc.Credentials {
++		for _, field := range []string{"api_key", "credentials_file", "credentials_json"} {
++			_, present := cred[field]
++			assert.False(t, present, "credential %v carries %s in config.yaml.example", cred["name"], field)
++		}
++	}
++	assert.Contains(t, doc.CredentialSource["openvault_url"], netieGateURLEnv,
++		"example config points credential_source at ${NETIE_OPENVAULT_URL}")
++}
++
++// Case 2: the loader refuses a config file that carries a key, whether literal,
++// resolved from the environment, or a service-account file or JSON blob.
++func TestNetieGate_LoaderRefusesInlineProviderKey(t *testing.T) {
++	netieClearCustodyEnv(t)
++	t.Setenv("NETIE_GATE_TEST_PROVIDER_KEY", netieGateInertKey)
++	saFile := filepath.Join(t.TempDir(), "sa.json")
++	require.NoError(t, os.WriteFile(saFile, []byte(`{"type":"service_account"}`), 0o600))
++
++	cases := []struct {
++		name  string
++		cred  string
++		field string
++	}{
++		{"literal api_key", "  - name: \"openai_main\"\n    type: \"openai\"\n    api_key: \"" + netieGateInertKey + "\"\n    base_url: \"https://api.openai.com\"\n    rpm: 60\n", "api_key"},
++		{"api_key from environment", "  - name: \"anthropic_main\"\n    type: \"anthropic\"\n    api_key: \"os.environ/NETIE_GATE_TEST_PROVIDER_KEY\"\n    base_url: \"https://api.anthropic.com\"\n    rpm: 60\n", "api_key"},
++		{"credentials_file", "  - name: \"vertex_main\"\n    type: \"vertex-ai\"\n    project_id: \"p\"\n    location: \"global\"\n    credentials_file: \"" + saFile + "\"\n    rpm: 60\n", "credentials_file"},
++		{"credentials_json", "  - name: \"vertex_json\"\n    type: \"vertex-ai\"\n    project_id: \"p\"\n    location: \"global\"\n    credentials_json: '{\"type\":\"service_account\"}'\n    rpm: 60\n", "credentials_json"},
++	}
++	for _, tc := range cases {
++		t.Run(tc.name, func(t *testing.T) {
++			path := netieWriteConfig(t, "server:\n  port: 8080\n"+netieGateMasterLine+"credentials:\n"+tc.cred)
++			cfg, err := Load(path)
++			require.Error(t, err, "a config file carrying a provider key must not load")
++			assert.Nil(t, cfg)
++			assert.Contains(t, err.Error(), netieGateRefusal)
++			assert.Contains(t, err.Error(), "inline "+tc.field+" refused")
++			assert.Contains(t, err.Error(), netieGateURLEnv, "the error names the OpenVault way")
++		})
++	}
++}
++
++// Case 3: a credential with no key and no credential source is an error that
++// names OpenVault, not the upstream "api_key is required".
++func TestNetieGate_NoKeyAndNoSourceNamesOpenVault(t *testing.T) {
++	netieClearCustodyEnv(t)
++	path := netieWriteConfig(t, "server:\n  port: 8080\n"+netieGateMasterLine+
++		"credentials:\n  - name: \"openai_main\"\n    type: \"openai\"\n    base_url: \"https://api.openai.com\"\n    rpm: 60\n")
++	cfg, err := Load(path)
++	require.Error(t, err)
++	assert.Nil(t, cfg)
++	assert.Contains(t, err.Error(), "credential openai_main: no key and no credential_source")
++	assert.Contains(t, err.Error(), netieGateURLEnv)
++}
++
++// Case 4: keys reach the pool only from OpenVault. The loader calls the issue
++// endpoint with the router's seat, matches entries by credential name, and the
++// pool that rate limits, round-robin and fail2ban consume carries the issued
++// secrets. An air credential that was issued nothing stays keyless.
++func TestNetieGate_KeysReachThePoolOnlyFromOpenVault(t *testing.T) {
++	netieClearCustodyEnv(t)
++	var seen http.Request
++	vault := netieVault(t, []map[string]string{
++		{"name": "openai_main", "api_key": "issued-by-openvault-1"},
++		{"name": "vertex_main", "credentials_json": `{"type":"service_account"}`},
++	}, &seen)
++	t.Setenv(netieGateURLEnv, vault.URL)
++	t.Setenv(netieGateSeatEnv, "ov_test_seat")
++
++	path := netieWriteConfig(t, "server:\n  port: 8080\n"+netieGateMasterLine+
++		"credential_source:\n  openvault_url: \"os.environ/NETIE_OPENVAULT_URL\"\n  seat: \"os.environ/NETIE_OPENVAULT_SEAT\"\n"+
++		"credentials:\n"+
++		"  - name: \"openai_main\"\n    type: \"openai\"\n    base_url: \"https://api.openai.com\"\n    rpm: 60\n    tpm: 1000\n"+
++		"  - name: \"vertex_main\"\n    type: \"vertex-ai\"\n    project_id: \"p\"\n    location: \"global\"\n    rpm: 60\n"+
++		"  - name: \"air_fallback\"\n    type: \"air\"\n    base_url: \"http://backup-router.local:8080\"\n    rpm: 60\n    is_fallback: true\n")
++	cfg, err := Load(path)
++	require.NoError(t, err)
++	require.Len(t, cfg.Credentials, 3)
++
++	assert.Equal(t, netieGateIssuePath, seen.URL.Path, "the loader calls the OpenVault issue endpoint")
++	assert.Equal(t, "Bearer ov_test_seat", seen.Header.Get("Authorization"), "the router identifies with its seat")
++
++	assert.Equal(t, "issued-by-openvault-1", cfg.Credentials[0].APIKey)
++	assert.Equal(t, 60, cfg.Credentials[0].RPM, "rate limits stay as configured")
++	assert.Equal(t, 1000, cfg.Credentials[0].TPM)
++	assert.Equal(t, `{"type":"service_account"}`, cfg.Credentials[1].CredentialsJSON)
++	assert.Equal(t, "", cfg.Credentials[2].APIKey, "air credential issued nothing carries nothing")
++	assert.True(t, cfg.Credentials[2].IsFallback)
++}
++
++// Case 5: the credential_source block may be absent; the environment alone is
++// enough, so a container needs only NETIE_OPENVAULT_URL.
++func TestNetieGate_EnvironmentAlonePointsAtOpenVault(t *testing.T) {
++	netieClearCustodyEnv(t)
++	var seen http.Request
++	vault := netieVault(t, []map[string]string{{"name": "openai_main", "api_key": "issued-by-env"}}, &seen)
++	t.Setenv(netieGateURLEnv, vault.URL+"/")
++
++	path := netieWriteConfig(t, "server:\n  port: 8080\n"+netieGateMasterLine+
++		"credentials:\n  - name: \"openai_main\"\n    type: \"openai\"\n    base_url: \"https://api.openai.com\"\n    rpm: 60\n")
++	cfg, err := Load(path)
++	require.NoError(t, err)
++	assert.Equal(t, netieGateIssuePath, seen.URL.Path)
++	assert.Equal(t, "", seen.Header.Get("Authorization"), "no seat configured, none sent")
++	assert.Equal(t, "issued-by-env", cfg.Credentials[0].APIKey)
++}
++
++// Case 6: OpenVault that issues nothing for a credential, or is unreachable,
++// stops the router. It never starts half-keyed and never falls back to a key
++// of its own.
++func TestNetieGate_OpenVaultIssuesNothingOrIsDown(t *testing.T) {
++	netieClearCustodyEnv(t)
++	body := "server:\n  port: 8080\n" + netieGateMasterLine +
++		"credentials:\n  - name: \"openai_main\"\n    type: \"openai\"\n    base_url: \"https://api.openai.com\"\n    rpm: 60\n"
++
++	t.Run("issued no key", func(t *testing.T) {
++		vault := netieVault(t, []map[string]string{{"name": "someone_else", "api_key": "not-for-us"}}, nil)
++		t.Setenv(netieGateURLEnv, vault.URL)
++		cfg, err := Load(netieWriteConfig(t, body))
++		require.Error(t, err)
++		assert.Nil(t, cfg)
++		assert.Contains(t, err.Error(), "credential openai_main: OpenVault at "+vault.URL+" issued no key for it")
++	})
++
++	t.Run("vault refuses", func(t *testing.T) {
++		vault := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
++			http.Error(w, "seat not granted", http.StatusForbidden)
++		}))
++		defer vault.Close()
++		t.Setenv(netieGateURLEnv, vault.URL)
++		cfg, err := Load(netieWriteConfig(t, body))
++		require.Error(t, err)
++		assert.Nil(t, cfg)
++		assert.Contains(t, err.Error(), "OpenVault refused")
++		assert.Contains(t, err.Error(), "HTTP 403")
++	})
++
++	t.Run("vault down", func(t *testing.T) {
++		vault := httptest.NewServer(http.NotFoundHandler())
++		url := vault.URL
++		vault.Close()
++		t.Setenv(netieGateURLEnv, url)
++		cfg, err := Load(netieWriteConfig(t, body))
++		require.Error(t, err)
++		assert.Nil(t, cfg)
++		assert.Contains(t, err.Error(), "OpenVault unreachable")
++	})
++}
++
++// Case 7: the dev override exists for local runs and the upstream test suite
++// only. It must be loud: every accepted inline key is logged at WARN with the
++// credential name and the override's name.
++func TestNetieGate_DevOverrideIsLoud(t *testing.T) {
++	netieClearCustodyEnv(t)
++	t.Setenv(netieGateDevEnv, "1")
++
++	var logs bytes.Buffer
++	previous := slog.Default()
++	slog.SetDefault(slog.New(slog.NewTextHandler(&logs, &slog.HandlerOptions{Level: slog.LevelWarn})))
++	t.Cleanup(func() { slog.SetDefault(previous) })
++
++	path := netieWriteConfig(t, "server:\n  port: 8080\n"+netieGateMasterLine+
++		"credentials:\n  - name: \"dev_only\"\n    type: \"openai\"\n    api_key: \""+netieGateInertKey+"\"\n    base_url: \"https://api.openai.com\"\n    rpm: 60\n")
++	cfg, err := Load(path)
++	require.NoError(t, err, "with the override a dev config loads")
++	require.Len(t, cfg.Credentials, 1)
++	assert.Equal(t, netieGateInertKey, cfg.Credentials[0].APIKey)
++
++	assert.Contains(t, logs.String(), "NETIE DEV OVERRIDE")
++	assert.Contains(t, logs.String(), "credential=dev_only")
++	assert.Contains(t, logs.String(), "override="+netieGateDevEnv)
++}
++
++// Case 8: a non-"1" value of the override is not an override.
++func TestNetieGate_DevOverrideNeedsExactValue(t *testing.T) {
++	netieClearCustodyEnv(t)
++	t.Setenv(netieGateDevEnv, "true")
++	path := netieWriteConfig(t, "server:\n  port: 8080\n"+netieGateMasterLine+
++		"credentials:\n  - name: \"openai_main\"\n    type: \"openai\"\n    api_key: \""+netieGateInertKey+"\"\n    base_url: \"https://api.openai.com\"\n    rpm: 60\n")
++	cfg, err := Load(path)
++	require.Error(t, err)
++	assert.Nil(t, cfg)
++	assert.Contains(t, err.Error(), netieGateRefusal)
++}
+diff --git a/internal/config/netie_testmain_test.go b/internal/config/netie_testmain_test.go
+new file mode 100644
+index 0000000..3e1abf9
+--- /dev/null
++++ b/internal/config/netie_testmain_test.go
+@@ -0,0 +1,18 @@
++package config
++
++import (
++	"os"
++	"testing"
++)
++
++// The upstream config tests write config files with inline api_key values by
++// design: they exercise the loader, not key custody. Under the Netie custody
++// gate (openvault.go) such a file is refused, so this package's tests run with
++// the loudly labeled dev override set. The gate tests in netie_gate_test.go
++// clear it per test with t.Setenv and prove the refusal without it.
++func TestMain(m *testing.M) {
++	if os.Getenv("NETIE_DEV_ALLOW_INLINE_KEYS") == "" {
++		_ = os.Setenv("NETIE_DEV_ALLOW_INLINE_KEYS", "1")
++	}
++	os.Exit(m.Run())
++}
+diff --git a/internal/config/openvault.go b/internal/config/openvault.go
+new file mode 100644
+index 0000000..7977fc0
+--- /dev/null
++++ b/internal/config/openvault.go
+@@ -0,0 +1,236 @@
++package config
++
++import (
++	"context"
++	"encoding/json"
++	"errors"
++	"fmt"
++	"io"
++	"log/slog"
++	"net/http"
++	"os"
++	"strings"
++	"time"
++
++	"gopkg.in/yaml.v3"
++)
++
++// Netie custody gate (NETIE.md section 3, DR-0002 rule 6).
++//
++// FreeRoute Core holds no key of its own. The config file carries routing
++// policy only: credential names, provider types, base URLs, limits, weights and
++// priorities. Every provider secret reaches the credential pool from one place,
++// the OpenVault credential source, at load time. A config file that carries a
++// provider key inline, or through an environment variable, is refused by Load
++// with a clear error. Rate limits, round-robin, priorities and fail2ban see the
++// same CredentialConfig values as before; only the origin of the secret changed.
++
++const (
++	// NetieOpenVaultURLEnv names the OpenVault base URL, for example
++	// http://127.0.0.1:5000. Used when credential_source.openvault_url is
++	// "os.environ/NETIE_OPENVAULT_URL" or when the credential_source block is
++	// absent from the config file.
++	NetieOpenVaultURLEnv = "NETIE_OPENVAULT_URL"
++	// NetieOpenVaultSeatEnv names the router's own identity towards OpenVault,
++	// an issued ov_ key. It is the router's seat, never a provider key.
++	NetieOpenVaultSeatEnv = "NETIE_OPENVAULT_SEAT"
++	// NetieDevAllowInlineKeysEnv set to exactly "1" lets a config file carry
++	// provider keys inline. Local development and the upstream test suite only.
++	// Every accepted inline key is logged at WARN with the credential name.
++	// Never set it in production: it turns the router back into a key holder.
++	NetieDevAllowInlineKeysEnv = "NETIE_DEV_ALLOW_INLINE_KEYS"
++	// OpenVaultCredentialsPath is the issue endpoint under the OpenVault URL.
++	// Contract: GET with "Authorization: Bearer <seat>" answers 200 and a JSON
++	// body {"credentials":[{"name":..., "api_key":..., "credentials_json":...}]}.
++	// Entries are matched to config credentials by name. Anything else, including
++	// an unreachable vault, is a refusal and the router does not start.
++	OpenVaultCredentialsPath = "/api/freeroute/credentials"
++
++	openVaultFetchTimeout = 10 * time.Second
++	openVaultMaxBody      = 1 << 20
++)
++
++// ErrInlineProviderKey is wrapped by every refusal of a key found in the
++// config file (literal or resolved from the environment).
++var ErrInlineProviderKey = errors.New("FreeRoute Core holds no key of its own")
++
++// CredentialSourceConfig points the router at the OpenVault that issues its
++// provider credentials.
++type CredentialSourceConfig struct {
++	// OpenVaultURL is the OpenVault base URL. Supports os.environ/VAR_NAME.
++	OpenVaultURL string `yaml:"openvault_url"`
++	// Seat is the router's issued ov_ identity sent as a bearer token. Supports
++	// os.environ/VAR_NAME. Optional: an OpenVault on a trusted loopback may not
++	// require one.
++	Seat string `yaml:"seat,omitempty"`
++}
++
++// UnmarshalYAML resolves os.environ/ references in both fields.
++func (s *CredentialSourceConfig) UnmarshalYAML(value *yaml.Node) error {
++	type tempSource struct {
++		OpenVaultURL string `yaml:"openvault_url"`
++		Seat         string `yaml:"seat,omitempty"`
++	}
++	var temp tempSource
++	if err := value.Decode(&temp); err != nil {
++		return err
++	}
++	s.OpenVaultURL = strings.TrimRight(strings.TrimSpace(resolveEnvString(temp.OpenVaultURL)), "/")
++	s.Seat = strings.TrimSpace(resolveEnvString(temp.Seat))
++	return nil
++}
++
++// Configured reports whether an OpenVault URL is known.
++func (s CredentialSourceConfig) Configured() bool {
++	return s.OpenVaultURL != ""
++}
++
++// inlineSecretField names the first secret-bearing field a credential carries
++// from the config file, or "" when it carries none.
++func inlineSecretField(cred CredentialConfig) string {
++	switch {
++	case cred.APIKey != "":
++		return "api_key"
++	case cred.CredentialsJSON != "":
++		return "credentials_json"
++	case cred.CredentialsFile != "":
++		return "credentials_file"
++	}
++	return ""
++}
++
++// credentialNeedsSecret mirrors Validate: proxy, air and vllm credentials may
++// run without a key; every other provider type needs one.
++func credentialNeedsSecret(cred CredentialConfig) bool {
++	switch cred.Type {
++	case ProviderTypeProxy, ProviderTypeAIR, ProviderTypeVLLM:
++		return false
++	}
++	return true
++}
++
++// applyNetieCustody runs in Load after the YAML is parsed and before Validate.
++// It refuses inline keys (unless the dev override is set), falls back to the
++// environment for the OpenVault URL and seat, and fills the pool from OpenVault.
++func (c *Config) applyNetieCustody() error {
++	inlineAllowed := os.Getenv(NetieDevAllowInlineKeysEnv) == "1"
++
++	if !c.CredentialSource.Configured() {
++		if fromEnv := strings.TrimSpace(os.Getenv(NetieOpenVaultURLEnv)); fromEnv != "" {
++			c.CredentialSource.OpenVaultURL = strings.TrimRight(fromEnv, "/")
++		}
++	}
++	if c.CredentialSource.Configured() && c.CredentialSource.Seat == "" {
++		c.CredentialSource.Seat = strings.TrimSpace(os.Getenv(NetieOpenVaultSeatEnv))
++	}
++
++	for _, cred := range c.Credentials {
++		field := inlineSecretField(cred)
++		if field == "" {
++			continue
++		}
++		if !inlineAllowed {
++			return fmt.Errorf("credential %s: inline %s refused: %w. "+
++				"Issue it from OpenVault (credential_source.openvault_url or %s) "+
++				"or set %s=1 for a local dev run only",
++				cred.Name, field, ErrInlineProviderKey, NetieOpenVaultURLEnv, NetieDevAllowInlineKeysEnv)
++		}
++		slog.Warn("NETIE DEV OVERRIDE: inline provider key accepted from the config file; never run production this way",
++			"credential", cred.Name,
++			"field", field,
++			"override", NetieDevAllowInlineKeysEnv,
++		)
++	}
++
++	if !c.CredentialSource.Configured() {
++		if inlineAllowed {
++			// Dev run: Validate reports missing keys the upstream way.
++			return nil
++		}
++		for _, cred := range c.Credentials {
++			if credentialNeedsSecret(cred) {
++				return fmt.Errorf("credential %s: no key and no credential_source: %w. "+
++					"Set credential_source.openvault_url or %s so OpenVault issues it",
++					cred.Name, ErrInlineProviderKey, NetieOpenVaultURLEnv)
++			}
++		}
++		return nil
++	}
++
++	client := &http.Client{Timeout: openVaultFetchTimeout}
++	return c.fetchOpenVaultCredentials(context.Background(), client)
++}
++
++type issuedCredential struct {
++	Name            string `json:"name"`
++	APIKey          string `json:"api_key"`
++	CredentialsJSON string `json:"credentials_json"`
++}
++
++type issuedCredentials struct {
++	Credentials []issuedCredential `json:"credentials"`
++}
++
++// fetchOpenVaultCredentials asks OpenVault for the secrets of every credential
++// in the config file and writes them into the pool. A credential that needs a
++// secret and received none is a refusal: the router never starts half-keyed.
++func (c *Config) fetchOpenVaultCredentials(ctx context.Context, client *http.Client) error {
++	ctx, cancel := context.WithTimeout(ctx, openVaultFetchTimeout)
++	defer cancel()
++
++	url := c.CredentialSource.OpenVaultURL + OpenVaultCredentialsPath
++	req, err := http.NewRequestWithContext(ctx, http.MethodGet, url, nil)
++	if err != nil {
++		return fmt.Errorf("credential_source: bad OpenVault URL %q: %w", c.CredentialSource.OpenVaultURL, err)
++	}
++	req.Header.Set("Accept", "application/json")
++	if seat := c.CredentialSource.Seat; seat != "" {
++		req.Header.Set("Authorization", "Bearer "+seat)
++	}
++
++	resp, err := client.Do(req)
++	if err != nil {
++		return fmt.Errorf("credential_source: OpenVault unreachable at %s: %w", url, err)
++	}
++	defer func() { _ = resp.Body.Close() }()
++
++	body, err := io.ReadAll(io.LimitReader(resp.Body, openVaultMaxBody))
++	if err != nil {
++		return fmt.Errorf("credential_source: reading OpenVault response from %s: %w", url, err)
++	}
++	if resp.StatusCode != http.StatusOK {
++		return fmt.Errorf("credential_source: OpenVault refused at %s: HTTP %d", url, resp.StatusCode)
++	}
++
++	var issued issuedCredentials
++	if err := json.Unmarshal(body, &issued); err != nil {
++		return fmt.Errorf("credential_source: OpenVault at %s returned no credential list: %w", url, err)
++	}
++
++	byName := make(map[string]issuedCredential, len(issued.Credentials))
++	for _, entry := range issued.Credentials {
++		byName[entry.Name] = entry
++	}
++
++	for i := range c.Credentials {
++		cred := &c.Credentials[i]
++		if entry, ok := byName[cred.Name]; ok {
++			if entry.APIKey != "" {
++				cred.APIKey = entry.APIKey
++			}
++			if entry.CredentialsJSON != "" {
++				cred.CredentialsJSON = entry.CredentialsJSON
++			}
++		}
++		if credentialNeedsSecret(*cred) && cred.APIKey == "" && cred.CredentialsJSON == "" && cred.CredentialsFile == "" {
++			return fmt.Errorf("credential %s: OpenVault at %s issued no key for it", cred.Name, c.CredentialSource.OpenVaultURL)
++		}
++	}
++
++	slog.Info("provider credentials issued by OpenVault",
++		"url", c.CredentialSource.OpenVaultURL,
++		"configured", len(c.Credentials),
++		"issued", len(byName),
++	)
++	return nil
++}
+diff --git a/internal/proxy/netie_gate_test.go b/internal/proxy/netie_gate_test.go
+new file mode 100644
+index 0000000..b35d452
+--- /dev/null
++++ b/internal/proxy/netie_gate_test.go
+@@ -0,0 +1,174 @@
++package proxy
++
++// Netie stage 2 gate for freeroute-core, data-plane half: the credential the
++// router actually sends upstream is the one OpenVault issued, and round-robin,
++// fallback and fail2ban keep working on issued credentials. The config file
++// used here carries no key. Names are string literals so this file compiles,
++// and fails, on the upstream tree before the gate exists.
++
++import (
++	"encoding/json"
++	"fmt"
++	"io"
++	"net/http"
++	"net/http/httptest"
++	"os"
++	"path/filepath"
++	"strings"
++	"sync"
++	"testing"
++
++	"github.com/mixaill76/auto_ai_router/internal/config"
++	"github.com/stretchr/testify/assert"
++	"github.com/stretchr/testify/require"
++)
++
++type netieAuthLog struct {
++	mu   sync.Mutex
++	seen []string
++}
++
++func (l *netieAuthLog) add(auth string) {
++	l.mu.Lock()
++	defer l.mu.Unlock()
++	l.seen = append(l.seen, auth)
++}
++
++func (l *netieAuthLog) count(auth string) int {
++	l.mu.Lock()
++	defer l.mu.Unlock()
++	n := 0
++	for _, a := range l.seen {
++		if a == auth {
++			n++
++		}
++	}
++	return n
++}
++
++func (l *netieAuthLog) all() []string {
++	l.mu.Lock()
++	defer l.mu.Unlock()
++	return append([]string(nil), l.seen...)
++}
++
++func netieIssuingVault(t *testing.T, issued map[string]string) *httptest.Server {
++	t.Helper()
++	rows := make([]map[string]string, 0, len(issued))
++	for name, key := range issued {
++		rows = append(rows, map[string]string{"name": name, "api_key": key})
++	}
++	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
++		w.Header().Set("Content-Type", "application/json")
++		_ = json.NewEncoder(w).Encode(map[string]interface{}{"credentials": rows})
++	}))
++	t.Cleanup(server.Close)
++	return server
++}
++
++func netieLoadKeylessConfig(t *testing.T, vaultURL string, credentials string) *config.Config {
++	t.Helper()
++	t.Setenv("NETIE_DEV_ALLOW_INLINE_KEYS", "")
++	t.Setenv("NETIE_OPENVAULT_URL", vaultURL)
++	t.Setenv("NETIE_OPENVAULT_SEAT", "ov_test_seat")
++	path := filepath.Join(t.TempDir(), "config.yaml")
++	body := "server:\n  port: 8080\n  master_key: \"sk-test-master-key\"\ncredentials:\n" + credentials
++	require.NoError(t, os.WriteFile(path, []byte(body), 0o600))
++	cfg, err := config.Load(path)
++	require.NoError(t, err, "a keyless config loads once OpenVault issues the keys")
++	return cfg
++}
++
++func netieChatRequest() *http.Request {
++	req := httptest.NewRequest(http.MethodPost, "/v1/chat/completions",
++		strings.NewReader(`{"model":"gpt-4","messages":[{"role":"user","content":"Hello"}]}`))
++	req.Header.Set("Authorization", "Bearer sk-test-master-key")
++	req.Header.Set("Content-Type", "application/json")
++	return req
++}
++
++func netieOKBody(w http.ResponseWriter) {
++	w.Header().Set("Content-Type", "application/json")
++	_, _ = io.WriteString(w, `{"id":"chatcmpl-netie","object":"chat.completion","model":"gpt-4","choices":[{"index":0,"message":{"role":"assistant","content":"ok"},"finish_reason":"stop"}],"usage":{"prompt_tokens":1,"completion_tokens":1,"total_tokens":2}}`)
++}
++
++// Case 9: two keyless credentials, keys issued by OpenVault; the upstream sees
++// only issued keys, and round-robin spreads the calls over both of them.
++func TestNetieGate_RouterSendsOnlyOpenVaultIssuedKeys(t *testing.T) {
++	var authLog netieAuthLog
++	upstream := newIPv4Server(t, http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
++		authLog.add(r.Header.Get("Authorization"))
++		netieOKBody(w)
++	}))
++	defer upstream.Close()
++
++	vault := netieIssuingVault(t, map[string]string{"pool-a": "issued-a", "pool-b": "issued-b"})
++	cfg := netieLoadKeylessConfig(t, vault.URL, fmt.Sprintf(
++		"  - name: \"pool-a\"\n    type: \"openai\"\n    base_url: %q\n    rpm: 100\n    tpm: 10000\n"+
++			"  - name: \"pool-b\"\n    type: \"openai\"\n    base_url: %q\n    rpm: 100\n    tpm: 10000\n",
++		upstream.URL, upstream.URL))
++
++	prx := NewTestProxyBuilder().WithCredentials(cfg.Credentials...).WithMasterKey(cfg.Server.MasterKey).Build()
++
++	const calls = 6
++	for i := 0; i < calls; i++ {
++		rec := httptest.NewRecorder()
++		prx.ProxyRequest(rec, netieChatRequest())
++		require.Equal(t, http.StatusOK, rec.Code, rec.Body.String())
++		require.Contains(t, rec.Body.String(), "chatcmpl-netie")
++	}
++
++	seen := authLog.all()
++	require.Len(t, seen, calls)
++	for _, auth := range seen {
++		assert.True(t, auth == "Bearer issued-a" || auth == "Bearer issued-b",
++			"upstream saw a credential OpenVault did not issue: %q", auth)
++	}
++	assert.GreaterOrEqual(t, authLog.count("Bearer issued-a"), 1, "round-robin used pool-a: %v", seen)
++	assert.GreaterOrEqual(t, authLog.count("Bearer issued-b"), 1, "round-robin used pool-b: %v", seen)
++}
++
++// Case 10: fail2ban and fallback work on issued credentials. The primary's
++// issued key is refused upstream (401); the fallback's issued key answers.
++// Every client call still succeeds, and after max_attempts (3 in the test
++// builder) the primary is banned and no longer called.
++func TestNetieGate_Fail2BanAndFallbackOnIssuedCredentials(t *testing.T) {
++	var primaryLog, fallbackLog netieAuthLog
++	primary := newIPv4Server(t, http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
++		primaryLog.add(r.Header.Get("Authorization"))
++		w.Header().Set("Content-Type", "application/json")
++		w.WriteHeader(http.StatusUnauthorized)
++		_, _ = io.WriteString(w, `{"error":{"message":"upstream refused this key","type":"authentication_error"}}`)
++	}))
++	defer primary.Close()
++	fallback := newIPv4Server(t, http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
++		fallbackLog.add(r.Header.Get("Authorization"))
++		netieOKBody(w)
++	}))
++	defer fallback.Close()
++
++	vault := netieIssuingVault(t, map[string]string{"primary": "issued-primary", "fallback": "issued-fallback"})
++	cfg := netieLoadKeylessConfig(t, vault.URL, fmt.Sprintf(
++		"  - name: \"primary\"\n    type: \"openai\"\n    base_url: %q\n    rpm: 100\n    tpm: 10000\n"+
++			"  - name: \"fallback\"\n    type: \"openai\"\n    base_url: %q\n    rpm: 100\n    tpm: 10000\n    is_fallback: true\n",
++		primary.URL, fallback.URL))
++
++	prx := NewTestProxyBuilder().WithCredentials(cfg.Credentials...).WithMasterKey(cfg.Server.MasterKey).Build()
++
++	const calls = 5
++	for i := 0; i < calls; i++ {
++		rec := httptest.NewRecorder()
++		prx.ProxyRequest(rec, netieChatRequest())
++		require.Equal(t, http.StatusOK, rec.Code, "call %d: %s", i, rec.Body.String())
++	}
++
++	for _, auth := range primaryLog.all() {
++		assert.Equal(t, "Bearer issued-primary", auth, "primary saw only its issued key")
++	}
++	for _, auth := range fallbackLog.all() {
++		assert.Equal(t, "Bearer issued-fallback", auth, "fallback saw only its issued key")
++	}
++	assert.GreaterOrEqual(t, len(primaryLog.all()), 1, "primary was tried")
++	assert.LessOrEqual(t, len(primaryLog.all()), 3, "fail2ban banned the primary after max_attempts: %v", primaryLog.all())
++	assert.Equal(t, calls, len(fallbackLog.all()), "every call was answered by the fallback's issued key")
++}
+diff --git a/internal/startup/validators.go b/internal/startup/validators.go
+index 8b34498..459a439 100644
+--- a/internal/startup/validators.go
++++ b/internal/startup/validators.go
+@@ -83,7 +83,7 @@ func warnIfGenericProxyPointsToAIR(cred config.CredentialConfig, headers http.He
+ 	if routerVersion == "" && routerCommit == "" {
+ 		return
+ 	}
+-	log.Warn("Proxy credential appears to point to an Auto AI Router upstream",
++	log.Warn("Proxy credential appears to point to a FreeRoute Core upstream",
+ 		"name", cred.Name,
+ 		"url", cred.BaseURL,
+ 		"configured_type", cred.Type,
+diff --git a/internal/startup/validators_test.go b/internal/startup/validators_test.go
+index 3492264..b10d4a2 100644
+--- a/internal/startup/validators_test.go
++++ b/internal/startup/validators_test.go
+@@ -166,7 +166,7 @@ func TestValidateProxyCredentialsAtStartup_WarnsWhenGenericProxyLooksLikeAIR(t *
+ 
+ 	ValidateProxyCredentialsAtStartup(cfg, logger)
+ 
+-	if !hasLogRecord(mock, slog.LevelWarn, "Proxy credential appears to point to an Auto AI Router upstream") {
++	if !hasLogRecord(mock, slog.LevelWarn, "Proxy credential appears to point to a FreeRoute Core upstream") {
+ 		t.Fatalf("expected AIR misconfiguration warning, got records: %+v", mock.records)
+ 	}
+ }
+@@ -192,7 +192,7 @@ func TestValidateProxyCredentialsAtStartup_DoesNotWarnForExplicitAIR(t *testing.
+ 
+ 	ValidateProxyCredentialsAtStartup(cfg, logger)
+ 
+-	if hasLogRecord(mock, slog.LevelWarn, "Proxy credential appears to point to an Auto AI Router upstream") {
++	if hasLogRecord(mock, slog.LevelWarn, "Proxy credential appears to point to a FreeRoute Core upstream") {
+ 		t.Fatalf("did not expect AIR misconfiguration warning for type air, got records: %+v", mock.records)
+ 	}
+ }
