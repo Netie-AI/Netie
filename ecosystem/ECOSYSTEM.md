@@ -17,7 +17,7 @@ Stages: 0 catalogued | 1 overlay patch exists | 2 gate wired and tested | 3 ship
 | Crew Harness | deepseek-ai/deepseek-harness @ 5badb15009 | MIT | Crew | 1 |
 | FreeIDE | anomalyco/opencode @ 907b3bc518 | MIT | FreeIDE | 1 |
 | FreeIDE for VS Code | Kilo-Org/kilocode @ a93088bfe2 | MIT | FreeIDE | 1 |
-| Netie Wiki | langchain-ai/openwiki @ c0173dca92 | MIT | KB | 1 |
+| Netie Wiki | langchain-ai/openwiki @ c0173dca92 | MIT | KB | 2 |
 | FreeRoute Core | MiXaiLL76/auto_ai_router @ 4f8597503a | Apache-2.0 | OpenVault | 1 |
 
 - **airgpt**: Multi-provider chat shell. MIT, so it is the rebrandable base for AirGPT.
@@ -35,7 +35,7 @@ Stages: 0 catalogued | 1 overlay patch exists | 2 gate wired and tested | 3 ship
 - **freeide-ext**: Editor extension and CLI that is itself an opencode fork. Take the extension only; core stays on freeide.
   - Gate: Same as freeide. Both copyright lines (Kilo Code, opencode) stay in LICENSE.
 - **netie-wiki**: CLI that writes and maintains a linked markdown wiki (code brain and personal brain) with claims tied to versioned evidence.
-  - Gate: Grounded claims map to Netie-KB ids. Source connectors (mail, notes) run only through OpenVault leave-machine.
+  - Gate: Tested (test/netie/netie-wiki-gate.test.ts, 12 cases, red on stage 1): claims sidecar records grounding netie-kb with a KB brief or ungrounded, unknown KB ids and skill bodies refused; model calls default to OpenVault /v1 with no provider key and no ambient-key fallback; every connector but git-repo is off unless OpenVault crew/gate allows, with a visible label.
 - **freeroute-core**: Go proxy: credential pooling, round-robin, per-key rate limits, fail2ban. The high-throughput data plane under FreeRoute.
   - Gate: Credentials are issued by OpenVault. The router holds no key of its own.
 
