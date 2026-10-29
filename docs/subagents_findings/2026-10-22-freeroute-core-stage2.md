@@ -62,6 +62,12 @@ Branch `claude/stage2-freeroute-core`, base `claude/netie-ecosystem-rebrand-uq9q
   on every new and edited Go file is clean (syntax only). The Go 1.27.0 toolchain the
   module asks for did download (`GOTOOLCHAIN=auto`, box has 1.24.7), so a permitted run
   needs no network.
+- **Measured elsewhere (2026-10-29):** the crew-agent session
+  (`session_018ZvvmbN2JWHKQt8j1cdxfY`) built head 39de8ee in its own container, read-only:
+  `go build -p 2 ./...` exit 0 on the stage 1 tree (167.3 s cold) and on the series tree
+  (21.3 s warm); `go vet` exit 0 with the gate files on both trees; replay hash and LICENSE
+  sha256 equal to F4. `go test` was denied there by the same classifier. Logs stay in that
+  container; cited, not reproduced.
 - **Consequence:** stage stays 1, exactly as freeroute did on its OOM. The 16 gate cases
   and the "every baseline pass still passes" claim are predictions from reading the code,
   listed per case in PLAN.md section 2.
@@ -83,10 +89,11 @@ Branch `claude/stage2-freeroute-core`, base `claude/netie-ecosystem-rebrand-uq9q
 
 | item | before (stage 1 tree) | after (0002 applied) |
 |---|---|---|
-| `go build ./...` | not run (denied) | not run (denied) |
+| `go build ./...` | denied here; exit 0 measured by crew-agent session (167.3 s) | denied here; exit 0 measured by crew-agent session (21.3 s) |
 | `go test ./...` | not run (denied) | not run (denied) |
 | gate cases (`TestNetieGate*`) | predicted 0 of 16 pass | predicted 16 of 16 pass |
 | `gofmt -l` on touched Go files | n/a | clean |
+| `go vet` with the gate files | exit 0 (crew-agent session) | exit 0 (crew-agent session) |
 | credentials with an inline key in `config.yaml.example` | 5 of 6 | 0 of 6 |
 | inline keys in `docker-compose.chain.yml` + `examples/chain_mock` | 6 + 19 | 0 + 0 |
 | replay tree hash | n/a | equal on both checkouts |

@@ -109,6 +109,17 @@ upstream source (`resolveEnvString`, the `ProviderType*` constants, `CredentialC
 fields, `NewTestProxyBuilder`, `WithCredentials`, `WithMasterKey`, `ProxyRequest`,
 `newIPv4Server`, `fail2ban.New(3, 0, ...)` with 0 meaning permanent).
 
+Measured by a different session (crew-agent, `session_018ZvvmbN2JWHKQt8j1cdxfY`, in its
+own container on 2026-10-29, read-only against PR #47 head 39de8ee; its logs are in that
+container, not reproduced here): `go mod download` exit 0 in 25.1 s; `go build -p 2 ./...`
+exit 0 on the stage 1 tree (167.3 s cold) and exit 0 on the full series tree (21.3 s warm),
+so 0002 introduces no build failure; the two gate test files copied onto the stage 1 tree
+`go vet` exit 0 there and on the patched tree, so any red on the baseline is assertion
+failures, not a compile error; replay `git write-tree` equals
+`087eeeab3c3606853b7c2581428fba3e834d907b` and LICENSE sha256 equals the catalog. `go test`
+was denied in that container by the same classifier, so the gate counts and the suite
+delta stay predictions.
+
 Per the stage rule this stage stops at a PLAN: the catalog row stays at stage 1, the patch,
 the tests and this contract are in the overlay. Stage 2 is claimed when, on a box that may
 build the upstream tree, `go build ./...` and `go test ./...` pass on the baseline, the
