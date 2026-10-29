@@ -14,7 +14,7 @@ Stages: 0 catalogued | 1 overlay patch exists | 2 gate wired and tested | 3 ship
 | Netie Control | stablyai/orca @ d17351401d | MIT | Control | 1 |
 | Crew Agent | NousResearch/hermes-agent @ e473f5a9c9 | MIT | Crew | 1 |
 | Crew Edge | zeroclaw-labs/zeroclaw @ f7bd2b9e94 | MIT OR Apache-2.0 | Crew | 1 |
-| Crew Harness | deepseek-ai/deepseek-harness @ 5badb15009 | MIT | Crew | 1 |
+| Crew Harness | deepseek-ai/deepseek-harness @ 5badb15009 | MIT | Crew | 2 |
 | FreeIDE | anomalyco/opencode @ 907b3bc518 | MIT | FreeIDE | 1 |
 | FreeIDE for VS Code | Kilo-Org/kilocode @ a93088bfe2 | MIT | FreeIDE | 1 |
 | Netie Wiki | langchain-ai/openwiki @ c0173dca92 | MIT | KB | 1 |
@@ -29,7 +29,7 @@ Stages: 0 catalogued | 1 overlay patch exists | 2 gate wired and tested | 3 ship
 - **crew-edge**: Single Rust binary agent runtime for edge devices and small servers with 30+ channels.
   - Gate: Same as crew-agent. NOTICE and both license files stay (Apache-2.0 requires NOTICE retention).
 - **crew-harness**: Everything-is-a-plugin agent harness with web UI, headless command and Python SDK. Developer preview, version 0.1.0-rc.5 per its README.
-  - Gate: Model plugin -> OpenVault /v1. Tool and sandbox plugins register only through Cortex tool_runner.
+  - Gate: Tested in vitest on the shipped bundle patch files: default model plugin is one OpenAI-compatible route at NETIE_OPENVAULT_URL/v1 (no DeepSeek route, no provider key field); tools and sandbox-local refuse registration without the Crew gate wrap, which posts ids only to OpenVault POST /api/crew/gate and fails closed.
 - **freeide**: Terminal and desktop coding agent: the FreeIDE coding surface.
   - Gate: Provider base URL -> OpenVault /v1. Shell, edit and fetch tools -> Cortex tool_runner and OpenVault POST /api/crew/gate.
 - **freeide-ext**: Editor extension and CLI that is itself an opencode fork. Take the extension only; core stays on freeide.

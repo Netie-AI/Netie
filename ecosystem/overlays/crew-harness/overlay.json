@@ -34,6 +34,28 @@
     "NETIE-ATTRIBUTION.md"
   ],
   "series": [
-    "0001-rebrand.patch"
-  ]
+    "0001-rebrand.patch",
+    "0002-gate.patch"
+  ],
+  "stage2": {
+    "patch": "0002-gate.patch",
+    "gate_test": [
+      "packages/bundle/base/tests/netie-defaults.spec.ts",
+      "packages/guard/crew-gate/tests/crew-gate.spec.ts"
+    ],
+    "run": "pnpm install && pnpm exec vitest run packages/bundle/base/tests/netie-defaults.spec.ts packages/guard/crew-gate/tests/crew-gate.spec.ts",
+    "env": [
+      "NETIE_OPENVAULT_URL",
+      "NETIE_OPENVAULT_KEY"
+    ],
+    "endpoint": "${NETIE_OPENVAULT_URL}/v1",
+    "default_model": {
+      "provider": "openvault",
+      "model": "auto"
+    },
+    "crew_gate": "POST ${NETIE_OPENVAULT_URL}/api/crew/gate, ids only, before every tool body; tools and sandbox-local refuse registration without it",
+    "direct_deepseek_routes": "not mounted",
+    "web_search": "off (no keyed search route)",
+    "upstream_version": "0.2.1-alpha.1 (developer preview)"
+  }
 }
