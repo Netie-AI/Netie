@@ -135,11 +135,52 @@ grammar slip "an FreeBuild"), both fixed by the parent.
 ## Measured before and after
 
 Same box, same commands, baseline in a worktree of the stage 1 tree, after in the edited
-tree. BEFORE_AFTER_TABLE
+tree.
+
+| Check | Before (stage 1 tree) | After (stage 2 tree) |
+|---|---|---|
+| `bun install --frozen-lockfile --filter '!@repo/desktop'` | exit 0 | same tree, not repeated |
+| `bun run build` (api tsup, dashboard `next build --webpack`, 10 turbo tasks) | exit 0, 4m42s | exit 0, 2m55s |
+| gate: platform netie-claim.test.ts | 9 cases, 9 fail (module missing) | 9 pass |
+| gate: api netie-claim-lifecycle + netie-claim-api.contract | 9 cases, 9 fail (`live` undefined) | 9 pass |
+| gate: dashboard project-status-claim.test.ts | 3 cases, 2 fail, 1 trivial pass | 3 pass |
+| gate: dashboard netie-no-vendor-assets.test.ts | 3 cases, 3 fail | 3 pass (with the built `.next`) |
+| packages/platform `bun run test` | 22 files, 170 pass, 9.7s | 23 files, 179 pass, 8.4s |
+| packages/db | 63 files, 588 pass, 6m31s | 63 files, 588 pass, 3m54s |
+| packages/core | 76 files, 1408 pass, 13s | 76 files, 1408 pass, 9s |
+| packages/contracts | 3 files, 17 pass | 3 files, 17 pass |
+| packages/adapters | 240 files + 1 skipped file, 4745 pass, 4 skipped (upstream's), 1m57s | identical counts, 1m49s |
+| apps/dashboard | 228 files, 2470 pass, 2m01s | 230 files, 2476 pass, 1m18s (first full run: 1 timeout in the new gate test under contention, fixed with an explicit 60 s case timeout, rerun clean) |
+| apps/cli | 48 files, 580 pass, 1 fail (pre-existing, F5), 1m48s | identical, 1m45s |
+| apps/api `bun run test` | 614 files, 7745 pass, 14m26s | 616 files, 7754 pass, 11m35s |
+| typecheck: `apps/api lint`, `packages/platform lint`, dashboard `tsc --noEmit` minus fumadocs | not run on baseline | all exit 0 / print nothing |
+
+Delta: every baseline pass still passes. New passes are exactly the gate files (platform +9,
+api +9, dashboard +6). No new skips (the 4 adapter skips are the upstream's own, unchanged).
+The 14 upstream tests that hardcoded the brand word or the green-without-claim behaviour
+were re-pointed, none deleted. Not measured: peak build memory (`memory.peak` reads 0 here).
 
 ## Patch replay
 
-REPLAY_SECTION
+- `0002-gate.patch` is a plain `git diff --binary` against the stage 1 tree: 1,151,138
+  bytes, 284 files, 2,211 insertions, 1,615 deletions, 3 deletions of tracked files (two
+  Gellix woff2 binaries and their README). Under the 2 MB cap because the locale JSON
+  edits are line-level and no upstream tree or build output is included.
+- A fresh `clone` plus `apply` (0001 then 0002) into a second directory reproduces the
+  edited tree byte for byte: `git write-tree` is `c1d72e5f318b1d7373708bcc2b51b5ae4422f7cf`
+  on both checkouts. LICENSE sha256 is the catalog pin
+  `cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30` before and after; the
+  upstream ships no NOTICE file.
+- Non-ASCII in added lines: 943, of which 886 are translated locale JSON values (Arabic,
+  Japanese, Chinese and the rest keep their scripts) and 57 are upstream code or copy lines
+  where only the brand word changed and the line already carried an em dash or ellipsis.
+  Text written new in this stage (the two modules, five tests, the attribution section,
+  the env comment, the fonts stubs, docs) is laptop ASCII. `scripts/check_docs.py` scans
+  `*.md` in this repo only, so overlay patches carry upstream text as is, as every
+  `0001-rebrand.patch` already does.
+- Catalog stage set to 2 only because the gate tests fail before and pass after, every
+  suite that passed before still passes, the build passes on both trees and the replay is
+  byte-identical. The claim is as wide as the table above, no wider.
 
 ## Not done / assumed
 

@@ -11029,10 +11029,10 @@ index 6be19a9..1f41de3 100644
    email_not_found:
 diff --git a/apps/dashboard/src/netie-no-vendor-assets.test.ts b/apps/dashboard/src/netie-no-vendor-assets.test.ts
 new file mode 100644
-index 0000000..825af7d
+index 0000000..3820a8a
 --- /dev/null
 +++ b/apps/dashboard/src/netie-no-vendor-assets.test.ts
-@@ -0,0 +1,64 @@
+@@ -0,0 +1,65 @@
 +// FreeBuild gate: no vendor CDN reference and no vendor font in the artifact.
 +// Fonts and CDN assets are not part of the Apache-2.0 code grant.
 +import { execFileSync } from "node:child_process";
@@ -11079,7 +11079,8 @@ index 0000000..825af7d
 +      if (VENDOR.test(buf.toString("utf8"))) hits.push(rel);
 +    }
 +    expect(hits).toEqual([]);
-+  });
++    // Walks every tracked file; under full-suite contention that exceeds the 5 s default.
++  }, 60_000);
 +
 +  it("no vendor font binary is tracked", () => {
 +    const fonts = tracked().filter((f) => new RegExp("gell" + "ix", "i").test(f));

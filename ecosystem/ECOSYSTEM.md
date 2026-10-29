@@ -44,7 +44,7 @@ Stages: 0 catalogued | 1 overlay patch exists | 2 gate wired and tested | 3 ship
 | Netie name | Upstream | License | Feeds | Stage |
 |---|---|---|---|---|
 | Crew Desk | different-ai/openwork @ 581cbe4a14 | MIT core, ee/ under OpenWork EE License | Crew | 1 |
-| FreeBuild | oblien/openship @ 3d33f5d31e | Apache-2.0 | OpenVault | 1 |
+| FreeBuild | oblien/openship @ 3d33f5d31e | Apache-2.0 | OpenVault | 2 |
 | FreeRoute | diegosouzapw/OmniRoute @ 23a1148486 | MIT | OpenVault | 1 |
 | FreeRoute 9 | decolua/9router @ a99cf57239 | MIT | OpenVault | 1 |
 
@@ -53,7 +53,7 @@ Stages: 0 catalogued | 1 overlay patch exists | 2 gate wired and tested | 3 ship
   - Stripped paths: ee
   - Why: Everything under ee/ is under the OpenWork Enterprise Edition License, not MIT. Delete it before any distribution.
 - **freebuild**: Self-hosted deploy platform: git push to deploy, TLS, rollbacks. The FreeBuild base.
-  - Gate: A live label goes through claim_deploy (netie.route report_deploy). Simulated is never reported as live.
+  - Gate: Live label goes through claim_deploy (0002-gate.patch, tested): netie-claim mirrors freebuild_honesty.report_deploy, verdict stored as meta.netieClaim, API returns live and netieClaim, dashboard shows Deployed, unclaimed until a LIVE claim. Simulated or constructed URLs are never live; today no path observes a URL so nothing is live. cdn.oblien.com and Gellix: zero references in tracked files and built assets (tested). No vendor key in default config.
   - Must be off before release: cdn.oblien.com and Gellix font references (OpenVault DR-0003 explicitly did not copy them)
   - Why: Fonts and CDN assets are separate from the Apache-2.0 code grant. Use system fonts.
 - **freeroute**: AI gateway: one endpoint, fallback chains, circuit breaker, quota awareness. The FreeRoute base.
