@@ -30,6 +30,17 @@ class SecretsScanTests(unittest.TestCase):
         live = "sk-ant-" + "api03-not-a-test-key"
         self.assertIsNotNone(ANTHROPIC_LIVE.search(live))
 
+    def test_upstream_fixture_is_exact_literal_only(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            (root / "ok.patch").write_text('- "sk-ant-oat01-test-token"\n', encoding="utf-8")
+            self.assertEqual(findings(root), [])
+            (root / "live.patch").write_text(
+                '+ "' + "sk-ant-" + 'oat01-test-tokenX9aB7cD5eF3gH1"\n', encoding="utf-8"
+            )
+            rows = findings(root)
+        self.assertEqual(rows, ["Anthropic live key in live.patch"])
+
     def test_keys_txt_basename_is_forbidden(self) -> None:
         self.assertIn("keys.txt", FORBIDDEN_TRACKED)
         with tempfile.TemporaryDirectory() as tmp:
