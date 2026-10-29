@@ -1,0 +1,1192 @@
+diff --git a/NETIE-ATTRIBUTION.md b/NETIE-ATTRIBUTION.md
+index 1e164a4..156b4ef 100644
+--- a/NETIE-ATTRIBUTION.md
++++ b/NETIE-ATTRIBUTION.md
+@@ -50,21 +50,37 @@ logos belong to their owners.
+   `crates/zeroclaw-runtime/src/netie_gate.rs`
+   (`cargo test -p zeroclaw-runtime --lib netie_gate`).
+ 
++## Changed toward stage 3 (0003-stage3.patch)
++
++- Stored subscription credentials are refused at request time, not only in
++  Quickstart: an `openai` entry with `requires_openai_auth` (Codex login), the
++  legacy `openai-codex` spelling and an Anthropic key starting `sk-ant-oat01-`
++  (Claude setup-token) do not build a provider. Anthropic Console keys still do.
++- Cron and announcement delivery (`deliver_announcement`) and one-shot sends
++  (`send_channel_message`) ask OpenVault leave-machine before sending, the same
++  ask as channel startup. A refusal is returned as the error.
++- English CLI strings say Crew Edge: `--help` about text, `config` and `update`
++  help, status, security-status and daemon titles, and seven other product-name
++  strings in `crates/zeroclaw-runtime/locales/en/cli.ftl`.
++- Gate cases added: 3 in `crates/zeroclaw-runtime/src/netie_gate.rs`, 2 in
++  `crates/zeroclaw-channels/src/netie_gate.rs`.
++
+ ## Not done yet (stage 3)
+ 
+ - Crate, package and binary names are still `zeroclaw*` (every workspace crate,
+-  hundreds of paths); the `zeroclaw` CLI help text, `~/.zeroclaw` config dir,
+-  `ZEROCLAW_*` env vars, systemd unit and web dashboard strings are upstream's.
+-- An already-configured vendor provider with its own `api_key` still works; only
+-  the subscription-login families are refused at the factory.
+-- Codex (`requires_openai_auth`) and Claude setup-token credentials already on
+-  disk are not refused at request time, only at Quickstart.
++  hundreds of paths); `~/.zeroclaw`, `ZEROCLAW_*` env vars, the systemd unit,
++  the web dashboard and non-English locale strings are upstream's. The companion
++  desktop app, firmware and OpenClaw migration keep their real artifact names.
++- An operator-configured vendor provider with its own `api_key` still works; it
++  is not the default and holds a key outside OpenVault.
+ - Whether OpenVault needs a seat token on `/v1` or serves `/v1/models`, and
+   whether it registers tool ids under kind `runtime` and channel ids under
+   `service`, is not measured. The gate sends no seat token.
+ - Conversation text can still persist outside the session store: memory
+   backends, the ACP session store, cost and observability logs. Not gated.
+-- Cron delivery to a channel (`build_channel_map`) and one-shot sends are not
+-  behind the leave-machine ask; only channel startup is.
++- Launch dependency: with no OpenVault answering at `NETIE_OPENVAULT_URL`, every
++  tool call, every non-CLI channel and every delivery is refused (fail closed).
++  Crew Edge is only useful with a running OpenVault that implements
++  `POST /api/crew/gate`.
+ - SECURITY, SUPPORT and CONTRIBUTING contacts and URLs still point at upstream.
+ - Translated docs, changelogs and third-party notices are untouched.
+diff --git a/crates/zeroclaw-channels/src/lib.rs b/crates/zeroclaw-channels/src/lib.rs
+index 6475de0..ad5634a 100644
+--- a/crates/zeroclaw-channels/src/lib.rs
++++ b/crates/zeroclaw-channels/src/lib.rs
+@@ -19,6 +19,9 @@ pub mod login_relink;
+ #[cfg(feature = "channel-telegram")]
+ pub(crate) mod model_picker_delivery;
+ pub mod orchestrator;
++
++#[cfg(test)]
++mod netie_gate;
+ pub mod paced_channel;
+ pub mod util;
+ 
+diff --git a/crates/zeroclaw-channels/src/netie_gate.rs b/crates/zeroclaw-channels/src/netie_gate.rs
+new file mode 100644
+index 0000000..1713abd
+--- /dev/null
++++ b/crates/zeroclaw-channels/src/netie_gate.rs
+@@ -0,0 +1,30 @@
++//! Netie Crew Edge stage 3 gate test, channels side (Netie repo, DR-0002).
++//!
++//! Asserts what an operator receives when a cron job or a one-shot send
++//! targets a channel: no OpenVault leave-machine allow, no delivery, and the
++//! refusal names the gate. Uses upstream APIs only so it also compiles on the
++//! stage 2 tree, where both cases fail. The alias carries the reserved id
++//! `netie-gate-turn`, which the test-harness transport forwards to the real
++//! HTTP transport, so nothing answering on the OpenVault URL means a refusal.
++
++use zeroclaw_config::schema::Config;
++
++const REFUSAL_PREFIX: &str = "Refused by Netie gate";
++
++#[tokio::test]
++async fn cron_delivery_without_openvault_leave_is_refused() {
++    let cfg = Config::default();
++    let err = crate::orchestrator::deliver_announcement(&cfg, "telegram.netie-gate-turn", "chat-1", None, "hi")
++        .await
++        .expect_err("delivery must not proceed without a leave-machine allow");
++    assert!(err.to_string().starts_with(REFUSAL_PREFIX), "{err}");
++}
++
++#[tokio::test]
++async fn one_shot_send_without_openvault_leave_is_refused() {
++    let cfg = Config::default();
++    let err = crate::orchestrator::send_channel_message(&cfg, "telegram.netie-gate-turn", "chat-1", "hi")
++        .await
++        .expect_err("a one-shot send must not proceed without a leave-machine allow");
++    assert!(format!("{err:#}").contains(REFUSAL_PREFIX), "{err:#}");
++}
+diff --git a/crates/zeroclaw-channels/src/orchestrator/mod.rs b/crates/zeroclaw-channels/src/orchestrator/mod.rs
+index 537abb8..f1b5113 100644
+--- a/crates/zeroclaw-channels/src/orchestrator/mod.rs
++++ b/crates/zeroclaw-channels/src/orchestrator/mod.rs
+@@ -13453,6 +13453,15 @@ pub async fn send_channel_message(
+         }
+         Err(err) => return Err(err),
+     };
++    // Netie Crew Edge: a one-shot send leaves the machine (space_leave).
++    #[cfg(any(test, feature = "test-util"))]
++    zeroclaw_providers::netie::install_test_harness_transport();
++    if let Err(reason) = zeroclaw_providers::netie::gate_channel_ref(channel_id).await {
++        anyhow::bail!(
++            "{}: message via {channel_id} not sent: {reason}",
++            zeroclaw_providers::netie::REFUSAL_PREFIX
++        );
++    }
+     let msg = SendMessage::new(message, recipient);
+     channel
+         .send(&msg)
+@@ -17280,6 +17289,17 @@ pub async fn deliver_announcement(
+ ) -> anyhow::Result<()> {
+     use zeroclaw_api::channel::SendMessage;
+ 
++    // Netie Crew Edge: cron and announcement delivery leaves the machine, so
++    // it needs an OpenVault leave-machine allow (space_leave), like startup.
++    #[cfg(any(test, feature = "test-util"))]
++    zeroclaw_providers::netie::install_test_harness_transport();
++    if let Err(reason) = zeroclaw_providers::netie::gate_channel_ref(channel).await {
++        anyhow::bail!(
++            "{}: delivery to {channel} not sent: {reason}",
++            zeroclaw_providers::netie::REFUSAL_PREFIX
++        );
++    }
++
+     let safe_output = redact_channel_outbound_leaks(
+         output,
+         &config.security.leak_detection,
+diff --git a/crates/zeroclaw-providers/src/factory.rs b/crates/zeroclaw-providers/src/factory.rs
+index c02129f..fd8e00d 100644
+--- a/crates/zeroclaw-providers/src/factory.rs
++++ b/crates/zeroclaw-providers/src/factory.rs
+@@ -1220,6 +1220,12 @@ impl FamilyProviderFactory for AnthropicModelProviderConfig {
+         api_url: Option<&str>,
+         opts: &ModelProviderRuntimeOptions,
+     ) -> Result<Box<dyn ModelProvider>> {
++        // Netie Crew Edge: a Claude setup-token is a subscription login.
++        if key.is_some_and(crate::netie::is_claude_setup_token) {
++            return Err(crate::netie::subscription_credential_refusal(&format!(
++                "anthropic.{alias} with a Claude setup-token"
++            )));
++        }
+         let mut b = crate::anthropic::AnthropicModelProvider::builder(alias)
+             .credential(key)
+             .server_fallback_models(self.server_fallback_models.clone())
+@@ -1268,11 +1274,13 @@ impl FamilyProviderFactory for OpenAIModelProviderConfig {
+         api_url: Option<&str>,
+         opts: &ModelProviderRuntimeOptions,
+     ) -> Result<Box<dyn ModelProvider>> {
+-        // Codex variant routing: OAuth subscription auth → Codex responses protocol.
++        // Codex variant routing: OAuth subscription auth. Netie Crew Edge refuses
++        // it at request time, so a stored entry from before the Quickstart gate
++        // cannot reach the Codex login (DR-0002 rule 6).
+         if self.base.requires_openai_auth {
+-            return Ok(Box::new(
+-                crate::openai_codex::OpenAiCodexModelProvider::new(alias, opts, key)?,
+-            ));
++            return Err(crate::netie::subscription_credential_refusal(&format!(
++                "openai.{alias} with requires_openai_auth (Codex login)"
++            )));
+         }
+         // Responses wire protocol with standard API key — full streaming tool calls.
+         // New OpenAI provider slots default wire_api to Responses via
+@@ -2642,11 +2650,12 @@ mod tests {
+                 ..Default::default()
+             },
+         };
+-        let provider = cfg
++        // Netie Crew Edge: the Codex login is refused at request time.
++        let err = cfg
+             .create_provider("test", None, None, &ModelProviderRuntimeOptions::default())
+-            .unwrap();
+-        // OpenAiCodexModelProvider reports native_tool_calling; standard OpenAiModelProvider does not
+-        assert!(provider.capabilities().native_tool_calling);
++            .err()
++            .expect("requires_openai_auth must be refused");
++        assert!(err.to_string().starts_with(crate::netie::REFUSAL_PREFIX), "{err}");
+     }
+ 
+     #[test]
+diff --git a/crates/zeroclaw-providers/src/lib.rs b/crates/zeroclaw-providers/src/lib.rs
+index bfba4ab..9a3f791 100644
+--- a/crates/zeroclaw-providers/src/lib.rs
++++ b/crates/zeroclaw-providers/src/lib.rs
+@@ -1602,12 +1602,10 @@ fn create_model_provider_inner(
+     // factory callers that pass the legacy spelling expect a working
+     // construction here.
+     if matches!(provider_kind, "openai-codex" | "openai_codex" | "codex") {
+-        return Ok(apply_factory_leaf_metadata(
+-            Box::new(openai_codex::OpenAiCodexModelProvider::new(
+-                alias, options, api_key,
+-            )?),
+-            options.vision,
+-        ));
++        // Netie Crew Edge: the legacy Codex spelling is the Codex login.
++        return Err(crate::netie::subscription_credential_refusal(&format!(
++            "model provider `{provider_kind}` (Codex login)"
++        )));
+     }
+     let resolved_credential = resolve_model_provider_credential(provider_kind, api_key)
+         .map(|v| String::from_utf8(v.into_bytes()).unwrap_or_default());
+@@ -2715,7 +2713,11 @@ mod tests {
+     #[test]
+     fn factory_openai_codex() {
+         let options = ModelProviderRuntimeOptions::default();
+-        assert!(create_model_provider_with_options("openai-codex", None, &options).is_ok());
++        // Netie Crew Edge: the legacy Codex spelling is refused.
++        let err = create_model_provider_with_options("openai-codex", None, &options)
++            .err()
++            .expect("openai-codex must be refused");
++        assert!(err.to_string().starts_with(crate::netie::REFUSAL_PREFIX), "{err}");
+     }
+ 
+     #[test]
+@@ -3311,7 +3313,13 @@ mod tests {
+     #[test]
+     fn factory_codex_dispatches_via_requires_openai_auth_flag() {
+         let options = ModelProviderRuntimeOptions::default();
+-        assert!(create_model_provider_with_options("openai-codex", None, &options).is_ok());
++        // Netie Crew Edge: refused on every spelling of the Codex login.
++        for spelling in ["openai-codex", "openai_codex", "codex"] {
++            let err = create_model_provider_with_options(spelling, None, &options)
++                .err()
++                .expect("Codex login must be refused");
++            assert!(err.to_string().starts_with(crate::netie::REFUSAL_PREFIX), "{spelling}: {err}");
++        }
+     }
+ 
+     #[test]
+@@ -5363,16 +5371,11 @@ mod tests {
+             None,
+             &ModelProviderRuntimeOptions::default(),
+         );
+-        assert!(
+-            result.is_ok(),
+-            "codex alias construction should succeed: {}",
+-            result.err().unwrap()
+-        );
+-        assert!(
+-            result.unwrap().capabilities().native_tool_calling,
+-            "openai.{arbitrary_alias} with requires_openai_auth=true must route to \
+-             OpenAiCodexModelProvider (native_tool_calling=true), not the standard provider"
+-        );
++        // Netie Crew Edge: the alias-aware path still sees requires_openai_auth,
++        // now to refuse it; the refusal names the arbitrary alias.
++        let err = result.err().expect("codex alias must be refused");
++        assert!(err.to_string().starts_with(crate::netie::REFUSAL_PREFIX), "{err}");
++        assert!(err.to_string().contains(arbitrary_alias), "{err}");
+     }
+ 
+     #[test]
+@@ -5687,11 +5690,9 @@ mod tests {
+             &zeroclaw_config::schema::ReliabilityConfig::default(),
+             &ModelProviderRuntimeOptions::default(),
+         );
+-        assert!(
+-            result.is_ok(),
+-            "OpenAI external-auth fallbacks may intentionally omit api_key: {}",
+-            result.err().unwrap()
+-        );
++        // Netie Crew Edge: a Codex-login fallback is refused, not silently kept.
++        let err = result.err().expect("a Codex-login fallback must be refused");
++        assert!(format!("{err:#}").contains(crate::netie::REFUSAL_PREFIX), "{err:#}");
+     }
+ 
+     #[test]
+diff --git a/crates/zeroclaw-providers/src/netie.rs b/crates/zeroclaw-providers/src/netie.rs
+index ad3d84e..be0b73a 100644
+--- a/crates/zeroclaw-providers/src/netie.rs
++++ b/crates/zeroclaw-providers/src/netie.rs
+@@ -38,6 +38,23 @@ pub const OPENVAULT_DEFAULT_MODEL: &str = "auto";
+ /// Model-provider families that reuse an end user's subscription login
+ /// (GitHub Copilot, Gemini CLI, Grok CLI, KiloCLI). DR-0002 rule 6.
+ pub const SUBSCRIPTION_LOGIN_FAMILIES: &[&str] = &["copilot", "gemini_cli", "grok_cli", "kilocli"];
++/// Claude Max `claude setup-token` credentials start with this prefix.
++pub const CLAUDE_SETUP_TOKEN_PREFIX: &str = "sk-ant-oat01-";
++
++#[must_use]
++pub fn is_claude_setup_token(credential: &str) -> bool {
++    credential.trim().starts_with(CLAUDE_SETUP_TOKEN_PREFIX)
++}
++
++/// The error every request-time subscription-login refusal returns.
++#[must_use]
++pub fn subscription_credential_refusal(what: &str) -> anyhow::Error {
++    anyhow::anyhow!(
++        "{REFUSAL_PREFIX}: {what} reuses an end user's subscription login (DR-0002 rule 6). \
++         Crew Edge routes model calls through OpenVault (`[providers.models.custom.openvault]`)."
++    )
++}
++
+ /// Quickstart auth modes that reuse a subscription login (Codex, Claude setup-token).
+ pub const SUBSCRIPTION_LOGIN_AUTH_MODES: &[&str] = &["codex", "setup_token"];
+ /// Tools that drive another vendor's CLI on the end user's login. Always refused.
+@@ -235,7 +252,8 @@ pub fn active_transport_label() -> &'static str {
+ }
+ 
+ /// Run id reserved for the Netie gate test. The test-harness transport
+-/// forwards asks under it to the real HTTP transport, so the gate test
++/// forwards asks under it (as the parent run id, or inside the child id) to
++/// the real HTTP transport, so the gate test
+ /// exercises the shipped path while the upstream suites run unchanged.
+ pub const GATE_TEST_RUN_ID: &str = "netie-gate-turn";
+ 
+@@ -246,7 +264,12 @@ impl GateTransport for TestHarnessTransport {
+         "test-harness"
+     }
+     fn post(&self, url: String, body: Value) -> GateFuture {
+-        if body.get("parent_run_id").and_then(Value::as_str) == Some(GATE_TEST_RUN_ID) {
++        let reserved = body.get("parent_run_id").and_then(Value::as_str) == Some(GATE_TEST_RUN_ID)
++            || body
++                .get("child_id")
++                .and_then(Value::as_str)
++                .is_some_and(|c| c.contains(GATE_TEST_RUN_ID));
++        if reserved {
+             return HttpTransport.post(url, body);
+         }
+         Box::pin(async { Ok(serde_json::json!({"allowed": true, "location": "test-harness"})) })
+@@ -362,6 +385,13 @@ pub async fn gate_channel_leave(channel_kind: &str, alias: &str) -> Result<(), S
+     .map(|_| ())
+ }
+ 
++/// Leave-machine ask for a dotted channel ref (`telegram.work`) or a bare
++/// type, used by one-shot sends and cron delivery.
++pub async fn gate_channel_ref(channel_ref: &str) -> Result<(), String> {
++    let (kind, alias) = channel_ref.split_once('.').unwrap_or((channel_ref, ""));
++    gate_channel_leave(kind, alias).await
++}
++
+ #[cfg(test)]
+ mod tests {
+     use super::*;
+@@ -401,6 +431,22 @@ mod tests {
+         );
+     }
+ 
++    #[test]
++    fn setup_token_prefix_is_detected() {
++        assert!(is_claude_setup_token("  sk-ant-oat01-abc"));
++        assert!(!is_claude_setup_token("sk-ant-api03-abc"));
++        let err = subscription_credential_refusal("x").to_string();
++        assert!(err.starts_with(REFUSAL_PREFIX), "{err}");
++    }
++
++    #[tokio::test]
++    async fn channel_ref_splits_type_and_alias() {
++        let rec = recorder(serde_json::json!({"allowed": true}));
++        assert_eq!(with_gate_transport(rec.clone(), gate_channel_ref("slack.ops")).await, Ok(()));
++        assert_eq!(rec.seen.lock().unwrap()[0].1["child_id"], "slack.ops");
++        assert_eq!(rec.seen.lock().unwrap()[0].1["id"], "channel.slack");
++    }
++
+     #[test]
+     fn shipped_default_transport_is_http() {
+         assert_eq!(active_transport_label(), "http");
+diff --git a/crates/zeroclaw-runtime/locales/en/cli.ftl b/crates/zeroclaw-runtime/locales/en/cli.ftl
+index 48d93b4..6fe2e6c 100644
+--- a/crates/zeroclaw-runtime/locales/en/cli.ftl
++++ b/crates/zeroclaw-runtime/locales/en/cli.ftl
+@@ -1,4 +1,4 @@
+-cli-about = The fastest, smallest AI assistant.
++cli-about = Crew Edge: Netie's single-binary agent runtime. Model calls go through OpenVault. A modified distribution of ZeroClaw (MIT OR Apache-2.0).
+ cli-no-command-provided = No command provided.
+ cli-try-quickstart = Try `zeroclaw quickstart` to create your first agent.
+ 
+@@ -44,8 +44,8 @@ cli-auth-about = Manage provider subscription authentication profiles
+ cli-hardware-about = Discover and introspect USB hardware
+ cli-peripheral-about = Manage hardware peripherals
+ cli-memory-about = Manage agent memory entries
+-cli-config-about = Manage ZeroClaw configuration
+-cli-update-about = Check for and apply ZeroClaw updates
++cli-config-about = Manage Crew Edge configuration
++cli-update-about = Check for upstream ZeroClaw releases (installing is disabled in Crew Edge)
+ cli-self-test-about = Run diagnostic self-tests
+ cli-completions-about = Generate shell completion scripts
+ cli-desktop-about = Launch the companion desktop app, or open its download page
+@@ -84,7 +84,7 @@ cli-wechat-scanned-confirm = 👀 Scanned! Confirm on your phone...
+ cli-wechat-qr-expired-refreshing = ⏳ QR code expired, refreshing...
+ cli-wechat-login-confirmed-missing-field = Login confirmed but {$field} missing.
+ cli-wechat-connected = ✅ WeChat connected!
+-cli-wechat-bound-success = ✅ WeChat account bound successfully. You can talk to ZeroClaw now.
++cli-wechat-bound-success = ✅ WeChat account bound successfully. You can talk to Crew Edge now.
+ cli-wechat-invalid-bind-code = ❌ Invalid bind code. Please try again.
+ cli-wechat-bind-denied = ❌ This account is blocked by an `ignore` entry in the runtime config. Ask the operator to remove it, then retry with the same code.
+ cli-wechat-bind-not-saved = ❌ Could not save the binding, so nothing changed. Your code is still valid; ask the operator to check the config file, then retry.
+@@ -213,7 +213,7 @@ cli-sop-list-about = List loaded SOPs
+ cli-sop-validate-about = Validate SOP definitions
+ cli-sop-show-about = Show details of an SOP
+ 
+-cli-migrate-openclaw-about = Import memory from an OpenClaw workspace into this ZeroClaw workspace
++cli-migrate-openclaw-about = Import memory from an OpenClaw workspace into this Crew Edge workspace
+ cli-migrate-openclaw-qdrant-unsupported = Qdrant is not currently supported as an OpenClaw migration target. Set memory.backend to sqlite, lucid, or markdown and retry.
+ 
+ cli-agent-long-about =
+@@ -252,7 +252,7 @@ cli-acp-long-about =
+ cli-daemon-long-about =
+     Start the long-running autonomous daemon.
+ 
+-    Launches the full ZeroClaw runtime: gateway server, all configured channels (Telegram, Discord, Slack, etc.), heartbeat monitor, and the cron scheduler. This is the recommended way to run ZeroClaw in production or as an always-on assistant.
++    Launches the full Crew Edge runtime: gateway server, all configured channels (Telegram, Discord, Slack, etc.), heartbeat monitor, and the cron scheduler. This is the recommended way to run Crew Edge in production or as an always-on assistant.
+ 
+     Use 'zeroclaw service install' to register the daemon as an OS service (systemd/launchd) for auto-start on boot.
+ 
+@@ -282,7 +282,7 @@ cli-cron-long-about =
+ cli-channel-long-about =
+     Manage communication channels.
+ 
+-    Add, remove, list, send, and health-check channels that connect ZeroClaw to messaging platforms. Supported channel types: telegram, discord, slack, whatsapp, matrix, imessage, email.
++    Add, remove, list, send, and health-check channels that connect Crew Edge to messaging platforms. Supported channel types: telegram, discord, slack, whatsapp, matrix, imessage, email.
+ 
+     Examples:
+       zeroclaw channel list
+@@ -327,7 +327,7 @@ cli-memory-long-about =
+       zeroclaw memory clear --category conversation --yes
+ 
+ cli-config-long-about =
+-    Manage ZeroClaw configuration.
++    Manage Crew Edge configuration.
+ 
+     View, set, or initialize config properties by dotted path. Use 'schema' to dump the full JSON Schema for the config file.
+ 
+@@ -350,7 +350,9 @@ cli-config-long-about =
+     Property path tab completion is included automatically in `zeroclaw completions <shell>`.
+ 
+ cli-update-long-about =
+-    Check for and apply ZeroClaw updates.
++    Check for upstream ZeroClaw releases. Installing one is disabled in Crew Edge:
++    it would replace this binary with upstream ZeroClaw and remove the Netie gate.
++    Crew Edge updates ship as Netie overlay releases.
+ 
+     By default, downloads and installs the latest release with a 6-phase pipeline: preflight, download, backup, validate, swap, and smoke test. Automatic rollback on failure.
+ 
+@@ -365,7 +367,7 @@ cli-update-long-about =
+       zeroclaw update --version 0.6.0      # install specific version
+ 
+ cli-self-test-long-about =
+-    Run diagnostic self-tests to verify the ZeroClaw installation.
++    Run diagnostic self-tests to verify the Crew Edge installation.
+ 
+     By default, runs the full test suite including network checks (gateway health, memory round-trip). Use --quick to skip network checks for faster offline validation.
+ 
+@@ -520,8 +522,8 @@ cli-self-test-web-dist-dir-pass-literal = {$path} (literal path)
+ cli-self-test-web-dist-dir-fail-expansion = WARNING: {$path} — {$reason}; gateway.web_dist_dir is read verbatim, so expand the value yourself (e.g. an absolute path)
+ 
+ # Service lifecycle warnings.
+-cli-service-systemd-linger-disabled-warning = systemd user lingering is disabled. ZeroClaw's user service may stop after logout. Enable it with: loginctl enable-linger {$user}
+-cli-standalone-daemon-owned = Cannot run `zeroclaw {$command}` while another ZeroClaw process owns the config state at {$path}. Stop the owning process or use its daemon-backed interface, then retry. No agent work was started.
++cli-service-systemd-linger-disabled-warning = systemd user lingering is disabled. Crew Edge's user service may stop after logout. Enable it with: loginctl enable-linger {$user}
++cli-standalone-daemon-owned = Cannot run `zeroclaw {$command}` while another Crew Edge process owns the config state at {$path}. Stop the owning process or use its daemon-backed interface, then retry. No agent work was started.
+ 
+ # ── peripherals (zeroclaw peripheral) ──
+ cli-peripherals-none = No peripherals configured.
+@@ -771,7 +773,7 @@ cli-quickstart-complete = Quickstart complete. Created agent `{$alias}`.
+ cli-next-steps = Next steps:
+ cli-agent-not-created = Your agent was not created — and nothing on disk was changed.
+ cli-onboard-deprecated = `zeroclaw onboard` is deprecated — use `zeroclaw quickstart`.
+-cli-otp-initialized = Initialized OTP secret for ZeroClaw.
++cli-otp-initialized = Initialized OTP secret for Crew Edge.
+ cli-otp-enrollment-uri = Enrollment URI: {$uri}
+ cli-otp-received = {"  "}✓ OTP received
+ cli-secret-captured = {"  "}● Value captured — press Enter to save
+@@ -796,8 +798,8 @@ cli-pairing-rotate-no-code = The rotate request completed without returning a re
+ cli-pairing-check-enabled = Check whether pairing is enabled, then request a new device code:
+ cli-pairing-inspect = To inspect the running gateway:
+ cli-gateway-running-q = {"   "}Is the gateway running? Start it with:
+-cli-status-title = 🦀 ZeroClaw Status
+-cli-security-status-title = ZeroClaw Security Status
++cli-status-title = 🦀 Crew Edge Status
++cli-security-status-title = Crew Edge Security Status
+ cli-security-status-source = Source:      {$v}
+ cli-security-status-agent = Agent:       {$v}
+ cli-security-status-agent-enabled = Agent enabled: {$enabled}
+@@ -1260,11 +1262,11 @@ cli-gateway-restart-hint-process = restart the `zeroclaw daemon` process
+ # (shared event bus / canvas / reload channel) and cannot adopt a separate
+ # process, so it fails fast with an actionable message instead of degrading into
+ # a supervisor retry loop. The two variants differ only by who holds the port.
+-cli-daemon-gateway-already-running = A ZeroClaw gateway is already running on {$host}:{$port}. The daemon supervises its own gateway and will not start a second one on the same address. Stop that gateway (or point the daemon at a free port with `zeroclaw config set gateway.port <port>`), then run the daemon again.
++cli-daemon-gateway-already-running = A Crew Edge gateway is already running on {$host}:{$port}. The daemon supervises its own gateway and will not start a second one on the same address. Stop that gateway (or point the daemon at a free port with `zeroclaw config set gateway.port <port>`), then run the daemon again.
+ cli-daemon-gateway-port-occupied = Gateway address {$host}:{$port} is already in use by another process. Free the port or point the daemon at a free port (`zeroclaw config set gateway.port <port>`), then run the daemon again.
+-cli-daemon-starting-title = 🧠 ZeroClaw daemon starting…
++cli-daemon-starting-title = 🧠 Crew Edge daemon starting…
+ cli-daemon-starting-detail = Preparing configured daemon endpoints
+-cli-daemon-started-title = 🧠 ZeroClaw daemon ready
++cli-daemon-started-title = 🧠 Crew Edge daemon ready
+ cli-daemon-started-gateway = Gateway:  {$url}
+ cli-daemon-started-socket = Socket:   {$path}
+ cli-daemon-started-pairing = Pairing:    enabled (see gateway output above for current status)
+diff --git a/crates/zeroclaw-runtime/locales/es/cli.ftl b/crates/zeroclaw-runtime/locales/es/cli.ftl
+index bb5dac9..2f910f5 100644
+--- a/crates/zeroclaw-runtime/locales/es/cli.ftl
++++ b/crates/zeroclaw-runtime/locales/es/cli.ftl
+@@ -43,7 +43,7 @@ cli-auth-about = Gestiona los perfiles de autenticación de suscripción del pro
+ cli-hardware-about = Descubre e inspecciona hardware USB
+ cli-peripheral-about = Gestiona los periféricos de hardware
+ cli-memory-about = Gestiona las entradas de memoria del agente
+-cli-config-about = Gestiona la configuración de ZeroClaw
++cli-config-about = Gestiona la configuración de Crew Edge
+ cli-update-about = Comprueba y aplica las actualizaciones de ZeroClaw
+ cli-self-test-about = Ejecuta autopruebas de diagnóstico
+ cli-completions-about = Genera scripts de autocompletado del shell
+@@ -80,7 +80,7 @@ cli-wechat-scanned-confirm = 👀 ¡Escaneado! Confirma en tu teléfono...
+ cli-wechat-qr-expired-refreshing = ⏳ Código QR caducado, actualizando...
+ cli-wechat-login-confirmed-missing-field = Inicio de sesión confirmado pero falta {$field}.
+ cli-wechat-connected = ✅ ¡WeChat conectado!
+-cli-wechat-bound-success = ✅ Cuenta de WeChat vinculada correctamente. Ya puedes hablar con ZeroClaw.
++cli-wechat-bound-success = ✅ Cuenta de WeChat vinculada correctamente. Ya puedes hablar con Crew Edge.
+ cli-wechat-invalid-bind-code = ❌ Código de vinculación no válido. Inténtalo de nuevo.
+ cli-wechat-bind-denied = ❌ Esta cuenta está bloqueada por una entrada `ignore` en la configuración. Pide al operador que la elimine y vuelve a intentarlo con el mismo código.
+ cli-wechat-bind-not-saved = ❌ No se pudo guardar el enlace, así que nada cambió. Tu código sigue siendo válido; pide al operador que revise el archivo de configuración y vuelve a intentarlo.
+@@ -191,7 +191,7 @@ cli-peripheral-flash-about = Flashea el firmware de ZeroClaw a una placa Arduino
+ cli-sop-list-about = Lista los SOP cargados
+ cli-sop-validate-about = Valida las definiciones de SOP
+ cli-sop-show-about = Muestra los detalles de un SOP
+-cli-migrate-openclaw-about = Importa memoria de un espacio de trabajo OpenClaw a este espacio de trabajo ZeroClaw
++cli-migrate-openclaw-about = Importa memoria de un espacio de trabajo OpenClaw a este espacio de trabajo Crew Edge
+ cli-migrate-openclaw-qdrant-unsupported = Qdrant no es compatible actualmente como destino de migración de OpenClaw. Establece memory.backend en sqlite, lucid o markdown y vuelve a intentarlo.
+ cli-agent-long-about =
+     Inicia el bucle del agente de IA.
+@@ -226,7 +226,7 @@ cli-acp-long-about =
+ cli-daemon-long-about =
+     Inicia el daemon autónomo de larga duración.
+ 
+-    Lanza el entorno de ejecución completo de ZeroClaw: servidor de gateway, todos los canales configurados (Telegram, Discord, Slack, etc.), monitor de heartbeat y el programador cron. Esta es la forma recomendada de ejecutar ZeroClaw en producción o como un asistente siempre activo.
++    Lanza el entorno de ejecución completo de Crew Edge: servidor de gateway, todos los canales configurados (Telegram, Discord, Slack, etc.), monitor de heartbeat y el programador cron. Esta es la forma recomendada de ejecutar Crew Edge en producción o como un asistente siempre activo.
+ 
+     Usa 'zeroclaw service install' para registrar el daemon como un servicio del SO (systemd/launchd) para que se inicie automáticamente al arrancar.
+ 
+@@ -254,7 +254,7 @@ cli-cron-long-about =
+ cli-channel-long-about =
+     Gestiona los canales de comunicación.
+ 
+-    Agrega, elimina, lista, envía y verifica el estado de los canales que conectan ZeroClaw con plataformas de mensajería. Tipos de canal admitidos: telegram, discord, slack, whatsapp, matrix, imessage, email.
++    Agrega, elimina, lista, envía y verifica el estado de los canales que conectan Crew Edge con plataformas de mensajería. Tipos de canal admitidos: telegram, discord, slack, whatsapp, matrix, imessage, email.
+ 
+     Ejemplos:
+     zeroclaw channel list
+@@ -295,7 +295,7 @@ cli-memory-long-about =
+     zeroclaw memory get KEY
+     zeroclaw memory clear --category conversation --yes
+ cli-config-long-about =
+-    Gestiona la configuración de ZeroClaw.
++    Gestiona la configuración de Crew Edge.
+ 
+     Visualiza, establece o inicializa propiedades de configuración mediante una ruta con puntos. Usa 'schema' para volcar el esquema JSON completo del archivo de configuración.
+ 
+@@ -331,7 +331,7 @@ cli-update-long-about =
+     zeroclaw update --force              # instalar sin confirmación
+     zeroclaw update --version 0.6.0      # instalar versión específica
+ cli-self-test-long-about =
+-    Ejecuta autodiagnósticos para verificar la instalación de ZeroClaw.
++    Ejecuta autodiagnósticos para verificar la instalación de Crew Edge.
+ 
+     De forma predeterminada, ejecuta la suite de pruebas completa, incluidas las comprobaciones de red (estado del gateway, ida y vuelta de memoria). Usa --quick para omitir las comprobaciones de red y validar más rápido sin conexión.
+ 
+@@ -452,7 +452,7 @@ cli-self-test-web-dist-dir-name = web_dist_dir
+ cli-self-test-web-dist-dir-pass-unset = no establecido (usando detección automática)
+ cli-self-test-web-dist-dir-pass-literal = {$path} (ruta literal)
+ cli-self-test-web-dist-dir-fail-expansion = ADVERTENCIA: {$path} — {$reason}; gateway.web_dist_dir se lee literalmente, así que expande el valor tú mismo (p. ej., una ruta absoluta)
+-cli-service-systemd-linger-disabled-warning = la permanencia de usuario de systemd está deshabilitada. El servicio de usuario de ZeroClaw puede detenerse tras cerrar sesión. Habilítala con: loginctl enable-linger {$user}
++cli-service-systemd-linger-disabled-warning = la permanencia de usuario de systemd está deshabilitada. El servicio de usuario de Crew Edge puede detenerse tras cerrar sesión. Habilítala con: loginctl enable-linger {$user}
+ cli-peripherals-none = No hay periféricos configurados.
+ cli-peripherals-add-hint = Agregue uno con: zeroclaw peripheral add <board> <path>
+ cli-peripherals-add-example = {"  "}Ejemplo: zeroclaw peripheral add nucleo-f401re <serial-path>
+@@ -680,7 +680,7 @@ cli-quickstart-complete = Quickstart completado. Se creó el agente `{$alias}`.
+ cli-next-steps = Siguientes pasos:
+ cli-agent-not-created = Tu agente no fue creado — y no se cambió nada en el disco.
+ cli-onboard-deprecated = `zeroclaw onboard` está obsoleto — usa `zeroclaw quickstart`.
+-cli-otp-initialized = Secreto OTP inicializado para ZeroClaw.
++cli-otp-initialized = Secreto OTP inicializado para Crew Edge.
+ cli-otp-enrollment-uri = URI de inscripción: {$uri}
+ cli-otp-received = {"  "}✓ OTP recibido
+ cli-secret-captured = {"  "}● Valor capturado — pulse Enter para guardar
+@@ -705,8 +705,8 @@ cli-pairing-rotate-no-code = La solicitud de rotación terminó sin devolver un
+ cli-pairing-check-enabled = Comprueba si el emparejamiento está habilitado y solicita un código para el nuevo dispositivo:
+ cli-pairing-inspect = Para inspeccionar el gateway en ejecución:
+ cli-gateway-running-q = {"   "}¿Está el gateway en ejecución? Inícialo con:
+-cli-status-title = 🦀 Estado de ZeroClaw
+-cli-security-status-title = Estado de seguridad de ZeroClaw
++cli-status-title = 🦀 Estado de Crew Edge
++cli-security-status-title = Estado de seguridad de Crew Edge
+ cli-security-status-source = Origen:      {$v}
+ cli-security-status-agent = Agente:       {$v}
+ cli-security-status-agent-enabled = Agente habilitado: {$enabled}
+@@ -1056,11 +1056,11 @@ cli-gateway-restart-hint-container = docker compose restart
+ cli-gateway-restart-hint-systemd = systemctl restart zeroclaw
+ cli-gateway-restart-hint-launchd = launchctl kickstart -k <your-zeroclaw-label>
+ cli-gateway-restart-hint-process = reinicie el proceso `zeroclaw daemon`
+-cli-daemon-gateway-already-running = Ya hay un gateway de ZeroClaw ejecutándose en {$host}:{$port}. El daemon supervisa su propio gateway y no iniciará un segundo en la misma dirección. Detén ese gateway (o apunta el daemon a un puerto libre con `zeroclaw config set gateway.port <port>`) y luego vuelve a ejecutar el daemon.
++cli-daemon-gateway-already-running = Ya hay un gateway de Crew Edge ejecutándose en {$host}:{$port}. El daemon supervisa su propio gateway y no iniciará un segundo en la misma dirección. Detén ese gateway (o apunta el daemon a un puerto libre con `zeroclaw config set gateway.port <port>`) y luego vuelve a ejecutar el daemon.
+ cli-daemon-gateway-port-occupied = La dirección del gateway {$host}:{$port} ya está en uso por otro proceso. Libera el puerto o apunta el daemon a un puerto libre (`zeroclaw config set gateway.port <port>`) y luego vuelve a ejecutar el daemon.
+-cli-daemon-starting-title = 🧠 El daemon de ZeroClaw se está iniciando…
++cli-daemon-starting-title = 🧠 El daemon de Crew Edge se está iniciando…
+ cli-daemon-starting-detail = Preparando los endpoints configurados del daemon
+-cli-daemon-started-title = 🧠 El daemon de ZeroClaw está listo
++cli-daemon-started-title = 🧠 El daemon de Crew Edge está listo
+ cli-daemon-started-gateway = Gateway:  {$url}
+ cli-daemon-started-socket = Socket:   {$path}
+ cli-daemon-started-pairing = Emparejamiento: activado (consulta arriba el estado actual del gateway)
+diff --git a/crates/zeroclaw-runtime/locales/fr/cli.ftl b/crates/zeroclaw-runtime/locales/fr/cli.ftl
+index df593c6..757d2e3 100644
+--- a/crates/zeroclaw-runtime/locales/fr/cli.ftl
++++ b/crates/zeroclaw-runtime/locales/fr/cli.ftl
+@@ -43,7 +43,7 @@ cli-auth-about = Gérer les profils d'authentification des abonnements fournisse
+ cli-hardware-about = Découvrir et analyser le matériel USB
+ cli-peripheral-about = Gérer les périphériques matériels
+ cli-memory-about = Gérer les entrées de mémoire de l'agent
+-cli-config-about = Gérer la configuration de ZeroClaw
++cli-config-about = Gérer la configuration de Crew Edge
+ cli-update-about = Vérifier et appliquer les mises à jour de ZeroClaw
+ cli-self-test-about = Exécuter les tests d'autodiagnostic
+ cli-completions-about = Générer des scripts d'achèvement de shell
+@@ -80,7 +80,7 @@ cli-wechat-scanned-confirm = 👀 Scanné ! Confirmez sur votre téléphone...
+ cli-wechat-qr-expired-refreshing = ⏳ Code QR expiré, actualisation...
+ cli-wechat-login-confirmed-missing-field = Connexion confirmée mais {$field} manquant.
+ cli-wechat-connected = ✅ WeChat connecté !
+-cli-wechat-bound-success = ✅ Compte WeChat lié avec succès. Vous pouvez maintenant parler à ZeroClaw.
++cli-wechat-bound-success = ✅ Compte WeChat lié avec succès. Vous pouvez maintenant parler à Crew Edge.
+ cli-wechat-invalid-bind-code = ❌ Code de liaison invalide. Veuillez réessayer.
+ cli-wechat-bind-denied = ❌ Ce compte est bloqué par une entrée `ignore` dans la configuration. Demandez à l'opérateur de la supprimer, puis réessayez avec le même code.
+ cli-wechat-bind-not-saved = ❌ Impossible d'enregistrer la liaison, rien n'a changé. Votre code reste valide ; demandez à l'opérateur de vérifier le fichier de configuration, puis réessayez.
+@@ -191,7 +191,7 @@ cli-peripheral-flash-about = Flasher le firmware de ZeroClaw sur une carte Ardui
+ cli-sop-list-about = Lister les SOP (Procédures Opérationnelles Standard) chargées
+ cli-sop-validate-about = Valider les définitions des SOP
+ cli-sop-show-about = Afficher les détails d'une SOP
+-cli-migrate-openclaw-about = Importer la mémoire d'un espace de travail OpenClaw vers cet espace de travail ZeroClaw
++cli-migrate-openclaw-about = Importer la mémoire d'un espace de travail OpenClaw vers cet espace de travail Crew Edge
+ cli-migrate-openclaw-qdrant-unsupported = Qdrant n’est actuellement pas pris en charge comme cible de migration OpenClaw. Définissez memory.backend sur sqlite, lucid ou markdown, puis réessayez.
+ cli-agent-long-about =
+     Démarrer la boucle de l'agent IA.
+@@ -226,7 +226,7 @@ cli-acp-long-about =
+ cli-daemon-long-about =
+     Démarrer le daemon autonome longue durée.
+ 
+-    Lance l'exécution Runtime complète de ZeroClaw : serveur gateway, tous les canaux configurés (Telegram, Discord, Slack, etc., moniteur de cœur et planificateur cron. C'est la méthode recommandée pour exécuter ZeroClaw en production ou comme assistant toujours actif.
++    Lance l'exécution Runtime complète de Crew Edge : serveur gateway, tous les canaux configurés (Telegram, Discord, Slack, etc., moniteur de cœur et planificateur cron. C'est la méthode recommandée pour exécuter Crew Edge en production ou comme assistant toujours actif.
+ 
+     Utilisez 'zeroclaw service install' pour enregistrer le daemon en tant que service OS (systemd/launchd) pour un démarrage automatique au démarrage.
+ 
+@@ -254,7 +254,7 @@ cli-cron-long-about =
+ cli-channel-long-about =
+     Gérer les canaux de communication.
+ 
+-    Ajouter, supprimer, lister, envoyer et vérifier la santé des canaux qui connectent ZeroClaw aux plateformes de messagerie. Types de canaux pris en charge : telegram, discord, slack, whatsapp, matrix, imessage, email.
++    Ajouter, supprimer, lister, envoyer et vérifier la santé des canaux qui connectent Crew Edge aux plateformes de messagerie. Types de canaux pris en charge : telegram, discord, slack, whatsapp, matrix, imessage, email.
+ 
+     Exemples :
+     zeroclaw channel list
+@@ -298,7 +298,7 @@ cli-memory-long-about =
+ 
+     La complétion par tabulation est automatiquement incluse dans les sous-commandes de complétion.
+ cli-config-long-about =
+-    Gérer la configuration de ZeroClaw.
++    Gérer la configuration de Crew Edge.
+ 
+     Afficher, définir ou initialiser les propriétés de la configuration par chemin ponctué. Utilisez 'schema' pour.dumping le schéma JSON complet pour le fichier de configuration.
+ 
+@@ -334,7 +334,7 @@ cli-update-long-about =
+     zeroclaw update --force              # installer sans confirmation
+     zeroclaw update --version 0.6.0      # installer une version spécifique
+ cli-self-test-long-about =
+-    Exécute les tests d'auto-diagnostic pour vérifier l'installation de ZeroClaw.
++    Exécute les tests d'auto-diagnostic pour vérifier l'installation de Crew Edge.
+ 
+     Par défaut, exécutera l'ensemble complet des tests incluant les vérifications réseau (santé du pont, mémoire aller-retour). Utilisez --quick pour ignorer les vérifications réseau afin d'obtenir une validation hors ligne plus rapide.
+ 
+@@ -455,7 +455,7 @@ cli-self-test-web-dist-dir-name = web_dist_dir
+ cli-self-test-web-dist-dir-pass-unset = non défini (détection automatique utilisée)
+ cli-self-test-web-dist-dir-pass-literal = {$path} (chemin littéral)
+ cli-self-test-web-dist-dir-fail-expansion = AVERTISSEMENT : {$path} — {$reason} ; gateway.web_dist_dir est lu tel quel, vous devez donc développer la valeur vous-même (p. ex. un chemin absolu)
+-cli-service-systemd-linger-disabled-warning = la persistance utilisateur systemd est désactivée. Le service utilisateur ZeroClaw peut s'arrêter après la déconnexion. Activez-la avec : loginctl enable-linger {$user}
++cli-service-systemd-linger-disabled-warning = la persistance utilisateur systemd est désactivée. Le service utilisateur Crew Edge peut s'arrêter après la déconnexion. Activez-la avec : loginctl enable-linger {$user}
+ cli-peripherals-none = Aucun périphérique configuré.
+ cli-peripherals-add-hint = Ajoutez-en un avec : zeroclaw peripheral add <board> <path>
+ cli-peripherals-add-example = {"  "}Exemple : zeroclaw peripheral add nucleo-f401re <serial-path>
+@@ -683,7 +683,7 @@ cli-quickstart-complete = Quickstart terminé. Agent `{$alias}` créé.
+ cli-next-steps = Étapes suivantes :
+ cli-agent-not-created = Votre agent n'a pas été créé — et rien n'a été modifié sur le disque.
+ cli-onboard-deprecated = `zeroclaw onboard` est obsolète — utilisez `zeroclaw quickstart`.
+-cli-otp-initialized = Secret OTP initialisé pour ZeroClaw.
++cli-otp-initialized = Secret OTP initialisé pour Crew Edge.
+ cli-otp-enrollment-uri = URI d'enregistrement : {$uri}
+ cli-otp-received = {"  "}✓ OTP reçu
+ cli-secret-captured = {"  "}● Valeur capturée — appuyez sur Entrée pour enregistrer
+@@ -708,8 +708,8 @@ cli-pairing-rotate-no-code = La demande de rotation s'est terminée sans renvoye
+ cli-pairing-check-enabled = Vérifiez que l'appairage est activé, puis demandez un code pour un nouvel appareil :
+ cli-pairing-inspect = Pour inspecter la passerelle en cours d'exécution :
+ cli-gateway-running-q = {"   "}La passerelle est-elle en cours d'exécution ? Démarrez-la avec :
+-cli-status-title = 🦀 État de ZeroClaw
+-cli-security-status-title = État de sécurité ZeroClaw
++cli-status-title = 🦀 État de Crew Edge
++cli-security-status-title = État de sécurité Crew Edge
+ cli-security-status-source = Source :      {$v}
+ cli-security-status-agent = Agent :       {$v}
+ cli-security-status-agent-enabled = Agent activé : {$enabled}
+@@ -1059,11 +1059,11 @@ cli-gateway-restart-hint-container = docker compose restart
+ cli-gateway-restart-hint-systemd = systemctl restart zeroclaw
+ cli-gateway-restart-hint-launchd = launchctl kickstart -k <your-zeroclaw-label>
+ cli-gateway-restart-hint-process = redémarrez le processus `zeroclaw daemon`
+-cli-daemon-gateway-already-running = Une passerelle ZeroClaw est déjà en cours d'exécution sur {$host}:{$port}. Le démon supervise sa propre passerelle et ne démarrera pas une seconde passerelle sur la même adresse. Arrêtez cette passerelle (ou pointez le démon vers un port libre avec `zeroclaw config set gateway.port <port>`), puis relancez le démon.
++cli-daemon-gateway-already-running = Une passerelle Crew Edge est déjà en cours d'exécution sur {$host}:{$port}. Le démon supervise sa propre passerelle et ne démarrera pas une seconde passerelle sur la même adresse. Arrêtez cette passerelle (ou pointez le démon vers un port libre avec `zeroclaw config set gateway.port <port>`), puis relancez le démon.
+ cli-daemon-gateway-port-occupied = L'adresse de passerelle {$host}:{$port} est déjà utilisée par un autre processus. Libérez le port ou pointez le démon vers un port libre (`zeroclaw config set gateway.port <port>`), puis relancez le démon.
+-cli-daemon-starting-title = 🧠 Le démon ZeroClaw démarre…
++cli-daemon-starting-title = 🧠 Le démon Crew Edge démarre…
+ cli-daemon-starting-detail = Préparation des endpoints configurés du démon
+-cli-daemon-started-title = 🧠 Le démon ZeroClaw est prêt
++cli-daemon-started-title = 🧠 Le démon Crew Edge est prêt
+ cli-daemon-started-gateway = Passerelle : {$url}
+ cli-daemon-started-socket = Socket :     {$path}
+ cli-daemon-started-pairing = Appairage : activé (voir ci-dessus l'état actuel de la passerelle)
+diff --git a/crates/zeroclaw-runtime/locales/ja/cli.ftl b/crates/zeroclaw-runtime/locales/ja/cli.ftl
+index 493bbca..640a63a 100644
+--- a/crates/zeroclaw-runtime/locales/ja/cli.ftl
++++ b/crates/zeroclaw-runtime/locales/ja/cli.ftl
+@@ -43,7 +43,7 @@ cli-auth-about = プロバイダー サブスクリプション認証プロフ
+ cli-hardware-about = USBハードウェアを発見・内省
+ cli-peripheral-about = ハードウェアペリフェラルを管理
+ cli-memory-about = エージェントメモリエントリを管理
+-cli-config-about = ZeroClaw設定を管理
++cli-config-about = Crew Edge設定を管理
+ cli-update-about = ZeroClaw更新を確認・適用
+ cli-self-test-about = 診断自己テストを実行
+ cli-completions-about = シェル補完スクリプトを生成
+@@ -80,7 +80,7 @@ cli-wechat-scanned-confirm = 👀 スキャンされました！スマートフ
+ cli-wechat-qr-expired-refreshing = ⏳ QRコードの期限が切れました。更新中...
+ cli-wechat-login-confirmed-missing-field = ログインは確認されましたが、{$field} がありません。
+ cli-wechat-connected = ✅ WeChat に接続しました！
+-cli-wechat-bound-success = ✅ WeChatアカウントが正常にバインドされました。これで ZeroClaw と会話できます。
++cli-wechat-bound-success = ✅ WeChatアカウントが正常にバインドされました。これで Crew Edge と会話できます。
+ cli-wechat-invalid-bind-code = ❌ 無効なバインドコードです。もう一度お試しください。
+ cli-wechat-bind-denied = ❌ このアカウントは設定の `ignore` 項目によりブロックされています。運用者に削除を依頼してから同じコードで再試行してください。
+ cli-wechat-bind-not-saved = ❌ 連携を保存できなかったため、変更はありません。コードは引き続き有効です。運用者に設定ファイルの確認を依頼してから再試行してください。
+@@ -189,7 +189,7 @@ cli-peripheral-flash-about = Arduino ボードに ZeroClaw ファームウェア
+ cli-sop-list-about = ロードされた SOP を一覧表示
+ cli-sop-validate-about = SOP 定義を検証
+ cli-sop-show-about = SOP の詳細を表示
+-cli-migrate-openclaw-about = OpenClaw ワークスペースからこの ZeroClaw ワークスペースにメモリをインポート
++cli-migrate-openclaw-about = OpenClaw ワークスペースからこの Crew Edge ワークスペースにメモリをインポート
+ cli-migrate-openclaw-qdrant-unsupported = Qdrant は現在、OpenClaw の移行先としてサポートされていません。memory.backend を sqlite、lucid、または markdown に設定して再試行してください。
+ cli-agent-long-about =
+     AI エージェントループを起動します。
+@@ -224,7 +224,7 @@ cli-acp-long-about =
+ cli-daemon-long-about =
+     長時間実行の自律型デーモンを起動します。
+ 
+-    完全な ZeroClaw ランタイムを起動します: ゲートウェイサーバー、すべての設定されたチャネル（Telegram、Discord、Slack など）、ハートビートモニター、および cron スケジューラー。これは本番環境またはオンアシスタントとして ZeroClaw を実行する推奨方法です。
++    完全な Crew Edge ランタイムを起動します: ゲートウェイサーバー、すべての設定されたチャネル（Telegram、Discord、Slack など）、ハートビートモニター、および cron スケジューラー。これは本番環境またはオンアシスタントとして Crew Edge を実行する推奨方法です。
+ 
+     デーモンを OS サービス（systemd/launchd）として登録し、ブート時に自動起動するには「zeroclaw service install」を使用してください。
+ 
+@@ -252,7 +252,7 @@ cli-cron-long-about =
+ cli-channel-long-about =
+     通信チャネルを管理します。
+ 
+-    ZeroClaw をメッセージングプラットフォームに接続するチャネルを追加、削除、一覧表示、送信、およびヘルスチェックします。サポートされるチャネルタイプ: telegram、discord、slack、whatsapp、matrix、imessage、email。
++    Crew Edge をメッセージングプラットフォームに接続するチャネルを追加、削除、一覧表示、送信、およびヘルスチェックします。サポートされるチャネルタイプ: telegram、discord、slack、whatsapp、matrix、imessage、email。
+ 
+     例:
+     zeroclaw channel list
+@@ -293,7 +293,7 @@ cli-memory-long-about =
+     zeroclaw memory get KEY
+     zeroclaw memory clear --category conversation --yes
+ cli-config-long-about =
+-    ZeroClaw 設定を管理します。
++    Crew Edge 設定を管理します。
+ 
+     ドット記法で設定プロパティを表示、設定、または初期化します。「schema」を使用して、設定ファイルの完全な JSON スキーマをダンプします。
+ 
+@@ -329,7 +329,7 @@ cli-update-long-about =
+     zeroclaw update --force              # 確認なしでインストール
+     zeroclaw update --version 0.6.0      # 特定のバージョンをインストール
+ cli-self-test-long-about =
+-    診断自己テストを実行して ZeroClaw インストールを検証します。
++    診断自己テストを実行して Crew Edge インストールを検証します。
+ 
+     デフォルトでは、ネットワークチェック（ゲートウェイヘルス、メモリラウンドトリップ）を含む完全なテストスイートを実行します。--quick を使用して、ネットワークチェックをスキップしてより高速なオフライン検証を実行してください。
+ 
+@@ -450,7 +450,7 @@ cli-self-test-web-dist-dir-name = web_dist_dir
+ cli-self-test-web-dist-dir-pass-unset = 未設定（自動検出を使用）
+ cli-self-test-web-dist-dir-pass-literal = {$path}（リテラルパス）
+ cli-self-test-web-dist-dir-fail-expansion = 警告: {$path} — {$reason}。gateway.web_dist_dir はそのまま読み込まれるため、値を自分で展開してください（例: 絶対パス）
+-cli-service-systemd-linger-disabled-warning = systemd ユーザー linger は無効です。ZeroClaw のユーザーサービスはログアウト後に停止する可能性があります。有効化: loginctl enable-linger {$user}
++cli-service-systemd-linger-disabled-warning = systemd ユーザー linger は無効です。Crew Edge のユーザーサービスはログアウト後に停止する可能性があります。有効化: loginctl enable-linger {$user}
+ cli-peripherals-none = 周辺機器が設定されていません。
+ cli-peripherals-add-hint = 次のコマンドで追加します: zeroclaw peripheral add <board> <path>
+ cli-peripherals-add-example = {"  "}例: zeroclaw peripheral add nucleo-f401re <serial-path>
+@@ -678,7 +678,7 @@ cli-quickstart-complete = クイックスタートが完了しました。エー
+ cli-next-steps = 次のステップ:
+ cli-agent-not-created = エージェントは作成されませんでした — ディスク上の変更はありません。
+ cli-onboard-deprecated = `zeroclaw onboard` は非推奨です — `zeroclaw quickstart` を使用してください。
+-cli-otp-initialized = ZeroClaw用のOTPシークレットを初期化しました。
++cli-otp-initialized = Crew Edge用のOTPシークレットを初期化しました。
+ cli-otp-enrollment-uri = 登録URI: {$uri}
+ cli-otp-received = {"  "}✓ OTP受信済
+ cli-secret-captured = {"  "}● 値を取得しました — Enterで保存
+@@ -703,8 +703,8 @@ cli-pairing-rotate-no-code = ローテーション要求は置き換えコード
+ cli-pairing-check-enabled = ペアリングが有効か確認してから、新しいデバイスコードを要求してください:
+ cli-pairing-inspect = 実行中のゲートウェイを確認するには:
+ cli-gateway-running-q = {"   "}ゲートウェイは実行中ですか？次のコマンドで起動してください:
+-cli-status-title = 🦀 ZeroClaw ステータス
+-cli-security-status-title = ZeroClaw セキュリティステータス
++cli-status-title = 🦀 Crew Edge ステータス
++cli-security-status-title = Crew Edge セキュリティステータス
+ cli-security-status-source = ソース:      {$v}
+ cli-security-status-agent = エージェント:       {$v}
+ cli-security-status-agent-enabled = エージェント有効: {$enabled}
+@@ -1054,11 +1054,11 @@ cli-gateway-restart-hint-container = docker compose restart
+ cli-gateway-restart-hint-systemd = systemctl restart zeroclaw
+ cli-gateway-restart-hint-launchd = launchctl kickstart -k <your-zeroclaw-label>
+ cli-gateway-restart-hint-process = `zeroclaw daemon` プロセスを再起動してください
+-cli-daemon-gateway-already-running = ZeroClaw ゲートウェイは既に {$host}:{$port} で実行中です。デーモンは自身のゲートウェイを監視しており、同じアドレスで2つ目を開始しません。そのゲートウェイを停止するか、`zeroclaw config set gateway.port <port>` でデーモンを空きポートに向けてから、もう一度デーモンを実行してください。
++cli-daemon-gateway-already-running = Crew Edge ゲートウェイは既に {$host}:{$port} で実行中です。デーモンは自身のゲートウェイを監視しており、同じアドレスで2つ目を開始しません。そのゲートウェイを停止するか、`zeroclaw config set gateway.port <port>` でデーモンを空きポートに向けてから、もう一度デーモンを実行してください。
+ cli-daemon-gateway-port-occupied = ゲートウェイアドレス {$host}:{$port} は別のプロセスで既に使用されています。ポートを解放するか、デーモンを空きポートに向けて (`zeroclaw config set gateway.port <port>`)、もう一度デーモンを実行してください。
+-cli-daemon-starting-title = 🧠 ZeroClaw デーモンを起動しています…
++cli-daemon-starting-title = 🧠 Crew Edge デーモンを起動しています…
+ cli-daemon-starting-detail = 設定済みのデーモンエンドポイントを準備しています
+-cli-daemon-started-title = 🧠 ZeroClaw デーモンの準備ができました
++cli-daemon-started-title = 🧠 Crew Edge デーモンの準備ができました
+ cli-daemon-started-gateway = ゲートウェイ: {$url}
+ cli-daemon-started-socket = ソケット:     {$path}
+ cli-daemon-started-pairing = ペアリング: 有効（現在の状態は上のゲートウェイ出力を確認してください）
+diff --git a/crates/zeroclaw-runtime/locales/zh-CN/cli.ftl b/crates/zeroclaw-runtime/locales/zh-CN/cli.ftl
+index fdfae7f..931f0b8 100644
+--- a/crates/zeroclaw-runtime/locales/zh-CN/cli.ftl
++++ b/crates/zeroclaw-runtime/locales/zh-CN/cli.ftl
+@@ -43,7 +43,7 @@ cli-auth-about = 管理提供商订阅认证配置文件
+ cli-hardware-about = 发现并检查 USB 硬件
+ cli-peripheral-about = 管理硬件外设
+ cli-memory-about = 管理智能体记忆条目
+-cli-config-about = 管理 ZeroClaw 配置
++cli-config-about = 管理 Crew Edge 配置
+ cli-update-about = 检查并应用 ZeroClaw 更新
+ cli-self-test-about = 运行诊断自检
+ cli-completions-about = 生成 shell 补全脚本
+@@ -80,7 +80,7 @@ cli-wechat-scanned-confirm = 👀 已扫码！请在手机上确认...
+ cli-wechat-qr-expired-refreshing = ⏳ 二维码已过期，正在刷新...
+ cli-wechat-login-confirmed-missing-field = 登录已确认，但缺少 {$field}。
+ cli-wechat-connected = ✅ WeChat 已连接！
+-cli-wechat-bound-success = ✅ WeChat 账号绑定成功。现在可以和 ZeroClaw 对话了。
++cli-wechat-bound-success = ✅ WeChat 账号绑定成功。现在可以和 Crew Edge 对话了。
+ cli-wechat-invalid-bind-code = ❌ 绑定码无效。请重试。
+ cli-wechat-bind-denied = ❌ 该账号被配置中的 `ignore` 条目阻止。请联系运维人员删除后使用同一代码重试。
+ cli-wechat-bind-not-saved = ❌ 无法保存绑定，未做任何更改。你的代码仍然有效；请联系运维人员检查配置文件后重试。
+@@ -190,7 +190,7 @@ cli-peripheral-flash-about = 将 ZeroClaw 固件刷写到 Arduino 开发板
+ cli-sop-list-about = 列出已加载的 SOP
+ cli-sop-validate-about = 验证 SOP 定义
+ cli-sop-show-about = 显示 SOP 的详细信息
+-cli-migrate-openclaw-about = 将 OpenClaw 工作区中的记忆导入到此 ZeroClaw 工作区
++cli-migrate-openclaw-about = 将 OpenClaw 工作区中的记忆导入到此 Crew Edge 工作区
+ cli-migrate-openclaw-qdrant-unsupported = Qdrant 当前不支持作为 OpenClaw 迁移目标。请将 memory.backend 设置为 sqlite、lucid 或 markdown，然后重试。
+ cli-agent-long-about =
+     启动 AI 代理循环。
+@@ -225,7 +225,7 @@ cli-acp-long-about =
+ cli-daemon-long-about =
+     启动长期运行的自主守护进程。
+ 
+-    启动完整的 ZeroClaw 运行时：网关服务器、所有已配置的通道（Telegram、Discord、Slack 等）、心跳监视器以及 cron 调度器。这是在生产环境中或作为始终在线助手运行 ZeroClaw 的推荐方式。
++    启动完整的 Crew Edge 运行时：网关服务器、所有已配置的通道（Telegram、Discord、Slack 等）、心跳监视器以及 cron 调度器。这是在生产环境中或作为始终在线助手运行 Crew Edge 的推荐方式。
+ 
+     使用 'zeroclaw service install' 将守护进程注册为操作系统服务（systemd/launchd），以便开机自动启动。
+ 
+@@ -253,7 +253,7 @@ cli-cron-long-about =
+ cli-channel-long-about =
+     管理通信通道。
+ 
+-    添加、删除、列出、发送以及对将 ZeroClaw 连接到消息平台的通道进行健康检查。支持的通道类型：telegram、discord、slack、whatsapp、matrix、imessage、email。
++    添加、删除、列出、发送以及对将 Crew Edge 连接到消息平台的通道进行健康检查。支持的通道类型：telegram、discord、slack、whatsapp、matrix、imessage、email。
+ 
+     示例：
+     zeroclaw channel list
+@@ -294,7 +294,7 @@ cli-memory-long-about =
+     zeroclaw memory get KEY
+     zeroclaw memory clear --category conversation --yes
+ cli-config-long-about =
+-    管理 ZeroClaw 配置。
++    管理 Crew Edge 配置。
+ 
+     通过点分路径查看、设置或初始化配置属性。使用 'schema' 转储配置文件的完整 JSON Schema。
+ 
+@@ -330,7 +330,7 @@ cli-update-long-about =
+     zeroclaw update --force              # 不确认直接安装
+     zeroclaw update --version 0.6.0      # 安装特定版本
+ cli-self-test-long-about =
+-    运行诊断自检以验证 ZeroClaw 安装。
++    运行诊断自检以验证 Crew Edge 安装。
+ 
+     默认情况下，运行完整的测试套件，包括网络检查（网关健康状况、记忆往返）。使用 --quick 跳过网络检查以进行更快的离线验证。
+ 
+@@ -451,7 +451,7 @@ cli-self-test-web-dist-dir-name = web_dist_dir
+ cli-self-test-web-dist-dir-pass-unset = 未设置（使用自动检测）
+ cli-self-test-web-dist-dir-pass-literal = {$path}（字面路径）
+ cli-self-test-web-dist-dir-fail-expansion = 警告：{$path} — {$reason}；gateway.web_dist_dir 按原样读取，请自行展开该值（例如使用绝对路径）
+-cli-service-systemd-linger-disabled-warning = systemd 用户 linger 已禁用。ZeroClaw 的用户服务可能会在注销后停止。启用命令：loginctl enable-linger {$user}
++cli-service-systemd-linger-disabled-warning = systemd 用户 linger 已禁用。Crew Edge 的用户服务可能会在注销后停止。启用命令：loginctl enable-linger {$user}
+ cli-peripherals-none = 未配置外设。
+ cli-peripherals-add-hint = 使用以下命令添加: zeroclaw peripheral add <board> <path>
+ cli-peripherals-add-example = {"  "}示例: zeroclaw peripheral add nucleo-f401re <serial-path>
+@@ -679,7 +679,7 @@ cli-quickstart-complete = Quickstart 完成。已创建 agent `{$alias}`。
+ cli-next-steps = 后续步骤：
+ cli-agent-not-created = 未创建您的 agent — 磁盘上没有任何更改。
+ cli-onboard-deprecated = `zeroclaw onboard` 已弃用 — 请使用 `zeroclaw quickstart`。
+-cli-otp-initialized = 已为 ZeroClaw 初始化 OTP 密钥。
++cli-otp-initialized = 已为 Crew Edge 初始化 OTP 密钥。
+ cli-otp-enrollment-uri = 注册 URI：{$uri}
+ cli-otp-received = {"  "}✓ OTP 已接收
+ cli-secret-captured = {"  "}● 已接收输入 — 按 Enter 保存
+@@ -704,8 +704,8 @@ cli-pairing-rotate-no-code = 轮换请求已完成，但没有返回替换配对
+ cli-pairing-check-enabled = 请确认配对已启用，然后请求新的设备配对码：
+ cli-pairing-inspect = 要检查正在运行的 gateway：
+ cli-gateway-running-q = {"   "}gateway 是否正在运行？使用以下命令启动它：
+-cli-status-title = 🦀 ZeroClaw 状态
+-cli-security-status-title = ZeroClaw 安全状态
++cli-status-title = 🦀 Crew Edge 状态
++cli-security-status-title = Crew Edge 安全状态
+ cli-security-status-source = 来源：      {$v}
+ cli-security-status-agent = Agent：       {$v}
+ cli-security-status-agent-enabled = Agent 已启用：{$enabled}
+@@ -1055,11 +1055,11 @@ cli-gateway-restart-hint-container = docker compose restart
+ cli-gateway-restart-hint-systemd = systemctl restart zeroclaw
+ cli-gateway-restart-hint-launchd = launchctl kickstart -k <your-zeroclaw-label>
+ cli-gateway-restart-hint-process = 重启 `zeroclaw daemon` 进程
+-cli-daemon-gateway-already-running = ZeroClaw gateway 已在 {$host}:{$port} 运行。daemon 会管理自己的 gateway，不会在同一地址启动第二个 gateway。请停止该 gateway（或使用 `zeroclaw config set gateway.port <port>` 将 daemon 指向空闲端口），然后重新运行 daemon。
++cli-daemon-gateway-already-running = Crew Edge gateway 已在 {$host}:{$port} 运行。daemon 会管理自己的 gateway，不会在同一地址启动第二个 gateway。请停止该 gateway（或使用 `zeroclaw config set gateway.port <port>` 将 daemon 指向空闲端口），然后重新运行 daemon。
+ cli-daemon-gateway-port-occupied = Gateway 地址 {$host}:{$port} 已被另一个进程占用。请释放该端口或将 daemon 指向空闲端口（`zeroclaw config set gateway.port <port>`），然后重新运行 daemon。
+-cli-daemon-starting-title = 🧠 ZeroClaw daemon 正在启动…
++cli-daemon-starting-title = 🧠 Crew Edge daemon 正在启动…
+ cli-daemon-starting-detail = 正在准备已配置的 daemon endpoint
+-cli-daemon-started-title = 🧠 ZeroClaw daemon 已就绪
++cli-daemon-started-title = 🧠 Crew Edge daemon 已就绪
+ cli-daemon-started-gateway = Gateway:  {$url}
+ cli-daemon-started-socket = Socket:   {$path}
+ cli-daemon-started-pairing = 配对：已启用（当前状态请查看上方 gateway 输出）
+diff --git a/crates/zeroclaw-runtime/src/agent/agent.rs b/crates/zeroclaw-runtime/src/agent/agent.rs
+index 96d878b..3e2549b 100644
+--- a/crates/zeroclaw-runtime/src/agent/agent.rs
++++ b/crates/zeroclaw-runtime/src/agent/agent.rs
+@@ -9424,10 +9424,11 @@ mod tests {
+ 
+         let result = Agent::from_config(&config, "test-agent").await;
+ 
++        // Netie Crew Edge: the Codex OAuth path is refused at construction.
++        let err = result.err().expect("requires_openai_auth must be refused");
+         assert!(
+-            result.is_ok(),
+-            "openai alias with requires_openai_auth should construct via Codex OAuth path: {}",
+-            result.err().unwrap()
++            format!("{err:#}").contains(zeroclaw_providers::netie::REFUSAL_PREFIX),
++            "{err:#}"
+         );
+     }
+ 
+diff --git a/crates/zeroclaw-runtime/src/daemon/mod.rs b/crates/zeroclaw-runtime/src/daemon/mod.rs
+index 57586d8..8fb1723 100644
+--- a/crates/zeroclaw-runtime/src/daemon/mod.rs
++++ b/crates/zeroclaw-runtime/src/daemon/mod.rs
+@@ -3372,7 +3372,7 @@ mod tests {
+         let mut starting = Vec::new();
+         echo_daemon_starting_to_terminal(&mut starting).unwrap();
+         let starting = String::from_utf8(starting).unwrap();
+-        assert!(starting.contains("ZeroClaw"));
++        assert!(starting.contains("Crew Edge"));
+         assert!(!starting.contains("http://"));
+         assert!(!starting.contains("Socket:"));
+ 
+diff --git a/crates/zeroclaw-runtime/src/i18n.rs b/crates/zeroclaw-runtime/src/i18n.rs
+index 3fcf3e8..305b311 100644
+--- a/crates/zeroclaw-runtime/src/i18n.rs
++++ b/crates/zeroclaw-runtime/src/i18n.rs
+@@ -580,7 +580,8 @@ mod tests {
+         let success = format_ftl_message(zh_cn, "zh-CN", "cli-wechat-bound-success", &[])
+             .expect("zh-CN bind success should format");
+         assert!(success.contains("WeChat"));
+-        assert!(success.contains("ZeroClaw"));
++        // Netie Crew Edge: the product name in this message is Crew Edge.
++        assert!(success.contains("Crew Edge"));
+     }
+ 
+     #[test]
+@@ -929,7 +930,8 @@ mod tests {
+             (
+                 "cli-wechat-bound-success",
+                 &[][..],
+-                ["WeChat", "ZeroClaw"].as_slice(),
++                // Netie Crew Edge: the product name in this message is Crew Edge.
++                ["WeChat", "Crew Edge"].as_slice(),
+             ),
+             ("cli-wechat-invalid-bind-code", &[][..], [].as_slice()),
+         ];
+@@ -1253,9 +1255,10 @@ mod tests {
+         let url = "http://127.0.0.1:42617";
+         let path = "/tmp/zeroclaw-test/daemon.sock";
+         let cases = [
+-            ("cli-daemon-starting-title", &[][..], &["ZeroClaw"][..]),
++            // Netie Crew Edge: the product name in these titles is Crew Edge.
++            ("cli-daemon-starting-title", &[][..], &["Crew Edge"][..]),
+             ("cli-daemon-starting-detail", &[][..], &[][..]),
+-            ("cli-daemon-started-title", &[][..], &["ZeroClaw"][..]),
++            ("cli-daemon-started-title", &[][..], &["Crew Edge"][..]),
+             (
+                 "cli-daemon-started-gateway",
+                 &[("url", url)][..],
+@@ -1937,7 +1940,7 @@ mod tests {
+             format_ftl_message(en, "en", "cli-daemon-gateway-already-running", args)
+                 .expect("cli-daemon-gateway-already-running should format");
+         assert!(already_running.contains("127.0.0.1:9090"));
+-        assert!(already_running.contains("ZeroClaw gateway is already running"));
++        assert!(already_running.contains("Crew Edge gateway is already running"));
+         assert!(already_running.contains("gateway.port"));
+ 
+         let port_occupied = format_ftl_message(en, "en", "cli-daemon-gateway-port-occupied", args)
+diff --git a/crates/zeroclaw-runtime/src/netie_gate.rs b/crates/zeroclaw-runtime/src/netie_gate.rs
+index c2444b7..af7ef12 100644
+--- a/crates/zeroclaw-runtime/src/netie_gate.rs
++++ b/crates/zeroclaw-runtime/src/netie_gate.rs
+@@ -269,6 +269,81 @@ fn default_session_record_holds_no_text() {
+     }
+ }
+ 
++#[test]
++fn stored_codex_login_is_refused_at_request_time() {
++    let mut cfg = Config::default();
++    cfg.providers.models.openai.insert(
++        "coding".into(),
++        zeroclaw_config::schema::OpenAIModelProviderConfig {
++            base: zeroclaw_config::schema::ModelProviderConfig {
++                requires_openai_auth: true,
++                model: Some("gpt-5.4".into()),
++                ..Default::default()
++            },
++        },
++    );
++    let out = zeroclaw_providers::factory::dispatch_family_factory(
++        Some(&cfg),
++        "openai",
++        "coding",
++        None,
++        None,
++        &zeroclaw_providers::ModelProviderRuntimeOptions::default(),
++    );
++    let err = out.err().expect("a stored Codex login must not build a provider");
++    assert!(err.to_string().starts_with(REFUSAL_PREFIX), "{err}");
++    let legacy = zeroclaw_providers::create_model_provider("openai-codex", Some("k"));
++    let err = legacy.err().expect("the legacy Codex spelling must be refused");
++    assert!(err.to_string().starts_with(REFUSAL_PREFIX), "{err}");
++}
++
++#[test]
++fn stored_claude_setup_token_is_refused_at_request_time() {
++    let out = zeroclaw_providers::factory::dispatch_family_factory(
++        None,
++        "anthropic",
++        "max",
++        Some("sk-ant-oat01-test-token"),
++        None,
++        &zeroclaw_providers::ModelProviderRuntimeOptions::default(),
++    );
++    let err = out.err().expect("a Claude setup-token must not build a provider");
++    assert!(err.to_string().starts_with(REFUSAL_PREFIX), "{err}");
++    // A Console key still builds: vendor providers stay selectable.
++    assert!(
++        zeroclaw_providers::factory::dispatch_family_factory(
++            None,
++            "anthropic",
++            "work",
++            Some("sk-ant-test-console-key"),
++            None,
++            &zeroclaw_providers::ModelProviderRuntimeOptions::default(),
++        )
++        .is_ok()
++    );
++}
++
++#[test]
++fn shipped_cli_strings_say_crew_edge() {
++    for key in [
++        "cli-about",
++        "cli-config-about",
++        "cli-status-title",
++        "cli-security-status-title",
++        "cli-daemon-started-title",
++    ] {
++        let text = crate::i18n::get_required_cli_string(key);
++        assert!(text.contains("Crew Edge"), "{key} = {text}");
++        // `cli-about` also credits the upstream by name, as attribution requires.
++        if key != "cli-about" {
++            assert!(!text.contains("ZeroClaw"), "{key} = {text}");
++        }
++    }
++    // The update command names upstream releases and says installing is off.
++    let update = crate::i18n::get_required_cli_string("cli-update-about");
++    assert!(update.contains("disabled in Crew Edge"), "{update}");
++}
++
+ #[test]
+ fn channels_are_labeled_off_until_openvault_leave() {
+     let state = snapshot_state(&Config::default());
+diff --git a/crates/zeroclaw-runtime/src/tools/mod.rs b/crates/zeroclaw-runtime/src/tools/mod.rs
+index cf3fb05..9c9845e 100644
+--- a/crates/zeroclaw-runtime/src/tools/mod.rs
++++ b/crates/zeroclaw-runtime/src/tools/mod.rs
+@@ -5864,11 +5864,13 @@ permissions = ["http_client"]
+         // to OpenAiCodexModelProvider, whose credential resolution fails with
+         // an error mentioning "openai-codex".  The legacy factory would create
+         // a standard OpenAI provider whose error does NOT mention "openai-codex".
++        // Netie Crew Edge: the alias-aware factory still resolves openai.codex
++        // (the legacy factory would build a standard OpenAI provider with no
++        // refusal), and now refuses its Codex login.
+         assert!(
+-            error.contains("openai-codex"),
+-            "llm_task should construct the Codex provider for \
+-             openai.codex (requires_openai_auth=true), producing an \
+-             openai-codex credential error; got: {error}"
++            error.contains(zeroclaw_providers::netie::REFUSAL_PREFIX) && error.contains("openai.codex"),
++            "llm_task should resolve openai.codex through the alias-aware factory and \
++             refuse its Codex login; got: {error}"
+         );
+     }
+ 
+diff --git a/src/commands/update.rs b/src/commands/update.rs
+index c794330..d249e53 100644
+--- a/src/commands/update.rs
++++ b/src/commands/update.rs
+@@ -177,6 +177,20 @@ pub async fn check(target_version: Option<&str>) -> Result<UpdateInfo> {
+ }
+ 
+ pub async fn run(target_version: Option<&str>, force: bool) -> Result<()> {
++    // Netie Crew Edge: self-update downloads upstream zeroclaw-labs releases and
++    // replaces this binary, which would remove every Netie gate. Refused.
++    let _ = (target_version, force);
++    anyhow::bail!(
++        "{}: self-update installs upstream ZeroClaw over Crew Edge and would remove the \
++         Netie gate. Crew Edge updates ship as Netie overlay releases.",
++        zeroclaw_providers::netie::REFUSAL_PREFIX
++    )
++}
++
++/// Upstream ZeroClaw self-update, kept so the overlay rebases cleanly. Not
++/// reachable from the Crew Edge CLI (see [`run`]).
++#[allow(dead_code)]
++async fn upstream_self_update(target_version: Option<&str>, force: bool) -> Result<()> {
+     // Phase 1: Preflight
+     ::zeroclaw_log::record!(
+         INFO,
+@@ -1377,6 +1391,17 @@ async fn copy_dir_recursive(src: &Path, dst: &Path) -> Result<()> {
+ mod tests {
+     use super::*;
+ 
++    /// Netie Crew Edge gate: installing an upstream release is refused. The tag
++    /// cannot exist, so on a tree without the gate this fails at lookup and
++    /// never downloads or replaces anything.
++    #[tokio::test]
++    async fn netie_self_update_is_refused() {
++        let err = run(Some("0.0.0-netie-gate-probe"), true)
++            .await
++            .expect_err("self-update must not proceed");
++        assert!(err.to_string().starts_with("Refused by Netie gate"), "{err:#}");
++    }
++
+     #[test]
+     fn should_install_requires_newer_or_force() {
+         assert!(should_install(true, false)); // newer → install
+diff --git a/src/main.rs b/src/main.rs
+index 47f177e..2e06c98 100644
+--- a/src/main.rs
++++ b/src/main.rs
+@@ -1010,7 +1010,7 @@ const VERSION: &str = env!("ZEROCLAW_VERSION");
+ #[command(author = "theonlyhennygod")]
+ #[command(version = VERSION)]
+ // i18n-exempt: clap derive help — framework requires a compile-time literal
+-#[command(about = "The fastest, smallest AI assistant.", long_about = None)]
++#[command(about = "Crew Edge: Netie's single-binary agent runtime. Model calls go through OpenVault. A modified distribution of ZeroClaw (MIT OR Apache-2.0).", long_about = None)]
+ struct Cli {
+     #[arg(long, global = true)]
+     config_dir: Option<String>,
+@@ -1530,7 +1530,7 @@ Examples:
+     /// Manage configuration
+     // i18n-exempt: clap derive help — framework requires a compile-time literal
+     #[command(long_about = "\
+-Manage ZeroClaw configuration.
++Manage Crew Edge configuration.
+ 
+ View, set, or initialize config properties by dotted path. \
+ Use 'schema' to dump the full JSON Schema for the config file.

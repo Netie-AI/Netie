@@ -158,3 +158,98 @@ the five touched crates.
   touched, not skipped. Every other `make ci` gate is green on this branch.
 - `scripts/secrets_scan.py` and its test changed in this branch (F5). Parallel wave 2
   sessions may touch the same file.
+
+## Stage 3 increment (2026-10-29, `0003-stage3.patch`)
+
+Resumed on the founder's "Dont stop ... ready to be lauch towmorrow". The other seven
+wave 2 sessions were messaged with that instruction. Catalog stage stays 2: see F9.
+
+### F6. Self-update would replace Crew Edge with upstream ZeroClaw
+
+- **Expected:** a fork's update path installs the fork.
+- **Actual:** `zeroclaw update` fetches `api.github.com/repos/zeroclaw-labs/zeroclaw/releases`
+  and swaps the running binary. One operator command removes every Netie gate,
+  including the subscription-login refusals.
+- **Fix:** `commands::update::run` refuses with the gate message. Upstream's body is
+  kept as a private function so the overlay rebases. `update --check` still reports
+  upstream versions, and its help says installing is disabled.
+- **Repro:** `zeroclaw update --force` on the built binary: exit 1, `Refused by Netie
+  gate: self-update installs upstream ZeroClaw over Crew Edge ...`.
+- **Root-cause class:** an upstream channel back into the vendor's release stream; a
+  fork is only a fork until its updater runs.
+- **Invariants:** assert the artifact the operator receives (the real binary run);
+  a control that can be undone by one command is not a control.
+
+### F7. Stored subscription credentials were refused only in Quickstart
+
+- **Expected (stage 2 "Not done"):** a Codex or Claude setup-token credential already
+  on disk is refused when a provider is built, not only at setup.
+- **Fix:** the OpenAI factory refuses `requires_openai_auth`, the legacy `openai-codex`,
+  `openai_codex` and `codex` spellings are refused, and the Anthropic factory refuses a
+  resolved key starting `sk-ant-oat01-`. Console keys still build.
+- **Root-cause class:** a gate at one entry point (setup) standing in for the choke
+  point (construction).
+- **Invariant:** fix the root-cause class, not the symptom.
+
+### F8. Cron delivery and one-shot sends skipped the leave-machine ask
+
+- **Fix:** `deliver_announcement` and `send_channel_message` ask OpenVault
+  leave-machine (`kind=service`, `id=channel.<type>`) before sending; a refusal is the
+  returned error. The test-harness transport also forwards asks whose child id holds the
+  reserved `netie-gate-turn`, so the channels gate test reaches the real HTTP path.
+- **Root-cause class:** same as F7: the stage 2 gate sat on startup, not on every
+  outbound path.
+
+### F9. Why the stage stays 2
+
+- Stage 3 means shippable. Not provable here: no live OpenVault was available, so the
+  crew gate kinds (`runtime`, `service`), the seat token and `/v1/models` are assumed.
+  With no OpenVault answering, every tool call, non-CLI channel and delivery is refused
+  by design, so Crew Edge does nothing useful until an OpenVault implementing
+  `POST /api/crew/gate` runs at `NETIE_OPENVAULT_URL`.
+- Crate, package and binary names are still `zeroclaw*`; the binary is `zeroclaw`.
+- **Launch-readiness, measured vs assumed:** measured in this container: build, the
+  six-crate suites, the real `--help`, `config --help`, `update` refusal and default
+  session backend. Assumed: OpenVault's crew gate contract, any network path, any
+  channel against a real service, and any vendor terms of service.
+
+### F10. Brand strings live in Fluent, not in the clap literal
+
+- **Expected:** editing `#[command(about = ...)]` changes `--help`.
+- **Actual:** the first build still printed upstream's slogan: `cli-about` in
+  `locales/en/cli.ftl` overrides the literal at runtime. Found only by running the binary.
+- **Fix:** `cli-about` and 15 product-name messages renamed, keyed per message across
+  all 5 locales (71 lines). A locale that phrases a message without the brand is left
+  as translated and reported. The companion app, firmware, OpenClaw migration and the
+  skill-audit and doctor messages keep upstream's name because they name real upstream
+  artifacts.
+- **Invariant:** assert the artifact the user receives; a unit test of the literal
+  would have passed.
+
+### Measured, stage 2 tree vs stage 3 tree
+
+Same box and profile as above, plus the root `zeroclaw` crate (`--lib --bins`),
+because the CLI rename and self-update gate live there.
+
+| Measure | Stage 2 tree | Stage 3 tree |
+|---|---|---|
+| New gate cases (runtime 3, channels 2, update 1) | 0 of 6 pass, 6 ran | 6 of 6 pass |
+| All gate cases (`netie_gate`, both crates) | 10 of 10 (runtime only) | 15 of 15 |
+| zeroclaw-channels lib | 1966 pass, 1 fail | 1968 pass, same 1 fail (+2 gate) |
+| zeroclaw-providers lib | 1920 pass, 6 fail | 1922 pass, same 6 fail (+2 unit) |
+| zeroclaw-runtime lib | 5459 pass | 5462 pass (+3 gate) |
+| zeroclaw-config, zeroclaw-infra lib | 1762, 312 pass | 1762, 312 pass |
+| zeroclaw lib, main, acp-bridge | 278, 532, 19 pass | 279, 533, 19 pass (update test compiles into lib and main) |
+| Ignored tests, by name (5 crates) | 14 | the same 14 |
+| `cargo build -p zeroclaw` | exit 0, 0 warnings | exit 0, 211 s, 0 warnings |
+| `zeroclaw --help` first line | `The fastest, smallest AI assistant.` | `Crew Edge: Netie's single-binary agent runtime. ...` |
+| `zeroclaw status` title | `ZeroClaw Status` | `Crew Edge Status` |
+| `zeroclaw update --force` | contacts GitHub releases | exit 1, `Refused by Netie gate: self-update ...` |
+| Patch | | `0003-stage3.patch`, 75,681 bytes, 19 files |
+| Replay of clone plus 0001, 0002, 0003 | | `git write-tree` `a2f24b4e9f22` on both checkouts |
+
+12 more upstream tests were rewritten to assert the gated outcome: 7 that built a
+provider from a Codex login and 5 that pinned the old brand in the renamed messages.
+With the 11 in F4 that is 23 in total. None was deleted or ignored. The
+daemon pricing-refresher flake failed once more on one stage 3 run and passed on the
+final run; it is upstream's.
