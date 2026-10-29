@@ -1,8 +1,8 @@
 diff --git a/NETIE-ATTRIBUTION.md b/NETIE-ATTRIBUTION.md
-index 4c98f6b..5bc01b4 100644
+index 4c98f6b..ff8904d 100644
 --- a/NETIE-ATTRIBUTION.md
 +++ b/NETIE-ATTRIBUTION.md
-@@ -16,9 +16,59 @@ logos belong to their owners.
+@@ -16,9 +16,120 @@ logos belong to their owners.
  - Display name DeepSeek Harness rewritten to Crew Harness in prose docs only.
  - This file and a README banner added.
  
@@ -22,7 +22,9 @@ index 4c98f6b..5bc01b4 100644
 +  `llm-deepseek-account`) are not mounted. The only credential reference in
 +  the default config is `NETIE_OPENVAULT_KEY`, the caller's issued `ov_`
 +  identity; no provider key field (DEEPSEEK_API_KEY and the like) remains.
-+  The keyed DeepSeek search route is gone and `web_search` is off.
++  The keyed DeepSeek search route is gone; `web_search` stays in the tool
++  catalog and fails loud at call time (`WEB_PROVIDER_UNAVAILABLE`) until a
++  search route through OpenVault exists.
 +- Tool and sandbox plugins register only under the Crew gate. New package
 +  `packages/guard/crew-gate` (`@deepseek-ai/dsh-crew-gate`) ports the Netie
 +  contract shape: `POST ${NETIE_OPENVAULT_URL}/api/crew/gate` with
@@ -47,19 +49,78 @@ index 4c98f6b..5bc01b4 100644
 +  `packages/guard/crew-gate/tests/crew-gate.spec.ts` (the live registry).
 +  Both fail on the upstream defaults.
 +
++## Changed in stage 3 work (launch readiness; stage number stays 2, see below)
++
++- SDK code defaults follow the composition: the TypeScript SDK client, the
++  Python SDK and the `subagent-dsh-sdk` child runtime default to provider
++  `openvault`, model `auto`. The SDK JSON-RPC server no longer mounts the
++  DeepSeek adapter on demand when a caller names `deepseek-official`: a
++  provider without a mounted adapter is refused, whichever it is.
++- Upstream e2e and snapshot fixtures that patched the removed `llm-deepseek`
++  rows by id now insert the adapter they exercise; the two DeepSeek adapter
++  packages stay resolvable from the base bundle so those scenarios still run,
++  but no shipped profile mounts them. The recorded-session corpora
++  (`snapshots/session`, `snapshots/acp`, `snapshots/sdk`) replay with no
++  OpenVault, so their test compositions switch the Crew gate off the same way
++  they already switch the permission mode to `danger-full-access` under
++  `DSH_SNAPSHOT`: `crew-gate` disabled, `tools` and `sandbox` `crewGate: off`.
++  The CLI expected-output fixtures under `apps/cli/tests` carry the same
++  override. Test composition only; no shipped profile carries it.
++- Gate ask ids: the parent is the agent's session id; a nested dispatch inside
++  an already gated call names its root call id; a root call with no agent is
++  refused.
++- Product copy: the Models welcome notice and the Office preview notice say
++  Crew Harness. Copy that names the DeepSeek account sign-in (Settings,
++  Account; onboarding credit text) still says DeepSeek, because that is the
++  vendor account it signs into, not this product.
++- Launch readiness proof, in the upstream's expected-output runner:
++  `apps/cli/tests/profiles/headless/tests/netie-launch.expected.e2e.ts` boots
++  the shipped headless profile from source against a stand-in that serves
++  `/v1/chat/completions` and `/api/crew/gate`. It asserts the model request
++  goes to `${NETIE_OPENVAULT_URL}/v1` with `Authorization: Bearer
++  $NETIE_OPENVAULT_KEY` and model `auto`, that the tool body runs only after
++  the gate answered `allowed: true` to an ids-only ask, and that a refusal
++  reaches the session log as the tool's `CREW_GATE_DENIED` error with the
++  tool never run. The stand-in is not OpenVault: it proves the wire shape and
++  the wiring, not OpenVault's decisions.
++
++## What an operator needs for Crew Harness to run (launch readiness)
++
++Measured here: `pnpm run build` passes (CLI, SDK runtime, web client), the
++built `dsh --help` and `dsh --profile headless --dump-config` show the Crew
++Harness name, the `openvault` route, the `crew-gate` row and the gated
++registry, and the headless profile completes a turn with a tool call against
++the stand-in above.
++
++Required at launch, by the shipped defaults:
++
++1. OpenVault reachable at `NETIE_OPENVAULT_URL` (default `http://127.0.0.1:5000`)
++   serving an OpenAI-compatible `POST /v1/chat/completions` with streaming.
++   TAS-OPENVAULT measures `/v1` as FreeRoute (assumed to accept model `auto`
++   as its catalog pick; whether it refuses a call without the `ov_` key in
++   `NETIE_OPENVAULT_KEY` is not measured).
++2. OpenVault serving `POST /api/crew/gate` and answering `allowed: true` for
++   `kind: service` asks. Per TAS-OPENVAULT section 8 this endpoint is a patch
++   (`docs/patches/openvault-crew-gate.patch`, OpenVault PR #44), not OpenVault
++   main. Until it lands, every tool call in this product is refused, visibly.
++   That is the one blocker between this fork and a stage 3 claim.
++3. `NETIE_OPENVAULT_KEY` set in the launching environment (a credential
++   reference, never written to a config file).
++
 +## Not done yet (stage 3)
++
 +
 +- Package scope `@deepseek-ai/*`, the `dsh` binary name, the `DSH_*` env
 +  names, the `~/.dsh` home, the Desktop app and container names: each needs
 +  a build and a rebase plan to rename. About 190 further "DeepSeek Harness"
 +  strings sit in package.json descriptions, zh locale strings and prompts.
-+- SDK code defaults (`packages/sdk/client`, `subagent-dsh-sdk`) still say
-+  `deepseek-official` when a caller passes no provider; the shipped bundles
-+  override them, the code constants do not.
 +- The DeepSeek account sign-in platform row (`deepseek-account`) and the Web
 +  Models page onboarding dialog still exist; they are not a model route.
 +- Sandbox confinement calls are not posted individually; the tool call that
-+  spawns them is. A `skill` kind is refused until OpenVault has a registry row.
++  spawns them is.
++- The ACP model picker lists provider groups in adapter activation order,
++  which is not deterministic once two routes are mounted; the ACP snapshot
++  corpus therefore mounts only its recorded route. A `skill` kind is refused until OpenVault has a registry row.
 +- Whether OpenVault `/v1` refuses a call without `NETIE_OPENVAULT_KEY`, and
 +  whether it serves `/v1/models`, is not measured here.
  - SECURITY, SUPPORT and CONTRIBUTING contacts and URLs still point at upstream.
@@ -91,6 +152,156 @@ index 86d0cc7..64fc4b6 100644
    }
  }
  
+diff --git a/apps/cli/tests/fixtures/dsh-badge/cordis.yml b/apps/cli/tests/fixtures/dsh-badge/cordis.yml
+index dd419b6..26e530b 100644
+--- a/apps/cli/tests/fixtures/dsh-badge/cordis.yml
++++ b/apps/cli/tests/fixtures/dsh-badge/cordis.yml
+@@ -7,3 +7,25 @@
+ 
+ - id: session-telemetry-otel
+   disabled: true
++
++# Netie: this fixture boots a shipped profile with no OpenVault, so the Crew
++# gate is switched off here, a documented, visible override in the test
++# composition, never in a shipped profile. The gate on the shipped profile is
++# proven by packages/guard/crew-gate/tests and
++# apps/cli/tests/profiles/headless/tests/netie-launch.expected.e2e.ts.
++- id: crew-gate
++  name: '@deepseek-ai/dsh-crew-gate'
++  disabled: true
++
++- id: tools
++  name: '@deepseek-ai/dsh-tools'
++  inject: []
++  config:
++    mode: !!js process.env.DSH_TOOLS_MODE
++    crewGate: off
++
++- id: sandbox
++  name: '@deepseek-ai/dsh-sandbox-local'
++  inject: []
++  config:
++    crewGate: off
+diff --git a/apps/cli/tests/fixtures/dsh-badge/default.cordis.yml b/apps/cli/tests/fixtures/dsh-badge/default.cordis.yml
+index 26d80fe..791e9fb 100644
+--- a/apps/cli/tests/fixtures/dsh-badge/default.cordis.yml
++++ b/apps/cli/tests/fixtures/dsh-badge/default.cordis.yml
+@@ -4,3 +4,25 @@
+ 
+ - id: session-telemetry-otel
+   disabled: true
++
++# Netie: this fixture boots a shipped profile with no OpenVault, so the Crew
++# gate is switched off here, a documented, visible override in the test
++# composition, never in a shipped profile. The gate on the shipped profile is
++# proven by packages/guard/crew-gate/tests and
++# apps/cli/tests/profiles/headless/tests/netie-launch.expected.e2e.ts.
++- id: crew-gate
++  name: '@deepseek-ai/dsh-crew-gate'
++  disabled: true
++
++- id: tools
++  name: '@deepseek-ai/dsh-tools'
++  inject: []
++  config:
++    mode: !!js process.env.DSH_TOOLS_MODE
++    crewGate: off
++
++- id: sandbox
++  name: '@deepseek-ai/dsh-sandbox-local'
++  inject: []
++  config:
++    crewGate: off
+diff --git a/apps/cli/tests/fixtures/github-webhook/cordis.yml b/apps/cli/tests/fixtures/github-webhook/cordis.yml
+index 06a90c5..ecee44f 100644
+--- a/apps/cli/tests/fixtures/github-webhook/cordis.yml
++++ b/apps/cli/tests/fixtures/github-webhook/cordis.yml
+@@ -34,3 +34,25 @@
+             path: /github
+             secretEnv: DSH_GITHUB_WEBHOOK_SECRET
+             maxBodyBytes: 1048576
++
++# Netie: this fixture boots a shipped profile with no OpenVault, so the Crew
++# gate is switched off here, a documented, visible override in the test
++# composition, never in a shipped profile. The gate on the shipped profile is
++# proven by packages/guard/crew-gate/tests and
++# apps/cli/tests/profiles/headless/tests/netie-launch.expected.e2e.ts.
++- id: crew-gate
++  name: '@deepseek-ai/dsh-crew-gate'
++  disabled: true
++
++- id: tools
++  name: '@deepseek-ai/dsh-tools'
++  inject: []
++  config:
++    mode: !!js process.env.DSH_TOOLS_MODE
++    crewGate: off
++
++- id: sandbox
++  name: '@deepseek-ai/dsh-sandbox-local'
++  inject: []
++  config:
++    crewGate: off
+diff --git a/apps/cli/tests/fixtures/invalid-provider.cordis.yml b/apps/cli/tests/fixtures/invalid-provider.cordis.yml
+index 5aea683..5558551 100644
+--- a/apps/cli/tests/fixtures/invalid-provider.cordis.yml
++++ b/apps/cli/tests/fixtures/invalid-provider.cordis.yml
+@@ -5,3 +5,25 @@
+     providers:
+       - provider: openai
+         apiKey: keyless-invalid-shape
++
++# Netie: this fixture boots a shipped profile with no OpenVault, so the Crew
++# gate is switched off here, a documented, visible override in the test
++# composition, never in a shipped profile. The gate on the shipped profile is
++# proven by packages/guard/crew-gate/tests and
++# apps/cli/tests/profiles/headless/tests/netie-launch.expected.e2e.ts.
++- id: crew-gate
++  name: '@deepseek-ai/dsh-crew-gate'
++  disabled: true
++
++- id: tools
++  name: '@deepseek-ai/dsh-tools'
++  inject: []
++  config:
++    mode: !!js process.env.DSH_TOOLS_MODE
++    crewGate: off
++
++- id: sandbox
++  name: '@deepseek-ai/dsh-sandbox-local'
++  inject: []
++  config:
++    crewGate: off
+diff --git a/apps/cli/tests/fixtures/memory-mcp-base.cordis.yml b/apps/cli/tests/fixtures/memory-mcp-base.cordis.yml
+index 00878d6..593db55 100644
+--- a/apps/cli/tests/fixtures/memory-mcp-base.cordis.yml
++++ b/apps/cli/tests/fixtures/memory-mcp-base.cordis.yml
+@@ -6,3 +6,25 @@
+ 
+ - id: tools
+   name: cordis:memory-test-tools
++
++# Netie: this fixture boots a shipped profile with no OpenVault, so the Crew
++# gate is switched off here, a documented, visible override in the test
++# composition, never in a shipped profile. The gate on the shipped profile is
++# proven by packages/guard/crew-gate/tests and
++# apps/cli/tests/profiles/headless/tests/netie-launch.expected.e2e.ts.
++- id: crew-gate
++  name: '@deepseek-ai/dsh-crew-gate'
++  disabled: true
++
++- id: tools
++  name: '@deepseek-ai/dsh-tools'
++  inject: []
++  config:
++    mode: !!js process.env.DSH_TOOLS_MODE
++    crewGate: off
++
++- id: sandbox
++  name: '@deepseek-ai/dsh-sandbox-local'
++  inject: []
++  config:
++    crewGate: off
 diff --git a/apps/cli/tests/plugin.spec.ts b/apps/cli/tests/plugin.spec.ts
 index bba6767..f4d7917 100644
 --- a/apps/cli/tests/plugin.spec.ts
@@ -104,6 +315,928 @@ index bba6767..f4d7917 100644
      "
    `)
    expect(existsSync(join(home, 'profiles', 'desktop'))).toBe(false)
+diff --git a/apps/cli/tests/profiles/acp/tests/fixtures/control-surface/cordis.yml b/apps/cli/tests/profiles/acp/tests/fixtures/control-surface/cordis.yml
+index fa96b68..2cc951d 100644
+--- a/apps/cli/tests/profiles/acp/tests/fixtures/control-surface/cordis.yml
++++ b/apps/cli/tests/profiles/acp/tests/fixtures/control-surface/cordis.yml
+@@ -19,3 +19,25 @@
+ - insert:
+     - id: control-surface-llm
+       name: './control-surface-llm.ts'
++
++# Netie: this fixture boots a shipped profile with no OpenVault, so the Crew
++# gate is switched off here, a documented, visible override in the test
++# composition, never in a shipped profile. The gate on the shipped profile is
++# proven by packages/guard/crew-gate/tests and
++# apps/cli/tests/profiles/headless/tests/netie-launch.expected.e2e.ts.
++- id: crew-gate
++  name: '@deepseek-ai/dsh-crew-gate'
++  disabled: true
++
++- id: tools
++  name: '@deepseek-ai/dsh-tools'
++  inject: []
++  config:
++    mode: !!js process.env.DSH_TOOLS_MODE
++    crewGate: off
++
++- id: sandbox
++  name: '@deepseek-ai/dsh-sandbox-local'
++  inject: []
++  config:
++    crewGate: off
+diff --git a/apps/cli/tests/profiles/acp/tests/fixtures/image-offload.cordis.yml b/apps/cli/tests/profiles/acp/tests/fixtures/image-offload.cordis.yml
+index 21a9ead..60d5fa8 100644
+--- a/apps/cli/tests/profiles/acp/tests/fixtures/image-offload.cordis.yml
++++ b/apps/cli/tests/profiles/acp/tests/fixtures/image-offload.cordis.yml
+@@ -42,3 +42,25 @@
+ 
+ - id: attachment-local
+   name: '@deepseek-ai/dsh-attachment-local'
++
++# Netie: this fixture boots a shipped profile with no OpenVault, so the Crew
++# gate is switched off here, a documented, visible override in the test
++# composition, never in a shipped profile. The gate on the shipped profile is
++# proven by packages/guard/crew-gate/tests and
++# apps/cli/tests/profiles/headless/tests/netie-launch.expected.e2e.ts.
++- id: crew-gate
++  name: '@deepseek-ai/dsh-crew-gate'
++  disabled: true
++
++- id: tools
++  name: '@deepseek-ai/dsh-tools'
++  inject: []
++  config:
++    mode: !!js process.env.DSH_TOOLS_MODE
++    crewGate: off
++
++- id: sandbox
++  name: '@deepseek-ai/dsh-sandbox-local'
++  inject: []
++  config:
++    crewGate: off
+diff --git a/apps/cli/tests/profiles/headless/credentials-snapshot.patch.yml b/apps/cli/tests/profiles/headless/credentials-snapshot.patch.yml
+index 8293d99..e0a72d6 100644
+--- a/apps/cli/tests/profiles/headless/credentials-snapshot.patch.yml
++++ b/apps/cli/tests/profiles/headless/credentials-snapshot.patch.yml
+@@ -6,12 +6,6 @@
+ - id: headless-runner
+   disabled: true
+ 
+-- id: llm-deepseek
+-  disabled: true
+-
+-- id: llm-deepseek-account
+-  disabled: true
+-
+ - id: agent-loop
+   config:
+     agents:
+@@ -30,3 +24,25 @@
+       name: '@deepseek-ai/dsh-llm-deepseek-api-key'
+       config:
+         baseURL: 'http://127.0.0.1:9'
++
++# Netie: this fixture boots a shipped profile with no OpenVault, so the Crew
++# gate is switched off here, a documented, visible override in the test
++# composition, never in a shipped profile. The gate on the shipped profile is
++# proven by packages/guard/crew-gate/tests and
++# apps/cli/tests/profiles/headless/tests/netie-launch.expected.e2e.ts.
++- id: crew-gate
++  name: '@deepseek-ai/dsh-crew-gate'
++  disabled: true
++
++- id: tools
++  name: '@deepseek-ai/dsh-tools'
++  inject: []
++  config:
++    mode: !!js process.env.DSH_TOOLS_MODE
++    crewGate: off
++
++- id: sandbox
++  name: '@deepseek-ai/dsh-sandbox-local'
++  inject: []
++  config:
++    crewGate: off
+diff --git a/apps/cli/tests/profiles/headless/goal-snapshot.patch.yml b/apps/cli/tests/profiles/headless/goal-snapshot.patch.yml
+index 7db9691..d09c36d 100644
+--- a/apps/cli/tests/profiles/headless/goal-snapshot.patch.yml
++++ b/apps/cli/tests/profiles/headless/goal-snapshot.patch.yml
+@@ -5,9 +5,6 @@
+ - id: headless-runner
+   disabled: true
+ 
+-- id: llm-deepseek
+-  disabled: true
+-
+ - id: agent-loop
+   config:
+     agents:
+@@ -28,3 +25,25 @@
+ - id: session-log-deepseek
+   config:
+     enabled: false
++
++# Netie: this fixture boots a shipped profile with no OpenVault, so the Crew
++# gate is switched off here, a documented, visible override in the test
++# composition, never in a shipped profile. The gate on the shipped profile is
++# proven by packages/guard/crew-gate/tests and
++# apps/cli/tests/profiles/headless/tests/netie-launch.expected.e2e.ts.
++- id: crew-gate
++  name: '@deepseek-ai/dsh-crew-gate'
++  disabled: true
++
++- id: tools
++  name: '@deepseek-ai/dsh-tools'
++  inject: []
++  config:
++    mode: !!js process.env.DSH_TOOLS_MODE
++    crewGate: off
++
++- id: sandbox
++  name: '@deepseek-ai/dsh-sandbox-local'
++  inject: []
++  config:
++    crewGate: off
+diff --git a/apps/cli/tests/profiles/headless/real-model.patch.yml b/apps/cli/tests/profiles/headless/real-model.patch.yml
+index b0c161b..7c06402 100644
+--- a/apps/cli/tests/profiles/headless/real-model.patch.yml
++++ b/apps/cli/tests/profiles/headless/real-model.patch.yml
+@@ -6,17 +6,21 @@
+ - id: headless-runner
+   disabled: true
+ 
+-- id: llm-deepseek
+-  config:
+-    thinking: enabled
+-    reasoningEffort: max
+-    models:
+-      - id: deepseek-v4-pro
+-        contextWindow: 128000
+-        maxTokens: 8192
+-      - id: deepseek-v4-flash
+-        contextWindow: 128000
+-        maxTokens: 8192
++# Netie: the shipped profile mounts no DeepSeek route; the real-model suite
++# inserts the native adapter it exercises.
++- insert:
++    - id: llm-deepseek
++      name: '@deepseek-ai/dsh-llm-deepseek-api-key'
++      config:
++        thinking: enabled
++        reasoningEffort: max
++        models:
++          - id: deepseek-v4-pro
++            contextWindow: 128000
++            maxTokens: 8192
++          - id: deepseek-v4-flash
++            contextWindow: 128000
++            maxTokens: 8192
+ 
+ - id: agent-loop
+   config:
+@@ -30,3 +34,25 @@
+   config:
+     root: './.sessions'
+     compression: !!js "process.env.DSH_SNAPSHOT === undefined ? 'zstd' : 'none'"
++
++# Netie: this fixture boots a shipped profile with no OpenVault, so the Crew
++# gate is switched off here, a documented, visible override in the test
++# composition, never in a shipped profile. The gate on the shipped profile is
++# proven by packages/guard/crew-gate/tests and
++# apps/cli/tests/profiles/headless/tests/netie-launch.expected.e2e.ts.
++- id: crew-gate
++  name: '@deepseek-ai/dsh-crew-gate'
++  disabled: true
++
++- id: tools
++  name: '@deepseek-ai/dsh-tools'
++  inject: []
++  config:
++    mode: !!js process.env.DSH_TOOLS_MODE
++    crewGate: off
++
++- id: sandbox
++  name: '@deepseek-ai/dsh-sandbox-local'
++  inject: []
++  config:
++    crewGate: off
+diff --git a/apps/cli/tests/profiles/headless/retry-snapshot.patch.yml b/apps/cli/tests/profiles/headless/retry-snapshot.patch.yml
+index ff13fa3..c3e9ded 100644
+--- a/apps/cli/tests/profiles/headless/retry-snapshot.patch.yml
++++ b/apps/cli/tests/profiles/headless/retry-snapshot.patch.yml
+@@ -5,9 +5,6 @@
+ - id: headless-runner
+   disabled: true
+ 
+-- id: llm-deepseek
+-  disabled: true
+-
+ - id: agent-loop
+   config:
+     agents:
+@@ -24,3 +21,25 @@
+ - insert:
+     - id: retry-snapshot-backend
+       name: './tests/fixtures/retry-snapshot-backend.mjs'
++
++# Netie: this fixture boots a shipped profile with no OpenVault, so the Crew
++# gate is switched off here, a documented, visible override in the test
++# composition, never in a shipped profile. The gate on the shipped profile is
++# proven by packages/guard/crew-gate/tests and
++# apps/cli/tests/profiles/headless/tests/netie-launch.expected.e2e.ts.
++- id: crew-gate
++  name: '@deepseek-ai/dsh-crew-gate'
++  disabled: true
++
++- id: tools
++  name: '@deepseek-ai/dsh-tools'
++  inject: []
++  config:
++    mode: !!js process.env.DSH_TOOLS_MODE
++    crewGate: off
++
++- id: sandbox
++  name: '@deepseek-ai/dsh-sandbox-local'
++  inject: []
++  config:
++    crewGate: off
+diff --git a/apps/cli/tests/profiles/headless/semantic-checkpoint-snapshot.patch.yml b/apps/cli/tests/profiles/headless/semantic-checkpoint-snapshot.patch.yml
+index 0c818b1..c2c6fb1 100644
+--- a/apps/cli/tests/profiles/headless/semantic-checkpoint-snapshot.patch.yml
++++ b/apps/cli/tests/profiles/headless/semantic-checkpoint-snapshot.patch.yml
+@@ -5,9 +5,6 @@
+ - id: headless-runner
+   disabled: true
+ 
+-- id: llm-deepseek
+-  disabled: true
+-
+ - id: session-persistence-jsonl
+   config:
+     root: './.sessions'
+@@ -27,3 +24,25 @@
+ - id: session-log-deepseek
+   config:
+     enabled: false
++
++# Netie: this fixture boots a shipped profile with no OpenVault, so the Crew
++# gate is switched off here, a documented, visible override in the test
++# composition, never in a shipped profile. The gate on the shipped profile is
++# proven by packages/guard/crew-gate/tests and
++# apps/cli/tests/profiles/headless/tests/netie-launch.expected.e2e.ts.
++- id: crew-gate
++  name: '@deepseek-ai/dsh-crew-gate'
++  disabled: true
++
++- id: tools
++  name: '@deepseek-ai/dsh-tools'
++  inject: []
++  config:
++    mode: !!js process.env.DSH_TOOLS_MODE
++    crewGate: off
++
++- id: sandbox
++  name: '@deepseek-ai/dsh-sandbox-local'
++  inject: []
++  config:
++    crewGate: off
+diff --git a/apps/cli/tests/profiles/headless/subagent-diagnostic-snapshot.patch.yml b/apps/cli/tests/profiles/headless/subagent-diagnostic-snapshot.patch.yml
+index 49b42c9..153382d 100644
+--- a/apps/cli/tests/profiles/headless/subagent-diagnostic-snapshot.patch.yml
++++ b/apps/cli/tests/profiles/headless/subagent-diagnostic-snapshot.patch.yml
+@@ -5,9 +5,6 @@
+ - id: headless-runner
+   disabled: true
+ 
+-- id: llm-deepseek
+-  disabled: true
+-
+ - id: session-query-sqlite
+   disabled: true
+ 
+@@ -30,3 +27,25 @@
+ - id: session-log-deepseek
+   config:
+     enabled: false
++
++# Netie: this fixture boots a shipped profile with no OpenVault, so the Crew
++# gate is switched off here, a documented, visible override in the test
++# composition, never in a shipped profile. The gate on the shipped profile is
++# proven by packages/guard/crew-gate/tests and
++# apps/cli/tests/profiles/headless/tests/netie-launch.expected.e2e.ts.
++- id: crew-gate
++  name: '@deepseek-ai/dsh-crew-gate'
++  disabled: true
++
++- id: tools
++  name: '@deepseek-ai/dsh-tools'
++  inject: []
++  config:
++    mode: !!js process.env.DSH_TOOLS_MODE
++    crewGate: off
++
++- id: sandbox
++  name: '@deepseek-ai/dsh-sandbox-local'
++  inject: []
++  config:
++    crewGate: off
+diff --git a/apps/cli/tests/profiles/headless/subagent-inheritance-snapshot.patch.yml b/apps/cli/tests/profiles/headless/subagent-inheritance-snapshot.patch.yml
+index e41c1f9..157b9e6 100644
+--- a/apps/cli/tests/profiles/headless/subagent-inheritance-snapshot.patch.yml
++++ b/apps/cli/tests/profiles/headless/subagent-inheritance-snapshot.patch.yml
+@@ -6,9 +6,6 @@
+ - id: headless-runner
+   disabled: true
+ 
+-- id: llm-deepseek
+-  disabled: true
+-
+ - id: sandbox-policy
+   config:
+     mode: workspace-write
+@@ -36,3 +33,25 @@
+ - id: session-log-deepseek
+   config:
+     enabled: false
++
++# Netie: this fixture boots a shipped profile with no OpenVault, so the Crew
++# gate is switched off here, a documented, visible override in the test
++# composition, never in a shipped profile. The gate on the shipped profile is
++# proven by packages/guard/crew-gate/tests and
++# apps/cli/tests/profiles/headless/tests/netie-launch.expected.e2e.ts.
++- id: crew-gate
++  name: '@deepseek-ai/dsh-crew-gate'
++  disabled: true
++
++- id: tools
++  name: '@deepseek-ai/dsh-tools'
++  inject: []
++  config:
++    mode: !!js process.env.DSH_TOOLS_MODE
++    crewGate: off
++
++- id: sandbox
++  name: '@deepseek-ai/dsh-sandbox-local'
++  inject: []
++  config:
++    crewGate: off
+diff --git a/apps/cli/tests/profiles/headless/subagent-settlement-snapshot.patch.yml b/apps/cli/tests/profiles/headless/subagent-settlement-snapshot.patch.yml
+index 498c600..0656f9f 100644
+--- a/apps/cli/tests/profiles/headless/subagent-settlement-snapshot.patch.yml
++++ b/apps/cli/tests/profiles/headless/subagent-settlement-snapshot.patch.yml
+@@ -5,9 +5,6 @@
+ - id: headless-runner
+   disabled: true
+ 
+-- id: llm-deepseek
+-  disabled: true
+-
+ - id: agent-loop
+   config:
+     agents:
+@@ -32,3 +29,25 @@
+ - id: session-log-deepseek
+   config:
+     enabled: false
++
++# Netie: this fixture boots a shipped profile with no OpenVault, so the Crew
++# gate is switched off here, a documented, visible override in the test
++# composition, never in a shipped profile. The gate on the shipped profile is
++# proven by packages/guard/crew-gate/tests and
++# apps/cli/tests/profiles/headless/tests/netie-launch.expected.e2e.ts.
++- id: crew-gate
++  name: '@deepseek-ai/dsh-crew-gate'
++  disabled: true
++
++- id: tools
++  name: '@deepseek-ai/dsh-tools'
++  inject: []
++  config:
++    mode: !!js process.env.DSH_TOOLS_MODE
++    crewGate: off
++
++- id: sandbox
++  name: '@deepseek-ai/dsh-sandbox-local'
++  inject: []
++  config:
++    crewGate: off
+diff --git a/apps/cli/tests/profiles/headless/team-snapshot.patch.yml b/apps/cli/tests/profiles/headless/team-snapshot.patch.yml
+index c7048d2..d7724a6 100644
+--- a/apps/cli/tests/profiles/headless/team-snapshot.patch.yml
++++ b/apps/cli/tests/profiles/headless/team-snapshot.patch.yml
+@@ -5,9 +5,6 @@
+ - id: headless-runner
+   disabled: true
+ 
+-- id: llm-deepseek
+-  disabled: true
+-
+ - id: agent-loop
+   config:
+     agents:
+@@ -54,3 +51,25 @@
+ 
+     - id: team-fixture-llm
+       name: './tests/fixtures/team-llm.mjs'
++
++# Netie: this fixture boots a shipped profile with no OpenVault, so the Crew
++# gate is switched off here, a documented, visible override in the test
++# composition, never in a shipped profile. The gate on the shipped profile is
++# proven by packages/guard/crew-gate/tests and
++# apps/cli/tests/profiles/headless/tests/netie-launch.expected.e2e.ts.
++- id: crew-gate
++  name: '@deepseek-ai/dsh-crew-gate'
++  disabled: true
++
++- id: tools
++  name: '@deepseek-ai/dsh-tools'
++  inject: []
++  config:
++    mode: !!js process.env.DSH_TOOLS_MODE
++    crewGate: off
++
++- id: sandbox
++  name: '@deepseek-ai/dsh-sandbox-local'
++  inject: []
++  config:
++    crewGate: off
+diff --git a/apps/cli/tests/profiles/headless/tests/fixtures/cli.patch.yml b/apps/cli/tests/profiles/headless/tests/fixtures/cli.patch.yml
+index 76a1384..7d8d445 100644
+--- a/apps/cli/tests/profiles/headless/tests/fixtures/cli.patch.yml
++++ b/apps/cli/tests/profiles/headless/tests/fixtures/cli.patch.yml
+@@ -5,9 +5,6 @@
+ - id: headless-runner
+   disabled: true
+ 
+-- id: llm-deepseek
+-  disabled: true
+-
+ - id: agent-loop
+   config:
+     agents:
+@@ -35,3 +32,25 @@
+ - insert:
+     - id: cli-mock-llm
+       name: '../../../../../../../packages/test-support/loader-smoke/tests/fixtures/cli-mock-llm.ts'
++
++# Netie: this fixture boots a shipped profile with no OpenVault, so the Crew
++# gate is switched off here, a documented, visible override in the test
++# composition, never in a shipped profile. The gate on the shipped profile is
++# proven by packages/guard/crew-gate/tests and
++# apps/cli/tests/profiles/headless/tests/netie-launch.expected.e2e.ts.
++- id: crew-gate
++  name: '@deepseek-ai/dsh-crew-gate'
++  disabled: true
++
++- id: tools
++  name: '@deepseek-ai/dsh-tools'
++  inject: []
++  config:
++    mode: !!js process.env.DSH_TOOLS_MODE
++    crewGate: off
++
++- id: sandbox
++  name: '@deepseek-ai/dsh-sandbox-local'
++  inject: []
++  config:
++    crewGate: off
+diff --git a/apps/cli/tests/profiles/headless/tests/fixtures/deepseek-defaults.patch.yml b/apps/cli/tests/profiles/headless/tests/fixtures/deepseek-defaults.patch.yml
+index 6809f21..09a6663 100644
+--- a/apps/cli/tests/profiles/headless/tests/fixtures/deepseek-defaults.patch.yml
++++ b/apps/cli/tests/profiles/headless/tests/fixtures/deepseek-defaults.patch.yml
+@@ -5,12 +5,16 @@
+ - id: headless-runner
+   disabled: true
+ 
+-- id: llm-deepseek
+-  config:
+-    baseURL: !!js process.env.DSH_SNAPSHOT_BASE_URL
+-    thinking: enabled
+-    reasoningEffort: low
+-    streamIdleTimeoutMs: 150
++# Netie: the shipped profile mounts no DeepSeek route; this scenario is about
++# the native adapter, so the fixture inserts it here.
++- insert:
++    - id: llm-deepseek
++      name: '@deepseek-ai/dsh-llm-deepseek-api-key'
++      config:
++        baseURL: !!js process.env.DSH_SNAPSHOT_BASE_URL
++        thinking: enabled
++        reasoningEffort: low
++        streamIdleTimeoutMs: 150
+ 
+ - id: agent-loop
+   config:
+@@ -27,3 +31,25 @@
+   config:
+     root: './.sessions'
+     compression: none
++
++# Netie: this fixture boots a shipped profile with no OpenVault, so the Crew
++# gate is switched off here, a documented, visible override in the test
++# composition, never in a shipped profile. The gate on the shipped profile is
++# proven by packages/guard/crew-gate/tests and
++# apps/cli/tests/profiles/headless/tests/netie-launch.expected.e2e.ts.
++- id: crew-gate
++  name: '@deepseek-ai/dsh-crew-gate'
++  disabled: true
++
++- id: tools
++  name: '@deepseek-ai/dsh-tools'
++  inject: []
++  config:
++    mode: !!js process.env.DSH_TOOLS_MODE
++    crewGate: off
++
++- id: sandbox
++  name: '@deepseek-ai/dsh-sandbox-local'
++  inject: []
++  config:
++    crewGate: off
+diff --git a/apps/cli/tests/profiles/headless/tests/fixtures/headless-profile.patch.yml b/apps/cli/tests/profiles/headless/tests/fixtures/headless-profile.patch.yml
+index c6311dc..e338438 100644
+--- a/apps/cli/tests/profiles/headless/tests/fixtures/headless-profile.patch.yml
++++ b/apps/cli/tests/profiles/headless/tests/fixtures/headless-profile.patch.yml
+@@ -7,3 +7,25 @@
+ - insert:
+     - id: cli-mock-llm
+       name: '../../../../../../../packages/test-support/loader-smoke/tests/fixtures/cli-mock-llm.ts'
++
++# Netie: this fixture boots a shipped profile with no OpenVault, so the Crew
++# gate is switched off here, a documented, visible override in the test
++# composition, never in a shipped profile. The gate on the shipped profile is
++# proven by packages/guard/crew-gate/tests and
++# apps/cli/tests/profiles/headless/tests/netie-launch.expected.e2e.ts.
++- id: crew-gate
++  name: '@deepseek-ai/dsh-crew-gate'
++  disabled: true
++
++- id: tools
++  name: '@deepseek-ai/dsh-tools'
++  inject: []
++  config:
++    mode: !!js process.env.DSH_TOOLS_MODE
++    crewGate: off
++
++- id: sandbox
++  name: '@deepseek-ai/dsh-sandbox-local'
++  inject: []
++  config:
++    crewGate: off
+diff --git a/apps/cli/tests/profiles/headless/tests/fixtures/netie-openvault.patch.yml b/apps/cli/tests/profiles/headless/tests/fixtures/netie-openvault.patch.yml
+new file mode 100644
+index 0000000..18342ba
+--- /dev/null
++++ b/apps/cli/tests/profiles/headless/tests/fixtures/netie-openvault.patch.yml
+@@ -0,0 +1,25 @@
++# Netie launch-readiness patch over the shipped headless profile: the shipped
++# OpenVault route and Crew gate stay as composed; only the one-shot runner is
++# replaced by the test driver, the main agent is created at boot, and
++# persistence is kept local to the run directory.
++- id: headless-startup
++  disabled: true
++
++- id: headless-runner
++  disabled: true
++
++- id: agent-loop
++  config:
++    agents:
++      - id: main
++        provider: openvault
++        model: auto
++        cwd: !!js process.cwd()
++
++- id: agent-instructions
++  disabled: true
++
++- id: session-persistence-jsonl
++  config:
++    root: './.sessions'
++    compression: none
+diff --git a/apps/cli/tests/profiles/headless/tests/fixtures/pi-ai-defaults.patch.yml b/apps/cli/tests/profiles/headless/tests/fixtures/pi-ai-defaults.patch.yml
+index a14bbb4..83702b3 100644
+--- a/apps/cli/tests/profiles/headless/tests/fixtures/pi-ai-defaults.patch.yml
++++ b/apps/cli/tests/profiles/headless/tests/fixtures/pi-ai-defaults.patch.yml
+@@ -5,9 +5,6 @@
+ - id: headless-runner
+   disabled: true
+ 
+-- id: llm-deepseek
+-  disabled: true
+-
+ - id: llm-pi-ai
+   config:
+     providers:
+@@ -35,3 +32,25 @@
+   config:
+     root: './.sessions'
+     compression: none
++
++# Netie: this fixture boots a shipped profile with no OpenVault, so the Crew
++# gate is switched off here, a documented, visible override in the test
++# composition, never in a shipped profile. The gate on the shipped profile is
++# proven by packages/guard/crew-gate/tests and
++# apps/cli/tests/profiles/headless/tests/netie-launch.expected.e2e.ts.
++- id: crew-gate
++  name: '@deepseek-ai/dsh-crew-gate'
++  disabled: true
++
++- id: tools
++  name: '@deepseek-ai/dsh-tools'
++  inject: []
++  config:
++    mode: !!js process.env.DSH_TOOLS_MODE
++    crewGate: off
++
++- id: sandbox
++  name: '@deepseek-ai/dsh-sandbox-local'
++  inject: []
++  config:
++    crewGate: off
+diff --git a/apps/cli/tests/profiles/headless/tests/fixtures/startup-activation-error/activation-error.patch.yml b/apps/cli/tests/profiles/headless/tests/fixtures/startup-activation-error/activation-error.patch.yml
+index 5acdd92..304c5df 100644
+--- a/apps/cli/tests/profiles/headless/tests/fixtures/startup-activation-error/activation-error.patch.yml
++++ b/apps/cli/tests/profiles/headless/tests/fixtures/startup-activation-error/activation-error.patch.yml
+@@ -2,3 +2,25 @@
+ - insert:
+     - id: activation-error
+       name: ./activation-error.mjs
++
++# Netie: this fixture boots a shipped profile with no OpenVault, so the Crew
++# gate is switched off here, a documented, visible override in the test
++# composition, never in a shipped profile. The gate on the shipped profile is
++# proven by packages/guard/crew-gate/tests and
++# apps/cli/tests/profiles/headless/tests/netie-launch.expected.e2e.ts.
++- id: crew-gate
++  name: '@deepseek-ai/dsh-crew-gate'
++  disabled: true
++
++- id: tools
++  name: '@deepseek-ai/dsh-tools'
++  inject: []
++  config:
++    mode: !!js process.env.DSH_TOOLS_MODE
++    crewGate: off
++
++- id: sandbox
++  name: '@deepseek-ai/dsh-sandbox-local'
++  inject: []
++  config:
++    crewGate: off
+diff --git a/apps/cli/tests/profiles/headless/tests/netie-launch.expected.e2e.ts b/apps/cli/tests/profiles/headless/tests/netie-launch.expected.e2e.ts
+new file mode 100644
+index 0000000..91196df
+--- /dev/null
++++ b/apps/cli/tests/profiles/headless/tests/netie-launch.expected.e2e.ts
+@@ -0,0 +1,182 @@
++/**
++ * Netie launch readiness: the shipped headless profile, booted by the real
++ * launcher from source, against a stand-in for the two OpenVault surfaces the
++ * product needs. Nothing in the composition is replaced except the one-shot
++ * runner (the test driver owns the turn, as every snapshot here does).
++ *
++ * What is asserted is the artifact an operator receives: the model request
++ * goes to `${NETIE_OPENVAULT_URL}/v1/chat/completions` carrying the
++ * `NETIE_OPENVAULT_KEY` identity and model `auto`; the tool body runs only
++ * after `POST /api/crew/gate` answered `allowed: true` with an ids-only body;
++ * a refusal reaches the session log as the tool's error result and the tool
++ * never runs. The stand-in is not OpenVault: it proves the wiring and the
++ * wire shape, not OpenVault's own decisions.
++ */
++
++import { createServer } from 'node:http'
++import type { IncomingMessage, ServerResponse } from 'node:http'
++import { fileURLToPath } from 'node:url'
++import { LOADER_SMOKE_TEST_TIMEOUT_MS, runLoaderSmoke } from '@deepseek-ai/dsh-loader-smoke'
++import { describe, expect, it } from 'vitest'
++
++const configPath = fileURLToPath(new URL('./fixtures/netie-openvault.patch.yml', import.meta.url))
++const binScript = fileURLToPath(new URL('../../../../../../packages/test-support/loader-smoke/tests/fixtures/headless-driver.ts', import.meta.url))
++const tsconfigPath = fileURLToPath(new URL('../../../../../../tsconfig.json', import.meta.url))
++
++interface JsonObject {
++  [key: string]: unknown
++}
++
++interface Recorded {
++  path: string
++  authorization: string | undefined
++  body: JsonObject
++}
++
++interface StandIn {
++  readonly url: string
++  readonly requests: Recorded[]
++  close(): Promise<void>
++}
++
++/** SSE frames for one chat completion that calls `todo_write` once. */
++const toolCallFrames = [
++  '{"choices":[{"delta":{"role":"assistant","tool_calls":[{"index":0,"id":"call_launch_1","type":"function","function":{"name":"todo_write","arguments":""}}]},"index":0,"finish_reason":null}]}',
++  '{"choices":[{"delta":{"tool_calls":[{"index":0,"function":{"arguments":"{\\"todos\\":[{\\"content\\":\\"prove the launch path\\",\\"status\\":\\"completed\\"}]}"}}]},"index":0,"finish_reason":null}]}',
++  '{"choices":[{"delta":{},"index":0,"finish_reason":"tool_calls"}],"usage":{"prompt_tokens":3,"completion_tokens":1}}',
++  '[DONE]',
++]
++
++/** SSE frames for one plain text completion. */
++function textFrames(text: string): string[] {
++  return [
++    `{"choices":[{"delta":{"role":"assistant","content":${JSON.stringify(text)}},"index":0,"finish_reason":null}]}`,
++    '{"choices":[{"delta":{},"index":0,"finish_reason":"stop"}],"usage":{"prompt_tokens":3,"completion_tokens":1}}',
++    '[DONE]',
++  ]
++}
++
++/**
++ * The OpenVault stand-in: `/v1/chat/completions` answers a tool call on the
++ * first agent request and text afterwards (the session title request is text
++ * too); `/api/crew/gate` answers from `verdict`. Every request is retained.
++ */
++async function openVaultStandIn(verdict: JsonObject): Promise<StandIn> {
++  const requests: Recorded[] = []
++  let agentCompletions = 0
++  const server = createServer((request: IncomingMessage, response: ServerResponse) => {
++    let raw = ''
++    request.setEncoding('utf8')
++    request.on('data', (chunk: string) => { raw += chunk })
++    request.on('end', () => {
++      const body = JSON.parse(raw) as JsonObject
++      const path = request.url ?? ''
++      requests.push({ path, authorization: request.headers.authorization, body })
++      if (path === '/api/crew/gate') {
++        response.writeHead(200, { 'content-type': 'application/json' })
++        response.end(JSON.stringify({ ...verdict, kind: body['kind'], id: body['id'] }))
++        return
++      }
++      response.writeHead(200, { 'content-type': 'text/event-stream' })
++      // The title request is the only one capped at 64 output tokens.
++      const isTitle = body['max_tokens'] === 64
++      const frames = !isTitle && agentCompletions++ === 0 ? toolCallFrames : textFrames(isTitle ? 'Launch' : 'LAUNCH_OK')
++      response.end(frames.map(frame => `data: ${frame}\n\n`).join(''))
++    })
++  })
++  await new Promise<void>(resolve => server.listen(0, '127.0.0.1', resolve))
++  const address = server.address()
++  if (address === null || typeof address === 'string') throw new Error('stand-in has no port')
++  return {
++    url: `http://127.0.0.1:${address.port}`,
++    requests,
++    close: () => new Promise<void>((resolve) => { server.close(() => { resolve() }); server.closeAllConnections() }),
++  }
++}
++
++function sessionEvents(stdout: string): JsonObject[] {
++  return stdout.split('\n').filter(line => line.length > 0)
++    .map(line => JSON.parse(line) as JsonObject)
++    .filter(record => record['type'] === 'session_event')
++    .map(record => record['event'] as JsonObject)
++}
++
++async function launch(standIn: StandIn): Promise<{ events: JsonObject[]; stderr: string }> {
++  const result = await runLoaderSmoke({
++    label: 'Netie launch readiness through the shipped headless profile',
++    tempDirPrefix: 'headless-netie-launch-',
++    binScript,
++    libBinScript: binScript,
++    configPath,
++    binArgs: [configPath, 'record one completed todo, then say LAUNCH_OK'],
++    tsconfigPath,
++    env: {
++      NETIE_OPENVAULT_URL: standIn.url,
++      NETIE_OPENVAULT_KEY: 'ov_launch_seat',
++      DSH_TELEMETRY_DISABLED: '1',
++      NODE_OPTIONS: [process.env.NODE_OPTIONS, '--disable-warning=ExperimentalWarning'].filter(Boolean).join(' '),
++    },
++  })
++  return { events: sessionEvents(result.stdout), stderr: result.stderr }
++}
++
++describe('Netie launch readiness: shipped headless profile against an OpenVault stand-in', () => {
++  it('routes the model to /v1 with the OpenVault identity and runs a tool only after the gate allowed it', async () => {
++    const standIn = await openVaultStandIn({ allowed: true, location: 'local' })
++    try {
++      const { events, stderr } = await launch(standIn)
++      expect(stderr).toBe('')
++
++      // Every model request went to OpenVault /v1 with the issued key and model auto.
++      const completions = standIn.requests.filter(request => request.path === '/v1/chat/completions')
++      expect(completions.length).toBeGreaterThanOrEqual(2)
++      for (const request of completions) {
++        expect(request.authorization).toBe('Bearer ov_launch_seat')
++        expect(request.body['model']).toBe('auto')
++      }
++      expect(standIn.requests.map(request => request.path).filter(path => !path.startsWith('/v1/'))).toEqual(['/api/crew/gate'])
++
++      // The gate saw ids only: the tool name, the session id, the call id.
++      const gate = standIn.requests.find(request => request.path === '/api/crew/gate')!
++      const call = events.find(event => event['type'] === 'tool/call')!
++      const callData = call['data'] as JsonObject
++      expect(callData['name']).toBe('todo_write')
++      expect(typeof gate.body['parent_run_id']).toBe('string')
++      expect(gate.body['parent_run_id']).not.toBe('')
++      expect(gate.body).toEqual({
++        kind: 'service', id: 'todo_write', intent: 'tool',
++        parent_run_id: gate.body['parent_run_id'], child_id: callData['callId'],
++      })
++      expect(Object.keys(gate.body)).not.toEqual(expect.arrayContaining(['skill_body', 'prompt', 'instructions', 'transcript']))
++      expect(JSON.stringify(gate.body)).not.toContain('prove the launch path')
++
++      // The tool ran and wrote the world: a todo/write event and a non-error result.
++      expect(events.some(event => event['type'] === 'todo/write')).toBe(true)
++      const result = events.find(event => event['type'] === 'tool/result')!
++      const resultData = result['data'] as JsonObject
++      expect((resultData['message'] as JsonObject)['isError']).toBe(false)
++      expect(resultData['error']).toBeUndefined()
++      const assistant = events.filter(event => event['type'] === 'assistant/message')
++      expect(JSON.stringify(assistant.at(-1))).toContain('LAUNCH_OK')
++    } finally {
++      await standIn.close()
++    }
++  }, LOADER_SMOKE_TEST_TIMEOUT_MS)
++
++  it('a gate refusal reaches the model as the tool error and the tool never runs', async () => {
++    const standIn = await openVaultStandIn({ allowed: false, reason: 'HT3: leave-machine needs a human' })
++    try {
++      const { events, stderr } = await launch(standIn)
++      expect(stderr).toBe('')
++      expect(standIn.requests.filter(request => request.path === '/api/crew/gate')).toHaveLength(1)
++      expect(events.some(event => event['type'] === 'todo/write')).toBe(false)
++      const result = events.find(event => event['type'] === 'tool/result')!
++      const data = result['data'] as JsonObject
++      expect((data['message'] as JsonObject)['isError']).toBe(true)
++      expect(data['error']).toMatchObject({ name: 'CrewGateDenied', code: 'CREW_GATE_DENIED' })
++      expect(JSON.stringify(data)).toContain('HT3: leave-machine needs a human')
++    } finally {
++      await standIn.close()
++    }
++  }, LOADER_SMOKE_TEST_TIMEOUT_MS)
++})
+diff --git a/apps/cli/tests/profiles/headless/workspace-context-resume-snapshot.patch.yml b/apps/cli/tests/profiles/headless/workspace-context-resume-snapshot.patch.yml
+index 6507b36..2c5ade5 100644
+--- a/apps/cli/tests/profiles/headless/workspace-context-resume-snapshot.patch.yml
++++ b/apps/cli/tests/profiles/headless/workspace-context-resume-snapshot.patch.yml
+@@ -5,9 +5,6 @@
+ - id: headless-runner
+   disabled: true
+ 
+-- id: llm-deepseek
+-  disabled: true
+-
+ - id: agent-instructions
+   config:
+     maxBytes: 65536
+@@ -32,3 +29,25 @@
+ - id: session-log-deepseek
+   config:
+     enabled: false
++
++# Netie: this fixture boots a shipped profile with no OpenVault, so the Crew
++# gate is switched off here, a documented, visible override in the test
++# composition, never in a shipped profile. The gate on the shipped profile is
++# proven by packages/guard/crew-gate/tests and
++# apps/cli/tests/profiles/headless/tests/netie-launch.expected.e2e.ts.
++- id: crew-gate
++  name: '@deepseek-ai/dsh-crew-gate'
++  disabled: true
++
++- id: tools
++  name: '@deepseek-ai/dsh-tools'
++  inject: []
++  config:
++    mode: !!js process.env.DSH_TOOLS_MODE
++    crewGate: off
++
++- id: sandbox
++  name: '@deepseek-ai/dsh-sandbox-local'
++  inject: []
++  config:
++    crewGate: off
+diff --git a/apps/cli/tests/profiles/web/tests/creator-plugin-manager.expected.e2e.ts b/apps/cli/tests/profiles/web/tests/creator-plugin-manager.expected.e2e.ts
+index dc2b6d4..1159260 100644
+--- a/apps/cli/tests/profiles/web/tests/creator-plugin-manager.expected.e2e.ts
++++ b/apps/cli/tests/profiles/web/tests/creator-plugin-manager.expected.e2e.ts
+@@ -40,9 +40,16 @@ it('configures MCP on a live profile, restores it on restart, and removes its to
+       url: mcp.url, failOnStartupError: true },
+   }] }]))
+   const patch = join(root, 'test.patch.yml')
+-  await writeFile(patch, JSON.stringify([{ insert: [{ id: 'creator-manager-observer',
+-    name: new URL('./fixtures/creator-plugin-manager.mjs', import.meta.url).href, config: { bundle },
+-  }] }]))
++  // Netie: this scenario boots the shipped web profile with no OpenVault, so
++  // the Crew gate is switched off here like in every other CLI fixture; the
++  // gate itself is proven by netie-launch.expected.e2e.ts on the headless profile.
++  await writeFile(patch, JSON.stringify([
++    { insert: [{ id: 'creator-manager-observer',
++      name: new URL('./fixtures/creator-plugin-manager.mjs', import.meta.url).href, config: { bundle } }] },
++    { id: 'crew-gate', disabled: true },
++    { id: 'tools', inject: [], config: { crewGate: 'off' } },
++    { id: 'sandbox', inject: [], config: { crewGate: 'off' } },
++  ]))
+   const start = async () => {
+     const child = spawn(process.execPath, [join(repo, 'apps/cli/lib/bin.js'), '--profile', 'web', '--patch', patch,
+       '--port', '0', '--no-open'], { cwd: join(root, 'workspace'),
 diff --git a/docs/config-catalog.md b/docs/config-catalog.md
 index 2d38ab5..45d79d8 100644
 --- a/docs/config-catalog.md
@@ -328,7 +1461,7 @@ index 925c4e8..b95eb87 100644
    })
  })
 diff --git a/packages/bundle/base/cordis.patch.yml b/packages/bundle/base/cordis.patch.yml
-index 9c35ebf..b9aceb0 100644
+index 9c35ebf..e8edd6c 100644
 --- a/packages/bundle/base/cordis.patch.yml
 +++ b/packages/bundle/base/cordis.patch.yml
 @@ -79,11 +79,13 @@
@@ -392,7 +1525,7 @@ index 9c35ebf..b9aceb0 100644
  
      - id: sandbox-policy
        name: '@deepseek-ai/dsh-sandbox-policy'
-@@ -458,28 +475,21 @@
+@@ -458,28 +475,22 @@
          thresholds: [3, 5, 8]
          argumentsPreviewChars: 500
  
@@ -415,8 +1548,9 @@ index 9c35ebf..b9aceb0 100644
 +    # Netie: no search provider is mounted. The upstream DeepSeek search route
 +    # carried a provider key field (DEEPSEEK_API_KEY) in this file; provider
 +    # keys live in OpenVault only (NETIE.md section 3), and a search route
-+    # through OpenVault is not wired yet, so `web_search` is off rather than
-+    # keyed here.
++    # through OpenVault is not wired yet. The `web_search` tool stays in the
++    # catalog (the model-facing tool list is unchanged) and fails loud at call
++    # time with the seam's no-provider error until a route exists.
      - id: web
        name: '@deepseek-ai/dsh-web'
        config:
@@ -431,15 +1565,7 @@ index 9c35ebf..b9aceb0 100644
      - id: web-fetch-http
        name: '@deepseek-ai/dsh-web-fetch-http'
  
-@@ -487,17 +497,31 @@
-       name: '@deepseek-ai/dsh-tool-web'
-       config:
-         fetch: true
--        searchTimeoutMs: 60000
-+        search: false
- 
-     - id: mcp-resources
-       name: '@deepseek-ai/dsh-mcp-resources'
+@@ -494,10 +505,24 @@
  
      # ── rows every mode mounts, whose values each overlay may state ──────────────
  
@@ -465,7 +1591,7 @@ index 9c35ebf..b9aceb0 100644
  
      # The deployment persona is a deployment choice; plan-mode and tool plugins own
      # their own prompt sections.
-@@ -518,12 +542,8 @@
+@@ -518,12 +543,8 @@
      - id: fs-sandbox
        name: '@deepseek-ai/dsh-fs-sandbox'
  
@@ -484,7 +1610,7 @@ index 9c35ebf..b9aceb0 100644
 +    # that wants a direct vendor route adds it in a later patch layer and
 +    # answers for the key it needs.
 diff --git a/packages/bundle/base/package.json b/packages/bundle/base/package.json
-index ad6e8e1..1f60d57 100644
+index ad6e8e1..b128dd2 100644
 --- a/packages/bundle/base/package.json
 +++ b/packages/bundle/base/package.json
 @@ -50,6 +50,7 @@
@@ -495,16 +1621,17 @@ index ad6e8e1..1f60d57 100644
      "@deepseek-ai/dsh-deepseek-llm-api-extensions": "workspace:*",
      "@deepseek-ai/dsh-plugin-package-inventory-deepseek": "workspace:*",
      "@deepseek-ai/dsh-fs-local": "workspace:*",
-@@ -59,8 +60,6 @@
+@@ -59,8 +60,8 @@
      "@deepseek-ai/dsh-goal-round-driver": "workspace:*",
      "@deepseek-ai/dsh-api-gateway": "workspace:*",
      "@deepseek-ai/dsh-llm": "workspace:*",
 -    "@deepseek-ai/dsh-llm-deepseek-api-key": "workspace:*",
--    "@deepseek-ai/dsh-llm-deepseek-account": "workspace:*",
+     "@deepseek-ai/dsh-llm-deepseek-account": "workspace:*",
++    "@deepseek-ai/dsh-llm-deepseek-api-key": "workspace:*",
      "@deepseek-ai/dsh-llm-pi-ai": "workspace:*",
      "@deepseek-ai/dsh-llm-retry": "workspace:*",
      "@deepseek-ai/dsh-mcp-resources": "workspace:*",
-@@ -117,7 +116,6 @@
+@@ -117,7 +118,6 @@
      "@deepseek-ai/dsh-user-questions": "workspace:*",
      "@deepseek-ai/dsh-web": "workspace:*",
      "@deepseek-ai/dsh-web-fetch-http": "workspace:*",
@@ -514,10 +1641,10 @@ index ad6e8e1..1f60d57 100644
      "@deepseek-ai/dsh-ptc-runtime-node": "workspace:*",
 diff --git a/packages/bundle/base/tests/netie-defaults.spec.ts b/packages/bundle/base/tests/netie-defaults.spec.ts
 new file mode 100644
-index 0000000..3c3c609
+index 0000000..2021149
 --- /dev/null
 +++ b/packages/bundle/base/tests/netie-defaults.spec.ts
-@@ -0,0 +1,124 @@
+@@ -0,0 +1,126 @@
 +/**
 + * Netie stage 2 gate, part 1: the composition the operator receives.
 + *
@@ -608,10 +1735,12 @@ index 0000000..3c3c609
 +    expect(byId(acp.inserted, 'acp')?.config).toMatchObject({ provider: 'openvault', model: 'auto' })
 +  })
 +
-+  it('dsh-base mounts no keyed search route and turns web_search off', () => {
++  it('dsh-base mounts no keyed search route; web_search stays listed and fails loud without a provider', () => {
 +    expect(byId(base.inserted, 'web-search-deepseek')).toBeUndefined()
++    expect(base.inserted.map(row => row.name).filter(name => name?.startsWith('@deepseek-ai/dsh-web-search'))).toEqual([])
 +    expect(byId(base.inserted, 'web')?.config).toEqual({ fetchProvider: 'http' })
-+    expect(byId(base.inserted, 'tool-web')?.config).toMatchObject({ search: false, fetch: true })
++    expect(byId(base.inserted, 'tool-web')?.config).toMatchObject({ fetch: true })
++    expect(byId(base.inserted, 'tool-web')?.config).not.toHaveProperty('search')
 +  })
 +})
 +
@@ -883,6 +2012,63 @@ index b295855..b0e5855 100644
 @@ -1 +1 @@
 -欢迎使用 DeepSeek HarnessDeepSeek Harness 会以本地文件夹作为工作区，通过调用各种工具，读写本机文件，完成搜索整理资料、制作文档表格、编写代码、排查问题等各种任务。开始设置
 +欢迎使用 Crew HarnessCrew Harness 会以本地文件夹作为工作区，通过调用各种工具，读写本机文件，完成搜索整理资料、制作文档表格、编写代码、排查问题等各种任务。开始设置
+diff --git a/packages/client/ui-settings-models/src/client/locales.ts b/packages/client/ui-settings-models/src/client/locales.ts
+index 0ece7ad..49e282f 100644
+--- a/packages/client/ui-settings-models/src/client/locales.ts
++++ b/packages/client/ui-settings-models/src/client/locales.ts
+@@ -106,7 +106,7 @@ export const en = {
+   create: 'Create provider',
+   creating: 'Creating\u2026',
+   welcomeTitle: 'Preview Notice',
+-  welcomeBody: 'DeepSeek Harness 0.2 is still in preview, and many areas need continued improvement and refinement. We welcome feedback and suggestions from all developers and users. The new desktop app now targets a broad range of users, while developer-related advanced features can be enabled in the settings. DeepSeek Harness’s product features and plugin APIs are expected to continue rapid iteration and evolution, and will gradually stabilize over time.\n\nWe look forward to exploring the limits of intelligence together with users and developers around the world, building on open-source, reusable, and composable infrastructure. We welcome everyone to bring their ideas to life with DeepSeek Harness and participate in the community to enrich the plugin ecosystem.',
++  welcomeBody: 'Crew Harness 0.2 is still in preview, and many areas need continued improvement and refinement. We welcome feedback and suggestions from all developers and users. The new desktop app now targets a broad range of users, while developer-related advanced features can be enabled in the settings. Crew Harness’s product features and plugin APIs are expected to continue rapid iteration and evolution, and will gradually stabilize over time.\n\nWe look forward to exploring the limits of intelligence together with users and developers around the world, building on open-source, reusable, and composable infrastructure. We welcome everyone to bring their ideas to life with Crew Harness and participate in the community to enrich the plugin ecosystem.',
+   welcomeContinue: 'Continue',
+   welcomeError: 'The acknowledgement could not be saved. Please try again.',
+   onboardingTitle: 'Add an API key to get started',
+@@ -226,7 +226,7 @@ export const zh: { [Key in keyof typeof en]: string } = {
+   create: '创建提供商',
+   creating: '创建中\u2026',
+   welcomeTitle: '预览版说明',
+-  welcomeBody: 'DeepSeek Harness 目前的 0.2 版本仍处于预览阶段，还有许多地方需要持续改进和打磨，希望听取广大开发者和用户的反馈建议。现在，新的桌面端面向广泛用户，开发者相关的进阶功能可在配置中开启使用。预计 DeepSeek Harness 的产品功能以及插件 API 都会继续快速迭代、持续演化，并逐渐趋于稳定。\n\n我们期待与全球用户和开发者一起，在开源、可复用、可组合的基础设施之上，共同探索智能上限。欢迎大家用 DeepSeek Harness 将想法变成现实，与社区一起丰富插件生态。',
++  welcomeBody: 'Crew Harness 目前的 0.2 版本仍处于预览阶段，还有许多地方需要持续改进和打磨，希望听取广大开发者和用户的反馈建议。现在，新的桌面端面向广泛用户，开发者相关的进阶功能可在配置中开启使用。预计 Crew Harness 的产品功能以及插件 API 都会继续快速迭代、持续演化，并逐渐趋于稳定。\n\n我们期待与全球用户和开发者一起，在开源、可复用、可组合的基础设施之上，共同探索智能上限。欢迎大家用 Crew Harness 将想法变成现实，与社区一起丰富插件生态。',
+   welcomeContinue: '继续',
+   welcomeError: '暂时无法保存确认状态，请重试。',
+   onboardingTitle: '添加一个 API Key 开始使用',
+diff --git a/packages/client/ui-settings-models/tests/welcome-notice.client.spec.tsx b/packages/client/ui-settings-models/tests/welcome-notice.client.spec.tsx
+index 82794a0..73085e1 100644
+--- a/packages/client/ui-settings-models/tests/welcome-notice.client.spec.tsx
++++ b/packages/client/ui-settings-models/tests/welcome-notice.client.spec.tsx
+@@ -107,7 +107,7 @@ describe('WelcomeNotice', () => {
+   it('uses the exact owner copy in both GUI locales', () => {
+     expect(WELCOME_NOTICE_COPY.en).toEqual({
+       title: 'Preview Notice',
+-      body: 'DeepSeek Harness 0.2 is still in preview, and many areas need continued improvement and refinement. We welcome feedback and suggestions from all developers and users. The new desktop app now targets a broad range of users, while developer-related advanced features can be enabled in the settings. DeepSeek Harness’s product features and plugin APIs are expected to continue rapid iteration and evolution, and will gradually stabilize over time.\n\nWe look forward to exploring the limits of intelligence together with users and developers around the world, building on open-source, reusable, and composable infrastructure. We welcome everyone to bring their ideas to life with DeepSeek Harness and participate in the community to enrich the plugin ecosystem.',
++      body: 'Crew Harness 0.2 is still in preview, and many areas need continued improvement and refinement. We welcome feedback and suggestions from all developers and users. The new desktop app now targets a broad range of users, while developer-related advanced features can be enabled in the settings. Crew Harness’s product features and plugin APIs are expected to continue rapid iteration and evolution, and will gradually stabilize over time.\n\nWe look forward to exploring the limits of intelligence together with users and developers around the world, building on open-source, reusable, and composable infrastructure. We welcome everyone to bring their ideas to life with Crew Harness and participate in the community to enrich the plugin ecosystem.',
+       continueLabel: 'Continue',
+     })
+     expect(en.welcomeBody).toBe(WELCOME_NOTICE_COPY.en.body)
+diff --git a/packages/client/ui-sidebar-documentpreview/src/client/office/locales.ts b/packages/client/ui-sidebar-documentpreview/src/client/office/locales.ts
+index e656260..1c562b6 100644
+--- a/packages/client/ui-sidebar-documentpreview/src/client/office/locales.ts
++++ b/packages/client/ui-sidebar-documentpreview/src/client/office/locales.ts
+@@ -8,7 +8,7 @@ export const zh = {
+   missingFontsDescription: '本次预览无法使用以下字体，预览中的文字和排版可能与原文档不同。',
+   missingFontsCount: '{count} 种字体',
+   closeDetails: '关闭字体详情',
+-  unavailable: 'Office 预览不可用。请在运行 DeepSeek Harness 的主机上启用文档预览服务。',
++  unavailable: 'Office 预览不可用。请在运行 Crew Harness 的主机上启用文档预览服务。',
+   invalid: '无法预览此 Office 文件。文件可能已损坏、受密码保护，或与扩展名不符。',
+   tooLarge: 'Office 文件或转换后的 PDF 超过预览大小上限，请缩小文件或调整预览配置。',
+   failed: 'Office 转换失败，未生成可用的 PDF。请检查该文件后重试。',
+@@ -30,7 +30,7 @@ export const en = {
+   missingFontsDescription: 'These fonts are unavailable for this preview. Text and layout may differ from the original document.',
+   missingFontsCount: 'Fonts: {count}',
+   closeDetails: 'Close font details',
+-  unavailable: 'Office previews are unavailable. Enable the document preview service on the computer running DeepSeek Harness.',
++  unavailable: 'Office previews are unavailable. Enable the document preview service on the computer running Crew Harness.',
+   invalid: 'This Office file cannot be previewed. It may be damaged, password protected, or have the wrong extension.',
+   tooLarge: 'The Office file or converted PDF exceeds the preview size limit. Reduce the file size or adjust the preview configuration.',
+   failed: 'Office conversion did not produce a usable PDF. Check the file and try again.',
 diff --git a/packages/core/tools/src/index.ts b/packages/core/tools/src/index.ts
 index ca89f37..5bc891d 100644
 --- a/packages/core/tools/src/index.ts
@@ -1385,10 +2571,10 @@ index 0000000..48185c3
 +}
 diff --git a/packages/guard/crew-gate/src/index.ts b/packages/guard/crew-gate/src/index.ts
 new file mode 100644
-index 0000000..569f456
+index 0000000..0600bb6
 --- /dev/null
 +++ b/packages/guard/crew-gate/src/index.ts
-@@ -0,0 +1,229 @@
+@@ -0,0 +1,235 @@
 +/**
 + * Crew gate: the Netie fail-closed wrap between this harness and OpenVault.
 + *
@@ -1599,14 +2785,20 @@ index 0000000..569f456
 +    return reply
 +  }
 +
-+  /** Map one tool execution onto an ask: ids only, parent is the agent's session id, child is the call id. */
++  /**
++   * Map one tool execution onto an ask: ids only. The parent is the agent's
++   * session id; a nested dispatch (a sub-call inside an already gated root
++   * call, which carries no agent of its own) names its root call id as the
++   * parent. A root call with no agent has no parent and is refused.
++   */
 +  private async gateExecution(exec: ToolExecution): Promise<PreToolDecision | undefined> {
++    const nested = exec.rootCallId !== exec.callId
 +    try {
 +      await this.allow({
 +        kind: 'service',
 +        id: exec.name,
 +        intent: 'tool',
-+        parent_run_id: exec.agent?.id ?? '',
++        parent_run_id: exec.agent?.id ?? (nested ? exec.rootCallId : ''),
 +        child_id: exec.callId,
 +      }, exec.signal)
 +      return undefined
@@ -1620,10 +2812,10 @@ index 0000000..569f456
 +export default CrewGate
 diff --git a/packages/guard/crew-gate/tests/crew-gate.spec.ts b/packages/guard/crew-gate/tests/crew-gate.spec.ts
 new file mode 100644
-index 0000000..f551c81
+index 0000000..ea453fd
 --- /dev/null
 +++ b/packages/guard/crew-gate/tests/crew-gate.spec.ts
-@@ -0,0 +1,149 @@
+@@ -0,0 +1,159 @@
 +/**
 + * Netie stage 2 gate, part 2: the live registry under the Crew gate.
 + *
@@ -1741,6 +2933,16 @@ index 0000000..f551c81
 +    expect(calls).toEqual([])
 +  })
 +
++  it('a nested dispatch without an agent names its root call as the parent', async () => {
++    const { ctx, calls } = await setup()
++    ctx.tools.register(echo)
++    const result = await ctx.tools.execute({ callId: ToolCallId('call-7-child'), rootCallId: ToolCallId('call-7'), name: 'echo', arguments: {}, signal })
++    expect(result.isError).toBe(false)
++    expect(calls.map(call => call.body)).toEqual([
++      { kind: 'service', id: 'echo', intent: 'tool', parent_run_id: 'call-7', child_id: 'call-7-child' },
++    ])
++  })
++
 +  it('a non-object reply is a refusal', async () => {
 +    const { ctx } = await setup({ reply: 'yes' })
 +    ctx.tools.register(echo)
@@ -1842,8 +3044,211 @@ index 4502874..37eabaa 100644
      super(ctx)
      // The schema (static Config) defaults every field — the casts record
      // those runtime facts. An empty runnerCommand means "not configured":
+diff --git a/packages/sdk/client/src/api.ts b/packages/sdk/client/src/api.ts
+index e39725d..98a280b 100644
+--- a/packages/sdk/client/src/api.ts
++++ b/packages/sdk/client/src/api.ts
+@@ -39,8 +39,8 @@ export class DeepSeekHarness implements AsyncDisposable {
+     // process's cwd, but the wire cwd is resolved again inside the child — a
+     // relative value would double-resolve (e.g. `worker` → `worker/worker`).
+     this.cwd = resolve(options.cwd ?? options.processCwd ?? process.cwd())
+-    this.provider = options.provider ?? 'deepseek-official'
+-    this.model = options.model ?? 'deepseek-v4-flash'
++    this.provider = options.provider ?? 'openvault'
++    this.model = options.model ?? 'auto'
+     this.reasoningEffort = options.reasoningEffort
+     this.maxTokens = options.maxTokens
+   }
+diff --git a/packages/sdk/client/src/types.ts b/packages/sdk/client/src/types.ts
+index 9e91eb1..9118306 100644
+--- a/packages/sdk/client/src/types.ts
++++ b/packages/sdk/client/src/types.ts
+@@ -56,9 +56,9 @@ export interface HarnessClientOptions {
+ export interface DeepSeekHarnessOptions extends HarnessClientOptions {
+   /** Workspace cwd recorded on every SDK-created session (default: the process cwd, else `process.cwd()`). */
+   cwd?: string
+-  /** Provider route for SDK-created agents (default `deepseek-official`). */
++  /** Provider route for SDK-created agents (default `openvault`, the Netie OpenVault `/v1` route). */
+   provider?: string
+-  /** Model for SDK-created agents (default `deepseek-v4-flash`). */
++  /** Model for SDK-created agents (default `auto`, OpenVault's catalog pick). */
+   model?: string
+   /** Adapter-owned reasoning effort for the selected provider/model route. */
+   reasoningEffort?: ReasoningEffortId
+diff --git a/packages/sdk/server/package.json b/packages/sdk/server/package.json
+index 32400de..f5d89e8 100644
+--- a/packages/sdk/server/package.json
++++ b/packages/sdk/server/package.json
+@@ -35,7 +35,6 @@
+     "@deepseek-ai/dsh-agent": "workspace:*",
+     "@deepseek-ai/dsh-attachment": "workspace:*",
+     "@deepseek-ai/dsh-llm": "workspace:*",
+-    "@deepseek-ai/dsh-llm-deepseek-api-key": "workspace:*",
+     "@deepseek-ai/dsh-scope": "workspace:*",
+     "@deepseek-ai/dsh-sdk-protocol": "workspace:*",
+     "@deepseek-ai/dsh-session": "workspace:*",
+diff --git a/packages/sdk/server/src/server.ts b/packages/sdk/server/src/server.ts
+index 50567c3..8cc121d 100644
+--- a/packages/sdk/server/src/server.ts
++++ b/packages/sdk/server/src/server.ts
+@@ -15,7 +15,6 @@ import { carrierKeyOf, type Scoped } from '@deepseek-ai/dsh-scope'
+ import type { SessionId } from '@deepseek-ai/dsh-session'
+ import type SubagentRuntime from '@deepseek-ai/dsh-subagent'
+ import type { SubagentRunEndInfo } from '@deepseek-ai/dsh-subagent'
+-import * as LlmDeepSeek from '@deepseek-ai/dsh-llm-deepseek-api-key'
+ import type {
+   InitializeParams,
+   InitializeResult,
+@@ -74,11 +73,10 @@ function successStatus(reason: string, options: HarnessSdkJsonRpcServerOptions):
+  */
+ export class HarnessSdkJsonRpcServer {
+   private cwd = process.cwd()
+-  private provider = 'deepseek-official'
+-  private model = 'deepseek-official'
++  private provider = 'openvault'
++  private model = 'auto'
+   private reasoningEffort: ReturnType<typeof ReasoningEffortId> | undefined
+   private maxTokens: number | undefined
+-  private llmFiber: { dispose(): Promise<void> } | undefined
+   private readonly sessions = new Map<string, SessionRecord>()
+   private readonly sessionCreations = new Map<string, Promise<SessionRecord>>()
+   private readonly disposers: (() => void)[] = []
+@@ -149,9 +147,11 @@ export class HarnessSdkJsonRpcServer {
+     const reasoningEffort = params.reasoningEffort === undefined
+       ? undefined
+       : ReasoningEffortId(params.reasoningEffort)
++    // Netie: no adapter is mounted on demand. The composition decides which
++    // routes exist (OpenVault `/v1` by default); a provider without an adapter
++    // is refused rather than answered by a vendor adapter the profile never mounted.
+     if (!this.hasAdapterFor(provider)) {
+-      if (provider !== 'deepseek-official') throw new Error(`no adapter registered for provider "${provider}"`)
+-      this.llmFiber = await this.ctx.plugin(LlmDeepSeek)
++      throw new Error(`no adapter registered for provider "${provider}"`)
+     }
+     // Adapter presence was read from this service above; a successful fallback mount also requires it.
+     const llm = this.ctx.get('llm') as LlmRuntime
+@@ -227,9 +227,7 @@ export class HarnessSdkJsonRpcServer {
+     }
+     const teardownResults = await Promise.allSettled([
+       ...records.map(rec => Promise.resolve().then(() => rec.handle.dispose())),
+-      ...(this.llmFiber === undefined ? [] : [Promise.resolve().then(() => this.llmFiber?.dispose())]),
+     ])
+-    this.llmFiber = undefined
+     failures.push(...teardownResults
+       .filter((result): result is PromiseRejectedResult => result.status === 'rejected')
+       .map(result => result.reason as unknown))
+diff --git a/packages/sdk/server/tests/plugin-apply.spec.ts b/packages/sdk/server/tests/plugin-apply.spec.ts
+index 9ac8325..6dc46ed 100644
+--- a/packages/sdk/server/tests/plugin-apply.spec.ts
++++ b/packages/sdk/server/tests/plugin-apply.spec.ts
+@@ -13,6 +13,7 @@ import { mountAgentLoopTestDependencies } from '@deepseek-ai/dsh-agent-loop-test
+ import { LlmAdapter } from '@deepseek-ai/dsh-llm'
+ import type { GenerateOptions, StreamChunk } from '@deepseek-ai/dsh-llm'
+ import JsonlSessionPersistence from '@deepseek-ai/dsh-session-persistence-jsonl'
++import * as LlmDeepSeek from '@deepseek-ai/dsh-llm-deepseek-api-key'
+ import * as jsonrpc from '../src/index.ts'
+ 
+ /**
+@@ -171,7 +172,7 @@ describe('dsh-sdk-jsonrpc-server plugin apply', () => {
+   it('serves initialize over the injected stdio pair', async () => {
+     const storageDir = await mkdtemp(join(tmpdir(), 'dsh-jsonrpc-apply-init-'))
+     vi.stubEnv('DEEPSEEK_API_KEY', 'test-key')
+-    const harness = await mountPlugin(storageDir)
++    const harness = await mountPlugin(storageDir, { beforeServer: async (ctx) => { await ctx.plugin(LlmDeepSeek) } })
+     try {
+       harness.send({ jsonrpc: '2.0', id: 'init-1', method: 'initialize', params: { cwd: storageDir, provider: 'deepseek-official', model: 'apply-model' } })
+ 
+@@ -248,7 +249,7 @@ describe('dsh-sdk-jsonrpc-server plugin apply', () => {
+     const llmServer = await mockCompletionServer()
+     vi.stubEnv('DEEPSEEK_API_KEY', 'test-key')
+     vi.stubEnv('DEEPSEEK_BASE_URL', llmServer.url)
+-    const harness = await mountPlugin(storageDir)
++    const harness = await mountPlugin(storageDir, { beforeServer: async (ctx) => { await ctx.plugin(LlmDeepSeek) } })
+     try {
+       harness.send({ jsonrpc: '2.0', id: 1, method: 'initialize', params: { cwd: storageDir, provider: 'deepseek-official', model: 'dsagent-model' } })
+       await harness.waitForFrame(frame => frame.id === 1, 'initialize response')
+diff --git a/packages/sdk/server/tests/server.spec.ts b/packages/sdk/server/tests/server.spec.ts
+index 20a16c7..291a0d6 100644
+--- a/packages/sdk/server/tests/server.spec.ts
++++ b/packages/sdk/server/tests/server.spec.ts
+@@ -115,6 +115,8 @@ describe('HarnessSdkJsonRpcServer', () => {
+     vi.stubEnv('DEEPSEEK_API_KEY', 'test-key')
+     vi.stubEnv('DEEPSEEK_BASE_URL', llmServer.url)
+     const ctx = await makeHarness(storageDir)
++    // Netie: the composition mounts the route; the server no longer mounts a vendor adapter on demand.
++    await ctx.plugin(LlmDeepSeek)
+     try {
+       const transport = new FakeTransport()
+       const server = new HarnessSdkJsonRpcServer(ctx, transport)
+@@ -408,6 +410,8 @@ describe('HarnessSdkJsonRpcServer', () => {
+     vi.stubEnv('DEEPSEEK_API_KEY', 'test-key')
+     vi.stubEnv('DEEPSEEK_BASE_URL', llmServer.url)
+     const ctx = await makeHarness(storageDir)
++    // Netie: the composition mounts the route; the server no longer mounts a vendor adapter on demand.
++    await ctx.plugin(LlmDeepSeek)
+     try {
+       const server = new HarnessSdkJsonRpcServer(ctx, new FakeTransport())
+ 
+@@ -911,6 +915,21 @@ describe('HarnessSdkJsonRpcServer', () => {
+     }
+   })
+ 
++  it('refuses deepseek-official like any other provider without a mounted adapter (no vendor fallback)', async () => {
++    const storageDir = await mkdtemp(join(tmpdir(), 'dsh-jsonrpc-no-fallback-'))
++    const ctx = await makeHarness(storageDir)
++    vi.stubEnv('DEEPSEEK_API_KEY', 'test-key')
++    try {
++      const server = new HarnessSdkJsonRpcServer(ctx, new FakeTransport())
++      await expect(server.initialize({ cwd: storageDir, provider: 'deepseek-official', model: 'deepseek-v4-flash' }))
++        .rejects.toThrow('no adapter registered for provider "deepseek-official"')
++      expect(ctx.get('llm')?.listProviders() ?? []).toEqual([])
++    } finally {
++      await ctx.fiber.dispose()
++      await rm(storageDir, { recursive: true, force: true })
++    }
++  })
++
+   it('rejects a missing non-DeepSeek provider when an LLM service already exists', async () => {
+     const storageDir = await mkdtemp(join(tmpdir(), 'dsh-jsonrpc-new-llm-'))
+     const ctx = await makeHarness(storageDir)
+@@ -1043,6 +1062,8 @@ describe('HarnessSdkJsonRpcServer', () => {
+   it('rejects an unsupported reasoning effort during initialize', async () => {
+     const storageDir = await mkdtemp(join(tmpdir(), 'dsh-jsonrpc-unsupported-reasoning-'))
+     const ctx = await makeHarness(storageDir)
++    // Netie: the composition mounts the route; the server no longer mounts a vendor adapter on demand.
++    await ctx.plugin(LlmDeepSeek)
+     vi.stubEnv('DEEPSEEK_API_KEY', 'test-key')
+     try {
+       const server = new HarnessSdkJsonRpcServer(ctx, new FakeTransport())
+diff --git a/packages/subagent/subagent-dsh-sdk/src/index.ts b/packages/subagent/subagent-dsh-sdk/src/index.ts
+index c2c6217..9d9739d 100644
+--- a/packages/subagent/subagent-dsh-sdk/src/index.ts
++++ b/packages/subagent/subagent-dsh-sdk/src/index.ts
+@@ -51,9 +51,9 @@ export interface Config {
+    * fails.
+    */
+   cwd?: string
+-  /** Provider route the child runtime initializes with (default `deepseek-official`). */
++  /** Provider route the child runtime initializes with (default `openvault`). */
+   provider: string
+-  /** Model the child runtime initializes with (default `deepseek-v4-flash`). */
++  /** Model the child runtime initializes with (default `auto`). */
+   model: string
+   /** Optional per-request output-token cap for the child runtime. */
+   maxTokens?: number
+@@ -83,8 +83,8 @@ export const Config: z<Config> = z.object({
+   patches: z.array(z.string()).default([]),
+   dshHome: z.string().required(),
+   cwd: z.string(),
+-  provider: z.string().default('deepseek-official'),
+-  model: z.string().default('deepseek-v4-flash'),
++  provider: z.string().default('openvault'),
++  model: z.string().default('auto'),
+   maxTokens: z.number().step(1).min(1).max(Number.MAX_SAFE_INTEGER),
+   env: z.dict(z.string()).default({}),
+   shutdownTimeoutMs: z.number().default(DEFAULT_SHUTDOWN_TIMEOUT_MS),
 diff --git a/pnpm-lock.yaml b/pnpm-lock.yaml
-index 0ee904d..c6bc978 100644
+index 0ee904d..9c9a195 100644
 --- a/pnpm-lock.yaml
 +++ b/pnpm-lock.yaml
 @@ -2014,6 +2014,9 @@ importers:
@@ -1856,20 +3261,7 @@ index 0ee904d..c6bc978 100644
        '@deepseek-ai/dsh-deepseek-account-platform':
          specifier: workspace:*
          version: link:../../credentials/deepseek-account-platform
-@@ -2044,12 +2047,6 @@ importers:
-       '@deepseek-ai/dsh-llm':
-         specifier: workspace:*
-         version: link:../../llm/llm
--      '@deepseek-ai/dsh-llm-deepseek-account':
--        specifier: workspace:*
--        version: link:../../llm/llm-deepseek-account
--      '@deepseek-ai/dsh-llm-deepseek-api-key':
--        specifier: workspace:*
--        version: link:../../llm/llm-deepseek-api-key
-       '@deepseek-ai/dsh-llm-pi-ai':
-         specifier: workspace:*
-         version: link:../../llm/llm-pi-ai
-@@ -2233,9 +2230,6 @@ importers:
+@@ -2233,9 +2236,6 @@ importers:
        '@deepseek-ai/dsh-web-fetch-http':
          specifier: workspace:*
          version: link:../../web/web-fetch-http
@@ -1879,7 +3271,7 @@ index 0ee904d..c6bc978 100644
        '@deepseek-ai/dsh-workflow-ptc':
          specifier: workspace:*
          version: link:../../workflow/workflow-ptc
-@@ -2332,6 +2326,9 @@ importers:
+@@ -2332,6 +2332,9 @@ importers:
        '@deepseek-ai/dsh-agent-loop':
          specifier: workspace:*
          version: link:../../core/agent-loop
@@ -1889,7 +3281,7 @@ index 0ee904d..c6bc978 100644
        '@deepseek-ai/dsh-deepseek-llm-api-extensions':
          specifier: workspace:*
          version: link:../../llm/deepseek-llm-api-extensions
-@@ -2341,9 +2338,9 @@ importers:
+@@ -2341,9 +2344,9 @@ importers:
        '@deepseek-ai/dsh-llm':
          specifier: workspace:*
          version: link:../../llm/llm
@@ -1901,7 +3293,7 @@ index 0ee904d..c6bc978 100644
        '@deepseek-ai/dsh-llm-retry':
          specifier: workspace:*
          version: link:../../llm/llm-retry
-@@ -9126,6 +9123,28 @@ importers:
+@@ -9126,6 +9129,28 @@ importers:
          specifier: workspace:*
          version: link:../../core/tools
  
@@ -1930,7 +3322,7 @@ index 0ee904d..c6bc978 100644
    packages/guard/repeat-tool-reminder:
      dependencies:
        '@deepseek-ai/schemastery':
-@@ -16421,10 +16440,12 @@ packages:
+@@ -16421,10 +16446,12 @@ packages:
  
    '@modelcontextprotocol/server-everything@2026.7.4':
      resolution: {integrity: sha512-ydMW/M6rk9tK23b+U38trsNLHhd5eF+ntiv2Vr+RPMDhbiKY/IKrZU25ukvSXVPUBvy7TxTPWpeV4KcYcXg72w==}
@@ -1943,6 +3335,34 @@ index 0ee904d..c6bc978 100644
      hasBin: true
  
    '@modelcontextprotocol/server@2.0.0':
+diff --git a/python/sdk/src/deepseek_harness/api.py b/python/sdk/src/deepseek_harness/api.py
+index c195afa..90e86d3 100644
+--- a/python/sdk/src/deepseek_harness/api.py
++++ b/python/sdk/src/deepseek_harness/api.py
+@@ -19,8 +19,8 @@ class DeepSeekHarnessConfig:
+     intentionally override or inject variables for a subprocess.
+     """
+ 
+-    provider: str = "deepseek-official"
+-    model: str = "deepseek-v4-flash"
++    provider: str = "openvault"
++    model: str = "auto"
+     reasoning_effort: str | None = None
+     max_tokens: int | None = None
+     cwd: str | None = None
+diff --git a/python/sdk/tests/test_client.py b/python/sdk/tests/test_client.py
+index 66b9b26..3722c6e 100644
+--- a/python/sdk/tests/test_client.py
++++ b/python/sdk/tests/test_client.py
+@@ -210,7 +210,7 @@ for line in sys.stdin:
+     assert dumped_env["DSH_CORDIS_CONFIG"] is None
+     assert json.loads(init_dump.read_text()) == {
+         "cwd": str(tmp_path),
+-        "provider": "deepseek-official",
++        "provider": "openvault",
+         "model": "deepseek-v4-flash",
+         "reasoningEffort": "max",
+         "maxTokens": 4096,
 diff --git a/scripts/client-build-environment.client.spec.ts b/scripts/client-build-environment.client.spec.ts
 index b1c9c89..9bc06ca 100644
 --- a/scripts/client-build-environment.client.spec.ts
@@ -2046,6 +3466,571 @@ index 05399cc..3ee41bf 100644
    ProductEvent: 'Desktop event fields are owned by packages/client/product-analytics/README.md and src/events.ts',
    ConnectionFetchHandler: 'shared Fetch dispatch is owned by packages/client/connection/src/rpc.ts',
    ConnectionRequestRejection: 'transport rejection status is owned by packages/client/connection/src/rpc.ts',
+diff --git a/snapshots/acp/escalation-approved/cordis.yml b/snapshots/acp/escalation-approved/cordis.yml
+index dc59913..f4fad05 100644
+--- a/snapshots/acp/escalation-approved/cordis.yml
++++ b/snapshots/acp/escalation-approved/cordis.yml
+@@ -2,16 +2,40 @@
+ # launcher owns environment loading, plugin resolution, and process shutdown;
+ # stdout remains reserved for ACP JSON-RPC.
+ 
+-- id: llm-deepseek
+-  name: '@deepseek-ai/dsh-llm-deepseek-api-key'
++# Netie: the shipped profile mounts no DeepSeek route; the recording
++# composition inserts the adapter the corpus was recorded against.
++- insert:
++    - id: llm-deepseek
++      name: '@deepseek-ai/dsh-llm-deepseek-api-key'
++      config:
++        thinking: enabled
++        reasoningEffort: max
++        models:
++          - id: deepseek-v4-flash
++          - id: deepseek-v4-pro
++          - id: deepseek-v4-flash-vision-exp
++            inputModalities: [text, image]
++
++# Netie: this corpus runs with no OpenVault, so the Crew gate is switched off
++# here the same way the permission mode below is: a documented, visible
++# override in the test composition, never in a shipped profile. The gate on
++# the shipped profile is proven by packages/guard/crew-gate/tests and
++# apps/cli/tests/profiles/headless/tests/netie-launch.expected.e2e.ts.
++- id: crew-gate
++  name: '@deepseek-ai/dsh-crew-gate'
++  disabled: true
++
++- id: tools
++  name: '@deepseek-ai/dsh-tools'
++  inject: []
+   config:
+-    thinking: enabled
+-    reasoningEffort: max
+-    models:
+-      - id: deepseek-v4-flash
+-      - id: deepseek-v4-pro
+-      - id: deepseek-v4-flash-vision-exp
+-        inputModalities: [text, image]
++    crewGate: off
++
++- id: sandbox
++  name: '@deepseek-ai/dsh-sandbox-local'
++  inject: []
++  config:
++    crewGate: off
+ 
+ - id: sandbox-policy
+   name: '@deepseek-ai/dsh-sandbox-policy'
+@@ -92,3 +116,12 @@
+ - id: session-log-deepseek
+   config:
+     enabled: false
++
++# Netie: the recorded ACP sessions were made with one provider group in the
++# model picker; the shipped OpenVault route is not mounted in this test
++# composition so the recorded picker replays as recorded. The shipped profile
++# is covered by packages/bundle/base/tests/netie-defaults.spec.ts and the
++# headless launch e2e.
++- id: llm-pi-ai
++  name: '@deepseek-ai/dsh-llm-pi-ai'
++  disabled: true
+diff --git a/snapshots/acp/image-compaction/cordis.yml b/snapshots/acp/image-compaction/cordis.yml
+index aa50939..d0d6341 100644
+--- a/snapshots/acp/image-compaction/cordis.yml
++++ b/snapshots/acp/image-compaction/cordis.yml
+@@ -45,3 +45,12 @@
+ 
+ - insert:
+     - name: './summary-image-budget.mjs'
++
++# Netie: the recorded ACP sessions were made with one provider group in the
++# model picker; the shipped OpenVault route is not mounted in this test
++# composition so the recorded picker replays as recorded. The shipped profile
++# is covered by packages/bundle/base/tests/netie-defaults.spec.ts and the
++# headless launch e2e.
++- id: llm-pi-ai
++  name: '@deepseek-ai/dsh-llm-pi-ai'
++  disabled: true
+diff --git a/snapshots/sdk/account-provider-signout/cordis.yml b/snapshots/sdk/account-provider-signout/cordis.yml
+index 647a652..4bbdac7 100644
+--- a/snapshots/sdk/account-provider-signout/cordis.yml
++++ b/snapshots/sdk/account-provider-signout/cordis.yml
+@@ -7,11 +7,14 @@
+   config:
+     includeDefaultRoots: false
+ 
+-- id: llm-deepseek-account
+-  name: '@deepseek-ai/dsh-llm-deepseek-account'
+-  config:
+-    thinking: enabled
+-    reasoningEffort: max
++# Netie: the shipped profile mounts no DeepSeek account route; this scenario
++# is about that route, so the fixture inserts it here.
++- insert:
++    - id: llm-deepseek-account
++      name: '@deepseek-ai/dsh-llm-deepseek-account'
++      config:
++        thinking: enabled
++        reasoningEffort: max
+ 
+ - id: session-persistence-jsonl
+   name: '@deepseek-ai/dsh-session-persistence-jsonl'
+@@ -31,3 +34,24 @@
+ - insert:
+     - id: account-signout-fixture
+       name: './account-signout.mjs'
++
++# Netie: this corpus runs with no OpenVault, so the Crew gate is switched off
++# here, a documented, visible override in the test composition, never in a
++# shipped profile. The gate on the shipped profile is proven by
++# packages/guard/crew-gate/tests and
++# apps/cli/tests/profiles/headless/tests/netie-launch.expected.e2e.ts.
++- id: crew-gate
++  name: '@deepseek-ai/dsh-crew-gate'
++  disabled: true
++
++- id: tools
++  name: '@deepseek-ai/dsh-tools'
++  inject: []
++  config:
++    crewGate: off
++
++- id: sandbox
++  name: '@deepseek-ai/dsh-sandbox-local'
++  inject: []
++  config:
++    crewGate: off
+diff --git a/snapshots/sdk/bash-tool/cordis.yml b/snapshots/sdk/bash-tool/cordis.yml
+index 91fab78..a8e97a8 100644
+--- a/snapshots/sdk/bash-tool/cordis.yml
++++ b/snapshots/sdk/bash-tool/cordis.yml
+@@ -5,11 +5,14 @@
+   config:
+     includeDefaultRoots: false
+ 
+-- id: llm-deepseek
+-  name: '@deepseek-ai/dsh-llm-deepseek-api-key'
+-  config:
+-    thinking: enabled
+-    reasoningEffort: max
++# Netie: the shipped profile mounts no DeepSeek route; the recording
++# composition inserts the adapter the corpus was recorded against.
++- insert:
++    - id: llm-deepseek
++      name: '@deepseek-ai/dsh-llm-deepseek-api-key'
++      config:
++        thinking: enabled
++        reasoningEffort: max
+ 
+ - id: session-persistence-jsonl
+   name: '@deepseek-ai/dsh-session-persistence-jsonl'
+@@ -29,3 +32,24 @@
+ - id: session-log-deepseek
+   config:
+     enabled: false
++
++# Netie: this corpus runs with no OpenVault, so the Crew gate is switched off
++# here, a documented, visible override in the test composition, never in a
++# shipped profile. The gate on the shipped profile is proven by
++# packages/guard/crew-gate/tests and
++# apps/cli/tests/profiles/headless/tests/netie-launch.expected.e2e.ts.
++- id: crew-gate
++  name: '@deepseek-ai/dsh-crew-gate'
++  disabled: true
++
++- id: tools
++  name: '@deepseek-ai/dsh-tools'
++  inject: []
++  config:
++    crewGate: off
++
++- id: sandbox
++  name: '@deepseek-ai/dsh-sandbox-local'
++  inject: []
++  config:
++    crewGate: off
+diff --git a/snapshots/sdk/persistent-tools/cordis.yml b/snapshots/sdk/persistent-tools/cordis.yml
+index e28f49f..ac0acf3 100644
+--- a/snapshots/sdk/persistent-tools/cordis.yml
++++ b/snapshots/sdk/persistent-tools/cordis.yml
+@@ -166,3 +166,24 @@
+ - id: session-log-deepseek
+   config:
+     enabled: false
++
++# Netie: this corpus runs with no OpenVault, so the Crew gate is switched off
++# here, a documented, visible override in the test composition, never in a
++# shipped profile. The gate on the shipped profile is proven by
++# packages/guard/crew-gate/tests and
++# apps/cli/tests/profiles/headless/tests/netie-launch.expected.e2e.ts.
++- id: crew-gate
++  name: '@deepseek-ai/dsh-crew-gate'
++  disabled: true
++
++- id: tools
++  name: '@deepseek-ai/dsh-tools'
++  inject: []
++  config:
++    crewGate: off
++
++- id: sandbox
++  name: '@deepseek-ai/dsh-sandbox-local'
++  inject: []
++  config:
++    crewGate: off
+diff --git a/snapshots/sdk/serial-created/cordis.yml b/snapshots/sdk/serial-created/cordis.yml
+index 07a010a..8427d92 100644
+--- a/snapshots/sdk/serial-created/cordis.yml
++++ b/snapshots/sdk/serial-created/cordis.yml
+@@ -7,11 +7,14 @@
+   config:
+     includeDefaultRoots: false
+ 
+-- id: llm-deepseek
+-  name: '@deepseek-ai/dsh-llm-deepseek-api-key'
+-  config:
+-    thinking: enabled
+-    reasoningEffort: max
++# Netie: the shipped profile mounts no DeepSeek route; the recording
++# composition inserts the adapter the corpus was recorded against.
++- insert:
++    - id: llm-deepseek
++      name: '@deepseek-ai/dsh-llm-deepseek-api-key'
++      config:
++        thinking: enabled
++        reasoningEffort: max
+ 
+ - id: session-persistence-jsonl
+   name: '@deepseek-ai/dsh-session-persistence-jsonl'
+@@ -36,3 +39,24 @@
+ - insert:
+     - id: serial-created-fixture
+       name: '../../../packages/core/agent-loop/tests/fixtures/serial-created.mjs'
++
++# Netie: this corpus runs with no OpenVault, so the Crew gate is switched off
++# here, a documented, visible override in the test composition, never in a
++# shipped profile. The gate on the shipped profile is proven by
++# packages/guard/crew-gate/tests and
++# apps/cli/tests/profiles/headless/tests/netie-launch.expected.e2e.ts.
++- id: crew-gate
++  name: '@deepseek-ai/dsh-crew-gate'
++  disabled: true
++
++- id: tools
++  name: '@deepseek-ai/dsh-tools'
++  inject: []
++  config:
++    crewGate: off
++
++- id: sandbox
++  name: '@deepseek-ai/dsh-sandbox-local'
++  inject: []
++  config:
++    crewGate: off
+diff --git a/snapshots/sdk/session-title-after-turn/cordis.yml b/snapshots/sdk/session-title-after-turn/cordis.yml
+index 24df026..54165c5 100644
+--- a/snapshots/sdk/session-title-after-turn/cordis.yml
++++ b/snapshots/sdk/session-title-after-turn/cordis.yml
+@@ -12,3 +12,24 @@
+         timeoutMs: 5000
+         provider: deepseek-official
+         model: deepseek-v4-flash
++
++# Netie: this corpus runs with no OpenVault, so the Crew gate is switched off
++# here, a documented, visible override in the test composition, never in a
++# shipped profile. The gate on the shipped profile is proven by
++# packages/guard/crew-gate/tests and
++# apps/cli/tests/profiles/headless/tests/netie-launch.expected.e2e.ts.
++- id: crew-gate
++  name: '@deepseek-ai/dsh-crew-gate'
++  disabled: true
++
++- id: tools
++  name: '@deepseek-ai/dsh-tools'
++  inject: []
++  config:
++    crewGate: off
++
++- id: sandbox
++  name: '@deepseek-ai/dsh-sandbox-local'
++  inject: []
++  config:
++    crewGate: off
+diff --git a/snapshots/sdk/subagent-activation-limit/cordis.yml b/snapshots/sdk/subagent-activation-limit/cordis.yml
+index 04940d1..511fc9f 100644
+--- a/snapshots/sdk/subagent-activation-limit/cordis.yml
++++ b/snapshots/sdk/subagent-activation-limit/cordis.yml
+@@ -6,3 +6,24 @@
+ - insert:
+     - id: subagent-activation-limit
+       name: '../../../packages/test-support/session-snapshot/tests/fixtures/subagent-activation-limit.ts'
++
++# Netie: this corpus runs with no OpenVault, so the Crew gate is switched off
++# here, a documented, visible override in the test composition, never in a
++# shipped profile. The gate on the shipped profile is proven by
++# packages/guard/crew-gate/tests and
++# apps/cli/tests/profiles/headless/tests/netie-launch.expected.e2e.ts.
++- id: crew-gate
++  name: '@deepseek-ai/dsh-crew-gate'
++  disabled: true
++
++- id: tools
++  name: '@deepseek-ai/dsh-tools'
++  inject: []
++  config:
++    crewGate: off
++
++- id: sandbox
++  name: '@deepseek-ai/dsh-sandbox-local'
++  inject: []
++  config:
++    crewGate: off
+diff --git a/snapshots/sdk/subagent-continuable-inheritance/cordis.yml b/snapshots/sdk/subagent-continuable-inheritance/cordis.yml
+index 1c9a264..a5881dc 100644
+--- a/snapshots/sdk/subagent-continuable-inheritance/cordis.yml
++++ b/snapshots/sdk/subagent-continuable-inheritance/cordis.yml
+@@ -4,3 +4,24 @@
+ - insert:
+     - id: parent-sandbox-override
+       name: '../../../packages/test-support/session-snapshot/tests/fixtures/parent-sandbox-override.ts'
++
++# Netie: this corpus runs with no OpenVault, so the Crew gate is switched off
++# here, a documented, visible override in the test composition, never in a
++# shipped profile. The gate on the shipped profile is proven by
++# packages/guard/crew-gate/tests and
++# apps/cli/tests/profiles/headless/tests/netie-launch.expected.e2e.ts.
++- id: crew-gate
++  name: '@deepseek-ai/dsh-crew-gate'
++  disabled: true
++
++- id: tools
++  name: '@deepseek-ai/dsh-tools'
++  inject: []
++  config:
++    crewGate: off
++
++- id: sandbox
++  name: '@deepseek-ai/dsh-sandbox-local'
++  inject: []
++  config:
++    crewGate: off
+diff --git a/snapshots/sdk/subagent-dsh-sdk-diagnostic/cordis.yml b/snapshots/sdk/subagent-dsh-sdk-diagnostic/cordis.yml
+index b0bbb64..8e24949 100644
+--- a/snapshots/sdk/subagent-dsh-sdk-diagnostic/cordis.yml
++++ b/snapshots/sdk/subagent-dsh-sdk-diagnostic/cordis.yml
+@@ -5,11 +5,14 @@
+   config:
+     includeDefaultRoots: false
+ 
+-- id: llm-deepseek
+-  name: '@deepseek-ai/dsh-llm-deepseek-api-key'
+-  config:
+-    thinking: enabled
+-    reasoningEffort: max
++# Netie: the shipped profile mounts no DeepSeek route; the recording
++# composition inserts the adapter the corpus was recorded against.
++- insert:
++    - id: llm-deepseek
++      name: '@deepseek-ai/dsh-llm-deepseek-api-key'
++      config:
++        thinking: enabled
++        reasoningEffort: max
+ 
+ - id: session-persistence-jsonl
+   name: '@deepseek-ai/dsh-session-persistence-jsonl'
+@@ -66,3 +69,24 @@
+         maxDepth: provider-managed
+     - id: release-dsh-sdk-background-on-job-output
+       name: '../../../apps/cli/tests/profiles/sdk/fixtures/subagent-dsh-sdk-release-on-job-output.ts'
++
++# Netie: this corpus runs with no OpenVault, so the Crew gate is switched off
++# here, a documented, visible override in the test composition, never in a
++# shipped profile. The gate on the shipped profile is proven by
++# packages/guard/crew-gate/tests and
++# apps/cli/tests/profiles/headless/tests/netie-launch.expected.e2e.ts.
++- id: crew-gate
++  name: '@deepseek-ai/dsh-crew-gate'
++  disabled: true
++
++- id: tools
++  name: '@deepseek-ai/dsh-tools'
++  inject: []
++  config:
++    crewGate: off
++
++- id: sandbox
++  name: '@deepseek-ai/dsh-sandbox-local'
++  inject: []
++  config:
++    crewGate: off
+diff --git a/snapshots/sdk/subagent-dsh-sdk-dynamic-route/cordis.yml b/snapshots/sdk/subagent-dsh-sdk-dynamic-route/cordis.yml
+index 495fcac..3e2de76 100644
+--- a/snapshots/sdk/subagent-dsh-sdk-dynamic-route/cordis.yml
++++ b/snapshots/sdk/subagent-dsh-sdk-dynamic-route/cordis.yml
+@@ -63,3 +63,24 @@
+ - id: session-log-deepseek
+   config:
+     enabled: false
++
++# Netie: this corpus runs with no OpenVault, so the Crew gate is switched off
++# here, a documented, visible override in the test composition, never in a
++# shipped profile. The gate on the shipped profile is proven by
++# packages/guard/crew-gate/tests and
++# apps/cli/tests/profiles/headless/tests/netie-launch.expected.e2e.ts.
++- id: crew-gate
++  name: '@deepseek-ai/dsh-crew-gate'
++  disabled: true
++
++- id: tools
++  name: '@deepseek-ai/dsh-tools'
++  inject: []
++  config:
++    crewGate: off
++
++- id: sandbox
++  name: '@deepseek-ai/dsh-sandbox-local'
++  inject: []
++  config:
++    crewGate: off
+diff --git a/snapshots/sdk/subagent-send-message/cordis.yml b/snapshots/sdk/subagent-send-message/cordis.yml
+index c7fa7c1..6b1b1b3 100644
+--- a/snapshots/sdk/subagent-send-message/cordis.yml
++++ b/snapshots/sdk/subagent-send-message/cordis.yml
+@@ -4,3 +4,24 @@
+ - insert:
+     - id: send-message-fence
+       name: '../../../packages/test-support/session-snapshot/tests/fixtures/subagent-send-message-fence.ts'
++
++# Netie: this corpus runs with no OpenVault, so the Crew gate is switched off
++# here, a documented, visible override in the test composition, never in a
++# shipped profile. The gate on the shipped profile is proven by
++# packages/guard/crew-gate/tests and
++# apps/cli/tests/profiles/headless/tests/netie-launch.expected.e2e.ts.
++- id: crew-gate
++  name: '@deepseek-ai/dsh-crew-gate'
++  disabled: true
++
++- id: tools
++  name: '@deepseek-ai/dsh-tools'
++  inject: []
++  config:
++    crewGate: off
++
++- id: sandbox
++  name: '@deepseek-ai/dsh-sandbox-local'
++  inject: []
++  config:
++    crewGate: off
+diff --git a/snapshots/sdk/text-turn/cordis.yml b/snapshots/sdk/text-turn/cordis.yml
+index e6f94c1..fe42a59 100644
+--- a/snapshots/sdk/text-turn/cordis.yml
++++ b/snapshots/sdk/text-turn/cordis.yml
+@@ -7,11 +7,14 @@
+   config:
+     includeDefaultRoots: false
+ 
+-- id: llm-deepseek
+-  name: '@deepseek-ai/dsh-llm-deepseek-api-key'
+-  config:
+-    thinking: enabled
+-    reasoningEffort: max
++# Netie: the shipped profile mounts no DeepSeek route; the recording
++# composition inserts the adapter the corpus was recorded against.
++- insert:
++    - id: llm-deepseek
++      name: '@deepseek-ai/dsh-llm-deepseek-api-key'
++      config:
++        thinking: enabled
++        reasoningEffort: max
+ 
+ - id: session-persistence-jsonl
+   name: '@deepseek-ai/dsh-session-persistence-jsonl'
+@@ -37,3 +40,24 @@
+     - id: snapshot-feedback-producer
+       name: './feedback-producer.mjs'
+       disabled: !!js "process.env.DSH_SNAPSHOT_FEEDBACK !== '1'"
++
++# Netie: this corpus runs with no OpenVault, so the Crew gate is switched off
++# here, a documented, visible override in the test composition, never in a
++# shipped profile. The gate on the shipped profile is proven by
++# packages/guard/crew-gate/tests and
++# apps/cli/tests/profiles/headless/tests/netie-launch.expected.e2e.ts.
++- id: crew-gate
++  name: '@deepseek-ai/dsh-crew-gate'
++  disabled: true
++
++- id: tools
++  name: '@deepseek-ai/dsh-tools'
++  inject: []
++  config:
++    crewGate: off
++
++- id: sandbox
++  name: '@deepseek-ai/dsh-sandbox-local'
++  inject: []
++  config:
++    crewGate: off
+diff --git a/snapshots/session/text-turn/cordis.yml b/snapshots/session/text-turn/cordis.yml
+index eb2846f..6f17edb 100644
+--- a/snapshots/session/text-turn/cordis.yml
++++ b/snapshots/session/text-turn/cordis.yml
+@@ -2,16 +2,48 @@
+ # The shipped profile owns application startup; this patch fixes only the
+ # deterministic test composition and raw persistence needed for recording.
+ 
+-- id: llm-deepseek
+-  name: '@deepseek-ai/dsh-llm-deepseek-api-key'
++# Netie: the shipped profile mounts no DeepSeek route; the recording
++# composition inserts the adapter the corpus was recorded against.
++- insert:
++    - id: llm-deepseek
++      name: '@deepseek-ai/dsh-llm-deepseek-api-key'
++      config:
++        thinking: enabled
++        reasoningEffort: max
++        models:
++          - id: deepseek-v4-flash
++          - id: deepseek-v4-pro
++          - id: deepseek-v4-flash-vision-exp
++            inputModalities: [text, image]
++
++    # Netie: the search provider the corpus was recorded against, test
++    # composition only; the shipped profile mounts no keyed search route.
++    - id: web-search-deepseek
++      name: '@deepseek-ai/dsh-web-search-deepseek'
++      config:
++        apiKeyEnv: DEEPSEEK_API_KEY
++
++# Netie: this corpus runs with no OpenVault, so the Crew gate is switched off
++# here the same way the permission mode above is: a documented, visible
++# override in the test composition, never in a shipped profile. The gate on
++# the shipped profile is proven by packages/guard/crew-gate/tests and
++# apps/cli/tests/profiles/headless/tests/netie-launch.expected.e2e.ts.
++- id: crew-gate
++  name: '@deepseek-ai/dsh-crew-gate'
++  disabled: true
++
++- id: tools
++  name: '@deepseek-ai/dsh-tools'
++  inject: []
++  config:
++    mode: !!js process.env.DSH_TOOLS_MODE
++    crewGate: off
++
++- id: sandbox
++  name: '@deepseek-ai/dsh-sandbox-local'
++  inject: []
+   config:
+-    thinking: enabled
+-    reasoningEffort: max
+-    models:
+-      - id: deepseek-v4-flash
+-      - id: deepseek-v4-pro
+-      - id: deepseek-v4-flash-vision-exp
+-        inputModalities: [text, image]
++    crewGate: off
+ 
+ - id: sandbox-policy
+   name: '@deepseek-ai/dsh-sandbox-policy'
 diff --git a/tsconfig.base.json b/tsconfig.base.json
 index f18926d..606c4af 100644
 --- a/tsconfig.base.json
