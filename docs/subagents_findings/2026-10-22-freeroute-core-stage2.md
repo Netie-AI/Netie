@@ -101,6 +101,23 @@ Branch `claude/stage2-freeroute-core`, base `claude/netie-ecosystem-rebrand-uq9q
 | `scripts/ecosystem.py validate` / `render --check` / `test_ecosystem.py` / `secrets_scan.py` | ok | ok (22 tests) |
 | `scripts/test_sibling_patches.py` | 10 tests, 9 failures | 10 tests, 9 failures |
 
+## Launch readiness (what an operator needs for FreeRoute Core to serve a request)
+
+| need | status |
+|---|---|
+| A built `freeroute-core` binary or the `freeroute-core:latest` image (`make build`, `make docker-build`) | build measured green by the crew-agent session on head 39de8ee; image build assumed |
+| `config.yaml` with `server.master_key`, credentials as routing policy (name, type, base_url, rpm, tpm), no keys | shipped as `config.yaml.example`; parsed by the real loader in gate case 1 (predicted, `go test` unmeasured) |
+| An OpenVault reachable at `NETIE_OPENVAULT_URL` that answers `GET /api/freeroute/credentials` with a JSON list keyed by credential name | ASSUMED: OpenVault does not serve this endpoint today (nothing in `TAS/TAS-OPENVAULT.md` or `scripts/crew_ov_gate.py` names it). Without it the router refuses to start, by design. Until OpenVault ships it, the only way to run the fork is the loudly logged dev override, which is not a launch posture |
+| `NETIE_OPENVAULT_SEAT`, the router's own `ov_` identity | optional in the patch; whether OpenVault requires it is OpenVault's call, not measured |
+| Provider accounts whose keys the human has put into OpenVault | outside this fork; NETIE.md section 3 (consented custody) |
+| Optional Redis (`redis:` block) for shared rate-limit buckets, LiteLLM DB, Kafka, OTEL | upstream features untouched; not needed for a single instance |
+
+Verdict: not launchable tomorrow as a product. The fork is build-green and key-free, but its
+one credential source is an OpenVault endpoint that does not exist yet, and its gate tests are
+unmeasured. The shortest path to a working product is (1) OpenVault implements the endpoint
+above, about one route plus a seat check, (2) `go test` is allowed on this fork once, (3) one
+end-to-end chat call through OpenVault `/v1` to this router to a real provider, observed.
+
 ## Not done / assumed
 
 - Not done: the upstream build and test suite (F3); catalog stage not raised; `INDEX.md`
