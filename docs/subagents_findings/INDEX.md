@@ -19,3 +19,10 @@ class and the invariant it rests on. "R4 held" is a valid finding.
 | 2026-10-05 | `2026-10-05-freeide-stage2.md` | freeide stage 2: OpenVault /v1 default provider, ids-only crew gate on shell/edit/webfetch, binary and config dir renamed; Zen free tier was a hidden vendor default; bun cannot reach GitHub tarballs here |
 | 2026-10-05 | `2026-10-05-wave1-sessions.md` | Shape and reasons for the 3 stage 2 sessions |
 | 2026-10-05 | `2026-10-05-ecosystem-lane.md` | 5 named projects are not forkable for sale; sibling patch gate is red on base; 4 tool bugs found only on real upstream trees |
+
+## Earlier findings (2026-08-22, Pointer bootstrap lane, PR #3)
+
+| When (UTC) | Agent | Keywords | Main idea |
+|------------|-------|----------|-----------|
+| 2026-08-22 13:41 | explore 3c0010a0 | windows-prove, POINTER_PROVE, install_windows | Highest-leverage: run prove + Desktop copy BEFORE daemon health throw. Prove does not need :7420. A wedged serve was the most likely reason no POINTER_PROVE.json appears. |
+| 2026-08-22 13:24 | explore 74492c19 | cash-paths, PARKING_LOT, TAS-POINTER | Open: Agentic (31 Aug), YC late, Cradle, H1/Bugcrowd, Fiverr, forhire, Outlier. Closed: Slingshot, IPHatch, MDAG-AI. Product Pointer Electron HUD / Clicky / 60s recall still uncloneable. |

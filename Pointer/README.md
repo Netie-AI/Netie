@@ -1,0 +1,62 @@
+# Pointer
+
+Laptop-control client (plane 4). Sees the screen, clicks, types, verifies. Cortex plans.
+This tree is the **bootstrap daemon** that this cloud environment can actually run.
+
+The product repo is `Netie-AI/Pointer` (private). This cloud GitHub token cannot clone it.
+Gmail shows it is alive (PR #26, #27 on 2026-08-22). Until the token can see that repo,
+run this daemon.
+
+## Run on this machine
+
+```bash
+cd Pointer
+PYTHONPATH=. python3 -m pointer serve
+```
+
+Health: `GET http://127.0.0.1:7420/health`
+
+## Prove control (Linux with a display)
+
+```bash
+cd Pointer
+PYTHONPATH=. python3 -m pointer prove
+PYTHONPATH=. python3 -m pointer live-click --x 220 --y 180
+./scripts/verify.sh
+```
+
+## Run on the Windows laptop
+
+1. Copy this `Pointer/` folder onto the laptop (next to `D:\Pointer` if that product tree exists).
+2. Double-click `scripts\install_windows.cmd` (same as `powershell -File scripts\install_windows.ps1`).
+3. Upload Desktop `POINTER_PROVE.json` in the Drive tab the script opens. Do not upload tokens.
+4. Optional cash paths: double-click `scripts\open_revenue.cmd` (AI Studio, Agentic, Cinema, YC, Hacker101). Not a $1M claim.
+
+That script starts `python -m pointer serve` on loopback if needed, runs
+`prove` (writes `.pointer-state/PROVE.json`, no tokens), copies
+`POINTER_CARD.txt`, `POINTER_PROVE.json`, plus `POINTER_RM300.png` to the Desktop,
+and opens Drive My Drive.
+
+`live-click` screenshots go to `.pointer-state/shots`, not `/tmp`.
+Do not set `POINTER_ALLOW_REMOTE=1`. Do not email pair tokens.
+This cloud VM still cannot click `D:\Pointer`.
+
+OpenClaw / Hermes: **not** a Pointer replacement. `NETIE.md` forbids a third
+orchestrator. Check with `python -m pointer verify`. Install via `ollama launch openclaw`
+or `ollama launch hermes` only on the laptop if this daemon cannot start.
+
+## Pay (does not expire)
+
+Open `pay/index.html` or, with the daemon up, http://127.0.0.1:7420/pay
+
+## Cradle CIP Spark
+
+`docs/CRADLE_SPARK.md`. Founder submits on GMS. Do not paste unverified traction.
+
+## Fiverr
+
+`docs/FIVERR_GIG.md`. Founder publishes. Pay on Fiverr for that gig.
+
+## Upwork
+
+`docs/UPWORK.md`. Founder publishes a catalog project. This agent will not log in.
