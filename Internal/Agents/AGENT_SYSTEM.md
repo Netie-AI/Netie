@@ -319,13 +319,25 @@ could live in the engine or in an app, it goes in the engine.
 
 ### WIP limit
 
-**At most two epics in flight, and at least one must be human-inspectable** - it produces
+**At most two epics IN FLIGHT, and at least one must be human-inspectable** - it produces
 something you can open, click, or read and react to. An epic wave of pure foundation work
 with nothing visible is how six weeks pass with no feedback, which is the failure this
 whole system exists to prevent.
 
 The PRD Agent enforces this. If the next-most-important epic is invisible foundation, it
 pairs it with a visible one rather than queueing four foundation epics.
+
+**In flight is not the same as open** (founder, 2026-08-21). An **open** epic is a live
+parent of record, so its children are not orphans. An epic is **in flight** only when a
+ticket runner is authorized to work it now. **Only in-flight epics count against the two.**
+
+This split is load-bearing rather than cosmetic. The no-orphan rule requires as many live
+parents as the board has ticket clusters; the WIP limit deliberately allows two active
+lanes. Counting open epics makes the two rules contradict, and the newer one then wins
+silently. Counting in-flight epics lets both hold.
+
+**Never close an epic to free a slot.** Move it to queued. Closing it orphans every open
+child, which is the failure the no-orphan rule exists to prevent, arriving by a side door.
 
 ---
 
@@ -374,6 +386,25 @@ weeks ago still lands in the right epic instead of becoming a fresh, duplicate e
 
 The third branch is the one that protects you. An agent that can silently widen a PRD
 will widen it every time, and the appetite becomes meaningless.
+
+### No orphan tickets - and why it does not override the third branch
+
+**Every ticket has a live parent epic** (founder, 2026-08-21). A ticket whose parent is
+closed is unscoped work waiting to be re-derived from memory. An epic may not be closed
+until each open child is re-parented, closed, or parked with an unlock condition.
+
+When a ticket classifies under no existing epic, a new epic is generated to hold it -
+**but a generated epic may hold only work an existing PRD clause already authorizes.**
+Work with no PRD clause still stops at the founder.
+
+Read the two rules together or the first one eats the second. Stated without this line,
+"generate a new epic" would *require* an agent that may never widen a PRD to manufacture a
+parent for anything handed to it. The correct reading: **no ticket may be an orphan, and
+no agent may invent scope.** When both fire at once, the amendment gate wins and the work
+waits with a named parent-to-be rather than a fabricated one.
+
+Repo-infrastructure defects serving no PRD clause are exempt - fix and close them rather
+than manufacturing a Tier 6.
 
 ### Cross-product feedback
 
@@ -484,9 +515,9 @@ does not have.
 
 | Agent | May never |
 |---|---|
-| PRD Agent | Create tickets. Slice around an unverified premise. Order by value instead of irreversibility. Widen a PRD without your sign-off. Queue four invisible epics. |
-| EPIC Agent | Report COMPLETE on an assertion it did not execute. Trust a checked box. Close a ticket. Skip an epic's `Depends on`. |
-| Ticket Runner | Weaken a test or a gate. Close on its own verification. Fan out on the main model. Close without updating the parent. Implement an unrouted feature request. |
+| PRD Agent | Create tickets. Slice around an unverified premise. Order by value instead of irreversibility. Widen a PRD without your sign-off. Queue four invisible epics. **Generate an epic for work no PRD clause authorizes.** |
+| EPIC Agent | Report COMPLETE on an assertion it did not execute. Trust a checked box. Close a ticket. Skip an epic's `Depends on`. **Close an epic that still has open children.** |
+| Ticket Runner | Weaken a test or a gate. Close on its own verification. Fan out on the main model. Close without updating the parent. Implement an unrouted feature request. **Work a ticket with no live parent - send it back for re-parenting.** |
 | All three | Author tiers 0-4. Edit a generated artifact. Merge a `demo/*` branch. Override your model selection. Emit a `BLOCKED` line without naming the repo and issue. |
 
 ---
