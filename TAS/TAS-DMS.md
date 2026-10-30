@@ -4,9 +4,15 @@
 **Measured:** 2026-08-02 against `feat/grounding-promote-spaces-boundary`. Verified
 against code, not documentation.
 
+**Tier 4 map:** purpose · plane · surface · dependencies · stores · trust · shipped vs
+scaffold · verify
+
 ---
 
 ## 1. What it is
+
+**One line:** FastAPI + React consumer over Cortex - Spaces, Studio ingest, governed chat,
+audit, pipelines - HTTP only, never imports `CortexOS`.
 
 A FastAPI + React consumer app over the Cortex engine: Spaces, Studio ingest, governed
 chat, audit, pipelines. It talks to Cortex over HTTP only and never imports `CortexOS`.
@@ -114,7 +120,21 @@ Tracked at `Netie-AI/dms#4`, `#5`, `Netie-AI/Cortex#14`.
 
 ---
 
-## 7. Scaffold - exists, no caller
+## 7. Shipped vs scaffold - honest
+
+**Shipped and exercised:**
+
+- FastAPI `create_app()` + React Router UI (10 pages) behind Caddy on `:8080`
+- Compliance gate fail-closed on mutations (`gatekeeping.py:57`)
+- Ed25519 session manifest minting over `canonical_manifest_bytes` from pinned wheel
+- Postgres RLS on all 13 tenant tables (`alembic 0001`)
+- Answer envelope E1-E8 (`envelope.py:195 assert_envelope_valid`)
+- Studio `POST /v1/studio/ingest-batch` with per-file receipts; bronze swap-on-success
+- `infer_contract` derives types and keys from unseen tables
+- `dms-verify-ledger` CLI; import boundaries enforced by `.importlinter`
+- **166 passed, 3 xfailed** (2026-08-02) - xfails are Space ACL until `#2`
+
+**Scaffold - exists, no caller:**
 
 - `executor/acl.py` in full
 - Four of the five ports (`CatalogPort`, `ObjectStorePort`, `ModelProviderPort`,
@@ -164,6 +184,16 @@ python -m pytest tests/ -q
 
 Measured 2026-08-02: **166 passed, 3 xfailed** in 58.73s. The 3 xfails are the strict
 Space-ACL boundary suite and are correct until `#2` lands.
+
+Portable contract in this repo: `scripts/dms_space_acl.py`. Product copy: `docs/patches/dms-netie-acl.patch`.
+Two Spaces, named warehouse bind, abstain outside ACL, abstain if Cortex DuckDB
+is asked for a DMS-bound Space, abstain if the answer has no SQL, abstain if SQL
+names a table the Space cannot read (JOIN punch), abstain if SQL omits the asked table,
+abstain bronze/warehouse browse of an ungranted table, abstain `chat_mode=True`
+(AnythingLLM overlay; warehouse answers need SQL), abstain an answer over
+DitchContext 12k (no silent drop).
+`python3 scripts/test_dms_space_acl.py`.
+Not a patch on dms; the production caller is still `demo_acl()` until that repo is writable.
 
 ```bash
 lint-imports

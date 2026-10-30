@@ -1,0 +1,37 @@
+diff --git a/OpenMW/openmw/openvault/route/execution.py b/OpenMW/openmw/openvault/route/execution.py
+index 47c0231..7935bd6 100644
+--- a/OpenMW/openmw/openvault/route/execution.py
++++ b/OpenMW/openmw/openvault/route/execution.py
+@@ -611,9 +611,12 @@ def hop_call_model(
+     serves: Callable[[Hop, str], bool] | None = None,
+ ) -> CallModel:
+     def call(model: str, **kwargs: Any) -> str:
++        found = hops_for_model(hops, model, serves=serves)
++        if not found:
++            raise ExecutionRefused(503, "no hop can serve model")
+         skipped_anthropic = False
+         tried = False
+-        for hop in hops_for_model(hops, model, serves=serves):
++        for hop in found:
+             if (hop.provider or "").strip().lower() == "anthropic":
+                 skipped_anthropic = True
+                 continue
+diff --git a/OpenMW/tests/test_execution_shapes.py b/OpenMW/tests/test_execution_shapes.py
+index 7a730a3..5e3fe50 100644
+--- a/OpenMW/tests/test_execution_shapes.py
++++ b/OpenMW/tests/test_execution_shapes.py
+@@ -236,6 +236,14 @@ def test_hop_call_model_anthropic_only_names_the_skip() -> None:
+     assert seen == []
+ 
+ 
++def test_hop_call_model_missing_hop_names_the_gap() -> None:
++    call = hop_call_model([Hop("k1", "p/a", "openai", True)], lambda *_a, **_k: "x")
++    with pytest.raises(ExecutionRefused) as ctx:
++        call("p/missing", user_text="Q")
++    assert ctx.value.code == 503
++    assert "no hop can serve model" in str(ctx.value)
++
++
+ def test_sse_wrap_text_is_buffered() -> None:
+     first, done = sse_wrap_text("hello")
+     assert first.startswith(b"data: ")

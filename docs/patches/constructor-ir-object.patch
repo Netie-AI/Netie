@@ -1,0 +1,102 @@
+diff --git a/engine.js b/engine.js
+index 52970fb..184e1de 100644
+--- a/engine.js
++++ b/engine.js
+@@ -90,6 +90,8 @@ function listedOrEmpty(value, listed) {
+   return want;
+ }
+ 
++const DEFAULT_OBJECTS = ["inventory", "suppliers"];
++
+ function listedOptions(listed, value) {
+   const rows = Array.isArray(listed) ? listed.slice() : [];
+   const want = listedOrEmpty(value, rows);
+@@ -209,6 +211,7 @@ function compileIR(state) {
+   if (!output) {
+     output = byId[order[order.length - 1]];
+   }
++  const listedObjects = Array.isArray(state.objects) ? state.objects : DEFAULT_OBJECTS;
+   return {
+     version: "1.0",
+     engine: "cortex",
+@@ -223,7 +226,7 @@ function compileIR(state) {
+         id: n.id,
+         kind: kind,
+         constructor_kind: n.kind,
+-        object_type: n.object_type || null,
++        object_type: listedOrEmpty(n.object_type, listedObjects) || null,
+         data_point: n.data_point || null,
+         data_type: n.data_type || null,
+         action_type: n.action_type || null,
+@@ -270,6 +273,7 @@ function ghostWalk(state, ghostFlag) {
+     const node = state.nodes.find((n) => n.id === id);
+     if (!node) continue;
+     const write = !ghostFlag && (node.kind === "tool_call" || node.kind === "app");
++    const compiled = ir.nodes.find((row) => row.id === node.id);
+     log.push({
+       id: node.id,
+       kind: node.kind,
+@@ -278,7 +282,7 @@ function ghostWalk(state, ghostFlag) {
+       write: !!write,
+       would: node.note,
+       action_type: node.action_type || null,
+-      object_type: node.object_type || null,
++      object_type: compiled ? compiled.object_type : null,
+       data_point: node.data_point || null,
+       fetch_from: node.fetch_from || null,
+     });
+diff --git a/tests/compiler.test.cjs b/tests/compiler.test.cjs
+index babf766..05ce073 100644
+--- a/tests/compiler.test.cjs
++++ b/tests/compiler.test.cjs
+@@ -354,3 +354,50 @@ test("set point does not invent inventory for a missing object", () => {
+   assert.equal(objectForSetPoint("nope", objects), "");
+   assert.equal(objectForSetPoint("inventory", objects), "inventory");
+ });
++
++test("compileIR does not keep an unlisted object_type", () => {
++  const ir = compileIR({
++    nodes: [{ id: "c", kind: "connector", object_type: "hr_notes" }],
++    edges: [],
++  });
++  assert.equal(ir.error, undefined);
++  assert.equal(ir.nodes[0].object_type, null);
++  const insight = compileIR({
++    nodes: [{ id: "i", kind: "insight", object_type: "Insight" }],
++    edges: [],
++  });
++  assert.equal(insight.nodes[0].object_type, null);
++});
++
++test("compileIR keeps a listed object_type", () => {
++  const ir = compileIR({
++    nodes: [{ id: "c", kind: "connector", object_type: "inventory" }],
++    edges: [],
++  });
++  assert.equal(ir.nodes[0].object_type, "inventory");
++});
++
++test("compileIR uses the caller object catalog", () => {
++  const ir = compileIR({
++    objects: ["shipments"],
++    nodes: [
++      { id: "ok", kind: "connector", object_type: "shipments" },
++      { id: "no", kind: "connector", object_type: "inventory" },
++    ],
++    edges: [],
++  });
++  assert.equal(ir.nodes.find((n) => n.id === "ok").object_type, "shipments");
++  assert.equal(ir.nodes.find((n) => n.id === "no").object_type, null);
++});
++
++test("ghostWalk does not log an unlisted object_type", () => {
++  const walked = ghostWalk(
++    {
++      nodes: [{ id: "c", kind: "connector", object_type: "hr_notes" }],
++      edges: [],
++    },
++    true
++  );
++  assert.equal(walked.error, undefined);
++  assert.equal(walked.log[0].object_type, null);
++});

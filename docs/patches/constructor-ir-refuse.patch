@@ -1,0 +1,119 @@
+diff --git a/engine.js b/engine.js
+index 49dfd4e..cba6339 100644
+--- a/engine.js
++++ b/engine.js
+@@ -84,6 +84,19 @@ function rankForKinds(kinds) {
+   }).sort((a, b) => b.score - a.score);
+ }
+ 
++function irError(ghost, message) {
++  return {
++    version: "1.0",
++    engine: "cortex",
++    ghost: ghost,
++    entry_node_id: null,
++    output_node_id: null,
++    nodes: [],
++    edges: [],
++    error: message,
++  };
++}
++
+ function compileIR(state) {
+   const nodes = (state && state.nodes) || [];
+   const edges = (state && state.edges) || [];
+@@ -103,6 +116,43 @@ function compileIR(state) {
+       error: "empty graph",
+     };
+   }
++  const unknown = nodes.filter(function (n) {
++    return !Object.prototype.hasOwnProperty.call(CORTEX_KIND, n.kind);
++  });
++  if (unknown.length) {
++    return irError(
++      ghost,
++      "unknown kind: " + unknown.map(function (n) { return n.kind; }).join(", ")
++    );
++  }
++  const ids = {};
++  for (let i = 0; i < nodes.length; i++) ids[nodes[i].id] = true;
++  for (let i = 0; i < edges.length; i++) {
++    const e = edges[i];
++    if (!ids[e.from] || !ids[e.to]) {
++      return irError(ghost, "dangling edge");
++    }
++  }
++  const incoming = {};
++  for (let i = 0; i < nodes.length; i++) incoming[nodes[i].id] = 0;
++  for (let i = 0; i < edges.length; i++) incoming[edges[i].to] += 1;
++  const q = [];
++  for (let i = 0; i < nodes.length; i++) {
++    if (incoming[nodes[i].id] === 0) q.push(nodes[i].id);
++  }
++  let seen = 0;
++  while (q.length) {
++    const id = q.shift();
++    seen += 1;
++    for (let i = 0; i < edges.length; i++) {
++      if (edges[i].from !== id) continue;
++      incoming[edges[i].to] -= 1;
++      if (incoming[edges[i].to] === 0) q.push(edges[i].to);
++    }
++  }
++  if (seen !== nodes.length) {
++    return irError(ghost, "cycle");
++  }
+   const output =
+     [...nodes].reverse().find((n) => n.kind === "app") ||
+     [...nodes].reverse().find((n) => n.kind === "audit") ||
+@@ -114,7 +164,7 @@ function compileIR(state) {
+     entry_node_id: nodes[0].id,
+     output_node_id: output.id,
+     nodes: nodes.map((n) => {
+-      let kind = CORTEX_KIND[n.kind] || "DOCUMENT_REF";
++      let kind = CORTEX_KIND[n.kind];
+       if (n.id === output.id) kind = "EMIT";
+       else if (kind === "EMIT") kind = "DETERMINISTIC_RULE";
+       return {
+diff --git a/tests/compiler.test.cjs b/tests/compiler.test.cjs
+index 8f782da..cfd5350 100644
+--- a/tests/compiler.test.cjs
++++ b/tests/compiler.test.cjs
+@@ -65,3 +65,37 @@ test("empty graph does not invent Cortex nodes", () => {
+   assert.deepEqual(ir.nodes, []);
+   assert.equal(ir.entry_node_id, null);
+ });
++
++test("unknown kind does not invent DOCUMENT_REF", () => {
++  const ir = compileIR({
++    nodes: [{ id: "x", kind: "n8n", note: "no" }],
++    edges: [],
++  });
++  assert.equal(ir.error, "unknown kind: n8n");
++  assert.deepEqual(ir.nodes, []);
++  assert.equal(ir.entry_node_id, null);
++});
++
++test("cycle does not emit a fake topo", () => {
++  const ir = compileIR({
++    nodes: [
++      { id: "a", kind: "connector" },
++      { id: "b", kind: "ontology" },
++    ],
++    edges: [
++      { from: "a", to: "b" },
++      { from: "b", to: "a" },
++    ],
++  });
++  assert.equal(ir.error, "cycle");
++  assert.deepEqual(ir.nodes, []);
++});
++
++test("dangling edge does not invent a node", () => {
++  const ir = compileIR({
++    nodes: [{ id: "a", kind: "connector" }],
++    edges: [{ from: "a", to: "missing" }],
++  });
++  assert.equal(ir.error, "dangling edge");
++  assert.deepEqual(ir.nodes, []);
++});

@@ -1,0 +1,484 @@
+diff --git a/AGENTS.md b/AGENTS.md
+index 4940e9b..34d1cc6 100644
+--- a/AGENTS.md
++++ b/AGENTS.md
+@@ -1,6 +1,6 @@
+ # AGENTS.md
+ 
+-DeepSeek Harness is an all-plugin Cordis agent harness. Read [docs/architecture.md](docs/architecture.md) before changing `packages/`; follow [docs/AGENTS.md](docs/AGENTS.md) for documentation.
++Crew Harness is an all-plugin Cordis agent harness. Read [docs/architecture.md](docs/architecture.md) before changing `packages/`; follow [docs/AGENTS.md](docs/AGENTS.md) for documentation.
+ 
+ ## Pre-stable APIs and released Session data
+ 
+diff --git a/BRAND_GUIDELINES.md b/BRAND_GUIDELINES.md
+index 900cf7b..923d3d4 100644
+--- a/BRAND_GUIDELINES.md
++++ b/BRAND_GUIDELINES.md
+@@ -1,12 +1,12 @@
+-# DeepSeek Harness Brand Asset Usage Guidelines
++# Crew Harness Brand Asset Usage Guidelines
+ 
+ English | [中文](BRAND_GUIDELINES.zh.md)
+ 
+-To maintain the long\-term healthy development of the DeepSeek Harness ecosystem, avoid user confusion, and facilitate the retrieval and identification of related resources, we have established these specifications and hope that everyone will adhere to them:
++To maintain the long\-term healthy development of the Crew Harness ecosystem, avoid user confusion, and facilitate the retrieval and identification of related resources, we have established these specifications and hope that everyone will adhere to them:
+ 
+-- In your project's descriptive text, you may use "DeepSeek Harness" to truthfully and accurately describe your project's relationship with DeepSeek Harness, for example, "built on DeepSeek Harness" or "compatible with DeepSeek Harness\." Such descriptions comply with license requirements and help users understand your project's positioning\.
+-- If you wish your project name to reflect its association with the DeepSeek Harness ecosystem, we recommend using the abbreviated "DSH" designation for naming, which is both clear and facilitates communication within the community\.
+-- When naming your project, please avoid using the full "DeepSeek Harness" trademark directly\. "DeepSeek Harness" is a registered trademark of DeepSeek\. Unauthorized use in project names can easily lead to user misunderstanding and confusion, thereby affecting the clarity of the entire ecosystem\. It may also involve trademark infringement\.
++- In your project's descriptive text, you may use "Crew Harness" to truthfully and accurately describe your project's relationship with Crew Harness, for example, "built on Crew Harness" or "compatible with Crew Harness\." Such descriptions comply with license requirements and help users understand your project's positioning\.
++- If you wish your project name to reflect its association with the Crew Harness ecosystem, we recommend using the abbreviated "DSH" designation for naming, which is both clear and facilitates communication within the community\.
++- When naming your project, please avoid using the full "Crew Harness" trademark directly\. "Crew Harness" is a registered trademark of DeepSeek\. Unauthorized use in project names can easily lead to user misunderstanding and confusion, thereby affecting the clarity of the entire ecosystem\. It may also involve trademark infringement\.
+ - Additionally, please avoid using official brand materials in your promotions or presentations in a way that could cause misunderstanding, so as not to give users the false impression of official endorsement, cooperation, or authorization\.
+ 
+ We believe that a clear and orderly community environment will make every developer's efforts more visible and more readily recognized\. For the few cases that do not comply with the above specifications, we may contact the relevant parties to make appropriate adjustments in order to maintain the overall order of the ecosystem\. Thank you for your understanding and support—let us work together to build a more friendly and sustainable open\-source community\.
+diff --git a/BRAND_GUIDELINES.zh.md b/BRAND_GUIDELINES.zh.md
+index 94b239b..80eb89d 100644
+--- a/BRAND_GUIDELINES.zh.md
++++ b/BRAND_GUIDELINES.zh.md
+@@ -1,12 +1,12 @@
+-# DeepSeek Harness 品牌素材使用规范
++# Crew Harness 品牌素材使用规范
+ 
+ [English](BRAND_GUIDELINES.md) | 中文
+ 
+-为了维护 DeepSeek Harness 生态的长期健康发展，避免用户混淆，方便用户对相关资源进行检索和识别，我们特别制定本规范，希望大家共同遵守：
++为了维护 Crew Harness 生态的长期健康发展，避免用户混淆，方便用户对相关资源进行检索和识别，我们特别制定本规范，希望大家共同遵守：
+ 
+-- 在项目的描述性文字中，您可以使用“DeepSeek Harness”真实、准确地说明您的项目与 DeepSeek Harness 的关系，例如“基于 DeepSeek Harness 构建”或“兼容 DeepSeek Harness”等。这类说明符合许可证的要求，也有助于用户理解项目的定位。
+-- 如果您希望项目名称能体现与 DeepSeek Harness 生态的关联，我们建议使用缩写的 **“DSH”** 标识来命名，这样既清晰又便于社区内的交流。
+-- 在项目命名时，请避免直接使用完整的 **“DeepSeek Harness”** 商标。**“DeepSeek Harness”** 是深度求索公司的注册商标，未经授权用于项目名，容易引发用户的误解和混淆，从而影响整个生态的清晰度。同时，也可能涉及商标侵权行为。
++- 在项目的描述性文字中，您可以使用“Crew Harness”真实、准确地说明您的项目与 Crew Harness 的关系，例如“基于 Crew Harness 构建”或“兼容 Crew Harness”等。这类说明符合许可证的要求，也有助于用户理解项目的定位。
++- 如果您希望项目名称能体现与 Crew Harness 生态的关联，我们建议使用缩写的 **“DSH”** 标识来命名，这样既清晰又便于社区内的交流。
++- 在项目命名时，请避免直接使用完整的 **“Crew Harness”** 商标。**“Crew Harness”** 是深度求索公司的注册商标，未经授权用于项目名，容易引发用户的误解和混淆，从而影响整个生态的清晰度。同时，也可能涉及商标侵权行为。
+ - 此外，请您避免在宣传或展示时，以容易引起误解的方式使用官方品牌素材，以免让用户产生官方背书、合作或授权等不实印象。
+ 
+ 我们相信，一个清晰、有序的社区环境，能让每一位开发者的努力都更容易被看见和认可。对于少数不符合上述规范的情况，我们可能会联系相关方进行适当的调整，以维护生态整体的秩序。感谢大家的理解与支持，让我们一起构建一个更友好、更可持续发展的开源社区。
+diff --git a/CONTRIBUTING.md b/CONTRIBUTING.md
+index 9f30e23..2911a05 100644
+--- a/CONTRIBUTING.md
++++ b/CONTRIBUTING.md
+@@ -2,21 +2,21 @@
+ 
+ English | [中文](CONTRIBUTING.zh.md)
+ 
+-Thank you for your interest in contributing to DeepSeek Harness!
++Thank you for your interest in contributing to Crew Harness!
+ 
+ We deeply believe in the power of open source communities, and that belief has shaped this project from the very beginning.
+ 
+-DeepSeek Harness is still at an early stage and under active development. We are sorry that we cannot accept external pull requests at the moment. However, contributing code to this repository is far from the only way to help. There are many other ways to get involved:
++Crew Harness is still at an early stage and under active development. We are sorry that we cannot accept external pull requests at the moment. However, contributing code to this repository is far from the only way to help. There are many other ways to get involved:
+ 
+ - Identify and report issues or bugs in GitHub Discussions:
+   - Upvote discussions that you would like to bring to the team's attention. We are a very small team and may not be able to reply to every post, but we monitor them and consider them when allocating resources.
+ - Contribute to the ecosystem:
+   - Create a plugin that excites you and share it with others:
+     - Associate your GitHub project with the `dsh-plugin` topic to help others discover your plugin.
+-  - Write blog posts and how-to guides about DeepSeek Harness.
++  - Write blog posts and how-to guides about Crew Harness.
+   - Answer questions and help other members of the community.
+ 
+-DeepSeek Harness is designed to be deeply customizable. We do not believe that packages in the official repository are inherently more important than packages created by the community. You may consider this repository an idea, an official showcase, and a source of inspiration, but not a mandate from us.
++Crew Harness is designed to be deeply customizable. We do not believe that packages in the official repository are inherently more important than packages created by the community. You may consider this repository an idea, an official showcase, and a source of inspiration, but not a mandate from us.
+ 
+ We have already seen exciting projects emerge from the community, and we hope to see the ecosystem continue to grow in its own directions.
+ 
+diff --git a/CONTRIBUTING.zh.md b/CONTRIBUTING.zh.md
+index 35eb0b8..0cbf36a 100644
+--- a/CONTRIBUTING.zh.md
++++ b/CONTRIBUTING.zh.md
+@@ -2,21 +2,21 @@
+ 
+ [English](CONTRIBUTING.md) | 中文
+ 
+-感谢你愿意为 DeepSeek Harness 作出贡献！
++感谢你愿意为 Crew Harness 作出贡献！
+ 
+-我们深信开源社区的力量，这份信念从项目最初就塑造着 DeepSeek Harness。
++我们深信开源社区的力量，这份信念从项目最初就塑造着 Crew Harness。
+ 
+-DeepSeek Harness 仍处于早期阶段，并在积极开发中。很抱歉，我们目前无法接受外部 PR（Pull Request）。不过，贡献代码远非帮助本仓库建设的唯一途径。你还可以通过许多其他方式参与进来：
++Crew Harness 仍处于早期阶段，并在积极开发中。很抱歉，我们目前无法接受外部 PR（Pull Request）。不过，贡献代码远非帮助本仓库建设的唯一途径。你还可以通过许多其他方式参与进来：
+ 
+ - 在 GitHub Discussions 中发现并报告问题或 bug：
+   - 为你希望引起团队关注的讨论投票。我们的团队规模很小，可能无法回复每个帖子，但我们会持续关注，并在分配资源时将这些讨论纳入考虑。
+ - 为生态系统作出贡献：
+   - 创建令你感兴趣的插件，并分享给其他人：
+     - 为你的 GitHub 项目添加 `dsh-plugin` 话题，让其他人更容易找到你的插件。
+-  - 撰写有关 DeepSeek Harness 的博客文章和操作指南。
++  - 撰写有关 Crew Harness 的博客文章和操作指南。
+   - 回答问题并帮助其他社区成员。
+ 
+-DeepSeek Harness 的设计支持深度定制。我们并不认为官方仓库中的包天然就比社区开发的包更重要。你可以将本仓库看作一种理念、一份官方示例以及一处灵感来源，而不是我们要求社区遵循的方向。
++Crew Harness 的设计支持深度定制。我们并不认为官方仓库中的包天然就比社区开发的包更重要。你可以将本仓库看作一种理念、一份官方示例以及一处灵感来源，而不是我们要求社区遵循的方向。
+ 
+ 我们已经看到社区中涌现出令人期待的项目，也希望生态系统继续沿着自己的方向发展。
+ 
+diff --git a/NETIE-ATTRIBUTION.md b/NETIE-ATTRIBUTION.md
+new file mode 100644
+index 0000000..4c98f6b
+--- /dev/null
++++ b/NETIE-ATTRIBUTION.md
+@@ -0,0 +1,24 @@
++# Attribution
++
++Netie Crew Harness is a modified distribution of deepseek-ai/deepseek-harness
++(https://github.com/deepseek-ai/deepseek-harness), pinned at commit 5badb15009.
++
++Upstream license: MIT. LICENSE is included unmodified, with every
++upstream copyright line, and so is any NOTICE file.
++
++- Copyright (c) 2026 DeepSeek
++
++Not affiliated with or endorsed by the upstream authors. Upstream names and
++logos belong to their owners.
++
++## Changed in stage 1
++
++- Display name DeepSeek Harness rewritten to Crew Harness in prose docs only.
++- This file and a README banner added.
++
++## Not done yet (stage 2)
++
++- Package names, binaries, identifiers and UI strings are still upstream's.
++- SECURITY, SUPPORT and CONTRIBUTING contacts and URLs still point at upstream.
++- Translated docs, changelogs and third-party notices are untouched.
++- Netie gate wiring: Model plugin -> OpenVault /v1. Tool and sandbox plugins register only through Cortex tool_runner.
+diff --git a/README.md b/README.md
+index 7941e30..d15cce4 100644
+--- a/README.md
++++ b/README.md
+@@ -1,8 +1,10 @@
+-# DeepSeek Harness
++> **Netie Crew Harness** is a modified distribution of [deepseek-ai/deepseek-harness](https://github.com/deepseek-ai/deepseek-harness) (MIT). See NETIE-ATTRIBUTION.md. Not endorsed by the upstream authors.
++
++# Crew Harness
+ 
+ English | [中文](README.zh.md)
+ 
+-DeepSeek Harness (`dsh`) is an open-source agent harness developed by [DeepSeek AI](https://deepseek.com).
++Crew Harness (`dsh`) is an open-source agent harness developed by [DeepSeek AI](https://deepseek.com).
+ 
+ It is built on an **everything-is-a-plugin** architecture and powered by [Cordis](https://github.com/cordiverse/cordis), whose design is described in [_A Programming Paradigm for Spatiotemporal Composability_](https://arxiv.org/abs/2608.25512).
+ 
+@@ -10,7 +12,7 @@ Documentation: [https://deepseek-harness.github.io/deepseek-harness/](https://de
+ 
+ ## Developer preview
+ 
+-DeepSeek Harness is in _developer preview_ and iterating rapidly. **THERE WILL BE COMPATIBILITY-BREAKING CHANGES.**
++Crew Harness is in _developer preview_ and iterating rapidly. **THERE WILL BE COMPATIBILITY-BREAKING CHANGES.**
+ 
+ Review the [safety notice](SAFETY.md) before running the project.
+ 
+@@ -44,7 +46,7 @@ pnpm dsh web
+ 
+ - Submit feedback or bug reports through [GitHub Discussions](https://github.com/deepseek-ai/deepseek-harness/discussions).
+ - Add the [`dsh-plugin`](https://github.com/topics/dsh-plugin) topic to your plugin repository for discoverability.
+-- Join <a href="https://discord.gg/4MrtZUhpxg">DeepSeek Harness Discord community</a>.
++- Join <a href="https://discord.gg/4MrtZUhpxg">Crew Harness Discord community</a>.
+ 
+ ## Contributing
+ 
+diff --git a/README.zh.md b/README.zh.md
+index 3adc57c..78dc632 100644
+--- a/README.zh.md
++++ b/README.zh.md
+@@ -1,8 +1,8 @@
+-# DeepSeek Harness
++# Crew Harness
+ 
+ [English](README.md) | 中文
+ 
+-DeepSeek Harness（`dsh`）是由 [DeepSeek AI](https://deepseek.com) 开发的开源 agent harness（智能体框架）。
++Crew Harness（`dsh`）是由 [DeepSeek AI](https://deepseek.com) 开发的开源 agent harness（智能体框架）。
+ 
+ 它构建于**一切皆插件**的架构之上，由 [Cordis](https://github.com/cordiverse/cordis) 驱动，其设计参见论文 [_A Programming Paradigm for Spatiotemporal Composability_](https://arxiv.org/abs/2608.25512)。
+ 
+@@ -10,7 +10,7 @@ DeepSeek Harness（`dsh`）是由 [DeepSeek AI](https://deepseek.com) 开发的
+ 
+ ## 开发者预览
+ 
+-DeepSeek Harness 处于 _开发者预览_ 阶段，正在快速迭代。**未来将出现破坏兼容性的变更。**
++Crew Harness 处于 _开发者预览_ 阶段，正在快速迭代。**未来将出现破坏兼容性的变更。**
+ 
+ 运行本项目前，请阅读[安全说明](SAFETY.zh.md)。
+ 
+@@ -48,7 +48,7 @@ pnpm dsh web
+ 
+ - 通过 [GitHub Discussions](https://github.com/deepseek-ai/deepseek-harness/discussions) 提交反馈或 bug 报告。
+ - 为你的插件仓库添加 [`dsh-plugin`](https://github.com/topics/dsh-plugin) 话题，便于被发现。
+-- 欢迎加入 DeepSeek Harness 企微群！扫描下方二维码填写入群问卷，小助手会定期发送入群邀请。
++- 欢迎加入 Crew Harness 企微群！扫描下方二维码填写入群问卷，小助手会定期发送入群邀请。
+ 
+ <table>
+   <thead>
+diff --git a/SAFETY.md b/SAFETY.md
+index 2b76f00..c5623f9 100644
+--- a/SAFETY.md
++++ b/SAFETY.md
+@@ -4,7 +4,7 @@ English | [中文](SAFETY.zh.md)
+ 
+ ## Experimental status
+ 
+-DeepSeek Harness is experimental developer-preview software. It has not undergone a security audit and must not be treated as secure or production-ready.
++Crew Harness is experimental developer-preview software. It has not undergone a security audit and must not be treated as secure or production-ready.
+ 
+ The project can execute model-generated code and commands, load third-party plugins, and access the network, processes, credentials, and files made available to it. Incorrect model output, defects, misconfiguration, malicious input, or untrusted plugins may damage the host computer, modify or delete files, disclose data or credentials, or cause other unintended effects.
+ 
+@@ -12,7 +12,7 @@ The project can execute model-generated code and commands, load third-party plug
+ 
+ Sandboxing, approval prompts, and permission controls can reduce risk, but they do not guarantee isolation or prevent damage. Even correctly enforced restrictions cannot protect resources that the project is allowed to access.
+ 
+-Do not rely on DeepSeek Harness as the sole security control for untrusted workloads.
++Do not rely on Crew Harness as the sole security control for untrusted workloads.
+ 
+ ## Responsible use
+ 
+@@ -24,4 +24,4 @@ Do not rely on DeepSeek Harness as the sole security control for untrusted workl
+ 
+ ## No warranty or liability
+ 
+-Use DeepSeek Harness at your own risk. The software is provided without warranty under the [MIT License](LICENSE). To the maximum extent permitted by applicable law, the authors and copyright holders are not responsible for damage to computers, loss or disclosure of data, loss of files, or other harm arising from use of the project.
++Use Crew Harness at your own risk. The software is provided without warranty under the [MIT License](LICENSE). To the maximum extent permitted by applicable law, the authors and copyright holders are not responsible for damage to computers, loss or disclosure of data, loss of files, or other harm arising from use of the project.
+diff --git a/SAFETY.zh.md b/SAFETY.zh.md
+index 6f7dae4..b229233 100644
+--- a/SAFETY.zh.md
++++ b/SAFETY.zh.md
+@@ -4,7 +4,7 @@
+ 
+ ## 实验性状态
+ 
+-DeepSeek Harness 是实验性的开发者预览软件。它尚未接受安全审计，不得视为安全或可用于生产环境的软件。
++Crew Harness 是实验性的开发者预览软件。它尚未接受安全审计，不得视为安全或可用于生产环境的软件。
+ 
+ 本项目可以执行模型生成的代码与命令、加载第三方插件，并访问向其开放的网络、进程、凭据和文件。错误的模型输出、缺陷、配置错误、恶意输入或不可信插件可能损坏宿主计算机、修改或删除文件、泄露数据或凭据，或造成其他非预期影响。
+ 
+@@ -12,7 +12,7 @@ DeepSeek Harness 是实验性的开发者预览软件。它尚未接受安全审
+ 
+ 沙箱、审批提示与权限控制可以降低风险，但不保证隔离，也不能保证防止损害。即使限制得到正确执行，也无法保护本项目获准访问的资源。
+ 
+-不要把 DeepSeek Harness 当作不可信工作负载唯一的安全控制措施。
++不要把 Crew Harness 当作不可信工作负载唯一的安全控制措施。
+ 
+ ## 负责任地使用
+ 
+@@ -24,4 +24,4 @@ DeepSeek Harness 是实验性的开发者预览软件。它尚未接受安全审
+ 
+ ## 不提供保证，不承担责任
+ 
+-请在充分了解相关风险的前提下使用 DeepSeek Harness。本软件依照 [MIT License](LICENSE) 提供，不附带任何保证。在适用法律允许的最大范围内，对于使用本项目造成的计算机损坏、数据丢失或泄露、文件丢失或其他损害，作者和版权持有人不承担责任。
++请在充分了解相关风险的前提下使用 Crew Harness。本软件依照 [MIT License](LICENSE) 提供，不附带任何保证。在适用法律允许的最大范围内，对于使用本项目造成的计算机损坏、数据丢失或泄露、文件丢失或其他损害，作者和版权持有人不承担责任。
+diff --git a/docs/architecture.md b/docs/architecture.md
+index 8514fd8..e99e2d4 100644
+--- a/docs/architecture.md
++++ b/docs/architecture.md
+@@ -1,4 +1,4 @@
+-# DeepSeek Harness Architecture
++# Crew Harness Architecture
+ 
+ English | [中文](architecture.zh.md)
+ 
+diff --git a/docs/architecture.zh.md b/docs/architecture.zh.md
+index fb713b9..397b479 100644
+--- a/docs/architecture.zh.md
++++ b/docs/architecture.zh.md
+@@ -1,4 +1,4 @@
+-# DeepSeek Harness 架构
++# Crew Harness 架构
+ 
+ [English](architecture.md) | 中文
+ 
+diff --git a/docs/cookbook/adding-a-package.md b/docs/cookbook/adding-a-package.md
+index af3547e..c3d0ff6 100644
+--- a/docs/cookbook/adding-a-package.md
++++ b/docs/cookbook/adding-a-package.md
+@@ -69,7 +69,7 @@ Use a singular `ctx` key for one engine, runtime, policy, controller, resolver,
+ | `Config` | It owns one resolved configuration value or one tightly bounded record and its update contract. | It stores a general collection, executes work, or exposes unrelated settings. |
+ | `Service` | It owns a cohesive domain service that no sharper role above states honestly. | The name exists only because the class extends Cordis `Service`. |
+ 
+-Use `SDK` only for the JSON-RPC client/server protocol used by the supported Python and TypeScript SDKs. DeepSeek Harness itself is an agent harness, not an SDK project. Use the canonical product spelling `Typert`, never `TypeRT` or `typeRT`.
++Use `SDK` only for the JSON-RPC client/server protocol used by the supported Python and TypeScript SDKs. Crew Harness itself is an agent harness, not an SDK project. Use the canonical product spelling `Typert`, never `TypeRT` or `typeRT`.
+ 
+ <a id="4-write-the-package-readme"></a>
+ 
+diff --git a/docs/cookbook/adding-a-package.zh.md b/docs/cookbook/adding-a-package.zh.md
+index c45632d..c68971d 100644
+--- a/docs/cookbook/adding-a-package.zh.md
++++ b/docs/cookbook/adding-a-package.zh.md
+@@ -69,7 +69,7 @@ package.json 不变式（由 `pnpm run constraints` / `scripts/check-workspace-c
+ | `Config` | 拥有一个已解析配置值，或一项边界严格的配置记录及其更新约定。 | 存储通用集合、执行工作或暴露无关设置。 |
+ | `Service` | 拥有一项无法用以上更精确角色诚实描述的内聚领域服务。 | 只因为类继承 Cordis `Service` 而使用该名称。 |
+ 
+-只对受支持的 Python 与 TypeScript SDK 所使用的 JSON-RPC 客户端／服务器协议使用 `SDK`。DeepSeek Harness 本身是 agent harness，不是 SDK 项目。产品拼写统一使用 `Typert`，不得使用 `TypeRT` 或 `typeRT`。
++只对受支持的 Python 与 TypeScript SDK 所使用的 JSON-RPC 客户端／服务器协议使用 `SDK`。Crew Harness 本身是 agent harness，不是 SDK 项目。产品拼写统一使用 `Typert`，不得使用 `TypeRT` 或 `typeRT`。
+ 
+ <a id="4-write-the-package-readme"></a>
+ 
+diff --git a/docs/cordis-primer.md b/docs/cordis-primer.md
+index 2e5a487..502008d 100644
+--- a/docs/cordis-primer.md
++++ b/docs/cordis-primer.md
+@@ -2,7 +2,7 @@
+ 
+ English | [中文](cordis-primer.zh.md)
+ 
+-Cordis is the vendored plugin framework underneath DeepSeek Harness. This primer teaches the Cordis ideas a harness plugin author needs before reading the generated service/event reference on the [subsystem pages](subsystems/core.md); the [Cordis tutorial](cordis-tutorial/index.md) walks the same ideas hands-on. The vendored source and sync procedure live in [vendor/README.md](../vendor/README.md).
++Cordis is the vendored plugin framework underneath Crew Harness. This primer teaches the Cordis ideas a harness plugin author needs before reading the generated service/event reference on the [subsystem pages](subsystems/core.md); the [Cordis tutorial](cordis-tutorial/index.md) walks the same ideas hands-on. The vendored source and sync procedure live in [vendor/README.md](../vendor/README.md).
+ 
+ ## Cordis In Five Ideas
+ 
+diff --git a/docs/cordis-primer.zh.md b/docs/cordis-primer.zh.md
+index 3706173..5c56aad 100644
+--- a/docs/cordis-primer.zh.md
++++ b/docs/cordis-primer.zh.md
+@@ -2,7 +2,7 @@
+ 
+ [English](cordis-primer.md) | 中文
+ 
+-Cordis 是 DeepSeek Harness 底层以 vendor 方式引入的插件框架。本文介绍 harness 插件作者在阅读[子系统页面](subsystems/core.zh.md)上生成的服务/事件参考之前需要了解的 Cordis 核心概念；[Cordis 教程](cordis-tutorial/index.zh.md)则通过实践逐一讲解这些概念。vendor 源码与同步流程见 [vendor/README.md](../vendor/README.md)。
++Cordis 是 Crew Harness 底层以 vendor 方式引入的插件框架。本文介绍 harness 插件作者在阅读[子系统页面](subsystems/core.zh.md)上生成的服务/事件参考之前需要了解的 Cordis 核心概念；[Cordis 教程](cordis-tutorial/index.zh.md)则通过实践逐一讲解这些概念。vendor 源码与同步流程见 [vendor/README.md](../vendor/README.md)。
+ 
+ ## 五个核心概念
+ 
+diff --git a/docs/cordis-tutorial/index.md b/docs/cordis-tutorial/index.md
+index c51965e..687afd7 100644
+--- a/docs/cordis-tutorial/index.md
++++ b/docs/cordis-tutorial/index.md
+@@ -2,7 +2,7 @@
+ 
+ English | [中文](index.zh.md)
+ 
+-Cordis is the plugin framework underneath DeepSeek Harness: a small runtime where every capability — tools, LLM adapters, file access, the agent loop itself — is a plugin mounted into a shared context. This tutorial teaches Cordis hands-on: each chapter is a runnable example you build in a scratch directory inside this repository, ending with a plugin wired into real harness services.
++Cordis is the plugin framework underneath Crew Harness: a small runtime where every capability — tools, LLM adapters, file access, the agent loop itself — is a plugin mounted into a shared context. This tutorial teaches Cordis hands-on: each chapter is a runnable example you build in a scratch directory inside this repository, ending with a plugin wired into real harness services.
+ 
+ The audience is agent developers. You do not need deep TypeScript experience; the [TypeScript notes](#typescript-notes) below explain the syntax that may be unfamiliar, and every chapter shows the exact commands and expected output.
+ 
+diff --git a/docs/cordis-tutorial/index.zh.md b/docs/cordis-tutorial/index.zh.md
+index 05f5469..518b38d 100644
+--- a/docs/cordis-tutorial/index.zh.md
++++ b/docs/cordis-tutorial/index.zh.md
+@@ -2,7 +2,7 @@
+ 
+ [English](index.md) | 中文
+ 
+-Cordis 是 DeepSeek Harness 底层的插件框架：它是一个小型运行时，其中的每项能力，包括工具、LLM（大语言模型）适配器、文件访问乃至 agent loop（智能体循环）本身，都是挂载到共享上下文中的插件。本教程通过动手实践讲解 Cordis：每一章都是一个可以运行的示例，你将在本仓库内的临时目录中逐步构建它，最后把一个插件接入真实的 harness 服务。
++Cordis 是 Crew Harness 底层的插件框架：它是一个小型运行时，其中的每项能力，包括工具、LLM（大语言模型）适配器、文件访问乃至 agent loop（智能体循环）本身，都是挂载到共享上下文中的插件。本教程通过动手实践讲解 Cordis：每一章都是一个可以运行的示例，你将在本仓库内的临时目录中逐步构建它，最后把一个插件接入真实的 harness 服务。
+ 
+ 本教程面向 agent 开发者。你不需要深入掌握 TypeScript；下文的 [TypeScript 说明](#typescript-notes)会解释可能陌生的语法，并且每一章都会给出确切命令和预期输出。
+ 
+diff --git a/docs/deepseek-llm-api-wire-extensions.zh.md b/docs/deepseek-llm-api-wire-extensions.zh.md
+index 08be493..f4c247a 100644
+--- a/docs/deepseek-llm-api-wire-extensions.zh.md
++++ b/docs/deepseek-llm-api-wire-extensions.zh.md
+@@ -2,7 +2,7 @@
+ 
+ [English](deepseek-llm-api-wire-extensions.md) | 中文
+ 
+-本参考定义 [`@deepseek-ai/dsh-llm-deepseek`](../packages/llm/llm-deepseek/README.zh.md) 在 `deepseek-official` Messages 请求中发送的全部 DeepSeek Harness 专用 HTTP 标头与附加 JSON 字段。它不重新定义上游 DeepSeek API 自有字段。提供方无关的 LLM 接口与 `llm-pi-ai` 不实现这些扩展。
++本参考定义 [`@deepseek-ai/dsh-llm-deepseek`](../packages/llm/llm-deepseek/README.zh.md) 在 `deepseek-official` Messages 请求中发送的全部 Crew Harness 专用 HTTP 标头与附加 JSON 字段。它不重新定义上游 DeepSeek API 自有字段。提供方无关的 LLM 接口与 `llm-pi-ai` 不实现这些扩展。
+ 
+ 适配器将这些扩展发送至已解析的 `baseURL`，包括已配置的网关。扩展位于 `messages`、系统提示词和工具 schema 之外，因此不会增加模型输入 token，也不会改变模型可见前缀。
+ 
+diff --git a/docs/glossary.md b/docs/glossary.md
+index 1a9ac39..58a685b 100644
+--- a/docs/glossary.md
++++ b/docs/glossary.md
+@@ -2,7 +2,7 @@
+ 
+ English | [中文](glossary.zh.md)
+ 
+-Domain vocabulary for DeepSeek Harness uses one canonical term per concept. Terms link to their entries with standard Markdown anchors; implementation detail stays in package READMEs and Agent Notes.
++Domain vocabulary for Crew Harness uses one canonical term per concept. Terms link to their entries with standard Markdown anchors; implementation detail stays in package READMEs and Agent Notes.
+ 
+ ## capability-seam
+ 
+diff --git a/docs/glossary.zh.md b/docs/glossary.zh.md
+index cd41876..596c438 100644
+--- a/docs/glossary.zh.md
++++ b/docs/glossary.zh.md
+@@ -2,7 +2,7 @@
+ 
+ [English](glossary.md) | 中文
+ 
+-DeepSeek Harness 的领域词汇为每个概念规定一个规范术语。各术语通过标准 Markdown 锚点链接到相应条目；实现细节留在各包的 README 与 Agent Note 中。
++Crew Harness 的领域词汇为每个概念规定一个规范术语。各术语通过标准 Markdown 锚点链接到相应条目；实现细节留在各包的 README 与 Agent Note 中。
+ 
+ ## capability-seam
+ 
+diff --git a/docs/postmortem/0003-web-agent-gui-feedback-loop.md b/docs/postmortem/0003-web-agent-gui-feedback-loop.md
+index 3b83676..64e01af 100644
+--- a/docs/postmortem/0003-web-agent-gui-feedback-loop.md
++++ b/docs/postmortem/0003-web-agent-gui-feedback-loop.md
+@@ -10,7 +10,7 @@ A Web agent changed the GUI source but did not know which URL and process hosted
+ 
+ ## Summary
+ 
+-The session ran inside the DeepSeek Harness Web GUI at port 3081 while its selected Workspace was an empty `test/` directory. The model request named neither the GUI nor its source checkout, URL, process, or update mode. Repository affordances exposed `apps/web` with a Vite development script, while the full browser composition lived behind `dsh web`.
++The session ran inside the Crew Harness Web GUI at port 3081 while its selected Workspace was an empty `test/` directory. The model request named neither the GUI nor its source checkout, URL, process, or update mode. Repository affordances exposed `apps/web` with a Vite development script, while the full browser composition lived behind `dsh web`.
+ 
+ The resulting actions were individually plausible but did not share one acceptance target. A source edit, a successful build, an HTTP 200, an injected boot manifest, and the user's existing page were treated as interchangeable facts.
+ 
+diff --git a/docs/postmortem/0003-web-agent-gui-feedback-loop.zh.md b/docs/postmortem/0003-web-agent-gui-feedback-loop.zh.md
+index 402fe05..7b40793 100644
+--- a/docs/postmortem/0003-web-agent-gui-feedback-loop.zh.md
++++ b/docs/postmortem/0003-web-agent-gui-feedback-loop.zh.md
+@@ -10,7 +10,7 @@ Web agent 修改了 GUI 源码，却不知道当前会话对应哪个 URL、由
+ 
+ ## 概述
+ 
+-该会话运行在端口 3081 的 DeepSeek Harness Web GUI 中，而用户选择的 Workspace 是空的 `test/` 目录。模型请求既未指明该 GUI，也未提供它的源码检出目录、URL、进程或更新模式。仓库在 `apps/web` 中提供了 Vite 开发脚本，完整的浏览器组合则由 `dsh web` 提供。
++该会话运行在端口 3081 的 Crew Harness Web GUI 中，而用户选择的 Workspace 是空的 `test/` 目录。模型请求既未指明该 GUI，也未提供它的源码检出目录、URL、进程或更新模式。仓库在 `apps/web` 中提供了 Vite 开发脚本，完整的浏览器组合则由 `dsh web` 提供。
+ 
+ 由此产生的各个动作单看都合理，却没有指向同一个验收目标。源码修改、成功构建、HTTP 200、注入的启动 manifest（元数据清单）和用户原本打开的页面，被当成了可以相互替代的事实。
+ 
+diff --git a/docs/subsystems/README.md b/docs/subsystems/README.md
+index 3726197..132e1f1 100644
+--- a/docs/subsystems/README.md
++++ b/docs/subsystems/README.md
+@@ -2,7 +2,7 @@
+ 
+ English | [中文](README.zh.md)
+ 
+-One page per subsystem of the DeepSeek Harness: what it is, the data structures it moves, and — where a `ctx` service or event scope backs it — a generated **Cordis API** section carrying its service and event reference. The folder complements [architecture.md](../architecture.md), which describes *behavior* across subsystems (the service map, the session/turn/step lifecycle, the event taxonomy); each page here is the reference for one subsystem's vocabulary and wiring.
++One page per subsystem of the Crew Harness: what it is, the data structures it moves, and — where a `ctx` service or event scope backs it — a generated **Cordis API** section carrying its service and event reference. The folder complements [architecture.md](../architecture.md), which describes *behavior* across subsystems (the service map, the session/turn/step lifecycle, the event taxonomy); each page here is the reference for one subsystem's vocabulary and wiring.
+ 
+ | Page | Owns |
+ |---|---|
+diff --git a/docs/subsystems/README.zh.md b/docs/subsystems/README.zh.md
+index 6b9ca4e..7ba1b42 100644
+--- a/docs/subsystems/README.zh.md
++++ b/docs/subsystems/README.zh.md
+@@ -2,7 +2,7 @@
+ 
+ [English](README.md) | 中文
+ 
+-每个子系统一页，覆盖 DeepSeek Harness 的全部子系统：它是什么、它操作哪些数据结构，以及——当它由某个 `ctx` 服务或事件作用域支撑时——一段生成的 **Cordis API** 小节，承载其服务与事件参考。本目录与 [architecture.md](../architecture.zh.md) 互补：后者描述跨子系统的*行为*（服务映射、会话/轮次/步骤生命周期、事件分类体系）；这里的每一页是单个子系统词汇与接线的参考。
++每个子系统一页，覆盖 Crew Harness 的全部子系统：它是什么、它操作哪些数据结构，以及——当它由某个 `ctx` 服务或事件作用域支撑时——一段生成的 **Cordis API** 小节，承载其服务与事件参考。本目录与 [architecture.md](../architecture.zh.md) 互补：后者描述跨子系统的*行为*（服务映射、会话/轮次/步骤生命周期、事件分类体系）；这里的每一页是单个子系统词汇与接线的参考。
+ 
+ | 页面 | 负责内容 |
+ |---|---|
+diff --git a/docs/user/index.md b/docs/user/index.md
+index 6b7f3f2..f3d1a8e 100644
+--- a/docs/user/index.md
++++ b/docs/user/index.md
+@@ -6,6 +6,6 @@ head:
+       content: 0; url=./guide/quickstart
+ ---
+ 
+-# DeepSeek Harness
++# Crew Harness
+ 
+ English | [中文](index.zh.md)
+diff --git a/docs/user/index.zh.md b/docs/user/index.zh.md
+index 350185c..5f48e25 100644
+--- a/docs/user/index.zh.md
++++ b/docs/user/index.zh.md
+@@ -6,6 +6,6 @@ head:
+       content: 0; url=./guide/quickstart
+ ---
+ 
+-# DeepSeek Harness
++# Crew Harness
+ 
+ [English](index.md) | 中文
