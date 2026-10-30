@@ -1,0 +1,313 @@
+diff --git a/AGENTS.md b/AGENTS.md
+index 594e547..50edc9c 100644
+--- a/AGENTS.md
++++ b/AGENTS.md
+@@ -1,4 +1,4 @@
+-# LibreChat contributor and agent guidance
++# AirGPT contributor and agent guidance
+ 
+ `AGENTS.md` is the repository's contributor guidance. Backend code lives in `packages/api`
+ (TypeScript) and `packages/data-schemas` (database methods); `api` is legacy Express wiring.
+diff --git a/CONTEXT.md b/CONTEXT.md
+index 62ad355..e1f42e2 100644
+--- a/CONTEXT.md
++++ b/CONTEXT.md
+@@ -2,19 +2,19 @@
+ 
+ - **Scheduled run admission**: The claimed-occurrence phase that rehydrates the owner, validates current schedule policy and agent reachability, resolves files and MCP readiness, and only then competes for durable generation capacity. It owns cancellation and lease revalidation until a generation slot is reserved; a slow or failed readiness check never occupies generation capacity.
+ 
+-- **Attached code environment**: A principal- or deployment-authorized stateful workspace owned by an outbound `librechat-code` worker on a user-chosen machine or VM. LibreChat selects it and enforces approval policy, Code API authenticates and dispatches to it, and the worker's local sandbox and capability flags remain the final execution ceiling. The environment interface is runtime-neutral: native SRT, WSL2, Docker/NsJail, and future adapters expose the same workspace operations without leaking host paths or runtime configuration into agent tools.
++- **Attached code environment**: A principal- or deployment-authorized stateful workspace owned by an outbound `librechat-code` worker on a user-chosen machine or VM. AirGPT selects it and enforces approval policy, Code API authenticates and dispatches to it, and the worker's local sandbox and capability flags remain the final execution ceiling. The environment interface is runtime-neutral: native SRT, WSL2, Docker/NsJail, and future adapters expose the same workspace operations without leaking host paths or runtime configuration into agent tools.
+ - **Conversation code-environment decision**: The immutable choice established by a conversation's first accepted submission between validated attached workspaces and continuing without an attached environment. Agent defaults and recent workspace preferences may suggest a draft choice, but only the persisted conversation decision authorizes attached workspace tool registration; later turns, retries, resumes, and alternate ingresses cannot upgrade or replace it. Runs persist a decision only for a conversation that does not store one yet, so no run writes its run-start decision back over a stored one. The one exception to immutability is the owner's explicit move, available where `statefulCodeSessions.conversationMoves.enabled` allows it: when an agent is pointed at a different attached environment after the chat was sealed, the owner may replace the decision's environments with the ones the agents now use, validated against the live worker. A move never changes the workspace of an environment the decision already covers, never upgrades a conversation that continues without an attached environment, and is refused while a generation is running, awaiting approval, or saving its response.
+ - **Agent run envelope**: the versioned, JSON-safe request contract created after ingress authentication and protocol validation but before agent, provider, tool, or MCP initialization. It carries only the validated protocol payload and the minimum trusted principal identifiers. The execution host rehydrates all runtime state from those identifiers.
+ - **Agent execution context**: runtime-only, transport-free state rehydrated beside an Agent run envelope. It contains the authenticated user, application configuration, normalized request metadata, and resolved conversation facts needed by initialization, but never Express request/response objects or serialized credentials.
+ - **Agent execution host**: the protocol-neutral module that owns run admission, disconnect cancellation, provider-start fencing, and terminal settlement. Protocol implementations execute behind its callback interface; HTTP adapters retain validation and final stream rendering.
+-- **Agent execution enrollment**: the durable, protocol-neutral lifecycle authority for an admitted Agent run. It is created under the authenticated user and tenant before user-owned initialization, rechecks the shared owner-deletion admission fence after registration, exposes the only provider abort signal, fences exact provider start, terminalizes the run, waits for every trailing usage, artifact, and stored-response write, and acknowledges provider drain last. A transient terminalization failure is reconciled after trailing writes; provider drain is never acknowledged while the exact job remains nonterminal. Delete-all holds the owner fence, drains every owner run before selecting its first persistence snapshot, and repeats both the drain and an idempotent owner-persistence sweep after any recovered fence lapse before releasing admission. Exact-conversation deletion additionally performs an unconditional idempotent cleanup over its immutable deleted-ID set because a fully drained run may leave the active index after racing the first delete; only the explicit empty result is benign, while storage failures remain fatal. Chat Completions, Responses, Channels, and future ingress adapters share this authority without moving LibreChat persistence policy into the Agents SDK.
++- **Agent execution enrollment**: the durable, protocol-neutral lifecycle authority for an admitted Agent run. It is created under the authenticated user and tenant before user-owned initialization, rechecks the shared owner-deletion admission fence after registration, exposes the only provider abort signal, fences exact provider start, terminalizes the run, waits for every trailing usage, artifact, and stored-response write, and acknowledges provider drain last. A transient terminalization failure is reconciled after trailing writes; provider drain is never acknowledged while the exact job remains nonterminal. Delete-all holds the owner fence, drains every owner run before selecting its first persistence snapshot, and repeats both the drain and an idempotent owner-persistence sweep after any recovered fence lapse before releasing admission. Exact-conversation deletion additionally performs an unconditional idempotent cleanup over its immutable deleted-ID set because a fully drained run may leave the active index after racing the first delete; only the explicit empty result is benign, while storage failures remain fatal. Chat Completions, Responses, Channels, and future ingress adapters share this authority without moving AirGPT persistence policy into the Agents SDK.
+ - **Agent turn execution plan**: the immutable, request-local decision compiled once after authentication, agent resolution, and tool initialization. It records the trusted turn origin, conversation lineage, pause capability, binding/action context, and the preferred checkpoint, history, or fresh state-loading strategy without executing the model or owning persistence. Checkpoint failure falls back to durable history within the same Agents lifecycle.
+ - **Turn delivery routing**: the per-agent, request-local value that decides how each attachment reaches the model on one turn (`provider`, `text`, or `none`). Initialization settles it once, after the provider swap and the Responses API decision, under the endpoint's own name and the media dialect its config declares. Every reader of a turn route consumes that one value rather than deriving it from the agent. A stored route is an upload-time inference that this value resolves again for the turn; a destination the user chose stands.
+ - **Effective agent selection**: the resolved endpoint and agent identity after an enforced model spec is applied. Authorization and agent loading must consume this same identity before the Agent run envelope is initialized.
+ - **MCP runtime request body**: trusted chat identifiers supplied only while an MCP server handles an agent request. It enables request-scoped header placeholders without retaining user-specific request data on a shared server definition.
+ - **MCP direct OpenID bearer**: an operator-trusted remote MCP credential mode that resolves the logged-in user's live OpenID access token into an Authorization header. It may replace one rejected connection after a forced session refresh, but it never replays the rejected tool invocation automatically.
+ - **MCP OAuth prompt projection**: the client-safe, generation-scoped view of authorization prompts that remain actionable in a resumable Agent stream. It is derived from durable OAuth step state, carries no tokens or flow internals, and lets reconnecting clients render current state without interpreting the replay log.
+-- **Caller Capability Projection**: the versioned, SDK-owned classification of currently active tools by direct and programmatic callers. Event-driven execution transports this projection as data; LibreChat intersects it with its trusted registry and never recomputes deferred-tool discovery policy or treats the projection as authorization.
++- **Caller Capability Projection**: the versioned, SDK-owned classification of currently active tools by direct and programmatic callers. Event-driven execution transports this projection as data; AirGPT intersects it with its trusted registry and never recomputes deferred-tool discovery policy or treats the projection as authorization.
+ - **Subagent thread**: a durable, view-only child conversation owned by one parent conversation and subagent identity. A parent agent may continue it by stable `threadId`; each continuation uses a fresh execution lease restored from the canonical child transcript. It is not an ordinary human-writable chat.
+ - **Live subagent task owner**: the one API process holding a detached child execution, its abort controller, and its bounded control queue. Redis may route trusted poll/control envelopes to that owner, but it does not migrate or persist the executor; Mongo persists only the logical child thread and its continuation fence.
+ - **Subagent completion wakeup**: a durable internal `continue` trigger pre-registered before detached child execution so a process crash cannot lose the wakeup. Delivery defers until the child's terminal transcript is persisted, targets the initiating agent and exact parent response branch, carries task metadata rather than child output, waits for the parent generation to settle, and starts the parent turn that collects the result through the existing task store.
+@@ -29,4 +29,4 @@
+ - **Event actor receipt**: the private, terminal proof stored on the authoritative `AgentTriggerDelivery` row for one bound actor invocation. Its unique delivery identity, terminal resolution, exact checkpoint, and bounded action identity provide replay and recovery for the retention window without storing prompts, events, tool arguments, tool output, or conversation history. It does not own the actor checkpoint; the conversation keeps only the actor head and any active unresolved reconciliation until this receipt is durable.
+ - **Agent event actor mailbox**: the automatic durable delivery-ordering lane for one authenticated source binding. It keeps later deliveries queued after transport admission until the current child turn records an authoritative terminal handling outcome. It serializes existing coalesced batches and individual events without becoming a second execution controller or actor checkpoint store.
+ - **Agent trigger capability shield**: the durable mixed-version representation for internal trigger work that only a capability-aware worker may execute. Mongo uses an old-publishable `staging` shell; a queued `leased` shell without an owner or deadline, which old workers cannot claim but can use for bounded lane rechecks; a private lease only during execution; and a legacy-terminal `capability_dead` shell once dead. Private capability fields own current claiming, retry, and dead-letter truth. Redis uses a versioned fail-closed terminal status and recovery index that old replacement scripts and sweepers cannot consume. The shield is an implementation detail at the storage seam, never a deployment switch or user-configured product mode.
+-- **Theme definition**: a versioned, data-only description of LibreChat semantic colors and shared appearance roles, optionally specialized by light or dark mode. The theme module validates and resolves partial definitions against bundled defaults before adapters apply them. A theme definition does not contain arbitrary CSS, application behavior, or alternate feature layouts.
++- **Theme definition**: a versioned, data-only description of AirGPT semantic colors and shared appearance roles, optionally specialized by light or dark mode. The theme module validates and resolves partial definitions against bundled defaults before adapters apply them. A theme definition does not contain arbitrary CSS, application behavior, or alternate feature layouts.
+diff --git a/NETIE-ATTRIBUTION.md b/NETIE-ATTRIBUTION.md
+new file mode 100644
+index 0000000..70c9be9
+--- /dev/null
++++ b/NETIE-ATTRIBUTION.md
+@@ -0,0 +1,24 @@
++# Attribution
++
++Netie AirGPT is a modified distribution of danny-avila/LibreChat
++(https://github.com/danny-avila/LibreChat), pinned at commit f10b1d91f1.
++
++Upstream license: MIT. LICENSE is included unmodified, with every
++upstream copyright line, and so is any NOTICE file.
++
++- Copyright (c) 2026 LibreChat
++
++Not affiliated with or endorsed by the upstream authors. Upstream names and
++logos belong to their owners.
++
++## Changed in stage 1
++
++- Display name LibreChat rewritten to AirGPT in prose docs only.
++- This file and a README banner added.
++
++## Not done yet (stage 2)
++
++- Package names, binaries, identifiers and UI strings are still upstream's.
++- SECURITY, SUPPORT and CONTRIBUTING contacts and URLs still point at upstream.
++- Translated docs, changelogs and third-party notices are untouched.
++- Netie gate wiring: Endpoints -> OpenVault /v1 only. Retrieval -> netie.airgpt retrieve_space. Cross-chat memory abstains until governed.
+diff --git a/README.md b/README.md
+index 2caf010..a6e5d27 100644
+--- a/README.md
++++ b/README.md
+@@ -1,9 +1,11 @@
++> **Netie AirGPT** is a modified distribution of [danny-avila/LibreChat](https://github.com/danny-avila/LibreChat) (MIT). See NETIE-ATTRIBUTION.md. Not endorsed by the upstream authors.
++
+ <p align="center">
+   <a href="https://librechat.ai">
+     <img src="client/public/assets/logo.svg" height="256">
+   </a>
+   <h1 align="center">
+-    <a href="https://librechat.ai">LibreChat</a>
++    <a href="https://librechat.ai">AirGPT</a>
+   </h1>
+ </p>
+ 
+@@ -59,7 +61,7 @@
+ - **Code approval controls:** Choose **Ask**, **Allow**, or **Deny** for file writes and command execution where administrators permit it, including a **Full access** mode for trusted attached environments. File Search and Run Code also honor role grants.
+ - **Manual context compaction:** Start a summarize-only turn before the context window fills while preserving recent conversation content according to the deployment's summarization policy.
+ - **Context Usage:** Inspect dialogue, retained tool traffic, Agent instructions, cache, cost, and runway pressure without double-counting category subsets.
+-- **Unified attachments:** Upload once and let LibreChat route content to the model or extracted text, then provision File Search and Code tools only when needed.
++- **Unified attachments:** Upload once and let AirGPT route content to the model or extracted text, then provision File Search and Code tools only when needed.
+ - **Models:** Added GPT-6 Astra and GPT-6.1 Sol, with Responses API routing and tool-call support.
+ - **Agent and chat UI:** Unified tool activity, reasoning, search, and Agent workflows; added one draggable Pinned section for chats and favorites, morphing state icons, high-contrast themes, rich-text message copying, clearer sidebar titles, and refined live phase layouts.
+ - **Observability:** Inspect ordered model conversations, tool rounds, and costs in the Trace Viewer; export correlated application logs through OpenTelemetry, configure allowlisted Langfuse trace identity and metadata, tag browser diagnostics with client build IDs, and scope Insights to authorized Agents.
+@@ -73,7 +75,7 @@ Read the [full v0.8.8 changelog](https://www.librechat.ai/changelog/v0.8.8).
+ 
+ - 🤖 **AI Model Selection**:  
+   - Anthropic (Claude), AWS Bedrock, OpenAI, Azure OpenAI, Google, Vertex AI, OpenAI Responses API (incl. Azure)
+-  - [Custom Endpoints](https://www.librechat.ai/docs/quick_start/custom_endpoints): Use any OpenAI-compatible API with LibreChat, no proxy required
++  - [Custom Endpoints](https://www.librechat.ai/docs/quick_start/custom_endpoints): Use any OpenAI-compatible API with AirGPT, no proxy required
+   - Compatible with [Local & Remote AI Providers](https://www.librechat.ai/docs/configuration/librechat_yaml/ai_endpoints):
+     - Ollama, [AMD Lemonade](https://lemonade-server.ai/), groq, Cohere, Mistral AI, Apple MLX, koboldcpp, together.ai,
+     - OpenRouter, Helicone, Perplexity, ShuttleAI, Deepseek, Qwen, and more
+@@ -85,7 +87,7 @@ Read the [full v0.8.8 changelog](https://www.librechat.ai/changelog/v0.8.8).
+   - Open-Source & Self-Hostable: powered by [ClickHouse/code-interpreter](https://github.com/ClickHouse/code-interpreter)
+ 
+ - 🔦 **Agents & Tools Integration**:  
+-  - **[LibreChat Agents](https://www.librechat.ai/docs/features/agents)**:
++  - **[AirGPT Agents](https://www.librechat.ai/docs/features/agents)**:
+     - No-Code Custom Assistants: Build specialized, AI-driven helpers
+     - Agent Marketplace: Discover and deploy community-built agents
+     - Collaborative Sharing: Share agents with specific users and groups
+@@ -153,7 +155,7 @@ Read the [full v0.8.8 changelog](https://www.librechat.ai/changelog/v0.8.8).
+   - Supports OpenAI, Azure OpenAI, and Elevenlabs
+ 
+ - 📥 **Import & Export Conversations**:  
+-  - Import Conversations from LibreChat, ChatGPT, Chatbot UI  
++  - Import Conversations from AirGPT, ChatGPT, Chatbot UI  
+   - Export conversations as screenshots, markdown, text, json
+ 
+ - 🔍 **Search & Discovery**:  
+@@ -179,11 +181,11 @@ Read the [full v0.8.8 changelog](https://www.librechat.ai/changelog/v0.8.8).
+ 
+ [For a thorough review of our features, see our docs here](https://docs.librechat.ai/) 📚
+ 
+-## 🪶 All-In-One AI Conversations with LibreChat
++## 🪶 All-In-One AI Conversations with AirGPT
+ 
+-LibreChat is a self-hosted AI chat platform that unifies all major AI providers in a single, privacy-focused interface.
++AirGPT is a self-hosted AI chat platform that unifies all major AI providers in a single, privacy-focused interface.
+ 
+-Beyond chat, LibreChat provides AI Agents, Model Context Protocol (MCP) support, Artifacts, Code Interpreter, custom actions, conversation search, and enterprise-ready multi-user authentication.
++Beyond chat, AirGPT provides AI Agents, Model Context Protocol (MCP) support, Artifacts, Code Interpreter, custom actions, conversation search, and enterprise-ready multi-user authentication.
+ 
+ Open source, actively developed, and built for anyone who values control over their AI infrastructure.
+ 
+@@ -241,7 +243,7 @@ Contributions, suggestions, bug reports and fixes are welcome!
+ 
+ For new features, components, or extensions, please open an issue and discuss before sending a PR.
+ 
+-If you'd like to help translate LibreChat into your language, we'd love your contribution! Improving our translations not only makes LibreChat more accessible to users around the world but also enhances the overall user experience. Please check out our [Translation Guide](https://www.librechat.ai/docs/translation).
++If you'd like to help translate AirGPT into your language, we'd love your contribution! Improving our translations not only makes AirGPT more accessible to users around the world but also enhances the overall user experience. Please check out our [Translation Guide](https://www.librechat.ai/docs/translation).
+ 
+ ---
+ 
+@@ -255,7 +257,7 @@ If you'd like to help translate LibreChat into your language, we'd love your con
+ 
+ ## 🎉 Special Thanks
+ 
+-We thank [Locize](https://locize.com) for their translation management tools that support multiple languages in LibreChat.
++We thank [Locize](https://locize.com) for their translation management tools that support multiple languages in AirGPT.
+ 
+ <p align="center">
+   <a href="https://locize.com" target="_blank" rel="noopener noreferrer">
+diff --git a/README.zh.md b/README.zh.md
+index 4b49693..b68f375 100644
+--- a/README.zh.md
++++ b/README.zh.md
+@@ -5,7 +5,7 @@
+     <img src="client/public/assets/logo.svg" height="256">
+   </a>
+   <h1 align="center">
+-    <a href="https://librechat.ai">LibreChat</a>
++    <a href="https://librechat.ai">AirGPT</a>
+   </h1>
+ </p>
+ 
+@@ -60,7 +60,7 @@
+ 
+ - 🤖 **AI 模型选择**：  
+   - Anthropic (Claude), AWS Bedrock, OpenAI, Azure OpenAI, Google, Vertex AI, OpenAI Responses API (包含 Azure)
+-  - [自定义端点 (Custom Endpoints)](https://www.librechat.ai/docs/quick_start/custom_endpoints)：LibreChat 支持任何兼容 OpenAI 规范的 API，无需代理。
++  - [自定义端点 (Custom Endpoints)](https://www.librechat.ai/docs/quick_start/custom_endpoints)：AirGPT 支持任何兼容 OpenAI 规范的 API，无需代理。
+   - 兼容[本地与远程 AI 服务商](https://www.librechat.ai/docs/configuration/librechat_yaml/ai_endpoints)：
+     - Ollama, groq, Cohere, Mistral AI, Apple MLX, koboldcpp, together.ai,
+     - OpenRouter, Helicone, Perplexity, ShuttleAI, Deepseek, Qwen 等。
+@@ -71,7 +71,7 @@
+   - 隐私无忧：完全隔离且安全的执行环境。
+ 
+ - 🔦 **智能体与工具集成**：  
+-  - **[LibreChat 智能体 (Agents)](https://www.librechat.ai/docs/features/agents)**：
++  - **[AirGPT 智能体 (Agents)](https://www.librechat.ai/docs/features/agents)**：
+     - 无代码定制助手：无需编程即可构建专业化的 AI 驱动助手。
+     - 智能体市场：发现并部署社区构建的智能体。
+     - 协作共享：与特定用户和群组共享智能体。
+@@ -129,7 +129,7 @@
+   - 支持 OpenAI, Azure OpenAI 和 Elevenlabs。
+ 
+ - 📥 **导入与导出对话**：  
+-  - 从 LibreChat, ChatGPT, Chatbot UI 导入对话。  
++  - 从 AirGPT, ChatGPT, Chatbot UI 导入对话。  
+   - 将对话导出为截图、Markdown、文本、JSON。
+ 
+ - 🔍 **搜索与发现**：  
+@@ -150,11 +150,11 @@
+ 
+ [查看我们的文档了解更多功能详情](https://docs.librechat.ai/) 📚
+ 
+-## 🪶 LibreChat：全方位的 AI 对话平台
++## 🪶 AirGPT：全方位的 AI 对话平台
+ 
+-LibreChat 是一个自托管的 AI 对话平台，在一个注重隐私的统一界面中整合了所有主流 AI 服务商。
++AirGPT 是一个自托管的 AI 对话平台，在一个注重隐私的统一界面中整合了所有主流 AI 服务商。
+ 
+-除了对话功能外，LibreChat 还提供 AI 智能体、模型上下文协议 (MCP) 支持、Artifacts、代码解释器、自定义操作、对话搜索，以及企业级多用户认证。
++除了对话功能外，AirGPT 还提供 AI 智能体、模型上下文协议 (MCP) 支持、Artifacts、代码解释器、自定义操作、对话搜索，以及企业级多用户认证。
+ 
+ 开源、活跃开发中，专为重视 AI 基础设施自主可控的用户而构建。
+ 
+@@ -207,7 +207,7 @@ LibreChat 是一个自托管的 AI 对话平台，在一个注重隐私的统一
+ 
+ 对于新功能、组件或扩展，请在发送 PR 前开启 issue 进行讨论。
+ 
+-如果您想帮助我们将 LibreChat 翻译成您的母语，我们非常欢迎！改进翻译不仅能让全球用户更轻松地使用 LibreChat，还能提升整体用户体验。请查看我们的[翻译指南](https://www.librechat.ai/docs/translation)。
++如果您想帮助我们将 AirGPT 翻译成您的母语，我们非常欢迎！改进翻译不仅能让全球用户更轻松地使用 AirGPT，还能提升整体用户体验。请查看我们的[翻译指南](https://www.librechat.ai/docs/translation)。
+ 
+ ---
+ 
+@@ -221,7 +221,7 @@ LibreChat 是一个自托管的 AI 对话平台，在一个注重隐私的统一
+ 
+ ## 🎉 特别鸣谢
+ 
+-感谢 [Locize](https://locize.com) 提供的翻译管理工具，支持 LibreChat 的多语言功能。
++感谢 [Locize](https://locize.com) 提供的翻译管理工具，支持 AirGPT 的多语言功能。
+ 
+ <p align="center">
+   <a href="https://locize.com" target="_blank" rel="noopener noreferrer">
+diff --git a/UPGRADING.md b/UPGRADING.md
+index aecd006..a0c1db3 100644
+--- a/UPGRADING.md
++++ b/UPGRADING.md
+@@ -1,4 +1,4 @@
+-# Upgrading LibreChat
++# Upgrading AirGPT
+ 
+ ## Redis streaming now coalesces deltas by default
+ 
+@@ -37,7 +37,7 @@ run it automatically. Use the updated code/image containing this command. For a
+ source checkout, install dependencies and build the packages first (`npm run
+ build:packages`).
+ 
+-1. Back up MongoDB and stop all LibreChat API replicas and workers that write to
++1. Back up MongoDB and stop all AirGPT API replicas and workers that write to
+    the database. Keep MongoDB available throughout the migration.
+ 2. Preview known legacy unique indexes using the deployment's `MONGO_URI` and
+    connection settings from `.env`:
+diff --git a/tool-intent-spec.md b/tool-intent-spec.md
+index 5286de4..23adfc4 100644
+--- a/tool-intent-spec.md
++++ b/tool-intent-spec.md
+@@ -7,10 +7,10 @@
+ 
+ | Dependency | State | What it means for this spec |
+ |---|---|---|
+-| Background capability core (`packages/api/src/agents/background.ts` + `background.spec.ts`) | **merged in LibreChat main** | the reference implementation exists today; clone it freely |
++| Background capability core (`packages/api/src/agents/background.ts` + `background.spec.ts`) | **merged in AirGPT main** | the reference implementation exists today; clone it freely |
+ | [#14407](https://github.com/danny-avila/LibreChat/pull/14407) — Background Execution Toggles for Actions & Plugin Tools | **open** | this is the "bg tools open PR"; only slice 5 (builder toggles) sequences after it |
+ | Activity labels, SDK side (`Run.generateActivityLabel`, `src/prompts/activityLabel.ts`, `src/types/activityLabel.ts`, `ACTIVITY_LABEL_PROMPT`) | **merged & published** in `@librechat/agents@3.3.0` ([danny-avila/agents#327](https://github.com/danny-avila/agents/pull/327)) | treat as existing API, build on it directly |
+-| [#14391](https://github.com/danny-avila/LibreChat/pull/14391) — Activity Groups With Fast-Model Headers (LibreChat host side) | **open, near merge** | reshapes `ToolCallGroup` grouping and header precedence; §5.2, §9.2, and §10.10 assume it lands first and specify the composition explicitly |
++| [#14391](https://github.com/danny-avila/LibreChat/pull/14391) — Activity Groups With Fast-Model Headers (AirGPT host side) | **open, near merge** | reshapes `ToolCallGroup` grouping and header precedence; §5.2, §9.2, and §10.10 assume it lands first and specify the composition explicitly |
+ 
+ ---
+ 
+@@ -258,7 +258,7 @@ Six to eight edit sites cover three engines and all file CRUD. Still verify per
+ | `subagent` | `SUBAGENT` | intent is the card header; `ON_SUBAGENT_UPDATE.label` stays the ticker |
+ | `skill` | `SKILL_TOOL` | |
+ | `tool_search` | `TOOL_SEARCH` | "Looking for a tool that can convert PDFs" |
+-| `web_search` | `WEB_SEARCH` | SDK constant; LibreChat's implementation is host-side |
++| `web_search` | `WEB_SEARCH` | SDK constant; AirGPT's implementation is host-side |
+ 
+ **Host (`danny-avila/LibreChat`)**
+ 
+@@ -286,7 +286,7 @@ Every injected tool must call `stripIntent` before validating or using its args,
+ 
+ ### 6.5 The `edit_file` collision
+ 
+-`edit_file` exists in both surfaces: the SDK coding suite (`Constants.EDIT_FILE`) and LibreChat's skill-authoring tool (`EDIT_FILE_TOOL_NAME`, matched by `FILE_AUTHORING_TOOLS` in `useStepHandler.ts` alongside `create_file`). Consequences:
++`edit_file` exists in both surfaces: the SDK coding suite (`Constants.EDIT_FILE`) and AirGPT's skill-authoring tool (`EDIT_FILE_TOOL_NAME`, matched by `FILE_AUTHORING_TOOLS` in `useStepHandler.ts` alongside `create_file`). Consequences:
+ 
+ - Host injection must be idempotent against an SDK-injected schema (`if (INTENT_ARG in existingProps) return def;`). Add an explicit test for this pair, because double injection would move `intent` out of first position.
+ - Icon and label resolution in `client/src/utils` keys on the shared name, so both render identically. That should stay true.
+@@ -315,11 +315,11 @@ Carry `outcome` / `outcome_patch` from the tool return through `ToolExecuteResul
+ 
+ ### 7.4 Release
+ 
+-Everything here ships as a minor `@librechat/agents` release (3.4.x), mirroring how #327 shipped the activity-label SDK surface ahead of its host PR. LibreChat's host slice pins the bump; older SDK versions simply never emit intents, so there is no fallback path to write.
++Everything here ships as a minor `@librechat/agents` release (3.4.x), mirroring how #327 shipped the activity-label SDK surface ahead of its host PR. AirGPT's host slice pins the bump; older SDK versions simply never emit intents, so there is no fallback path to write.
+ 
+ ---
+ 
+-## 8. Implementation: LibreChat host
++## 8. Implementation: AirGPT host
+ 
+ ### 8.1 New module `packages/api/src/agents/intent.ts`
+ 
+@@ -683,9 +683,9 @@ Six PRs, each independently reviewable and shippable. Dependencies are explicit
+ 
+ 1. **SDK core** (`danny-avila/agents`). `intentArg.ts`, `applyOutcome`, `outcome` / `outcome_patch` on results, `ToolNode` threading, unit tests. No behavior change until a tool opts in.
+ 2. **SDK native tools** (`danny-avila/agents`). Schema-level injection per §6.2, coverage pin test, all three engines. Slices 1–2 can ship as one minor release (3.4.x), mirroring how #327 shipped ahead of its host PR.
+-3. **Host** (LibreChat, requires the published SDK bump). `intent.ts`, `handlers.ts` strip, capability plumbing through all four routes, schema and config surface, `web_search`, `create_file` / `edit_file`, memory tools, tests cloned from `background.spec.ts`.
+-4. **UI** (LibreChat, **rebases on #14391's `ToolCallGroup` shape — land after it**). Partial-JSON parser, per-card label, three-phase group header, shimmer, sanitization, i18n fallbacks.
+-5. **Builder toggles** (LibreChat, **after #14407** so the switches extend its shared component rather than forking it). Including encoded-domain aliasing and the bulk toggle.
++3. **Host** (AirGPT, requires the published SDK bump). `intent.ts`, `handlers.ts` strip, capability plumbing through all four routes, schema and config surface, `web_search`, `create_file` / `edit_file`, memory tools, tests cloned from `background.spec.ts`.
++4. **UI** (AirGPT, **rebases on #14391's `ToolCallGroup` shape — land after it**). Partial-JSON parser, per-card label, three-phase group header, shimmer, sanitization, i18n fallbacks.
++5. **Builder toggles** (AirGPT, **after #14407** so the switches extend its shared component rather than forking it). Including encoded-domain aliasing and the bulk toggle.
+ 6. **Anchors, traces, and activity-label integration** (both repos, **after #14391 merges**). Langfuse span annotation per §11.3, batch-entry enrichment per §10.10, ledger derivation, compaction survival, HITL payload threading, named checkpoints.
+ 
+ **Documentation** in `librechat.ai`: a single **"Tool capability conventions"** page documenting `defer_loading`, `allowed_callers`, `run_in_background`, and `describe_intent` as one family, with the shared shape spelled out (per-tool `tool_options` key, admin capability gate, injection or metadata mechanism, self-spawn stripping obligation, token cost). Plus a `librechat.example.yaml` entry, and a cross-reference from the activity-labels docs explaining the two-layer labeling model (§11.2) so admins understand they compose rather than compete. This page is the deliverable that turns four features into a convention, so it is not optional.

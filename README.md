@@ -1,5 +1,64 @@
 # Netie
 
+Netie builds the layer that makes AI accountable enough to run a business on: every answer
+carries its evidence, every write goes through a gate, and the system refuses rather than
+guesses. We do not sell intelligence. We sell output you can put in front of an auditor.
+
+This repo is the constitution (`NETIE.md`), the portable contracts product repos import
+(`netie/`, `scripts/`), and the ecosystem lane that takes permissive open-source projects
+and ships them under the Netie brand with our gate on top (`ecosystem/`).
+
+## The estate
+
+| Product | Plane | Job |
+|---|---|---|
+| OpenVault (FreeRoute, FreeBuild) | 2 | Keys, routing within budget, "may this leave the machine?" |
+| Cortex | 3 | Governed execution: evidence, manifest-enforced reads, ledger, abstain over guess |
+| DMS / Spaces | 4 | ChatGPT for a company's spreadsheets and databases, every answer attributable |
+| AirGPT, Pointer, FreeIDE | 4 | Chat shell, desktop control, coding surface |
+| Cortex-Crew, Constructor, Netie Control | 4 | Operator factory, canvas, fleet board |
+
+Every request takes one path: app -> Cortex -> OpenVault -> run -> Cortex -> app. A step
+that skips a box is a bug. Planes 0 and 1 (silicon, inference serving) are bought, not built.
+
+## Adopt, do not distill
+
+Reimplementing open-source projects was too slow, so DR-0002 (proposed) switches the lane:
+
+- Permissive upstreams (MIT, Apache-2.0) are forked and rebranded with LICENSE and NOTICE
+  untouched. A fork is a pinned upstream commit plus a patch series, never a vendored tree.
+- Libraries are depended on. Copyleft, source-available, branding-locked and noncommercial
+  projects (n8n, Dify, Open WebUI, NadirClaw, Routerly) are hosted unmodified or blocked.
+- A fork keeps no vault and no orchestrator of its own: keys come from OpenVault, tools run
+  through Cortex.
+
+The full list, licenses, stages and reasons: `ecosystem/ECOSYSTEM.md` (generated).
+Stage 1 means an overlay exists. It does not mean the fork is renamed, gated or sellable.
+
+## Run it
+
+```
+make ci                                                   # the one gate, same as GitHub docs-ci
+python3 scripts/ecosystem.py validate                     # catalog + license-class gate
+python3 scripts/ecosystem.py clone freeide /tmp/freeide   # pinned upstream base
+python3 scripts/ecosystem.py apply freeide /tmp/freeide   # replay the Netie overlay
+python3 scripts/ecosystem.py drift                        # network: has any upstream license changed?
+```
+
+Product repos use the contracts with `uv add git+https://github.com/Netie-AI/Netie.git`
+(Cortex is the exception, see `scripts/netie_init.py`).
+
+## Read next
+
+| You want | Read |
+|---|---|
+| What we are and what we refuse to build | `NETIE.md` |
+| Rules for agents working in this repo | `CLAUDE.md` (`AGENTS.md` points to it) |
+| What is true right now | `STATUS.md` |
+| How far each product is from its analogue | `TAS/ESTATE-GAP.md` |
+| Why adopt-and-rebrand | `docs/decisions/DR-0002-adopt-and-rebrand-permissive-upstreams.md` |
+| How work becomes tickets | `Internal/Agents/AGENT_SYSTEM.md` |
+
 Netie builds the layer that makes AI accountable enough to run a business on: every answer carries its evidence, every write goes through a gate, and the system refuses rather than guesses.
 
 This repository (`Netie-AI/Netie`) is the constitution and the portable contracts. Product applications live in their own repositories. This repo does not vendor those applications or other people's trees.
@@ -9,7 +68,6 @@ If a document in this repo disagrees with `NETIE.md`, `NETIE.md` wins.
 ## Planes
 
 | Plane | What | Netie? |
-|---|---|---|
 | 0 Silicon | GPUs, CPUs, machines | No. Rent or use what the customer has. |
 | 1 Inference | vLLM, Ollama, hosted model APIs | No. Buy tokens. Do not write a serving engine. |
 | 2 Custody and routing | Keys, which model, may this leave the machine | Yes. OpenVault. |
@@ -18,7 +76,6 @@ If a document in this repo disagrees with `NETIE.md`, `NETIE.md` wins.
 
 ## Safe path
 
-```
 App (DMS / AirGPT / Pointer / FreeIDE / Crew / Constructor)
     |
     v
@@ -35,14 +92,12 @@ Cortex        evidence check, ledger, or an honest abstain
     |
     v
 App           answer with sources, or a refusal
-```
 
 ## Products
 
 Each product has one job. The second sentence is the boundary.
 
 | Product | Is | Is not |
-|---|---|---|
 | OpenVault | The only key vault, FreeRoute, and the leave-machine gate | An agent loop or a model server |
 | Cortex | Governed execution with manifest, ledger, actions, and abstain | A model server, a vault, or a UI |
 | DMS / Spaces | Answers over a company's own data, scoped per Space | The engine |
@@ -56,17 +111,13 @@ Sibling remotes and what is actually measured: `TAS/ESTATE-GAP.md` and `docs/ACC
 
 ## This package
 
-```
 uv add git+https://github.com/Netie-AI/Netie.git
-```
 
 Then, for example:
 
-```
 from netie.crew import bind_deep_agent, crew_harness_profile, TokenBudget
 from netie.cortex import run_question
 from netie.dms import answer_or_abstain
-```
 
 The import list is `netie/__init__.py`. Optional extra: `crew` pulls `deepagents` (MIT) as a dependency. Do not vendor that tree.
 
@@ -87,9 +138,7 @@ Already refused, with the reason in `NETIE.md` and `DR-0001`: vendoring Grok Bot
 
 ## Develop
 
-```
 make ci
-```
 
 Same command as GitHub `docs-ci`: compile `scripts` and `netie`, then required docs, laptop-ASCII, and `scripts/test_*.py`.
 
@@ -98,7 +147,6 @@ Agent instructions: `AGENTS.md` then `CLAUDE.md`.
 ## Layout
 
 | Path | Role |
-|---|---|
 | `NETIE.md` | Constitution |
 | `CLAUDE.md` | Agent law for this repo |
 | `STATUS.md` | What is true now (60-line cap) |
