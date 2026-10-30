@@ -1,0 +1,1631 @@
+diff --git a/NETIE-ATTRIBUTION.md b/NETIE-ATTRIBUTION.md
+index 06ba20b..1e164a4 100644
+--- a/NETIE-ATTRIBUTION.md
++++ b/NETIE-ATTRIBUTION.md
+@@ -16,9 +16,55 @@ logos belong to their owners.
+ - Display name ZeroClaw rewritten to Crew Edge in prose docs only.
+ - This file and a README banner added.
+ 
+-## Not done yet (stage 2)
++## Changed in stage 2 (gate wired and tested)
+ 
+-- Package names, binaries, identifiers and UI strings are still upstream's.
++- Model calls: Quickstart offers `openvault` first, labeled as the Netie default.
++  It writes one entry, `[providers.models.custom.openvault]`, with
++  `uri = "${NETIE_OPENVAULT_URL}/v1"` (default `http://127.0.0.1:5000/v1`) and no
++  `api_key` field. A key on that entry is refused: OpenVault holds every key.
++  Vendor families stay selectable but are not the default.
++- Subscription logins off (DR-0002 rule 6): the `copilot`, `gemini_cli`,
++  `grok_cli` and `kilocli` families are not offered and the provider factory
++  refuses them; the Codex login and Claude setup-token auth modes are refused;
++  the `claude_code`, `claude_code_runner`, `codex_cli`, `gemini_cli` and
++  `opencode_cli` tools never run.
++- Tools: every tool call, at the one execution point
++  (`crates/zeroclaw-runtime/src/agent/tool_execution.rs`), asks OpenVault
++  `POST /api/crew/gate` with ids only (`kind=runtime`, tool id, `intent=invoke`,
++  turn id, call id). No arguments leave. No answer, a transport error or anything
++  but `allowed: true` is a refusal, returned as the tool result
++  (`Refused by Netie gate: ...`), so the model and the operator see it. Payloads
++  carrying `skill_body`, `prompt`, `instructions` or `transcript` are refused;
++  the HITL write set needs `operator_confirm: true`.
++- Session state persists ids only: the default `session_backend` is `ids-only`.
++  Each stored message keeps its role and a short sha256, never its text.
++  `sqlite` and `jsonl` still exist and are labeled ungoverned in the schema docs.
++- Channels: the CLI stays local. Every other configured channel instance asks
++  OpenVault leave-machine (`kind=service`, `id=channel.<type>`, `intent=leave`)
++  before it starts; a refused channel is not started and the refusal is
++  printed. Quickstart labels every channel "off until OpenVault leave-machine
++  allows it".
++- The channel server banner says Crew Edge.
++- Gate module: `crates/zeroclaw-providers/src/netie.rs`. Session wrapper:
++  `crates/zeroclaw-infra/src/ids_only.rs`. Gate test:
++  `crates/zeroclaw-runtime/src/netie_gate.rs`
++  (`cargo test -p zeroclaw-runtime --lib netie_gate`).
++
++## Not done yet (stage 3)
++
++- Crate, package and binary names are still `zeroclaw*` (every workspace crate,
++  hundreds of paths); the `zeroclaw` CLI help text, `~/.zeroclaw` config dir,
++  `ZEROCLAW_*` env vars, systemd unit and web dashboard strings are upstream's.
++- An already-configured vendor provider with its own `api_key` still works; only
++  the subscription-login families are refused at the factory.
++- Codex (`requires_openai_auth`) and Claude setup-token credentials already on
++  disk are not refused at request time, only at Quickstart.
++- Whether OpenVault needs a seat token on `/v1` or serves `/v1/models`, and
++  whether it registers tool ids under kind `runtime` and channel ids under
++  `service`, is not measured. The gate sends no seat token.
++- Conversation text can still persist outside the session store: memory
++  backends, the ACP session store, cost and observability logs. Not gated.
++- Cron delivery to a channel (`build_channel_map`) and one-shot sends are not
++  behind the leave-machine ask; only channel startup is.
+ - SECURITY, SUPPORT and CONTRIBUTING contacts and URLs still point at upstream.
+ - Translated docs, changelogs and third-party notices are untouched.
+-- Netie gate wiring: Same as crew-agent. NOTICE and both license files stay (Apache-2.0 requires NOTICE retention).
+diff --git a/crates/zeroclaw-channels/src/orchestrator/mod.rs b/crates/zeroclaw-channels/src/orchestrator/mod.rs
+index d1f5e3b..537abb8 100644
+--- a/crates/zeroclaw-channels/src/orchestrator/mod.rs
++++ b/crates/zeroclaw-channels/src/orchestrator/mod.rs
+@@ -16886,6 +16886,39 @@ pub async fn start_channels_with_authority_and_plugin_webhooks(
+                 )
+                 .await;
+             append_configured_plugin_channels(&mut configured_channels, plugin_channels);
++            // Netie Crew Edge: a channel leaves the machine, so each configured
++            // instance needs an OpenVault leave-machine allow (space_leave). A
++            // refused channel is not started and the refusal is printed.
++            #[cfg(any(test, feature = "test-util"))]
++            zeroclaw_providers::netie::install_test_harness_transport();
++            let mut netie_allowed = Vec::with_capacity(configured_channels.len());
++            for cc in configured_channels {
++                let kind = cc.channel.name().to_string();
++                match zeroclaw_providers::netie::gate_channel_leave(
++                    &kind,
++                    cc.alias.as_deref().unwrap_or(""),
++                )
++                .await
++                {
++                    Ok(()) => netie_allowed.push(cc),
++                    Err(reason) => {
++                        let key = composite_channel_key(&kind, cc.alias.as_deref());
++                        eprintln!(
++                            "{}: channel {key} not started: {reason}",
++                            zeroclaw_providers::netie::REFUSAL_PREFIX
++                        );
++                        ::zeroclaw_log::record!(
++                            WARN,
++                            ::zeroclaw_log::Event::new(module_path!(), ::zeroclaw_log::Action::Reject)
++                                .with_outcome(::zeroclaw_log::EventOutcome::Failure)
++                                .with_attrs(::serde_json::json!({"channel": key, "reason": reason})),
++                            "netie: channel refused by OpenVault leave-machine gate"
++                        );
++                    }
++                }
++            }
++            #[allow(unused_mut)] // pushed to only by the cfg(test) startup probe below
++            let mut configured_channels = netie_allowed;
+             #[cfg(test)]
+             if let Ok(probe) = CHANNEL_STARTUP_PROBE.try_with(Arc::clone) {
+                 configured_channels.push(ConfiguredChannel {
+@@ -16906,7 +16939,7 @@ pub async fn start_channels_with_authority_and_plugin_webhooks(
+                 return Ok(());
+             }
+ 
+-            println!("🦀 ZeroClaw Channel Server");
++            println!("Crew Edge Channel Server");
+             println!("  🤖 Model:    {model} (agent: {agent_alias})");
+             let effective_backend = config.resolve_active_storage().kind();
+             println!(
+diff --git a/crates/zeroclaw-config/src/schema.rs b/crates/zeroclaw-config/src/schema.rs
+index ad87221..7834dc8 100644
+--- a/crates/zeroclaw-config/src/schema.rs
++++ b/crates/zeroclaw-config/src/schema.rs
+@@ -15964,8 +15964,9 @@ pub struct ChannelsConfig {
+     /// daemon restarts. Files are stored in `{workspace}/sessions/`. Default: `true`.
+     #[serde(default = "default_true")]
+     pub session_persistence: bool,
+-    /// Session persistence backend: `"jsonl"` (legacy) or `"sqlite"` (new default).
+-    /// SQLite provides FTS5 search, metadata tracking, and TTL cleanup.
++    /// Session persistence backend: `"ids-only"` (Crew Edge default: roles, ids and a
++    /// short hash per message, never the text), `"sqlite"` or `"jsonl"` (full
++    /// transcript on disk, outside any Netie ledger: ungoverned).
+     #[serde(default = "default_session_backend")]
+     pub session_backend: String,
+     /// Auto-archive stale sessions older than this many hours. `0` disables. Default: `0`.
+@@ -16376,7 +16377,8 @@ fn default_channel_max_concurrent_per_channel() -> usize {
+ }
+ 
+ fn default_session_backend() -> String {
+-    "sqlite".into()
++    // Netie Crew Edge: session state persists ids only (crew_checkpoint).
++    "ids-only".into()
+ }
+ 
+ impl Default for ChannelsConfig {
+diff --git a/crates/zeroclaw-infra/src/ids_only.rs b/crates/zeroclaw-infra/src/ids_only.rs
+new file mode 100644
+index 0000000..868c4d0
+--- /dev/null
++++ b/crates/zeroclaw-infra/src/ids_only.rs
+@@ -0,0 +1,238 @@
++//! Netie Crew Edge: session state persists ids only (Netie `scripts/crew_checkpoint.py`).
++//!
++//! Wraps a real backend. Every message written through it keeps its role and
++//! loses its text: the stored content is a fixed marker plus a short sha256 of
++//! the text, so a record can be matched against a ledger but a prompt or reply
++//! cannot be recovered from disk. Resume after a restart therefore sees markers,
++//! not the conversation. That is the token-cheap, transcript-free gate.
++//! Selected by `session_backend = "ids-only"` (the Crew Edge default).
++
++use std::sync::Arc;
++
++use sha2::{Digest, Sha256};
++use zeroclaw_api::model_provider::ChatMessage;
++
++use crate::session_backend::{
++    SessionBackend, SessionContext, SessionMetadata, SessionQuery, SessionState,
++    TimestampedMessage,
++};
++
++/// Config value that selects this backend.
++pub const IDS_ONLY_BACKEND: &str = "ids-only";
++/// Prefix of every stored message body.
++pub const IDS_ONLY_MARKER: &str = "[netie ids-only]";
++
++/// Stored body for one message: marker, role and the first 16 hex chars of sha256(text).
++#[must_use]
++pub fn ids_only_content(message: &ChatMessage) -> String {
++    let digest = Sha256::digest(message.content.as_bytes());
++    let short: String = digest.iter().take(8).map(|b| format!("{b:02x}")).collect();
++    format!("{IDS_ONLY_MARKER} role={} sha256={short}", message.role)
++}
++
++fn ids_only(message: &ChatMessage) -> ChatMessage {
++    ChatMessage {
++        role: message.role.clone(),
++        content: ids_only_content(message),
++    }
++}
++
++fn ids_only_all(messages: &[ChatMessage]) -> Vec<ChatMessage> {
++    messages.iter().map(ids_only).collect()
++}
++
++/// Session backend that persists ids only.
++pub struct IdsOnlySessionBackend {
++    inner: Arc<dyn SessionBackend>,
++}
++
++impl IdsOnlySessionBackend {
++    #[must_use]
++    pub fn new(inner: Arc<dyn SessionBackend>) -> Self {
++        Self { inner }
++    }
++}
++
++impl SessionBackend for IdsOnlySessionBackend {
++    fn load(&self, session_key: &str) -> Vec<ChatMessage> {
++        self.inner.load(session_key)
++    }
++
++    fn try_load(&self, session_key: &str) -> std::io::Result<Vec<ChatMessage>> {
++        self.inner.try_load(session_key)
++    }
++
++    fn load_with_timestamps(&self, session_key: &str) -> Vec<TimestampedMessage> {
++        self.inner.load_with_timestamps(session_key)
++    }
++
++    fn append(&self, session_key: &str, message: &ChatMessage) -> std::io::Result<()> {
++        self.inner.append(session_key, &ids_only(message))
++    }
++
++    fn remove_last(&self, session_key: &str) -> std::io::Result<bool> {
++        self.inner.remove_last(session_key)
++    }
++
++    fn rewrite_messages(&self, session_key: &str, messages: &[ChatMessage]) -> std::io::Result<()> {
++        self.inner.rewrite_messages(session_key, &ids_only_all(messages))
++    }
++
++    fn update_last(&self, session_key: &str, message: &ChatMessage) -> std::io::Result<bool> {
++        self.inner.update_last(session_key, &ids_only(message))
++    }
++
++    fn list_sessions(&self) -> Vec<String> {
++        self.inner.list_sessions()
++    }
++
++    fn list_sessions_with_metadata(&self) -> Vec<SessionMetadata> {
++        self.inner.list_sessions_with_metadata()
++    }
++
++    fn compact(&self, session_key: &str) -> std::io::Result<()> {
++        self.inner.compact(session_key)
++    }
++
++    fn cleanup_stale(&self, ttl_hours: u32) -> std::io::Result<usize> {
++        self.inner.cleanup_stale(ttl_hours)
++    }
++
++    fn search(&self, query: &SessionQuery) -> Vec<SessionMetadata> {
++        self.inner.search(query)
++    }
++
++    fn clear_messages(&self, session_key: &str) -> std::io::Result<usize> {
++        self.inner.clear_messages(session_key)
++    }
++
++    fn delete_session(&self, session_key: &str) -> std::io::Result<bool> {
++        self.inner.delete_session(session_key)
++    }
++
++    fn clear_agent_attribution(&self, agent_alias: &str) -> std::io::Result<usize> {
++        self.inner.clear_agent_attribution(agent_alias)
++    }
++
++    fn rename_agent_attribution(&self, from: &str, to: &str) -> std::io::Result<usize> {
++        self.inner.rename_agent_attribution(from, to)
++    }
++
++    fn count_agent_attribution(&self, agent_alias: &str) -> std::io::Result<usize> {
++        self.inner.count_agent_attribution(agent_alias)
++    }
++
++    fn session_exists(&self, session_key: &str) -> bool {
++        self.inner.session_exists(session_key)
++    }
++
++    fn set_session_name(&self, session_key: &str, name: &str) -> std::io::Result<()> {
++        self.inner.set_session_name(session_key, name)
++    }
++
++    fn get_session_name(&self, session_key: &str) -> std::io::Result<Option<String>> {
++        self.inner.get_session_name(session_key)
++    }
++
++    fn set_session_agent_alias(&self, session_key: &str, agent_alias: &str) -> std::io::Result<()> {
++        self.inner.set_session_agent_alias(session_key, agent_alias)
++    }
++
++    fn get_session_agent_alias(&self, session_key: &str) -> std::io::Result<Option<String>> {
++        self.inner.get_session_agent_alias(session_key)
++    }
++
++    fn set_session_trim_breadcrumb(&self, session_key: &str, present: bool) -> std::io::Result<()> {
++        self.inner.set_session_trim_breadcrumb(session_key, present)
++    }
++
++    fn get_session_trim_breadcrumb(&self, session_key: &str) -> std::io::Result<Option<bool>> {
++        self.inner.get_session_trim_breadcrumb(session_key)
++    }
++
++    fn replace_conversation_state(&self, session_key: &str, messages: &[ChatMessage], breadcrumb_present: bool) -> std::io::Result<()> {
++        self.inner.replace_conversation_state(session_key, &ids_only_all(messages), breadcrumb_present)
++    }
++
++    fn replace_conversation_state_if_exists(&self, session_key: &str, messages: &[ChatMessage], breadcrumb_present: bool) -> std::io::Result<bool> {
++        self.inner.replace_conversation_state_if_exists(session_key, &ids_only_all(messages), breadcrumb_present)
++    }
++
++    fn set_session_context(&self, session_key: &str, context: SessionContext<'_>) -> std::io::Result<()> {
++        self.inner.set_session_context(session_key, context)
++    }
++
++    fn get_session_metadata(&self, session_key: &str) -> Option<SessionMetadata> {
++        self.inner.get_session_metadata(session_key)
++    }
++
++    fn set_session_principal(&self, session_key: &str, principal_id: &str) -> std::io::Result<()> {
++        self.inner.set_session_principal(session_key, principal_id)
++    }
++
++    fn delete_session_owned(&self, session_key: &str, owner_principal_id: &str) -> std::io::Result<bool> {
++        self.inner.delete_session_owned(session_key, owner_principal_id)
++    }
++
++    fn set_session_state(&self, session_key: &str, state: &str, turn_id: Option<&str>) -> std::io::Result<()> {
++        self.inner.set_session_state(session_key, state, turn_id)
++    }
++
++    fn get_session_state(&self, session_key: &str) -> std::io::Result<Option<SessionState>> {
++        self.inner.get_session_state(session_key)
++    }
++
++    fn list_running_sessions(&self) -> Vec<SessionMetadata> {
++        self.inner.list_running_sessions()
++    }
++
++    fn list_stuck_sessions(&self, threshold_secs: u64) -> Vec<SessionMetadata> {
++        self.inner.list_stuck_sessions(threshold_secs)
++    }
++}
++
++#[cfg(test)]
++mod tests {
++    use super::*;
++
++    #[test]
++    fn stored_records_hold_no_message_text() {
++        let dir = tempfile::TempDir::new().unwrap();
++        let backend = crate::make_session_backend(dir.path(), IDS_ONLY_BACKEND).unwrap();
++        backend.append("s1", &ChatMessage::user("NEEDLE-USER-TEXT")).unwrap();
++        backend.append("s1", &ChatMessage::assistant("NEEDLE-REPLY")).unwrap();
++        backend
++            .rewrite_messages("s2", &[ChatMessage::user("NEEDLE-REWRITE")])
++            .unwrap();
++        backend.update_last("s2", &ChatMessage::user("NEEDLE-UPDATE")).unwrap();
++        let loaded = backend.load("s1");
++        assert_eq!(loaded.len(), 2);
++        assert_eq!(loaded[0].role, "user");
++        assert!(loaded[0].content.starts_with(IDS_ONLY_MARKER), "{}", loaded[0].content);
++        for msg in backend.load("s2") {
++            assert!(!msg.content.contains("NEEDLE"));
++        }
++        drop(backend);
++        for entry in walk(dir.path()) {
++            let bytes = std::fs::read(&entry).unwrap();
++            assert!(
++                !String::from_utf8_lossy(&bytes).contains("NEEDLE"),
++                "{} holds message text",
++                entry.display()
++            );
++        }
++    }
++
++    fn walk(dir: &std::path::Path) -> Vec<std::path::PathBuf> {
++        let mut out = Vec::new();
++        for entry in std::fs::read_dir(dir).unwrap().flatten() {
++            let path = entry.path();
++            if path.is_dir() {
++                out.extend(walk(&path));
++            } else {
++                out.push(path);
++            }
++        }
++        out
++    }
++}
+diff --git a/crates/zeroclaw-infra/src/lib.rs b/crates/zeroclaw-infra/src/lib.rs
+index 40db421..50f3ef6 100644
+--- a/crates/zeroclaw-infra/src/lib.rs
++++ b/crates/zeroclaw-infra/src/lib.rs
+@@ -3,6 +3,7 @@
+ 
+ pub mod acp_session_store;
+ pub mod debounce;
++pub mod ids_only;
+ pub mod net_guard;
+ pub mod session_backend;
+ pub mod session_queue;
+@@ -42,6 +43,9 @@ pub fn make_session_backend(
+             Ok(Arc::new(store))
+         }
+         "sqlite" => Ok(Arc::new(open_sqlite_with_jsonl_import(workspace_dir)?)),
++        ids_only::IDS_ONLY_BACKEND => Ok(Arc::new(ids_only::IdsOnlySessionBackend::new(Arc::new(
++            open_sqlite_with_jsonl_import(workspace_dir)?,
++        )))),
+         other => {
+             ::zeroclaw_log::record!(
+                 WARN,
+@@ -49,7 +53,7 @@ pub fn make_session_backend(
+                     .with_outcome(::zeroclaw_log::EventOutcome::Unknown)
+                     .with_attrs(::serde_json::json!({"other": other})),
+                 "Unknown session_backend ''; falling back to sqlite. \
+-                 Valid values: 'sqlite' (default), 'jsonl'."
++                 Valid values: 'ids-only' (Crew Edge default), 'sqlite', 'jsonl'."
+             );
+             Ok(Arc::new(open_sqlite_with_jsonl_import(workspace_dir)?))
+         }
+diff --git a/crates/zeroclaw-providers/src/factory.rs b/crates/zeroclaw-providers/src/factory.rs
+index 346c9c7..c02129f 100644
+--- a/crates/zeroclaw-providers/src/factory.rs
++++ b/crates/zeroclaw-providers/src/factory.rs
+@@ -435,6 +435,14 @@ pub fn dispatch_family_factory(
+     api_url: Option<&str>,
+     opts: &ModelProviderRuntimeOptions,
+ ) -> Result<Box<dyn ModelProvider>> {
++    // Netie Crew Edge (DR-0002 rule 6): subscription-login families are off.
++    if crate::netie::is_subscription_login_family(family) {
++        anyhow::bail!(
++            "{}: model provider family `{family}` reuses an end user's subscription login. \
++             Crew Edge routes model calls through OpenVault (`[providers.models.custom.openvault]`).",
++            crate::netie::REFUSAL_PREFIX
++        );
++    }
+     // openai missing-entry fallback: see `openai_missing_entry_fallback_config`.
+     // A persisted entry keeps its stored `wire_api`; an implicit dispatch with no
+     // entry (bare `openai` ref or a dangling alias) stays on the chat-completions
+diff --git a/crates/zeroclaw-providers/src/lib.rs b/crates/zeroclaw-providers/src/lib.rs
+index aa0c721..bfba4ab 100644
+--- a/crates/zeroclaw-providers/src/lib.rs
++++ b/crates/zeroclaw-providers/src/lib.rs
+@@ -23,6 +23,7 @@ pub mod ollama;
+ mod ollama_wire;
+ pub mod openai;
+ pub mod openai_codex;
++pub mod netie;
+ pub mod opencode_session;
+ pub mod openrouter;
+ pub mod openrouter_catalog;
+@@ -3818,7 +3819,9 @@ mod tests {
+ 
+     #[test]
+     fn factory_copilot() {
+-        assert!(create_model_provider("copilot", Some("key")).is_ok());
++        // Netie Crew Edge: subscription-login family, refused (DR-0002 rule 6).
++        let error = create_model_provider("copilot", Some("key")).err().expect("copilot must be refused");
++        assert!(error.to_string().starts_with(crate::netie::REFUSAL_PREFIX), "{error}");
+     }
+ 
+     #[test]
+@@ -3830,12 +3833,16 @@ mod tests {
+             Ok(_) => panic!("unscoped grok_cli provider must fail"),
+             Err(error) => error,
+         };
+-        assert!(error.to_string().contains("working_directory"));
++        // Netie Crew Edge: refused as a subscription-login family before the
++        // upstream working_directory check is reached.
++        assert!(error.to_string().starts_with(crate::netie::REFUSAL_PREFIX), "{error}");
+     }
+ 
+     #[test]
+     fn factory_kilocli() {
+-        assert!(create_model_provider("kilocli", None).is_ok());
++        // Netie Crew Edge: subscription-login family, refused (DR-0002 rule 6).
++        let error = create_model_provider("kilocli", None).err().expect("kilocli must be refused");
++        assert!(error.to_string().starts_with(crate::netie::REFUSAL_PREFIX), "{error}");
+     }
+ 
+     #[test]
+@@ -4436,8 +4443,15 @@ mod tests {
+             "ovh",
+         ];
+         for name in canonical {
++            let created = create_model_provider(name, Some("test-key"));
++            // Netie Crew Edge: subscription-login families are refused.
++            if crate::netie::is_subscription_login_family(name) {
++                let error = created.err().expect("subscription-login family must be refused");
++                assert!(error.to_string().starts_with(crate::netie::REFUSAL_PREFIX), "{name}: {error}");
++                continue;
++            }
+             assert!(
+-                create_model_provider(name, Some("test-key")).is_ok(),
++                created.is_ok(),
+                 "Canonical model model_provider '{name}' should create successfully"
+             );
+         }
+@@ -4493,8 +4507,15 @@ mod tests {
+             } else {
+                 Some("provider-test-credential")
+             };
++            let created = create_model_provider(model_provider.name, api_key);
++            // Netie Crew Edge: subscription-login families are refused.
++            if crate::netie::is_subscription_login_family(model_provider.name) {
++                let error = created.err().expect("subscription-login family must be refused");
++                assert!(error.to_string().starts_with(crate::netie::REFUSAL_PREFIX), "{error}");
++                continue;
++            }
+             assert!(
+-                create_model_provider(model_provider.name, api_key).is_ok(),
++                created.is_ok(),
+                 "Canonical model model_provider id should be constructible: {}",
+                 model_provider.name
+             );
+diff --git a/crates/zeroclaw-providers/src/netie.rs b/crates/zeroclaw-providers/src/netie.rs
+new file mode 100644
+index 0000000..ad3d84e
+--- /dev/null
++++ b/crates/zeroclaw-providers/src/netie.rs
+@@ -0,0 +1,478 @@
++//! Netie Crew Edge gate (DR-0002 rules 5 and 6).
++//!
++//! Rust port of the shapes in the Netie repo's `scripts/crew_ov_gate.py`,
++//! `scripts/crew_tool_wrap.py` and `scripts/space_leave.py`:
++//!
++//! - Model calls go to one OpenAI-compatible endpoint, OpenVault
++//!   `${NETIE_OPENVAULT_URL}/v1`. OpenVault holds every key; Crew Edge holds none.
++//! - Every tool call asks OpenVault `POST /api/crew/gate` with ids only
++//!   (`kind, id, intent, parent_run_id, child_id, deficit`). No arguments, no
++//!   prompt, no transcript. Missing URL, transport failure or a body without
++//!   `allowed: true` is a refusal, shown to the model and the operator.
++//! - Channels other than the local CLI leave the machine, so each one needs an
++//!   OpenVault leave-machine allow before it starts.
++//! - Providers and tools that reuse an end user's subscription login are off.
++//!
++//! See `NETIE-ATTRIBUTION.md` for what is and is not wired yet.
++
++use serde::Serialize;
++use serde_json::Value;
++use std::future::Future;
++use std::pin::Pin;
++use std::sync::Arc;
++use std::time::Duration;
++
++/// Environment variable naming the OpenVault base URL (without `/v1`).
++pub const OPENVAULT_URL_ENV: &str = "NETIE_OPENVAULT_URL";
++/// Default OpenVault base URL (Netie `TAS/TAS-OPENVAULT.md`: FreeRoute is `:5000/v1`).
++pub const DEFAULT_OPENVAULT_URL: &str = "http://127.0.0.1:5000";
++/// Config family the OpenVault entry is written under: `[providers.models.custom.<alias>]`.
++pub const OPENVAULT_FAMILY: &str = "custom";
++/// Quickstart input accepted for "the Netie default provider".
++pub const OPENVAULT_QUICKSTART_INPUT: &str = "openvault";
++/// Picker label for the `custom` family in Crew Edge.
++pub const OPENVAULT_DISPLAY_NAME: &str = "OpenVault (Netie default, holds every key)";
++/// Default model id for the OpenVault entry: OpenVault picks from its own catalog.
++pub const OPENVAULT_DEFAULT_MODEL: &str = "auto";
++
++/// Model-provider families that reuse an end user's subscription login
++/// (GitHub Copilot, Gemini CLI, Grok CLI, KiloCLI). DR-0002 rule 6.
++pub const SUBSCRIPTION_LOGIN_FAMILIES: &[&str] = &["copilot", "gemini_cli", "grok_cli", "kilocli"];
++/// Quickstart auth modes that reuse a subscription login (Codex, Claude setup-token).
++pub const SUBSCRIPTION_LOGIN_AUTH_MODES: &[&str] = &["codex", "setup_token"];
++/// Tools that drive another vendor's CLI on the end user's login. Always refused.
++pub const SUBSCRIPTION_LOGIN_TOOLS: &[&str] = &[
++    "claude_code",
++    "claude_code_runner",
++    "codex_cli",
++    "gemini_cli",
++    "opencode_cli",
++];
++
++/// Keys that must never ride a gate ask, a tool payload or a checkpoint.
++pub const DROP_KEYS: &[&str] = &["skill_body", "prompt", "instructions", "transcript"];
++/// Same set as OpenVault `ACCESS_KINDS` (`skill` is not registered yet).
++pub const REGISTERED_KINDS: &[&str] = &["memory", "api", "component", "runtime", "model", "service"];
++/// Known writes that need `operator_confirm: true` (HITL), same set as `crew_tool_wrap.py`.
++pub const HITL_WRITES: &[&str] = &["export_pptx", "item.intake", "amend.apply", "call_action"];
++/// Gate kind a tool invocation is asked under. Assumed, not measured against a
++/// live OpenVault: see `NETIE-ATTRIBUTION.md`.
++pub const TOOL_GATE_KIND: &str = "runtime";
++/// Run id channel leave-machine asks are filed under.
++pub const CHANNEL_GATE_PARENT_RUN: &str = "crew-edge.channels";
++/// Channel kinds that stay on the machine and need no leave-machine allow.
++pub const LOCAL_CHANNELS: &[&str] = &["cli"];
++/// Label appended to every channel the operator can pick in Quickstart.
++pub const CHANNEL_OFF_LABEL: &str = " (off until OpenVault leave-machine allows it)";
++/// Prefix of every refusal this gate returns.
++pub const REFUSAL_PREFIX: &str = "Refused by Netie gate";
++
++#[must_use]
++pub fn is_subscription_login_family(family: &str) -> bool {
++    let f = family.trim();
++    SUBSCRIPTION_LOGIN_FAMILIES
++        .iter()
++        .any(|x| x.eq_ignore_ascii_case(f))
++}
++
++#[must_use]
++pub fn is_subscription_login_tool(name: &str) -> bool {
++    let n = name.trim();
++    SUBSCRIPTION_LOGIN_TOOLS.iter().any(|x| *x == n)
++}
++
++/// OpenVault base URL from the environment, no trailing slash.
++#[must_use]
++pub fn openvault_base_url() -> String {
++    std::env::var(OPENVAULT_URL_ENV)
++        .ok()
++        .map(|s| s.trim().trim_end_matches('/').to_string())
++        .filter(|s| !s.is_empty())
++        .unwrap_or_else(|| DEFAULT_OPENVAULT_URL.to_string())
++}
++
++/// `${NETIE_OPENVAULT_URL}/v1`.
++#[must_use]
++pub fn openvault_v1_url() -> String {
++    format!("{}/v1", openvault_base_url())
++}
++
++/// The provider list Crew Edge surfaces offer: subscription-login families
++/// removed, the OpenVault (`custom`) entry first and labeled. The upstream
++/// registry (`list_model_providers`) stays complete so its slot-parity tests
++/// keep their meaning; this is the list an operator picks from.
++#[must_use]
++pub fn gated_model_providers() -> Vec<crate::ModelProviderInfo> {
++    let mut out: Vec<crate::ModelProviderInfo> = crate::list_model_providers()
++        .into_iter()
++        .filter(|info| !is_subscription_login_family(info.name))
++        .map(|mut info| {
++            if info.name == OPENVAULT_FAMILY {
++                info.display_name = OPENVAULT_DISPLAY_NAME;
++            }
++            info
++        })
++        .collect();
++    if let Some(pos) = out.iter().position(|info| info.name == OPENVAULT_FAMILY) {
++        let openvault = out.remove(pos);
++        out.insert(0, openvault);
++    }
++    out
++}
++
++/// True if a payload still carries a skill body, prompt or transcript.
++#[must_use]
++pub fn has_bodies(value: &Value) -> bool {
++    match value {
++        Value::Object(map) => map
++            .iter()
++            .any(|(k, v)| DROP_KEYS.contains(&k.as_str()) || has_bodies(v)),
++        Value::Array(items) => items.iter().any(has_bodies),
++        _ => false,
++    }
++}
++
++fn carries_skill_body(value: &Value) -> bool {
++    match value {
++        Value::Object(map) => map
++            .iter()
++            .any(|(k, v)| k == "skill_body" || carries_skill_body(v)),
++        Value::Array(items) => items.iter().any(carries_skill_body),
++        _ => false,
++    }
++}
++
++/// Ids and status only: drop every body key, recursively.
++#[must_use]
++pub fn strip_bodies(value: &Value) -> Value {
++    match value {
++        Value::Object(map) => Value::Object(
++            map.iter()
++                .filter(|(k, _)| !DROP_KEYS.contains(&k.as_str()))
++                .map(|(k, v)| (k.clone(), strip_bodies(v)))
++                .collect(),
++        ),
++        Value::Array(items) => Value::Array(items.iter().map(strip_bodies).collect()),
++        other => other.clone(),
++    }
++}
++
++/// Body of `POST /api/crew/gate`. Ids only.
++#[derive(Debug, Clone, PartialEq, Eq, Serialize)]
++pub struct GateAsk {
++    pub kind: String,
++    pub id: String,
++    pub intent: String,
++    pub parent_run_id: String,
++    pub child_id: String,
++    pub deficit: String,
++}
++
++pub type GateFuture = Pin<Box<dyn Future<Output = Result<Value, String>> + Send>>;
++
++/// How a gate ask reaches OpenVault. The shipped default is HTTP. Tests can
++/// scope their own for one task with [`with_gate_transport`].
++pub trait GateTransport: Send + Sync {
++    fn post(&self, url: String, body: Value) -> GateFuture;
++    /// Short name, so a test can assert which transport is the default.
++    fn label(&self) -> &'static str {
++        "custom"
++    }
++}
++
++struct HttpTransport;
++
++/// The shipped transport: `POST` JSON with a 10 s timeout.
++#[must_use]
++pub fn http_transport() -> Arc<dyn GateTransport> {
++    Arc::new(HttpTransport)
++}
++
++impl GateTransport for HttpTransport {
++    fn label(&self) -> &'static str {
++        "http"
++    }
++    fn post(&self, url: String, body: Value) -> GateFuture {
++        Box::pin(async move {
++            let client = reqwest::Client::builder()
++                .timeout(Duration::from_secs(10))
++                .build()
++                .map_err(|e| e.to_string())?;
++            let resp = client
++                .post(&url)
++                .json(&body)
++                .send()
++                .await
++                .map_err(|e| e.to_string())?;
++            resp.json::<Value>().await.map_err(|e| e.to_string())
++        })
++    }
++}
++
++tokio::task_local! {
++    static TRANSPORT_OVERRIDE: Arc<dyn GateTransport>;
++}
++
++/// Run `fut` with `transport` answering every gate ask made inside it.
++pub async fn with_gate_transport<F: Future>(transport: Arc<dyn GateTransport>, fut: F) -> F::Output {
++    TRANSPORT_OVERRIDE.scope(transport, fut).await
++}
++
++static PROCESS_DEFAULT: std::sync::OnceLock<Arc<dyn GateTransport>> = std::sync::OnceLock::new();
++
++fn transport() -> Arc<dyn GateTransport> {
++    TRANSPORT_OVERRIDE
++        .try_with(Arc::clone)
++        .ok()
++        .or_else(|| PROCESS_DEFAULT.get().cloned())
++        .unwrap_or_else(http_transport)
++}
++
++/// Label of the transport a gate ask made here would use.
++#[must_use]
++pub fn active_transport_label() -> &'static str {
++    transport().label()
++}
++
++/// Run id reserved for the Netie gate test. The test-harness transport
++/// forwards asks under it to the real HTTP transport, so the gate test
++/// exercises the shipped path while the upstream suites run unchanged.
++pub const GATE_TEST_RUN_ID: &str = "netie-gate-turn";
++
++struct TestHarnessTransport;
++
++impl GateTransport for TestHarnessTransport {
++    fn label(&self) -> &'static str {
++        "test-harness"
++    }
++    fn post(&self, url: String, body: Value) -> GateFuture {
++        if body.get("parent_run_id").and_then(Value::as_str) == Some(GATE_TEST_RUN_ID) {
++            return HttpTransport.post(url, body);
++        }
++        Box::pin(async { Ok(serde_json::json!({"allowed": true, "location": "test-harness"})) })
++    }
++}
++
++/// Test harness only. Upstream unit suites run tools and channels with no
++/// OpenVault listening; this makes the process default allow every ask so
++/// those suites keep testing upstream behavior. Called only from code under
++/// `cfg(any(test, feature = "test-util"))`. A shipped build never calls it,
++/// so its default stays [`http_transport`]. The ask is still built and
++/// checked (ids only) before it reaches this transport.
++#[doc(hidden)]
++pub fn install_test_harness_transport() {
++    let _ = PROCESS_DEFAULT.set(Arc::new(TestHarnessTransport));
++}
++
++/// Ask OpenVault. Fail closed: unknown kind, a body key, transport failure,
++/// a non-object reply or anything but `allowed: true` is `Err(reason)`.
++pub async fn crew_gate_allow(ask: &GateAsk) -> Result<Value, String> {
++    let kind = ask.kind.trim();
++    if !REGISTERED_KINDS.contains(&kind) {
++        return Err(format!("no {kind} registered as '{}'", ask.id));
++    }
++    let payload = serde_json::to_value(ask).map_err(|e| e.to_string())?;
++    if has_bodies(&payload) {
++        return Err("skill_body must never go to the gate".to_string());
++    }
++    let url = format!("{}/api/crew/gate", openvault_base_url());
++    let raw = transport()
++        .post(url, payload)
++        .await
++        .map_err(|e| format!("OpenVault crew_gate unreachable: {e}"))?;
++    let body = strip_bodies(&raw);
++    let Some(obj) = body.as_object() else {
++        return Err("OpenVault crew_gate returned non-object".to_string());
++    };
++    if obj.get("allowed") != Some(&Value::Bool(true)) {
++        let reason = obj
++            .get("reason")
++            .and_then(Value::as_str)
++            .filter(|s| !s.is_empty())
++            .unwrap_or("OpenVault refused");
++        return Err(reason.to_string());
++    }
++    Ok(body)
++}
++
++/// The only Crew Edge tool path: refuses before execution unless OpenVault
++/// allows this tool id for this run. Arguments are checked, never sent.
++pub async fn gate_tool_call(
++    tool: &str,
++    args: &Value,
++    parent_run_id: &str,
++    child_id: &str,
++) -> Result<(), String> {
++    let name = tool.trim();
++    if name.is_empty() {
++        return Err("empty tool name".to_string());
++    }
++    if is_subscription_login_tool(name) {
++        return Err(format!(
++            "{name} drives another vendor's CLI on the user's login (DR-0002 rule 6)"
++        ));
++    }
++    // Arguments stay on the machine (they are never put in the gate ask), so
++    // a `prompt` argument is a legitimate tool input (delegate, spawn_subagent,
++    // cron_add take one). A skill body is not: skills are passed by id.
++    if carries_skill_body(args) {
++        return Err("skill_body must never go to a tool; pass a skill id".to_string());
++    }
++    if HITL_WRITES.contains(&name) && args.get("operator_confirm") != Some(&Value::Bool(true)) {
++        return Err("HITL: write needs operator_confirm".to_string());
++    }
++    let pid = parent_run_id.trim();
++    let cid = child_id.trim();
++    if pid.is_empty() || cid.is_empty() {
++        return Err("tool call needs parent and child run ids".to_string());
++    }
++    crew_gate_allow(&GateAsk {
++        kind: TOOL_GATE_KIND.to_string(),
++        id: name.to_string(),
++        intent: "invoke".to_string(),
++        parent_run_id: pid.to_string(),
++        child_id: cid.to_string(),
++        deficit: String::new(),
++    })
++    .await
++    .map(|_| ())
++}
++
++/// Leave-machine ask for one channel instance (`space_leave.py` shape).
++/// Local channels pass without an ask.
++pub async fn gate_channel_leave(channel_kind: &str, alias: &str) -> Result<(), String> {
++    let kind = channel_kind.trim().to_ascii_lowercase();
++    if LOCAL_CHANNELS.contains(&kind.as_str()) {
++        return Ok(());
++    }
++    let child = if alias.trim().is_empty() {
++        kind.clone()
++    } else {
++        format!("{kind}.{}", alias.trim())
++    };
++    crew_gate_allow(&GateAsk {
++        kind: "service".to_string(),
++        id: format!("channel.{kind}"),
++        intent: "leave".to_string(),
++        parent_run_id: CHANNEL_GATE_PARENT_RUN.to_string(),
++        child_id: child,
++        deficit: String::new(),
++    })
++    .await
++    .map(|_| ())
++}
++
++#[cfg(test)]
++mod tests {
++    use super::*;
++    use std::sync::Mutex;
++
++    struct Recorder {
++        reply: Value,
++        seen: Mutex<Vec<(String, Value)>>,
++    }
++
++    impl GateTransport for Recorder {
++        fn post(&self, url: String, body: Value) -> GateFuture {
++            self.seen.lock().unwrap().push((url, body));
++            let reply = self.reply.clone();
++            Box::pin(async move { Ok(reply) })
++        }
++    }
++
++    fn recorder(reply: Value) -> Arc<Recorder> {
++        Arc::new(Recorder {
++            reply,
++            seen: Mutex::new(Vec::new()),
++        })
++    }
++
++    #[test]
++    fn gated_list_has_openvault_first_and_no_subscription_login_family() {
++        let gated = gated_model_providers();
++        assert_eq!(gated[0].name, OPENVAULT_FAMILY);
++        assert_eq!(gated[0].display_name, OPENVAULT_DISPLAY_NAME);
++        for family in SUBSCRIPTION_LOGIN_FAMILIES {
++            assert!(gated.iter().all(|info| info.name != *family), "{family}");
++        }
++        assert_eq!(
++            gated.len(),
++            crate::list_model_providers().len() - SUBSCRIPTION_LOGIN_FAMILIES.len()
++        );
++    }
++
++    #[test]
++    fn shipped_default_transport_is_http() {
++        assert_eq!(active_transport_label(), "http");
++    }
++
++    #[tokio::test]
++    async fn prompt_argument_stays_local_and_is_not_sent() {
++        let rec = recorder(serde_json::json!({"allowed": true}));
++        let args = serde_json::json!({"agent": "a", "prompt": "SECRET-TASK"});
++        let out = with_gate_transport(rec.clone(), gate_tool_call("delegate", &args, "t", "c")).await;
++        assert_eq!(out, Ok(()));
++        assert!(!rec.seen.lock().unwrap()[0].1.to_string().contains("SECRET-TASK"));
++    }
++
++    #[test]
++    fn bodies_are_detected_and_stripped_recursively() {
++        let v = serde_json::json!({"id": "a", "nested": [{"prompt": "x"}]});
++        assert!(has_bodies(&v));
++        assert_eq!(strip_bodies(&v), serde_json::json!({"id": "a", "nested": [{}]}));
++    }
++
++    #[tokio::test]
++    async fn allowed_tool_posts_ids_only() {
++        let rec = recorder(serde_json::json!({"allowed": true, "location": "local"}));
++        let args = serde_json::json!({"command": "ls -la /secret"});
++        let out = with_gate_transport(rec.clone(), gate_tool_call("shell", &args, "turn-1", "call-1")).await;
++        assert_eq!(out, Ok(()));
++        let seen = rec.seen.lock().unwrap();
++        assert_eq!(seen.len(), 1);
++        assert!(seen[0].0.ends_with("/api/crew/gate"), "{}", seen[0].0);
++        assert_eq!(
++            seen[0].1,
++            serde_json::json!({"kind": "runtime", "id": "shell", "intent": "invoke",
++                "parent_run_id": "turn-1", "child_id": "call-1", "deficit": ""})
++        );
++        assert!(!seen[0].1.to_string().contains("/secret"));
++    }
++
++    #[tokio::test]
++    async fn refusals_fail_closed_and_show_the_reason() {
++        let deny = recorder(serde_json::json!({"allowed": false, "reason": "not in seat"}));
++        let out = with_gate_transport(deny, gate_tool_call("shell", &Value::Null, "t", "c")).await;
++        assert_eq!(out, Err("not in seat".to_string()));
++
++        let odd = recorder(serde_json::json!({"allowed": "yes"}));
++        assert!(with_gate_transport(odd, gate_tool_call("shell", &Value::Null, "t", "c")).await.is_err());
++
++        let never = recorder(serde_json::json!({"allowed": true}));
++        for (tool, args) in [
++            ("claude_code", serde_json::json!({})),
++            ("shell", serde_json::json!({"nested": {"skill_body": "..."}})),
++            ("call_action", serde_json::json!({})),
++            ("", serde_json::json!({})),
++        ] {
++            let out = with_gate_transport(never.clone(), gate_tool_call(tool, &args, "t", "c")).await;
++            assert!(out.is_err(), "{tool} must refuse before asking");
++        }
++        assert!(never.seen.lock().unwrap().is_empty(), "no ask may be sent for a pre-refusal");
++        let out = with_gate_transport(never.clone(), gate_tool_call("shell", &Value::Null, "", "c")).await;
++        assert!(out.is_err());
++    }
++
++    #[tokio::test]
++    async fn channel_leave_asks_service_kind_and_cli_stays_local() {
++        let rec = recorder(serde_json::json!({"allowed": true}));
++        assert_eq!(with_gate_transport(rec.clone(), gate_channel_leave("cli", "")).await, Ok(()));
++        assert!(rec.seen.lock().unwrap().is_empty());
++        assert_eq!(with_gate_transport(rec.clone(), gate_channel_leave("telegram", "work")).await, Ok(()));
++        let seen = rec.seen.lock().unwrap();
++        assert_eq!(seen[0].1["kind"], "service");
++        assert_eq!(seen[0].1["id"], "channel.telegram");
++        assert_eq!(seen[0].1["intent"], "leave");
++        assert_eq!(seen[0].1["child_id"], "telegram.work");
++    }
++}
+diff --git a/crates/zeroclaw-runtime/src/agent/tool_execution.rs b/crates/zeroclaw-runtime/src/agent/tool_execution.rs
+index 6e9ccae..c5b7943 100644
+--- a/crates/zeroclaw-runtime/src/agent/tool_execution.rs
++++ b/crates/zeroclaw-runtime/src/agent/tool_execution.rs
+@@ -237,6 +237,43 @@ pub(crate) async fn execute_one_tool(
+         ));
+     }
+ 
++    // Netie Crew Edge gate (crew_tool_wrap / crew_ov_gate): no tool runs without
++    // an OpenVault allow for its id. Ids only leave; arguments never do. The
++    // refusal is the tool result, so the model and the operator both see it.
++    #[cfg(any(test, feature = "test-util"))]
++    zeroclaw_providers::netie::install_test_harness_transport();
++    if let Err(reason) = zeroclaw_providers::netie::gate_tool_call(
++        tool.name(),
++        &call_arguments,
++        meta.turn_id,
++        tool_call_id.unwrap_or(call_name),
++    )
++    .await
++    {
++        let reason = format!("{}: {reason}", zeroclaw_providers::netie::REFUSAL_PREFIX);
++        let duration = start.elapsed();
++        observer.record_event(&ObserverEvent::ToolCall {
++            tool: call_name.to_string(),
++            tool_call_id: tool_call_id_owned.clone(),
++            duration,
++            success: false,
++            arguments: Some(full_args.clone()),
++            result: Some(scrub_credentials(&reason)),
++            channel: Some(meta.channel_name.to_string()),
++            agent_alias: meta.agent_alias.map(|s| s.to_string()),
++            parent_agent_alias: meta.parent_agent_alias.map(|s| s.to_string()),
++            turn_id: Some(meta.turn_id.to_string()),
++        });
++        return Ok(ToolExecutionOutcome {
++            output: reason.clone(),
++            success: false,
++            error_reason: Some(reason),
++            duration,
++            receipt: None,
++            output_data: None,
++        });
++    }
++
+     use ::zeroclaw_log::Instrument;
+     let tool_span = ::zeroclaw_log::info_span!(
+         target: "zeroclaw_log_internal_scope",
+diff --git a/crates/zeroclaw-runtime/src/lib.rs b/crates/zeroclaw-runtime/src/lib.rs
+index 2a2c05b..b4f5dbf 100644
+--- a/crates/zeroclaw-runtime/src/lib.rs
++++ b/crates/zeroclaw-runtime/src/lib.rs
+@@ -53,4 +53,7 @@ pub mod trust;
+ pub mod tunnel;
+ pub mod verifiable_intent;
+ 
++#[cfg(test)]
++mod netie_gate;
++
+ pub use live_config_authority::{AgentExecutionCapability, LiveConfigAuthority};
+diff --git a/crates/zeroclaw-runtime/src/netie_gate.rs b/crates/zeroclaw-runtime/src/netie_gate.rs
+new file mode 100644
+index 0000000..c2444b7
+--- /dev/null
++++ b/crates/zeroclaw-runtime/src/netie_gate.rs
+@@ -0,0 +1,283 @@
++//! Netie Crew Edge stage 2 gate test (Netie repo, DR-0002 rule 5).
++//!
++//! Asserts what an operator receives, not internals: the provider list and
++//! field rows Quickstart shows, the config file Quickstart writes (re-read from
++//! disk with the real loader), the tool outcome the model sees, the session
++//! record on disk under the default config, and the channel picker labels.
++//! It uses upstream APIs only, so it also compiles on the stage 1 tree, where
++//! every case fails. Constants are spelled out on purpose for that reason.
++
++use std::sync::Arc;
++use std::sync::atomic::{AtomicUsize, Ordering};
++
++use async_trait::async_trait;
++use zeroclaw_api::tool::Tool;
++use zeroclaw_config::presets::{
++    AgentIdentity, BuilderSubmission, MemoryChoice, ModelProviderChoice, SelectorChoice,
++};
++use zeroclaw_config::schema::Config;
++
++use crate::agent::tool_execution::{ToolDispatchContext, execute_one_tool};
++use crate::observability::noop::NoopObserver;
++use crate::quickstart::{FieldSection, apply, field_shape, snapshot_state};
++
++const REFUSAL_PREFIX: &str = "Refused by Netie gate";
++const SUBSCRIPTION_LOGIN_FAMILIES: &[&str] = &["copilot", "gemini_cli", "grok_cli", "kilocli"];
++
++fn openvault_v1() -> String {
++    let base = std::env::var("NETIE_OPENVAULT_URL")
++        .ok()
++        .map(|s| s.trim().trim_end_matches('/').to_string())
++        .filter(|s| !s.is_empty())
++        .unwrap_or_else(|| "http://127.0.0.1:5000".to_string());
++    format!("{base}/v1")
++}
++
++fn submission(provider_type: &str, alias: &str, model: &str, fields: &[(&str, &str)]) -> BuilderSubmission {
++    BuilderSubmission {
++        model_provider: SelectorChoice::Fresh(ModelProviderChoice {
++            provider_type: provider_type.into(),
++            alias: alias.into(),
++            model: model.into(),
++            fields: fields
++                .iter()
++                .map(|(k, v)| ((*k).to_string(), (*v).to_string()))
++                .collect(),
++        }),
++        risk_profile: SelectorChoice::Fresh("balanced".into()),
++        runtime_profile: SelectorChoice::Fresh("balanced".into()),
++        memory: SelectorChoice::Fresh(MemoryChoice::Sqlite),
++        channels: vec![],
++        peer_groups: vec![],
++        agent: AgentIdentity {
++            name: "crew".into(),
++            system_prompt: "You are helpful.".into(),
++            personality_file: None,
++            personality_files: vec![],
++        },
++    }
++}
++
++async fn apply_in_temp(sub: BuilderSubmission) -> (tempfile::TempDir, Result<String, Vec<String>>) {
++    let dir = tempfile::tempdir().unwrap();
++    let mut config = Config {
++        config_path: dir.path().join("config.toml"),
++        data_dir: dir.path().join("data"),
++        ..Default::default()
++    };
++    config.save().await.unwrap();
++    let out = apply(sub, &mut config)
++        .await
++        .map(|applied| applied.model_provider)
++        .map_err(|errs| errs.into_iter().map(|e| e.message).collect());
++    (dir, out)
++}
++
++fn reload_raw(dir: &tempfile::TempDir) -> toml::Value {
++    let raw = std::fs::read_to_string(dir.path().join("config.toml")).unwrap();
++    let _typed: Config = toml::from_str(&raw).expect("on-disk config must load");
++    toml::from_str(&raw).unwrap()
++}
++
++#[test]
++fn quickstart_lists_openvault_first() {
++    let state = snapshot_state(&Config::default());
++    let first = &state.model_provider_types[0];
++    assert_eq!(first.kind, "custom", "first offered provider is {first:?}");
++    assert!(first.display_name.contains("OpenVault"), "{first:?}");
++}
++
++#[tokio::test]
++async fn quickstart_offers_no_subscription_login_family() {
++    let state = snapshot_state(&Config::default());
++    for family in SUBSCRIPTION_LOGIN_FAMILIES {
++        assert!(
++            state.model_provider_types.iter().all(|p| p.kind != *family),
++            "{family} is offered"
++        );
++    }
++    let (_dir, out) = apply_in_temp(submission("copilot", "gh", "gpt-5", &[])).await;
++    assert!(out.is_err(), "copilot was accepted: {out:?}");
++}
++
++#[tokio::test]
++async fn quickstart_openvault_writes_one_endpoint_and_no_key() {
++    let (dir, out) = apply_in_temp(submission("openvault", "openvault", "auto", &[])).await;
++    assert_eq!(out, Ok("custom.openvault".to_string()));
++    let raw = reload_raw(&dir);
++    let models = raw["providers"]["models"].as_table().expect("providers.models");
++    assert_eq!(models.keys().collect::<Vec<_>>(), vec!["custom"], "{models:?}");
++    let custom = models["custom"].as_table().unwrap();
++    assert_eq!(custom.keys().collect::<Vec<_>>(), vec!["openvault"]);
++    let entry = custom["openvault"].as_table().unwrap();
++    assert_eq!(entry["uri"].as_str(), Some(openvault_v1().as_str()));
++    assert_eq!(entry["model"].as_str(), Some("auto"));
++    assert!(!entry.contains_key("api_key"), "{entry:?}");
++    let text = std::fs::read_to_string(dir.path().join("config.toml")).unwrap();
++    assert!(!text.contains("api_key"), "config holds a key field:\n{text}");
++}
++
++#[tokio::test]
++async fn quickstart_refuses_a_key_on_the_openvault_entry() {
++    let uri = openvault_v1();
++    let (dir, out) = apply_in_temp(submission(
++        "custom",
++        "openvault",
++        "auto",
++        &[("uri", uri.as_str()), ("api_key", "sk-should-not-be-stored")],
++    ))
++    .await;
++    assert!(out.is_err(), "a key was accepted: {out:?}");
++    let text = std::fs::read_to_string(dir.path().join("config.toml")).unwrap();
++    assert!(!text.contains("sk-should-not-be-stored"));
++}
++
++#[tokio::test]
++async fn quickstart_refuses_subscription_auth_modes() {
++    let (_d1, codex) = apply_in_temp(submission("openai", "o", "gpt-5", &[("auth_mode", "codex")])).await;
++    assert!(codex.is_err(), "codex login accepted: {codex:?}");
++    let (_d2, setup) = apply_in_temp(submission(
++        "anthropic",
++        "a",
++        "claude-sonnet-4-5",
++        &[("auth_mode", "setup_token"), ("api_key", "tok")],
++    ))
++    .await;
++    assert!(setup.is_err(), "claude setup-token accepted: {setup:?}");
++}
++
++#[test]
++fn openvault_field_rows_ask_for_no_key() {
++    let rows = field_shape(FieldSection::ModelProvider, "openvault");
++    let uri = rows.iter().find(|r| r.key == "uri").expect("uri row");
++    assert_eq!(uri.default.as_deref(), Some(openvault_v1().as_str()));
++    assert!(rows.iter().all(|r| r.key != "api_key" && !r.is_secret), "{rows:?}");
++}
++
++struct ProbeTool {
++    name: &'static str,
++    runs: Arc<AtomicUsize>,
++}
++
++impl zeroclaw_api::attribution::Attributable for ProbeTool {
++    fn role(&self) -> zeroclaw_api::attribution::Role {
++        zeroclaw_api::attribution::Role::System
++    }
++    fn alias(&self) -> &str {
++        "netie-probe"
++    }
++}
++
++#[async_trait]
++impl Tool for ProbeTool {
++    fn name(&self) -> &str {
++        self.name
++    }
++    fn description(&self) -> &str {
++        "Counts executions for the Netie gate test"
++    }
++    fn parameters_schema(&self) -> serde_json::Value {
++        serde_json::json!({"type": "object", "properties": {}})
++    }
++    async fn execute(&self, _args: serde_json::Value) -> anyhow::Result<crate::tools::ToolResult> {
++        self.runs.fetch_add(1, Ordering::SeqCst);
++        Ok(crate::tools::ToolResult {
++            success: true,
++            output: "ran".into(),
++            error: None,
++        })
++    }
++}
++
++async fn run_probe(name: &'static str) -> (usize, crate::agent::tool_execution::ToolExecutionOutcome) {
++    let runs = Arc::new(AtomicUsize::new(0));
++    let registry = crate::tools::scoped::ScopedToolRegistry::from_raw_for_test(vec![Box::new(ProbeTool {
++        name,
++        runs: Arc::clone(&runs),
++    })]);
++    let meta = crate::agent::turn::TurnMeta {
++        parent_agent_alias: None,
++        agent_alias: Some("crew"),
++        turn_id: "netie-gate-turn",
++        channel_name: "cli",
++    };
++    let outcome = execute_one_tool(
++        name,
++        serde_json::json!({}),
++        Some("netie-gate-call"),
++        ToolDispatchContext {
++            tools_registry: &registry,
++            activated_tools: None,
++            excluded_tools: &[],
++            model_switch_callback: None,
++        },
++        &meta,
++        &NoopObserver,
++        None,
++        None,
++        None,
++    )
++    .await
++    .expect("a refusal is an outcome, not an error");
++    (runs.load(Ordering::SeqCst), outcome)
++}
++
++/// Needs nothing answering on the OpenVault URL. The run id `netie-gate-turn`
++/// is forwarded to the real HTTP transport even under the test harness. If a
++/// live OpenVault there allows `runtime/netie_probe_tool`, this fails loudly.
++#[tokio::test]
++async fn tool_without_openvault_allow_does_not_run() {
++    let (runs, outcome) = run_probe("netie_probe_tool").await;
++    assert_eq!(runs, 0, "tool ran without an OpenVault verdict");
++    assert!(!outcome.success);
++    assert!(outcome.output.starts_with(REFUSAL_PREFIX), "{}", outcome.output);
++}
++
++#[tokio::test]
++async fn subscription_login_tool_never_runs() {
++    let (runs, outcome) = run_probe("claude_code").await;
++    assert_eq!(runs, 0);
++    assert!(outcome.output.starts_with(REFUSAL_PREFIX), "{}", outcome.output);
++}
++
++#[test]
++fn default_session_record_holds_no_text() {
++    let cfg: Config = toml::from_str("").expect("empty config loads with defaults");
++    let dir = tempfile::tempdir().unwrap();
++    let backend = zeroclaw_infra::make_session_backend(dir.path(), &cfg.channels.session_backend).unwrap();
++    backend
++        .append("cli_user", &zeroclaw_api::model_provider::ChatMessage::user("NETIE-PROMPT-NEEDLE"))
++        .unwrap();
++    backend
++        .append("cli_user", &zeroclaw_api::model_provider::ChatMessage::assistant("NETIE-REPLY-NEEDLE"))
++        .unwrap();
++    assert_eq!(backend.load("cli_user").len(), 2, "ids and roles still persist");
++    drop(backend);
++    let mut stack = vec![dir.path().to_path_buf()];
++    while let Some(path) = stack.pop() {
++        if path.is_dir() {
++            stack.extend(std::fs::read_dir(&path).unwrap().flatten().map(|e| e.path()));
++        } else {
++            let bytes = std::fs::read(&path).unwrap();
++            assert!(
++                !String::from_utf8_lossy(&bytes).contains("NEEDLE"),
++                "{} holds conversation text (session_backend = {:?})",
++                path.display(),
++                cfg.channels.session_backend
++            );
++        }
++    }
++}
++
++#[test]
++fn channels_are_labeled_off_until_openvault_leave() {
++    let state = snapshot_state(&Config::default());
++    assert!(state.channel_types.len() >= 30, "{}", state.channel_types.len());
++    for ch in &state.channel_types {
++        assert!(
++            ch.display_name.contains("OpenVault leave-machine"),
++            "{} is not labeled",
++            ch.display_name
++        );
++    }
++}
+diff --git a/crates/zeroclaw-runtime/src/quickstart/mod.rs b/crates/zeroclaw-runtime/src/quickstart/mod.rs
+index 254f6d8..0cc9917 100644
+--- a/crates/zeroclaw-runtime/src/quickstart/mod.rs
++++ b/crates/zeroclaw-runtime/src/quickstart/mod.rs
+@@ -519,6 +519,15 @@ pub struct QuickstartTypeOption {
+ #[must_use]
+ pub fn resolve_model_provider_type(type_key: &str) -> Option<(&'static str, bool)> {
+     let trimmed = type_key.trim();
++    // Netie Crew Edge: `openvault` is the default provider (the `custom`
++    // OpenAI-compatible family pointed at OpenVault `/v1`). Subscription-login
++    // families and the Codex login alias are not offered (DR-0002 rule 6).
++    if trimmed.eq_ignore_ascii_case(zeroclaw_providers::netie::OPENVAULT_QUICKSTART_INPUT) {
++        return Some((zeroclaw_providers::netie::OPENVAULT_FAMILY, false));
++    }
++    if zeroclaw_providers::netie::is_subscription_login_family(trimmed) {
++        return None;
++    }
+     if let Some(info) = zeroclaw_providers::list_model_providers()
+         .into_iter()
+         .find(|info| info.name.eq_ignore_ascii_case(trimmed))
+@@ -530,7 +539,7 @@ pub fn resolve_model_provider_type(type_key: &str) -> Option<(&'static str, bool
+         .parse::<zeroclaw_providers::auth::AuthProvider>()
+         .ok()?;
+     Some(match provider {
+-        zeroclaw_providers::auth::AuthProvider::OpenaiCodex => ("openai", true),
++        zeroclaw_providers::auth::AuthProvider::OpenaiCodex => return None,
+         zeroclaw_providers::auth::AuthProvider::Anthropic => ("anthropic", false),
+         zeroclaw_providers::auth::AuthProvider::Gemini => ("gemini", false),
+         zeroclaw_providers::auth::AuthProvider::Xai => ("xai", false),
+@@ -547,7 +556,7 @@ pub fn resolve_model_provider_type(type_key: &str) -> Option<(&'static str, bool
+ /// "Reads the per-provider field map at render time so adding a
+ /// provider in the schema doesn't require Quickstart code changes."
+ pub fn snapshot_state(cfg: &Config) -> QuickstartState {
+-    let model_provider_types = zeroclaw_providers::list_model_providers()
++    let model_provider_types = zeroclaw_providers::netie::gated_model_providers()
+         .into_iter()
+         .map(|info| QuickstartTypeOption {
+             kind: info.name.to_string(),
+@@ -620,7 +629,9 @@ fn build_channel_type_options(
+         .into_iter()
+         .map(|info| QuickstartTypeOption {
+             kind: info.kind.to_string(),
+-            display_name: info.name.to_string(),
++            // Netie Crew Edge: every channel leaves the machine, so each is off
++            // until OpenVault leave-machine allows it (checked at startup).
++            display_name: format!("{}{}", info.name, zeroclaw_providers::netie::CHANNEL_OFF_LABEL),
+             local: false,
+             default_runtime_profile: None,
+         })
+@@ -801,6 +812,20 @@ pub fn field_shape(section: FieldSection, type_key: &str) -> Vec<FieldDescriptor
+     {
+         out.push(descriptor);
+     }
++    // Netie Crew Edge: the OpenVault entry asks for no key and defaults to
++    // `${NETIE_OPENVAULT_URL}/v1`. OpenVault holds every key.
++    if section_path == format!("providers.models.{}", zeroclaw_providers::netie::OPENVAULT_FAMILY) {
++        out.retain(|d| d.key != "api_key" && !d.is_secret);
++        for d in &mut out {
++            match d.key.as_str() {
++                "uri" => d.default = Some(zeroclaw_providers::netie::openvault_v1_url()),
++                "model" if d.default.is_none() => {
++                    d.default = Some(zeroclaw_providers::netie::OPENVAULT_DEFAULT_MODEL.to_string());
++                }
++                _ => {}
++            }
++        }
++    }
+     out.sort_by_key(|d| {
+         essentials
+             .iter()
+@@ -1151,6 +1176,18 @@ fn apply_model_provider(
+             // "no map-keyed/list section" because the family key doesn't match.
+             // `openai-codex` is accepted as a convenience input alias and
+             // normalizes to the existing `openai` config family.
++            if zeroclaw_providers::netie::is_subscription_login_family(&choice.provider_type) {
++                errors.push(QuickstartError::new(
++                    QuickstartStep::ModelProvider,
++                    "provider_type",
++                    format!(
++                        "{}: `{}` reuses an end user's subscription login. Pick `openvault`.",
++                        zeroclaw_providers::netie::REFUSAL_PREFIX,
++                        choice.provider_type.trim()
++                    ),
++                ));
++                return None;
++            }
+             let Some((provider_type, codex_alias_requested)) =
+                 resolve_model_provider_type(&choice.provider_type)
+             else {
+@@ -1178,6 +1215,35 @@ fn apply_model_provider(
+                 .map(|value| value.trim().to_ascii_lowercase())
+                 .filter(|value| !value.is_empty())
+                 .unwrap_or_else(|| default_auth_mode.to_string());
++            if zeroclaw_providers::netie::SUBSCRIPTION_LOGIN_AUTH_MODES.contains(&auth_mode.as_str()) {
++                errors.push(QuickstartError::new(
++                    QuickstartStep::ModelProvider,
++                    QUICKSTART_AUTH_MODE_FIELD,
++                    format!(
++                        "{}: auth mode `{auth_mode}` reuses an end user's subscription login. \
++                         Crew Edge routes model calls through OpenVault.",
++                        zeroclaw_providers::netie::REFUSAL_PREFIX
++                    ),
++                ));
++                return None;
++            }
++            let openvault_entry = provider_type == zeroclaw_providers::netie::OPENVAULT_FAMILY;
++            if openvault_entry
++                && choice
++                    .fields
++                    .get("api_key")
++                    .is_some_and(|v| !v.trim().is_empty())
++            {
++                errors.push(QuickstartError::new(
++                    QuickstartStep::ModelProvider,
++                    "api_key",
++                    format!(
++                        "{}: OpenVault holds every key; Crew Edge does not store one.",
++                        zeroclaw_providers::netie::REFUSAL_PREFIX
++                    ),
++                ));
++                return None;
++            }
+             if let Some(allowed_modes) = auth_modes_for(provider_type)
+                 && !allowed_modes.contains(&auth_mode.as_str())
+             {
+@@ -1294,6 +1360,23 @@ fn apply_model_provider(
+                     return None;
+                 }
+             }
++            if openvault_entry
++                && config
++                    .get_prop(&format!("{prefix}.uri"))
++                    .ok()
++                    .is_none_or(|v| v.trim().is_empty() || v == zeroclaw_config::traits::UNSET_DISPLAY)
++                && let Err(err) = config.set_prop_persistent(
++                    &format!("{prefix}.uri"),
++                    &zeroclaw_providers::netie::openvault_v1_url(),
++                )
++            {
++                errors.push(QuickstartError::new(
++                    QuickstartStep::ModelProvider,
++                    "uri",
++                    err.to_string(),
++                ));
++                return None;
++            }
+             // Auto-populate context_window from provider's /models endpoint if supported.
+             // Silently ignores failures (falls back to config default).
+             // Only runs on multi-threaded Tokio runtime (actual CLI), not single-threaded test runtime.
+@@ -2284,8 +2367,10 @@ mod tests {
+                 "kind mismatch at {} — picker `{}`, schema `{}`",
+                 picked.display_name, picked.kind, expected.kind,
+             );
++            // Netie Crew Edge: every channel carries the leave-machine label.
+             assert_eq!(
+-                picked.display_name, expected.name,
++                picked.display_name,
++                format!("{}{}", expected.name, zeroclaw_providers::netie::CHANNEL_OFF_LABEL),
+                 "display_name mismatch at `{}` — picker `{}`, schema `{}`",
+                 picked.kind, picked.display_name, expected.name,
+             );
+@@ -2328,14 +2413,24 @@ mod tests {
+         assert_eq!(remote.default_runtime_profile, None);
+         assert_eq!(snapshot.default_runtime_profile, "unbounded");
+ 
+-        let cli_shim = snapshot
+-            .model_provider_types
+-            .iter()
+-            .find(|provider| provider.kind == "gemini_cli")
+-            .expect("Gemini CLI should be present in the canonical provider registry");
+-        assert!(cli_shim.local);
++        // Netie Crew Edge: Gemini CLI is a subscription-login family, so the
++        // picker does not offer it. Its registry recommendation is unchanged.
++        assert!(
++            snapshot
++                .model_provider_types
++                .iter()
++                .all(|provider| provider.kind != "gemini_cli"),
++            "Gemini CLI must not be offered"
++        );
++        assert!(
++            zeroclaw_providers::list_model_providers()
++                .iter()
++                .any(|provider| provider.name == "gemini_cli" && provider.local)
++        );
+         assert_eq!(
+-            cli_shim.default_runtime_profile.as_deref(),
++            zeroclaw_providers::recommended_runtime_profile("gemini_cli")
++                .and_then(runtime_preset)
++                .map(|preset| preset.preset_name),
+             None,
+             "credential-free cloud CLI providers must not inherit local-small policy",
+         );
+@@ -2585,6 +2680,24 @@ mod tests {
+                 ("api_key".to_string(), "sk-ant-oat01-test-token".to_string()),
+             ]),
+         });
++        // Netie Crew Edge: the Claude setup-token login is refused.
++        assert!(applied.is_none());
++        assert!(
++            errors.iter().any(|e| e.field == "auth_mode"
++                && e.message.starts_with(zeroclaw_providers::netie::REFUSAL_PREFIX)),
++            "{errors:?}"
++        );
++        assert!(cfg.providers.models.find("anthropic", "max").is_none());
++        // The `claude` alias still canonicalizes to `anthropic` with a Console key.
++        let (cfg, applied, errors) = apply_fresh_provider(ModelProviderChoice {
++            provider_type: "claude".into(),
++            alias: "max".into(),
++            model: "claude-sonnet-4-5".into(),
++            fields: std::collections::HashMap::from([
++                ("auth_mode".to_string(), "api_key".to_string()),
++                ("api_key".to_string(), "sk-ant-oat01-test-token".to_string()),
++            ]),
++        });
+         assert!(errors.is_empty(), "apply_into errors: {errors:?}");
+         assert!(applied.is_some());
+         let entry = cfg
+@@ -2610,18 +2723,11 @@ mod tests {
+             model: "gpt-5.4".into(),
+             fields: std::collections::HashMap::new(),
+         });
+-        assert!(errors.is_empty(), "apply_into errors: {errors:?}");
+-        assert!(applied.is_some());
+-        let entry = cfg
+-            .providers
+-            .models
+-            .find("openai", "coding")
+-            .expect("openai.coding entry");
+-        assert_eq!(entry.model.as_deref(), Some("gpt-5.4"));
+-        assert_eq!(entry.wire_api, Some(WireApi::Responses));
+-        assert!(entry.requires_openai_auth);
+-        let agent = cfg.agents.get("bot").expect("agent created");
+-        assert_eq!(agent.model_provider.as_str(), "openai.coding");
++        // Netie Crew Edge: the `openai-codex` login alias is not offered.
++        assert!(applied.is_none());
++        assert!(errors.iter().any(|e| e.field == "provider_type"), "{errors:?}");
++        assert!(cfg.providers.models.find("openai", "coding").is_none());
++        assert!(!cfg.agents.contains_key("bot"));
+     }
+ 
+     #[test]
+@@ -2635,17 +2741,16 @@ mod tests {
+                 ("api_key".to_string(), "sk-should-not-persist".to_string()),
+             ]),
+         });
+-        assert!(errors.is_empty(), "apply_into errors: {errors:?}");
+-        assert!(applied.is_some());
+-        let entry = cfg
+-            .providers
+-            .models
+-            .find("openai", "coding")
+-            .expect("openai.coding entry");
+-        assert_eq!(entry.wire_api, Some(WireApi::Responses));
+-        assert!(entry.requires_openai_auth);
++        // Netie Crew Edge: the Codex login is refused, so nothing persists,
++        // which still satisfies "Codex auth must not persist an API key".
++        assert!(applied.is_none());
+         assert!(
+-            entry.api_key.is_none(),
++            errors.iter().any(|e| e.field == "auth_mode"
++                && e.message.starts_with(zeroclaw_providers::netie::REFUSAL_PREFIX)),
++            "{errors:?}"
++        );
++        assert!(
++            cfg.providers.models.find("openai", "coding").is_none(),
+             "Codex auth must not persist an API key from the Quickstart form"
+         );
+     }
+@@ -2847,11 +2952,14 @@ mod tests {
+     #[test]
+     fn field_shape_openai_codex_alias_preselects_codex_auth() {
+         let rows = super::field_shape(super::FieldSection::ModelProvider, "openai-codex");
+-        let auth = rows
++        // Netie Crew Edge: the Codex login alias is not offered, so no rows.
++        assert!(rows.is_empty(), "{rows:?}");
++        let openai = super::field_shape(super::FieldSection::ModelProvider, "openai");
++        let auth = openai
+             .iter()
+             .find(|row| row.key == "auth_mode")
+             .expect("auth_mode row");
+-        assert_eq!(auth.default.as_deref(), Some("codex"));
++        assert_eq!(auth.default.as_deref(), Some("api_key"));
+     }
+ 
+     #[test]

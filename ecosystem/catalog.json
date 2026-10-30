@@ -85,8 +85,8 @@
       "netie_name": "Crew Edge",
       "brand_from": ["ZeroClaw"],
       "role": "Single Rust binary agent runtime for edge devices and small servers with 30+ channels.",
-      "gate": "Same as crew-agent. NOTICE and both license files stay (Apache-2.0 requires NOTICE retention).",
-      "stage": 1
+      "gate": "Tested by cargo test -p zeroclaw-runtime --lib netie_gate (10 cases, 0 pass on stage 1): Quickstart offers OpenVault first and writes one [providers.models.custom.openvault] at ${NETIE_OPENVAULT_URL}/v1 with no api_key; Copilot, Gemini CLI, Grok CLI, KiloCLI, Codex and Claude setup-token logins refused; a tool with no OpenVault /api/crew/gate allow does not run and the refusal is the tool result; the default session record holds no message text; every non-CLI channel is labeled off until OpenVault leave-machine allows it. NOTICE and both license files unchanged.",
+      "stage": 2
     },
     {
       "slug": "crew-harness",

@@ -21,6 +21,22 @@ GITHUB_PAT = re.compile(r"github_pat_[A-Za-z0-9_]{20,}")
 GITHUB_CLASSIC = re.compile(r"ghp_[A-Za-z0-9]{20,}")
 ANTHROPIC_LIVE = re.compile(r"sk-ant-(?!test-)[A-Za-z0-9\-_]{16,}")
 
+# Exact fake keys that upstream test suites ship and that overlay patches carry
+# as context or removed lines. Exact literals only: a real key never equals one,
+# and the same prefix with any other suffix still fails (test_secrets_scan.py).
+UPSTREAM_FIXTURES = frozenset(
+    {
+        "sk-ant-oat01-test-token",  # zeroclaw quickstart tests, crew-edge 0002-gate.patch
+    }
+)
+
+# Whole token only: a longer key that merely starts with a fixture still scans.
+FIXTURE_TOKEN = re.compile(
+    r"(?<![A-Za-z0-9\-_])(?:"
+    + "|".join(re.escape(f) for f in sorted(UPSTREAM_FIXTURES))
+    + r")(?![A-Za-z0-9\-_])"
+)
+
 SKIP_DIRS = frozenset({".git", ".venv", "__pycache__", "node_modules", ".pytest_cache"})
 TEXT_SUFFIX = frozenset(
     {
@@ -81,6 +97,7 @@ def findings(root: Path) -> list[str]:
             text = path.read_text(encoding="utf-8")
         except UnicodeDecodeError:
             continue
+        text = FIXTURE_TOKEN.sub("", text)
         checks = (
             ("OpenRouter live key", OPENROUTER_LIVE),
             ("Cerebras live key", CEREBRAS_LIVE),
