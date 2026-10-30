@@ -12,7 +12,7 @@ Stages: 0 catalogued | 1 overlay patch exists | 2 gate wired and tested | 3 ship
 |---|---|---|---|---|
 | AirGPT | danny-avila/LibreChat @ f10b1d91f1 | MIT | AirGPT | 1 |
 | Netie Control | stablyai/orca @ d17351401d | MIT | Control | 1 |
-| Crew Agent | NousResearch/hermes-agent @ e473f5a9c9 | MIT | Crew | 1 |
+| Crew Agent | NousResearch/hermes-agent @ e473f5a9c9 | MIT | Crew | 2 |
 | Crew Edge | zeroclaw-labs/zeroclaw @ f7bd2b9e94 | MIT OR Apache-2.0 | Crew | 1 |
 | Crew Harness | deepseek-ai/deepseek-harness @ 5badb15009 | MIT | Crew | 1 |
 | FreeIDE | anomalyco/opencode @ 907b3bc518 | MIT | FreeIDE | 1 |
@@ -25,7 +25,7 @@ Stages: 0 catalogued | 1 overlay patch exists | 2 gate wired and tested | 3 ship
 - **control**: Fleet board for parallel coding agents in isolated git worktrees. Closer analogue to Netie Control than Guacamole.
   - Gate: Board reads ids only through netie.control.project_board. Agent launches go through Crew ticket runner, never a second orchestrator.
 - **crew-agent**: Long-running personal agent with skills, sessions and messaging gateways.
-  - Gate: Model calls -> OpenVault /v1. Tools -> Cortex tool_runner. Session state persists ids only (crew_checkpoint).
+  - Gate: Tested by tests/netie in the upstream runner (27 files, 397 cases; 351 fail or do not finish on stage 1, 46 pin behaviour the gate keeps): every entry point defaults to one OpenAI-compatible provider, openvault at ${NETIE_OPENVAULT_URL}/v1, with no provider key field in the default config; vendor env keys never pick a provider, upstream's auxiliary discovery chain is closed and custom without an endpoint refuses (config-variant sweep with eight vendor keys); every tool path asks OpenVault POST /api/crew/gate with ids only and fails closed with a visible refusal; messaging gateways and standalone senders need an OpenVault leave-machine allow and are labeled otherwise; session state persists ids or digests only outside the messages table, which keeps the conversation in plain text (declared gap: TAS-CREW plans it hashed).
 - **crew-edge**: Single Rust binary agent runtime for edge devices and small servers with 30+ channels.
   - Gate: Same as crew-agent. NOTICE and both license files stay (Apache-2.0 requires NOTICE retention).
 - **crew-harness**: Everything-is-a-plugin agent harness with web UI, headless command and Python SDK. Developer preview, version 0.1.0-rc.5 per its README.
