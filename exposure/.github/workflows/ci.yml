@@ -1,0 +1,19 @@
+name: ci
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install -e ".[dev]"
+      - run: pytest
+      - run: python -m netie_exposure refuse "generate linkedin followers until 100k"
+      - run: python -m netie_exposure run --offline --day 2026-08-25 --outbox /tmp/exposure-outbox
+      - run: python -m netie_exposure calendar --offline --days 3 --day 2026-08-25 --outbox /tmp/exposure-cal
