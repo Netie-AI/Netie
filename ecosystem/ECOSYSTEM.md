@@ -17,10 +17,8 @@ Stages: 0 catalogued | 1 overlay patch exists | 2 gate wired and tested | 3 ship
 | Crew Harness | deepseek-ai/deepseek-harness @ 5badb15009 | MIT | Crew | 1 |
 | FreeIDE | anomalyco/opencode @ 907b3bc518 | MIT | FreeIDE | 2 |
 | FreeIDE for VS Code | Kilo-Org/kilocode @ a93088bfe2 | MIT | FreeIDE | 1 |
-| Netie Wiki | langchain-ai/openwiki @ c0173dca92 | MIT | KB | 1 |
-| FreeRoute Core | MiXaiLL76/auto_ai_router @ 4f8597503a | Apache-2.0 | OpenVault | 2 |
 | Netie Wiki | langchain-ai/openwiki @ c0173dca92 | MIT | KB | 2 |
-| FreeRoute Core | MiXaiLL76/auto_ai_router @ 4f8597503a | Apache-2.0 | OpenVault | 1 |
+| FreeRoute Core | MiXaiLL76/auto_ai_router @ 4f8597503a | Apache-2.0 | OpenVault | 2 |
 
 - **airgpt**: Multi-provider chat shell. MIT, so it is the rebrandable base for AirGPT.
   - Gate: Endpoints -> OpenVault /v1 only (0002-gate.patch, tested). Retrieval -> netie.airgpt retrieve_space (not wired). Cross-chat memory off and labeled ungoverned until it routes through Cortex actions.
