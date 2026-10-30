@@ -16,5 +16,6 @@ class and the invariant it rests on. "R4 held" is a valid finding.
 | 2026-10-22 | `2026-10-22-netie-wiki-stage2.md` (PR #48, branch `claude/stage2-netie-wiki`) | netie-wiki stage 2; replay matches |
 | 2026-10-22 | `2026-10-22-freeroute-core-stage2.md` (PR #47, branch `claude/stage2-freeroute-core`) | freeroute-core; parent go test run found 1 bad gate case, fixed in 8318d9a, re-run 17 of 17 and full suite green |
 | 2026-10-05 | `2026-10-05-airgpt-stage2.md` | AirGPT (LibreChat) to stage 2: one endpoint, OpenVault /v1, memory off and labeled ungoverned, gate test red on baseline and green after, 0002 patch replays |
+| 2026-10-05 | `2026-10-05-freeide-stage2.md` | freeide stage 2: OpenVault /v1 default provider, ids-only crew gate on shell/edit/webfetch, binary and config dir renamed; Zen free tier was a hidden vendor default; bun cannot reach GitHub tarballs here |
 | 2026-10-05 | `2026-10-05-wave1-sessions.md` | Shape and reasons for the 3 stage 2 sessions |
 | 2026-10-05 | `2026-10-05-ecosystem-lane.md` | 5 named projects are not forkable for sale; sibling patch gate is red on base; 4 tool bugs found only on real upstream trees |

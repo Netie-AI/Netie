@@ -18,7 +18,7 @@
       "brand_from": ["OpenCode"],
       "role": "Terminal and desktop coding agent: the FreeIDE coding surface.",
       "gate": "Provider base URL -> OpenVault /v1. Shell, edit and fetch tools -> Cortex tool_runner and OpenVault POST /api/crew/gate.",
-      "stage": 1
+      "stage": 2
     },
     {
       "slug": "freeide-ext",
