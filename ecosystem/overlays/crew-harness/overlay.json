@@ -1,0 +1,78 @@
+{
+  "slug": "crew-harness",
+  "upstream": "deepseek-ai/deepseek-harness",
+  "base_commit": "5badb15009ae1756c3afe0ae0cef1faafc290ccc",
+  "license_sha256": "ebb4f09972aee8608be255debaf78451a68e95c290f55c240dec2ecfa16ea6be",
+  "stripped": [],
+  "files_changed": [
+    "AGENTS.md",
+    "BRAND_GUIDELINES.md",
+    "BRAND_GUIDELINES.zh.md",
+    "CONTRIBUTING.md",
+    "CONTRIBUTING.zh.md",
+    "README.md",
+    "README.zh.md",
+    "SAFETY.md",
+    "SAFETY.zh.md",
+    "docs/architecture.md",
+    "docs/architecture.zh.md",
+    "docs/cookbook/adding-a-package.md",
+    "docs/cookbook/adding-a-package.zh.md",
+    "docs/cordis-primer.md",
+    "docs/cordis-primer.zh.md",
+    "docs/cordis-tutorial/index.md",
+    "docs/cordis-tutorial/index.zh.md",
+    "docs/deepseek-llm-api-wire-extensions.zh.md",
+    "docs/glossary.md",
+    "docs/glossary.zh.md",
+    "docs/postmortem/0003-web-agent-gui-feedback-loop.md",
+    "docs/postmortem/0003-web-agent-gui-feedback-loop.zh.md",
+    "docs/subsystems/README.md",
+    "docs/subsystems/README.zh.md",
+    "docs/user/index.md",
+    "docs/user/index.zh.md",
+    "NETIE-ATTRIBUTION.md"
+  ],
+  "series": [
+    "0001-rebrand.patch",
+    "0002-gate.patch"
+  ],
+  "stage2": {
+    "patch": "0002-gate.patch",
+    "gate_test": [
+      "packages/bundle/base/tests/netie-defaults.spec.ts",
+      "packages/guard/crew-gate/tests/crew-gate.spec.ts"
+    ],
+    "run": "pnpm install && pnpm exec vitest run packages/bundle/base/tests/netie-defaults.spec.ts packages/guard/crew-gate/tests/crew-gate.spec.ts",
+    "env": [
+      "NETIE_OPENVAULT_URL",
+      "NETIE_OPENVAULT_KEY"
+    ],
+    "endpoint": "${NETIE_OPENVAULT_URL}/v1",
+    "default_model": {
+      "provider": "openvault",
+      "model": "auto"
+    },
+    "crew_gate": "POST ${NETIE_OPENVAULT_URL}/api/crew/gate, ids only, before every tool body; tools and sandbox-local refuse registration without it",
+    "direct_deepseek_routes": "not mounted",
+    "web_search": "listed, no provider (fails loud WEB_PROVIDER_UNAVAILABLE until a search route exists)",
+    "upstream_version": "0.2.1-alpha.1 (developer preview)"
+  },
+  "stage3_work": {
+    "status": "stage stays 2: OpenVault main does not serve POST /api/crew/gate (TAS-OPENVAULT section 8, PR #44 patch); every tool call is refused until it lands",
+    "launch_test": "apps/cli/tests/profiles/headless/tests/netie-launch.expected.e2e.ts",
+    "run": "pnpm exec vitest run --config vitest.expected.config.ts apps/cli/tests/profiles/headless/tests/netie-launch.expected.e2e.ts",
+    "build": "pnpm run build exit 0 (CLI, SDK runtime, web client)",
+    "sdk_defaults": {
+      "provider": "openvault",
+      "model": "auto"
+    },
+    "sdk_server_vendor_fallback": "removed",
+    "corpus_override": "snapshots/* test compositions disable crew-gate and set tools/sandbox crewGate off (no shipped profile)",
+    "operator_needs": [
+      "NETIE_OPENVAULT_URL serving streaming POST /v1/chat/completions",
+      "NETIE_OPENVAULT_KEY (issued ov_ key) in the launching environment",
+      "POST /api/crew/gate answering allowed: true for kind service"
+    ]
+  }
+}
