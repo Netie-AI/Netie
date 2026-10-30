@@ -1,0 +1,168 @@
+diff --git a/OpenMW/openmw/openvault/vault/proxy.py b/OpenMW/openmw/openvault/vault/proxy.py
+index 6dc05d6..7325c40 100644
+--- a/OpenMW/openmw/openvault/vault/proxy.py
++++ b/OpenMW/openmw/openvault/vault/proxy.py
+@@ -231,6 +231,22 @@ def _run_execution_shape(
+     want_stream = bool(body.get("stream"))
+     stream_holder: dict[str, AsyncIterator[bytes]] = {}
+     stream_hold = "\x1eopenvault-stream-hold\x1e"
++    served: dict[str, str] = {}
++
++    def _mark_served(key_id: str, provider: str, resolved: str) -> None:
++        # Last successful hop, not "dispatch".
++        served["vault_key_id"] = key_id
++        served["provider"] = provider
++        served["model"] = resolved
++
++    def _flush_served() -> None:
++        if served.get("vault_key_id"):
++            trace.note_served(
++                provider=served["provider"],
++                model=served["model"],
++                vault_key_id=served["vault_key_id"],
++            )
++
+     shape = shape_from_chat_body(body) or ""
+     if shape == "auto":
+         trace.error_type = "openvault_execution_shape"
+@@ -388,6 +404,7 @@ def _run_execution_shape(
+                     owned.close()
+ 
+             stream_holder["iter"] = _byte_iter()
++            _mark_served(rec.id, rec.provider, resolved)
+             return stream_hold
+         try:
+             with httpx.Client(timeout=timeout_s) as client:
+@@ -443,7 +460,10 @@ def _run_execution_shape(
+         if outcome.job == "dead":
+             raise ExecutionRefused(400, "request rejected by upstream (non-retryable)")
+         if outcome.attempt_class == "success":
+-            return extract_assistant_text(resp.json())
++            text = extract_assistant_text(resp.json())
++            if text and str(text).strip():
++                _mark_served(rec.id, rec.provider, resolved)
++            return text
+         return ""
+ 
+     combo = body.get("combo") if isinstance(body.get("combo"), dict) else {}
+@@ -486,7 +506,7 @@ def _run_execution_shape(
+     if want_stream:
+         held = stream_holder.get("iter")
+         if held is not None:
+-            trace.note_served(provider="dispatch", model=shape, vault_key_id="")
++            _flush_served()
+             return 200, held
+         if text and str(text).strip() and text != stream_hold:
+             first, done = sse_wrap_text(text)
+@@ -495,7 +515,7 @@ def _run_execution_shape(
+                 yield first
+                 yield done
+ 
+-            trace.note_served(provider="dispatch", model=shape, vault_key_id="")
++            _flush_served()
+             return 200, _wrapped()
+         trace.error_type = "openvault_execution_shape"
+         return 503, {
+@@ -512,7 +532,7 @@ def _run_execution_shape(
+                 "type": "openvault_execution_shape",
+             }
+         }
+-    trace.note_served(provider="dispatch", model=shape, vault_key_id="")
++    _flush_served()
+     return 200, {
+         "id": "ov-dispatch",
+         "object": "chat.completion",
+diff --git a/OpenMW/tests/test_execution_chat.py b/OpenMW/tests/test_execution_chat.py
+index c6e9852..b5c73be 100644
+--- a/OpenMW/tests/test_execution_chat.py
++++ b/OpenMW/tests/test_execution_chat.py
+@@ -501,4 +501,89 @@ def test_v1_context_relay_all_unavailable_503(
+     assert mock.post.call_count == 0
+ 
+ 
++def test_v1_fusion_usage_names_the_hop_that_served(
++    vault: KeyVault, monkeypatch: pytest.MonkeyPatch, tmp_path: Path
++) -> None:
++    rec = vault.create(
++        label="usage-hop",
++        provider="openai",
++        secret="sk-test-usage-aaaaaaaa",
++        role="primary",
++        priority=1,
++        base_url="https://example.invalid/v1",
++    )
++    vault.set_precheck(rec.id, status="ok", latency_ms=1.0, error=None)
++    client = _client(vault, tmp_path, monkeypatch)
++    _seat, headers = issue_key(client, label="usage-fusion")
++    mock = _client_mock()
++    mock.post = MagicMock(side_effect=[_ok("ans-a"), _ok("ans-b"), _ok("FINAL")])
++    with patch("openmw.openvault.vault.proxy.httpx.Client", return_value=mock):
++        resp = client.post(
++            "/v1/chat/completions",
++            json={
++                "model": "auto",
++                "messages": [{"role": "user", "content": "Q"}],
++                "combo": {
++                    "strategy": "fusion",
++                    "models": ["gpt-4o-mini", "gpt-4o"],
++                    "judgeModel": "gpt-4o-mini",
++                },
++            },
++            headers=headers,
++        )
++    assert resp.status_code == 200, resp.text
++    events = client.get("/api/usage").json()["events"]
++    assert len(events) == 1
++    row = events[0]
++    assert row["vault_key_id"] == rec.id
++    assert row["provider"] == "openai"
++    assert row["provider"] != "dispatch"
++    assert row["model_requested"] == "auto"
++    assert row["model_served"] == "gpt-4o-mini"
++
++
++def test_v1_failover_usage_names_the_winning_key(
++    vault: KeyVault, monkeypatch: pytest.MonkeyPatch, tmp_path: Path
++) -> None:
++    first = vault.create(
++        label="hop-a",
++        provider="openai",
++        secret="sk-test-hop-a-aaaaaaaa",
++        role="primary",
++        priority=1,
++        base_url="https://example.invalid/v1",
++    )
++    second = vault.create(
++        label="hop-b",
++        provider="openai",
++        secret="sk-test-hop-b-aaaaaaaa",
++        role="primary",
++        priority=2,
++        base_url="https://example.invalid/v1",
++    )
++    vault.set_precheck(first.id, status="ok", latency_ms=1.0, error=None)
++    vault.set_precheck(second.id, status="ok", latency_ms=1.0, error=None)
++    client = _client(vault, tmp_path, monkeypatch)
++    _seat, headers = issue_key(client, label="usage-fail")
++    mock = _client_mock()
++    mock.post = MagicMock(side_effect=[_http_err(500, "boom"), _ok("solo")])
++    with patch("openmw.openvault.vault.proxy.httpx.Client", return_value=mock):
++        resp = client.post(
++            "/v1/chat/completions",
++            json={
++                "model": "auto",
++                "messages": [{"role": "user", "content": "Q"}],
++                "combo": {"strategy": "fusion", "models": ["gpt-4o-mini"]},
++            },
++            headers=headers,
++        )
++    assert resp.status_code == 200, resp.text
++    events = client.get("/api/usage").json()["events"]
++    assert len(events) == 1
++    assert events[0]["vault_key_id"] == second.id
++    assert events[0]["vault_key_id"] != first.id
++    assert events[0]["provider"] != "dispatch"
++
++
++
+ 

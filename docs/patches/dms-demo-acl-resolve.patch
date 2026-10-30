@@ -1,0 +1,47 @@
+diff --git a/packages/executor/dms_executor/__init__.py b/packages/executor/dms_executor/__init__.py
+index ed0f956..b6629fd 100644
+--- a/packages/executor/dms_executor/__init__.py
++++ b/packages/executor/dms_executor/__init__.py
+@@ -8,7 +8,7 @@ from __future__ import annotations
+ import logging
+ from pathlib import Path
+ from typing import Any
+-from uuid import uuid4
++from uuid import UUID, uuid4, uuid5
+ 
+ from cortex_client import CortexClient
+ from cortex_client.models import AskRequest, AskResponse
+@@ -238,14 +238,25 @@ class Executor:
+         if selection:
+             parts.append(f"scope:{'+'.join(sorted(selection))}")
+         sid = f"{base}::{'::'.join(parts)}" if parts else base
+-        return SessionAcl(
+-            session_id=sid,
+-            org_id="tenant_demo",
+-            space_id=space_id,
+-            row_predicates={t: "TRUE" for t in readable},
+-            allowed_paths=[],
+-            pool_id="default",
+-            ttl_seconds=900,
++        grants = [
++            SourceGrant(
++                source_id=uuid5(UUID("6f9619ff-8b86-d011-b42d-00c04fc964ff"), t),
++                kind="sql",
++                table_name=t,
++                row_predicate="TRUE",
++            )
++            for t in readable
++        ]
++        return resolve_session_acl(
++            SessionContext(
++                session_id=sid,
++                tenant_id="tenant_demo",
++                space_id=space_id,
++                user_id=DEMO_USER_ID,
++                pool_id="default",
++                grants=grants,
++                ttl_seconds=900,
++            )
+         )
+ 
+     def bind_session(self, session: SessionContext | SessionAcl) -> Any:

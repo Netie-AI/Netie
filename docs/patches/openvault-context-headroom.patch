@@ -1,0 +1,129 @@
+diff --git a/OpenMW/openmw/openvault/route/strategies.py b/OpenMW/openmw/openvault/route/strategies.py
+index c6bf90e..d039d54 100644
+--- a/OpenMW/openmw/openvault/route/strategies.py
++++ b/OpenMW/openmw/openvault/route/strategies.py
+@@ -1,4 +1,4 @@
+-"""Combo routing strategies — 10 of 19 user-facing for pass 1 (+ OmniRoute quota-share internal, not ported)."""
++"""Combo routing strategies — 12 of 19 user-facing for pass 1 (+ OmniRoute quota-share internal, not ported)."""
+ 
+ from __future__ import annotations
+ 
+@@ -27,6 +27,9 @@ STRATEGY_ALIASES: dict[str, StrategyName] = {
+     "strict-random": "strict-random",
+     "strict_random": "strict-random",
+     "lkgp": "lkgp",
++    "context-optimized": "context-optimized",
++    "context_optimized": "context-optimized",
++    "headroom": "headroom",
+ }
+ 
+ 
+@@ -106,4 +109,37 @@ def apply_strategy(
+                 return [chosen, *rest]
+         return list(targets)
+ 
++    if strategy == "context-optimized":
++        # Algorithm port of OmniRoute largest-window first. No model catalog.
++        if not any(t.context_window is not None for t in targets):
++            return list(targets)
++        decorated = list(enumerate(targets))
++        decorated.sort(
++            key=lambda pair: (
++                pair[1].context_window is None,
++                -(pair[1].context_window or 0),
++                pair[0],
++            )
++        )
++        return [t for _, t in decorated]
++
++    if strategy == "headroom":
++        # Algorithm port of OmniRoute rankByHeadroom. No 5h/7d provider fetch.
++        # headroom = 1 - max(util_5h, util_7d); missing util = 0 (full headroom).
++        def _clamp(value: float | None) -> float:
++            if value is None:
++                return 0.0
++            if value <= 0:
++                return 0.0
++            if value >= 1:
++                return 1.0
++            return value
++
++        def _headroom(t: RouteTarget) -> float:
++            return 1.0 - max(_clamp(t.util_5h), _clamp(t.util_7d))
++
++        decorated = list(enumerate(targets))
++        decorated.sort(key=lambda pair: (-_headroom(pair[1]), pair[0]))
++        return [t for _, t in decorated]
++
+     return list(targets)
+diff --git a/OpenMW/openmw/openvault/route/types.py b/OpenMW/openmw/openvault/route/types.py
+index e4088fd..6ea9de3 100644
+--- a/OpenMW/openmw/openvault/route/types.py
++++ b/OpenMW/openmw/openvault/route/types.py
+@@ -16,6 +16,8 @@ StrategyName = Literal[
+     "cost-optimized",
+     "strict-random",
+     "lkgp",
++    "context-optimized",
++    "headroom",
+ ]
+ 
+ STRATEGY_NAMES: tuple[StrategyName, ...] = (
+@@ -29,6 +31,8 @@ STRATEGY_NAMES: tuple[StrategyName, ...] = (
+     "cost-optimized",
+     "strict-random",
+     "lkgp",
++    "context-optimized",
++    "headroom",
+ )
+ 
+ BreakerProfileName = Literal["oauth", "api_key", "local"]
+@@ -45,6 +49,9 @@ class RouteTarget:
+     weight: float = 1.0
+     priority: int = 100
+     cost: float | None = None
++    context_window: float | None = None
++    util_5h: float | None = None
++    util_7d: float | None = None
+ 
+ 
+ @dataclass
+diff --git a/OpenMW/tests/test_route_strategies.py b/OpenMW/tests/test_route_strategies.py
+index 3623399..12d5285 100644
+--- a/OpenMW/tests/test_route_strategies.py
++++ b/OpenMW/tests/test_route_strategies.py
+@@ -119,3 +119,34 @@ def test_lkgp_failure_of_sticky_clears_pin() -> None:
+     ordered = apply_strategy("lkgp", _targets(), metrics=metrics)
+     assert [t.execution_key for t in ordered] == ["a", "b", "c"]
+     assert metrics.last_success_key is None
++
++
++def test_context_optimized_largest_window_first() -> None:
++    targets = _targets()
++    targets[0].context_window = 8_000
++    targets[1].context_window = 128_000
++    targets[2].context_window = 32_000
++    ordered = apply_strategy("context-optimized", targets)
++    assert [t.execution_key for t in ordered] == ["b", "c", "a"]
++
++
++def test_context_optimized_unknown_leaves_order() -> None:
++    ordered = apply_strategy("context-optimized", _targets())
++    assert [t.execution_key for t in ordered] == ["a", "b", "c"]
++
++
++def test_headroom_most_free_first() -> None:
++    targets = _targets()
++    targets[0].util_5h, targets[0].util_7d = 0.9, 0.1
++    targets[1].util_5h, targets[1].util_7d = 0.1, 0.1
++    targets[2].util_5h, targets[2].util_7d = 0.5, 0.8
++    ordered = apply_strategy("headroom", targets)
++    assert [t.execution_key for t in ordered] == ["b", "c", "a"]
++
++
++def test_headroom_missing_util_is_full() -> None:
++    targets = _targets()
++    targets[0].util_5h, targets[0].util_7d = 0.5, 0.5
++    ordered = apply_strategy("headroom", targets)
++    assert ordered[0].execution_key in {"b", "c"}
++    assert ordered[-1].execution_key == "a"

@@ -1,0 +1,66 @@
+diff --git a/app.js b/app.js
+index c503566..9ec1738 100644
+--- a/app.js
++++ b/app.js
+@@ -237,7 +237,7 @@ const LINKS = [
+   { id: "match_of_image", from: "matches", to: "images", via: "image_id" },
+   { id: "match_of_suspect", from: "matches", to: "suspects", via: "suspect_id" },
+ ];
+-const ACTIONS = ["export_pptx", "item.intake", "agent.checked", "image.enhance", "suspect.match"];
++const ACTIONS = ["export_pptx", "item.intake", "amend.apply", "call_action", "agent.checked", "image.enhance", "suspect.match"];
+ const FETCH_PLACES = [
+   "warehouse.inventory",
+   "warehouse.suppliers",
+diff --git a/engine.js b/engine.js
+index 62b8068..012d6cf 100644
+--- a/engine.js
++++ b/engine.js
+@@ -92,8 +92,8 @@ function listedOrEmpty(value, listed) {
+ }
+ 
+ const DEFAULT_OBJECTS = ["inventory", "suppliers"];
+-const DEFAULT_ACTIONS = ["export_pptx", "item.intake", "agent.checked"];
+-const WRITE_ACTIONS = ["export_pptx", "item.intake"];
++const DEFAULT_ACTIONS = ["export_pptx", "item.intake", "amend.apply", "call_action", "agent.checked"];
++const WRITE_ACTIONS = ["export_pptx", "item.intake", "amend.apply", "call_action"];
+ const DATA_TYPES = ["string", "number", "integer", "boolean", "date"];
+ const DEFAULT_OBJECT_POINTS = {
+   inventory: [
+@@ -688,7 +688,7 @@ async function handleChat(raw) {
+   const setAct = t.match(/^set action (\S+)$/);
+   if (setAct) {
+     if (C.ACTIONS.indexOf(setAct[1]) < 0) {
+-      return "Action must be export_pptx, item.intake, agent.checked, image.enhance, or suspect.match.";
++      return "Action must be export_pptx, item.intake, amend.apply, call_action, agent.checked, image.enhance, or suspect.match.";
+     }
+     return C.patchSelected("action_type", setAct[1]) ? "Action " + setAct[1] + "." : "Select a node first.";
+   }
+diff --git a/tests/compiler.test.cjs b/tests/compiler.test.cjs
+index a085846..cd2d767 100644
+--- a/tests/compiler.test.cjs
++++ b/tests/compiler.test.cjs
+@@ -550,6 +550,24 @@ test("agent.checked on foundry is an event", () => {
+   assert.equal(ir.nodes[0].requires_confirm, false);
+ });
+ 
++test("amend.apply on foundry requires confirm", () => {
++  const ir = compileIR({
++    nodes: [{ id: "f", kind: "foundry", action_type: "amend.apply" }],
++    edges: [],
++  });
++  assert.equal(ir.nodes[0].action_type, "amend.apply");
++  assert.equal(ir.nodes[0].requires_confirm, true);
++});
++
++test("call_action on foundry requires confirm", () => {
++  const ir = compileIR({
++    nodes: [{ id: "f", kind: "foundry", action_type: "call_action" }],
++    edges: [],
++  });
++  assert.equal(ir.nodes[0].action_type, "call_action");
++  assert.equal(ir.nodes[0].requires_confirm, true);
++});
++
+ test("ghostWalk refuses unknown tool_call action", () => {
+   const walked = ghostWalk(
+     {

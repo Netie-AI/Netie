@@ -1,0 +1,19 @@
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.venv/
+*.egg-info/
+/OmniRoute/
+/llm-router/
+/deepagents/
+/build/
+/upstream/
+
+# Local secrets. Never commit provider keys.
+Keys.txt
+env.local
+key.md
+.env
+.env.*
+!.env.example
+*.pem

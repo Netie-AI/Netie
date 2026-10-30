@@ -3,9 +3,15 @@
 **Plane:** 4 (application) · **Repo:** `Netie-AI/Space` · `D:\Space`
 **Measured:** 2026-08-02. Every claim below was verified against code, not documentation.
 
+**Tier 4 map:** purpose · plane · surface · dependencies · stores · trust · shipped vs
+scaffold · verify
+
 ---
 
 ## 1. What it is
+
+**One line:** C#/WPF Windows desktop - Space key Quick Look preview with edit, convert, OCR,
+and optional AI chat over the previewed file.
 
 A C#/WPF Windows desktop app that turns the Space key - in File Explorer or on the
 Desktop - into a Quick Look style preview, with PDF/video/image editing, format
@@ -33,7 +39,9 @@ single-file win-x64.
 
 ---
 
-## 3. What is genuinely shipped
+## 3. Shipped vs scaffold - honest
+
+### Shipped
 
 This is the most product-complete surface in the estate, and that deserves saying plainly.
 
@@ -51,6 +59,16 @@ This is the most product-complete surface in the estate, and that deserves sayin
   (12,000 char default budget), and a conversation cache so an identical question on the
   same excerpt costs zero tokens.
 - **Distribution** - Inno Setup with `PrivilegesRequired=lowest`, optional startup key.
+
+### Scaffold / partial / PLANNED
+
+- **License gate** - `License.SkipGate = true` in shipped `appsettings.json`
+- **Cortex escalation** - conditional and soft-fail in `AiService.cs:167-172`; primary path
+  calls providers directly
+- **Leave-machine gate** - not consulted on AI or Baidu OCR paths (see section 4)
+- **CI and automated tests** - none; `tests/` holds preview fixtures only
+- **`CLAUDE.md` Hard rules** - empty; no recorded invariants for agents
+- **`license-api/`** Cloudflare Worker - register/activate exists; gate disabled in app config
 
 ---
 
@@ -149,6 +167,9 @@ powershell -File D:\Space\scripts\publish.ps1
 
 There is no test command, because there are no tests. That is the single most useful
 thing to change about this repo.
+
+Portable contract in this Netie repo (Space remote still 404): `scripts/space_leave.py`.
+AI/OCR leave without OpenVault `allowed=true` is denied. `user.env` / `.env` / `env.local` / `id_rsa` / `.pem` / `.netrc` writes are denied even when not marked plaintext. Local credential-store scan is denied. Peek-class preview refuses env/key files. Poor local OCR is not a Baidu leave-machine grant. `chat_preview` is leave-machine (Peek never POSTs the file); excerpts over the DitchContext 12k budget refuse. `chat_preview(ov=)` / `ocr_cloud(ov=)` POST `/api/crew/gate` with skill ids; boolean `ov_allowed` stays the stand-in. `python3 scripts/test_space_leave.py`.
 
 ---
 
