@@ -1,4 +1,4 @@
-# 2026-10-22 - control stage 2 (Orca gate wired and tested)
+# 2026-10-22 - control stage 2 (Orca gate wired and tested, catalog at stage 2)
 
 Preflight: KB `D:\Netie-KB` absent in this cloud box. `docs/subagents_findings/INDEX.md`
 read: two prior findings (ecosystem lane, wave 1 sessions) plus the airgpt, freeide and
@@ -103,6 +103,26 @@ and one 5-hour usage limit; each time the journal and the `/tmp` trees survived 
   reach the change through a runtime object or by scanning source text.
 - **Invariant:** assert the artifact; a passing subset is not the suite.
 
+## F7. Fixed-tree full suite: one failure not in the baseline list, and it is not ours
+
+- **Expected:** no failure on tree `0f8422e1` absent from the baseline's 59.
+- **Actual:** 54 failures; 53 are in the baseline list. One is not:
+  `src/main/hook-termination-real-process.test.ts` "kills a descendant that ignores SIGTERM"
+  (expects the group SIGKILL, sent 2 s after a 400 ms deadline, to have landed 3.5 s later).
+  Six baseline failures did not recur, all timing or performance budgets (palette matcher
+  x3, POSIX supervisor SIGKILL escalation, shared control connection, packaged CLI assets).
+- **Check:** the patch touches no file under `src/main/hooks*`. Run alone 5 times per tree:
+  baseline `4de972cd` (tree `18aff8cf`) failed 3 of 5, stage 2 (tree `0f8422e1`) failed 3 of 5.
+  Same rate, so it is an existing timing-sensitive test that happened to pass in the baseline
+  full run, not a regression. Not skipped, not edited.
+- **Skipped:** 1110 against 1112, traced by test id. No test is skipped on stage 2 that ran on
+  the baseline. The two cases are `config/scripts/renderer-boot-graph.test.mjs` `it.runIf(built)`:
+  the baseline run came before the Electron build, the stage 2 tree had a build output, so both
+  ran there and passed.
+- **Root-cause class:** a wall-clock assertion on a loaded 4-core box.
+- **Invariant:** a skipped test is a failing test; prove a gate can fail (a single-run diff is
+  not proof of a regression either way, so the rate was measured on both trees).
+
 ## Measured before and after
 
 Box: 4 cores, 15 GB, Node 22.22.0, pnpm 12.8.1. Install needed two workarounds (install only,
@@ -118,8 +138,8 @@ called directly (same commands).
 | Electron bundle build (`run-electron-vite-build.mjs`) | exit 0, 52.5 s, peak 4.83 GiB | exit 0, 39 s |
 | Upstream repo gates (8 from `pnpm lint`: reliability, max-lines, ts-nocheck, runtime-electron, readme links, node pin, localization x2) | 8 pass | 8 pass |
 | oxlint, anti-slop (deny warnings), oxfmt on every changed source file | n/a | clean |
-| Full unit suite, CI env, 6 shards: files | 10966 | PENDING |
-| passed / failed / skipped | 105738 / 59 / 1112 | PENDING |
+| Full unit suite, CI env, 6 shards: files | 10966 | 10987 (+21 Netie files) |
+| passed / failed / skipped | 105738 / 59 / 1112 | 106081 / 54 / 1110 |
 | Netie gate tests (21 files) | 21 of 21 files fail (46 cases run, all fail; the rest cannot load) | 21 of 21 pass, 335 cases |
 | Replay: fresh clone + apply, `git write-tree` | | `0f8422e1a84d0349940d27446c19a98d335705a3` on both |
 | LICENSE sha256 | `ff1b611f...112f3` | unchanged |
