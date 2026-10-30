@@ -13,7 +13,7 @@ Stages: 0 catalogued | 1 overlay patch exists | 2 gate wired and tested | 3 ship
 | AirGPT | danny-avila/LibreChat @ f10b1d91f1 | MIT | AirGPT | 2 |
 | Netie Control | stablyai/orca @ d17351401d | MIT | Control | 1 |
 | Crew Agent | NousResearch/hermes-agent @ e473f5a9c9 | MIT | Crew | 1 |
-| Crew Edge | zeroclaw-labs/zeroclaw @ f7bd2b9e94 | MIT OR Apache-2.0 | Crew | 1 |
+| Crew Edge | zeroclaw-labs/zeroclaw @ f7bd2b9e94 | MIT OR Apache-2.0 | Crew | 2 |
 | Crew Harness | deepseek-ai/deepseek-harness @ 5badb15009 | MIT | Crew | 2 |
 | FreeIDE | anomalyco/opencode @ 907b3bc518 | MIT | FreeIDE | 2 |
 | FreeIDE for VS Code | Kilo-Org/kilocode @ a93088bfe2 | MIT | FreeIDE | 1 |
@@ -27,7 +27,7 @@ Stages: 0 catalogued | 1 overlay patch exists | 2 gate wired and tested | 3 ship
 - **crew-agent**: Long-running personal agent with skills, sessions and messaging gateways.
   - Gate: Model calls -> OpenVault /v1. Tools -> Cortex tool_runner. Session state persists ids only (crew_checkpoint).
 - **crew-edge**: Single Rust binary agent runtime for edge devices and small servers with 30+ channels.
-  - Gate: Same as crew-agent. NOTICE and both license files stay (Apache-2.0 requires NOTICE retention).
+  - Gate: Tested by cargo test -p zeroclaw-runtime --lib netie_gate (10 cases, 0 pass on stage 1): Quickstart offers OpenVault first and writes one [providers.models.custom.openvault] at ${NETIE_OPENVAULT_URL}/v1 with no api_key; Copilot, Gemini CLI, Grok CLI, KiloCLI, Codex and Claude setup-token logins refused; a tool with no OpenVault /api/crew/gate allow does not run and the refusal is the tool result; the default session record holds no message text; every non-CLI channel is labeled off until OpenVault leave-machine allows it. NOTICE and both license files unchanged.
 - **crew-harness**: Everything-is-a-plugin agent harness with web UI, headless command and Python SDK. Developer preview, version 0.1.0-rc.5 per its README.
   - Gate: Tested in vitest on the shipped bundle patch files: default model plugin is one OpenAI-compatible route at NETIE_OPENVAULT_URL/v1 (no DeepSeek route, no provider key field); tools and sandbox-local refuse registration without the Crew gate wrap, which posts ids only to OpenVault POST /api/crew/gate and fails closed.
 - **freeide**: Terminal and desktop coding agent: the FreeIDE coding surface.
