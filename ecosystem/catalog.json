@@ -267,8 +267,8 @@
       "netie_name": "FreeRoute Core",
       "brand_from": ["Auto AI Router"],
       "role": "Go proxy: credential pooling, round-robin, per-key rate limits, fail2ban. The high-throughput data plane under FreeRoute.",
-      "gate": "Credentials are issued by OpenVault. The router holds no key of its own.",
-      "stage": 1
+      "gate": "Credentials are issued by OpenVault, the router holds no key of its own: config.Load refuses inline keys and fills the pool from GET {NETIE_OPENVAULT_URL}/api/freeroute/credentials; 17 go test gate cases on the loader and the real proxy, measured red on stage 1 and green after.",
+      "stage": 2
     },
     {
       "slug": "freebuild",
