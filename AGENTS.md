@@ -9,3 +9,8 @@ Read `CLAUDE.md` before editing. Then read `NETIE.md`. If any file disagrees wit
 Upstream rule: depend, port with the required notices, or reimplement. Do not vendor a tree, strip a license, or present upstream code as Netie's. Classification and the refuse list are in `CLAUDE.md`.
 
 Verify with `make ci`.
+
+Skills and watchdog live in this repo, not in chat.
+
+1. Read `STATUS.md`.
+2. Read `.cursor/AGENTS.md` and load the matching `.cursor/skills/*/SKILL.md`.
