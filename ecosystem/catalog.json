@@ -51,8 +51,8 @@
       "netie_name": "Netie Control",
       "brand_from": ["Orca"],
       "role": "Fleet board for parallel coding agents in isolated git worktrees. Closer analogue to Netie Control than Guacamole.",
-      "gate": "Board reads ids only through netie.control.project_board. Agent launches go through Crew ticket runner, never a second orchestrator.",
-      "stage": 1
+      "gate": "Board reads ids only through netie.control.project_board (NETIE_CONTROL_BOARD_URL, same refusals as scripts/control_board.py). Agent launch is off by default with a visible label until the Crew ticket runner is wired (stage 3). Model calls -> OpenVault /v1. Tested: overlay stage2.gate_tests.",
+      "stage": 2
     },
     {
       "slug": "crew-agent",
