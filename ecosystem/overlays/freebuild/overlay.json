@@ -33,6 +33,24 @@
     "NETIE-ATTRIBUTION.md"
   ],
   "series": [
-    "0001-rebrand.patch"
-  ]
+    "0001-rebrand.patch",
+    "0002-gate.patch"
+  ],
+  "stage2": {
+    "patch": "0002-gate.patch",
+    "gate_test": [
+      "packages/platform/src/engine/modules/deployments/netie-claim.test.ts",
+      "apps/api/test/modules/deployments/netie-claim-lifecycle.test.ts",
+      "apps/api/test/modules/deployments/netie-claim-api.contract.test.ts",
+      "apps/dashboard/src/utils/project-status-claim.test.ts",
+      "apps/dashboard/src/netie-no-vendor-assets.test.ts"
+    ],
+    "run": "bun install --frozen-lockfile --filter '!@repo/desktop' && bun run build && bun run --cwd packages/platform test && cd apps/api && npx vitest run test/modules/deployments/netie-claim-lifecycle.test.ts test/modules/deployments/netie-claim-api.contract.test.ts && cd ../dashboard && npx vitest run src/utils/project-status-claim.test.ts src/netie-no-vendor-assets.test.ts",
+    "env": "NETIE_OPENVAULT_URL",
+    "gate_endpoint": "${NETIE_OPENVAULT_URL}/api/crew/gate",
+    "claim": "meta.netieClaim on the deployment row; API fields live and netieClaim; project payload activeDeploymentLive; dashboard ProjectStatus unclaimed",
+    "live_today": "never: no upstream path observes a deploy URL, so every deploy is UNCLAIMED until an observation step exists (stage 3)",
+    "vendor_assets": "zero cdn.oblien.com and Gellix references in tracked text files and in .next/static; two Gellix woff2 files deleted",
+    "default_config": "OBLIEN_CLIENT_ID and OBLIEN_CLIENT_SECRET removed from apps/api/.env.example; no model call exists to route to OpenVault /v1"
+  }
 }
