@@ -52,6 +52,57 @@ allowance. One container per fork isolates both.
 - **Invariant:** say what is measured and what is assumed. Not started; stays stage 0 until
   the founder picks one. `cortex-haystack` (mode `depend`) also stays 0: no caller needs it yet.
 
+## Verification by the parent (2026-10-30)
+
+The scheduled verification check-in (trigger `trig_01W6q9EbhwfiKoDWaTZWnnfv`) was disabled at
+2026-10-22 23:48 UTC without firing, not by this session. The pass below was run by hand from
+this session, which wrote none of the patches.
+
+Replay: each branch's own `scripts/ecosystem.py clone` + `apply` into a fresh directory, then
+`git add -A && git write-tree`, compared with the hash in that child's finding. LICENSE sha256
+compared with the catalog row.
+
+| PR | Row | Claimed stage | Replay tree | Matches claim | LICENSE |
+|---|---|---|---|---|---|
+| #48 | netie-wiki | 2 | `214d44def7a6` | yes | equal |
+| #49 | freebuild | 2 | `c1d72e5f318b` | yes | equal |
+| #50 | crew-harness | 2 | `1746a25167e4` | no, see F3 | equal |
+| #51 | crew-edge | 2 (series 0001-0003) | `731efbaed1bb` | yes | equal |
+| #53 | control | 2 | `0f8422e1a84d` | yes | equal |
+| #54 | crew-agent | 2 | `335de3197226` | yes | equal |
+
+Not re-run by the parent: the upstream suites and gate tests of these six (the children's
+numbers stand as reported, unverified here). Replay proves the patch is what the finding
+describes, not that its tests pass.
+
+## F3. crew-harness finding states the hash of a superseded cut
+
+- **Expected:** the replay hash in a finding belongs to the patch on the branch.
+- **Actual:** commit `0179612` recut `0002-gate.patch` (99 KB to 177 KB). The finding still
+  states `1eae41fe5ca3` from the first cut; the recut replays to `1746a25167e4`. Replaying
+  `9f6d8c1` gives `1eae41fe5ca3` exactly, so the old number was true for the old patch.
+- **Repro:** worktree at each commit, `clone` + `apply crew-harness`, `git write-tree`.
+- **Root-cause class:** a measured number that outlives the artifact it measured.
+- **Invariant:** say what is measured and what is assumed. Sent to the crew-harness session
+  to restate; no stage change.
+
+## F4. freeroute-core gate test fails its own case once go test is allowed
+
+- **Expected:** PR #47 keeps stage 1 only because its box could not run `go build` / `go test`.
+- **Actual:** this box can. go1.24.7: `go build ./...` rc 0 on both trees. `go test ./...`
+  stage 1: 48 packages ok, 0 fail; stage 2: 47 ok, `internal/proxy` FAIL. Gate tests
+  (`-run TestNetieGate`): 0 of 17 pass on stage 1 (red, as required), 16 of 17 on stage 2.
+  The failure is `TestNetieGate_Fail2BanAndFallbackOnIssuedCredentials`, 5 of 5 with
+  `-count=5`: call 0 gets 401 instead of the fallback's 200.
+- **Repro:** `ecosystem.py clone freeroute-core D && ecosystem.py apply freeroute-core D &&
+  cd D && go test ./internal/proxy/ -run TestNetieGate_Fail2Ban -count=5 -v`.
+- **Root-cause class:** a test that never ran. It was written and shipped without one run,
+  so its first run is the first time anyone could see it fail.
+- **Invariant:** a skipped test is a failing test; prove a gate can fail before trusting it.
+- **Hypothesis, not proven:** upstream fallback tests use credential type `proxy` (the
+  `IsProxyLike()` retry branch in `internal/proxy/proxy.go`); this test uses `openai`. Sent to
+  the freeroute-core session. Stage stays 1, now for a measured reason.
+
 ## Not done
 
 - The three wave 1 PRs (#44, #45, #46) and PR #43 still wait on founder review. Nothing here
