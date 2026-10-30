@@ -105,6 +105,13 @@ describes, not that its tests pass.
 - **Hypothesis, not proven:** upstream fallback tests use credential type `proxy` (the
   `IsProxyLike()` retry branch in `internal/proxy/proxy.go`); this test uses `openai`. Sent to
   the freeroute-core session. Stage stays 1, now for a measured reason.
+- **Resolved:** the hypothesis held. `8318d9a` rewrote case 10 to the retry upstream really
+  does for `openai` credentials (no `is_fallback`, `WithMaxProviderRetries(2)`); every
+  issued-key assertion kept. Parent re-run, `-count=1`: `go test ./...` 48 packages ok, 0
+  fail on both trees; 5304 passing on stage 1 (gate cases excluded), 5321 on stage 2 (5304
+  plus 17); 71 skips on both, all upstream's; gate 0 of 17 on stage 1, 17 of 17 on stage 2,
+  85 of 85 at `-count=5`; replay tree `a3447787dfdf` matches. Stage 2 holds. The row is
+  raised by the freeroute-core session on its own branch, not here.
 
 ## Not done
 
