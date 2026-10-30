@@ -499,3 +499,8 @@ To make them invokable in Claude Code, each prompt above becomes an agent defini
 under `.claude/agents/` in the repo being worked, or `~/.claude/agents/` for all repos.
 Keep this file as the source and treat the deployed copies as generated (R-0009) - if
 they drift, this file wins.
+
+When Cortex-Crew exists, it is the *runtime* that pulls these roles against GitHub
+Issues and shows the board (Netie Control folded in). It does not author new agent
+types and it does not grow a second `dag_runner`. See `TAS/TAS-CREW.md` and
+`docs/decisions/DR-0001-one-decision-layer.md`.

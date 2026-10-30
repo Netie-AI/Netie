@@ -1,0 +1,563 @@
+diff --git a/apps/api/dms_api/routes/library.py b/apps/api/dms_api/routes/library.py
+index 2e24a5b..c52855e 100644
+--- a/apps/api/dms_api/routes/library.py
++++ b/apps/api/dms_api/routes/library.py
+@@ -273,7 +273,7 @@ def preview_wh_table(
+     if table.strip().lower() not in {a.lower() for a in allowed}:
+         raise _refuse("warehouse_not_in_space", table, space_id)
+     try:
+-        preview = warehouse_preview(table, limit=limit, offset=offset)
++        preview = warehouse_preview(table, limit=limit, offset=offset, space_id=space_id)
+     except ValueError as exc:
+         raise HTTPException(status_code=404, detail=str(exc)) from exc
+     preview["scope"] = _scope_label(space_id)
+@@ -318,7 +318,7 @@ def preview_bronze(
+         if raw not in allowed_lower and raw.rsplit(".", 1)[-1] not in allowed_base:
+             raise _refuse("bronze_not_in_space", table, space_id)
+     try:
+-        preview = bronze_preview(table, limit=limit, offset=offset)
++        preview = bronze_preview(table, limit=limit, offset=offset, space_id=space_id)
+     except ValueError as exc:
+         # Same answer as an ungranted table, deliberately. 404 for "no such table"
+         # beside 403 for "real but not yours" is an enumeration oracle.
+diff --git a/apps/api/dms_api/wiring.py b/apps/api/dms_api/wiring.py
+index 7f8a987..54d1c8e 100644
+--- a/apps/api/dms_api/wiring.py
++++ b/apps/api/dms_api/wiring.py
+@@ -88,12 +88,20 @@ def list_document_chunks(*, space_id: str) -> list[dict[str, Any]]:
+     )
+ 
+ 
+-def warehouse_preview(table: str, *, limit: int = 100, offset: int = 0):
+-    return dms_executor.preview_warehouse_table(table, limit=limit, offset=offset)
++def warehouse_preview(
++    table: str, *, limit: int = 100, offset: int = 0, space_id: str | None = None
++):
++    return dms_executor.preview_warehouse_table(
++        table, limit=limit, offset=offset, space_id=space_id
++    )
+ 
+ 
+-def bronze_preview(table: str, *, limit: int = 100, offset: int = 0):
+-    return dms_executor.preview_bronze_table(table, limit=limit, offset=offset)
++def bronze_preview(
++    table: str, *, limit: int = 100, offset: int = 0, space_id: str | None = None
++):
++    return dms_executor.preview_bronze_table(
++        table, limit=limit, offset=offset, space_id=space_id
++    )
+ 
+ 
+ def library_tree(
+diff --git a/packages/executor/dms_executor/__init__.py b/packages/executor/dms_executor/__init__.py
+index ed0f956..f67aa68 100644
+--- a/packages/executor/dms_executor/__init__.py
++++ b/packages/executor/dms_executor/__init__.py
+@@ -339,6 +339,7 @@ class Executor:
+                 )
+             else:
+                 raise AskServiceError(err.code, err.detail) from exc
++        resp = _apply_netie_acl(resp, acl=acl, space_id=space_id)
+         return map_ask_response_to_envelope(
+             resp,
+             space_id=space_id,
+@@ -441,6 +442,42 @@ def _chart_from_rows(rows: list[dict[str, Any]]) -> dict[str, Any] | None:
+     return None
+ 
+ 
++def _apply_netie_acl(
++    resp: AskResponse,
++    *,
++    acl: SessionAcl,
++    space_id: str | None,
++) -> AskResponse:
++    """PRD-001 caller: Space-scoped live_ask goes through answer_or_abstain."""
++    from dms_executor.netie_acl import guard_live_answer
++
++    if resp.abstained:
++        return resp
++    granted = frozenset(acl.row_predicates)
++    warehouse_id = (acl.pool_id or "default").strip() or "default"
++    gate = guard_live_answer(
++        space_id=space_id,
++        granted=granted,
++        warehouse_id=warehouse_id,
++        sql=resp.sql_used,
++        rows=list(resp.rows or []),
++        route=resp.route,
++    )
++    if gate is None:
++        return resp
++    if gate.get("status") == "ABSTAIN":
++        return resp.model_copy(
++            update={
++                "abstained": True,
++                "badge": "abstain",
++                "rows": [],
++                "answer": gate.get("reason") or "Abstained.",
++                "sql_used": None,
++            }
++        )
++    return resp.model_copy(update={"rows": list(gate.get("rows") or [])})
++
++
+ def map_ask_response_to_envelope(
+     resp: AskResponse,
+     *,
+diff --git a/packages/executor/dms_executor/netie_acl.py b/packages/executor/dms_executor/netie_acl.py
+new file mode 100644
+index 0000000..b772440
+--- /dev/null
++++ b/packages/executor/dms_executor/netie_acl.py
+@@ -0,0 +1,280 @@
++"""live_ask and browse go through Netie Space ACL when installed.
++
++uv add git+https://github.com/Netie-AI/Netie.git
++from netie.dms import answer_or_abstain, browse_or_abstain
++
++dms package name is ``dms``, so that add does not collide. Cortex cannot do
++the same (it already owns ``netie`` as the CortexOS alias).
++
++Without Netie, the same rule runs locally so dms CI does not hard-fail.
++Minting still uses ``demo_acl`` / Space grants; this module is the answer and
++browse caller that PRD-001 asked for.
++"""
++
++from __future__ import annotations
++
++import json
++import re
++from collections.abc import Mapping
++from typing import Any
++
++Acl = Mapping[str, frozenset[str]]
++Binds = Mapping[str, str]
++
++MAX_ANSWER_CHARS = 12000
++DEMO_ALL_TABLES = frozenset({"inventory", "shipments", "invoices", "hr_notes"})
++_DOC_ROUTES = frozenset({"doc_rag", "document", "rag", "document_retrieval"})
++
++
++class SpaceDenied(PermissionError):
++    """Abstain. The Space cannot see that table (or does not exist)."""
++
++
++def _netie():
++    try:
++        from netie.dms import (  # type: ignore[import-not-found]
++            MAX_ANSWER_CHARS as _MAX,
++            SpaceDenied as _Denied,
++            answer_or_abstain as _answer,
++            browse_or_abstain as _browse,
++            mint_manifest as _mint,
++        )
++    except ImportError:
++        return None
++    return _answer, _browse, _mint, _Denied, _MAX
++
++
++def tables_for_space(acl: Acl, space_id: str) -> frozenset[str]:
++    if space_id not in acl:
++        raise SpaceDenied(f"unknown space {space_id}")
++    tables = acl[space_id]
++    if not tables:
++        raise SpaceDenied(f"empty space {space_id}")
++    return tables
++
++
++def warehouse_for_space(binds: Binds, space_id: str) -> str:
++    wid = (binds.get(space_id) or "").strip()
++    if not wid:
++        raise SpaceDenied(f"unbound space {space_id}")
++    return wid
++
++
++def may_read(acl: Acl, space_id: str, table: str) -> bool:
++    try:
++        return table in tables_for_space(acl, space_id)
++    except SpaceDenied:
++        return False
++
++
++def known_tables(acl: Acl) -> frozenset[str]:
++    names: set[str] = set(DEMO_ALL_TABLES)
++    for tables in acl.values():
++        names |= set(tables)
++    return frozenset(names)
++
++
++def sql_outside_grant(
++    sql: str, *, table: str, granted: frozenset[str], universe: frozenset[str]
++) -> str | None:
++    blob = (sql or "").lower()
++    asked = (table or "").strip().lower()
++    if not asked:
++        return "sql has no table"
++    if not re.search(rf"\b{re.escape(asked)}\b", blob):
++        return f"sql does not name {table}"
++    for name in universe:
++        if name.lower() == asked:
++            continue
++        if not re.search(rf"\b{re.escape(name.lower())}\b", blob):
++            continue
++        if name not in granted:
++            return f"sql names {name}"
++    return None
++
++
++def mint_manifest(acl: Acl, space_id: str) -> tuple[str, ...]:
++    imported = _netie()
++    if imported is not None:
++        return imported[2](acl, space_id)
++    granted = tables_for_space(acl, space_id)
++    if granted == DEMO_ALL_TABLES and space_id != "demo":
++        raise SpaceDenied("demo_acl leak")
++    return tuple(sorted(granted))
++
++
++def answer_or_abstain(
++    acl: Acl,
++    space_id: str,
++    table: str,
++    rows: list[dict],
++    *,
++    warehouse_id: str,
++    binds: Binds,
++    sql: str,
++    chat_mode: bool = False,
++    max_chars: int = MAX_ANSWER_CHARS,
++) -> dict:
++    imported = _netie()
++    if imported is not None:
++        return imported[0](
++            acl,
++            space_id,
++            table,
++            rows,
++            warehouse_id=warehouse_id,
++            binds=binds,
++            sql=sql,
++            chat_mode=chat_mode,
++            max_chars=max_chars,
++        )
++    if chat_mode:
++        return {
++            "status": "ABSTAIN",
++            "reason": "AnythingLLM overlay; warehouse answers need SQL",
++            "rows": [],
++        }
++    try:
++        bound = warehouse_for_space(binds, space_id)
++    except SpaceDenied as exc:
++        return {"status": "ABSTAIN", "reason": str(exc), "rows": []}
++    asked = (warehouse_id or "").strip()
++    if asked != bound:
++        return {
++            "status": "ABSTAIN",
++            "reason": f"space {space_id} bound to {bound}, asked {asked or 'none'}",
++            "rows": [],
++        }
++    if not (sql or "").strip():
++        return {
++            "status": "ABSTAIN",
++            "reason": f"space {space_id} answer has no SQL",
++            "rows": [],
++        }
++    if not may_read(acl, space_id, table):
++        return {
++            "status": "ABSTAIN",
++            "reason": f"space {space_id} cannot read {table}",
++            "rows": [],
++        }
++    granted = tables_for_space(acl, space_id)
++    leak = sql_outside_grant(
++        sql, table=table, granted=granted, universe=known_tables(acl)
++    )
++    if leak:
++        return {
++            "status": "ABSTAIN",
++            "reason": f"space {space_id} {leak}",
++            "rows": [],
++        }
++    cleaned: list[dict] = []
++    for row in rows:
++        if not isinstance(row, dict):
++            continue
++        declared = row.get("table") or row.get("_table")
++        if declared and declared != table:
++            return {
++                "status": "ABSTAIN",
++                "reason": f"space {space_id} cannot read {declared}",
++                "rows": [],
++            }
++        cleaned.append(dict(row))
++    budget = max_chars if max_chars > 0 else MAX_ANSWER_CHARS
++    blob = json.dumps(cleaned, separators=(",", ":"), default=str)
++    if len(blob) > budget:
++        return {
++            "status": "ABSTAIN",
++            "reason": "answer over DitchContext",
++            "rows": [],
++        }
++    return {
++        "status": "OK",
++        "table": table,
++        "warehouse_id": bound,
++        "sql": sql.strip(),
++        "rows": cleaned,
++    }
++
++
++def browse_or_abstain(
++    acl: Acl,
++    space_id: str,
++    table: str,
++    *,
++    tier: str,
++) -> dict:
++    imported = _netie()
++    if imported is not None:
++        return imported[1](acl, space_id, table, tier=tier)
++    name = (tier or "").strip().lower()
++    if name not in {"warehouse", "bronze"}:
++        return {
++            "status": "ABSTAIN",
++            "reason": f"bad browse tier {tier or 'none'}",
++            "rows": [],
++        }
++    if not may_read(acl, space_id, table):
++        return {
++            "status": "ABSTAIN",
++            "reason": f"space {space_id} cannot browse {table}",
++            "rows": [],
++        }
++    return {"status": "OK", "table": table, "tier": name}
++
++
++def infer_table(sql: str, granted: frozenset[str]) -> str:
++    blob = (sql or "").lower()
++    hits = [
++        name
++        for name in sorted(granted, key=len, reverse=True)
++        if re.search(rf"\b{re.escape(name.lower())}\b", blob)
++    ]
++    return hits[0] if hits else ""
++
++
++def guard_live_answer(
++    *,
++    space_id: str | None,
++    granted: frozenset[str],
++    warehouse_id: str,
++    sql: str | None,
++    rows: list[dict[str, Any]] | None,
++    route: str | None,
++    chat_mode: bool = False,
++) -> dict[str, Any] | None:
++    """None means leave the Cortex response alone (no Space, or doc route)."""
++    if not (space_id or "").strip():
++        return None
++    route_l = (route or "").lower()
++    if route_l in _DOC_ROUTES:
++        return None
++    acl = {space_id: granted}
++    binds = {space_id: warehouse_id}
++    table = infer_table(sql or "", granted)
++    return answer_or_abstain(
++        acl,
++        space_id,
++        table,
++        list(rows or []),
++        warehouse_id=warehouse_id,
++        binds=binds,
++        sql=sql or "",
++        chat_mode=chat_mode,
++    )
++
++
++def guard_browse(
++    *,
++    space_id: str | None,
++    table: str,
++    tier: str,
++    granted: frozenset[str],
++) -> dict[str, Any] | None:
++    if not (space_id or "").strip():
++        return None
++    bare = (table or "").strip()
++    if "." in bare:
++        bare = bare.rsplit(".", 1)[-1]
++    if bare.lower().startswith("bronze:"):
++        bare = bare.split(":", 1)[-1]
++    return browse_or_abstain({space_id: granted}, space_id, bare, tier=tier)
+diff --git a/packages/executor/dms_executor/warehouse_browse.py b/packages/executor/dms_executor/warehouse_browse.py
+index f449724..b5d800f 100644
+--- a/packages/executor/dms_executor/warehouse_browse.py
++++ b/packages/executor/dms_executor/warehouse_browse.py
+@@ -69,10 +69,22 @@ def preview_warehouse_table(
+     limit: int = 100,
+     offset: int = 0,
+     path: Path | None = None,
++    space_id: str | None = None,
+ ) -> dict[str, Any]:
+     name = (table or "").strip().lower()
+     if name not in _ALLOWED:
+         raise ValueError(f"Unknown or disallowed table: {table!r}")
++    if space_id:
++        from dms_executor.demo_grants import DEMO_SPACE_GRANTS, canonical_space_id
++        from dms_executor.netie_acl import guard_browse
++
++        entry = DEMO_SPACE_GRANTS.get(canonical_space_id(space_id))
++        granted = frozenset(entry[1]) if entry else frozenset()
++        gate = guard_browse(
++            space_id=space_id, table=name, tier="warehouse", granted=granted
++        )
++        if gate is not None and gate.get("status") == "ABSTAIN":
++            raise ValueError(gate.get("reason") or f"space {space_id} cannot browse {name}")
+     lim = max(1, min(int(limit), 500))
+     off = max(0, min(int(offset), 100_000))
+     ensure_demo_warehouse(path)
+@@ -137,9 +149,25 @@ def preview_bronze_table(
+     limit: int = 100,
+     offset: int = 0,
+     path: Path | None = None,
++    space_id: str | None = None,
+ ) -> dict[str, Any]:
+     """Read-only bronze preview — allowlist from list_bronze_tables only."""
+-    known = {t["table"] for t in list_bronze_tables(path=path)}
++    listed = list_bronze_tables(path=path, space_id=space_id)
++    known = {t["table"] for t in listed}
++    if space_id:
++        from dms_executor.netie_acl import guard_browse
++
++        granted: set[str] = set()
++        for row in listed:
++            label = str(row.get("table") or "")
++            granted |= {label, label.rsplit(".", 1)[-1]}
++        gate = guard_browse(
++            space_id=space_id, table=table, tier="bronze", granted=frozenset(granted)
++        )
++        if gate is not None and gate.get("status") == "ABSTAIN":
++            raise ValueError(
++                gate.get("reason") or f"space {space_id} cannot browse {table}"
++            )
+     label = _resolve_bronze_label(table, known)
+     schema, name = _parse_bronze_ref(label)
+     lim = max(1, min(int(limit), 500))
+diff --git a/tests/test_netie_acl.py b/tests/test_netie_acl.py
+new file mode 100644
+index 0000000..21dba3f
+--- /dev/null
++++ b/tests/test_netie_acl.py
+@@ -0,0 +1,111 @@
++"""live_ask / browse go through Netie Space ACL when installed."""
++
++from __future__ import annotations
++
++from dms_executor.netie_acl import (
++    answer_or_abstain,
++    browse_or_abstain,
++    guard_browse,
++    guard_live_answer,
++)
++
++
++ACL = {
++    "space-ops": frozenset({"inventory", "shipments"}),
++    "space-finance": frozenset({"invoices"}),
++}
++BINDS = {"space-ops": "default", "space-finance": "default"}
++
++
++def test_ops_cannot_read_invoices_on_live_path() -> None:
++    out = answer_or_abstain(
++        ACL,
++        "space-ops",
++        "invoices",
++        [{"id": 1}],
++        warehouse_id="default",
++        binds=BINDS,
++        sql="SELECT id FROM invoices",
++    )
++    assert out["status"] == "ABSTAIN"
++    assert out["rows"] == []
++
++
++def test_chat_mode_abstains() -> None:
++    out = answer_or_abstain(
++        ACL,
++        "space-ops",
++        "inventory",
++        [{"sku": "A"}],
++        warehouse_id="default",
++        binds=BINDS,
++        sql="SELECT sku FROM inventory",
++        chat_mode=True,
++    )
++    assert out["status"] == "ABSTAIN"
++    assert "AnythingLLM" in out["reason"]
++
++
++def test_sql_naming_ungranted_table_abstains() -> None:
++    out = answer_or_abstain(
++        ACL,
++        "space-ops",
++        "inventory",
++        [{"sku": "A"}],
++        warehouse_id="default",
++        binds=BINDS,
++        sql="SELECT inventory.sku FROM inventory JOIN invoices ON true",
++    )
++    assert out["status"] == "ABSTAIN"
++
++
++def test_guard_live_answer_skips_without_space() -> None:
++    assert (
++        guard_live_answer(
++            space_id=None,
++            granted=frozenset({"inventory"}),
++            warehouse_id="default",
++            sql="SELECT sku FROM inventory",
++            rows=[{"sku": "A"}],
++            route="sql",
++        )
++        is None
++    )
++
++
++def test_guard_live_answer_copies_rows() -> None:
++    rows = [{"sku": "A"}]
++    out = guard_live_answer(
++        space_id="space-ops",
++        granted=frozenset({"inventory", "shipments"}),
++        warehouse_id="default",
++        sql="SELECT sku FROM inventory",
++        rows=rows,
++        route="sql",
++    )
++    assert out is not None
++    assert out["status"] == "OK"
++    out["rows"][0]["sku"] = "LEAK"
++    assert rows[0]["sku"] == "A"
++
++
++def test_ops_cannot_browse_transactions() -> None:
++    out = browse_or_abstain(
++        {"space-ops": frozenset({"inventory", "shipments"})},
++        "space-ops",
++        "transactions",
++        tier="warehouse",
++    )
++    assert out["status"] == "ABSTAIN"
++
++
++def test_guard_browse_skips_without_space() -> None:
++    assert (
++        guard_browse(
++            space_id=None,
++            table="transactions",
++            tier="warehouse",
++            granted=frozenset({"inventory"}),
++        )
++        is None
++    )

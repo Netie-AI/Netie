@@ -1,0 +1,97 @@
+diff --git a/app.js b/app.js
+index 2e5d2ce..f2a52be 100644
+--- a/app.js
++++ b/app.js
+@@ -632,13 +632,13 @@ function openCalPop(node, extra) {
+   if (help) help.hidden = node.kind !== "ingest";
+   const enhanceHelp = document.getElementById("enhance-help");
+   if (enhanceHelp) enhanceHelp.hidden = node.kind !== "enhance";
+-  const obj = node.object_type && OBJECTS[node.object_type] ? node.object_type : Object.keys(OBJECTS)[0];
++  const obj = listedOrEmpty(node.object_type, Object.keys(OBJECTS));
+   const allowed = actionsForObject(obj);
+   if (hint) {
+     hint.textContent =
+       node.kind === "ingest"
+         ? "Ingest has no action. Wire it into ontology, then foundry/tool_call to act."
+-        : "Actions on " + obj + ": " + allowed.join(", ") + ".";
++        : "Actions on " + (obj || "(pick)") + ": " + allowed.join(", ") + ".";
+   }
+   if (fields) fields.innerHTML = eventFieldsHtml(node);
+   const facts = document.getElementById("decision-facts");
+@@ -671,10 +671,14 @@ function fieldInput(name, label, value, placeholder) {
+ }
+ 
+ function eventFieldsHtml(node) {
+-  const obj = node.object_type && OBJECTS[node.object_type] ? node.object_type : Object.keys(OBJECTS)[0];
+-  const points = OBJECTS[obj].points;
+-  const point = node.data_point && points[node.data_point] ? node.data_point : Object.keys(points)[0];
+-  const dtype = node.data_type || points[point];
++  const objects = Object.keys(OBJECTS);
++  const obj = listedOrEmpty(node.object_type, objects);
++  const points = obj && OBJECTS[obj] ? OBJECTS[obj].points : {};
++  const pointKeys = Object.keys(points);
++  const point = listedOrEmpty(node.data_point, pointKeys);
++  const types = ["string", "number", "integer", "boolean", "date"];
++  let dtype = listedOrEmpty(node.data_type, types);
++  if (!dtype && point && points[point]) dtype = points[point];
+   const allowed = actionsForObject(obj);
+   const action = listedOrEmpty(node.action_type, allowed);
+   const persona = node.persona && PERSONAS.indexOf(node.persona) >= 0 ? node.persona : KINDS[node.kind].persona;
+@@ -685,9 +689,9 @@ function eventFieldsHtml(node) {
+   const bindSource = node.kind === "ingest" || node.kind === "connector" || node.kind === "enhance";
+   let html =
+     fieldSelect("persona", "Persona", PERSONAS, persona) +
+-    fieldSelect("object_type", objectLabel, Object.keys(OBJECTS), obj) +
+-    fieldSelect("data_point", "Data point", Object.keys(points), point) +
+-    fieldSelect("data_type", "Data type", ["string", "number", "integer", "boolean", "date"], dtype);
++    fieldSelect("object_type", objectLabel, listedOptions(objects, node.object_type), obj) +
++    fieldSelect("data_point", "Data point", listedOptions(pointKeys, node.data_point), point) +
++    fieldSelect("data_type", "Data type", listedOptions(types, dtype), dtype);
+   if (bindSource) {
+     html += fieldSelect("source_kind", "Source kind", SOURCE_KINDS, sourceKind);
+     if (sourceKind === "cloud") {
+@@ -710,7 +714,7 @@ function eventFieldsHtml(node) {
+     html += fieldSelect("action_type", "Action", listedOptions(allowed, node.action_type), action);
+   }
+   html +=
+-    fieldSelect("tier", "Router tier", TIERS, TIERS.indexOf(node.tier) >= 0 ? node.tier : "T0") +
++    fieldSelect("tier", "Router tier", listedOptions(TIERS, node.tier), listedOrEmpty(node.tier, TIERS)) +
+     fieldSelect("stream", "Stream", ["false", "true"], node.stream ? "true" : "false");
+   return html;
+ }
+@@ -800,9 +804,8 @@ function patchSelected(field, value) {
+   if (field === "stream") node.stream = value === true || value === "true";
+   else node[field] = value;
+   if (field === "object_type" && OBJECTS[value]) {
+-    const first = Object.keys(OBJECTS[value].points)[0];
+-    node.data_point = first;
+-    node.data_type = OBJECTS[value].points[first];
++    node.data_point = "";
++    node.data_type = "";
+   }
+   if (field === "data_point" && OBJECTS[node.object_type] && OBJECTS[node.object_type].points[value]) {
+     node.data_type = OBJECTS[node.object_type].points[value];
+diff --git a/tests/compiler.test.cjs b/tests/compiler.test.cjs
+index 1d325a9..5f6ab9f 100644
+--- a/tests/compiler.test.cjs
++++ b/tests/compiler.test.cjs
+@@ -394,3 +394,20 @@ test("cortexPayload is compileIR, not the canvas array", () => {
+   });
+   assert.equal(refused, null);
+ });
++
++test("inspect does not invent inventory or T0", () => {
++  const objects = ["inventory", "shipments"];
++  assert.equal(listedOrEmpty("", objects), "");
++  assert.equal(listedOrEmpty("nope", objects), "");
++  assert.deepEqual(listedOptions(objects, ""), ["", "inventory", "shipments"]);
++  const tiers = ["T0", "T1", "T2"];
++  assert.equal(listedOrEmpty("", tiers), "");
++  assert.equal(listedOrEmpty("T0", tiers), "T0");
++});
++
++test("inspect does not invent sku when object is picked", () => {
++  const points = ["sku", "sku_name"];
++  assert.equal(listedOrEmpty("", points), "");
++  assert.deepEqual(listedOptions(points, ""), ["", "sku", "sku_name"]);
++});

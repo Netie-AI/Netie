@@ -1,0 +1,419 @@
+#!/usr/bin/env python3
+"""UACC names sit behind Cortex. python3 scripts/test_pointer_hands.py"""
+
+from __future__ import annotations
+
+import sys
+import unittest
+from pathlib import Path
+
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+
+from pointer_click import PointerDenied
+from pointer_hands import (
+    POINTER_HEAD_SKILLS,
+    UACC_HANDS,
+    bind_computer,
+    bind_pointer_skill,
+    invoke_hand,
+)
+
+
+class PointerHandsTests(unittest.TestCase):
+    def test_lists_sixty_eight_uacc_names(self) -> None:
+        self.assertEqual(len(UACC_HANDS), 68)
+        self.assertEqual(len(set(UACC_HANDS)), 68)
+
+    def test_unknown_hand_refuses(self) -> None:
+        with self.assertRaises(PointerDenied) as ctx:
+            invoke_hand(
+                "shell.exec",
+                cortex_allowed=True,
+                cortex_intent="run a command",
+            )
+        self.assertIn("unknown hand", str(ctx.exception))
+
+    def test_no_cortex_allow_refuses_click(self) -> None:
+        with self.assertRaises(PointerDenied):
+            invoke_hand(
+                "click",
+                cortex_allowed=False,
+                cortex_intent="save",
+                element={"role": "button", "name": "Save"},
+            )
+
+    def test_planner_is_a_second_brain(self) -> None:
+        with self.assertRaises(PointerDenied) as ctx:
+            invoke_hand(
+                "uacc_planner",
+                cortex_allowed=True,
+                cortex_intent="plan the desktop",
+            )
+        self.assertIn("brain", str(ctx.exception))
+
+    def test_clipboard_is_secret_capture(self) -> None:
+        with self.assertRaises(PointerDenied):
+            invoke_hand(
+                "clipboard_read",
+                cortex_allowed=True,
+                cortex_intent="read pasteboard",
+            )
+
+    def test_execute_js_is_ungoverned(self) -> None:
+        with self.assertRaises(PointerDenied) as ctx:
+            invoke_hand(
+                "browser_execute_js",
+                cortex_allowed=True,
+                cortex_intent="run js",
+                ov_leave=True,
+            )
+        self.assertIn("script", str(ctx.exception))
+
+    def test_open_url_needs_openvault_leave(self) -> None:
+        with self.assertRaises(PointerDenied) as ctx:
+            invoke_hand(
+                "open_url",
+                cortex_allowed=True,
+                cortex_intent="open docs",
+            )
+        self.assertIn("OpenVault", str(ctx.exception))
+        out = invoke_hand(
+            "open_url",
+            cortex_allowed=True,
+            cortex_intent="open docs",
+            ov_leave=True,
+        )
+        self.assertEqual(out["hand"], "open_url")
+        self.assertEqual(out["status"], "allowed")
+
+    def test_open_url_ov_posts_skill_ids(self) -> None:
+        from typing import Any
+
+        from crew_ov_gate import OpenVaultCrewGate
+        from crew_skills import SkillRegistry, register_skill
+
+        seen: list[dict[str, Any]] = []
+
+        def post(url: str, body: dict[str, Any]) -> dict[str, Any]:
+            seen.append(body)
+            return {"allowed": True}
+
+        def deny(url: str, body: dict[str, Any]) -> dict[str, Any]:
+            return {"allowed": False, "reason": "vault miss"}
+
+        reg = SkillRegistry()
+        register_skill(reg, "S-0004")
+        ov = OpenVaultCrewGate("http://127.0.0.1:5000", post=post, registry=reg)
+        with self.assertRaises(PointerDenied) as missing:
+            invoke_hand(
+                "open_url",
+                cortex_allowed=True,
+                cortex_intent="open docs",
+                ov=ov,
+            )
+        self.assertIn("parent and child", str(missing.exception))
+        self.assertEqual(seen, [])
+        out = invoke_hand(
+            "open_url",
+            cortex_allowed=True,
+            cortex_intent="open docs",
+            ov=ov,
+            parent_run_id="p1",
+            child_id="hand",
+        )
+        self.assertEqual(out["hand"], "open_url")
+        self.assertEqual(seen[0]["skill_ids"], ["S-0004"])
+        self.assertNotIn("skill_body", str(seen[0]))
+        blocked = OpenVaultCrewGate("http://127.0.0.1:5000", post=deny)
+        with self.assertRaises(PointerDenied) as ctx:
+            invoke_hand(
+                "open_url",
+                cortex_allowed=True,
+                cortex_intent="open docs",
+                ov=blocked,
+                parent_run_id="p1",
+                child_id="hand",
+            )
+        self.assertIn("vault miss", str(ctx.exception))
+
+    def test_click_hand_uses_fail_closed_click(self) -> None:
+        out = invoke_hand(
+            "click",
+            cortex_allowed=True,
+            cortex_intent="save the file",
+            element={"role": "button", "name": "Save"},
+        )
+        self.assertEqual(out["clicked"], "Save")
+        with self.assertRaises(PointerDenied):
+            invoke_hand(
+                "smart_type",
+                cortex_allowed=True,
+                cortex_intent="log in",
+                element={"role": "textbox", "name": "Password", "type": "password"},
+            )
+
+    def test_hotkey_on_secret_field_refuses(self) -> None:
+        with self.assertRaises(PointerDenied) as ctx:
+            invoke_hand(
+                "hotkey",
+                cortex_allowed=True,
+                cortex_intent="paste",
+                element={"role": "textbox", "name": "Password", "type": "password"},
+            )
+        self.assertIn("secret", str(ctx.exception))
+        out = invoke_hand(
+            "hotkey",
+            cortex_allowed=True,
+            cortex_intent="save",
+        )
+        self.assertEqual(out["hand"], "hotkey")
+        self.assertEqual(out["status"], "allowed")
+
+    def test_action_history_is_brain(self) -> None:
+        with self.assertRaises(PointerDenied) as ctx:
+            invoke_hand(
+                "get_action_history",
+                cortex_allowed=True,
+                cortex_intent="replay last clicks",
+            )
+        self.assertIn("brain", str(ctx.exception))
+
+    def test_uncropped_screenshot_refuses(self) -> None:
+        with self.assertRaises(PointerDenied) as ctx:
+            invoke_hand(
+                "screenshot",
+                cortex_allowed=True,
+                cortex_intent="capture the desktop",
+            )
+        self.assertIn("screenshot_uncropped", str(ctx.exception))
+        with self.assertRaises(PointerDenied):
+            invoke_hand(
+                "take_snapshot",
+                cortex_allowed=True,
+                cortex_intent="dump pixels",
+                element={"role": "textbox", "name": "Password", "type": "password"},
+            )
+        out = invoke_hand(
+            "get_screen_diff",
+            cortex_allowed=True,
+            cortex_intent="diff the save button",
+            element={"role": "button", "name": "Save"},
+        )
+        self.assertEqual(out["hand"], "get_screen_diff")
+        self.assertTrue(out["crop"])
+
+    def test_window_list_is_desktop_dump(self) -> None:
+        with self.assertRaises(PointerDenied) as ctx:
+            invoke_hand(
+                "list_windows",
+                cortex_allowed=True,
+                cortex_intent="see every window title",
+            )
+        self.assertIn("window_dump", str(ctx.exception))
+        with self.assertRaises(PointerDenied) as ctx:
+            invoke_hand(
+                "get_active_window",
+                cortex_allowed=True,
+                cortex_intent="read the focused title",
+            )
+        self.assertIn("window_dump", str(ctx.exception))
+        with self.assertRaises(PointerDenied) as ctx:
+            invoke_hand(
+                "list_processes",
+                cortex_allowed=True,
+                cortex_intent="see what is running",
+            )
+        self.assertIn("process_list", str(ctx.exception))
+
+    def test_system_info_is_env_dump(self) -> None:
+        with self.assertRaises(PointerDenied) as ctx:
+            invoke_hand(
+                "get_system_info",
+                cortex_allowed=True,
+                cortex_intent="read the laptop env",
+            )
+        self.assertIn("env_dump", str(ctx.exception))
+
+    def test_page_info_is_secret_dump(self) -> None:
+        with self.assertRaises(PointerDenied) as ctx:
+            invoke_hand(
+                "browser_get_page_info",
+                cortex_allowed=True,
+                cortex_intent="read the form",
+                ov_leave=True,
+            )
+        self.assertIn("page dump", str(ctx.exception))
+
+    def test_hover_on_secret_field_refuses(self) -> None:
+        with self.assertRaises(PointerDenied) as ctx:
+            invoke_hand(
+                "hover",
+                cortex_allowed=True,
+                cortex_intent="inspect",
+                element={"role": "textbox", "name": "Password", "type": "password"},
+            )
+        self.assertIn("secret", str(ctx.exception))
+        out = invoke_hand(
+            "hover",
+            cortex_allowed=True,
+            cortex_intent="inspect save",
+            element={"role": "button", "name": "Save"},
+        )
+        self.assertEqual(out["clicked"], "Save")
+        with self.assertRaises(PointerDenied):
+            invoke_hand(
+                "scroll",
+                cortex_allowed=True,
+                cortex_intent="scroll the pin",
+                element={"role": "textbox", "name": "otp"},
+            )
+        out = invoke_hand(
+            "scroll",
+            cortex_allowed=True,
+            cortex_intent="scroll the page",
+        )
+        self.assertEqual(out["hand"], "scroll")
+
+    def test_visual_detect_needs_crop(self) -> None:
+        with self.assertRaises(PointerDenied) as ctx:
+            invoke_hand(
+                "detect_elements_visual",
+                cortex_allowed=True,
+                cortex_intent="find icons",
+            )
+        self.assertIn("screenshot_uncropped", str(ctx.exception))
+        with self.assertRaises(PointerDenied) as ctx:
+            invoke_hand(
+                "get_screen_info_enhanced",
+                cortex_allowed=True,
+                cortex_intent="dump the desktop",
+            )
+        self.assertIn("screenshot_uncropped", str(ctx.exception))
+        with self.assertRaises(PointerDenied) as ctx:
+            invoke_hand(
+                "get_screen_info",
+                cortex_allowed=True,
+                cortex_intent="dump the desktop",
+            )
+        self.assertIn("screenshot_uncropped", str(ctx.exception))
+        out = invoke_hand(
+            "get_screen_info",
+            cortex_allowed=True,
+            cortex_intent="crop the save button",
+            element={"role": "button", "name": "Save"},
+        )
+        self.assertTrue(out["crop"])
+        with self.assertRaises(PointerDenied) as ctx:
+            invoke_hand(
+                "vlm_locate_element",
+                cortex_allowed=True,
+                cortex_intent="find the icon",
+            )
+        self.assertIn("screenshot_uncropped", str(ctx.exception))
+        out = invoke_hand(
+            "vlm_locate_element",
+            cortex_allowed=True,
+            cortex_intent="find save",
+            element={"role": "button", "name": "Save"},
+        )
+        self.assertTrue(out["crop"])
+
+    def test_paint_on_secret_field_refuses(self) -> None:
+        with self.assertRaises(PointerDenied) as ctx:
+            invoke_hand(
+                "paint_image",
+                cortex_allowed=True,
+                cortex_intent="highlight the pin",
+            )
+        self.assertIn("paint_uncropped", str(ctx.exception))
+        with self.assertRaises(PointerDenied) as ctx:
+            invoke_hand(
+                "paint_preset",
+                cortex_allowed=True,
+                cortex_intent="cover the pin",
+                element={"role": "textbox", "name": "otp"},
+            )
+        self.assertIn("secret", str(ctx.exception))
+        out = invoke_hand(
+            "paint_image",
+            cortex_allowed=True,
+            cortex_intent="mark save",
+            element={"role": "button", "name": "Save"},
+        )
+        self.assertEqual(out["hand"], "paint_image")
+        self.assertTrue(out["crop"])
+
+    def test_uacc_override_is_second_policy(self) -> None:
+        with self.assertRaises(PointerDenied) as ctx:
+            invoke_hand(
+                "acknowledge_user_override",
+                cortex_allowed=True,
+                cortex_intent="bypass the crop",
+            )
+        self.assertIn("override", str(ctx.exception))
+        with self.assertRaises(PointerDenied) as ctx:
+            invoke_hand(
+                "set_kill_distance",
+                cortex_allowed=True,
+                cortex_intent="widen the click radius",
+            )
+        self.assertIn("override", str(ctx.exception))
+
+    def test_does_not_import_uacc(self) -> None:
+        src = Path(__file__).with_name("pointer_hands.py").read_text(encoding="utf-8")
+        self.assertNotIn("import uacc", src)
+        self.assertNotIn("from uacc", src)
+        self.assertNotIn("os.environ", src)
+
+    def test_hosted_computer_is_not_pointer(self) -> None:
+        with self.assertRaises(PointerDenied) as ctx:
+            bind_computer("e2b")
+        self.assertIn("hosted computer", str(ctx.exception))
+        with self.assertRaises(PointerDenied):
+            bind_computer("perplexity-computer")
+        with self.assertRaises(PointerDenied):
+            bind_computer("open-computer-use")
+        out = bind_computer("uacc")
+        self.assertEqual(out["where"], "local")
+        mcp = bind_computer("windows-mcp")
+        self.assertEqual(mcp["where"], "local")
+
+    def test_pointer_head_catalog_maps_to_uacc_wrap(self) -> None:
+        self.assertEqual(len(POINTER_HEAD_SKILLS), 15)
+        self.assertEqual(bind_pointer_skill("uacc_screenshot"), "screenshot")
+        with self.assertRaises(PointerDenied) as ctx:
+            invoke_hand(
+                "uacc_planner",
+                cortex_allowed=True,
+                cortex_intent="plan the desktop",
+            )
+        self.assertIn("brain", str(ctx.exception))
+        with self.assertRaises(PointerDenied):
+            invoke_hand(
+                "uacc_clipboard_read",
+                cortex_allowed=True,
+                cortex_intent="read pasteboard",
+            )
+        with self.assertRaises(PointerDenied):
+            invoke_hand(
+                "uacc_list_windows",
+                cortex_allowed=True,
+                cortex_intent="see windows",
+            )
+        with self.assertRaises(PointerDenied):
+            invoke_hand(
+                "uacc_screen_info",
+                cortex_allowed=True,
+                cortex_intent="see",
+            )
+        click = invoke_hand(
+            "uacc_smart_click",
+            cortex_allowed=True,
+            cortex_intent="save",
+            element={"role": "button", "name": "Save"},
+        )
+        self.assertEqual(click["hand"], "smart_click")
+
+
+if __name__ == "__main__":
+    unittest.main()
