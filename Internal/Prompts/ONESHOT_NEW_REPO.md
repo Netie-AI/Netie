@@ -102,3 +102,14 @@ Copy-paste. Each one is self-contained - it assumes the session knows nothing.
 > 5. Fold Netie Control's board views in as Crew UI, not a sibling product.
 >
 > Refuse to start if PRD-001 Space boundary is still decorative.
+
+## 8. Run the Exposure crew (public posts, not fake followers)
+
+> Read `D:\Netie\Internal\Agents\EXPOSURE.md` and `D:\Netie\exposure\README.md`.
+>
+> Run `python -m netie_exposure catalog` then `python -m netie_exposure queue`.
+> Draft LinkedIn / Reddit / GitHub copy only from that catalog. Do not invent prices
+> or customers. Do not generate fake followers or buy stars. Do not publish. Leave
+> markdown in `exposure/outbox/` for a human to `approve`.
+>
+> Cortex is the engine. This is Vanguard -> Cortex -> Closer plus channel specialists.
