@@ -1,7 +1,16 @@
 diff --git a/NETIE-ATTRIBUTION.md b/NETIE-ATTRIBUTION.md
-index 1e164a4..156b4ef 100644
+index 1e164a4..82b57ad 100644
 --- a/NETIE-ATTRIBUTION.md
 +++ b/NETIE-ATTRIBUTION.md
+@@ -1,7 +1,7 @@
+ # Attribution
+ 
+ Netie Crew Edge is a modified distribution of zeroclaw-labs/zeroclaw
+-(https://github.com/zeroclaw-labs/zeroclaw), pinned at commit 19c40eea3e.
++(https://github.com/zeroclaw-labs/zeroclaw), pinned at commit f7bd2b9e94.
+ 
+ Upstream license: MIT OR Apache-2.0. LICENSE-MIT is included unmodified, with every
+ upstream copyright line, and so is any NOTICE file.
 @@ -50,21 +50,37 @@ logos belong to their owners.
    `crates/zeroclaw-runtime/src/netie_gate.rs`
    (`cargo test -p zeroclaw-runtime --lib netie_gate`).

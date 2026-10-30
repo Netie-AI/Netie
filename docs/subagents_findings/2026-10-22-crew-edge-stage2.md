@@ -245,11 +245,25 @@ because the CLI rename and self-update gate live there.
 | `zeroclaw --help` first line | `The fastest, smallest AI assistant.` | `Crew Edge: Netie's single-binary agent runtime. ...` |
 | `zeroclaw status` title | `ZeroClaw Status` | `Crew Edge Status` |
 | `zeroclaw update --force` | contacts GitHub releases | exit 1, `Refused by Netie gate: self-update ...` |
-| Patch | | `0003-stage3.patch`, 75,681 bytes, 19 files |
-| Replay of clone plus 0001, 0002, 0003 | | `git write-tree` `a2f24b4e9f22` on both checkouts |
+| Patch | | `0003-stage3.patch`, 76,074 bytes, 19 files |
+| Replay of clone plus 0001, 0002, 0003 | | `git write-tree` `731efbaed1bb` on both checkouts |
 
 12 more upstream tests were rewritten to assert the gated outcome: 7 that built a
 provider from a Codex login and 5 that pinned the old brand in the renamed messages.
 With the 11 in F4 that is 23 in total. None was deleted or ignored. The
 daemon pricing-refresher flake failed once more on one stage 3 run and passed on the
 final run; it is upstream's.
+
+### F11. Attribution named the probe-time commit, not the pin
+
+- **Expected:** `NETIE-ATTRIBUTION.md` names the upstream commit the overlay applies to.
+- **Actual:** it said `pinned at commit 19c40eea3e`; the catalog pin and overlay base are
+  `f7bd2b9e94`. Stage 1 wrote the probe-time commit before `pin_catalog` moved the pin.
+  Reported by the crew-agent lane; verified with
+  `grep -o "pinned at commit [0-9a-f]*" ecosystem/overlays/crew-edge/0001-rebrand.patch`.
+- **Fix:** corrected inside `0003-stage3.patch`; `0001` is left as cut. Docs only, so no
+  rebuild; replay re-proved (tree `731efbaed1bb`, LICENSE-MIT sha256 unchanged).
+- **Root-cause class:** a generated statement captured before the value it describes
+  was finalized. The same stale commit is in four other overlays, per that lane.
+- **Invariant:** say what is measured; an attribution that names the wrong commit
+  misstates what was distributed.
