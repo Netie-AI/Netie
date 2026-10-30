@@ -1,0 +1,32 @@
+{
+  "slug": "freeroute-core",
+  "upstream": "MiXaiLL76/auto_ai_router",
+  "base_commit": "4f8597503ab202a18c3417a20529850134f62099",
+  "license_sha256": "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4",
+  "stripped": [],
+  "files_changed": [
+    "README.md",
+    "docs/advanced/balancing.md",
+    "docs/advanced/model_alias.md",
+    "docs/advanced/redis.md",
+    "docs/advanced/responses.md",
+    "docs/cli-tools/codex.md",
+    "docs/getting-started/api.md",
+    "docs/getting-started/configuration.md",
+    "docs/index.md",
+    "docs/litellm-integration/kafka_spend_log.md",
+    "docs/litellm-integration/litellm_auth.md",
+    "docs/litellm-integration/litellm_db.md",
+    "docs/litellm-integration/pricing.md",
+    "docs/monitoring/otel.md",
+    "docs/providers/air.md",
+    "docs/providers/index.md",
+    "docs/providers/proxy.md",
+    "docs/refs/index.md",
+    "docs/refs/openai_chat_completions.md",
+    "NETIE-ATTRIBUTION.md"
+  ],
+  "series": [
+    "0001-rebrand.patch"
+  ]
+}

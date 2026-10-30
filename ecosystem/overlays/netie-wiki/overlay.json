@@ -1,0 +1,18 @@
+{
+  "slug": "netie-wiki",
+  "upstream": "langchain-ai/openwiki",
+  "base_commit": "c0173dca928862d0bd7991f134b5dfd615975e7c",
+  "license_sha256": "1126322e2cc8d165adc4c792eeb195717de2bcc7b39be1ce77959d78e87ef685",
+  "stripped": [],
+  "files_changed": [
+    "AGENTS.md",
+    "CLAUDE.md",
+    "CONTRIBUTING.md",
+    "DEVELOPMENT.md",
+    "README.md",
+    "NETIE-ATTRIBUTION.md"
+  ],
+  "series": [
+    "0001-rebrand.patch"
+  ]
+}
