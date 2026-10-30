@@ -1,0 +1,1581 @@
+diff --git a/.env.example b/.env.example
+index 05c8bae..bd5ae0e 100644
+--- a/.env.example
++++ b/.env.example
+@@ -1,9 +1,8 @@
+ #=====================================================================#
+-#                       LibreChat Configuration                       #
++#                        AirGPT Configuration                         #
+ #=====================================================================#
+-# Please refer to the reference documentation for assistance          #
+-# with configuring your LibreChat environment.                        #
+-#                                                                     #
++# AirGPT is a modified distribution of LibreChat (NETIE-ATTRIBUTION.md). #
++# Field reference, kept by upstream:                                  #
+ # https://www.librechat.ai/docs/configuration/dotenv                  #
+ #=====================================================================#
+ 
+@@ -27,7 +26,7 @@ PORT=3080
+ # HTTP_HEADERS_TIMEOUT_MS=80000
+ # HTTP_REQUEST_TIMEOUT_MS=300000
+ 
+-MONGO_URI=mongodb://127.0.0.1:27017/LibreChat
++MONGO_URI=mongodb://127.0.0.1:27017/AirGPT
+ #The maximum number of connections in the connection pool. */
+ MONGO_MAX_POOL_SIZE=
+ #The minimum number of connections in the connection pool. */
+@@ -400,7 +399,15 @@ NODE_MAX_OLD_SPACE_SIZE=6144
+ #                     Endpoints                     #
+ #===================================================#
+ 
+-# ENDPOINTS=openAI,assistants,azureOpenAI,google,anthropic
++# AirGPT exposes one model endpoint: the OpenVault custom endpoint declared in
++# librechat.yaml. `agents` is LibreChat's agent layer, not a provider; it runs on
++# that same endpoint. Do not add openAI, anthropic, google, azureOpenAI, bedrock
++# or assistants here: AirGPT holds no provider key (NETIE.md section 3).
++ENDPOINTS=custom,agents
++
++# OpenVault: the single key vault and router. Its /v1 is OpenAI-compatible.
++# This is a URL, not a key. Provider keys never enter this file.
++NETIE_OPENVAULT_URL=http://127.0.0.1:5000
+ 
+ # Optional outbound proxy for server-side requests.
+ # PROXY applies to both HTTP and HTTPS targets. When PROXY is unset, LibreChat honors
+@@ -410,224 +417,6 @@ PROXY=
+ # HTTPS_PROXY=
+ # NO_PROXY=
+ 
+-#===================================#
+-# Known Endpoints - librechat.yaml  #
+-#===================================#
+-# https://www.librechat.ai/docs/configuration/librechat_yaml/ai_endpoints
+-
+-# ANYSCALE_API_KEY=
+-# APIPIE_API_KEY=
+-# COHERE_API_KEY=
+-# DEEPSEEK_API_KEY=
+-# DATABRICKS_API_KEY=
+-# FIREWORKS_API_KEY=
+-# GROQ_API_KEY=
+-# HUGGINGFACE_TOKEN=
+-# MISTRAL_API_KEY=
+-# OPENROUTER_KEY=
+-# PERPLEXITY_API_KEY=
+-# SHUTTLEAI_API_KEY=
+-# TOGETHERAI_API_KEY=
+-# UNIFY_API_KEY=
+-# XAI_API_KEY=
+-
+-#============#
+-# Anthropic  #
+-#============#
+-
+-ANTHROPIC_API_KEY=user_provided
+-# ANTHROPIC_MODELS=claude-fable-5-1,claude-fable-5,claude-opus-5,claude-opus-4-8,claude-opus-4-7,claude-sonnet-5,claude-sonnet-4-6,claude-opus-4-6,claude-opus-4-20250514,claude-3-7-sonnet-20250219,claude-3-5-sonnet-20241022,claude-3-5-haiku-20241022,claude-3-opus-20240229,claude-3-sonnet-20240229,claude-3-haiku-20240307
+-# ANTHROPIC_REVERSE_PROXY=
+-
+-# Set to true to use Anthropic models through Google Vertex AI instead of direct API
+-# ANTHROPIC_USE_VERTEX=
+-# Supports regional locations like us-east5 and multi-region locations: us, eu, global
+-# IMPORTANT: specific regional endpoints (us-east5, europe-west1, ...) only serve Claude Sonnet 4.6
+-# and earlier. Newer models (Opus 4.7+, Opus 5, Sonnet 5, Fable 5/5.1) require `global` or a multi-region
+-# location (`us`/`eu`) and will 404 on a specific region. `global` also avoids the 10% regional premium.
+-# ANTHROPIC_VERTEX_REGION=us-east5
+-
+-#============#
+-# Azure      #
+-#============#
+-
+-# Note: these variables are DEPRECATED
+-# Use the `librechat.yaml` configuration for `azureOpenAI` instead
+-# You may also continue to use them if you opt out of using the `librechat.yaml` configuration
+-
+-# AZURE_OPENAI_DEFAULT_MODEL=gpt-3.5-turbo # Deprecated
+-# AZURE_OPENAI_MODELS=gpt-3.5-turbo,gpt-4 # Deprecated
+-# AZURE_USE_MODEL_AS_DEPLOYMENT_NAME=TRUE # Deprecated
+-# AZURE_API_KEY= # Deprecated
+-# AZURE_OPENAI_API_INSTANCE_NAME= # Deprecated
+-# AZURE_OPENAI_API_DEPLOYMENT_NAME= # Deprecated
+-# AZURE_OPENAI_API_VERSION= # Deprecated
+-# AZURE_OPENAI_API_COMPLETIONS_DEPLOYMENT_NAME= # Deprecated
+-# AZURE_OPENAI_API_EMBEDDINGS_DEPLOYMENT_NAME= # Deprecated
+-
+-#=================#
+-#   AWS Bedrock   #
+-#=================#
+-# AWS Bedrock credentials
+-#
+-# Preferred for local development: configure an AWS profile in ~/.aws/config or
+-# ~/.aws/credentials, then set BEDROCK_AWS_PROFILE. LibreChat passes this profile
+-# to the AWS SDK for JavaScript credential provider chain.
+-#
+-# In deployed environments, prefer IAM roles or other short-term credentials
+-# discoverable by the AWS SDK default credential provider chain. If neither
+-# BEDROCK_AWS_PROFILE nor Bedrock-specific static credentials are set, the SDK
+-# uses its default provider chain. AWS-standard environment variables still
+-# follow AWS SDK precedence.
+-#
+-# Profiles can use IAM Identity Center, assume-role settings, or credential_process.
+-# If you use credential_process, secure the config file and helper command, and do
+-# not write secret material to stderr.
+-#
+-# AWS SDK credential chain:
+-# https://docs.aws.amazon.com/sdk-for-javascript/v3/developer-guide/setting-credentials-node.html
+-# Shared config/profile settings:
+-# https://docs.aws.amazon.com/sdkref/latest/guide/settings-reference.html
+-# credential_process security notes:
+-# https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-sourcing-external.html
+-
+-# BEDROCK_AWS_DEFAULT_REGION=us-east-1 # A default region must be provided
+-
+-# AWS Profile
+-# BEDROCK_AWS_PROFILE=your-profile-name
+-
+-# Static credentials (use only if profiles or IAM roles are not suitable)
+-# BEDROCK_AWS_ACCESS_KEY_ID=someAccessKey
+-# BEDROCK_AWS_SECRET_ACCESS_KEY=someSecretAccessKey
+-# BEDROCK_AWS_SESSION_TOKEN=someSessionToken
+-
+-# Bedrock API key
+-# BEDROCK_AWS_BEARER_TOKEN=yourBedrockApiKey
+-
+-# Note: This example list is not meant to be exhaustive. If omitted, all known, supported model IDs will be included for you.
+-# Claude 4+ models cannot be invoked on-demand by their bare `anthropic.` foundation-model ID; Bedrock requires a
+-# cross-region inference profile (`global.` or `us.`) for those. The `global.` profile has no regional pricing premium.
+-# BEDROCK_AWS_MODELS=global.anthropic.claude-fable-5-1,global.anthropic.claude-fable-5,global.anthropic.claude-opus-5,global.anthropic.claude-opus-4-8,global.anthropic.claude-opus-4-7,global.anthropic.claude-sonnet-5,global.anthropic.claude-sonnet-4-6,global.anthropic.claude-opus-4-6-v1,global.anthropic.claude-haiku-4-5-20251001-v1:0,meta.llama3-1-8b-instruct-v1:0
+-# US-only routing alternative: us.anthropic.claude-fable-5-1,us.anthropic.claude-fable-5,us.anthropic.claude-opus-5,us.anthropic.claude-opus-4-8,us.anthropic.claude-opus-4-7,us.anthropic.claude-sonnet-5,us.anthropic.claude-sonnet-4-6,us.anthropic.claude-opus-4-6-v1
+-# List the profiles available to your account with: aws bedrock list-inference-profiles --region <your-region>
+-
+-# See all Bedrock model IDs here: https://docs.aws.amazon.com/bedrock/latest/userguide/model-ids.html#model-ids-arns
+-
+-# Notes on specific models:
+-# The following models are not support due to not supporting streaming:
+-# ai21.j2-mid-v1
+-
+-# The following models are not support due to not supporting conversation history:
+-# ai21.j2-ultra-v1, cohere.command-text-v14, cohere.command-light-text-v14
+-
+-# Claude Mythos-class models (anthropic.claude-fable-5-1, anthropic.claude-mythos-5-1, and their 5.0
+-# predecessors) are inference-profile only on Bedrock — use a profile ID (e.g. us.anthropic.claude-fable-5-1)
+-# — and require opting into Anthropic data sharing via the Bedrock Data Retention API/console before they
+-# can be invoked.
+-
+-#============#
+-# Google     #
+-#============#
+-
+-GOOGLE_KEY=user_provided
+-
+-# GOOGLE_REVERSE_PROXY=
+-# Some reverse proxies do not support the X-goog-api-key header, uncomment to pass the API key in Authorization header instead.
+-# GOOGLE_AUTH_HEADER=true
+-
+-# Gemini API (AI Studio)
+-# GOOGLE_MODELS=gemini-3.8-flash,gemini-3.7-flash,gemini-3.6-flash,gemini-3.5-flash,gemini-3.5-flash-lite,gemini-3.1-pro-preview,gemini-3.1-pro-preview-customtools,gemini-3.1-flash-lite-preview,gemini-2.5-pro,gemini-2.5-flash,gemini-2.5-flash-lite,gemini-2.0-flash,gemini-2.0-flash-lite
+-
+-# Vertex AI
+-# GOOGLE_MODELS=gemini-3.8-flash,gemini-3.7-flash,gemini-3.6-flash,gemini-3.5-flash,gemini-3.5-flash-lite,gemini-3.1-pro-preview,gemini-3.1-pro-preview-customtools,gemini-3.1-flash-lite-preview,gemini-2.5-pro,gemini-2.5-flash,gemini-2.5-flash-lite,gemini-2.0-flash-001,gemini-2.0-flash-lite-001
+-
+-# GOOGLE_TITLE_MODEL=gemini-2.0-flash-lite-001
+-
+-# Google Cloud location for Vertex AI (used by both chat and image generation).
+-# Supports regional locations like us-central1 and multi-region locations: us, eu, global.
+-# GOOGLE_LOC=us-central1
+-
+-# Alternative region env var for Gemini Image Generation
+-# GOOGLE_CLOUD_LOCATION=global
+-
+-# Vertex AI Service Account Configuration
+-# Path to your Google Cloud service account JSON file
+-# GOOGLE_SERVICE_KEY_FILE=/path/to/service-account.json
+-
+-# Google Safety Settings
+-# NOTE: These settings apply to both Vertex AI and Gemini API (AI Studio)
+-#
+-# For Vertex AI:
+-# To use the BLOCK_NONE setting, you need either:
+-# (a) Access through an allowlist via your Google account team, or
+-# (b) Switch to monthly invoiced billing: https://cloud.google.com/billing/docs/how-to/invoiced-billing
+-#
+-# For Gemini API (AI Studio):
+-# BLOCK_NONE is available by default, no special account requirements.
+-#
+-# Available options: BLOCK_NONE, BLOCK_ONLY_HIGH, BLOCK_MEDIUM_AND_ABOVE, BLOCK_LOW_AND_ABOVE
+-#
+-# GOOGLE_SAFETY_SEXUALLY_EXPLICIT=BLOCK_ONLY_HIGH
+-# GOOGLE_SAFETY_HATE_SPEECH=BLOCK_ONLY_HIGH
+-# GOOGLE_SAFETY_HARASSMENT=BLOCK_ONLY_HIGH
+-# GOOGLE_SAFETY_DANGEROUS_CONTENT=BLOCK_ONLY_HIGH
+-# GOOGLE_SAFETY_CIVIC_INTEGRITY=BLOCK_ONLY_HIGH
+-
+-#========================#
+-# Gemini Image Generation #
+-#========================#
+-
+-# Gemini Image Generation Tool (for Agents)
+-# Supports multiple authentication methods in priority order:
+-# 1. User-provided API key (via GUI)
+-# 2. GEMINI_API_KEY env var (admin-configured)
+-# 3. GOOGLE_KEY env var (shared with Google chat endpoint)
+-# 4. Vertex AI service account (via GOOGLE_SERVICE_KEY_FILE)
+-
+-# Option A: Use dedicated Gemini API key for image generation
+-# GEMINI_API_KEY=your-gemini-api-key
+-
+-# Vertex AI model for image generation (defaults to gemini-2.5-flash-image)
+-# GEMINI_IMAGE_MODEL=gemini-2.5-flash-image
+-
+-#============#
+-# OpenAI     #
+-#============#
+-
+-OPENAI_API_KEY=user_provided
+-# OPENAI_MODELS=gpt-6-astra,gpt-6.1-sol,gpt-6-sol,gpt-6-luna,gpt-5.6,gpt-5.6-terra,gpt-5.6-luna,gpt-5.5,gpt-5.5-pro,chat-latest,gpt-5.4,gpt-5.4-pro,gpt-5.4-mini,gpt-5.4-nano,gpt-5.3-codex,gpt-5.2,gpt-5,gpt-5-codex,gpt-5-mini,gpt-5-nano,o3-pro,o3,o4-mini,gpt-4.1,gpt-4.1-mini,gpt-4.1-nano,o3-mini,o1-pro,o1,gpt-4o,gpt-4o-mini
+-
+-DEBUG_OPENAI=false
+-
+-# TITLE_CONVO=false
+-# OPENAI_TITLE_MODEL=gpt-4o-mini
+-
+-# OPENAI_SUMMARIZE=true
+-# OPENAI_SUMMARY_MODEL=gpt-4o-mini
+-
+-# OPENAI_FORCE_PROMPT=true
+-
+-# OPENAI_REVERSE_PROXY=
+-
+-# OPENAI_ORGANIZATION=
+-
+-#====================#
+-#   Assistants API   #
+-#====================#
+-
+-ASSISTANTS_API_KEY=user_provided
+-# ASSISTANTS_BASE_URL=
+-# ASSISTANTS_MODELS=gpt-4o,gpt-4o-mini,gpt-3.5-turbo-0125,gpt-3.5-turbo-16k-0613,gpt-3.5-turbo-16k,gpt-3.5-turbo,gpt-4,gpt-4-0314,gpt-4-32k-0314,gpt-4-0613,gpt-3.5-turbo-0613,gpt-3.5-turbo-1106,gpt-4-0125-preview,gpt-4-turbo-preview,gpt-4-1106-preview
+-
+-#==========================#
+-#   Azure Assistants API   #
+-#==========================#
+-
+-# Note: You should map your credentials with custom variables according to your Azure OpenAI Configuration
+-# The models for Azure Assistants are also determined by your Azure OpenAI configuration.
+-
+-# More info, including how to enable use of Assistants with Azure here:
+-# https://www.librechat.ai/docs/configuration/librechat_yaml/ai_endpoints/azure#using-assistants-with-azure
+ 
+ # Leave these blank to let LibreChat generate and persist temporary credentials in .env.temp.
+ # Configure unique, persistent values before using a production instance.
+@@ -1199,9 +988,9 @@ ALLOW_SHARED_LINKS_PUBLIC=false
+ #                        UI                         #
+ #===================================================#
+ 
+-APP_TITLE=LibreChat
++APP_TITLE=AirGPT
+ # CUSTOM_FOOTER="My custom footer"
+-HELP_AND_FAQ_URL=https://librechat.ai
++# HELP_AND_FAQ_URL=
+ 
+ # SHOW_BIRTHDAY_ICON=true
+ 
+diff --git a/NETIE-ATTRIBUTION.md b/NETIE-ATTRIBUTION.md
+index 70c9be9..832f161 100644
+--- a/NETIE-ATTRIBUTION.md
++++ b/NETIE-ATTRIBUTION.md
+@@ -16,9 +16,36 @@ logos belong to their owners.
+ - Display name LibreChat rewritten to AirGPT in prose docs only.
+ - This file and a README banner added.
+ 
+-## Not done yet (stage 2)
+-
+-- Package names, binaries, identifiers and UI strings are still upstream's.
++## Changed in stage 2 (gate wired and tested)
++
++- Default config exposes one model endpoint: the OpenVault custom endpoint at
++  `${NETIE_OPENVAULT_URL}/v1` (librechat.example.yaml). Every direct provider
++  block and example was removed.
++- `.env.example` sets `ENDPOINTS=custom,agents` and `NETIE_OPENVAULT_URL`; every
++  model-provider key field (OpenAI, Anthropic, Google, Azure, Bedrock, Assistants
++  and the "known endpoints" list) was removed. AirGPT holds no provider key.
++- Memory (cross-chat and user memory) is `disabled: true`, `personalize: false`
++  by default, labeled ungoverned in the config, in the Memories panel and in the
++  agent memory capability text, until it routes through Cortex actions.
++- App title fallbacks, the HTML title, the About diagnostics line and five English
++  UI strings say AirGPT. Root package name, container names and the default
++  MongoDB database name say AirGPT.
++- Gate test: `packages/data-provider/specs/airgpt-gate.spec.ts` parses the two
++  default config files with the real schema and fails on the upstream defaults.
++
++## Not done yet (stage 3)
++
++- Scoped package names (`@librechat/*`, `librechat-data-provider`), the
++  `librechat.yaml` file name, the `LIBRECHAT_*` env names and upstream container
++  image names are unchanged: each needs a build and a rebase plan to rename.
++- Tool keys for search, image generation and speech are still fields in
++  `.env.example` (blank or commented). They are not model endpoints, and the
++  Netie answer (route them through Cortex tool_runner) is not wired.
++- Retrieval does not yet call `netie.airgpt retrieve_space`; upstream RAG is
++  untouched.
+ - SECURITY, SUPPORT and CONTRIBUTING contacts and URLs still point at upstream.
+-- Translated docs, changelogs and third-party notices are untouched.
+-- Netie gate wiring: Endpoints -> OpenVault /v1 only. Retrieval -> netie.airgpt retrieve_space. Cross-chat memory abstains until governed.
++- Translated UI strings, changelogs, helm charts and third-party notices are
++  untouched.
++- Whether OpenVault `/v1` needs a seat token and whether it serves `/v1/models`
++  is not measured here; `fetch: false` and the literal `apiKey: 'openvault'`
++  are the honest defaults until it is.
+diff --git a/api/server/controllers/TwoFactorController.js b/api/server/controllers/TwoFactorController.js
+index 18a0ee3..c2aab4a 100644
+--- a/api/server/controllers/TwoFactorController.js
++++ b/api/server/controllers/TwoFactorController.js
+@@ -9,7 +9,7 @@ const {
+ } = require('~/server/services/twoFactorService');
+ const { getUserById, updateUser } = require('~/models');
+ 
+-const safeAppTitle = (process.env.APP_TITLE || 'LibreChat').replace(/\s+/g, '');
++const safeAppTitle = (process.env.APP_TITLE || 'AirGPT').replace(/\s+/g, '');
+ 
+ /**
+  * Enable 2FA for the user by generating a new TOTP secret and backup codes.
+diff --git a/api/server/routes/config.js b/api/server/routes/config.js
+index d3e3682..a1d18d2 100644
+--- a/api/server/routes/config.js
++++ b/api/server/routes/config.js
+@@ -73,7 +73,7 @@ function buildPreLoginPayload() {
+ 
+   /** @type {Partial<TStartupConfig>} */
+   const payload = {
+-    appTitle: process.env.APP_TITLE || 'LibreChat',
++    appTitle: process.env.APP_TITLE || 'AirGPT',
+     discordLoginEnabled: !!process.env.DISCORD_CLIENT_ID && !!process.env.DISCORD_CLIENT_SECRET,
+     facebookLoginEnabled: !!process.env.FACEBOOK_CLIENT_ID && !!process.env.FACEBOOK_CLIENT_SECRET,
+     githubLoginEnabled: !!process.env.GITHUB_CLIENT_ID && !!process.env.GITHUB_CLIENT_SECRET,
+diff --git a/api/server/services/AuthService.js b/api/server/services/AuthService.js
+index 24d26b8..9bf1559 100644
+--- a/api/server/services/AuthService.js
++++ b/api/server/services/AuthService.js
+@@ -270,7 +270,7 @@ const sendVerificationEmail = async (user) => {
+     email,
+     subject: 'Verify your email',
+     payload: {
+-      appName: process.env.APP_TITLE || 'LibreChat',
++      appName: process.env.APP_TITLE || 'AirGPT',
+       name: user.name || user.username || email,
+       verificationLink: verificationLink,
+       year: new Date().getFullYear(),
+@@ -539,7 +539,7 @@ const requestPasswordReset = async (req) => {
+       email: user.email,
+       subject: 'Password Reset Request',
+       payload: {
+-        appName: process.env.APP_TITLE || 'LibreChat',
++        appName: process.env.APP_TITLE || 'AirGPT',
+         name: user.name || user.username || user.email,
+         link: link,
+         year: new Date().getFullYear(),
+@@ -590,7 +590,7 @@ const resetPassword = async (userId, token, password) => {
+       email: user.email,
+       subject: 'Password Reset Successfully',
+       payload: {
+-        appName: process.env.APP_TITLE || 'LibreChat',
++        appName: process.env.APP_TITLE || 'AirGPT',
+         name: user.name || user.username || user.email,
+         year: new Date().getFullYear(),
+       },
+@@ -979,7 +979,7 @@ const resendVerificationEmail = async (req) => {
+       email: user.email,
+       subject: 'Verify your email',
+       payload: {
+-        appName: process.env.APP_TITLE || 'LibreChat',
++        appName: process.env.APP_TITLE || 'AirGPT',
+         name: user.name || user.username || user.email,
+         verificationLink: verificationLink,
+         year: new Date().getFullYear(),
+diff --git a/client/index.html b/client/index.html
+index 9fe3086..7fbb8ee 100644
+--- a/client/index.html
++++ b/client/index.html
+@@ -9,9 +9,9 @@
+     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+     <meta
+       name="description"
+-      content="LibreChat - An open source chat application with support for multiple AI models"
++      content="AirGPT - the Netie host shell, a thin client of OpenVault and Cortex"
+     />
+-    <title>LibreChat</title>
++    <title>AirGPT</title>
+     <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32x32.png" />
+     <link rel="icon" type="image/png" sizes="16x16" href="assets/favicon-16x16.png" />
+     <link rel="apple-touch-icon" href="assets/apple-touch-icon-180x180.png" />
+diff --git a/client/src/components/Auth/AuthLayout.tsx b/client/src/components/Auth/AuthLayout.tsx
+index 57fa4e5..afc829a 100644
+--- a/client/src/components/Auth/AuthLayout.tsx
++++ b/client/src/components/Auth/AuthLayout.tsx
+@@ -67,7 +67,7 @@ function AuthLayout({
+           <img
+             src="assets/logo.svg"
+             className="h-full w-full object-contain"
+-            alt={localize('com_ui_logo', { 0: startupConfig?.appTitle ?? 'LibreChat' })}
++            alt={localize('com_ui_logo', { 0: startupConfig?.appTitle ?? 'AirGPT' })}
+           />
+         </div>
+       </BlinkAnimation>
+diff --git a/client/src/components/Nav/SettingsTabs/About/About.spec.tsx b/client/src/components/Nav/SettingsTabs/About/About.spec.tsx
+index f7808ab..d74bf0e 100644
+--- a/client/src/components/Nav/SettingsTabs/About/About.spec.tsx
++++ b/client/src/components/Nav/SettingsTabs/About/About.spec.tsx
+@@ -80,7 +80,7 @@ describe('About', () => {
+       expect(mockCopy).toHaveBeenCalledTimes(1);
+       const [blob, options] = mockCopy.mock.calls[0] as [string, { format: string }];
+       expect(options).toEqual({ format: 'text/plain' });
+-      expect(blob).toContain(`LibreChat version: ${Constants.VERSION}`);
++      expect(blob).toContain(`AirGPT version: ${Constants.VERSION}`);
+       expect(blob).toContain(`Commit: ${populatedBuildInfo.commit}`);
+       expect(blob).toContain(`Branch: ${populatedBuildInfo.branch}`);
+       expect(blob).toContain('Build date: 2026-04-20 12:00:00 UTC');
+diff --git a/client/src/components/Nav/SettingsTabs/About/About.tsx b/client/src/components/Nav/SettingsTabs/About/About.tsx
+index cae1413..27e7b69 100644
+--- a/client/src/components/Nav/SettingsTabs/About/About.tsx
++++ b/client/src/components/Nav/SettingsTabs/About/About.tsx
+@@ -27,7 +27,7 @@ function buildDiagnosticsBlob(
+   buildInfo: TStartupConfig['buildInfo'] | undefined,
+ ): string {
+   const lines: string[] = [
+-    `LibreChat version: ${version}`,
++    `AirGPT version: ${version}`,
+     `Commit: ${buildInfo?.commit ?? UNKNOWN_PLACEHOLDER}`,
+     `Branch: ${buildInfo?.branch ?? UNKNOWN_PLACEHOLDER}`,
+     `Build date: ${formatBuildDate(buildInfo?.buildDate)}`,
+diff --git a/client/src/components/SidePanel/Memories/MemoryPanel.tsx b/client/src/components/SidePanel/Memories/MemoryPanel.tsx
+index 600a31d..bce92f8 100644
+--- a/client/src/components/SidePanel/Memories/MemoryPanel.tsx
++++ b/client/src/components/SidePanel/Memories/MemoryPanel.tsx
+@@ -154,6 +154,10 @@ export default function MemoryPanel() {
+     >
+       {/* Sticky header: filter, partition, usage + toggle */}
+       <div className="shrink-0 space-y-2 px-3 pb-2">
++        {/* AirGPT: memory is ungoverned until it routes through Cortex actions */}
++        <p role="note" className="text-xs text-text-secondary">
++          {localize('com_ui_memory_ungoverned')}
++        </p>
+         {/* Header: Filter + Create Button */}
+         <div className="flex items-center gap-2">
+           <FilterInput
+diff --git a/client/src/locales/en/translation.json b/client/src/locales/en/translation.json
+index 2d81936..10a59ad 100644
+--- a/client/src/locales/en/translation.json
++++ b/client/src/locales/en/translation.json
+@@ -207,8 +207,8 @@
+   "com_agents_mcp_description_placeholder": "Explain what it does in a few words",
+   "com_agents_mcp_icon_size": "Minimum size 128 x 128 px",
+   "com_agents_mcp_name_placeholder": "Custom Tool",
+-  "com_agents_mcp_trust_subtext": "Custom connectors are not verified by LibreChat",
+-  "com_agents_memory_info": "When enabled, the agent can save, update, and delete memories about the user during the conversation using the set_memory and delete_memory tools.",
++  "com_agents_mcp_trust_subtext": "Custom connectors are not verified by AirGPT",
++  "com_agents_memory_info": "When enabled, the agent can save, update, and delete memories about the user during the conversation using the set_memory and delete_memory tools. In AirGPT this is off by default and ungoverned: memory writes bypass the Cortex ledger until they route through Cortex actions.",
+   "com_agents_memory_scope": "Keep memories separate for this agent",
+   "com_agents_memory_scope_info": "When enabled, this agent reads and writes its own memories, isolated from your shared memories and from other agents. Existing shared memories are not shown to this agent.",
+   "com_agents_missing_name": "Please type in a name before creating an agent.",
+@@ -1107,7 +1107,7 @@
+   "com_ui_api_key_never_used": "Never used",
+   "com_ui_api_key_no_expiration": "No expiration",
+   "com_ui_api_key_warning": "Make sure to copy your API key now. You won't be able to see it again!",
+-  "com_ui_api_keys_description": "API keys let external apps and tools run your agents through LibreChat's OpenAI-compatible API. Treat each one like a password: anyone who has it can act as you, so revoke any keys you no longer use.",
++  "com_ui_api_keys_description": "API keys let external apps and tools run your agents through AirGPT's OpenAI-compatible API. Treat each one like a password: anyone who has it can act as you, so revoke any keys you no longer use.",
+   "com_ui_api_keys_empty_text": "API keys let external applications run your agents through the OpenAI-compatible API. Create a key to get started.",
+   "com_ui_api_keys_empty_title": "Connect your agents to external apps",
+   "com_ui_api_keys_load_error": "Failed to load API keys",
+@@ -1856,6 +1856,7 @@
+   "com_ui_memory_saved": "Saved memory",
+   "com_ui_memory_saving": "Saving memory",
+   "com_ui_memory_storage_full": "Memory Storage Full",
++  "com_ui_memory_ungoverned": "Memory is off by default in AirGPT. It is ungoverned until every memory write routes through a Cortex action with an actor and a ledger entry.",
+   "com_ui_memory_updated": "Updated saved memory",
+   "com_ui_memory_would_exceed": "Cannot save - would exceed limit by {{tokens}} tokens. Delete existing memories to make space.",
+   "com_ui_mention": "Mention an endpoint, assistant, or preset to quickly switch to it",
+@@ -2527,7 +2528,7 @@
+   "com_ui_code_environment_name_placeholder": "My development VM",
+   "com_ui_code_environment_control_plane": "Code control plane",
+   "com_ui_code_environment_pair": "Connect VM",
+-  "com_ui_code_environment_unavailable": "This LibreChat instance has not enabled self-service code workers.",
++  "com_ui_code_environment_unavailable": "This AirGPT instance has not enabled self-service code workers.",
+   "com_ui_code_environment_load_error": "Code environments could not be loaded. Try again shortly.",
+   "com_ui_code_environment_pairing_ready": "One-time worker command",
+   "com_ui_code_environment_pairing_description": "Run these commands on your machine to pair the worker and start a persistent default workspace with the native sandbox. The pairing code expires shortly and is shown only once.",
+@@ -2542,7 +2543,7 @@
+   "com_ui_code_environment_status_unavailable": "Status unavailable",
+   "com_ui_code_environment_pairing_error": "Could not create the code environment",
+   "com_ui_code_environment_remove_title": "Remove code environment?",
+-  "com_ui_code_environment_remove_description": "This revokes the worker before removing it from LibreChat. Its sandbox files remain on your VM.",
++  "com_ui_code_environment_remove_description": "This revokes the worker before removing it from AirGPT. Its sandbox files remain on your VM.",
+   "com_ui_code_environment_removed": "Code environment removed",
+   "com_ui_code_environment_remove_error": "Could not revoke the code environment",
+   "com_ui_code_environment_file_write": "File changes",
+@@ -2750,7 +2751,7 @@
+   "com_ui_tools_mcp_status_unconfigured": "Needs configuration",
+   "com_ui_tools_mcp_tools_section": "Tools in this server",
+   "com_ui_tools_native": "Native",
+-  "com_ui_tools_native_short": "Built into LibreChat",
++  "com_ui_tools_native_short": "Built into AirGPT",
+   "com_ui_tools_needs_setup": "Needs setup",
+   "com_ui_tools_no_description": "No description provided.",
+   "com_ui_tools_remove": "Remove from agent",
+diff --git a/client/src/routes/Layouts/Startup.tsx b/client/src/routes/Layouts/Startup.tsx
+index 16e5d6f..8c1c669 100644
+--- a/client/src/routes/Layouts/Startup.tsx
++++ b/client/src/routes/Layouts/Startup.tsx
+@@ -43,7 +43,7 @@ export default function StartupLayout({ isAuthenticated }: { isAuthenticated?: b
+   }, [isAuthenticated, navigate, data]);
+ 
+   useEffect(() => {
+-    document.title = startupConfig?.appTitle || 'LibreChat';
++    document.title = startupConfig?.appTitle || 'AirGPT';
+   }, [startupConfig?.appTitle]);
+ 
+   useEffect(() => {
+diff --git a/client/src/utils/__tests__/documentTitle.test.ts b/client/src/utils/__tests__/documentTitle.test.ts
+index 3cc0eac..920120d 100644
+--- a/client/src/utils/__tests__/documentTitle.test.ts
++++ b/client/src/utils/__tests__/documentTitle.test.ts
+@@ -3,6 +3,7 @@ import {
+   hasRealTitle,
+   setDocumentTitle,
+   CHAT_TITLE_IN_TAB_KEY,
++  DEFAULT_APP_TITLE,
+   isChatTitleInTabEnabled,
+ } from '../documentTitle';
+ 
+@@ -50,7 +51,7 @@ describe('document title', () => {
+ 
+     setDocumentTitle('', true);
+ 
+-    expect(document.title).toBe('LibreChat');
++    expect(document.title).toBe(DEFAULT_APP_TITLE);
+   });
+ 
+   it('uses the default app title when the stored app title is empty', () => {
+@@ -58,7 +59,7 @@ describe('document title', () => {
+ 
+     setDocumentTitle('', true);
+ 
+-    expect(document.title).toBe('LibreChat');
++    expect(document.title).toBe(DEFAULT_APP_TITLE);
+   });
+ 
+   it('uses the default app title when storage is unavailable', () => {
+@@ -68,7 +69,7 @@ describe('document title', () => {
+ 
+     setDocumentTitle('', true);
+ 
+-    expect(document.title).toBe('LibreChat');
++    expect(document.title).toBe(DEFAULT_APP_TITLE);
+   });
+ 
+   it('defaults to enabled when the stored setting is malformed', () => {
+diff --git a/client/src/utils/documentTitle.ts b/client/src/utils/documentTitle.ts
+index 322ade2..be03d51 100644
+--- a/client/src/utils/documentTitle.ts
++++ b/client/src/utils/documentTitle.ts
+@@ -1,7 +1,7 @@
+ import { LocalStorageKeys } from 'librechat-data-provider';
+ 
+ export const CHAT_TITLE_IN_TAB_KEY = 'chatTitleInTab';
+-export const DEFAULT_APP_TITLE = 'LibreChat';
++export const DEFAULT_APP_TITLE = 'AirGPT';
+ 
+ export const hasRealTitle = (title?: string | null): title is string =>
+   title != null && title !== '' && title !== 'New Chat';
+diff --git a/deploy-compose.yml b/deploy-compose.yml
+index 7d55c79..bd3c2e5 100644
+--- a/deploy-compose.yml
++++ b/deploy-compose.yml
+@@ -5,7 +5,7 @@ services:
+     #   dockerfile: Dockerfile.multi
+     #   target: api-build
+     image: registry.librechat.ai/librechat-ai/librechat-dev-api:latest
+-    container_name: LibreChat-API
++    container_name: AirGPT-API
+     ports:
+       - 3080:3080
+     depends_on:
+@@ -19,7 +19,7 @@ services:
+     environment:
+       - HOST=0.0.0.0
+       - NODE_ENV=production
+-      - MONGO_URI=mongodb://mongodb:27017/LibreChat
++      - MONGO_URI=mongodb://mongodb:27017/AirGPT
+       - MEILI_HOST=http://meilisearch:7700
+       - LIBRECHAT_TEMP_CREDENTIALS_PATH=/app/data/.env.temp
+       - RAG_PORT=${RAG_PORT:-8000}
+@@ -59,7 +59,7 @@ services:
+ 
+   client:
+     image: nginx:1.27.0-alpine
+-    container_name: LibreChat-NGINX
++    container_name: AirGPT-NGINX
+     ports:
+       - 80:80
+       - 443:443
+diff --git a/docker-compose.yml b/docker-compose.yml
+index 48b5c44..51b734b 100644
+--- a/docker-compose.yml
++++ b/docker-compose.yml
+@@ -3,7 +3,7 @@
+ 
+ services:
+   api:
+-    container_name: LibreChat
++    container_name: AirGPT
+     ports:
+       - "${PORT}:${PORT}"
+     depends_on:
+@@ -16,7 +16,7 @@ services:
+       - "host.docker.internal:host-gateway"
+     environment:
+       - HOST=0.0.0.0
+-      - MONGO_URI=mongodb://mongodb:27017/LibreChat
++      - MONGO_URI=mongodb://mongodb:27017/AirGPT
+       - MEILI_HOST=http://meilisearch:7700
+       - LIBRECHAT_TEMP_CREDENTIALS_PATH=/app/data/.env.temp
+       - RAG_PORT=${RAG_PORT:-8000}
+diff --git a/librechat.example.yaml b/librechat.example.yaml
+index 8d0f893..dae8497 100644
+--- a/librechat.example.yaml
++++ b/librechat.example.yaml
+@@ -1,4 +1,5 @@
+-# For more information, see the Configuration Guide:
++# AirGPT default configuration. AirGPT is a modified distribution of LibreChat
++# (see NETIE-ATTRIBUTION.md). Field reference, kept by upstream:
+ # https://www.librechat.ai/docs/configuration/librechat_yaml
+ 
+ # Configuration version (required)
+@@ -142,60 +143,28 @@ cache: true
+ 
+ # Custom interface configuration
+ interface:
+-  customWelcome: 'Welcome to LibreChat! Enjoy your experience.'
++  customWelcome: 'Welcome to AirGPT.'
+   # Minimum interval between syntax-highlighting passes while streamed code changes (default: 300 ms)
+   # codeHighlightThrottleMs: 300
+   # Enable/disable file search as a chatarea selection (default: true)
+   # Note: This setting does not disable the Agents File Search Capability.
+   # To disable the Agents Capability, see the Agents Endpoint configuration instead.
+   fileSearch: true
+-  # Privacy policy settings
+-  privacyPolicy:
+-    externalUrl: 'https://librechat.ai/privacy-policy'
+-    openNewTab: true
+-
+-  # Terms of service
+-  termsOfService:
+-    externalUrl: 'https://librechat.ai/tos'
+-    openNewTab: true
+-    modalAcceptance: true
+-    modalTitle: 'Terms of Service for LibreChat'
+-    modalContent: |
+-      # Terms and Conditions for LibreChat
+-
+-      *Effective Date: February 18, 2024*
+-
+-      Welcome to LibreChat, the informational website for the open-source AI chat platform, available at https://librechat.ai. These Terms of Service ("Terms") govern your use of our website and the services we offer. By accessing or using the Website, you agree to be bound by these Terms and our Privacy Policy, accessible at https://librechat.ai//privacy.
+-
+-      ## 1. Ownership
+-
+-      Upon purchasing a package from LibreChat, you are granted the right to download and use the code for accessing an admin panel for LibreChat. While you own the downloaded code, you are expressly prohibited from reselling, redistributing, or otherwise transferring the code to third parties without explicit permission from LibreChat.
+-
+-      ## 2. User Data
+-
+-      We collect personal data, such as your name, email address, and payment information, as described in our Privacy Policy. This information is collected to provide and improve our services, process transactions, and communicate with you.
+-
+-      ## 3. Non-Personal Data Collection
+-
+-      The Website uses cookies to enhance user experience, analyze site usage, and facilitate certain functionalities. By using the Website, you consent to the use of cookies in accordance with our Privacy Policy.
+-
+-      ## 4. Use of the Website
+-
+-      You agree to use the Website only for lawful purposes and in a manner that does not infringe the rights of, restrict, or inhibit anyone else's use and enjoyment of the Website. Prohibited behavior includes harassing or causing distress or inconvenience to any person, transmitting obscene or offensive content, or disrupting the normal flow of dialogue within the Website.
+-
+-      ## 5. Governing Law
+-
+-      These Terms shall be governed by and construed in accordance with the laws of the United States, without giving effect to any principles of conflicts of law.
+-
+-      ## 6. Changes to the Terms
+-
+-      We reserve the right to modify these Terms at any time. We will notify users of any changes by email. Your continued use of the Website after such changes have been notified will constitute your consent to such changes.
+-
+-      ## 7. Contact Information
+-
+-      If you have any questions about these Terms, please contact us at contact@librechat.ai.
++  # Privacy policy and terms of service. Upstream shipped its own website's terms
++  # here; AirGPT ships none. Point these at the terms your deployment offers.
++  # privacyPolicy:
++  #   externalUrl: 'https://example.com/privacy-policy'
++  #   openNewTab: true
++  # termsOfService:
++  #   externalUrl: 'https://example.com/tos'
++  #   openNewTab: true
++  #   modalAcceptance: false
++  #   modalTitle: 'Terms of Service for AirGPT'
++  #   modalContent: |
++  #     # Terms of Service for AirGPT
++  #
++  #     Replace this with your terms before enabling modalAcceptance.
+ 
+-      By using the Website, you acknowledge that you have read these Terms of Service and agree to be bound by them.
+ 
+   modelSelect: true
+   parameters: true
+@@ -577,596 +546,65 @@ actions:
+ #       - /path/to/obsidian/vault
+ 
+ # Definition of custom endpoints
++# AirGPT model endpoints. Exactly one: OpenVault /v1.
++#
++# AirGPT is a thin client (NETIE.md section 3). It holds no provider key and talks
++# to no vendor directly. OpenVault is the single key vault and the single router;
++# its /v1 is OpenAI-compatible and picks the model within budget (FreeRoute).
++# Set NETIE_OPENVAULT_URL in .env (default http://127.0.0.1:5000).
++#
++# Do not add openAI, anthropic, google, azureOpenAI, bedrock or assistants blocks
++# here, and do not add a second custom entry. The gate test
++# packages/data-provider/specs/airgpt-gate.spec.ts refuses both.
+ endpoints:
+-  # assistants:
+-  #   disableBuilder: false # Disable Assistants Builder Interface by setting to `true`
+-  #   pollIntervalMs: 3000  # Polling interval for checking assistant updates
+-  #   timeoutMs: 180000  # Timeout for assistant operations
+-  #   # Should only be one or the other, either `supportedIds` or `excludedIds`
+-  #   supportedIds: ["asst_supportedAssistantId1", "asst_supportedAssistantId2"]
+-  #   # excludedIds: ["asst_excludedAssistantId"]
+-  #   # Only show assistants that the user created or that were created externally (e.g. in Assistants playground).
+-  #   # privateAssistants: false # Does not work with `supportedIds` or `excludedIds`
+-  #   # (optional) Models that support retrieval, will default to latest known OpenAI models that support the feature
+-  #   retrievalModels: ["gpt-4-turbo-preview"]
+-  #   # (optional) Assistant Capabilities available to all users. Omit the ones you wish to exclude. Defaults to list below.
+-  #   capabilities: ["code_interpreter", "retrieval", "actions", "tools", "image_vision"]
+-  # agents:
+-  #   # Maximum provider response-body inactivity for Agent model calls. Defaults to 15 minutes;
+-  #   # each received chunk resets the timer. Set to 0 to disable the idle timeout.
+-  #   modelResponseBodyTimeoutMs: 900000
+-  #   # Maximum wait for provider response headers. Defaults to 5 minutes; 0 disables.
+-  #   modelResponseHeadersTimeoutMs: 300000
+-  #   # (optional) Default recursion depth for agents, defaults to 25
+-  #   recursionLimit: 50
+-  #   # Maximum provider error characters retained without content protection (0 hides detail).
+-  #   maxProviderErrorChars: 2000
+-  #   # (optional) Max recursion depth for agents, defaults to 25
+-  #   maxRecursionLimit: 100
+-  #   # (optional) Abort a run once a single streamed tool call's arguments exceed this many bytes.
+-  #   # Guards against runaway malformed tool-call generation. Defaults to 65536 (64 KiB); 0 disables.
+-  #   maxToolCallArgBytes: 65536
+-  #   # (optional) Abort a run once a single model generation emits more than this many stream events.
+-  #   # Defense in depth against looping provider streams. Disabled by default.
+-  #   maxDeltaEventsPerTurn: 100000
+-  #   # (optional) Per-tool overrides for maxToolCallArgBytes, keyed by tool name; 0 disables that
+-  #   # tool's guard. LibreChat ships { create_file: 131072 } so document-sized file writes are not
+-  #   # cut off; entries here merge over (and can replace) that default.
+-  #   maxToolCallArgBytesByTool:
+-  #     create_file: 131072
+-  #   # (optional) Disable the builder interface for agents
+-  #   disableBuilder: false
+-  #   # (optional) When conversation titles are generated:
+-  #   #   immediate (default): generate as soon as the request is made, in parallel
+-  #   #     with the response, from the user's first message (title appears within ~1-2s).
+-  #   #   final: defer generation until the full response completes (legacy behavior).
+-  #   # Set under `endpoints.all` instead to apply as the global default for all endpoints.
+-  #   titleTiming: immediate
+-  #   # (optional) Generate one-line headers for blocks of Agent reasoning and tool calls.
+-  #   # Header generation is a separate model call whose usage and cost are recorded.
+-  #   activityLabel: true
+-  #   activityEndpoint: openAI
+-  #   activityModel: gpt-4.1-nano
+-  #   # activityPrompt: 'Write a short activity label...'
+-  #   # activityMaxPerRun: 20
+-  #   # activityCharLimit: 600
+-  #   # (optional) Replace the generic Thinking/Thoughts heading with a live
+-  #   # generated orientation as sufficiently long top-level reasoning evolves.
+-  #   # Enabling this sends a bounded snapshot (up to 4,000 characters) of the
+-  #   # visible reasoning to the resolved label endpoint, which may be a different provider.
+-  #   # With Langfuse tracing enabled, that snapshot is also recorded as generation input
+-  #   # unless the active redaction policy suppresses the label call.
+-  #   # reasoningLabel: true
+-  #   # reasoningLabelModel: gpt-4.1-nano # falls back to activity/title/run model
+-  #   # reasoningLabelEndpoint: openAI    # falls back to activity/run endpoint
+-  #   # reasoningLabelPrompt: 'Describe the current reasoning direction...'
+-  #   # reasoningLabelMinChars: 500       # text required before the first label
+-  #   # reasoningLabelUpdateChars: 400    # new text between streaming revisions
+-  #   # reasoningLabelUpdateIntervalMs: 3000 # minimum time between streaming revisions
+-  #   # A final rewrite may run immediately after a meaningful 120-character tail.
+-  #   # reasoningLabelMaxPerRun: 8        # provider-call cap per response
+-  #   # (optional) Maximum total citations to include in agent responses, defaults to 30
+-  #   maxCitations: 30
+-  #   # (optional) Maximum citations per file to include in agent responses, defaults to 7
+-  #   maxCitationsPerFile: 7
+-  #   # (optional) Minimum relevance score for sources to be included in responses, defaults to 0.45 (45% relevance threshold)
+-  #   # Set to 0.0 to show all sources (no filtering), or higher like 0.7 for stricter filtering
+-  #   minRelevanceScore: 0.45
+-  #   # (optional) Maximum explicit subagents per agent, for both the flat list and
+-  #   # graph definitions. Defaults to 10; hard cap 50.
+-  #   maxSubagents: 20
+-  #   # (optional) Shared files during an active agent run. Each delegating agent must
+-  #   # also opt in with subagents.shareFiles. Inputs are read-only; outputs stay
+-  #   # private until explicitly published. Published files remain downloadable.
+-  #   fileSharing:
+-  #     enabled: false
+-  #     allowSiblingSharing: false # permit explicitly named sibling/descendant recipients
+-  #     maxFiles: 100 # manifest capacity, 1–1000
+-  #     maxPrivateBytes: 268435456 # aggregate private output snapshots, 256 MiB
+-  #     ttlMs: 3600000 # active manifest lifetime, at most 24 hours
+-  #   # (optional) Maximum concurrent Code API uploads per route and user. Defaults to 3.
+-  #   codeApiUploadConcurrency: 3
+-  #   # (optional) Maximum total time spent waiting on Code API rate limits. Defaults to 20000 ms.
+-  #   codeApiMaxRetryWaitMs: 20000
+-  #   # (optional) Cap the number of active accessible skills shown in the model-visible catalog.
+-  #   # Useful for large organizations where many department-specific skills may be available.
+-  #   skills:
+-  #     maxCatalogSkills: 20
+-  #   # (optional) Agent Capabilities available to all users. Omit the ones you wish to exclude. Defaults to list below.
+-  #   capabilities: ["deferred_tools", "execute_code", "file_search", "web_search", "artifacts", "subagents", "actions", "context", "skills", "memory", "ask_user_question", "tools", "chain", "ocr"]
+-  #   # The following capabilities are opt-in and must be added explicitly:
+-  #   # "programmatic_tools", "stateful_code_sessions", "run_in_background", "tool_intents"
+-  #   # "stateful_code_sessions" is highly experimental and may change substantially.
+-  #   # (optional) Limit the workspace scopes users may select. Omit to allow all three.
+-  #   statefulCodeSessions:
+-  #     # Keep move-only behavior unless attach/detach is explicitly enabled.
+-  #     # Enable only after ALL API replicas run this build and advertise decision protocol 1
+-  #     # (CODE_ENVIRONMENT_DECISION_VERSION=1), then refresh clients.
+-  #     conversationMoves:
+-  #       enabled: true
+-  #       allowAttachDetach: false
+-  #     allowedEnvironments: ["user", "agent-user", "conversation"]
+-  #     # Personal BYOM enrollment. Requires allowPrincipalWorkers on a control plane.
+-  #     # Omitted values default to enabled and five registered environments per user.
+-  #     # Principal config overrides may tighten, but cannot raise, this ceiling.
+-  #     # Lowering the limit, or disabling enrollment, does not revoke existing machines.
+-  #     # This counts registered environments across control planes, not online workers.
+-  #     principalWorkers:
+-  #       enabled: true
+-  #       maxPerUser: 25
+-  #     # Route an agent to an operator-managed Code API or to a Code API whose
+-  #     # `remote-bridge` backend leases work to an outbound @librechat/code worker.
+-  #     environments:
+-  #       - id: managed-default
+-  #         name: Managed Code API
+-  #         type: managed
+-  #         baseURL: https://code.example.com/v1
+-  #         default: true
+-  #       - id: engineering-vm
+-  #         name: Engineering VM
+-  #         type: attached
+-  #         baseURL: https://code-bridge.example.com/v1
+-  #         # Pins an administrator-managed environment to one worker.
+-  #         owner: deployment
+-  #         pairing:
+-  #           workerId: engineering-vm
+-  #           tokenEnv: CODE_BRIDGE_ADMIN_TOKEN
+-  #       - id: personal-workers
+-  #         name: Personal Code Workers
+-  #         type: attached
+-  #         baseURL: https://code-bridge.example.com/v1
+-  #         # Lets authenticated users create principal-bound environments and
+-  #         # receive a one-time code for an outbound @librechat/code worker.
+-  #         # The administrator secret stays in the named environment variable.
+-  #         owner: deployment
+-  #         # Optionally expose only these bounded preferences to environment owners.
+-  #         configSchema:
+-  #           limits:
+-  #             # Maximum Bash execution budget the model may request per call.
+-  #             # Omit to preserve the historical 30-second limit. Hard cap: 300000.
+-  #             maxCommandTimeoutMs: 120000
+-  #             # Optional total HTTP budget per workspace tool call, including
+-  #             # admission, retries, worst-case execution, settlement, and delivery.
+-  #             # Do NOT enable until every LibreChat API replica recognizes this
+-  #             # strict config field, Code API honors X-LibreChat-Workspace-Queue-Wait-Ms,
+-  #             # and a non-mutating timed canary verifies the live CDN, load balancer,
+-  #             # ingress, and caller can all outlast this value. The Nginx example
+-  #             # (120s) cannot establish the live limit. Omission keeps 30s admission.
+-  #             # With 125s total, a read can queue <=90s, a default command <=85s,
+-  #             # a 90s command <=25s. With the default 10s admission reserve,
+-  #             # commands >105s cannot fit; the 120s command ceiling above requires
+-  #             # a VERIFIED total budget of at least 140s to be usable.
+-  #             # maxRequestTimeoutMs: 125000
+-  #             # Optional command admission allowance before local dispatch overhead.
+-  #             # Omission reserves 10s; valid range: 1000–300000 ms. The HTTP budget
+-  #             # must exceed this allowance plus 10s settlement/delivery grace;
+-  #             # with the 10s default, a budget of 20s or less is rejected.
+-  #             # Smaller allowances give a busy worker less time to accept the call.
+-  #             # minCommandAdmissionMs: 10000
+-  #           permissions:
+-  #             fileWrite:
+-  #               allowed: [allow, ask, deny]
+-  #               default: ask
+-  #             commandExecution:
+-  #               # Add allow to offer Full access in the chat composer. Both
+-  #               # permission categories must permit allow; defaults can stay ask.
+-  #               # Full access skips routine code prompts within the worker sandbox.
+-  #               # Explicit endpoint ask/deny rules and hooks still apply.
+-  #               allowed: [ask, deny]
+-  #               default: ask
+-  #         pairing:
+-  #           allowPrincipalWorkers: true
+-  #           tokenEnv: CODE_BRIDGE_ADMIN_TOKEN
+-  #   # (optional) Trusted origin for internal event delivery. By default, LibreChat
+-  #   # uses its own bound listener; override only for an internal TLS/front-door route.
+-  #   eventDriven:
+-  #     # selfUrl: 'https://librechat.internal'
+-  #   # (optional) Automatic conversational delivery for supported completed background tasks.
+-  #   # Enabled by default; set false to keep background tools and subagents poll-only.
+-  #   backgroundTasks:
+-  #     completionWakeups: true
+-  #     # Allow owners to cooperatively cancel ordinary background tools, including BYOM Bash.
+-  #     ordinaryToolCancellation: false
+-  #   # "run_in_background" makes Code Interpreter tools eligible by default and enables per-tool MCP opt-in.
+-  #   # "tool_intents" enables live model-written labels for native tools and opted-in MCP tools.
+-  #   # (optional) Require user approval before matching tool calls. Disabled by default.
+-  #   toolApproval:
+-  #     enabled: true
+-  #     mode: default # default, dontAsk, or bypass
+-  #     allow: ["mcp:trusted-server:read_*"]
+-  #     deny: ["mcp:*:delete_*"] # Deny rules always take precedence
+-  #     ask: ["mcp:*:*"]
+-  #     reason: "Review {tool} before it runs."
+-  #   # (optional) Persist Agent runs paused for approval or Ask User. MongoDB is the durable default.
+-  #   checkpointer:
+-  #     type: mongo # mongo (default) or memory (single-process development only)
+-  #     ttl: 86400 # Approval window in seconds; defaults to 24 hours
+-  #   # (optional) Keep the user's answers to Ask User questions in the model context verbatim,
+-  #   # even after the messages that carried them were summarized or pruned. On by default.
+-  #   askUserQuestion:
+-  #     retainedAnswers:
+-  #       enabled: true
+-  #       maxTokens: 4096 # Older answers drop first past this budget; the newest is always kept
+-  #   # (optional) Authenticate machine clients for the Agent Management API.
+-  #   # Each verified OAuth client is bound server-side to one existing LibreChat
+-  #   # user and tenant; that user's normal role and Agent ACLs still apply.
+-  #   managementApi:
+-  #     auth:
+-  #       oidc:
+-  #         enabled: true
+-  #         issuer: 'https://identity.example.com/'
+-  #         audience: 'https://librechat.example.com/agents'
+-  #         # jwksUri: 'https://identity.example.com/.well-known/jwks.json'
+-  #         # Cognito M2M access tokens use client_id instead of aud. For that
+-  #         # profile, omit audience and require the access-token type and scope:
+-  #         # tokenUse: access
+-  #         # requiredScopes: ['agents-api/manage']
+-  #       clients:
+-  #         - clientId: 'machine-client-id'
+-  #           # subject: 'provider-specific-service-principal-subject'
+-  #           userId: '507f1f77bcf86cd799439011'
+-  #           tenantId: 'tenant-id'
+-
+-  # (optional) Custom request headers for the built-in OpenAI / Google endpoints.
+-  # Forwarded on every request to the provider (or an AI gateway / reverse proxy
+-  # in front of it) while keeping provider-native request shaping intact. Values
+-  # support env vars (${VAR}), user fields ({{LIBRECHAT_USER_*}}), and request-body
+-  # fields ({{LIBRECHAT_BODY_CONVERSATIONID}}). Set the same `headers:` block under
+-  # `endpoints.all` to apply globally across endpoints (endpoint values win on key
+-  # collisions). NOTE: send metadata headers like these only behind a gateway that
+-  # consumes them — native provider APIs ignore unknown headers.
+-  # openAI:
+-  #   headers:
+-  #     cf-aig-metadata: '{"user_email":"{{LIBRECHAT_USER_EMAIL}}","app":"librechat"}'
+-  # google:
+-  #   headers:
+-  #     cf-aig-metadata: '{"user_email":"{{LIBRECHAT_USER_EMAIL}}","app":"librechat"}'
+-
+-  # Anthropic endpoint configuration with Vertex AI support
+-  # Use this to run Anthropic Claude models through Google Cloud Vertex AI
+-  # anthropic:
+-  #   # (optional) Override the adaptive stream-smoothing cadence in milliseconds.
+-  #   # Agents SDK-backed providers smooth at 25ms by default; set 0 to disable
+-  #   # smoothing. (Legacy Assistants/Ollama paths sleep this long per chunk instead.)
+-  #   streamRate: 20
+-  #   # (optional) Title model for conversation titles
+-  #   titleModel: claude-3.5-haiku  # Use the visible model name (key from models config)
+-  #   # (optional) Custom request headers, same placeholder resolution as above.
+-  #   # Useful for correlating reverse-proxied requests by conversation, since an
+-  #   # unknown header is simply ignored by the native Anthropic API.
+-  #   headers:
+-  #     cf-aig-metadata: '{"user_email":"{{LIBRECHAT_USER_EMAIL}}","app":"librechat"}'
+-  #     X-Conversation-Id: '{{LIBRECHAT_BODY_CONVERSATIONID}}'
+-  #
+-  #   # Vertex AI Configuration - enables running Claude models via Google Cloud
+-  #   # This is similar to Azure OpenAI but for Anthropic models on Google Cloud
+-  #   # Vertex AI is automatically enabled when this config section is present
+-  #   vertex:
+-  #     # Vertex AI region (optional, defaults to 'us-east5')
+-  #     # Available regions: us-east5, us-central1, europe-west1, europe-west4, asia-southeast1
+-  #     # Multi-region endpoints: us, eu, global
+-  #     # IMPORTANT: specific regional endpoints only serve Claude Sonnet 4.6 and earlier. Newer
+-  #     # models (Opus 4.7+, Opus 5, Sonnet 5, Fable 5/5.1) require "global" or a multi-region value
+-  #     # ("us"/"eu") and will 404 on a specific region. "global" also avoids the 10% regional premium.
+-  #     region: "us-east5"
+-  #     # Path to Google service account key file (optional)
+-  #     # If not specified, uses GOOGLE_SERVICE_KEY_FILE env var or default path (api/data/auth.json)
+-  #     # The project_id is automatically extracted from the service key file
+-  #     # serviceKeyFile: "/path/to/service-account.json"
+-  #     # Google Cloud Project ID (optional) - auto-detected from service key file
+-  #     # Only specify if you need to override the project_id in your service key
+-  #     # projectId: "${VERTEX_PROJECT_ID}"
+-  #
+-  #     # ============================================================================
+-  #     # Model Configuration - Set Visible Model Names and Deployment Mappings
+-  #     # Similar to Azure OpenAI model naming pattern
+-  #     # ============================================================================
+-  #
+-  #     # Option 1: Simple array (legacy format - model name = deployment name)
+-  #     # Use this if you want the technical model IDs to show in the UI
+-  #     # models:
+-  #     #   - "claude-fable-5-1"
+-  #     #   - "claude-fable-5"
+-  #     #   - "claude-opus-5"
+-  #     #   - "claude-opus-4-8"
+-  #     #   - "claude-sonnet-4-6"
+-  #     #   - "claude-3-7-sonnet-20250219"
+-  #     #   - "claude-3-5-sonnet-v2@20241022"
+-  #     #   - "claude-3-5-haiku@20241022"
+-  #
+-  #     # Option 2: Object format with custom visible names (RECOMMENDED)
+-  #     # The key is the visible model name shown in the UI (can be any name you want)
+-  #     # The deploymentName is the actual Vertex AI model ID used for API calls
+-  #     # You can use friendly names (avoid spaces for cleaner YAML) or technical IDs as keys
+-  #     models:
+-  #       claude-fable-5.1:
+-  #         deploymentName: claude-fable-5-1
+-  #       claude-fable-5:
+-  #         deploymentName: claude-fable-5
+-  #       claude-opus-5:
+-  #         deploymentName: claude-opus-5
+-  #       claude-opus-4.8:
+-  #         deploymentName: claude-opus-4-8
+-  #       claude-opus-4.5:
+-  #         deploymentName: claude-opus-4-5@20251101
+-  #       claude-sonnet-4:
+-  #         deploymentName: claude-sonnet-4-6
+-  #       claude-3.7-sonnet:
+-  #         deploymentName: claude-3-7-sonnet-20250219
+-  #       claude-3.5-sonnet:
+-  #         deploymentName: claude-3-5-sonnet-v2@20241022
+-  #       claude-3.5-haiku:
+-  #         deploymentName: claude-3-5-haiku@20241022
+-  #
+-  #     # Option 3: Mixed format with default deploymentName
+-  #     # Set a default deploymentName and use boolean values for models
+-  #     # deploymentName: claude-sonnet-4-6
+-  #     # models:
+-  #     #   claude-sonnet-4: true  # Will use the default deploymentName
+-  #     #   claude-3.5-haiku:
+-  #     #     deploymentName: claude-3-5-haiku@20241022  # Override for this model
+-
+   custom:
+-    # xAI: Grok 4.7 uses the existing OpenAI-compatible chat and agent paths.
+-    # https://docs.x.ai/developers/grok-4-7
+-    # Set XAI_API_KEY in your environment. No separate SpaceXAI provider is needed.
+-    - name: 'xai'
+-      # Optional: expose this endpoint only to users in the named tenant.
+-      # tenantId: 'your-tenant-id'
+-      apiKey: '${XAI_API_KEY}'
+-      baseURL: 'https://api.x.ai/v1'
+-      models:
+-        default: ['grok-4.7']
+-        fetch: true
+-      titleConvo: true
+-      titleModel: 'grok-4.7'
+-      modelDisplayLabel: 'xAI'
+-
+-    # Anthropic-compatible Example (native `/v1/messages` API)
+-    # Set `provider: anthropic` to use the native Anthropic client instead of the
+-    # default OpenAI-compatible one — for Anthropic itself or Anthropic-compatible
+-    # gateways (e.g. AI gateways, OpenCode Zen). The `baseURL` must be the API root
+-    # the Anthropic SDK appends `/v1/messages` to. List models explicitly: model
+-    # auto-fetch uses the OpenAI `/models` convention and is not used for this provider.
+-    - name: 'Claude-Compatible'
+-      provider: 'anthropic'
+-      apiKey: '${ANTHROPIC_API_KEY}'
+-      baseURL: 'https://api.anthropic.com'
+-      # (optional) headers forwarded on every request (e.g. for a reverse proxy);
+-      # values support the same placeholders as built-in endpoints.
+-      headers:
+-        anthropic-version: '2023-06-01'
++    - name: 'OpenVault'
++      # Not a provider key. The schema needs a non-empty string and OpenVault is
++      # the custody. If your OpenVault issues a seat token, set that here. Never a
++      # vendor key: those live in OpenVault only.
++      apiKey: 'openvault'
++      baseURL: '${NETIE_OPENVAULT_URL}/v1'
+       models:
+-        default:
+-          - 'claude-sonnet-4-5'
+-          - 'claude-opus-4-5'
++        # 'auto' is OpenVault's catalog pick. Set fetch: true once OpenVault
++        # /v1/models is measured; until then the list is explicit, not guessed.
++        default: ['auto']
+         fetch: false
+       titleConvo: true
+-      titleModel: 'claude-sonnet-4-5'
+-      # Agent activity groups: collapse each block of reasoning + tool calls
+-      # under a generated one-line header. Same shape as the title options.
+-      activityLabel: true
+-      activityModel: 'claude-3-5-haiku'
+-      # activityEndpoint: 'anthropic'   # run labels on another endpoint's credentials
+-      # activityPrompt: 'Write a 5-9 word past-tense label...'
+-      # activityMaxPerRun: 20           # cost cap per response
+-      # activityCharLimit: 600          # per-entry prompt truncation
+-      # Parent phase summaries are an independent opt-in. They collapse 2+
+-      # logical activities before the answer into one run-level summary.
+-      # activityPhaseLabel: true
+-      # activityPhaseModel: 'claude-3-5-haiku' # falls back to activity/title/run model
+-      # activityPhaseEndpoint: 'anthropic'     # falls back to activity/run endpoint
+-      # activityPhasePrompt: 'Summarize the completed agent phase...'
+-      # activityPhaseMaxPerRun: 5               # cost cap per response
+-      # Live reasoning labels are also independent. They update one top-level
+-      # THINK heading in place and never create or shift message content parts.
+-      # Enabling this sends a bounded snapshot (up to 4,000 characters) of the
+-      # visible reasoning to the resolved label endpoint, which may be a different provider.
+-      # With Langfuse tracing enabled, that snapshot is also recorded as generation input
+-      # unless the active redaction policy suppresses the label call.
+-      # reasoningLabel: true
+-      # reasoningLabelModel: 'claude-3-5-haiku' # falls back to activity/title/run model
+-      # reasoningLabelEndpoint: 'anthropic'     # falls back to activity/run endpoint
+-      # reasoningLabelPrompt: 'Describe the current reasoning direction...'
+-      # reasoningLabelMinChars: 500
+-      # reasoningLabelUpdateChars: 400
+-      # reasoningLabelUpdateIntervalMs: 3000
+-      # A final rewrite may run immediately after a meaningful 120-character tail.
+-      # reasoningLabelMaxPerRun: 8
+-      modelDisplayLabel: 'Claude (Compatible)'
++      titleModel: 'auto'
++      modelDisplayLabel: 'OpenVault'
+ 
+-    # Groq Example
+-    - name: 'groq'
+-      apiKey: '${GROQ_API_KEY}'
+-      baseURL: 'https://api.groq.com/openai/v1/'
+-      models:
+-        default:
+-          - 'llama3-70b-8192'
+-          - 'llama3-8b-8192'
+-          - 'llama2-70b-4096'
+-          - 'mixtral-8x7b-32768'
+-          - 'gemma-7b-it'
+-        fetch: false
+-      titleConvo: true
+-      titleModel: 'mixtral-8x7b-32768'
+-      modelDisplayLabel: 'groq'
+-
+-    # Mistral AI Example
+-    - name: 'Mistral' # Unique name for the endpoint
+-      # For `apiKey` and `baseURL`, you can use environment variables that you define.
+-      # recommended environment variables:
+-      apiKey: '${MISTRAL_API_KEY}'
+-      baseURL: 'https://api.mistral.ai/v1'
+-
+-      # Models configuration
+-      models:
+-        # List of default models to use. At least one value is required.
+-        default: ['mistral-tiny', 'mistral-small', 'mistral-medium']
+-        # Fetch option: Set to true to fetch models from API.
+-        fetch: true # Defaults to false.
+-
+-      # Optional configurations
+-
+-      # Title Conversation setting
+-      titleConvo: true # Set to true to enable title conversation
+-
+-      # Title Method: Choose between "completion" or "functions".
+-      # titleMethod: "completion"  # Defaults to "completion" if omitted.
+-
+-      # Title Model: Specify the model to use for titles.
+-      titleModel: 'mistral-tiny' # Defaults to "gpt-3.5-turbo" if omitted.
+-
+-      # Summarize setting: Set to true to enable summarization.
+-      # summarize: false
+-
+-      # Summary Model: Specify the model to use if summarization is enabled.
+-      # summaryModel: "mistral-tiny"  # Defaults to "gpt-3.5-turbo" if omitted.
+-
+-      # The label displayed for the AI model in messages.
+-      modelDisplayLabel: 'Mistral' # Default is "AI" when not set.
+-
+-      # Add additional parameters to the request. Default params will be overwritten.
+-      # addParams:
+-      # safe_prompt: true # This field is specific to Mistral AI: https://docs.mistral.ai/api/
+-
+-      # Drop Default params parameters from the request. See default params in guide linked below.
+-      # NOTE: For Mistral, it is necessary to drop the following parameters or you will encounter a 422 Error:
+-      dropParams: ['stop', 'user', 'frequency_penalty', 'presence_penalty']
+-
+-    # OpenRouter Example
+-    - name: 'OpenRouter'
+-      # For `apiKey` and `baseURL`, you can use environment variables that you define.
+-      # recommended environment variables:
+-      apiKey: '${OPENROUTER_KEY}'
+-      baseURL: 'https://openrouter.ai/api/v1'
+-      headers:
+-        x-librechat-body-parentmessageid: '{{LIBRECHAT_BODY_PARENTMESSAGEID}}'
+-      models:
+-        default: ['meta-llama/llama-3-70b-instruct']
+-        fetch: true
+-      titleConvo: true
+-      titleModel: 'meta-llama/llama-3-70b-instruct'
+-      # Recommended: Drop the stop parameter from the request as Openrouter models use a variety of stop tokens.
+-      dropParams: ['stop']
+-      modelDisplayLabel: 'OpenRouter'
+-
+-  # AWS Bedrock Example
+-  # Note: Bedrock endpoint is configured via environment variables
+-  # bedrock:
+-  #   # Models Configuration
+-  #   # Specify which models are available (equivalent to BEDROCK_AWS_MODELS env variable)
+-  #   models:
+-  #     - "anthropic.claude-3-7-sonnet-20250219-v1:0"
+-  #     - "anthropic.claude-3-5-sonnet-20241022-v2:0"
+-  #
+-  #   # Inference Profiles Configuration
+-  #   # Maps model IDs to their inference profile ARNs
+-  #   # IMPORTANT: The model ID (key) MUST be a valid AWS Bedrock model ID that you've added to the models list above
+-  #   # The ARN (value) is the inference profile you wish to map to for that model
+-  #   # Both the model ID and ARN are sent to AWS - the model ID for validation/metadata, the ARN for routing
+-  #   inferenceProfiles:
+-  #     "us.anthropic.claude-sonnet-4-6": "${BEDROCK_INFERENCE_PROFILE_CLAUDE_SONNET}"
+-  #     "anthropic.claude-3-7-sonnet-20250219-v1:0": "arn:aws:bedrock:us-west-2:123456789012:application-inference-profile/abc123"
+-  #
+-  #   # Guardrail Configuration
+-  #   guardrailConfig:
+-  #     guardrailIdentifier: "your-guardrail-id"
+-  #     guardrailVersion: "1"
+-  #
+-  #     # Trace behavior for debugging (optional)
+-  #     # - "enabled": Include basic trace information about guardrail assessments
+-  #     # - "enabled_full": Include comprehensive trace details (recommended for debugging)
+-  #     # - "disabled": No trace information (default)
+-  #     # Trace output is logged to application log files for compliance auditing
+-  #     trace: "enabled"
+-# Example modelSpecs configuration showing grouping options
++# Example modelSpecs configuration. Every spec runs on the one endpoint, OpenVault.
+ # The 'group' field organizes model specs in the UI selector:
+-# - If 'group' matches an endpoint name (e.g., "openAI", "groq"), the spec appears nested under that endpoint
+-# - If 'group' is a custom name (doesn't match any endpoint), it creates a separate collapsible section
++# - If 'group' matches an endpoint name ("OpenVault"), the spec appears nested under it
++# - If 'group' is a custom name, it creates a separate collapsible section
+ # - If 'group' is omitted, the spec appears as a standalone item at the top level
+-#
+-# The 'groupIcon' field sets an icon for custom groups:
+-# - Only needs to be set on one spec per group (first one is used)
+-# - Can be a URL or a built-in endpoint key (e.g., "openAI", "anthropic", "groq")
+ # modelSpecs:
+ #   list:
+-#     # Example 1: Nested under an endpoint (grouped with openAI endpoint)
+-#     - name: "gpt-4o"
+-#       label: "GPT-4 Optimized"
+-#       description: "Most capable GPT-4 model with multimodal support"
++#     - name: "auto"
++#       label: "OpenVault auto"
++#       description: "OpenVault picks the model within budget (FreeRoute)"
+ #       # default: true      # Hard admin default; takes precedence over prior user choices
+ #       # softDefault: true  # First-time default only; skipped after a user selects a model/spec/agent
+-#       # showInMenu: false  # Hide from the model selector while keeping explicit `spec` access
+-#       group: "openAI"  # String value matching the endpoint name
+-#       preset:
+-#         endpoint: "openAI"
+-#         model: "gpt-4o"
+-#       # Skills can be enabled per model spec. Use true for the user's active
+-#       # accessible skill catalog, false to force skills off, or a name list as
+-#       # a strict allowlist for catalog, manual, and always-apply resolution.
+-#       # skills: ["brand-guidelines", "code-review"]
+-#       # Subagents can be enabled per model spec. `allowSelf: true` lets the
+-#       # ephemeral agent spawn a fresh isolated copy of itself for focused work.
+-#       # subagents:
+-#       #   enabled: true
+-#       #   allowSelf: true
+-#       #   agent_ids: []
+-#
+-#     # Example 2: Nested under a custom endpoint (grouped with groq endpoint)
+-#     - name: "llama3-70b-8192"
+-#       label: "Llama 3 70B"
+-#       description: "Fastest inference available - great for quick responses"
+-#       group: "groq"  # String value matching your custom endpoint name from endpoints.custom
+-#       preset:
+-#         endpoint: "groq"
+-#         model: "llama3-70b-8192"
+-#
+-#     # Example 3: Custom group with icon (creates a separate collapsible section)
+-#     - name: "coding-assistant"
+-#       label: "Coding Assistant"
+-#       description: "Specialized for coding tasks"
+-#       group: "my-assistants"  # Custom string - doesn't match any endpoint, so creates its own group
+-#       groupIcon: "https://example.com/icons/assistants.png"  # Icon URL for the group
++#       group: "OpenVault"
+ #       preset:
+-#         endpoint: "openAI"
+-#         model: "gpt-4o"
+-#         instructions: "You are an expert coding assistant..."
+-#         temperature: 0.3
+-#
++#         endpoint: "OpenVault"
++#         model: "auto"
+ #     - name: "writing-assistant"
+ #       label: "Writing Assistant"
+ #       description: "Specialized for creative writing"
+-#       group: "my-assistants"  # Same custom group name - both specs appear in same section
+-#       # No need to set groupIcon again - the first spec's icon is used
+-#       preset:
+-#         endpoint: "anthropic"
+-#         model: "claude-sonnet-4"
+-#         instructions: "You are a creative writing expert..."
+-#
+-#     # Example 4: Custom group using built-in icon key
+-#     - name: "fast-models"
+-#       label: "Fast Response Model"
+-#       group: "Fast Models"
+-#       groupIcon: "groq"  # Uses the built-in Groq icon
++#       group: "my-assistants"  # Custom string - creates its own section
+ #       preset:
+-#         endpoint: "groq"
+-#         model: "llama3-8b-8192"
+-#
+-#     # Example 5: Standalone (no group - appears at top level)
+-#     - name: "general-assistant"
+-#       label: "General Assistant"
+-#       description: "General purpose assistant"
+-#       # No 'group' field - appears as standalone item at top level (not nested)
+-#       # hideBadgeRow: true  # Optional: hides the tool badge row for this spec
+-#       preset:
+-#         endpoint: "openAI"
+-#         model: "gpt-4o-mini"
++#         endpoint: "OpenVault"
++#         model: "auto"
++#         instructions: "You are a creative writing assistant..."
++#         temperature: 0.7
+ 
+-# Automatic conversation summarization (optional)
++
++# Automatic conversation summarization (optional). Runs on the OpenVault endpoint.
+ # summarization:
+ #   enabled: true
+-#   provider: "openAI"
+-#   model: "gpt-4o-mini"
++#   provider: "OpenVault"
++#   model: "auto"
+ #   retainRecent:
+ #     turns: 2 # Keep the newest complete user/assistant turns outside the summary
+ #     tokens: 2000 # Also preserve up to this many recent tokens
+@@ -1194,8 +632,6 @@ endpoints:
+ #       supportedMimeTypes:
+ #         - "image/.*"
+ #         - "application/pdf"
+-#     openAI:
+-#       disabled: true  # Disables file uploading to the OpenAI endpoint
+ #     default:
+ #       totalSizeLimit: 20
+ #     YourCustomEndpointName:
+@@ -1352,32 +788,18 @@ endpoints:
+ #     # timeRange: month        # 'day', 'month', or 'year'
+ #     # timeout: 10000          # HTTP request timeout in milliseconds (1-120000, default: 10000)
+ 
+-# Memory configuration for user memories
+-# memory:
+-#   # (optional) Disable memory functionality
+-#   disabled: false
+-#   # (optional) Restrict memory keys to specific values to limit memory storage and improve consistency
+-#   validKeys: ["preferences", "work_info", "personal_info", "skills", "interests", "context"]
+-#   # (optional) Maximum token limit for stored memory values
+-#   tokenLimit: 10000
+-#   # (optional) Maximum tokens from recent chat sent to the memory agent before truncation
+-#   maxInputTokens: 12000
+-#   # (optional) Enable personalization features (defaults to true if memory is configured)
+-#   # When false, users will not see the Personalization tab in settings
+-#   personalize: true
+-#   # (optional) Memory agent configuration for automatic memory updates from chat messages.
+-#   # If omitted, users can still create, edit, delete, and reference memories manually.
+-#   agent:
+-#     # Explicitly enables automatic memory updates from chat messages.
+-#     enabled: true
+-#     # Option 1: Use existing agent by ID
+-#     id: "your-memory-agent-id"
+-#     # Option 2: Define agent inline
+-#     # provider: "openai"
+-#     # model: "gpt-4o-mini"
+-#     # instructions: "You are a memory management assistant. Store and manage user information accurately."
+-#     # model_parameters:
+-#     #   temperature: 0.1
++# Memory (cross-chat and user memory) is OFF in AirGPT.
++#
++# UNGOVERNED: upstream's memory agent writes user facts straight to the database,
++# outside the Cortex ledger and outside any manifest. It stays disabled until every
++# memory write routes through a Cortex action with an actor and a ledger entry
++# (NETIE.md section 3; catalog gate for the airgpt row). Turning it on here is a
++# product decision, not a config tweak. The gate test
++# packages/data-provider/specs/airgpt-gate.spec.ts fails if this block changes.
++memory:
++  disabled: true
++  # Hides the Personalization tab so nobody is offered a switch that is not governed.
++  personalize: false
+ 
+ # Apply opt-in content filters to source-classified submitted and reusable content.
+ # `filters` is base-config-only: database overrides and tombstones cannot add,
+diff --git a/package.json b/package.json
+index 9b0760c..36b8a2e 100644
+--- a/package.json
++++ b/package.json
+@@ -1,5 +1,5 @@
+ {
+-  "name": "LibreChat",
++  "name": "AirGPT",
+   "version": "v0.8.8",
+   "description": "",
+   "packageManager": "npm@11.13.0",
+diff --git a/packages/data-provider/specs/airgpt-gate.spec.ts b/packages/data-provider/specs/airgpt-gate.spec.ts
+new file mode 100644
+index 0000000..d429a1c
+--- /dev/null
++++ b/packages/data-provider/specs/airgpt-gate.spec.ts
+@@ -0,0 +1,148 @@
++/**
++ * AirGPT stage 2 gate (Netie DR-0002, ecosystem/overlays/airgpt/0002-gate.patch).
++ *
++ * AirGPT is a thin client of OpenVault and Cortex. It holds no provider key and
++ * talks to no vendor directly. This test reads the two default config files the
++ * operator actually copies (librechat.example.yaml and .env.example) and proves:
++ *
++ *   1. the yaml parses under the real configSchema and exposes exactly one model
++ *      endpoint, the OpenVault custom endpoint at ${NETIE_OPENVAULT_URL}/v1;
++ *   2. cross-chat and user memory is disabled by default;
++ *   3. .env.example enables only `custom,agents`, names the OpenVault URL, and
++ *      carries no model-provider key field, active or commented.
++ *
++ * It fails on the upstream baseline (eight endpoints, memory unset, keys present)
++ * and passes once the stage 2 patch is applied.
++ */
++import { readFileSync } from 'fs';
++import path from 'path';
++import { load as loadYaml } from 'js-yaml';
++import { configSchema } from '../src/config';
++
++const ROOT = path.resolve(__dirname, '..', '..', '..');
++const YAML_PATH = path.join(ROOT, 'librechat.example.yaml');
++const ENV_PATH = path.join(ROOT, '.env.example');
++
++/**
++ * Model-provider key fields. Tool keys are not model endpoints and stay out of this
++ * list: search (TAVILY, SERPER, JINA, COHERE reranker), image (DALLE, FLUX, GEMINI_IMAGE),
++ * speech (STT, TTS). Routing those through Cortex tool_runner is stage 3 work.
++ */
++const PROVIDER_KEY_FIELDS = [
++  'OPENAI_API_KEY',
++  'ANTHROPIC_API_KEY',
++  'GOOGLE_KEY',
++  'GEMINI_API_KEY',
++  'GOOGLE_SERVICE_KEY_FILE',
++  'AZURE_API_KEY',
++  'ASSISTANTS_API_KEY',
++  'BEDROCK_AWS_ACCESS_KEY_ID',
++  'BEDROCK_AWS_SECRET_ACCESS_KEY',
++  'BEDROCK_AWS_BEARER_TOKEN',
++  'ANYSCALE_API_KEY',
++  'APIPIE_API_KEY',
++  'DEEPSEEK_API_KEY',
++  'DATABRICKS_API_KEY',
++  'FIREWORKS_API_KEY',
++  'GROQ_API_KEY',
++  'HUGGINGFACE_TOKEN',
++  'MISTRAL_API_KEY',
++  'OPENROUTER_KEY',
++  'PERPLEXITY_API_KEY',
++  'SHUTTLEAI_API_KEY',
++  'TOGETHERAI_API_KEY',
++  'UNIFY_API_KEY',
++  'XAI_API_KEY',
++];
++
++const PROVIDER_HOSTS =
++  /https?:\/\/[^\s'"]*(openai\.com|anthropic\.com|x\.ai|groq\.com|mistral\.ai|googleapis\.com|openrouter\.ai|amazonaws\.com)/;
++
++function activeEnv(text: string): Record<string, string> {
++  const out: Record<string, string> = {};
++  for (const raw of text.split(/\r?\n/)) {
++    const line = raw.trim();
++    if (!line || line.startsWith('#')) {
++      continue;
++    }
++    const eq = line.indexOf('=');
++    if (eq < 1) {
++      continue;
++    }
++    out[line.slice(0, eq).trim()] = line.slice(eq + 1).trim();
++  }
++  return out;
++}
++
++describe('AirGPT gate: default config', () => {
++  const yamlText = readFileSync(YAML_PATH, 'utf8');
++  const parsed = configSchema.safeParse(loadYaml(yamlText));
++
++  it('librechat.example.yaml parses under configSchema', () => {
++    if (!parsed.success) {
++      throw new Error(JSON.stringify(parsed.error.issues, null, 2));
++    }
++    expect(parsed.success).toBe(true);
++  });
++
++  it('exposes exactly one model endpoint: the OpenVault custom endpoint', () => {
++    if (!parsed.success) {
++      throw new Error('yaml did not parse');
++    }
++    const endpoints = parsed.data.endpoints ?? {};
++    expect(Object.keys(endpoints).sort()).toEqual(['custom']);
++    const custom = endpoints.custom ?? [];
++    expect(custom).toHaveLength(1);
++    const [ov] = custom;
++    expect(ov.name).toBe('OpenVault');
++    expect(ov.baseURL).toBe('${NETIE_OPENVAULT_URL}/v1');
++    /** OpenAI-compatible: no native provider client. */
++    expect(ov.provider).toBeUndefined();
++    expect(ov.models.default.length).toBeGreaterThan(0);
++    /** The apiKey field is a schema requirement, not custody: never a vendor key. */
++    expect(ov.apiKey).not.toMatch(/^(sk-|AKIA|AIza)/);
++    expect(ov.apiKey).not.toMatch(/_API_KEY|_KEY\}/);
++  });
++
++  it('yaml names no direct provider host outside comments', () => {
++    const live = yamlText
++      .split(/\r?\n/)
++      .filter((l) => !l.trim().startsWith('#'))
++      .join('\n');
++    expect(live).not.toMatch(PROVIDER_HOSTS);
++  });
++
++  it('cross-chat and user memory is disabled by default', () => {
++    if (!parsed.success) {
++      throw new Error('yaml did not parse');
++    }
++    expect(parsed.data.memory?.disabled).toBe(true);
++    expect(parsed.data.memory?.personalize).toBe(false);
++  });
++});
++
++describe('AirGPT gate: default env', () => {
++  const envText = readFileSync(ENV_PATH, 'utf8');
++  const env = activeEnv(envText);
++
++  it('enables only the custom (OpenVault) endpoint plus the agents layer', () => {
++    expect(env.ENDPOINTS).toBe('custom,agents');
++  });
++
++  it('names the OpenVault URL', () => {
++    expect(env.NETIE_OPENVAULT_URL).toMatch(/^https?:\/\//);
++  });
++
++  it('carries no model-provider key field, active or commented', () => {
++    const present = PROVIDER_KEY_FIELDS.filter((k) =>
++      new RegExp(`^\\s*#?\\s*${k}=`, 'm').test(envText),
++    );
++    expect(present).toEqual([]);
++    const userProvided = Object.entries(env).filter(([, v]) => v === 'user_provided');
++    expect(userProvided).toEqual([]);
++  });
++
++  it('brands the app as AirGPT', () => {
++    expect(env.APP_TITLE).toBe('AirGPT');
++  });
++});
