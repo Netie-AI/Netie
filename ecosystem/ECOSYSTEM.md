@@ -18,7 +18,7 @@ Stages: 0 catalogued | 1 overlay patch exists | 2 gate wired and tested | 3 ship
 | FreeIDE | anomalyco/opencode @ 907b3bc518 | MIT | FreeIDE | 2 |
 | FreeIDE for VS Code | Kilo-Org/kilocode @ a93088bfe2 | MIT | FreeIDE | 1 |
 | Netie Wiki | langchain-ai/openwiki @ c0173dca92 | MIT | KB | 1 |
-| FreeRoute Core | MiXaiLL76/auto_ai_router @ 4f8597503a | Apache-2.0 | OpenVault | 1 |
+| FreeRoute Core | MiXaiLL76/auto_ai_router @ 4f8597503a | Apache-2.0 | OpenVault | 2 |
 
 - **airgpt**: Multi-provider chat shell. MIT, so it is the rebrandable base for AirGPT.
   - Gate: Endpoints -> OpenVault /v1 only (0002-gate.patch, tested). Retrieval -> netie.airgpt retrieve_space (not wired). Cross-chat memory off and labeled ungoverned until it routes through Cortex actions.
@@ -37,7 +37,7 @@ Stages: 0 catalogued | 1 overlay patch exists | 2 gate wired and tested | 3 ship
 - **netie-wiki**: CLI that writes and maintains a linked markdown wiki (code brain and personal brain) with claims tied to versioned evidence.
   - Gate: Grounded claims map to Netie-KB ids. Source connectors (mail, notes) run only through OpenVault leave-machine.
 - **freeroute-core**: Go proxy: credential pooling, round-robin, per-key rate limits, fail2ban. The high-throughput data plane under FreeRoute.
-  - Gate: Credentials are issued by OpenVault. The router holds no key of its own.
+  - Gate: Credentials are issued by OpenVault, the router holds no key of its own: config.Load refuses inline keys and fills the pool from GET {NETIE_OPENVAULT_URL}/api/freeroute/credentials; 17 go test gate cases on the loader and the real proxy, measured red on stage 1 and green after.
 
 ## Ship under the Netie name after stripping what the license or policy forbids
 
