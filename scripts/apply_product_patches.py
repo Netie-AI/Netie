@@ -5,6 +5,8 @@
     python3 scripts/apply_product_patches.py --product pointer --repo /path/to/Pointer
     python3 scripts/apply_product_patches.py --all
 
+Clones SIBLING_PINS (the SHAs the patches were cut against), not live HEAD.
+Live product HEAD moved 2026-10-30; push 403 so we cannot refresh patches.
 Order matches sibling `scripts/test_sibling_patches.py`, not the README
 "independent" crew-gate placement (crew-gate must land before crew-netie).
 Constructor extras `constructor-*-4896ddd.patch` stay out of the 26-stack.
@@ -99,11 +101,24 @@ OPENVAULT_STACK: tuple[str, ...] = (
     "openvault-ship-claim-ov.patch",
 )
 
+# Measured SHAs the patches were cut against (2026-08-28 / 2026-09-02).
+# Live product HEAD moved 2026-10-30. Push 403, so --all clones these pins.
+SIBLING_PINS: dict[str, str] = {
+    "constructor": "4896ddd5edd46b6ccfdcfc2ec7fbe42d413a96fd",
+    "openvault": "62bb1c7b056aeb2429f6ecdd073c1a24f9c4ad44",
+    "cortex": "bf4eceea5595f426a613477cb36f1899e4842a78",
+    "dms": "3f9a9be48ede43c506fd86bd819c700abf355277",
+    "pointer": "8c0e6c21079d6cb4051cede7353cf23f04d4b3e9",
+    "control": "82ab1aefc6d320f9dc0dc5a329b66f2d0f36cb28",
+    "kb": "10356e58d1606b9b6bc2131edebc84bd0e42ab50",
+}
+
 
 @dataclass(frozen=True)
 class Stack:
     repo: str
     branch: str
+    pin: str
     patches: tuple[str, ...]
     cwd: str = "."
     uv_add_netie: bool = False
@@ -115,6 +130,7 @@ STACKS: dict[str, Stack] = {
     "constructor": Stack(
         repo="https://github.com/Netie-AI/constructor.git",
         branch="landing-9-first-path",
+        pin=SIBLING_PINS["constructor"],
         patches=CONSTRUCTOR_26,
         verify=(["node", "--test", "tests/compiler.test.cjs"],),
         min_passed=62,
@@ -122,6 +138,7 @@ STACKS: dict[str, Stack] = {
     "openvault": Stack(
         repo="https://github.com/Netie-AI/OpenVault.git",
         branch="main",
+        pin=SIBLING_PINS["openvault"],
         patches=OPENVAULT_STACK,
         cwd="OpenMW",
         uv_add_netie=True,
@@ -149,6 +166,7 @@ STACKS: dict[str, Stack] = {
     "cortex": Stack(
         repo="https://github.com/Netie-AI/Cortex.git",
         branch="main",
+        pin=SIBLING_PINS["cortex"],
         patches=(
             "cortex-netie-path.patch",
             "cortex-web-via-runner.patch",
@@ -173,6 +191,7 @@ STACKS: dict[str, Stack] = {
     "dms": Stack(
         repo="https://github.com/Netie-AI/dms.git",
         branch="main",
+        pin=SIBLING_PINS["dms"],
         patches=("dms-netie-acl.patch", "dms-demo-acl-resolve.patch"),
         uv_add_netie=True,
         verify=(
@@ -188,6 +207,7 @@ STACKS: dict[str, Stack] = {
     "pointer": Stack(
         repo="https://github.com/Netie-AI/Pointer.git",
         branch="main",
+        pin=SIBLING_PINS["pointer"],
         patches=("pointer-netie-hands.patch", "pointer-observe-guard.patch"),
         uv_add_netie=True,
         verify=(
@@ -199,6 +219,7 @@ STACKS: dict[str, Stack] = {
     "control": Stack(
         repo="https://github.com/Netie-AI/netie-control.git",
         branch="main",
+        pin=SIBLING_PINS["control"],
         patches=("control-netie-board.patch",),
         uv_add_netie=True,
         verify=(
@@ -214,6 +235,7 @@ STACKS: dict[str, Stack] = {
     "kb": Stack(
         repo="https://github.com/Netie-AI/Netie-KB.git",
         branch="main",
+        pin=SIBLING_PINS["kb"],
         patches=("kb-netie-index.patch",),
         uv_add_netie=True,
         verify=(["python3", "tests/test_netie_index.py"],),
@@ -280,21 +302,32 @@ def verify_stack(name: str, dest: Path, *, netie: Path) -> None:
         print(blob[-500:] if len(blob) > 500 else blob)
 
 
-def _clone(stack: Stack, dest: Path) -> None:
-    cloned = _run(
-        [
-            "git",
-            "clone",
-            "--depth",
-            "1",
-            "--branch",
-            stack.branch,
-            stack.repo,
-            str(dest),
-        ],
-        cwd=ROOT,
-        timeout=180,
+def _clone_pinned(
+    url: str, dest: Path, sha: str, *, timeout: int = 180
+) -> subprocess.CompletedProcess[str]:
+    dest.mkdir(parents=True, exist_ok=True)
+    probed = _run(["git", "init"], cwd=dest, timeout=timeout)
+    if probed.returncode != 0:
+        return probed
+    probed = _run(
+        ["git", "remote", "add", "origin", url], cwd=dest, timeout=timeout
     )
+    if probed.returncode != 0:
+        return probed
+    probed = _run(
+        ["git", "fetch", "--depth", "1", "origin", sha], cwd=dest, timeout=timeout
+    )
+    if probed.returncode != 0:
+        return probed
+    return _run(
+        ["git", "-c", "advice.detachedHead=false", "checkout", "FETCH_HEAD"],
+        cwd=dest,
+        timeout=timeout,
+    )
+
+
+def _clone(stack: Stack, dest: Path) -> None:
+    cloned = _clone_pinned(stack.repo, dest, stack.pin)
     if cloned.returncode != 0:
         raise SystemExit(cloned.stderr or cloned.stdout)
 
@@ -302,7 +335,9 @@ def _clone(stack: Stack, dest: Path) -> None:
 def _print_dry_run(names: list[str]) -> None:
     for name in names:
         stack = STACKS[name]
-        print(f"# {name} {stack.branch} uv_add={stack.uv_add_netie}")
+        print(
+            f"# {name} {stack.branch} pin={stack.pin} uv_add={stack.uv_add_netie}"
+        )
         for patch_name in stack.patches:
             print(f"git apply docs/patches/{patch_name}")
         print("do not push")

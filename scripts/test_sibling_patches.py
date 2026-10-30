@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Accessible product repos: sibling patches still apply. python3 scripts/test_sibling_patches.py
 
-Constructor has no unit-test workflow on HEAD. This gate clones it, applies
+Constructor pin `4896ddd` has no unit-test workflow (live HEAD added one). This gate clones the pin, applies
 docs/patches/constructor-compiler-tests.patch then constructor-empty-graph.patch
 then constructor-ir-refuse.patch then constructor-ir-ids.patch then
 constructor-ghost-refuse.patch then constructor-ir-emit.patch then
@@ -9,8 +9,8 @@ constructor-tool-action.patch then constructor-inspect-action.patch then constru
 node --test (62 passed). Extra `constructor-ir-4896ddd.patch` /
 `constructor-inspect-4896ddd.patch` are a thinner alternate stack (do not mix
 with the 26). Portable Python IR is `scripts/constructor_ir.py`.
-OpenVault patches apply on origin/main then `uv run pytest` on the routing+chat+crew-gate+ship-claim+free-pool files (>= 90 passed). The 28th patch (`openvault-crew-netie.patch`) makes `/api/crew/gate` call `from netie.crew import refuse_crew_gate` when Netie is installed. Then `openvault-crew-skill-ids.patch` lets kind=skill through when the POST carries ids-only `skill_ids`. Then `openvault-free-pool.patch` + `openvault-free-pool-route.patch` add `POST /api/route/free`. Then `openvault-ship-claim-ov.patch` forwards `ov=` from `claim_deploy` / the live engine label / `/api/ship/engine` (in-process crew post, no HTTP loopback). HT1 is still not done.
-Cortex `cortex-netie-path.patch` applies on origin/main (do not uv-add Netie.git). `cortex-web-via-runner.patch` applies on origin/main (`default_broker` no web/discovery skip). `cortex-role-execute.patch` applies after those (`require_role` on execute modules). `cortex-observe-guard.patch` applies after those (`computer.observe` through guard_observe). dms `dms-netie-acl.patch` applies on origin/main (`live_ask` / browse through `netie.dms` when installed). Pointer `pointer-netie-hands.patch` then `pointer-observe-guard.patch` apply on origin/main (UACC search drops planner/clipboard/window dump; native observe stays DR-0005; governed:true is opt-in). Control `control-netie-board.patch` applies on origin/main (`guard_issue_board` / Guacamole 405s). Netie-KB `kb-netie-index.patch` applies on origin/main (skill `kb_show` is ids-only). Founder apply-all: `scripts/apply_product_patches.py` (does not push).
+OpenVault patches apply on pin `62bb1c7` (live main drifted) then `uv run pytest` on the routing+chat+crew-gate+ship-claim+free-pool files (>= 90 passed). The 28th patch (`openvault-crew-netie.patch`) makes `/api/crew/gate` call `from netie.crew import refuse_crew_gate` when Netie is installed. Then `openvault-crew-skill-ids.patch` lets kind=skill through when the POST carries ids-only `skill_ids`. Then `openvault-free-pool.patch` + `openvault-free-pool-route.patch` add `POST /api/route/free`. Then `openvault-ship-claim-ov.patch` forwards `ov=` from `claim_deploy` / the live engine label / `/api/ship/engine` (in-process crew post, no HTTP loopback). HT1 is still not done.
+Cortex `cortex-netie-path.patch` applies on pin `bf4ecee` (do not uv-add Netie.git). `cortex-web-via-runner.patch` applies on that pin (`default_broker` no web/discovery skip). `cortex-role-execute.patch` applies after those (`require_role` on execute modules). `cortex-observe-guard.patch` applies after those (`computer.observe` through guard_observe). dms `dms-netie-acl.patch` applies on pin `3f9a9be` (`live_ask` / browse through `netie.dms` when installed). Pointer `pointer-netie-hands.patch` then `pointer-observe-guard.patch` apply on pin `8c0e6c2` (UACC search drops planner/clipboard/window dump; native observe stays DR-0005; governed:true is opt-in). Control `control-netie-board.patch` applies on pin `82ab1ae` (`guard_issue_board` / Guacamole 405s). Netie-KB `kb-netie-index.patch` applies on pin `10356e5` (skill `kb_show` is ids-only). Founder apply-all: `scripts/apply_product_patches.py` clones the same pins (does not push).
 """
 
 from __future__ import annotations
@@ -24,6 +24,9 @@ import sys
 import tempfile
 import unittest
 from pathlib import Path
+
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from apply_product_patches import SIBLING_PINS, _clone_pinned
 
 ROOT = Path(__file__).resolve().parents[1]
 PATCHES = ROOT / "docs" / "patches"
@@ -104,17 +107,10 @@ class SiblingPatchTests(unittest.TestCase):
         )
         with tempfile.TemporaryDirectory() as tmp:
             dest = Path(tmp) / "constructor"
-            clone = _run(
-                [
-                    "git",
-                    "clone",
-                    "--depth",
-                    "1",
-                    "--branch",
-                    "landing-9-first-path",
-                    "https://github.com/Netie-AI/constructor.git",
-                    str(dest),
-                ]
+            clone = _clone_pinned(
+                "https://github.com/Netie-AI/constructor.git",
+                dest,
+                SIBLING_PINS["constructor"],
             )
             self.assertEqual(clone.returncode, 0, clone.stderr)
             for patch in (
@@ -175,17 +171,10 @@ class SiblingPatchTests(unittest.TestCase):
         self.assertTrue(detect.is_file() and strict.is_file() and lkgp.is_file())
         with tempfile.TemporaryDirectory() as tmp:
             dest = Path(tmp) / "OpenVault"
-            clone = _run(
-                [
-                    "git",
-                    "clone",
-                    "--depth",
-                    "1",
-                    "--branch",
-                    "main",
-                    "https://github.com/Netie-AI/OpenVault.git",
-                    str(dest),
-                ]
+            clone = _clone_pinned(
+                "https://github.com/Netie-AI/OpenVault.git",
+                dest,
+                SIBLING_PINS["openvault"],
             )
             self.assertEqual(clone.returncode, 0, clone.stderr)
             # lkgp must follow strict-random (both edit StrategyName).
@@ -407,18 +396,10 @@ class SiblingPatchTests(unittest.TestCase):
         self.assertTrue(patch.is_file())
         with tempfile.TemporaryDirectory() as tmp:
             dest = Path(tmp) / "Cortex"
-            clone = _run(
-                [
-                    "git",
-                    "clone",
-                    "--depth",
-                    "1",
-                    "--branch",
-                    "main",
-                    "https://github.com/Netie-AI/Cortex.git",
-                    str(dest),
-                ],
-                timeout=180,
+            clone = _clone_pinned(
+                "https://github.com/Netie-AI/Cortex.git",
+                dest,
+                SIBLING_PINS["cortex"],
             )
             self.assertEqual(clone.returncode, 0, clone.stderr)
             applied = _run(["git", "apply", str(patch)], cwd=dest)
@@ -466,15 +447,10 @@ class SiblingPatchTests(unittest.TestCase):
         self.assertTrue(patch.is_file())
         with tempfile.TemporaryDirectory() as tmp:
             dest = Path(tmp) / "dms"
-            clone = _run(
-                [
-                    "git",
-                    "clone",
-                    "--depth",
-                    "1",
-                    "https://github.com/Netie-AI/dms.git",
-                    str(dest),
-                ]
+            clone = _clone_pinned(
+                "https://github.com/Netie-AI/dms.git",
+                dest,
+                SIBLING_PINS["dms"],
             )
             self.assertEqual(clone.returncode, 0, clone.stderr)
             applied = _run(["git", "apply", str(patch)], cwd=dest)
@@ -491,18 +467,10 @@ class SiblingPatchTests(unittest.TestCase):
         self.assertTrue(patch.is_file())
         with tempfile.TemporaryDirectory() as tmp:
             dest = Path(tmp) / "dms"
-            clone = _run(
-                [
-                    "git",
-                    "clone",
-                    "--depth",
-                    "1",
-                    "--branch",
-                    "main",
-                    "https://github.com/Netie-AI/dms.git",
-                    str(dest),
-                ],
-                timeout=180,
+            clone = _clone_pinned(
+                "https://github.com/Netie-AI/dms.git",
+                dest,
+                SIBLING_PINS["dms"],
             )
             self.assertEqual(clone.returncode, 0, clone.stderr)
             applied = _run(["git", "apply", str(patch)], cwd=dest)
@@ -548,18 +516,10 @@ class SiblingPatchTests(unittest.TestCase):
         self.assertTrue(hands.is_file() and observe.is_file())
         with tempfile.TemporaryDirectory() as tmp:
             dest = Path(tmp) / "Pointer"
-            clone = _run(
-                [
-                    "git",
-                    "clone",
-                    "--depth",
-                    "1",
-                    "--branch",
-                    "main",
-                    "https://github.com/Netie-AI/Pointer.git",
-                    str(dest),
-                ],
-                timeout=180,
+            clone = _clone_pinned(
+                "https://github.com/Netie-AI/Pointer.git",
+                dest,
+                SIBLING_PINS["pointer"],
             )
             self.assertEqual(clone.returncode, 0, clone.stderr)
             for patch in (hands, observe):
@@ -593,18 +553,10 @@ class SiblingPatchTests(unittest.TestCase):
         self.assertTrue(patch.is_file())
         with tempfile.TemporaryDirectory() as tmp:
             dest = Path(tmp) / "netie-control"
-            clone = _run(
-                [
-                    "git",
-                    "clone",
-                    "--depth",
-                    "1",
-                    "--branch",
-                    "main",
-                    "https://github.com/Netie-AI/netie-control.git",
-                    str(dest),
-                ],
-                timeout=180,
+            clone = _clone_pinned(
+                "https://github.com/Netie-AI/netie-control.git",
+                dest,
+                SIBLING_PINS["control"],
             )
             self.assertEqual(clone.returncode, 0, clone.stderr)
             applied = _run(["git", "apply", str(patch)], cwd=dest)
@@ -717,18 +669,10 @@ class SiblingPatchTests(unittest.TestCase):
         self.assertTrue(patch.is_file())
         with tempfile.TemporaryDirectory() as tmp:
             dest = Path(tmp) / "Cortex"
-            clone = _run(
-                [
-                    "git",
-                    "clone",
-                    "--depth",
-                    "1",
-                    "--branch",
-                    "main",
-                    "https://github.com/Netie-AI/Cortex.git",
-                    str(dest),
-                ],
-                timeout=180,
+            clone = _clone_pinned(
+                "https://github.com/Netie-AI/Cortex.git",
+                dest,
+                SIBLING_PINS["cortex"],
             )
             self.assertEqual(clone.returncode, 0, clone.stderr)
             applied = _run(["git", "apply", str(patch)], cwd=dest)
@@ -753,18 +697,10 @@ class SiblingPatchTests(unittest.TestCase):
         self.assertTrue(patch.is_file())
         with tempfile.TemporaryDirectory() as tmp:
             dest = Path(tmp) / "Cortex"
-            clone = _run(
-                [
-                    "git",
-                    "clone",
-                    "--depth",
-                    "1",
-                    "--branch",
-                    "main",
-                    "https://github.com/Netie-AI/Cortex.git",
-                    str(dest),
-                ],
-                timeout=180,
+            clone = _clone_pinned(
+                "https://github.com/Netie-AI/Cortex.git",
+                dest,
+                SIBLING_PINS["cortex"],
             )
             self.assertEqual(clone.returncode, 0, clone.stderr)
             for prior in (
@@ -806,18 +742,10 @@ class SiblingPatchTests(unittest.TestCase):
         self.assertTrue(patch.is_file())
         with tempfile.TemporaryDirectory() as tmp:
             dest = Path(tmp) / "Netie-KB"
-            clone = _run(
-                [
-                    "git",
-                    "clone",
-                    "--depth",
-                    "1",
-                    "--branch",
-                    "main",
-                    "https://github.com/Netie-AI/Netie-KB.git",
-                    str(dest),
-                ],
-                timeout=180,
+            clone = _clone_pinned(
+                "https://github.com/Netie-AI/Netie-KB.git",
+                dest,
+                SIBLING_PINS["kb"],
             )
             self.assertEqual(clone.returncode, 0, clone.stderr)
             applied = _run(["git", "apply", str(patch)], cwd=dest)

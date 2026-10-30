@@ -1,24 +1,19 @@
 # STATUS - Netie constitution repo
 
-**Branch:** `claude/netie-ecosystem-rebrand-uq9q3z` (from `8eb2d18`). **Gate:** `make ci`.
+**Branch:** `cursor/pin-sibling-shas-ca9b` · **PR:** https://github.com/Netie-AI/Netie/pull/57 · **main:** `f712d22` (hustle proof follow-up)
+
+**Local gate:** `make ci` (same as GitHub `docs-ci`). `make drift` is network, not ci.
 
 ## Now
 
-- Adoption lane built (DR-0002, **proposed**, not accepted): `ecosystem/catalog.json` holds 21 upstreams with licenses read from each LICENSE file on 2026-10-05, a license-class gate, a rebrand tool, and 13 stage 1 overlays. Overlay replay was byte-identical on 3 real upstreams (freeide, crew-desk, freeroute-core).
-- **Nothing is sellable yet.** Stage 1 is docs, attribution and strips. No fork is renamed, gated or built. Product remotes are still clone-yes push-403.
-- Not forkable for sale: n8n, Dify, Open WebUI, NadirClaw, Routerly. OpenWork `ee/` is stripped. OmniRoute and 9router must lose subscription-login providers before release.
-- docs-ci on `main` is green (2026-09-02). Crew wrap stays 3/10, HT1 not done, score stays 2/10.
-- `README.md`, `AGENTS.md`, and `CLAUDE.md` bind agents to `NETIE.md`: depend, port with notices, or reimplement. No vendored upstream trees.
-- Founder apply-all: `python3 scripts/apply_product_patches.py --dry-run`. Product remotes clone-yes push-403. 404: AirGPT, Space, Cortex-Crew. Keys.txt gone; founder must revoke. C2/MIN_TESTS stand.
-- Measured 2026-09-26: `test_sibling_patches.py` fails `git apply` on fresh public clones (constructor `test.yml` already present; Cortex, dms, OpenVault, Pointer, Control hunks rejected). Pre-existing. Do not claim those patches still apply.
+- GitHub `docs-ci` on `main` was green through `8eb2d18`. `a8e895b` through `f712d22` failed ~28s (real): sibling clones hit live HEAD that drifted past the patches. Tests and `apply_product_patches.py` pin measured SHAs: constructor `4896ddd`, OpenVault `62bb1c7`, Cortex `bf4ecee`, dms `3f9a9be`, Pointer `8c0e6c2`, control `82ab1ae`, KB `10356e5`. Live HEAD 2026-10-30: constructor `bfc7d3b`, OpenVault `3ba51cd`, Cortex `2deb09c`, dms `1411323`, Pointer `b42b98d`, control `93959c6` (KB still `10356e5`). Push 403. Do not claim those patches apply on live HEAD.
+- DR-0002 is on main (**proposed**): `ecosystem/catalog.json` 21 upstreams, 13 stage 1 overlays. Overlay replay byte-identical on 3 upstreams. Nothing sellable yet. n8n / Dify / Open WebUI / NadirClaw / Routerly not forkable. OpenWork `ee/` stripped.
+- `README.md` / `AGENTS.md` / `CLAUDE.md` bind agents to `NETIE.md`. Crew wrap stays **3/10**. HT1 not done. Score stays **2/10**. C2/MIN_TESTS stand.
 
 ## Next (founder clicks)
 
-1. Merge or reject the DR-0002 PR. Merge also amends `NETIE.md` section 6.
-2. Create private `Netie-AI` repos for the first forks (suggest freeide, freeroute, airgpt) and grant this agent write.
-3. Revoke the leaked keys. Contents write on product remotes. Create Cortex-Crew.
-4. Answer the two unresolved names in `ecosystem/ECOSYSTEM.md` (openwillow/zillow, Andrew Ng openwork).
+1. Revoke leaked keys. 2. Contents write on product remotes + env URLs, then boot a new agent. 3. Create Cortex-Crew. 4. Private Netie-AI repos for first forks (freeide, freeroute, airgpt) and grant write. 5. Unresolved names in `ecosystem/ECOSYSTEM.md`.
 
 ## Later
 
-Stage 2 per fork (gate wiring, package renames, a build that passes). Nightly `make drift` routine once this is on `main`. Counsel review of vendor terms for subscription-login providers. HT1. AirGPT `rag/`. Do not mint Cortex #42. Do not clone Grok Bot reconstructed.
+Stage 2 per fork. Nightly `make drift`. Counsel on vendor terms. HT1. AirGPT `rag/`. Do not mint Cortex #42. Do not clone Grok Bot reconstructed.
