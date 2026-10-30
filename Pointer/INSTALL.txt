@@ -1,0 +1,8 @@
+WINDOWS LAPTOP (not the cloud VM)
+
+1. Double-click scripts\install_windows.cmd
+2. Upload Desktop POINTER_PROVE.json to Drive (the script opens My Drive)
+3. Optional cash paths: double-click scripts\open_revenue.cmd
+
+Do not set POINTER_ALLOW_REMOTE=1. Do not email pair tokens.
+This cloud VM cannot click D:\Pointer until you paste tokens in a laptop Cursor chat.
