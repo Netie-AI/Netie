@@ -15,7 +15,7 @@ Stages: 0 catalogued | 1 overlay patch exists | 2 gate wired and tested | 3 ship
 | Crew Agent | NousResearch/hermes-agent @ e473f5a9c9 | MIT | Crew | 1 |
 | Crew Edge | zeroclaw-labs/zeroclaw @ f7bd2b9e94 | MIT OR Apache-2.0 | Crew | 1 |
 | Crew Harness | deepseek-ai/deepseek-harness @ 5badb15009 | MIT | Crew | 1 |
-| FreeIDE | anomalyco/opencode @ 907b3bc518 | MIT | FreeIDE | 1 |
+| FreeIDE | anomalyco/opencode @ 907b3bc518 | MIT | FreeIDE | 2 |
 | FreeIDE for VS Code | Kilo-Org/kilocode @ a93088bfe2 | MIT | FreeIDE | 1 |
 | Netie Wiki | langchain-ai/openwiki @ c0173dca92 | MIT | KB | 1 |
 | FreeRoute Core | MiXaiLL76/auto_ai_router @ 4f8597503a | Apache-2.0 | OpenVault | 1 |
