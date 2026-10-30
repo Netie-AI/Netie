@@ -125,13 +125,20 @@ README figure 0.1.0-rc.5. Every claim below is a claim about that preview.
 
 ## F5. Patch replay
 
-- `0002-gate.patch` is a plain `git diff --binary` against the stage 1 tree: 42 files changed, 1307 insertions, 90 deletions, 99 KB (under the 2 MB cap).
-  A fresh `clone` plus `apply` (0001 then 0002) into a second directory gives the same
-  `git write-tree` hash: `1eae41fe5ca3e40264a85347b4b0fb3587e7029e` in both. LICENSE sha256 unchanged
-  (`ebb4f09972aee8608be255debaf78451a68e95c290f55c240dec2ecfa16ea6be`).
+- `0002-gate.patch` is a plain `git diff --binary` against the stage 1 tree. Two cuts
+  were made, each proven by a fresh `clone` plus `apply` (0001 then 0002) into a second
+  directory giving the same `git write-tree` hash as the cut tree:
+  - stage 2 cut (commit `9f6d8c1`): 42 files, +1307/-90, 99 KB, tree
+    `1eae41fe5ca3e40264a85347b4b0fb3587e7029e`;
+  - stage 3 recut (commit `0179612`, the current patch): 93 files, +2522/-208, 181 KB,
+    tree `1746a25167e4de32317a2f1522b259e62e3c2ef4`, re-proven on 2026-10-30 and
+    independently by the parent session.
+  LICENSE sha256 unchanged in both
+  (`ebb4f09972aee8608be255debaf78451a68e95c290f55c240dec2ecfa16ea6be`). Both under the 2 MB cap.
 - Non-ASCII in the patch: upstream context lines and the zh README of the new package
-  (CJK). Zero em dashes, en dashes or curly quotes in added English lines; the Netie docs
-  gate scans `*.md` in this repo, not overlays.
+  (CJK). Added English lines carry three em dashes, all upstream text (the `dsh` help
+  string with only the brand replaced, and two headings the upstream catalog generator
+  emits); the Netie docs gate scans `*.md` in this repo, not overlays.
 - **Invariant:** never hand-author a generated artifact; the overlay is cut by git, and the
   catalog stage is set to 2 only because F1 to F5 held.
 
@@ -267,7 +274,7 @@ Stage 2 columns measured 2026-10-28, stage 3 columns 2026-10-29, same box (4 cor
 | `pnpm run build` (CLI, SDK runtime, web client) | exit 0, 2m18s | not run | exit 0, 1m36s |
 | Lint on changed files (`run-oxlint`) | n/a | clean | clean, 28 files |
 | Skips added | n/a | none | none |
-| Patch | n/a | 42 files, +1307/-90, 99 KB | 90 files, +1995/-213, 177 KB; replay tree hash equal, LICENSE sha256 equal |
+| Patch | n/a | 42 files, +1307/-90, 99 KB, tree `1eae41fe...` | 93 files, +2522/-208, 181 KB, tree `1746a251...` on cut and replay, LICENSE sha256 equal |
 
 Failing in both baseline and stage 2 runs (upstream's, untouched): 23 tests, all
 environment: this box runs as root so permission-denied tests do not deny
