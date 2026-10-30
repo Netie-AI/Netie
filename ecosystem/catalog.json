@@ -68,8 +68,8 @@
       "netie_name": "Crew Agent",
       "brand_from": ["Hermes Agent"],
       "role": "Long-running personal agent with skills, sessions and messaging gateways.",
-      "gate": "Model calls -> OpenVault /v1. Tools -> Cortex tool_runner. Session state persists ids only (crew_checkpoint).",
-      "stage": 1
+      "gate": "Tested by tests/netie in the upstream runner (27 files, 397 cases; 351 fail or do not finish on stage 1, 46 pin behaviour the gate keeps): every entry point defaults to one OpenAI-compatible provider, openvault at ${NETIE_OPENVAULT_URL}/v1, with no provider key field in the default config; vendor env keys never pick a provider, upstream's auxiliary discovery chain is closed and custom without an endpoint refuses (config-variant sweep with eight vendor keys); every tool path asks OpenVault POST /api/crew/gate with ids only and fails closed with a visible refusal; messaging gateways and standalone senders need an OpenVault leave-machine allow and are labeled otherwise; session state persists ids or digests only outside the messages table, which keeps the conversation in plain text (declared gap: TAS-CREW plans it hashed).",
+      "stage": 2
     },
     {
       "slug": "crew-edge",
