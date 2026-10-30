@@ -1,11 +1,11 @@
-# freeroute-core stage 2 plan: gate wired and tested in the patch, build not proven here
+# freeroute-core stage 2 plan: gate wired and tested, build and tests measured by the parent
 
 Upstream `MiXaiLL76/auto_ai_router` at `4f8597503a` (Apache-2.0, Go), mode fork-rebrand,
 product OpenVault, Netie name FreeRoute Core. Series: `0001-rebrand.patch` (stage 1, docs
 and attribution) then `0002-gate.patch` (this stage). Replay is
 `python3 scripts/ecosystem.py clone freeroute-core DIR` then `apply freeroute-core DIR`.
 Everything below is measured on 2026-10-28 in a Linux container unless marked assumed or
-not run. Catalog stage stays 1 (section 3).
+not run. Catalog stage is 2 as of 2026-10-30 on the parent's measurements (section 3).
 
 ## 1. What stage 2 means here
 
@@ -144,9 +144,26 @@ or issued ones; the test asserted a behaviour upstream never had, and the test b
 (tree `a3447787dfdfe9f2207d1f1e290054fc0cadbf23`). The fixed case is not yet measured by any
 session; the parent re-runs it. Catalog stage stays 1 until that run is green.
 
-Per the stage rule this stage stops at a PLAN: the catalog row stays at stage 1, the patch,
-the tests and this contract are in the overlay. Stage 2 is claimed when, on a box that may
-build the upstream tree, `go build ./...` and `go test ./...` pass on the baseline, the
+Measured by the parent session on 2026-10-30 at head 8318d9a (the fixed case 10), go1.24.7
+linux/amd64, all with `-count=1`:
+
+| | stage 1 (0001 only) | stage 2 (0001 + 0002) |
+|---|---|---|
+| `go build ./...` | rc 0 | rc 0 |
+| `go test ./...` (`-count=1`) | rc 0, 48 packages ok, 0 FAIL, 5304 PASS, 71 SKIP (run with `-skip TestNetieGate`, gate files copied in) | rc 0, 48 packages ok, 0 FAIL, 5321 PASS (5304 + 17), 71 SKIP |
+| `-run TestNetieGate` | 0 of 17 pass, all 10 top-level cases FAIL, none a build error | 17 of 17 |
+| `-run TestNetieGate -count=5` | n/a | 85 of 85 |
+| replay tree (fresh clone + apply) | | `a3447787dfdfe9f2207d1f1e290054fc0cadbf23`, LICENSE sha256 equal to the catalog |
+
+The 71 skips are upstream's own, identical on both trees: no new skip. Only case 10 changed
+between 06655c6 and 8318d9a; the issued-key header assertions were kept and nothing was
+weakened. Steps 4 (gate red then green), 5 (every baseline pass still passes, delta is
+exactly the 17 gate cases) and 6 (replay) hold, so the catalog row is at stage 2. This
+session itself never ran the build or the tests (denied); the numbers above are the
+parent's, which is the verifier wave 1 named (adversary is not the verifier).
+
+Before the parent's run this stage stopped at a PLAN with the row at stage 1. Stage 2 was
+claimed once, on a box that may build the upstream tree, `go build ./...` and `go test ./...` pass on the baseline, the
 gate tests fail there, and both pass after 0002 with every baseline pass still
 passing (the parent's run shows exactly that, except the case 10 fix is unmeasured). Estimated 20 to 40 minutes once the build is allowed; the Go 1.27 toolchain is
 already cached. Expected upstream deltas after 0002: none in `go build`; in `go test`, the

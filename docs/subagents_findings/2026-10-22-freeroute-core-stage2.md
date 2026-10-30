@@ -1,4 +1,4 @@
-# 2026-10-22 - freeroute-core stage 2 (Auto AI Router custody gate; build not run)
+# 2026-10-22 - freeroute-core stage 2 (Auto AI Router custody gate; measured by the parent)
 
 Preflight: KB `D:\Netie-KB` absent in this cloud box. `docs/subagents_findings/INDEX.md`
 read (2 rows) plus the three wave 1 findings and overlays on their branches (airgpt,
@@ -10,7 +10,7 @@ below is from 2026-10-28 unless dated.
 Branch `claude/stage2-freeroute-core`, base `claude/netie-ecosystem-rebrand-uq9q3z`
 (PR #43). Upstream MiXaiLL76/auto_ai_router at 4f8597503a (Apache-2.0, Go), overlay
 `ecosystem/overlays/freeroute-core/0002-gate.patch`, plan
-`ecosystem/overlays/freeroute-core/PLAN.md`. Catalog stage stays 1.
+`ecosystem/overlays/freeroute-core/PLAN.md`. Catalog stage raised to 2 on 2026-10-30.
 
 ## F1. The upstream's only credential source is the config file
 
@@ -75,6 +75,27 @@ Branch `claude/stage2-freeroute-core`, base `claude/netie-ecosystem-rebrand-uq9q
 - **Invariants:** say what is measured and what is assumed; do not weaken or route around
   a control; adversary is not the verifier (the parent replays on a box that may build).
 
+## F6. Stage 2 measured, by the parent, on the fixed head
+
+- **Measured by the parent session (`session_0168dMM52yirXZgXMymEBTNv`) on 2026-10-30 at head
+  8318d9a, go1.24.7 linux/amd64, `-count=1`:**
+
+| | stage 1 (0001 only) | stage 2 (0001 + 0002) |
+|---|---|---|
+| `go build ./...` | rc 0 | rc 0 |
+| `go test ./...` (`-count=1`) | rc 0, 48 packages ok, 0 FAIL, 5304 PASS, 71 SKIP (run with `-skip TestNetieGate`, gate files copied in) | rc 0, 48 packages ok, 0 FAIL, 5321 PASS (5304 + 17), 71 SKIP |
+| `-run TestNetieGate` | 0 of 17 pass, all 10 top-level cases FAIL, none a build error | 17 of 17 |
+| `-run TestNetieGate -count=5` | n/a | 85 of 85 |
+| replay tree (fresh clone + apply) | | `a3447787dfdfe9f2207d1f1e290054fc0cadbf23`, LICENSE sha256 equal to the catalog |
+
+- 71 skips on both trees are upstream's own: no new skip. Only case 10 changed since
+  06655c6; nothing weakened. Steps 4, 5 and 6 of the brief hold, so the catalog row is at
+  stage 2 with a gate text that says what is tested.
+- **Not measured by this session:** anything that runs Go. This box was denied every
+  build and test; the parent's run is the measurement, and the parent is the verifier
+  wave 1 named.
+- **Invariants:** adversary is not the verifier; a stage number is a claim with a test.
+
 ## F5. One gate case asserted a fallback upstream never had
 
 - **Expected:** an `openai` credential marked `is_fallback: true` answers after the
@@ -113,8 +134,8 @@ Branch `claude/stage2-freeroute-core`, base `claude/netie-ecosystem-rebrand-uq9q
 | item | before (stage 1 tree) | after (0002 applied) |
 |---|---|---|
 | `go build ./...` | denied here; rc 0 (crew-agent 167.3 s, parent 80 s) | denied here; rc 0 (crew-agent 21.3 s, parent 8 s) |
-| `go test ./...` | denied here; parent: rc 0, 48 ok, 0 fail | denied here; parent: 47 ok, 1 FAIL (F5, fixed, unmeasured) |
-| gate cases (`TestNetieGate*`) | parent: 0 of 17 pass | parent: 16 of 17 pass on head 06655c6; fixed case unmeasured |
+| `go test ./...` | denied here; parent: rc 0, 48 ok, 5304 PASS, 71 SKIP | denied here; parent at 8318d9a: rc 0, 48 ok, 5321 PASS, 71 SKIP |
+| gate cases (`TestNetieGate*`) | parent: 0 of 17 pass | parent at 8318d9a: 17 of 17, 85 of 85 with -count=5 |
 | `gofmt -l` on touched Go files | n/a | clean |
 | `go vet` with the gate files | exit 0 (crew-agent session) | exit 0 (crew-agent session) |
 | credentials with an inline key in `config.yaml.example` | 5 of 6 | 0 of 6 |
@@ -143,7 +164,7 @@ end-to-end chat call through OpenVault `/v1` to this router to a real provider, 
 
 ## Not done / assumed
 
-- Not done: the upstream build and test suite (F3); catalog stage not raised; `INDEX.md`
+- Not done by this session: any Go build or test (F3); measured by the parent (F6). `INDEX.md`
   and `STATUS.md` not edited (parent aggregates); `go.mod` module path, metric names,
   telemetry defaults, release workflow, upstream logo (stage 3 list in the attribution).
 - Assumed: the OpenVault issue endpoint `GET /api/freeroute/credentials` with a bearer

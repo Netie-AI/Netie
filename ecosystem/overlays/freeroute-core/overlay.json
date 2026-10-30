@@ -41,7 +41,7 @@
     "seat_env": "NETIE_OPENVAULT_SEAT",
     "credential_source": "GET ${NETIE_OPENVAULT_URL}/api/freeroute/credentials (assumed interface, see PLAN.md)",
     "inline_keys": "refused by config.Load; dev override NETIE_DEV_ALLOW_INLINE_KEYS=1 logs every accepted key at WARN",
-    "build_proof": "go build rc 0 on both trees and go test green on stage 1, measured by the parent session (2026-10-30); gate 0/17 on stage 1, 16/17 on stage 2 before the case 10 fix; fixed case unmeasured, see PLAN.md; catalog stage stays 1",
+    "build_proof": "measured by the parent session (session_0168dMM52yirXZgXMymEBTNv) on 2026-10-30 at head 8318d9a, go1.24.7, -count=1: go build rc 0 on both trees; go test ./... rc 0 on both (48 pkgs ok, 5304 PASS / 71 SKIP on stage 1, 5321 PASS / 71 SKIP on stage 2, no new skip); TestNetieGate 0 of 17 on stage 1, 17 of 17 on stage 2, 85 of 85 with -count=5; replay tree a3447787dfdfe9f2207d1f1e290054fc0cadbf23",
     "plan": "PLAN.md"
   }
 }
