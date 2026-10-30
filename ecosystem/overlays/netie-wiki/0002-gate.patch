@@ -1,0 +1,2402 @@
+diff --git a/NETIE-ATTRIBUTION.md b/NETIE-ATTRIBUTION.md
+index 3667ba2..ea6cc37 100644
+--- a/NETIE-ATTRIBUTION.md
++++ b/NETIE-ATTRIBUTION.md
+@@ -16,9 +16,40 @@ logos belong to their owners.
+ - Display name OpenWiki rewritten to Netie Wiki in prose docs only.
+ - This file and a README banner added.
+ 
+-## Not done yet (stage 2)
+-
+-- Package names, binaries, identifiers and UI strings are still upstream's.
++## Changed in stage 2 (gate wired and tested)
++
++- Model calls default to OpenVault: provider `openvault`, endpoint
++  `${NETIE_OPENVAULT_URL}/v1` (default `http://127.0.0.1:5000/v1`), model `auto`.
++  Netie Wiki holds no provider key; a placeholder key `openvault` is sent.
++- An ambient provider key (for example `OPENAI_API_KEY`) no longer selects a
++  direct provider. Direct providers run only when `OPENWIKI_PROVIDER` names one.
++- Every example workflow (GitHub, GitHub auto-merge, GitLab) sets
++  `OPENWIKI_PROVIDER: openvault` and carries no provider or tracing key. The
++  README model-provider section documents OpenVault only.
++- Grounded Claims: a Claim may carry a Netie-KB id (`kbId`). The sidecar in
++  `openwiki/.claims/` records `grounding: netie-kb` with a `kb` brief (`id`,
++  `kind`, `title`, `status`, `source`) or `grounding: ungrounded`. An id the
++  index (`NETIE_KB_INDEX`) does not hold, or a skill row with a body, is refused.
++- Every connector except `git-repo` is off by default. A pull or MCP tool call
++  first asks OpenVault `POST /api/crew/gate` (kind `service`, id
++  `wiki.connector.<id>`, intent `leave`) and runs only on `allowed: true`. A
++  refusal is a `skipped` result whose message names the gate, URL and reason.
++- Help title, header and telemetry notice say Netie Wiki (`PRODUCT_NAME`).
++- Gate test: `test/netie/netie-wiki-gate.test.ts` (12 cases, all fail on the
++  stage 1 tree).
++
++## Not done yet (stage 3)
++
++- Package name, `openwiki` binary, `~/.openwiki` home, `openwiki/` wiki
++  directory, `OPENWIKI_*` env names, producer actor `openwiki/<version>` and
++  the ASCII logo still say OpenWiki. Each cascades across many files and
++  stored state.
++- Example workflows install the upstream npm package `openwiki`, which has no
++  Netie gate. No Netie Wiki package is published.
++- Telemetry to PostHog is on by default upstream and is not routed through
++  OpenVault leave-machine.
++- Not measured: whether OpenVault `/v1` needs a seat token, whether it serves
++  `/v1/models`, and whether `/api/crew/gate` is on OpenVault main.
++- Direct providers remain in the code behind an explicit `OPENWIKI_PROVIDER`.
+ - SECURITY, SUPPORT and CONTRIBUTING contacts and URLs still point at upstream.
+ - Translated docs, changelogs and third-party notices are untouched.
+-- Netie gate wiring: Grounded claims map to Netie-KB ids. Source connectors (mail, notes) run only through OpenVault leave-machine.
+diff --git a/README.md b/README.md
+index 0532e22..2afdc52 100644
+--- a/README.md
++++ b/README.md
+@@ -369,6 +369,14 @@ Page completion is a durability boundary. Netie Wiki persists the reconciled Cla
+ 
+ Grounded Claims currently apply to repository code wikis and repository evidence. Connector-derived facts, including LangSmith-only observations, are not claimed.
+ 
++**Netie-KB grounding.** Set `NETIE_KB_INDEX` to a JSON file of Netie-KB index rows
++(an array, or `{"rows": [...]}`, each with `id`, `kind`, `title`, `status`). A Claim
++the agent ties to a KB row is persisted in `openwiki/.claims/` with
++`"grounding": "netie-kb"` and a `kb` brief (`id`, `kind`, `title`, `status`,
++`source: netie-kb`), never a skill body. Every other Claim is persisted with
++`"grounding": "ungrounded"`. A proposed KB id that the index does not hold is
++rejected rather than dropped.
++
+ ### Open Knowledge Format (OKF v0.2)
+ 
+ Netie Wiki emits [Google Open Knowledge Format (OKF) v0.2](https://github.com/GoogleCloudPlatform/knowledge-catalog/blob/main/okf/SPEC.md) bundles in both modes, so your wiki is portable to any OKF-aware tool.
+@@ -435,6 +443,13 @@ During an ingestion run, deterministic connector tools write raw data and manife
+ 
+ Connector secrets are referenced by env var name and stored in `~/.openwiki/.env`; connector config files never contain raw secret values.
+ 
++**Netie leave-machine gate.** Every connector except `git-repo` is off by default.
++Before a pull or an MCP tool call, Netie Wiki asks OpenVault
++(`POST ${NETIE_OPENVAULT_URL}/api/crew/gate`, kind `service`, id
++`wiki.connector.<id>`, intent `leave`) and runs only on `allowed: true`. With no
++OpenVault, or any refusal, the ingest result is `skipped` and its message names
++the gate, the URL asked and the reason.
++
+ **Slack OAuth tunnel.** `openwiki ngrok start` starts an ngrok tunnel with a random HTTPS forwarding URL, reads ngrok's local inspection API, appends `/callback`, and saves `OPENWIKI_HTTPS_OAUTH_REDIRECT_URI` automatically. Register the printed callback URL in Slack. With a fixed domain, run `openwiki ngrok start https://<your-ngrok-domain>`.
+ 
+ </details>
+@@ -461,241 +476,26 @@ Locally the setup wizard saves this to `~/.openwiki/.env`. In CI, set it as a re
+ 
+ ## Model providers
+ 
+-These settings apply when running Netie Wiki directly. Coding-agent integrations use the host's authenticated model session.
+-
+-Netie Wiki supports thirteen providers. The onboarding default is OpenAI with `gpt-5.6-terra`. Choose from preset models where available or supply a custom model ID. Provider credentials are stored in `~/.openwiki/.env`.
+-
+-| Provider                                                     | Credential                              |
+-| ------------------------------------------------------------ | --------------------------------------- |
+-| **OpenAI** _(default)_                                       | `OPENAI_API_KEY`                        |
+-| **OpenAI (ChatGPT login)**                                   | Browser sign-in, uses your ChatGPT plan |
+-| **Anthropic**                                                | `ANTHROPIC_API_KEY`                     |
+-| **Gemini** (AI Studio)                                       | `GEMINI_API_KEY`                        |
+-| **Gemini Enterprise** (Vertex AI)                            | Google ADC, keyless                     |
+-| **AWS Bedrock**                                              | IAM credentials                         |
+-| **GitHub Copilot**                                           | GitHub CLI session                      |
+-| **OpenRouter**                                               | `OPENROUTER_API_KEY`                    |
+-| **Nebius / Fireworks / Baseten / NVIDIA NIM**                | Provider API key                        |
+-| **OpenAI-compatible** (LiteLLM, Ollama, LM Studio, gateways) | Base URL + key                          |
+-
+-<details>
+-<summary><b>GitHub Copilot</b></summary>
+-
+-<br/>
+-
+-The GitHub Copilot provider routes inference through the OpenAI-compatible Copilot API (`https://api.githubcopilot.com`), so teams can reuse an existing Copilot subscription instead of provisioning a separate inference key.
+-
+-1. Select `GitHub Copilot` during `openwiki --init`. If you have an active [GitHub CLI](https://cli.github.com) session, Netie Wiki detects it and offers to reuse it. Otherwise, press <kbd>Tab</kbd> at the credential prompt to run `gh auth login` and sign in.
+-2. Choose a model (for example `gpt-5.5`).
+-
+-Netie Wiki leaves the token in the GitHub CLI's own credential store. For CI or another headless environment, set `COPILOT_API_KEY` to a GitHub **OAuth token**. Personal Access Tokens are rejected by the Copilot API for third-party integrations. The local config can stay token-free:
+-
+-```env
+-OPENWIKI_PROVIDER="copilot"
+-OPENWIKI_MODEL_ID="gpt-5.5"
+-```
+-
+-In CI, set the `COPILOT_API_KEY` repository secret and export `OPENWIKI_PROVIDER=copilot`.
+-
+-</details>
+-
+-<details>
+-<summary><b>AWS Bedrock</b></summary>
+-
+-<br/>
+-
+-The `bedrock` provider calls foundation models on AWS Bedrock using IAM credentials rather than a single vendor key:
+-
+-```bash
+-OPENWIKI_PROVIDER=bedrock
+-BEDROCK_AWS_ACCESS_KEY_ID=your-access-key-id
+-BEDROCK_AWS_SECRET_ACCESS_KEY=your-secret-access-key
+-BEDROCK_AWS_REGION=us-east-1
+-OPENWIKI_MODEL_ID=anthropic.claude-sonnet-5
+-```
+-
+-When explicit Bedrock credentials are not set, Netie Wiki uses the AWS SDK default credential provider chain (OIDC/web identity, IAM roles, AWS profiles, ECS/EC2). The region resolves from `BEDROCK_AWS_REGION`, `AWS_REGION`, or `AWS_DEFAULT_REGION`. Available model IDs depend on which foundation models you have enabled in your account and region, so there is no preset list; paste the Bedrock model ID directly.
+-
+-Some newer models only accept on-demand invocation through a cross-region inference profile. If you see `ValidationException: Invocation of model ID ... with on-demand throughput isn't supported`, prefix the model ID with the profile's region code, for example `us.anthropic.claude-sonnet-5`. Your IAM policy then also needs `bedrock:InvokeModel` / `InvokeModelWithResponseStream` on both the `foundation-model` and `inference-profile` resource types.
+-
+-</details>
+-
+-<details>
+-<summary><b>Gemini (AI Studio) and Gemini Enterprise (Vertex AI)</b></summary>
+-
+-<br/>
+-
+-**Gemini (AI Studio)** runs Google's Gemini models with a single API key:
+-
+-```bash
+-OPENWIKI_PROVIDER=gemini
+-GEMINI_API_KEY=your-ai-studio-key
+-```
+-
+-**Gemini Enterprise** runs models from the Gemini Enterprise Model Garden (formerly Vertex AI): Google's Gemini/Gemma, Anthropic's Claude, and partner/open-weight models (Llama, Mistral, DeepSeek, Qwen). It routes each model ID to the right API surface automatically and uses no API key. Authentication happens with Google Application Default Credentials (ADC):
+-
+-- a service account key file via `GOOGLE_APPLICATION_CREDENTIALS=/path/to/key.json`,
+-- user credentials from `gcloud auth application-default login`, or
+-- workload identity when running on Google Cloud or in CI.
++Netie Wiki holds no provider key. Every model call goes to one OpenAI-compatible
++endpoint, OpenVault, at `${NETIE_OPENVAULT_URL}/v1` (default
++`http://127.0.0.1:5000/v1`). OpenVault holds the keys and picks the route. The
++default model ID is `auto`, OpenVault's catalog pick.
+ 
+ ```bash
+-OPENWIKI_PROVIDER=gemini-enterprise
+-GOOGLE_CLOUD_PROJECT=your-gcp-project
+-GOOGLE_CLOUD_LOCATION=global   # optional, defaults to global
++OPENWIKI_PROVIDER=openvault
++NETIE_OPENVAULT_URL=http://127.0.0.1:5000
++OPENWIKI_MODEL_ID=auto
+ ```
+ 
+-Set `OPENWIKI_MODEL_ID` to any Model Garden model. Gemini and Claude ship as presets; partner models are reached by pasting their ID (for example `publishers/meta/models/llama-3.3-70b-instruct-maas`). The credentials need Vertex AI access (`roles/aiplatform.user`), and the models must be enabled in the Model Garden. The `global` endpoint serves Gemini and Claude with the best availability; set `GOOGLE_CLOUD_LOCATION` to a regional endpoint for data residency, and always set it explicitly for region-specific partner (MaaS) models.
+-
+-For CI, authenticate before the update job runs (for example with [`google-github-actions/auth`](https://github.com/google-github-actions/auth)) and set `OPENWIKI_PROVIDER=gemini-enterprise` and `GOOGLE_CLOUD_PROJECT` in the job environment.
+-
+-</details>
+-
+-<details>
+-<summary><b>OpenAI (ChatGPT login)</b></summary>
+-
+-<br/>
++Both variables can live in `~/.openwiki/.env`. They are a URL and a model name,
++not secrets. Netie Wiki does not switch to a direct provider because a key such
++as `OPENAI_API_KEY` happens to be set in the shell.
+ 
+-The `openai-chatgpt` provider calls OpenAI's Codex backend using your ChatGPT subscription instead of a metered API key, drawing on your Plus/Pro/Team plan's included Codex usage. It serves the same model list as the `openai` provider.
+-
+-```bash
+-OPENWIKI_PROVIDER=openai-chatgpt openwiki code --init
+-# or
+-OPENWIKI_PROVIDER=openai-chatgpt openwiki personal --init
+-```
+-
+-The wizard opens `https://auth.openai.com` in your browser (and prints the URL for headless/SSH use). After you sign in, Netie Wiki captures the OAuth callback, shows the signed-in email and plan, and continues to model selection. It stores the access token, refresh token, expiry, account id, email, and plan in `~/.openwiki/.env`. These are managed for you and the access token is refreshed automatically, so you normally never edit them by hand. Treat the refresh token like a password.
+-
+-</details>
+-
+-<details>
+-<summary><b>OpenAI-compatible endpoints (LiteLLM, Ollama, LM Studio, gateways)</b></summary>
+-
+-<br/>
+-
+-The `openai-compatible` provider targets any OpenAI-compatible chat-completions endpoint via a required base URL. Set the model ID to whatever the endpoint exposes.
+-
+-```bash
+-# Hosted gateway (for example Requesty, which fronts many upstream providers)
+-OPENWIKI_PROVIDER=openai-compatible
+-OPENAI_COMPATIBLE_API_KEY=your-gateway-key
+-OPENAI_COMPATIBLE_BASE_URL=https://router.requesty.ai/v1
+-OPENWIKI_MODEL_ID=openai/gpt-5.5
+-```
+-
+-```bash
+-# Ollama, after `ollama serve` and `ollama pull llama3.2`
+-OPENWIKI_PROVIDER=openai-compatible
+-OPENAI_COMPATIBLE_API_KEY=ollama
+-OPENAI_COMPATIBLE_BASE_URL=http://localhost:11434/v1
+-OPENWIKI_MODEL_ID=llama3.2
+-```
+-
+-```bash
+-# LM Studio, after starting the local server from the Developer tab
+-OPENWIKI_PROVIDER=openai-compatible
+-OPENAI_COMPATIBLE_API_KEY=lm-studio
+-OPENAI_COMPATIBLE_BASE_URL=http://localhost:1234/v1
+-OPENWIKI_MODEL_ID=your-loaded-model-id
+-```
+-
+-Some local servers ignore the API key value, but API-key mode still requires
+-`OPENAI_COMPATIBLE_API_KEY` because the client expects one.
+-
+-**Microsoft Entra ID gateways.** During interactive `openwiki --init`, select
+-OpenAI-compatible, then Microsoft Entra ID. Enter the HTTPS API root, the token
+-scope accepted by your gateway, and the model ID. Netie Wiki saves these settings
+-for later `--update` runs; it does not ask for or store an access token. Azure
+-Identity must be configured separately in each environment that runs Netie Wiki.
+-For non-interactive runs, set the same values explicitly:
+-
+-```bash
+-OPENWIKI_PROVIDER=openai-compatible
+-OPENAI_COMPATIBLE_AUTH=entra-id
+-OPENAI_COMPATIBLE_BASE_URL=https://gateway.example.com/openai/v1
+-OPENAI_COMPATIBLE_ENTRA_SCOPE=api://gateway-application-id/.default
+-OPENWIKI_MODEL_ID=your-gateway-model
+-```
+-
+-`OPENAI_COMPATIBLE_ENTRA_SCOPE` defaults to
+-`https://cognitiveservices.azure.com/.default` for Azure OpenAI. Custom gateways
+-may require a different scope. Azure Identity obtains and refreshes the bearer
+-token on model requests, so no `OPENAI_COMPATIBLE_API_KEY` is needed in Entra
+-mode. Generated CI workflows retain the mode and scope but still require you to
+-configure an unattended Azure Identity credential in CI.
+-
+-For workload identity federation, provide `AZURE_CLIENT_ID`, `AZURE_TENANT_ID`,
+-and `AZURE_FEDERATED_TOKEN_FILE` in the environment running Netie Wiki. The file
+-variable must point to the runner-provided federated token file; do not paste
+-the token into Netie Wiki or commit the file. When the file variable is set,
+-Netie Wiki uses `WorkloadIdentityCredential` rather than another credential in
+-the default chain. If it is not set, Netie Wiki uses `DefaultAzureCredential`.
+-
+-**Streaming-only gateways.** Some gateways serve only the streaming transport: a non-streaming request is either rejected outright (`Stream must be set to true`) or answered with HTTP 200 and empty content, which leaves you with a blank wiki and no error. Netie Wiki issues non-streaming requests internally, so force the streaming transport for those endpoints:
+-
+-```bash
+-OPENWIKI_OPENAI_COMPATIBLE_STREAMING=true
+-```
+-
+-It stays off by default because this provider points at arbitrary third-party endpoints, where SSE is not guaranteed to survive proxies and load balancers. Enabling it also makes the client report estimated rather than server-reported token counts.
+-
+-**Reasoning-capable gateways.** OpenAI-compatible endpoints are user-supplied, so Netie Wiki does not assume that an arbitrary model supports reasoning controls. If your gateway accepts OpenAI-style reasoning effort, opt in explicitly before setting `OPENWIKI_REASONING_EFFORT`:
+-
+-```bash
+-OPENWIKI_OPENAI_COMPATIBLE_REASONING_EFFORT_SUPPORTED=true
+-OPENWIKI_REASONING_EFFORT=high
+-```
+-
+-When `OPENWIKI_OPENAI_COMPATIBLE_USE_RESPONSES_API=true` is also set, the effort is sent through the Responses API reasoning field. Otherwise it is sent as the chat-completions `reasoning_effort` model argument.
+-
+-</details>
+-
+-<details>
+-<summary><b>Alternative base URLs, OpenRouter pinning, and retries</b></summary>
+-
+-<br/>
+-
+-**Alternative base URLs.** Route a provider at a self-hosted or proxied gateway by setting its base URL alongside its key: `ANTHROPIC_BASE_URL`, `OPENAI_BASE_URL`, `BASETEN_BASE_URL`, `FIREWORKS_BASE_URL`, `NVIDIA_BASE_URL`, or `COPILOT_BASE_URL`. The `openai` provider routes tool calls through the Responses API (`/v1/responses`), which is useful for gateways that expose it.
+-
+-```bash
+-OPENWIKI_PROVIDER=anthropic
+-ANTHROPIC_API_KEY=your-key
+-ANTHROPIC_BASE_URL=https://your-gateway.example.com/anthropic
+-```
+-
+-**OpenRouter provider pinning.** When OpenRouter serves a model through multiple upstreams, restrict routing with a provider or comma-separated allowlist:
+-
+-```bash
+-OPENWIKI_PROVIDER=openrouter
+-OPENROUTER_API_KEY=your-key
+-OPENWIKI_OPENROUTER_PROVIDER_ONLY=Novita
+-```
+-
+-**Output-token limit.** Netie Wiki uses a 16,384-token per-request default for modern Claude 4/5 models because older LangChain model metadata otherwise limits newer Claude aliases to 4,096 tokens. Set a provider-neutral limit for the currently selected model with:
+-
+-```bash
+-OPENWIKI_MAX_OUTPUT_TOKENS=16384
+-```
+-
+-Netie Wiki maps this setting to the selected provider's request shape. Custom models otherwise retain their provider or SDK default, since their supported output windows are not known to Netie Wiki.
+-
+-**OpenRouter output-token cap.** By default no `max_tokens` is sent, so OpenRouter's credit pre-check budgets for the model's full advertised output ceiling — on a low credit balance every request can fail with a 402 error. Existing installations can keep an OpenRouter-specific cap with:
+-
+-```bash
+-OPENWIKI_OPENROUTER_MAX_TOKENS=8192
+-```
+-
+-The OpenRouter-specific setting takes precedence over `OPENWIKI_MAX_OUTPUT_TOKENS` for OpenRouter runs. A cap trades those hard 402 failures for possible truncation when a long wiki generation genuinely needs more output tokens, so prefer the largest value your balance allows.
+-
+-For native worker concurrency and provider retry settings, see [Parallel page workers](#parallel-page-workers).
+-
+-**Bedrock stream idle timeout.** For the Bedrock provider, set `OPENWIKI_STREAM_IDLE_TIMEOUT` to control how long the client waits for the first or next streamed response chunk, for example `OPENWIKI_STREAM_IDLE_TIMEOUT=300000`. The value is milliseconds and must be an integer from `0` to `2147483647`. Set it to `0` to disable the watchdog. If unset, Netie Wiki preserves the `@langchain/aws` provider default. Prefer a sufficiently long finite timeout over disabling the watchdog so a stalled stream cannot hang forever.
+-
+-**Reasoning effort.** Set `OPENWIKI_REASONING_EFFORT` to configure reasoning for a supported provider and model. OpenAI GPT-5.6 models use the Responses API values `none`, `low`, `medium`, `high`, `xhigh`, and `max`. Gemini 3.6 Flash maps `low`, `medium`, and `high` to Gemini's thinking level. NVIDIA NIM's Nemotron 3 Super supports `none`, `low`, and `high`. In an interactive chat, use `/effort` to choose an available value or `/effort default` to restore the provider default. Leave the variable unset to preserve the provider default; invalid provider, model, or effort combinations fail before a request is sent.
+-
+-</details>
+-
+-> [!NOTE]
+-> If there is an inference provider or model you would like to see added, please open a PR.
++The upstream direct providers (OpenAI, Anthropic, Gemini, Bedrock, OpenRouter
++and others) remain in the code and run only when `OPENWIKI_PROVIDER` names one
++explicitly. That path bypasses OpenVault and is not part of the Netie product.
++Their configuration is documented upstream at
++https://github.com/langchain-ai/openwiki#model-providers.
+ 
+ ## Command reference
+ 
+diff --git a/examples/openwiki-update-auto-merge.yml b/examples/openwiki-update-auto-merge.yml
+index 67563e2..f429895 100644
+--- a/examples/openwiki-update-auto-merge.yml
++++ b/examples/openwiki-update-auto-merge.yml
+@@ -36,12 +36,11 @@ jobs:
+         continue-on-error: true
+         run: openwiki code --update --print
+         env:
+-          OPENWIKI_PROVIDER: openrouter
+-          OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
+-          OPENWIKI_MODEL_ID: z-ai/glm-5.2
+-          LANGSMITH_API_KEY: ${{ secrets.LANGSMITH_API_KEY }}
+-          LANGCHAIN_PROJECT: openwiki
+-          LANGCHAIN_TRACING_V2: "true"
++          # Netie Wiki calls models only through OpenVault /v1 and holds no
++          # provider key. NETIE_OPENVAULT_URL is a URL, not a key.
++          OPENWIKI_PROVIDER: openvault
++          NETIE_OPENVAULT_URL: ${{ vars.NETIE_OPENVAULT_URL }}
++          OPENWIKI_MODEL_ID: auto
+ 
+       - name: Exclude workflow changes
+         if: ${{ !cancelled() }}
+diff --git a/examples/openwiki-update.gitlab-ci.yml b/examples/openwiki-update.gitlab-ci.yml
+index d971dca..0ab02f4 100644
+--- a/examples/openwiki-update.gitlab-ci.yml
++++ b/examples/openwiki-update.gitlab-ci.yml
+@@ -35,7 +35,7 @@ openwiki_update:
+     # it last documented; GitLab's default shallow clone hides that commit and
+     # the update runs against an empty change summary.
+     GIT_DEPTH: "0"
+-    OPENWIKI_PROVIDER: openrouter
+-    OPENWIKI_MODEL_ID: z-ai/glm-5.2
+-    LANGCHAIN_PROJECT: openwiki
+-    LANGCHAIN_TRACING_V2: "true"
++    # Netie Wiki calls models only through OpenVault /v1 and holds no provider
++    # key. Set NETIE_OPENVAULT_URL as a CI/CD variable (a URL, not a key).
++    OPENWIKI_PROVIDER: openvault
++    OPENWIKI_MODEL_ID: auto
+diff --git a/examples/openwiki-update.yml b/examples/openwiki-update.yml
+index 35ee380..db2c224 100644
+--- a/examples/openwiki-update.yml
++++ b/examples/openwiki-update.yml
+@@ -41,13 +41,12 @@ jobs:
+           # OpenWiki sends anonymous reliability telemetry from CI runs.
+           # Uncomment to disable:
+           # OPENWIKI_TELEMETRY_DISABLED: "1"
+-          # TODO: Replace with your preferred inference provider and model
+-          OPENWIKI_PROVIDER: openrouter
+-          OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
+-          OPENWIKI_MODEL_ID: z-ai/glm-5.2
+-          LANGSMITH_API_KEY: ${{ secrets.LANGSMITH_API_KEY }}
+-          LANGCHAIN_PROJECT: openwiki
+-          LANGCHAIN_TRACING_V2: "true"
++          # Netie Wiki calls models only through OpenVault /v1 and holds no
++          # provider key. Set NETIE_OPENVAULT_URL to an OpenVault the runner can
++          # reach (a repository variable, not a secret: it is a URL, not a key).
++          OPENWIKI_PROVIDER: openvault
++          NETIE_OPENVAULT_URL: ${{ vars.NETIE_OPENVAULT_URL }}
++          OPENWIKI_MODEL_ID: auto
+ 
+       - name: Remove transient OpenWiki run state
+         if: ${{ !cancelled() }}
+diff --git a/src/agent/index.ts b/src/agent/index.ts
+index e49fb23..a1f6003 100644
+--- a/src/agent/index.ts
++++ b/src/agent/index.ts
+@@ -105,6 +105,7 @@ import {
+   NVIDIA_BASE_URL_ENV_KEY,
+   OPENAI_BASE_URL_ENV_KEY,
+   OPENAI_COMPATIBLE_AUTH_ENV_KEY,
++  OPENVAULT_API_KEY_PLACEHOLDER,
+   OPENAI_COMPATIBLE_BASE_URL_ENV_KEY,
+   OPENAI_COMPATIBLE_ENTRA_SCOPE_ENV_KEY,
+   OPENAI_COMPATIBLE_STREAMING_ENV_KEY,
+@@ -1464,6 +1465,9 @@ async function ensureFreshChatGptTokens(): Promise<void> {
+ }
+ 
+ function getProviderApiKey(provider: OpenWikiProvider): string | undefined {
++  if (provider === "openvault") {
++    return OPENVAULT_API_KEY_PLACEHOLDER;
++  }
+   const apiKeyEnvKey = getProviderApiKeyEnvKey(provider);
+ 
+   return apiKeyEnvKey ? process.env[apiKeyEnvKey] : undefined;
+diff --git a/src/agent/repository-runner.ts b/src/agent/repository-runner.ts
+index 94c8e04..6837f11 100644
+--- a/src/agent/repository-runner.ts
++++ b/src/agent/repository-runner.ts
+@@ -72,6 +72,7 @@ const ClaimSchema = z
+     evidence: z
+       .array(z.object({ resource: z.string().trim().min(1) }).strict())
+       .min(1),
++    kbId: z.string().trim().min(1).optional(),
+   })
+   .strict();
+ 
+@@ -880,7 +881,7 @@ async function runPageAgent(
+   const submitPageTool = new DynamicStructuredTool({
+     name: "submit_page",
+     description:
+-      "Complete the assigned page after writing it. Submit only sparse Claim decisions: confirmedClaimIds for rechecked issue Claims kept unchanged, claims for revisions/additions, and retractedClaimIds for removals. Other current Claims are retained automatically. Evidence must use repo://<repository-relative-path>, optionally with #Lx-Ly.",
++      "Complete the assigned page after writing it. Submit only sparse Claim decisions: confirmedClaimIds for rechecked issue Claims kept unchanged, claims for revisions/additions, and retractedClaimIds for removals. Other current Claims are retained automatically. Evidence must use repo://<repository-relative-path>, optionally with #Lx-Ly. Set kbId to a Netie-KB id (for example R-0016) only when that KB row grounds the Claim; omit it otherwise and the Claim is recorded as ungrounded.",
+     schema: ClaimReconciliationSchema,
+     func: async (reconciliation, _runManager, config) => {
+       if (submitted) {
+diff --git a/src/claims/brains/code/runtime.ts b/src/claims/brains/code/runtime.ts
+index c2a14ed..c9d7cde 100644
+--- a/src/claims/brains/code/runtime.ts
++++ b/src/claims/brains/code/runtime.ts
+@@ -10,6 +10,7 @@ import {
+ import { OPENWIKI_PRODUCER_ACTOR } from "../../../version.js";
+ import { ClaimsPersistenceError } from "../../core/errors.js";
+ import { RepositoryEvidenceResolver } from "../../evidence/repository/resolver.js";
++import { loadNetieKbIndex } from "../../../netie/kb.js";
+ import { runClaimsPreflight } from "./preflight.js";
+ import { ClaimSession } from "./session.js";
+ import { ClaimsStore } from "./store.js";
+@@ -80,6 +81,7 @@ export async function prepareClaimsRuntime(
+   });
+ 
+   const freshInit = command === "init" && options.resumeInit !== true;
++  const kb = await loadNetieKbIndex();
+ 
+   if (freshInit) {
+     const session = new ClaimSession({
+@@ -87,6 +89,7 @@ export async function prepareClaimsRuntime(
+       persisted: new Map(),
+       issues: [],
+       orphanPages: await store.discoverSidecarPages(),
++      ...(kb ? { kb } : {}),
+     });
+     return buildClaimsRuntime(session, [], store, onWarning);
+   }
+@@ -97,6 +100,7 @@ export async function prepareClaimsRuntime(
+     persisted: preflight.persisted,
+     issues: preflight.issues,
+     orphanPages: preflight.orphanPages,
++    ...(kb ? { kb } : {}),
+   });
+   return buildClaimsRuntime(session, preflight.issues, store, onWarning);
+ }
+diff --git a/src/claims/brains/code/session.ts b/src/claims/brains/code/session.ts
+index bf451cd..a037c58 100644
+--- a/src/claims/brains/code/session.ts
++++ b/src/claims/brains/code/session.ts
+@@ -8,7 +8,11 @@ import {
+ } from "../../core/errors.js";
+ import { applyClaimOperations, cloneClaims } from "../../core/mutations.js";
+ import { cacheEvidenceResolver } from "../../core/resolver-cache.js";
+-import type { Claim, EvidenceResolver } from "../../core/types.js";
++import type {
++  Claim,
++  ClaimKbResolver,
++  EvidenceResolver,
++} from "../../core/types.js";
+ import { normalizeWikiPagePath } from "./paths.js";
+ import { ClaimsStore } from "./store.js";
+ import {
+@@ -53,6 +57,13 @@ export interface ClaimSessionOptions {
+    * @default A `claim_`-prefixed cryptographically random UUID.
+    */
+   createClaimId?: () => string;
++
++  /**
++   * Netie-KB index that grounds proposed `kbId` values.
++   *
++   * @default undefined - a proposed `kbId` is refused.
++   */
++  kb?: ClaimKbResolver;
+ }
+ 
+ /**
+@@ -124,6 +135,11 @@ export class ClaimSession {
+    */
+   private readonly createClaimId: () => string;
+ 
++  /**
++   * Netie-KB index used to ground claims, when configured.
++   */
++  private readonly kb?: ClaimKbResolver;
++
+   /**
+    * Creates a run-scoped Claims session from persisted state and preflight.
+    *
+@@ -131,6 +147,7 @@ export class ClaimSession {
+    */
+   constructor(options: ClaimSessionOptions) {
+     this.resolver = options.resolver;
++    this.kb = options.kb;
+     this.orphanPages = [
+       ...new Set(options.orphanPages.map(normalizeWikiPagePath)),
+     ].sort((left, right) => left.localeCompare(right));
+@@ -190,6 +207,7 @@ export class ClaimSession {
+         operations: input.operations,
+         resolver: this.resolver,
+         createClaimId: () => this.allocateClaimId(),
++        ...(this.kb ? { kb: this.kb } : {}),
+       });
+       this.assertClaimOwnershipAvailable(page, nextClaims);
+       this.replaceClaimOwnership(page, previousClaims, nextClaims);
+@@ -606,6 +624,7 @@ function toInspectedClaim(
+     id: claim.id,
+     statement: claim.statement,
+     evidence: claim.evidence.map(({ resource }) => resource),
++    ...(claim.kb ? { kbId: claim.kb.id } : {}),
+     ...(issue
+       ? {
+           issue: {
+diff --git a/src/claims/brains/code/store.ts b/src/claims/brains/code/store.ts
+index f657807..afe9a64 100644
+--- a/src/claims/brains/code/store.ts
++++ b/src/claims/brains/code/store.ts
+@@ -48,13 +48,37 @@ const EvidenceSchema = z
+ /**
+  * Runtime validator for one persisted claim.
+  */
++/**
++ * Runtime validator for one Netie-KB brief (ids and titles, never a body).
++ */
++const KbBriefSchema = z
++  .object({
++    id: CanonicalNonEmptyStringSchema,
++    kind: CanonicalNonEmptyStringSchema,
++    title: z.string(),
++    status: CanonicalNonEmptyStringSchema,
++    source: z.literal("netie-kb"),
++    tags: z.array(z.string()).optional(),
++  })
++  .strict();
++
++/**
++ * Runtime validator for one persisted claim. `grounding` is optional only so
++ * sidecars written before Netie Wiki stage 2 still load; every write labels it.
++ */
+ const ClaimSchema = z
+   .object({
+     id: CanonicalNonEmptyStringSchema,
+     statement: CanonicalNonEmptyStringSchema,
+     evidence: z.array(EvidenceSchema).min(1),
++    grounding: z.enum(["netie-kb", "ungrounded"]).optional(),
++    kb: KbBriefSchema.optional(),
+   })
+-  .strict();
++  .strict()
++  .refine(
++    (claim) => (claim.grounding === "netie-kb") === (claim.kb !== undefined),
++    { message: "grounding is netie-kb exactly when a kb brief is present" },
++  );
+ 
+ /**
+  * Runtime validator for one durable machine-verification event.
+@@ -187,9 +211,8 @@ export class ClaimsStore {
+       );
+     }
+ 
+-    return validatePageClaims(
+-      parsed,
+-      `claim sidecar ${this.displayPath(sidecar)}`,
++    return withoutUngroundedLabel(
++      validatePageClaims(parsed, `claim sidecar ${this.displayPath(sidecar)}`),
+     );
+   }
+ 
+@@ -293,9 +316,8 @@ export class ClaimsStore {
+    */
+   async writePage(page: string, pageClaims: PageClaims): Promise<void> {
+     const normalizedPage = normalizeWikiPagePath(page);
+-    const validated = validatePageClaims(
+-      pageClaims,
+-      `claims for ${normalizedPage}`,
++    const validated = withGroundingLabel(
++      validatePageClaims(pageClaims, `claims for ${normalizedPage}`),
+     );
+ 
+     const sidecar = this.sidecarPath(page);
+@@ -544,6 +566,45 @@ export class ClaimsStore {
+   }
+ }
+ 
++/**
++ * Labels every claim for persistence: `netie-kb` with its brief, otherwise an
++ * explicit `ungrounded`. No claim reaches disk without one of the two.
++ *
++ * @param pageClaims - Validated page state.
++ * @returns Page state whose claims all carry `grounding`.
++ */
++function withGroundingLabel(pageClaims: PageClaims): PageClaims {
++  return {
++    ...pageClaims,
++    claims: pageClaims.claims.map((claim) => ({
++      id: claim.id,
++      statement: claim.statement,
++      evidence: claim.evidence,
++      ...(claim.kb
++        ? { grounding: "netie-kb" as const, kb: claim.kb }
++        : { grounding: "ungrounded" as const }),
++    })),
++  };
++}
++
++/**
++ * Drops the persisted `ungrounded` label so in-memory ungrounded claims stay
++ * field-free; the label is re-applied on every write.
++ *
++ * @param pageClaims - Validated persisted page state.
++ * @returns Page state with only `netie-kb` grounding kept in memory.
++ */
++function withoutUngroundedLabel(pageClaims: PageClaims): PageClaims {
++  return {
++    ...pageClaims,
++    claims: pageClaims.claims.map((claim) =>
++      claim.grounding === "ungrounded"
++        ? { id: claim.id, statement: claim.statement, evidence: claim.evidence }
++        : claim,
++    ),
++  };
++}
++
+ /**
+  * Validates complete page state and cross-record uniqueness constraints.
+  *
+diff --git a/src/claims/brains/code/types.ts b/src/claims/brains/code/types.ts
+index 2855cf8..ff76f2e 100644
+--- a/src/claims/brains/code/types.ts
++++ b/src/claims/brains/code/types.ts
+@@ -175,6 +175,11 @@ export interface InspectedClaim {
+    */
+   evidence: string[];
+ 
++  /**
++   * Netie-KB id grounding the claim, absent when ungrounded.
++   */
++  kbId?: string;
++
+   /**
+    * Lazy evidence issue when one was detected during preflight.
+    *
+diff --git a/src/claims/core/mutations.ts b/src/claims/core/mutations.ts
+index 666b57a..b372f90 100644
+--- a/src/claims/core/mutations.ts
++++ b/src/claims/core/mutations.ts
+@@ -3,6 +3,8 @@ import { ClaimSessionError } from "./errors.js";
+ import { cacheEvidenceResolver } from "./resolver-cache.js";
+ import type {
+   Claim,
++  ClaimKbBrief,
++  ClaimKbResolver,
+   ClaimOperation,
+   Evidence,
+   EvidenceResolver,
+@@ -34,6 +36,13 @@ export interface ApplyClaimOperationsInput {
+    * @default a `claim_`-prefixed cryptographically random UUID.
+    */
+   createClaimId?: () => string;
++
++  /**
++   * Netie-KB index used to ground proposed `kbId` values.
++   *
++   * @default undefined - any proposed `kbId` is refused, never dropped.
++   */
++  kb?: ClaimKbResolver;
+ }
+ 
+ /**
+@@ -58,6 +67,7 @@ export async function applyClaimOperations(
+   const reservedIds = new Set(input.claims.map((claim) => claim.id));
+   const targetedIds = new Set<string>();
+   const resolvedByOperation = new Map<number, Evidence[]>();
++  const kbByOperation = new Map<number, ClaimKbBrief | null>();
+   const resolver = cacheEvidenceResolver(input.resolver);
+ 
+   for (const operation of input.operations) {
+@@ -76,6 +86,12 @@ export async function applyClaimOperations(
+   }
+ 
+   for (const [index, operation] of input.operations.entries()) {
++    if (
++      (operation.op === "add" || operation.op === "update") &&
++      operation.kbId !== undefined
++    ) {
++      kbByOperation.set(index, await resolveKb(operation.kbId, input.kb));
++    }
+     if (operation.op === "add") {
+       resolvedByOperation.set(
+         index,
+@@ -102,6 +118,7 @@ export async function applyClaimOperations(
+         id: createUniqueClaimId(reservedIds, createClaimId),
+         statement: operation.statement.trim(),
+         evidence: requireResolvedEvidence(resolvedByOperation, index),
++        ...groundingFields(kbByOperation.get(index) ?? null),
+       });
+       continue;
+     }
+@@ -122,12 +139,69 @@ export async function applyClaimOperations(
+           ? operation.statement.trim()
+           : current.statement,
+       evidence: requireResolvedEvidence(resolvedByOperation, index),
++      ...(kbByOperation.has(index)
++        ? groundingFields(kbByOperation.get(index) ?? null)
++        : groundingFields(current.kb ?? null)),
+     };
+   }
+ 
+   return cloneClaims(working);
+ }
+ 
++/**
++ * Resolves one proposed Netie-KB id. A proposed id that cannot be grounded is
++ * refused so the claim is never silently written as grounded or ungrounded.
++ *
++ * @param kbId - Proposed id, or `null` to remove grounding.
++ * @param kb - Configured Netie-KB index.
++ * @returns The brief, or `null` for an explicit removal.
++ */
++async function resolveKb(
++  kbId: string | null,
++  kb: ClaimKbResolver | undefined,
++): Promise<ClaimKbBrief | null> {
++  if (kbId === null) {
++    return null;
++  }
++  const id = kbId.trim();
++  if (!id) {
++    throw new ClaimSessionError("Netie-KB id cannot be empty.");
++  }
++  if (!kb) {
++    throw new ClaimSessionError(
++      `Netie-KB id ${id} was proposed but no Netie-KB index is configured (NETIE_KB_INDEX).`,
++    );
++  }
++  try {
++    return await kb.lookup(id);
++  } catch (error) {
++    throw new ClaimSessionError(
++      `Netie-KB id ${id} does not ground: ${error instanceof Error ? error.message : String(error)}`,
++    );
++  }
++}
++
++/**
++ * Builds the persisted grounding fields for one claim.
++ *
++ * @param brief - Netie-KB brief, or `null` when the claim is ungrounded.
++ * @returns `grounding` plus `kb` exactly when grounded.
++ */
++function groundingFields(
++  brief: ClaimKbBrief | null,
++): Pick<Claim, "grounding" | "kb"> {
++  // Ungrounded claims carry no in-memory fields; the store writes the
++  // explicit `ungrounded` label on every persisted claim without a brief.
++  return brief ? { grounding: "netie-kb", kb: cloneKb(brief) } : {};
++}
++
++/**
++ * Clones one Netie-KB brief.
++ */
++function cloneKb(brief: ClaimKbBrief): ClaimKbBrief {
++  return { ...brief, ...(brief.tags ? { tags: [...brief.tags] } : {}) };
++}
++
+ /**
+  * Resolves and validates one complete proposed evidence set.
+  *
+@@ -243,9 +317,13 @@ function validateOperation(operation: ClaimOperation): void {
+   }
+   if (operation.op === "update") {
+     requireCanonicalNonEmpty(operation.id, "Update claim id");
+-    if (operation.statement === undefined && operation.evidence === undefined) {
++    if (
++      operation.statement === undefined &&
++      operation.evidence === undefined &&
++      operation.kbId === undefined
++    ) {
+       throw new ClaimSessionError(
+-        "An update requires a statement or evidence change.",
++        "An update requires a statement or evidence change, or a Netie-KB id change.",
+       );
+     }
+   }
+@@ -314,5 +392,6 @@ export function cloneClaims(claims: readonly Claim[]): Claim[] {
+   return claims.map((claim) => ({
+     ...claim,
+     evidence: claim.evidence.map((evidence) => ({ ...evidence })),
++    ...(claim.kb ? { kb: cloneKb(claim.kb) } : {}),
+   }));
+ }
+diff --git a/src/claims/core/types.ts b/src/claims/core/types.ts
+index 2a27aa7..defa136 100644
+--- a/src/claims/core/types.ts
++++ b/src/claims/core/types.ts
+@@ -13,6 +13,39 @@ export interface Evidence {
+   version: string;
+ }
+ 
++/**
++ * Netie-KB grounding label written on every persisted claim: `netie-kb` with a
++ * {@link ClaimKbBrief}, or `ungrounded`. A claim is never written unlabeled.
++ */
++export type ClaimGrounding = "netie-kb" | "ungrounded";
++
++/**
++ * Netie-KB index brief carried by a grounded claim. Same shape as the Netie
++ * repo's `scripts/kb_lookup.py` `show_brief`: ids and titles, never a body.
++ */
++export interface ClaimKbBrief {
++  /** Stable Netie-KB id, for example `R-0016`. */
++  id: string;
++  /** Row kind, for example `rule` or `finding`. */
++  kind: string;
++  /** Row title. */
++  title: string;
++  /** Row status, or `unknown`. */
++  status: string;
++  /** Always `netie-kb`. */
++  source: string;
++  /** Optional tags copied from the row. */
++  tags?: string[];
++}
++
++/**
++ * Resolves a proposed Netie-KB id to its brief, or throws when the id is
++ * missing, unknown, or would carry a body across the boundary.
++ */
++export interface ClaimKbResolver {
++  lookup(id: string): Promise<ClaimKbBrief>;
++}
++
+ /**
+  * A material factual proposition OpenWiki currently believes.
+  */
+@@ -31,6 +64,17 @@ export interface Claim {
+    * One or more source resources that jointly support the proposition.
+    */
+   evidence: Evidence[];
++
++  /**
++   * Netie-KB grounding label. Optional on legacy state; the mutation layer
++   * sets it and the store writes `ungrounded` when it is absent.
++   */
++  grounding?: ClaimGrounding;
++
++  /**
++   * Netie-KB brief, present exactly when `grounding` is `netie-kb`.
++   */
++  kb?: ClaimKbBrief;
+ }
+ 
+ /**
+@@ -61,6 +105,11 @@ export interface AddClaimOperation {
+    * Source resources that jointly support the proposition.
+    */
+   evidence: ProposedEvidence[];
++
++  /**
++   * Netie-KB id grounding the proposition. Omitted means ungrounded.
++   */
++  kbId?: string;
+ }
+ 
+ /**
+@@ -105,6 +154,13 @@ export interface UpdateClaimOperation {
+    * @default The current resources are retained and their versions refreshed.
+    */
+   evidence?: ProposedEvidence[];
++
++  /**
++   * Replacement Netie-KB id. `null` removes the grounding.
++   *
++   * @default The current grounding is retained.
++   */
++  kbId?: string | null;
+ }
+ 
+ /**
+diff --git a/src/claims/guidance.ts b/src/claims/guidance.ts
+index ddabe11..1298417 100644
+--- a/src/claims/guidance.ts
++++ b/src/claims/guidance.ts
+@@ -9,6 +9,7 @@ export const CLAIMS_SUBSTANCE_GUIDANCE = `Claims substance standard:
+ - One function or component may support several Claims when each records a different substantive truth. Conversely, do not create a Claim merely because a symbol exists, accepts or returns a type, lives at a path, or extends a base class unless that fact materially changes how a reader understands, uses, operates, or safely changes the system.
+ - Atomic means one coherent, independently falsifiable idea, not one file, symbol, sentence, or source line. A single Claim may connect multiple components and cite multiple evidence resources when they jointly establish one relationship or end-to-end behavior.
+ - Every evidence resource MUST use the canonical \`repo://<repository-relative-path>\` form, optionally followed by a language-agnostic line range such as \`#L20-L48\`. Never submit a bare path such as \`src/agent/index.ts\`.
++- Netie-KB grounding: when a Claim restates a Netie-KB rule, workflow, finding or attack, set \`kbId\` to that row's id (for example \`R-0016\`). Never invent an id; an id the index does not hold is rejected. A Claim without \`kbId\` is persisted with the explicit label \`grounding: ungrounded\`.
+ - Apply this materiality test: if the proposition were false, would it meaningfully change a reader's architectural model, implementation decision, operational expectation, or safe change plan? If not, omit it.
+ - Ensure every material, source-dependent proposition the wiki relies on is represented. Completeness takes priority over minimizing Claim count. Do not omit distinct truths merely because the same function or component already supports another Claim. After establishing coverage, remove semantically duplicate Claims and implementation trivia.`;
+ 
+diff --git a/src/cli/commands.ts b/src/cli/commands.ts
+index fe576d2..e6f7428 100644
+--- a/src/cli/commands.ts
++++ b/src/cli/commands.ts
+@@ -1,6 +1,7 @@
+ import { isValidModelId, normalizeModelId } from "../config/constants.js";
+ import { openWikiLocalWikiDisplayPath } from "../config/openwiki-home.js";
+ import type { OpenWikiCommand } from "../agent/types.js";
++import { PRODUCT_NAME } from "../version.js";
+ import { resolveLanguage } from "../platform/language.js";
+ import { isAuthProviderId } from "../auth/providers.js";
+ import type { AuthProviderId } from "../auth/types.js";
+@@ -1181,7 +1182,7 @@ export function commandLoadsEnvironment(command: CliCommand): boolean {
+ }
+ 
+ export const helpContent: HelpContent = {
+-  title: "OpenWiki",
++  title: PRODUCT_NAME,
+   description:
+     "Run an agent that generates and maintains a project or local knowledge wiki.",
+   usage: [
+diff --git a/src/cli/components/first-run-notice.tsx b/src/cli/components/first-run-notice.tsx
+index e3ecb16..fc1681d 100644
+--- a/src/cli/components/first-run-notice.tsx
++++ b/src/cli/components/first-run-notice.tsx
+@@ -1,5 +1,6 @@
+ import React from "react";
+ import { Box, Text } from "ink";
++import { PRODUCT_NAME } from "../../version.js";
+ import {
+   FIRST_RUN_NOTICE_BODY,
+   FIRST_RUN_NOTICE_OPT_OUT,
+@@ -38,7 +39,7 @@ export function wrapText(text: string, width: number): string[] {
+  * when redirected so a captured log stays free of escape codes.
+  */
+ export function renderFirstRunNoticeText(color: boolean): string {
+-  const label = "OpenWiki telemetry";
++  const label = `${PRODUCT_NAME} telemetry`;
+   const width = FIRST_RUN_NOTICE_WIDTH;
+   const topRule = `─── ${label} ${"─".repeat(Math.max(3, width - label.length - 5))}`;
+   const block = [
+@@ -74,7 +75,7 @@ export function FirstRunNotice() {
+     >
+       <Text>
+         <Text bold color="cyan">
+-          OpenWiki
++          {PRODUCT_NAME}
+         </Text>{" "}
+         <Text color="gray">telemetry</Text>
+       </Text>
+diff --git a/src/cli/components/header.tsx b/src/cli/components/header.tsx
+index 7f6c4af..f929b28 100644
+--- a/src/cli/components/header.tsx
++++ b/src/cli/components/header.tsx
+@@ -11,6 +11,7 @@ import {
+ } from "../../config/constants.js";
+ import { sanitizeHeaderValue } from "../diagnostics/sanitize.js";
+ import { formatCwd } from "../format.js";
++import { PRODUCT_NAME } from "../../version.js";
+ 
+ /** The OpenWiki ASCII wordmark shown at the top of the full header. */
+ export const OPENWIKI_LOGO_LINES = [
+@@ -98,7 +99,7 @@ export function Header({
+       <Box flexDirection="column" marginBottom={1}>
+         <Text wrap="truncate">
+           <Text color="cyan">{">_ "}</Text>
+-          <Text bold>OpenWiki</Text>{" "}
++          <Text bold>{PRODUCT_NAME}</Text>{" "}
+           <Text color="gray">v{OPENWIKI_VERSION}</Text>{" "}
+           <Text color="gray">provider: </Text>
+           <Text color="white">{displayProvider}</Text>{" "}
+@@ -151,7 +152,7 @@ export function Header({
+       >
+         <Text>
+           <Text color="cyan">{">_ "}</Text>
+-          <Text bold>OpenWiki</Text>{" "}
++          <Text bold>{PRODUCT_NAME}</Text>{" "}
+           <Text color="gray">v{OPENWIKI_VERSION}</Text>{" "}
+           <Text color="gray">agent docs for codebases</Text>
+         </Text>
+diff --git a/src/config/constants.ts b/src/config/constants.ts
+index bd0016c..e28f295 100644
+--- a/src/config/constants.ts
++++ b/src/config/constants.ts
+@@ -1,3 +1,8 @@
++import {
++  OPENVAULT_PLACEHOLDER_API_KEY,
++  resolveOpenVaultV1BaseUrl,
++} from "../netie/openvault.js";
++
+ export const OPEN_WIKI_DIR = "openwiki";
+ export const PAGE_MANIFEST_PATH = `${OPEN_WIKI_DIR}/.page-manifest.json`;
+ export const UPDATE_METADATA_PATH = `${OPEN_WIKI_DIR}/.last-update.json`;
+@@ -131,7 +136,12 @@ export const OPENWIKI_X_CLIENT_ID_ENV_KEY = "OPENWIKI_X_CLIENT_ID";
+ export const OPENWIKI_X_CLIENT_SECRET_ENV_KEY = "OPENWIKI_X_CLIENT_SECRET";
+ export const OPENWIKI_X_REFRESH_TOKEN_ENV_KEY = "OPENWIKI_X_REFRESH_TOKEN";
+ export const OPENWIKI_TAVILY_API_KEY_ENV_KEY = "TAVILY_API_KEY";
+-export const DEFAULT_PROVIDER = "openai";
++/**
++ * Netie Wiki routes every model call through OpenVault `/v1` by default
++ * (NETIE.md section 3: one key vault). Direct providers stay selectable only
++ * by an explicit `OPENWIKI_PROVIDER`.
++ */
++export const DEFAULT_PROVIDER = "openvault";
+ export const OPENROUTER_BASE_URL = "https://openrouter.ai/api/v1";
+ 
+ export type OpenWikiProvider =
+@@ -148,7 +158,8 @@ export type OpenWikiProvider =
+   | "openai"
+   | "openai-chatgpt"
+   | "openai-compatible"
+-  | "openrouter";
++  | "openrouter"
++  | "openvault";
+ 
+ /**
+  * How a provider authenticates. Providers default to `"api-key"` (a pasted
+@@ -273,6 +284,7 @@ type ProviderConfig = {
+ };
+ 
+ export const SELECTABLE_OPENWIKI_PROVIDERS = [
++  "openvault",
+   "openai",
+   "openai-chatgpt",
+   "anthropic",
+@@ -290,6 +302,13 @@ export const SELECTABLE_OPENWIKI_PROVIDERS = [
+ ] as const satisfies readonly SelectableOpenWikiProvider[];
+ 
+ export const PROVIDER_CONFIGS: Record<OpenWikiProvider, ProviderConfig> = {
++  openvault: {
++    // No apiKeyEnvKey: Netie Wiki holds no provider key. The endpoint is
++    // `${NETIE_OPENVAULT_URL}/v1`, resolved per call by resolveProviderBaseUrl.
++    label: "OpenVault (Netie)",
++    // TAS-OPENVAULT: `model: auto` is OpenVault's catalog pick.
++    modelOptions: [{ id: "auto", label: "auto (OpenVault catalog pick)" }],
++  },
+   baseten: {
+     apiKeyEnvKey: BASETEN_API_KEY_ENV_KEY,
+     baseURL: "https://inference.baseten.co/v1",
+@@ -473,6 +492,11 @@ export function getProviderLabel(provider: OpenWikiProvider): string {
+   return getProviderConfig(provider).label;
+ }
+ 
++/**
++ * Placeholder API key sent to OpenVault `/v1`; OpenVault holds the real key.
++ */
++export const OPENVAULT_API_KEY_PLACEHOLDER = OPENVAULT_PLACEHOLDER_API_KEY;
++
+ export function getProviderApiKeyEnvKey(
+   provider: OpenWikiProvider,
+ ): string | undefined {
+@@ -766,6 +790,9 @@ export function resolveProviderBaseUrl(
+   provider: OpenWikiProvider,
+   env: NodeJS.ProcessEnv = process.env,
+ ): string | undefined {
++  if (provider === "openvault") {
++    return resolveOpenVaultV1BaseUrl(env);
++  }
+   const config = getProviderConfig(provider);
+   const override = config.baseUrlEnvKey ? env[config.baseUrlEnvKey] : undefined;
+   const trimmedOverride = override?.trim();
+@@ -973,42 +1000,10 @@ export function isValidProvider(value: string): value is OpenWikiProvider {
+ export function resolveConfiguredProvider(
+   env: NodeJS.ProcessEnv = process.env,
+ ): OpenWikiProvider {
+-  return (
+-    normalizeProvider(env[OPENWIKI_PROVIDER_ENV_KEY]) ??
+-    (env[OPENAI_API_KEY_ENV_KEY]
+-      ? "openai"
+-      : env[OPENAI_COMPATIBLE_API_KEY_ENV_KEY]
+-        ? "openai-compatible"
+-        : env[OPENROUTER_API_KEY_ENV_KEY]
+-          ? "openrouter"
+-          : env[ANTHROPIC_API_KEY_ENV_KEY]
+-            ? "anthropic"
+-            : env[BASETEN_API_KEY_ENV_KEY]
+-              ? "baseten"
+-              : env[FIREWORKS_API_KEY_ENV_KEY]
+-                ? "fireworks"
+-                : env[NEBIUS_API_KEY_ENV_KEY]
+-                  ? "nebius"
+-                  : env[NVIDIA_API_KEY_ENV_KEY]
+-                    ? "nvidia"
+-                    : hasNonEmptyEnvValue(
+-                          env,
+-                          BEDROCK_AWS_ACCESS_KEY_ID_ENV_KEY,
+-                        ) ||
+-                        hasNonEmptyEnvValue(
+-                          env,
+-                          BEDROCK_AWS_SECRET_ACCESS_KEY_ENV_KEY,
+-                        )
+-                      ? "bedrock"
+-                      : DEFAULT_PROVIDER)
+-  );
+-}
+-
+-function hasNonEmptyEnvValue(
+-  env: NodeJS.ProcessEnv,
+-  key: string | undefined,
+-): boolean {
+-  return key !== undefined && Boolean(env[key]?.trim());
++  // Netie Wiki does not auto-select a direct provider from an ambient key such
++  // as OPENAI_API_KEY: that would bypass OpenVault without saying so. A direct
++  // provider runs only when OPENWIKI_PROVIDER names it.
++  return normalizeProvider(env[OPENWIKI_PROVIDER_ENV_KEY]) ?? DEFAULT_PROVIDER;
+ }
+ 
+ function inspectCredentialPair(
+diff --git a/src/connectors/mcp-runtime.ts b/src/connectors/mcp-runtime.ts
+index 797b3c6..cb427a2 100644
+--- a/src/connectors/mcp-runtime.ts
++++ b/src/connectors/mcp-runtime.ts
+@@ -16,6 +16,7 @@ import type {
+   ConnectorIngestResult,
+   McpConnectorConfig,
+ } from "./types.js";
++import { assertLeaveMachine } from "../netie/connector-gate.js";
+ import { isSecretLikeKey } from "../platform/diagnostics.js";
+ 
+ export type McpConnectorId = Extract<ConnectorId, "custom-mcp" | "notion">;
+@@ -47,6 +48,7 @@ export function isMcpConnectorId(
+ export async function discoverMcpConnectorTools(
+   connectorId: McpConnectorId,
+ ): Promise<McpToolDiscoveryResult> {
++  await assertLeaveMachine(connectorId, `MCP connector ${connectorId}`);
+   const runId = createRunId();
+   const state = await readConnectorState(connectorId);
+   const config = await readMcpConnectorConfig(connectorId);
+@@ -79,6 +81,7 @@ export async function callMcpConnectorTool(
+   toolName: string,
+   args: Record<string, unknown>,
+ ): Promise<McpToolCallResult> {
++  await assertLeaveMachine(connectorId, `MCP connector ${connectorId}`);
+   const runId = createRunId();
+   const state = await readConnectorState(connectorId);
+   const config = await readMcpConnectorConfig(connectorId);
+diff --git a/src/connectors/registry.ts b/src/connectors/registry.ts
+index f198887..9f53cf8 100644
+--- a/src/connectors/registry.ts
++++ b/src/connectors/registry.ts
+@@ -8,6 +8,7 @@ import { createWebSearchConnector } from "./sources/web-search.js";
+ import { createXConnector } from "./sources/x.js";
+ import { openWikiConnectorsDisplayPath } from "../config/openwiki-home.js";
+ import type { ConnectorId, ConnectorRuntime } from "./types.js";
++import { gateConnector } from "../netie/connector-gate.js";
+ 
+ export const CONNECTOR_IDS = [
+   "custom-mcp",
+@@ -25,7 +26,8 @@ export function createConnectorRegistry(): Record<
+   ConnectorId,
+   ConnectorRuntime
+ > {
+-  return {
++  // Every connector that leaves the machine asks OpenVault first (Netie gate).
++  const registry: Record<ConnectorId, ConnectorRuntime> = {
+     "custom-mcp": createMcpConnector({
+       description: `Generic read-only MCP knowledge source. Point OpenWiki at any MCP server via ${openWikiConnectorsDisplayPath}/custom-mcp/config.json (HTTP or stdio transport). Prefer allowedTools and/or MCP readOnlyHint; do not guess mutating tools.`,
+       displayName: "Custom MCP",
+@@ -49,6 +51,12 @@ export function createConnectorRegistry(): Record<
+     "web-search": createWebSearchConnector(),
+     x: createXConnector(),
+   };
++  return Object.fromEntries(
++    Object.entries(registry).map(([id, connector]) => [
++      id,
++      gateConnector(connector),
++    ]),
++  ) as Record<ConnectorId, ConnectorRuntime>;
+ }
+ 
+ export function isConnectorId(value: string): value is ConnectorId {
+diff --git a/src/generation/page-jobs.ts b/src/generation/page-jobs.ts
+index ae174c4..bbd885e 100644
+--- a/src/generation/page-jobs.ts
++++ b/src/generation/page-jobs.ts
+@@ -75,6 +75,12 @@ export interface ProposedPageClaim {
+      */
+     resource: string;
+   }>;
++
++  /**
++   * Netie-KB id grounding the proposition. Omitted means the claim is
++   * persisted with an explicit `ungrounded` label.
++   */
++  kbId?: string;
+ }
+ 
+ /**
+@@ -457,11 +463,13 @@ export async function reconcilePageClaims(
+           current.evidence,
+           proposed.evidence,
+         );
++        const kbChanged = current.kbId !== proposed.kbId;
+         operations.push({
+           op: "update",
+           id: current.id,
+           ...(statementChanged ? { statement: proposed.statement } : {}),
+           ...(evidenceChanged ? { evidence: proposed.evidence } : {}),
++          ...(kbChanged ? { kbId: proposed.kbId ?? null } : {}),
+         });
+       }
+       continue;
+@@ -478,6 +486,7 @@ export async function reconcilePageClaims(
+         op: "add",
+         statement: proposed.statement,
+         evidence: proposed.evidence,
++        ...(proposed.kbId ? { kbId: proposed.kbId } : {}),
+       });
+     }
+   }
+@@ -528,6 +537,7 @@ function normalizeProposedClaim(claim: ProposedPageClaim): {
+   id?: string;
+   statement: string;
+   evidence: Array<{ resource: string }>;
++  kbId?: string;
+ } {
+   const statement = claim.statement.trim();
+   if (!statement) {
+@@ -548,6 +558,7 @@ function normalizeProposedClaim(claim: ProposedPageClaim): {
+     ...(claim.id?.trim() ? { id: claim.id.trim() } : {}),
+     statement,
+     evidence: resources.map((resource) => ({ resource })),
++    ...(claim.kbId?.trim() ? { kbId: claim.kbId.trim() } : {}),
+   };
+ }
+ 
+@@ -560,11 +571,16 @@ function normalizeProposedClaim(claim: ProposedPageClaim): {
+  */
+ function sameClaim(
+   existing: InspectedClaim,
+-  proposed: { statement: string; evidence: Array<{ resource: string }> },
++  proposed: {
++    statement: string;
++    evidence: Array<{ resource: string }>;
++    kbId?: string;
++  },
+ ): boolean {
+   return (
+     existing.statement === proposed.statement &&
+-    sameEvidence(existing.evidence, proposed.evidence)
++    sameEvidence(existing.evidence, proposed.evidence) &&
++    existing.kbId === proposed.kbId
+   );
+ }
+ 
+diff --git a/src/netie/connector-gate.ts b/src/netie/connector-gate.ts
+new file mode 100644
+index 0000000..5c541e0
+--- /dev/null
++++ b/src/netie/connector-gate.ts
+@@ -0,0 +1,101 @@
++/**
++ * Leave-machine gate for source connectors (Netie `TAS/TAS-SPACE.md`,
++ * `scripts/space_leave.py`): a connector that would read a personal or remote
++ * source runs only after OpenVault answers `allowed: true`. With no OpenVault,
++ * or any refusal, the connector is off and says so in its result.
++ */
++import { openWikiConnectorsDisplayPath } from "../config/openwiki-home.js";
++import { createRunId } from "../connectors/io.js";
++import {
++  askLeaveMachine,
++  connectorLeaveAsk,
++  LEAVE_MACHINE_LABEL,
++  type LeaveMachineDecision,
++} from "./openvault.js";
++import type {
++  ConnectorIngestOptions,
++  ConnectorIngestResult,
++  ConnectorRuntime,
++} from "../connectors/types.js";
++
++/**
++ * Whether a connector stays on the machine. Only the local git reader does;
++ * every other backend fetches from a remote API or an MCP server.
++ *
++ * @param connector - Connector definition.
++ * @returns True when the connector needs no leave-machine grant.
++ */
++export function connectorStaysLocal(
++  connector: Pick<ConnectorRuntime, "backend">,
++): boolean {
++  return connector.backend === "local-git";
++}
++
++/**
++ * Formats the visible refusal for one connector.
++ *
++ * @param displayName - Connector display name.
++ * @param decision - OpenVault decision.
++ * @returns One line naming the label, the URL asked and the reason.
++ */
++export function formatLeaveMachineRefusal(
++  displayName: string,
++  decision: LeaveMachineDecision,
++): string {
++  return `${displayName} is ${LEAVE_MACHINE_LABEL}. Asked ${decision.url}: ${decision.reason}.`;
++}
++
++/**
++ * Throws unless OpenVault allows this connector to leave the machine.
++ *
++ * @param connectorId - Connector id.
++ * @param displayName - Connector display name for the message.
++ */
++export async function assertLeaveMachine(
++  connectorId: string,
++  displayName: string,
++): Promise<void> {
++  const decision = await askLeaveMachine(connectorLeaveAsk(connectorId));
++  if (!decision.allowed) {
++    throw new Error(formatLeaveMachineRefusal(displayName, decision));
++  }
++}
++
++/**
++ * Wraps one connector so its pull asks OpenVault first. Local connectors are
++ * returned unchanged. A refused pull returns `skipped` with the label in its
++ * message and warnings; it never falls back to a direct call.
++ *
++ * @param connector - Upstream connector runtime.
++ * @returns Gated runtime with a labeled description.
++ */
++export function gateConnector(connector: ConnectorRuntime): ConnectorRuntime {
++  if (connectorStaysLocal(connector)) {
++    return connector;
++  }
++  return {
++    ...connector,
++    description: `${connector.description} Netie: ${LEAVE_MACHINE_LABEL}.`,
++    ingest: async (
++      options?: ConnectorIngestOptions,
++    ): Promise<ConnectorIngestResult> => {
++      const decision = await askLeaveMachine(connectorLeaveAsk(connector.id));
++      if (!decision.allowed) {
++        const message = formatLeaveMachineRefusal(
++          connector.displayName,
++          decision,
++        );
++        return {
++          connectorId: connector.id,
++          message,
++          rawFiles: [],
++          runId: createRunId(),
++          statePath: `${openWikiConnectorsDisplayPath}/${connector.id}/state.json`,
++          status: "skipped",
++          warnings: [message],
++        };
++      }
++      return connector.ingest(options);
++    },
++  };
++}
+diff --git a/src/netie/kb.ts b/src/netie/kb.ts
+new file mode 100644
+index 0000000..944f829
+--- /dev/null
++++ b/src/netie/kb.ts
+@@ -0,0 +1,239 @@
++/**
++ * Netie-KB index for grounded Claims. Ids and titles only, never a skill body.
++ *
++ * Port of the Netie repo's `scripts/kb_lookup.py` (R-0016): a KB row is shown
++ * as a brief `{id, kind, title, status, source}`. A row of kind `skill` never
++ * carries a body across this boundary, and a row whose id, title or source
++ * names a body key is refused outright. The index file is JSON: either an
++ * array of rows or an object with a `rows` array. Its path comes from
++ * `NETIE_KB_INDEX`; when unset there is no index and no Claim can be grounded.
++ */
++import { readFile } from "node:fs/promises";
++
++/**
++ * Environment variable naming the Netie-KB index file (JSON rows).
++ */
++export const NETIE_KB_INDEX_ENV_KEY = "NETIE_KB_INDEX";
++
++/**
++ * Source label stamped on every brief, matching `kb_lookup.show_brief`.
++ */
++export const NETIE_KB_SOURCE = "netie-kb";
++
++/**
++ * Keys that may never leave the index. Same set as `kb_lookup.DROP_KEYS`.
++ */
++export const NETIE_KB_DROP_KEYS: readonly string[] = [
++  "skill_body",
++  "prompt",
++  "instructions",
++  "transcript",
++];
++
++/**
++ * Index row shape in the shape `scripts/kb_lookup.py` returns.
++ */
++export interface NetieKbBrief {
++  /**
++   * Stable Netie-KB id, for example `R-0016` or `S-0004`.
++   */
++  id: string;
++
++  /**
++   * Row kind: `rule`, `workflow`, `finding`, `attack`, `skill` or `unknown`.
++   */
++  kind: string;
++
++  /**
++   * Row title. Never a body.
++   */
++  title: string;
++
++  /**
++   * Row status, or `unknown`.
++   */
++  status: string;
++
++  /**
++   * Always {@link NETIE_KB_SOURCE}.
++   */
++  source: string;
++
++  /**
++   * Optional tags copied from the row.
++   */
++  tags?: string[];
++}
++
++/**
++ * The index refused: id missing, not found, or a body tried to leave.
++ */
++export class NetieKbDenied extends Error {
++  constructor(message: string) {
++    super(message);
++    this.name = "NetieKbDenied";
++  }
++}
++
++/**
++ * Read-only Netie-KB index.
++ */
++export interface NetieKbIndex {
++  /**
++   * Returns the brief for one id or throws {@link NetieKbDenied}.
++   */
++  lookup(id: string): Promise<NetieKbBrief>;
++}
++
++/**
++ * Reads one scalar index field as text, like Python `str()` on a scalar.
++ */
++function text(value: unknown): string {
++  if (typeof value === "string") return value;
++  if (typeof value === "number" || typeof value === "boolean") {
++    return String(value);
++  }
++  return "";
++}
++
++/**
++ * Builds the index brief for one row. Mirrors `kb_lookup.show_brief`.
++ *
++ * @param meta - Raw index row.
++ * @param options - Optional body (refused for skills) and source label.
++ * @returns Brief without any body.
++ */
++export function showBrief(
++  meta: Record<string, unknown>,
++  options: { body?: string | null; source?: string } = {},
++): NetieKbBrief {
++  const source = options.source ?? NETIE_KB_SOURCE;
++  const kind = text(meta.kind).trim().toLowerCase();
++  const id = text(meta.id).trim();
++  const title = text(meta.title).trim();
++  if (!id) {
++    throw new NetieKbDenied("skill id missing");
++  }
++  const blob = `${id} ${title} ${source}`.toLowerCase();
++  if (NETIE_KB_DROP_KEYS.some((key) => blob.includes(key))) {
++    throw new NetieKbDenied("skill_body must never go to the registry");
++  }
++  if (kind === "skill" && options.body !== undefined && options.body !== null) {
++    throw new NetieKbDenied("skill_body must never leave the index");
++  }
++  const brief: NetieKbBrief = {
++    id,
++    kind: kind || "unknown",
++    title,
++    status: text(meta.status).trim() || "unknown",
++    source,
++  };
++  if (Array.isArray(meta.tags)) {
++    brief.tags = meta.tags
++      .map((tag) => String(tag))
++      .filter((tag) => tag.trim() !== "");
++  }
++  return brief;
++}
++
++/**
++ * Finds one row by id. Mirrors `kb_lookup.lookup`: a skill row that still
++ * carries a body is refused rather than stripped.
++ *
++ * @param rows - Raw index rows.
++ * @param id - Wanted Netie-KB id.
++ * @returns Brief for the row.
++ */
++export function lookupBrief(
++  rows: readonly Record<string, unknown>[],
++  id: string,
++): NetieKbBrief {
++  const want = (id ?? "").trim();
++  if (!want) {
++    throw new NetieKbDenied("skill id missing");
++  }
++  for (const row of rows) {
++    if (text(row.id).trim() === want) {
++      const body = row.body;
++      return showBrief(row, {
++        body: typeof body === "string" ? body : undefined,
++      });
++    }
++  }
++  throw new NetieKbDenied(`not found: ${want}`);
++}
++
++/**
++ * Wraps raw rows as an index.
++ *
++ * @param rows - Raw index rows.
++ * @returns Read-only index.
++ */
++export function createNetieKbIndex(
++  rows: readonly Record<string, unknown>[],
++): NetieKbIndex {
++  const safeRows = rows.filter(
++    (row): row is Record<string, unknown> =>
++      row !== null && typeof row === "object" && !Array.isArray(row),
++  );
++  return {
++    lookup: (id) => Promise.resolve(lookupBrief(safeRows, id)),
++  };
++}
++
++/**
++ * Parses index file text into rows.
++ *
++ * @param text - JSON text: an array of rows or `{ "rows": [...] }`.
++ * @returns Raw rows.
++ */
++export function parseNetieKbIndex(text: string): Record<string, unknown>[] {
++  let parsed: unknown;
++  try {
++    parsed = JSON.parse(text);
++  } catch (error) {
++    throw new NetieKbDenied(
++      `Netie-KB index is not valid JSON: ${error instanceof Error ? error.message : String(error)}`,
++    );
++  }
++  const rows = Array.isArray(parsed)
++    ? parsed
++    : parsed !== null &&
++        typeof parsed === "object" &&
++        Array.isArray((parsed as { rows?: unknown }).rows)
++      ? (parsed as { rows: unknown[] }).rows
++      : null;
++  if (rows === null) {
++    throw new NetieKbDenied(
++      "Netie-KB index must be a JSON array of rows or an object with a rows array",
++    );
++  }
++  return rows.filter(
++    (row): row is Record<string, unknown> =>
++      row !== null && typeof row === "object" && !Array.isArray(row),
++  );
++}
++
++/**
++ * Loads the index named by `NETIE_KB_INDEX`.
++ *
++ * @param env - Environment to read.
++ * @returns The index, or `undefined` when no index is configured.
++ */
++export async function loadNetieKbIndex(
++  env: NodeJS.ProcessEnv = process.env,
++): Promise<NetieKbIndex | undefined> {
++  const indexPath = env[NETIE_KB_INDEX_ENV_KEY]?.trim();
++  if (!indexPath) {
++    return undefined;
++  }
++  let text: string;
++  try {
++    text = await readFile(indexPath, "utf8");
++  } catch (error) {
++    throw new NetieKbDenied(
++      `Unable to read Netie-KB index ${indexPath}: ${error instanceof Error ? error.message : String(error)}`,
++    );
++  }
++  return createNetieKbIndex(parseNetieKbIndex(text));
++}
+diff --git a/src/netie/openvault.ts b/src/netie/openvault.ts
+new file mode 100644
+index 0000000..414d9e4
+--- /dev/null
++++ b/src/netie/openvault.ts
+@@ -0,0 +1,249 @@
++/**
++ * OpenVault: the one key vault and leave-machine gate (NETIE.md section 3).
++ *
++ * Two contracts live here, both read from the Netie repo, not invented:
++ *
++ * - Model calls go to one OpenAI-compatible endpoint, `${NETIE_OPENVAULT_URL}/v1`
++ *   (`TAS/TAS-OPENVAULT.md`, default `http://127.0.0.1:5000`). Netie Wiki holds
++ *   no provider key; OpenVault does.
++ * - Anything that leaves the machine asks OpenVault first:
++ *   `POST ${NETIE_OPENVAULT_URL}/api/crew/gate` with
++ *   `{kind, id, intent, parent_run_id, child_id, deficit}` and proceeds only on
++ *   `allowed: true` (`scripts/crew_ov_gate.py`, `scripts/space_leave.py`). A
++ *   missing URL, a transport failure, a timeout or any body without
++ *   `allowed: true` is a refusal. Body keys that could carry a skill body are
++ *   dropped from the reply before it is read.
++ *
++ * Not measured here: whether OpenVault wants a seat token on `/v1` and whether
++ * `/api/crew/gate` is on OpenVault main yet. This module follows the contract
++ * text and says so in its labels.
++ */
++import { randomUUID } from "node:crypto";
++
++/**
++ * Environment variable naming the OpenVault base URL (no path).
++ */
++export const NETIE_OPENVAULT_URL_ENV_KEY = "NETIE_OPENVAULT_URL";
++
++/**
++ * Default OpenVault base URL per `TAS/TAS-OPENVAULT.md`.
++ */
++export const DEFAULT_OPENVAULT_URL = "http://127.0.0.1:5000";
++
++/**
++ * Environment variable naming the parent run id reported to the gate.
++ */
++export const NETIE_PARENT_RUN_ID_ENV_KEY = "NETIE_PARENT_RUN_ID";
++
++/**
++ * Placeholder API key sent to OpenVault `/v1`. The OpenAI client refuses to
++ * construct without one; OpenVault holds the real provider key. Whether
++ * OpenVault wants a seat token here is not measured.
++ */
++export const OPENVAULT_PLACEHOLDER_API_KEY = "openvault";
++
++/**
++ * Keys that never cross the gate in either direction.
++ */
++const DROP_KEYS: readonly string[] = [
++  "skill_body",
++  "prompt",
++  "instructions",
++  "transcript",
++];
++
++/**
++ * Gate kinds OpenVault registers (`crew_ov_gate.REGISTERED_KINDS`).
++ */
++const REGISTERED_KINDS: ReadonlySet<string> = new Set([
++  "memory",
++  "api",
++  "component",
++  "runtime",
++  "model",
++  "service",
++]);
++
++/**
++ * Milliseconds to wait for OpenVault before treating the ask as refused.
++ */
++const GATE_TIMEOUT_MS = 5_000;
++
++/**
++ * Label shown wherever a connector is off because the gate did not allow it.
++ */
++export const LEAVE_MACHINE_LABEL =
++  "off by default: source connectors leave the machine only through OpenVault leave-machine (NETIE_OPENVAULT_URL, POST /api/crew/gate allowed=true)";
++
++/**
++ * Resolves the OpenVault base URL without a trailing slash.
++ *
++ * @param env - Environment to read.
++ * @returns Base URL such as `http://127.0.0.1:5000`.
++ */
++export function resolveOpenVaultUrl(
++  env: NodeJS.ProcessEnv = process.env,
++): string {
++  const configured = env[NETIE_OPENVAULT_URL_ENV_KEY]?.trim();
++  return (configured || DEFAULT_OPENVAULT_URL).replace(/\/+$/u, "");
++}
++
++/**
++ * Resolves the OpenAI-compatible model endpoint, `${NETIE_OPENVAULT_URL}/v1`.
++ *
++ * @param env - Environment to read.
++ * @returns Endpoint base URL.
++ */
++export function resolveOpenVaultV1BaseUrl(
++  env: NodeJS.ProcessEnv = process.env,
++): string {
++  return `${resolveOpenVaultUrl(env)}/v1`;
++}
++
++/**
++ * One ask to the OpenVault crew gate. Field names match the Python contract.
++ */
++export interface LeaveMachineAsk {
++  kind: string;
++  id: string;
++  intent: "leave" | "invoke";
++  parent_run_id: string;
++  child_id: string;
++  deficit: string;
++}
++
++/**
++ * Gate decision as the caller sees it. `allowed` is true only on an explicit
++ * `allowed: true` reply; `reason` says why not otherwise.
++ */
++export interface LeaveMachineDecision {
++  allowed: boolean;
++  reason: string;
++  url: string;
++}
++
++/**
++ * Transport used to reach OpenVault. Defaults to the global `fetch`.
++ */
++export type LeaveMachineFetch = (
++  url: string,
++  init: {
++    method: "POST";
++    headers: Record<string, string>;
++    body: string;
++    signal: AbortSignal;
++  },
++) => Promise<{ ok: boolean; status: number; json(): Promise<unknown> }>;
++
++/**
++ * Asks OpenVault whether one leave-machine action may proceed. Never throws:
++ * every failure is a refusal with a reason, so callers show it instead of
++ * falling back silently.
++ *
++ * @param ask - Gate ask.
++ * @param options - Environment and transport overrides.
++ * @returns Decision with the URL that was asked.
++ */
++export async function askLeaveMachine(
++  ask: LeaveMachineAsk,
++  options: { env?: NodeJS.ProcessEnv; fetch?: LeaveMachineFetch } = {},
++): Promise<LeaveMachineDecision> {
++  const env = options.env ?? process.env;
++  const base = resolveOpenVaultUrl(env);
++  const url = `${base}/api/crew/gate`;
++  if (!REGISTERED_KINDS.has(ask.kind)) {
++    return {
++      allowed: false,
++      reason: `no ${ask.kind} registered as '${ask.id}'`,
++      url,
++    };
++  }
++  if (!ask.parent_run_id.trim() || !ask.child_id.trim()) {
++    return {
++      allowed: false,
++      reason: "leave-machine needs parent and child run ids",
++      url,
++    };
++  }
++  const payload = stripBodies({ ...ask });
++  const transport: LeaveMachineFetch = options.fetch ?? globalThis.fetch;
++  let raw: unknown;
++  try {
++    const response = await transport(url, {
++      method: "POST",
++      headers: { "content-type": "application/json" },
++      body: JSON.stringify(payload),
++      signal: AbortSignal.timeout(GATE_TIMEOUT_MS),
++    });
++    if (!response.ok) {
++      return { allowed: false, reason: `crew_gate ${response.status}`, url };
++    }
++    raw = await response.json();
++  } catch (error) {
++    return {
++      allowed: false,
++      reason: `crew_gate unreachable: ${error instanceof Error ? error.message : String(error)}`,
++      url,
++    };
++  }
++  const body = stripBodies(raw);
++  if (body === null || typeof body !== "object" || Array.isArray(body)) {
++    return { allowed: false, reason: "crew_gate returned non-object", url };
++  }
++  const record = body as Record<string, unknown>;
++  if (record.allowed !== true) {
++    const reason =
++      typeof record.reason === "string" && record.reason.trim()
++        ? record.reason
++        : "openvault refused";
++    return { allowed: false, reason, url };
++  }
++  return { allowed: true, reason: "allowed", url };
++}
++
++/**
++ * Builds the ask for one source connector pull.
++ *
++ * @param connectorId - Connector id, for example `google`.
++ * @param env - Environment to read the parent run id from.
++ * @returns Gate ask for `wiki.connector.<id>`.
++ */
++export function connectorLeaveAsk(
++  connectorId: string,
++  env: NodeJS.ProcessEnv = process.env,
++): LeaveMachineAsk {
++  return {
++    kind: "service",
++    id: `wiki.connector.${connectorId}`,
++    intent: "leave",
++    parent_run_id: env[NETIE_PARENT_RUN_ID_ENV_KEY]?.trim() || PROCESS_RUN_ID,
++    child_id: randomUUID(),
++    deficit: "connector_ingest",
++  };
++}
++
++/**
++ * One id per process, used as the parent run when none is given.
++ */
++const PROCESS_RUN_ID = `wiki-${randomUUID()}`;
++
++/**
++ * Drops body-carrying keys recursively. Matches `crew_ov_gate.strip_bodies`.
++ */
++function stripBodies(value: unknown): unknown {
++  if (Array.isArray(value)) {
++    return value.map(stripBodies);
++  }
++  if (value !== null && typeof value === "object") {
++    const out: Record<string, unknown> = {};
++    for (const [key, inner] of Object.entries(
++      value as Record<string, unknown>,
++    )) {
++      if (!DROP_KEYS.includes(key)) {
++        out[key] = stripBodies(inner);
++      }
++    }
++    return out;
++  }
++  return value;
++}
+diff --git a/src/version.ts b/src/version.ts
+index deead91..4fe3132 100644
+--- a/src/version.ts
++++ b/src/version.ts
+@@ -79,3 +79,9 @@ export const OPENWIKI_VERSION = readOwnVersion();
+  * from this single source so actor identity cannot drift.
+  */
+ export const OPENWIKI_PRODUCER_ACTOR = `openwiki/${OPENWIKI_VERSION}`;
++
++/**
++ * Product name shown to the operator (help title, header, notices). The CLI
++ * binary, package name and on-disk paths still say `openwiki` until stage 3.
++ */
++export const PRODUCT_NAME = "Netie Wiki";
+diff --git a/test/claims/brains/code/store.test.ts b/test/claims/brains/code/store.test.ts
+index 8b2992c..f781d74 100644
+--- a/test/claims/brains/code/store.test.ts
++++ b/test/claims/brains/code/store.test.ts
+@@ -132,8 +132,17 @@ describe("ClaimsStore", () => {
+       rootDir,
+       "openwiki/.claims/concepts/claims.json",
+     );
++    // Netie Wiki labels every persisted claim; in memory an ungrounded claim
++    // stays field-free, so the round trip still equals the input.
++    const persisted = {
++      ...pageClaims,
++      claims: pageClaims.claims.map((claim) => ({
++        ...claim,
++        grounding: "ungrounded",
++      })),
++    };
+     await expect(readFile(sidecarPath, "utf8")).resolves.toBe(
+-      `${JSON.stringify(pageClaims, null, 2)}\n`,
++      `${JSON.stringify(persisted, null, 2)}\n`,
+     );
+     await expect(store.loadPage(page)).resolves.toEqual(pageClaims);
+     await expect(store.discoverSidecarPages()).resolves.toEqual([page]);
+diff --git a/test/cli/components/first-run-notice.test.tsx b/test/cli/components/first-run-notice.test.tsx
+index 54f46b3..53e6ab0 100644
+--- a/test/cli/components/first-run-notice.test.tsx
++++ b/test/cli/components/first-run-notice.test.tsx
+@@ -1,6 +1,7 @@
+ import React from "react";
+ import { render } from "ink-testing-library";
+ import { describe, expect, test } from "vitest";
++import { PRODUCT_NAME } from "../../../src/version.ts";
+ import {
+   FIRST_RUN_NOTICE_WIDTH,
+   FirstRunNotice,
+@@ -34,7 +35,7 @@ describe("renderFirstRunNoticeText", () => {
+     const text = renderFirstRunNoticeText(false);
+ 
+     expect(text).not.toContain(esc);
+-    expect(text).toContain("OpenWiki telemetry");
++    expect(text).toContain(`${PRODUCT_NAME} telemetry`);
+   });
+ 
+   test("color form wraps the block in a gray SGR pair", () => {
+diff --git a/test/cli/components/header.test.tsx b/test/cli/components/header.test.tsx
+index 17dea2b..ee6d298 100644
+--- a/test/cli/components/header.test.tsx
++++ b/test/cli/components/header.test.tsx
+@@ -2,6 +2,7 @@ import React from "react";
+ import { render } from "ink-testing-library";
+ import { afterEach, beforeEach, describe, expect, test } from "vitest";
+ import { Header } from "../../../src/cli/components/header.tsx";
++import { PRODUCT_NAME } from "../../../src/version.ts";
+ import { stripAnsi as plain } from "./ansi.ts";
+ 
+ const HEADER_ENV_KEYS = [
+@@ -36,7 +37,7 @@ describe("Header", () => {
+     );
+ 
+     const frame = plain(lastFrame());
+-    expect(frame).toContain("OpenWiki");
++    expect(frame).toContain(PRODUCT_NAME);
+     expect(frame).toContain("provider:");
+     expect(frame).toContain("model:");
+     expect(frame).toContain("my-model-id");
+diff --git a/test/config/constants.test.ts b/test/config/constants.test.ts
+index a3e7bdf..6be2186 100644
+--- a/test/config/constants.test.ts
++++ b/test/config/constants.test.ts
+@@ -163,32 +163,36 @@ describe("resolveConfiguredProvider", () => {
+     );
+   });
+ 
+-  test("falls back to openrouter when only an OpenRouter key is present", () => {
++  // Netie Wiki: an ambient provider key never selects a direct provider; that
++  // would bypass OpenVault without saying so. Only OPENWIKI_PROVIDER does.
++  test("does not auto-select openrouter from an ambient OpenRouter key", () => {
+     expect(resolveConfiguredProvider({ OPENROUTER_API_KEY: "x" })).toBe(
+-      "openrouter",
++      DEFAULT_PROVIDER,
+     );
+   });
+ 
+-  test("falls back to nvidia when only an NVIDIA key is present", () => {
+-    expect(resolveConfiguredProvider({ NVIDIA_API_KEY: "x" })).toBe("nvidia");
++  test("does not auto-select nvidia from an ambient NVIDIA key", () => {
++    expect(resolveConfiguredProvider({ NVIDIA_API_KEY: "x" })).toBe(
++      DEFAULT_PROVIDER,
++    );
+   });
+ 
+-  test("falls back to bedrock when a complete legacy key pair is present", () => {
++  test("does not auto-select bedrock from a complete legacy key pair", () => {
+     expect(
+       resolveConfiguredProvider({
+         BEDROCK_AWS_ACCESS_KEY_ID: "access",
+         BEDROCK_AWS_SECRET_ACCESS_KEY: "secret",
+       }),
+-    ).toBe("bedrock");
++    ).toBe(DEFAULT_PROVIDER);
+   });
+ 
+-  test("auto-selects bedrock from partial legacy config for repair", () => {
++  test("does not auto-select bedrock from partial legacy config", () => {
+     expect(
+       resolveConfiguredProvider({ BEDROCK_AWS_ACCESS_KEY_ID: "access" }),
+-    ).toBe("bedrock");
++    ).toBe(DEFAULT_PROVIDER);
+     expect(
+       resolveConfiguredProvider({ BEDROCK_AWS_SECRET_ACCESS_KEY: "secret" }),
+-    ).toBe("bedrock");
++    ).toBe(DEFAULT_PROVIDER);
+   });
+ 
+   test("does not auto-select bedrock from ambient AWS config", () => {
+diff --git a/test/connectors/mcp-runtime.test.ts b/test/connectors/mcp-runtime.test.ts
+index f04f931..9369687 100644
+--- a/test/connectors/mcp-runtime.test.ts
++++ b/test/connectors/mcp-runtime.test.ts
+@@ -3,6 +3,16 @@ import { beforeEach, describe, expect, test, vi } from "vitest";
+ // mcp-runtime brokers between the io layer and the MCP client and enforces the
+ // read-only tool-call policy. io and the client are mocked; the diagnostics
+ // redaction (isSecretLikeKey) is left real because it is part of what we assert.
++// Netie Wiki: MCP and connector pulls first ask OpenVault (leave-machine). That
++// gate is covered by test/netie/netie-wiki-gate.test.ts; these cases test the
++// upstream behavior behind it, so OpenVault answers allowed here.
++vi.mock("../../src/netie/openvault.ts", async (importActual) => ({
++  ...(await importActual<typeof import("../../src/netie/openvault.ts")>()),
++  askLeaveMachine: vi.fn(() =>
++    Promise.resolve({ allowed: true, reason: "allowed", url: "test" }),
++  ),
++}));
++
+ vi.mock("../../src/connectors/io.ts", () => ({
+   createRunId: () => "run-1",
+   readConnectorConfig: vi.fn(),
+diff --git a/test/ingestion/code-mode.test.ts b/test/ingestion/code-mode.test.ts
+index 42c3b5c..b294b1d 100644
+--- a/test/ingestion/code-mode.test.ts
++++ b/test/ingestion/code-mode.test.ts
+@@ -10,7 +10,7 @@ import { execFile } from "node:child_process";
+ import { tmpdir } from "node:os";
+ import path from "node:path";
+ import { promisify } from "node:util";
+-import { afterEach, describe, expect, test } from "vitest";
++import { afterEach, describe, expect, test, vi } from "vitest";
+ import { parse } from "yaml";
+ import {
+   ensureCodeModeRepoSetup,
+@@ -18,6 +18,16 @@ import {
+ } from "../../src/ingestion/code-mode.ts";
+ import type { OpenWikiRunEvent } from "../../src/agent/types.ts";
+ 
++// Netie Wiki: MCP and connector pulls first ask OpenVault (leave-machine). That
++// gate is covered by test/netie/netie-wiki-gate.test.ts; these cases test the
++// upstream behavior behind it, so OpenVault answers allowed here.
++vi.mock("../../src/netie/openvault.ts", async (importActual) => ({
++  ...(await importActual<typeof import("../../src/netie/openvault.ts")>()),
++  askLeaveMachine: vi.fn(() =>
++    Promise.resolve({ allowed: true, reason: "allowed", url: "test" }),
++  ),
++}));
++
+ const SNIPPET_START = "<!-- OPENWIKI:START -->";
+ const SNIPPET_END = "<!-- OPENWIKI:END -->";
+ 
+diff --git a/test/netie/netie-wiki-gate.test.ts b/test/netie/netie-wiki-gate.test.ts
+new file mode 100644
+index 0000000..7f9730c
+--- /dev/null
++++ b/test/netie/netie-wiki-gate.test.ts
+@@ -0,0 +1,339 @@
++/**
++ * Netie Wiki stage 2 gate. Each case asserts something an operator or a
++ * customer actually receives: the Claims sidecar the CLI writes, the HTTP
++ * request a model call sends, the example workflow an operator copies, the
++ * connector result the ingest command prints, and the CLI's own words.
++ *
++ * Every module is imported inside its test body, so on a tree without the gate
++ * each case fails on its own instead of the whole file failing at load.
++ */
++import { createServer, type IncomingMessage, type Server } from "node:http";
++import { mkdir, mkdtemp, readFile, rm, writeFile } from "node:fs/promises";
++import type { AddressInfo } from "node:net";
++import { tmpdir } from "node:os";
++import path from "node:path";
++import { afterEach, beforeEach, describe, expect, test, vi } from "vitest";
++import { parse } from "yaml";
++
++const ENV_KEYS = [
++  "NETIE_OPENVAULT_URL",
++  "NETIE_KB_INDEX",
++  "OPENWIKI_PROVIDER",
++  "OPENWIKI_CONFIG_DIR",
++  "OPENAI_API_KEY",
++] as const;
++
++/** Port nothing listens on: an OpenVault that is not running. */
++const DEAD_OPENVAULT = "http://127.0.0.1:9";
++
++const KB_ROWS = [
++  { id: "R-0016", kind: "rule", title: "skills live in KB", status: "active" },
++  {
++    id: "S-0001",
++    kind: "skill",
++    title: "fleet",
++    body: "## Steps\n1. Presence first",
++  },
++];
++
++interface Recorded {
++  method: string;
++  url: string;
++  headers: IncomingMessage["headers"];
++  body: string;
++}
++
++/**
++ * Starts a local HTTP stub and records every request it receives.
++ */
++async function startStub(
++  reply: (request: Recorded) => { status: number; body: unknown },
++): Promise<{ url: string; requests: Recorded[]; server: Server }> {
++  const requests: Recorded[] = [];
++  const server = createServer((req, res) => {
++    let body = "";
++    req.on("data", (chunk: Buffer) => {
++      body += chunk.toString("utf8");
++    });
++    req.on("end", () => {
++      const recorded = {
++        method: req.method ?? "",
++        url: req.url ?? "",
++        headers: req.headers,
++        body,
++      };
++      requests.push(recorded);
++      const answer = reply(recorded);
++      res.writeHead(answer.status, { "content-type": "application/json" });
++      res.end(JSON.stringify(answer.body));
++    });
++  });
++  await new Promise<void>((resolve) => server.listen(0, "127.0.0.1", resolve));
++  const { port } = server.address() as AddressInfo;
++  return { url: `http://127.0.0.1:${port}`, requests, server };
++}
++
++describe("Netie Wiki stage 2 gate", () => {
++  let rootDir: string;
++  let saved: Record<string, string | undefined>;
++  const servers: Server[] = [];
++
++  beforeEach(async () => {
++    rootDir = await mkdtemp(path.join(tmpdir(), "netie-wiki-gate-"));
++    saved = Object.fromEntries(ENV_KEYS.map((key) => [key, process.env[key]]));
++    for (const key of ENV_KEYS) delete process.env[key];
++    process.env.OPENWIKI_CONFIG_DIR = path.join(rootDir, "home");
++    vi.resetModules();
++  });
++
++  afterEach(async () => {
++    for (const key of ENV_KEYS) {
++      if (saved[key] === undefined) delete process.env[key];
++      else process.env[key] = saved[key];
++    }
++    await Promise.all(
++      servers
++        .splice(0)
++        .map(
++          (server) =>
++            new Promise<void>((resolve) => server.close(() => resolve())),
++        ),
++    );
++    await rm(rootDir, { force: true, recursive: true });
++  });
++
++  /**
++   * Writes a one-page repository, a KB index, and runs the real Claims
++   * runtime through the agent's submit path. Returns the written sidecar.
++   */
++  async function writeClaimsThroughCli(
++    claims: Array<{ statement: string; kbId?: string }>,
++  ): Promise<Record<string, unknown>> {
++    const page = "/openwiki/page.md";
++    await mkdir(path.join(rootDir, "openwiki"), { recursive: true });
++    await writeFile(
++      path.join(rootDir, "openwiki", "page.md"),
++      "---\ntype: Reference\n---\n\n# Page\n",
++    );
++    await writeFile(path.join(rootDir, "source.ts"), "export const v = 1;\n");
++    const kbPath = path.join(rootDir, "kb.json");
++    await writeFile(kbPath, JSON.stringify({ rows: KB_ROWS }));
++    process.env.NETIE_KB_INDEX = kbPath;
++
++    const { OpenWikiIgnore } =
++      await import("../../src/agent/openwiki-ignore.ts");
++    const { prepareClaimsRuntime } =
++      await import("../../src/claims/brains/code/runtime.ts");
++    const { reconcilePageClaims } =
++      await import("../../src/generation/page-jobs.ts");
++    const runtime = await prepareClaimsRuntime(
++      "init",
++      "repository",
++      rootDir,
++      new OpenWikiIgnore([]),
++    );
++    if (!runtime) throw new Error("Claims runtime was not prepared");
++    await reconcilePageClaims(runtime.session, page, {
++      claims: claims.map((claim) => ({
++        statement: claim.statement,
++        evidence: [{ resource: "repo://source.ts" }],
++        ...(claim.kbId ? { kbId: claim.kbId } : {}),
++      })),
++    });
++    await runtime.finalize("2026-10-28T12:00:00.000Z");
++    const sidecar = await readFile(
++      path.join(rootDir, "openwiki", ".claims", "page.json"),
++      "utf8",
++    );
++    return JSON.parse(sidecar) as Record<string, unknown>;
++  }
++
++  test("a grounded claim is written with its Netie-KB id and brief", async () => {
++    const sidecar = await writeClaimsThroughCli([
++      { statement: "Skills live in Netie-KB.", kbId: "R-0016" },
++    ]);
++    const [claim] = sidecar.claims as Array<Record<string, unknown>>;
++    expect(claim.grounding).toBe("netie-kb");
++    expect(claim.kb).toEqual({
++      id: "R-0016",
++      kind: "rule",
++      title: "skills live in KB",
++      status: "active",
++      source: "netie-kb",
++    });
++  });
++
++  test("a claim without a KB id is written labeled ungrounded, never silently", async () => {
++    const sidecar = await writeClaimsThroughCli([
++      { statement: "The source exports a value." },
++    ]);
++    const [claim] = sidecar.claims as Array<Record<string, unknown>>;
++    expect(claim.grounding).toBe("ungrounded");
++    expect(claim).not.toHaveProperty("kb");
++  });
++
++  test("a KB id the index does not hold is refused, not dropped", async () => {
++    await expect(
++      writeClaimsThroughCli([{ statement: "Invented.", kbId: "R-9999" }]),
++    ).rejects.toThrow(/R-9999/u);
++  });
++
++  test("a KB skill row carrying a body is refused at the boundary", async () => {
++    await expect(
++      writeClaimsThroughCli([{ statement: "Fleet.", kbId: "S-0001" }]),
++    ).rejects.toThrow(/skill_body/u);
++  });
++
++  test("default config resolves to OpenVault /v1 with no provider key", async () => {
++    const constants = await import("../../src/config/constants.ts");
++    expect(constants.resolveConfiguredProvider({})).toBe("openvault");
++    // An ambient direct-provider key does not route around OpenVault.
++    expect(constants.resolveConfiguredProvider({ OPENAI_API_KEY: "x" })).toBe(
++      "openvault",
++    );
++    expect(constants.resolveProviderBaseUrl("openvault", {})).toBe(
++      "http://127.0.0.1:5000/v1",
++    );
++    expect(
++      constants.resolveProviderBaseUrl("openvault", {
++        NETIE_OPENVAULT_URL: "http://vault.local:7000/",
++      }),
++    ).toBe("http://vault.local:7000/v1");
++    expect(constants.getProviderApiKeyEnvKey("openvault")).toBeUndefined();
++    expect(constants.getDefaultModelId(constants.DEFAULT_PROVIDER)).toBe(
++      "auto",
++    );
++  });
++
++  test("a model call leaves only for OpenVault /v1 and carries no provider key", async () => {
++    const stub = await startStub(() => ({
++      status: 200,
++      body: {
++        id: "chatcmpl-1",
++        object: "chat.completion",
++        created: 0,
++        model: "auto",
++        choices: [
++          {
++            index: 0,
++            message: { role: "assistant", content: "ok" },
++            finish_reason: "stop",
++          },
++        ],
++        usage: { prompt_tokens: 1, completion_tokens: 1, total_tokens: 2 },
++      },
++    }));
++    servers.push(stub.server);
++    process.env.NETIE_OPENVAULT_URL = stub.url;
++    process.env.OPENAI_API_KEY = "sk-must-not-leave";
++
++    const { createModel } = await import("../../src/agent/index.ts");
++    const { resolveConfiguredProvider } =
++      await import("../../src/config/constants.ts");
++    const model = createModel(resolveConfiguredProvider(), "auto", 0);
++    await model.invoke("hello");
++
++    expect(stub.requests).toHaveLength(1);
++    const [request] = stub.requests;
++    expect(request.method).toBe("POST");
++    expect(request.url).toBe("/v1/chat/completions");
++    expect(request.headers.authorization).toBe("Bearer openvault");
++    expect(JSON.stringify(request)).not.toContain("sk-must-not-leave");
++  });
++
++  test("every example workflow an operator copies uses OpenVault and holds no key", async () => {
++    const examples = path.resolve("examples");
++    for (const name of [
++      "openwiki-update.yml",
++      "openwiki-update-auto-merge.yml",
++      "openwiki-update.gitlab-ci.yml",
++    ]) {
++      const text = await readFile(path.join(examples, name), "utf8");
++      parse(text);
++      expect(text, name).toMatch(/OPENWIKI_PROVIDER: openvault/u);
++      expect(text, name).not.toMatch(/[A-Z_]*(API_KEY|_SECRET)[A-Z_]*:/u);
++      expect(text, name).not.toMatch(/OPENWIKI_PROVIDER: (?!openvault)/u);
++    }
++  });
++
++  test("every connector that leaves the machine is off without OpenVault, with a visible label", async () => {
++    process.env.NETIE_OPENVAULT_URL = DEAD_OPENVAULT;
++    const { createConnectorRegistry } =
++      await import("../../src/connectors/registry.ts");
++    const registry = createConnectorRegistry();
++    const local: string[] = [];
++    for (const connector of Object.values(registry)) {
++      if (connector.backend === "local-git") {
++        local.push(connector.id);
++        continue;
++      }
++      expect(connector.description, connector.id).toContain(
++        "OpenVault leave-machine",
++      );
++      const result = await connector.ingest();
++      expect(result.status, connector.id).toBe("skipped");
++      expect(result.message, connector.id).toContain("OpenVault leave-machine");
++      expect(result.message, connector.id).toContain(
++        `${DEAD_OPENVAULT}/api/crew/gate`,
++      );
++      expect(result.rawFiles, connector.id).toEqual([]);
++    }
++    expect(local).toEqual(["git-repo"]);
++  });
++
++  test("a gate reply without allowed=true keeps the connector off", async () => {
++    const stub = await startStub(() => ({
++      status: 200,
++      body: { allowed: "true", reason: "not a boolean" },
++    }));
++    servers.push(stub.server);
++    process.env.NETIE_OPENVAULT_URL = stub.url;
++    const { createConnectorRegistry } =
++      await import("../../src/connectors/registry.ts");
++    const result = await createConnectorRegistry().google.ingest();
++    expect(result.status).toBe("skipped");
++    expect(result.message).toContain("OpenVault leave-machine");
++    expect(stub.requests).toHaveLength(1);
++  });
++
++  test("an OpenVault allow runs the connector and the ask names the connector", async () => {
++    const stub = await startStub(() => ({
++      status: 200,
++      body: { allowed: true, skill_body: "must be stripped" },
++    }));
++    servers.push(stub.server);
++    process.env.NETIE_OPENVAULT_URL = stub.url;
++    const { createConnectorRegistry } =
++      await import("../../src/connectors/registry.ts");
++    const result = await createConnectorRegistry()["custom-mcp"].ingest();
++    expect(result.message).not.toContain("OpenVault leave-machine");
++    expect(stub.requests).toHaveLength(1);
++    const [ask] = stub.requests;
++    expect(ask.url).toBe("/api/crew/gate");
++    expect(JSON.parse(ask.body)).toMatchObject({
++      kind: "service",
++      id: "wiki.connector.custom-mcp",
++      intent: "leave",
++      deficit: "connector_ingest",
++    });
++  });
++
++  test("an MCP tool call is refused without OpenVault", async () => {
++    process.env.NETIE_OPENVAULT_URL = DEAD_OPENVAULT;
++    const { callMcpConnectorTool } =
++      await import("../../src/connectors/mcp-runtime.ts");
++    await expect(callMcpConnectorTool("notion", "search", {})).rejects.toThrow(
++      /OpenVault leave-machine/u,
++    );
++  });
++
++  test("the CLI names itself Netie Wiki in help and notices", async () => {
++    const { helpContent } = await import("../../src/cli/commands.ts");
++    const { PRODUCT_NAME } = await import("../../src/version.ts");
++    const { renderFirstRunNoticeText } =
++      await import("../../src/cli/components/first-run-notice.tsx");
++    expect(PRODUCT_NAME).toBe("Netie Wiki");
++    expect(helpContent.title).toBe("Netie Wiki");
++    expect(renderFirstRunNoticeText(false)).toContain("Netie Wiki telemetry");
++  });
++});

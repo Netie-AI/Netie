@@ -18,7 +18,7 @@
       "brand_from": ["OpenCode"],
       "role": "Terminal and desktop coding agent: the FreeIDE coding surface.",
       "gate": "Provider base URL -> OpenVault /v1. Shell, edit and fetch tools -> Cortex tool_runner and OpenVault POST /api/crew/gate.",
-      "stage": 1
+      "stage": 2
     },
     {
       "slug": "freeide-ext",
@@ -172,8 +172,8 @@
       "netie_name": "Netie Wiki",
       "brand_from": ["OpenWiki"],
       "role": "CLI that writes and maintains a linked markdown wiki (code brain and personal brain) with claims tied to versioned evidence.",
-      "gate": "Grounded claims map to Netie-KB ids. Source connectors (mail, notes) run only through OpenVault leave-machine.",
-      "stage": 1
+      "gate": "Tested (test/netie/netie-wiki-gate.test.ts, 12 cases, red on stage 1): claims sidecar records grounding netie-kb with a KB brief or ungrounded, unknown KB ids and skill bodies refused; model calls default to OpenVault /v1 with no provider key and no ambient-key fallback; every connector but git-repo is off unless OpenVault crew/gate allows, with a visible label.",
+      "stage": 2
     },
     {
       "slug": "cortex-haystack",
@@ -206,8 +206,8 @@
       "netie_name": "AirGPT",
       "brand_from": ["LibreChat"],
       "role": "Multi-provider chat shell. MIT, so it is the rebrandable base for AirGPT.",
-      "gate": "Endpoints -> OpenVault /v1 only. Retrieval -> netie.airgpt retrieve_space. Cross-chat memory abstains until governed.",
-      "stage": 1
+      "gate": "Endpoints -> OpenVault /v1 only (0002-gate.patch, tested). Retrieval -> netie.airgpt retrieve_space (not wired). Cross-chat memory off and labeled ungoverned until it routes through Cortex actions.",
+      "stage": 2
     },
     {
       "slug": "freeroute",
@@ -267,8 +267,8 @@
       "netie_name": "FreeRoute Core",
       "brand_from": ["Auto AI Router"],
       "role": "Go proxy: credential pooling, round-robin, per-key rate limits, fail2ban. The high-throughput data plane under FreeRoute.",
-      "gate": "Credentials are issued by OpenVault. The router holds no key of its own.",
-      "stage": 1
+      "gate": "Credentials are issued by OpenVault, the router holds no key of its own: config.Load refuses inline keys and fills the pool from GET {NETIE_OPENVAULT_URL}/api/freeroute/credentials; 17 go test gate cases on the loader and the real proxy, measured red on stage 1 and green after.",
+      "stage": 2
     },
     {
       "slug": "freebuild",
