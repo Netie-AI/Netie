@@ -102,8 +102,8 @@
       "netie_name": "Crew Harness",
       "brand_from": ["DeepSeek Harness"],
       "role": "Everything-is-a-plugin agent harness with web UI, headless command and Python SDK. Developer preview, version 0.1.0-rc.5 per its README.",
-      "gate": "Model plugin -> OpenVault /v1. Tool and sandbox plugins register only through Cortex tool_runner.",
-      "stage": 1
+      "gate": "Tested in vitest on the shipped bundle patch files: default model plugin is one OpenAI-compatible route at NETIE_OPENVAULT_URL/v1 (no DeepSeek route, no provider key field); tools and sandbox-local refuse registration without the Crew gate wrap, which posts ids only to OpenVault POST /api/crew/gate and fails closed.",
+      "stage": 2
     },
     {
       "slug": "crew-deepagents",
