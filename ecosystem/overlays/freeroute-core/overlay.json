@@ -1,0 +1,47 @@
+{
+  "slug": "freeroute-core",
+  "upstream": "MiXaiLL76/auto_ai_router",
+  "base_commit": "4f8597503ab202a18c3417a20529850134f62099",
+  "license_sha256": "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4",
+  "stripped": [],
+  "files_changed": [
+    "README.md",
+    "docs/advanced/balancing.md",
+    "docs/advanced/model_alias.md",
+    "docs/advanced/redis.md",
+    "docs/advanced/responses.md",
+    "docs/cli-tools/codex.md",
+    "docs/getting-started/api.md",
+    "docs/getting-started/configuration.md",
+    "docs/index.md",
+    "docs/litellm-integration/kafka_spend_log.md",
+    "docs/litellm-integration/litellm_auth.md",
+    "docs/litellm-integration/litellm_db.md",
+    "docs/litellm-integration/pricing.md",
+    "docs/monitoring/otel.md",
+    "docs/providers/air.md",
+    "docs/providers/index.md",
+    "docs/providers/proxy.md",
+    "docs/refs/index.md",
+    "docs/refs/openai_chat_completions.md",
+    "NETIE-ATTRIBUTION.md"
+  ],
+  "series": [
+    "0001-rebrand.patch",
+    "0002-gate.patch"
+  ],
+  "stage2": {
+    "patch": "0002-gate.patch",
+    "gate_test": [
+      "internal/config/netie_gate_test.go",
+      "internal/proxy/netie_gate_test.go"
+    ],
+    "run": "go test ./internal/config/ ./internal/proxy/ -run 'TestNetieGate' -v",
+    "env": "NETIE_OPENVAULT_URL",
+    "seat_env": "NETIE_OPENVAULT_SEAT",
+    "credential_source": "GET ${NETIE_OPENVAULT_URL}/api/freeroute/credentials (assumed interface, see PLAN.md)",
+    "inline_keys": "refused by config.Load; dev override NETIE_DEV_ALLOW_INLINE_KEYS=1 logs every accepted key at WARN",
+    "build_proof": "measured by the parent session (session_0168dMM52yirXZgXMymEBTNv) on 2026-10-30 at head 8318d9a, go1.24.7, -count=1: go build rc 0 on both trees; go test ./... rc 0 on both (48 pkgs ok, 5304 PASS / 71 SKIP on stage 1, 5321 PASS / 71 SKIP on stage 2, no new skip); TestNetieGate 0 of 17 on stage 1, 17 of 17 on stage 2, 85 of 85 with -count=5; replay tree a3447787dfdfe9f2207d1f1e290054fc0cadbf23",
+    "plan": "PLAN.md"
+  }
+}

@@ -1,0 +1,712 @@
+diff --git a/CLAUDE.md b/CLAUDE.md
+index 8cbdaf9..9ed85e6 100644
+--- a/CLAUDE.md
++++ b/CLAUDE.md
+@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
+ 
+ ## What this is
+ 
+-9Router (`9router-app`) — a local AI routing gateway + Next.js dashboard. It exposes one OpenAI-compatible endpoint (`/v1/*`) and routes traffic across 40+ upstream providers with format translation, model-combo fallback, multi-account fallback, OAuth/API-key credential management, token refresh, quota/usage tracking, and optional cloud sync.
++FreeRoute 9 (`9router-app`) — a local AI routing gateway + Next.js dashboard. It exposes one OpenAI-compatible endpoint (`/v1/*`) and routes traffic across 40+ upstream providers with format translation, model-combo fallback, multi-account fallback, OAuth/API-key credential management, token refresh, quota/usage tracking, and optional cloud sync.
+ 
+ Two published artifacts live in this one repo:
+ - The **dashboard + gateway** (root `package.json`, `9router-app`) — the Next.js server that does the actual routing.
+diff --git a/DOCKER.md b/DOCKER.md
+index 727d7bf..144bbbc 100644
+--- a/DOCKER.md
++++ b/DOCKER.md
+@@ -1,6 +1,6 @@
+ # Docker
+ 
+-Run 9Router in a container. Published image: [`decolua/9router`](https://hub.docker.com/r/decolua/9router) — multi-platform `linux/amd64` + `linux/arm64`.
++Run FreeRoute 9 in a container. Published image: [`decolua/9router`](https://hub.docker.com/r/decolua/9router) — multi-platform `linux/amd64` + `linux/arm64`.
+ 
+ ---
+ 
+@@ -66,7 +66,7 @@ docker run -d \
+ 
+ ## Optional Headroom sidecar
+ 
+-The 9Router image does not bundle Python or Headroom. To use Headroom in Docker, run it as a separate service and point 9Router at that proxy:
++The FreeRoute 9 image does not bundle Python or Headroom. To use Headroom in Docker, run it as a separate service and point FreeRoute 9 at that proxy:
+ 
+ ```yaml
+ services:
+diff --git a/NETIE-ATTRIBUTION.md b/NETIE-ATTRIBUTION.md
+new file mode 100644
+index 0000000..b86e453
+--- /dev/null
++++ b/NETIE-ATTRIBUTION.md
+@@ -0,0 +1,25 @@
++# Attribution
++
++Netie FreeRoute 9 is a modified distribution of decolua/9router
++(https://github.com/decolua/9router), pinned at commit a99cf57239.
++
++Upstream license: MIT. LICENSE is included unmodified, with every
++upstream copyright line, and so is any NOTICE file.
++
++- Copyright (c) 2024-2026 decolua and contributors
++
++Not affiliated with or endorsed by the upstream authors. Upstream names and
++logos belong to their owners.
++
++## Changed in stage 1
++
++- Display name 9Router rewritten to FreeRoute 9 in prose docs only.
++- This file and a README banner added.
++
++## Not done yet (stage 2)
++
++- Package names, binaries, identifiers and UI strings are still upstream's.
++- SECURITY, SUPPORT and CONTRIBUTING contacts and URLs still point at upstream.
++- Translated docs, changelogs and third-party notices are untouched.
++- Netie gate wiring: Same as freeroute.
++- Must be disabled before any release: subscription-login providers (Claude Code, Codex, Copilot, Cursor, Antigravity)
+diff --git a/README.md b/README.md
+index 1e4d338..1d2c3f0 100644
+--- a/README.md
++++ b/README.md
+@@ -1,7 +1,9 @@
++> **Netie FreeRoute 9** is a modified distribution of [decolua/9router](https://github.com/decolua/9router) (MIT). See NETIE-ATTRIBUTION.md. Not endorsed by the upstream authors.
++
+ <div align="center">
+   <img src="./images/9router.png?1" alt="9Router Dashboard" width="800"/>
+   
+-  # 9Router - FREE AI Router & Token Saver
++  # FreeRoute 9 - FREE AI Router & Token Saver
+   
+   **Never stop coding. Save 20-40% tokens with RTK + auto-fallback to FREE & cheap AI models.**
+   
+@@ -23,7 +25,7 @@
+ 
+ ---
+ 
+-## 🤔 Why 9Router?
++## 🤔 Why FreeRoute 9?
+ 
+ **Stop wasting money, tokens and hitting limits:**
+ 
+@@ -33,7 +35,7 @@
+ - ❌ Expensive APIs ($20-50/month per provider)
+ - ❌ Manual switching between providers
+ 
+-**9Router solves this:**
++**FreeRoute 9 solves this:**
+ 
+ - ✅ **RTK Token Saver** - Auto-compress tool_result content, save 20-40% tokens per request
+ - ✅ **Maximize subscriptions** - Track quota, use every bit before reset
+@@ -147,28 +149,28 @@ Default URLs:
+         <img src="https://img.youtube.com/vi/X69n5Lm06Yw/maxresdefault.jpg" alt="Tiết kiệm chi phí LLM với 9Router" width="300"/>
+       </a><br/>
+       <b>🇻🇳 Tiếng Việt</b><br/>
+-      <sub>Tiết kiệm chi phí LLM cho OpenClaw với 9Router<br/>by <a href="https://www.youtube.com/c/M%C3%ACAIblog">Mì AI</a></sub>
++      <sub>Tiết kiệm chi phí LLM cho OpenClaw với FreeRoute 9<br/>by <a href="https://www.youtube.com/c/M%C3%ACAIblog">Mì AI</a></sub>
+     </td>
+     <td align="center" width="320">
+       <a href="https://youtu.be/VQAw612S27Y">
+         <img src="https://img.youtube.com/vi/VQAw612S27Y/maxresdefault.jpg" alt="9Router + Claude Code FREE Unlimited Setup" width="300"/>
+       </a><br/>
+       <b>🇵🇰 اردو / हिन्दी</b><br/>
+-      <sub>9Router + Claude Code FREE Unlimited Setup<br/>by <a href="https://www.youtube.com/@BuildAIWithHamid">Build AI With Hamid</a></sub>
++      <sub>FreeRoute 9 + Claude Code FREE Unlimited Setup<br/>by <a href="https://www.youtube.com/@BuildAIWithHamid">Build AI With Hamid</a></sub>
+     </td>
+     <td align="center" width="320">
+       <a href="https://www.youtube.com/watch?v=raEyZPg5xE0">
+         <img src="https://img.youtube.com/vi/raEyZPg5xE0/maxresdefault.jpg" alt="9Router Setup Tutorial" width="300"/>
+       </a><br/>
+       <b>🇺🇸 English</b><br/>
+-      <sub>9Router + Claude Code FREE Setup<br/>by <a href="https://www.youtube.com/@BuildAIWithHamid">Build AI With Hamid</a></sub>
++      <sub>FreeRoute 9 + Claude Code FREE Setup<br/>by <a href="https://www.youtube.com/@BuildAIWithHamid">Build AI With Hamid</a></sub>
+     </td>
+     <td align="center" width="320">
+       <a href="https://youtu.be/3dF5GIYMrcQ?si=bAyfyiHbARJQAHj_">
+         <img src="https://img.youtube.com/vi/3dF5GIYMrcQ/hqdefault.jpg" alt="9Router Setup Tutorial" width="300"/>
+       </a><br/>
+       <b>🇺🇸 English</b><br/>
+-      <sub>9Router + Claude Code FREE Setup<br/>by <a href="https://www.youtube.com/@BuildAIWithHamid">Build AI With Hamid</a></sub>
++      <sub>FreeRoute 9 + Claude Code FREE Setup<br/>by <a href="https://www.youtube.com/@BuildAIWithHamid">Build AI With Hamid</a></sub>
+     </td>
+     <td align="center" width="320">
+       <a href="https://www.youtube.com/watch?v=o3qYCyjrFYg">
+@@ -184,14 +186,14 @@ Default URLs:
+         <img src="https://img.youtube.com/vi/Ttpc26m39Dw/maxresdefault.jpg" alt="Claude CLI Free Setup" width="300"/>
+       </a><br/>
+       <b>🇺🇸 English</b><br/>
+-      <sub>Claude CLI Free Setup with 9Router 🚀<br/>by <a href="https://www.youtube.com/@CodeVerseSoban">CodeVerse Soban</a></sub>
++      <sub>Claude CLI Free Setup with FreeRoute 9 🚀<br/>by <a href="https://www.youtube.com/@CodeVerseSoban">CodeVerse Soban</a></sub>
+     </td>
+     <td align="center" width="320">
+       <a href="https://www.youtube.com/watch?v=G-5A_D5Pm6Y">
+         <img src="https://img.youtube.com/vi/G-5A_D5Pm6Y/maxresdefault.jpg" alt="Cài đặt OpenClaw Free A-Z" width="300"/>
+       </a><br/>
+       <b>🇻🇳 Tiếng Việt</b><br/>
+-      <sub>Cài Đặt OpenClaw Free Từ A-Z + 9Router<br/>by <a href="https://www.youtube.com/@maigia">Mai Gia</a></sub>
++      <sub>Cài Đặt OpenClaw Free Từ A-Z + FreeRoute 9<br/>by <a href="https://www.youtube.com/@maigia">Mai Gia</a></sub>
+     </td>
+     <td align="center" width="320">
+       <a href="https://www.youtube.com/watch?v=JXmg8_gccgE">
+@@ -205,14 +207,14 @@ Default URLs:
+         <img src="https://img.youtube.com/vi/CkVZZUSTXAI/mqdefault.jpg" alt="Claude CLI Free Setup" width="300"/>
+       </a><br/>
+       <b>🇮🇩 Indonesia</b><br/>
+-      <sub>Koding 24 Jam Anti Rate Limit! Hemat Token AI 65% | Tutorial Quick Setup 9Router 🚀<br/>by <a href="https://www.youtube.com/@krisswuh">Krisswuh</a></sub>
++      <sub>Koding 24 Jam Anti Rate Limit! Hemat Token AI 65% | Tutorial Quick Setup FreeRoute 9 🚀<br/>by <a href="https://www.youtube.com/@krisswuh">Krisswuh</a></sub>
+     </td>
+     <td align="center" width="320">
+       <a href="https://www.youtube.com/watch?v=TXGv4eofe1I">
+         <img src="https://img.youtube.com/vi/TXGv4eofe1I/mqdefault.jpg" alt="Cara Deploy 9Router di Hugging Face GRATIS Non-Stop! | Alternatif VPS RAM 16GB" width="300"/>
+       </a><br/>
+       <b>🇮🇩 Indonesia</b><br/>
+-      <sub>Cara Deploy 9Router di Hugging Face GRATIS Non-Stop! | Alternatif VPS RAM 16GB<br/>by <a href="https://www.youtube.com/@krisswuh">Krisswuh</a></sub>
++      <sub>Cara Deploy FreeRoute 9 di Hugging Face GRATIS Non-Stop! | Alternatif VPS RAM 16GB<br/>by <a href="https://www.youtube.com/@krisswuh">Krisswuh</a></sub>
+     </td>
+   </tr>
+   <tr>
+@@ -228,15 +230,15 @@ Default URLs:
+         <img src="https://img.youtube.com/vi/hPusYX-5Pmw/maxresdefault.jpg" alt="Hướng Dẫn Setup OpenClaw + 9Router: Tạo Bot Zalo AI Tự Động Từ A-Z" width="300"/>
+       </a><br/>
+       <b>🇻🇳 Tiếng Việt</b><br/>
+-      <sub>Hướng Dẫn Setup OpenClaw + 9Router: Tạo Bot Zalo AI Tự Động Từ A-Z<br/>by <a href="https://github.com/tuanminhhole">tuanminhhole</a></sub>
++      <sub>Hướng Dẫn Setup OpenClaw + FreeRoute 9: Tạo Bot Zalo AI Tự Động Từ A-Z<br/>by <a href="https://github.com/tuanminhhole">tuanminhhole</a></sub>
+     </td>
+     <td align="center" width="320">
+       <a href="https://www.youtube.com/watch?v=hgnE7MKi3Y4">
+-        <img src="https://img.youtube.com/vi/hgnE7MKi3Y4/maxresdefault.jpg" alt="Bye Limit! Cara Bikin Sistem 'AI Unlimited' 100% Gratis Dengan 9Router!
++        <img src="https://img.youtube.com/vi/hgnE7MKi3Y4/maxresdefault.jpg" alt="Bye Limit! Cara Bikin Sistem 'AI Unlimited' 100% Gratis Dengan FreeRoute 9!
+ " width="300"/>
+       </a><br/>
+       <b>🇮🇩 Indonesia</b><br/>
+-      <sub>Bye Limit! Cara Bikin Sistem "AI Unlimited" 100% Gratis Dengan 9Router!<br/>by <a href="https://www.youtube.com/@neptiver">neptiver</a></sub>
++      <sub>Bye Limit! Cara Bikin Sistem "AI Unlimited" 100% Gratis Dengan FreeRoute 9!<br/>by <a href="https://www.youtube.com/@neptiver">neptiver</a></sub>
+     </td>
+     <td align="center" width="320"></td>
+     <td align="center" width="320"></td>
+@@ -245,13 +247,13 @@ Default URLs:
+ 
+ </div>
+ 
+-> 🎬 **Made a video about 9Router?** Submit a [Pull Request](https://github.com/decolua/9router/pulls) adding your video to this section — we'll merge it!
++> 🎬 **Made a video about FreeRoute 9?** Submit a [Pull Request](https://github.com/decolua/9router/pulls) adding your video to this section — we'll merge it!
+ 
+ ---
+ 
+ ## 🛠️ Supported CLI Tools
+ 
+-9Router works seamlessly with all major AI coding tools:
++FreeRoute 9 works seamlessly with all major AI coding tools:
+ 
+ <div align="center">
+   <table>
+@@ -572,7 +574,7 @@ With RTK:    28K tokens sent to LLM   (40% saved · same context · same answer)
+ 
+ ### 🧠 Headroom Token Saver
+ 
+-Headroom is optional and runs separately. 9Router calls Headroom's local `/v1/compress` endpoint, then keeps normal routing, fallback, auth, and usage tracking:
++Headroom is optional and runs separately. FreeRoute 9 calls Headroom's local `/v1/compress` endpoint, then keeps normal routing, fallback, auth, and usage tracking:
+ 
+ ```
+ Client → 9Router → Headroom /v1/compress → 9Router → provider
+@@ -597,7 +599,7 @@ http://headroom:8787
+ http://host.docker.internal:8787
+ ```
+ 
+-If Headroom is down or returns an error, 9Router fails open and sends the original request.
++If Headroom is down or returns an error, FreeRoute 9 fails open and sends the original request.
+ 
+ ### 🐴 Ponytail (Lazy Senior Dev)
+ 
+@@ -639,7 +641,7 @@ Combo: "my-coding-stack"
+ Seamless translation between formats:
+ 
+ - **OpenAI** ↔ **Claude** ↔ **Gemini** ↔ **Cursor** ↔ **Kiro** ↔ **Vertex** ↔ **Antigravity** ↔ **Ollama** ↔ **OpenAI Responses**
+-- Your CLI tool sends OpenAI format → 9Router translates → Provider receives native format
++- Your CLI tool sends OpenAI format → FreeRoute 9 translates → Provider receives native format
+ - Works with any tool that supports custom OpenAI endpoints
+ 
+ ### 👥 Multi-Account Support
+@@ -693,13 +695,13 @@ Seamless translation between formats:
+ > **💡 IMPORTANT - Understanding Dashboard Costs:**
+ >
+ > The "cost" displayed in Usage Analytics is **for tracking and comparison purposes only**.
+-> 9Router itself **never charges** you anything. You only pay providers directly (if using paid services).
++> FreeRoute 9 itself **never charges** you anything. You only pay providers directly (if using paid services).
+ >
+ > **Example:** If your dashboard shows "$290 total cost" while using Kiro free models, this represents
+ > what you would have paid using paid APIs directly. Your actual cost = **$0** (Kiro free tier: ~50 credits/mo).
+ >
+ > Think of it as a "savings tracker" showing how much you're saving by using free models or
+-> routing through 9Router!
++> routing through FreeRoute 9!
+ 
+ ### 🌐 Deploy Anywhere
+ 
+@@ -732,15 +734,15 @@ Seamless translation between formats:
+ 
+ ---
+ 
+-### 📊 Understanding 9Router Costs & Billing
++### 📊 Understanding FreeRoute 9 Costs & Billing
+ 
+-**9Router Billing Reality:**
++**FreeRoute 9 Billing Reality:**
+ 
+-✅ **9Router software = FREE forever** (open source, never charges)  
++✅ **FreeRoute 9 software = FREE forever** (open source, never charges)  
+ ✅ **Dashboard "costs" = Display/tracking only** (not actual bills)  
+ ✅ **You pay providers directly** (subscriptions or API fees)  
+ ✅ **FREE providers stay FREE** (Kiro ~50 credits/mo, OpenCode Free, Vertex $300 credits = $0 within free-tier limits) — note iFlow/Qwen/Gemini CLI free tiers were discontinued in 2026
+-❌ **9Router never sends invoices** or charges your card
++❌ **FreeRoute 9 never sends invoices** or charges your card
+ 
+ **How Cost Display Works:**
+ 
+@@ -763,9 +765,9 @@ Reality Check:
+ **Payment Rules:**
+ 
+ - **Subscription providers** (Claude Code, Codex): Pay them directly via their websites
+-- **Cheap providers** (GLM, MiniMax): Pay them directly, 9Router just routes
++- **Cheap providers** (GLM, MiniMax): Pay them directly, FreeRoute 9 just routes
+ - **FREE providers** (iFlow, Kiro, Qwen): Genuinely free forever, no hidden charges
+-- **9Router**: Never charges anything, ever
++- **FreeRoute 9**: Never charges anything, ever
+ 
+ ---
+ 
+@@ -844,7 +846,7 @@ Access via: WhatsApp, Telegram, Slack, Discord, iMessage, Signal...
+ <details>
+ <summary><b>📊 Why does my dashboard show high costs?</b></summary>
+ 
+-The dashboard tracks your token usage and displays **estimated costs** as if you were using paid APIs directly. This is **not actual billing** - it's a reference to show how much you're saving by using free models or existing subscriptions through 9Router.
++The dashboard tracks your token usage and displays **estimated costs** as if you were using paid APIs directly. This is **not actual billing** - it's a reference to show how much you're saving by using free models or existing subscriptions through FreeRoute 9.
+ 
+ **Example:**
+ 
+@@ -858,17 +860,17 @@ The cost display is a "savings tracker" to help you understand your usage patter
+ </details>
+ 
+ <details>
+-<summary><b>💳 Will I be charged by 9Router?</b></summary>
++<summary><b>💳 Will I be charged by FreeRoute 9?</b></summary>
+ 
+-**No.** 9Router is free, open-source software that runs on your own computer. It never charges you anything.
++**No.** FreeRoute 9 is free, open-source software that runs on your own computer. It never charges you anything.
+ 
+ **You only pay:**
+ 
+ - ✅ **Subscription providers** (Claude Code $20/mo, Codex $20-200/mo) → Pay them directly on their websites
+-- ✅ **Cheap providers** (GLM, MiniMax) → Pay them directly, 9Router just routes your requests
+-- ❌ **9Router itself** → **Never charges anything, ever**
++- ✅ **Cheap providers** (GLM, MiniMax) → Pay them directly, FreeRoute 9 just routes your requests
++- ❌ **FreeRoute 9 itself** → **Never charges anything, ever**
+ 
+-9Router is a local proxy/router. It doesn't have your credit card, can't send invoices, and has no billing system. It's completely free software.
++FreeRoute 9 is a local proxy/router. It doesn't have your credit card, can't send invoices, and has no billing system. It's completely free software.
+ 
+ </details>
+ 
+@@ -883,7 +885,7 @@ These are free services offered by those respective companies:
+ - **OpenCode Free**: No-auth passthrough proxy, models auto-fetched from `opencode.ai/zen/v1/models`. The free model list fluctuates over time (some models free only for limited promos) — subject to change without notice.
+ - **Vertex AI**: $300 free credits for new Google Cloud accounts (90 days). Since Mar 2026 the Gemini API endpoint no longer consumes these credits — use the **Vertex AI Studio** endpoint instead.
+ 
+-9Router just routes your requests to them - there's no "catch" or future billing from 9Router itself. They're truly free services, and 9Router makes them easy to use with fallback support.
++FreeRoute 9 just routes your requests to them - there's no "catch" or future billing from FreeRoute 9 itself. They're truly free services, and FreeRoute 9 makes them easy to use with fallback support.
+ 
+ **Discontinued free tiers (no longer recommended):**
+ 
+@@ -918,7 +920,7 @@ These are free services offered by those respective companies:
+ 
+ 3. **Use subscription providers last:**
+    - Only if you already have them
+-   - 9Router helps maximize their value through quota tracking
++   - FreeRoute 9 helps maximize their value through quota tracking
+ 
+ **Result:** Most users can operate at $0/month using only free tiers!
+ 
+@@ -927,22 +929,22 @@ These are free services offered by those respective companies:
+ <details>
+ <summary><b>📈 What if my usage suddenly spikes?</b></summary>
+ 
+-9Router's smart fallback prevents surprise charges:
++FreeRoute 9's smart fallback prevents surprise charges:
+ 
+ **Scenario:** You're on a coding sprint and blow through your quotas
+ 
+-**Without 9Router:**
++**Without FreeRoute 9:**
+ 
+ - ❌ Hit rate limit → Work stops → Frustration
+ - ❌ Or: Accidentally rack up huge API bills
+ 
+-**With 9Router:**
++**With FreeRoute 9:**
+ 
+ - ✅ Subscription hits limit → Auto-fallback to cheap tier
+ - ✅ Cheap tier gets expensive → Auto-fallback to free tier
+ - ✅ Never stop coding → Predictable costs
+ 
+-**You're in control:** Set spending limits per provider in dashboard, and 9Router respects them.
++**You're in control:** Set spending limits per provider in dashboard, and FreeRoute 9 respects them.
+ 
+ </details>
+ 
+@@ -967,7 +969,7 @@ Models:
+   cc/claude-haiku-4-5-20251001
+ ```
+ 
+-**Pro Tip:** Use Opus for complex tasks, Sonnet for speed. 9Router tracks quota per model!
++**Pro Tip:** Use Opus for complex tasks, Sonnet for speed. FreeRoute 9 tracks quota per model!
+ 
+ ### OpenAI Codex (Plus/Pro)
+ 
+@@ -1211,7 +1213,7 @@ Dashboard → CLI Tools → OpenClaw → Select Model → Apply
+ }
+ ```
+ 
+-> **Note:** OpenClaw only works with local 9Router. Use `127.0.0.1` instead of `localhost` to avoid IPv6 resolution issues.
++> **Note:** OpenClaw only works with local FreeRoute 9. Use `127.0.0.1` instead of `localhost` to avoid IPv6 resolution issues.
+ 
+ ### Cline / Continue / RooCode
+ 
+@@ -1435,7 +1437,7 @@ Notes:
+ 
+ **OAuth token expired**
+ 
+-- Auto-refreshed by 9Router
++- Auto-refreshed by FreeRoute 9
+ - If issues persist: Dashboard → Provider → Reconnect
+ 
+ **High costs**
+@@ -1508,7 +1510,7 @@ Authorization: Bearer your-api-key
+ 
+ ## 👥 Contributors
+ 
+-Thanks to all contributors who helped make 9Router better!
++Thanks to all contributors who helped make FreeRoute 9 better!
+ 
+ [![Contributors](https://contrib.rocks/image?repo=decolua/9router&max=150&columns=15&anon=1&v=20260309)](https://github.com/decolua/9router/graphs/contributors)
+ 
+@@ -1520,7 +1522,7 @@ Thanks to all contributors who helped make 9Router better!
+ 
+ ## 🔀 Forks
+ 
+-**[OmniRoute](https://github.com/diegosouzapw/OmniRoute)** — A full-featured TypeScript fork of 9Router. Adds 36+ providers, 4-tier auto-fallback, multi-modal APIs (images, embeddings, audio, TTS), circuit breaker, semantic cache, LLM evaluations, and a polished dashboard. 368+ unit tests. Available via npm and Docker.
++**[OmniRoute](https://github.com/diegosouzapw/OmniRoute)** — A full-featured TypeScript fork of FreeRoute 9. Adds 36+ providers, 4-tier auto-fallback, multi-modal APIs (images, embeddings, audio, TTS), circuit breaker, semantic cache, LLM evaluations, and a polished dashboard. 368+ unit tests. Available via npm and Docker.
+ 
+ ---
+ 
+@@ -1529,11 +1531,11 @@ Thanks to all contributors who helped make 9Router better!
+ Built on the shoulders of giants:
+ 
+ - **[CLIProxyAPI](https://github.com/router-for-me/CLIProxyAPI)** — original Go implementation that inspired this JavaScript port.
+-- **[RTK](https://github.com/rtk-ai/rtk)** ![Stars](https://img.shields.io/github/stars/rtk-ai/rtk?style=flat&color=yellow) — Rust token-saver. 9Router ports its compression pipeline to JS → **−20-40% input tokens** on every request.
+-- **[Caveman](https://github.com/JuliusBrussee/caveman)** ![Stars](https://img.shields.io/github/stars/JuliusBrussee/caveman?style=flat&color=yellow) by **[@JuliusBrussee](https://github.com/JuliusBrussee)** — viral _"why use many token when few token do trick"_. 9Router adapts its prompt → **−65% output tokens**.
+-- **[Ponytail](https://github.com/DietrichGebert/ponytail)** ![Stars](https://img.shields.io/github/stars/DietrichGebert/ponytail?style=flat&color=yellow) by **[@DietrichGebert](https://github.com/DietrichGebert)** — _"lazy senior dev"_ skill. 9Router injects its YAGNI-first ladder → **fewer tokens, less code, shorter diffs**.
++- **[RTK](https://github.com/rtk-ai/rtk)** ![Stars](https://img.shields.io/github/stars/rtk-ai/rtk?style=flat&color=yellow) — Rust token-saver. FreeRoute 9 ports its compression pipeline to JS → **−20-40% input tokens** on every request.
++- **[Caveman](https://github.com/JuliusBrussee/caveman)** ![Stars](https://img.shields.io/github/stars/JuliusBrussee/caveman?style=flat&color=yellow) by **[@JuliusBrussee](https://github.com/JuliusBrussee)** — viral _"why use many token when few token do trick"_. FreeRoute 9 adapts its prompt → **−65% output tokens**.
++- **[Ponytail](https://github.com/DietrichGebert/ponytail)** ![Stars](https://img.shields.io/github/stars/DietrichGebert/ponytail?style=flat&color=yellow) by **[@DietrichGebert](https://github.com/DietrichGebert)** — _"lazy senior dev"_ skill. FreeRoute 9 injects its YAGNI-first ladder → **fewer tokens, less code, shorter diffs**.
+ 
+-Huge thanks to these authors — without their work, 9Router's token-saving features wouldn't exist. ⭐ them on GitHub!
++Huge thanks to these authors — without their work, FreeRoute 9's token-saving features wouldn't exist. ⭐ them on GitHub!
+ 
+ ---
+ 
+diff --git a/README.zh-CN.md b/README.zh-CN.md
+index 1b2bedd..1eb586a 100644
+--- a/README.zh-CN.md
++++ b/README.zh-CN.md
+@@ -2,7 +2,7 @@
+ <div align="center">
+   <img src="./images/9router.png?1" alt="9Router Dashboard" width="800"/>
+   
+-  # 9Router - 免费 AI 路由器与 Token 节省器
++  # FreeRoute 9 - 免费 AI 路由器与 Token 节省器
+   
+   **编程永不停歇。使用 RTK + 自动切换到免费/低价 AI 模型，节省 20-40% 的 tokens。**
+   
+@@ -21,7 +21,7 @@
+ 
+ ---
+ 
+-## 🤔 为什么选择 9Router？
++## 🤔 为什么选择 FreeRoute 9？
+ 
+ **告别浪费金钱、tokens 和触碰限制的困扰：**
+ 
+@@ -31,7 +31,7 @@
+ - ❌ 昂贵的 API（每个提供商 $20-50/月）
+ - ❌ 需要手动在提供商之间切换
+ 
+-**9Router 解决这一切：**
++**FreeRoute 9 解决这一切：**
+ 
+ - ✅ **RTK Token 节省器** - 自动压缩 tool_result 内容，每次请求节省 20-40% tokens
+ - ✅ **充分利用订阅** - 追踪配额，在重置前用尽每一分额度
+@@ -129,14 +129,14 @@ PORT=20128 HOSTNAME=0.0.0.0 NEXT_PUBLIC_BASE_URL=http://localhost:20128 npm run
+         <img src="https://img.youtube.com/vi/raEyZPg5xE0/maxresdefault.jpg" alt="9Router Setup Tutorial" width="300"/>
+       </a><br/>
+       <b>🇺🇸 English</b><br/>
+-      <sub>9Router + Claude Code 免费设置<br/>by <a href="https://www.youtube.com/@BuildAIWithHamid">Build AI With Hamid</a></sub>
++      <sub>FreeRoute 9 + Claude Code 免费设置<br/>by <a href="https://www.youtube.com/@BuildAIWithHamid">Build AI With Hamid</a></sub>
+     </td>
+     <td align="center" width="320">
+       <a href="https://www.youtube.com/watch?v=X69n5Lm06Yw">
+         <img src="https://img.youtube.com/vi/X69n5Lm06Yw/maxresdefault.jpg" alt="Tiết kiệm chi phí LLM với 9Router" width="300"/>
+       </a><br/>
+       <b>🇻🇳 Tiếng Việt</b><br/>
+-      <sub>使用 9Router 节省 OpenClaw 的 LLM 成本<br/>by <a href="https://www.youtube.com/c/M%C3%ACAIblog">Mì AI</a></sub>
++      <sub>使用 FreeRoute 9 节省 OpenClaw 的 LLM 成本<br/>by <a href="https://www.youtube.com/c/M%C3%ACAIblog">Mì AI</a></sub>
+     </td>
+     <td align="center" width="320">
+       <a href="https://www.youtube.com/watch?v=o3qYCyjrFYg">
+@@ -152,14 +152,14 @@ PORT=20128 HOSTNAME=0.0.0.0 NEXT_PUBLIC_BASE_URL=http://localhost:20128 npm run
+         <img src="https://img.youtube.com/vi/Ttpc26m39Dw/maxresdefault.jpg" alt="Claude CLI Free Setup" width="300"/>
+       </a><br/>
+       <b>🇺🇸 English</b><br/>
+-      <sub>使用 9Router 免费设置 Claude CLI 🚀<br/>by <a href="https://www.youtube.com/@CodeVerseSoban">CodeVerse Soban</a></sub>
++      <sub>使用 FreeRoute 9 免费设置 Claude CLI 🚀<br/>by <a href="https://www.youtube.com/@CodeVerseSoban">CodeVerse Soban</a></sub>
+     </td>
+     <td align="center" width="320">
+       <a href="https://www.youtube.com/watch?v=G-5A_D5Pm6Y">
+         <img src="https://img.youtube.com/vi/G-5A_D5Pm6Y/maxresdefault.jpg" alt="Cài đặt OpenClaw Free A-Z" width="300"/>
+       </a><br/>
+       <b>🇻🇳 Tiếng Việt</b><br/>
+-      <sub>从零开始安装 OpenClaw 免费版 + 9Router<br/>by <a href="https://www.youtube.com/@maigia">Mai Gia</a></sub>
++      <sub>从零开始安装 OpenClaw 免费版 + FreeRoute 9<br/>by <a href="https://www.youtube.com/@maigia">Mai Gia</a></sub>
+     </td>
+     <td align="center" width="320">
+       <a href="https://www.youtube.com/watch?v=JXmg8_gccgE">
+@@ -173,13 +173,13 @@ PORT=20128 HOSTNAME=0.0.0.0 NEXT_PUBLIC_BASE_URL=http://localhost:20128 npm run
+ 
+ </div>
+ 
+-> 🎬 **制作了关于 9Router 的视频？** 提交 [Pull Request](https://github.com/decolua/9router/pulls)，将你的视频添加到此部分 — 我们会合并它！
++> 🎬 **制作了关于 FreeRoute 9 的视频？** 提交 [Pull Request](https://github.com/decolua/9router/pulls)，将你的视频添加到此部分 — 我们会合并它！
+ 
+ ---
+ 
+ ## 🛠️ 支持的 CLI 工具
+ 
+-9Router 与所有主流 AI 编程工具无缝协作：
++FreeRoute 9 与所有主流 AI 编程工具无缝协作：
+ 
+ <div align="center">
+   <table>
+@@ -448,7 +448,7 @@ PORT=20128 HOSTNAME=0.0.0.0 NEXT_PUBLIC_BASE_URL=http://localhost:20128 npm run
+ 
+ 格式间无缝转换：
+ - **OpenAI** ↔ **Claude** ↔ **Gemini** ↔ **Cursor** ↔ **Kiro** ↔ **Vertex** ↔ **Antigravity** ↔ **Ollama** ↔ **OpenAI Responses**
+-- 你的 CLI 工具发送 OpenAI 格式 → 9Router 转换 → 提供商接收原生格式
++- 你的 CLI 工具发送 OpenAI 格式 → FreeRoute 9 转换 → 提供商接收原生格式
+ - 适用于任何支持自定义 OpenAI 端点的工具
+ 
+ ### 👥 多账户支持
+@@ -502,11 +502,11 @@ PORT=20128 HOSTNAME=0.0.0.0 NEXT_PUBLIC_BASE_URL=http://localhost:20128 npm run
+ > **💡 重要 - 了解控制面板成本：**
+ > 
+ > 使用分析中显示的"成本"**仅用于追踪和比较目的**。
+-> 9Router 本身**永远不会向你收费**。你只直接向提供商付款（如果使用付费服务）。
++> FreeRoute 9 本身**永远不会向你收费**。你只直接向提供商付款（如果使用付费服务）。
+ > 
+ > **示例：** 如果你的控制面板显示使用 Kiro 免费模型时"总成本 $290"，这代表你如果直接使用付费 API 需要支付的金额。你的实际成本 = **$0**（Kiro 免费等级：约 50 积分/月）。
+ > 
+-> 把它想象成一个"节省追踪器"，展示你通过使用免费模型或通过 9Router 路由节省了多少钱！
++> 把它想象成一个"节省追踪器"，展示你通过使用免费模型或通过 FreeRoute 9 路由节省了多少钱！
+ 
+ ### 🌐 任意部署
+ 
+@@ -539,15 +539,15 @@ PORT=20128 HOSTNAME=0.0.0.0 NEXT_PUBLIC_BASE_URL=http://localhost:20128 npm run
+ 
+ ---
+ 
+-### 📊 理解 9Router 成本与计费
++### 📊 理解 FreeRoute 9 成本与计费
+ 
+-**9Router 计费真相：**
++**FreeRoute 9 计费真相：**
+ 
+-✅ **9Router 软件 = 永久免费**（开源，绝不收费）  
++✅ **FreeRoute 9 软件 = 永久免费**（开源，绝不收费）  
+ ✅ **控制面板"成本" = 仅用于显示/追踪**（不是实际账单）  
+ ✅ **你直接向提供商付款**（订阅或 API 费用）  
+ ✅ **免费提供商保持免费**（Kiro 约 50 积分/月、OpenCode Free、Vertex $300 额度 = 在免费额度内 $0）— 注意 iFlow/Qwen/Gemini CLI 免费等级已于 2026 年停止
+-❌ **9Router 永不发送发票** 或扣款
++❌ **FreeRoute 9 永不发送发票** 或扣款
+ 
+ **成本显示如何工作：**
+ 
+@@ -568,9 +568,9 @@ PORT=20128 HOSTNAME=0.0.0.0 NEXT_PUBLIC_BASE_URL=http://localhost:20128 npm run
+ 
+ **付款规则：**
+ - **订阅提供商**（Claude Code、Codex）：通过他们的网站直接付款
+-- **低价提供商**（GLM、MiniMax）：直接付款，9Router 只做路由
++- **低价提供商**（GLM、MiniMax）：直接付款，FreeRoute 9 只做路由
+ - **免费提供商**（Kiro、OpenCode Free、Vertex）：真正的免费，在免费额度内无隐藏费用
+-- **9Router**：从不收取任何费用，永远不会
++- **FreeRoute 9**：从不收取任何费用，永远不会
+ 
+ ---
+ 
+@@ -645,7 +645,7 @@ PORT=20128 HOSTNAME=0.0.0.0 NEXT_PUBLIC_BASE_URL=http://localhost:20128 npm run
+ <details>
+ <summary><b>📊 为什么我的控制面板显示高成本？</b></summary>
+ 
+-控制面板追踪你的 token 使用情况，并显示**估算成本**，如同你直接使用付费 API。这**不是实际计费** — 它是一个参考，展示你通过使用免费模型或通过 9Router 路由现有订阅节省了多少钱。
++控制面板追踪你的 token 使用情况，并显示**估算成本**，如同你直接使用付费 API。这**不是实际计费** — 它是一个参考，展示你通过使用免费模型或通过 FreeRoute 9 路由现有订阅节省了多少钱。
+ 
+ **示例：**
+ - **控制面板显示：** "$290 总成本"
+@@ -658,16 +658,16 @@ PORT=20128 HOSTNAME=0.0.0.0 NEXT_PUBLIC_BASE_URL=http://localhost:20128 npm run
+ </details>
+ 
+ <details>
+-<summary><b>💳 9Router 会扣我的钱吗？</b></summary>
++<summary><b>💳 FreeRoute 9 会扣我的钱吗？</b></summary>
+ 
+-**不会。** 9Router 是在你自己的电脑上运行的开源软件。它永远不会向你收取任何费用。
++**不会。** FreeRoute 9 是在你自己的电脑上运行的开源软件。它永远不会向你收取任何费用。
+ 
+ **你只需支付：**
+ - ✅ **订阅提供商**（Claude Code $20/月、Codex $20-200/月）→ 在他们的网站上直接付款
+-- ✅ **低价提供商**（GLM、MiniMax）→ 直接付款，9Router 只是路由你的请求
+-- ❌ **9Router 本身** → **永不收费，永远不会**
++- ✅ **低价提供商**（GLM、MiniMax）→ 直接付款，FreeRoute 9 只是路由你的请求
++- ❌ **FreeRoute 9 本身** → **永不收费，永远不会**
+ 
+-9Router 是一个本地代理/路由器。它没有你的信用卡，不能发送发票，也没有计费系统。它是完全免费的软件。
++FreeRoute 9 是一个本地代理/路由器。它没有你的信用卡，不能发送发票，也没有计费系统。它是完全免费的软件。
+ 
+ </details>
+ 
+@@ -681,7 +681,7 @@ PORT=20128 HOSTNAME=0.0.0.0 NEXT_PUBLIC_BASE_URL=http://localhost:20128 npm run
+ - **OpenCode Free**：无认证直连代理，模型从 `opencode.ai/zen/v1/models` 自动获取。免费模型列表会随时间变化（部分模型仅限时免费）— 可能随时变更。
+ - **Vertex AI**：新 Google Cloud 账户可获得 $300 免费额度（90 天）。自 2026 年 3 月起 Gemini API 端点不再消耗这些额度 — 请改用 **Vertex AI Studio** 端点。
+ 
+-9Router 只是路由你的请求到它们 — 没有"陷阱"或未来的计费。它们是真正的免费服务，9Router 让它们易于使用并支持切换。
++FreeRoute 9 只是路由你的请求到它们 — 没有"陷阱"或未来的计费。它们是真正的免费服务，FreeRoute 9 让它们易于使用并支持切换。
+ 
+ **已停止的免费等级（不再推荐）：**
+ - ❌ **iFlow**：曾是免费无限量，现在改为付费（2026）
+@@ -711,7 +711,7 @@ PORT=20128 HOSTNAME=0.0.0.0 NEXT_PUBLIC_BASE_URL=http://localhost:20128 npm run
+ 
+ 3. **最后使用订阅提供商：**
+    - 仅当你已有订阅时
+-   - 9Router 通过配额追踪帮助最大化其价值
++   - FreeRoute 9 通过配额追踪帮助最大化其价值
+ 
+ **结果：** 大多数用户可以仅使用免费等级以 $0/月运行！
+ 
+@@ -720,20 +720,20 @@ PORT=20128 HOSTNAME=0.0.0.0 NEXT_PUBLIC_BASE_URL=http://localhost:20128 npm run
+ <details>
+ <summary><b>📈 如果我的使用量突然激增怎么办？</b></summary>
+ 
+-9Router 的智能切换可以防止意外费用：
++FreeRoute 9 的智能切换可以防止意外费用：
+ 
+ **场景：** 你正在进行编码冲刺，用尽了配额
+ 
+-**没有 9Router：**
++**没有 FreeRoute 9：**
+ - ❌ 达到速率限制 → 工作停止 → 沮丧
+ - ❌ 或者：不慎累积大量 API 账单
+ 
+-**有 9Router：**
++**有 FreeRoute 9：**
+ - ✅ 订阅达到限制 → 自动切换到低价等级
+ - ✅ 低价等级变得昂贵 → 自动切换到免费等级
+ - ✅ 编程永不停歇 → 可预测的成本
+ 
+-**你掌控一切：** 在控制面板中设置每个提供商的支出限制，9Router 会遵守它们。
++**你掌控一切：** 在控制面板中设置每个提供商的支出限制，FreeRoute 9 会遵守它们。
+ 
+ </details>
+ 
+@@ -758,7 +758,7 @@ PORT=20128 HOSTNAME=0.0.0.0 NEXT_PUBLIC_BASE_URL=http://localhost:20128 npm run
+   cc/claude-haiku-4-5-20251001
+ ```
+ 
+-**专业提示：** 复杂任务使用 Opus，追求速度使用 Sonnet。9Router 按模型追踪配额！
++**专业提示：** 复杂任务使用 Opus，追求速度使用 Sonnet。FreeRoute 9 按模型追踪配额！
+ 
+ ### OpenAI Codex (Plus/Pro)
+ 
+@@ -1002,7 +1002,7 @@ codex "your prompt"
+ }
+ ```
+ 
+-> **注意：** OpenClaw 仅适用于本地 9Router。使用 `127.0.0.1` 而不是 `localhost` 以避免 IPv6 解析问题。
++> **注意：** OpenClaw 仅适用于本地 FreeRoute 9。使用 `127.0.0.1` 而不是 `localhost` 以避免 IPv6 解析问题。
+ 
+ ### Cline / Continue / RooCode
+ 
+@@ -1205,7 +1205,7 @@ docker stop 9router && docker rm 9router
+ - 添加组合：`cc/claude-opus-4-7 → glm/glm-5.1 → kr/claude-sonnet-4.5`
+ 
+ **OAuth token 已过期**
+-- 9Router 自动刷新
++- FreeRoute 9 自动刷新
+ - 如果问题持续：控制面板 → 提供商 → 重新连接
+ 
+ **高成本**
+@@ -1274,7 +1274,7 @@ Authorization: Bearer your-api-key
+ 
+ ## 👥 贡献者
+ 
+-感谢所有帮助改进 9Router 的贡献者！
++感谢所有帮助改进 FreeRoute 9 的贡献者！
+ 
+ [![Contributors](https://contrib.rocks/image?repo=decolua/9router&max=150&columns=15&anon=1&v=20260309)](https://github.com/decolua/9router/graphs/contributors)
+ 
+@@ -1288,7 +1288,7 @@ Authorization: Bearer your-api-key
+ 
+ ## 🔀 分支
+ 
+-**[OmniRoute](https://github.com/diegosouzapw/OmniRoute)** — 9Router 的全功能 TypeScript 分支。增加了 36+ 提供商、4 层自动切换、多模态 API（图像、嵌入、音频、TTS）、断路器、语义缓存、LLM 评估和精美的控制面板。368+ 单元测试。可通过 npm 和 Docker 使用。
++**[OmniRoute](https://github.com/diegosouzapw/OmniRoute)** — FreeRoute 9 的全功能 TypeScript 分支。增加了 36+ 提供商、4 层自动切换、多模态 API（图像、嵌入、音频、TTS）、断路器、语义缓存、LLM 评估和精美的控制面板。368+ 单元测试。可通过 npm 和 Docker 使用。
+ 
+ ---
+ 
+@@ -1297,10 +1297,10 @@ Authorization: Bearer your-api-key
+ 站在巨人的肩膀上构建：
+ 
+ - **CLIProxyAPI** — 启发了这个 JavaScript 移植的原始 Go 实现。
+-- **[RTK](https://github.com/rtk-ai/rtk)** ![Stars](https://img.shields.io/github/stars/rtk-ai/rtk?style=flat&color=yellow) — Rust token 节省器。9Router 将其压缩管道移植到 JS → 每次请求 **减少 20-40% 输入 tokens**。
+-- **[Caveman](https://github.com/JuliusBrussee/caveman)** ![Stars](https://img.shields.io/github/stars/JuliusBrussee/caveman?style=flat&color=yellow) by **[@JuliusBrussee](https://github.com/JuliusBrussee)** — 病毒式传播的 *"为什么用很多 token 当少的 token 就能搞定"*。9Router 适配其提示词 → **减少 65% 输出 tokens**。
++- **[RTK](https://github.com/rtk-ai/rtk)** ![Stars](https://img.shields.io/github/stars/rtk-ai/rtk?style=flat&color=yellow) — Rust token 节省器。FreeRoute 9 将其压缩管道移植到 JS → 每次请求 **减少 20-40% 输入 tokens**。
++- **[Caveman](https://github.com/JuliusBrussee/caveman)** ![Stars](https://img.shields.io/github/stars/JuliusBrussee/caveman?style=flat&color=yellow) by **[@JuliusBrussee](https://github.com/JuliusBrussee)** — 病毒式传播的 *"为什么用很多 token 当少的 token 就能搞定"*。FreeRoute 9 适配其提示词 → **减少 65% 输出 tokens**。
+ 
+-非常感谢这些作者 — 没有他们的工作，9Router 的 token 节省功能就不会存在。在 GitHub 上给他们加星！
++非常感谢这些作者 — 没有他们的工作，FreeRoute 9 的 token 节省功能就不会存在。在 GitHub 上给他们加星！
+ 
+ ---
+ 
+diff --git a/docs/ARCHITECTURE.md b/docs/ARCHITECTURE.md
+index 548c319..29c6c90 100644
+--- a/docs/ARCHITECTURE.md
++++ b/docs/ARCHITECTURE.md
+@@ -1,10 +1,10 @@
+-# 9Router Architecture
++# FreeRoute 9 Architecture
+ 
+ _Last updated: 2026-02-06_
+ 
+ ## Executive Summary
+ 
+-9Router is a local AI routing gateway and dashboard built on Next.js.
++FreeRoute 9 is a local AI routing gateway and dashboard built on Next.js.
+ It provides a single OpenAI-compatible endpoint (`/v1/*`) and routes traffic across multiple upstream providers with translation, fallback, token refresh, and usage tracking.
+ 
+ Core capabilities:
+diff --git a/docs/superpowers/specs/2026-09-04-opencode-go-session-header-design.md b/docs/superpowers/specs/2026-09-04-opencode-go-session-header-design.md
+index 94daf64..cc52489 100644
+--- a/docs/superpowers/specs/2026-09-04-opencode-go-session-header-design.md
++++ b/docs/superpowers/specs/2026-09-04-opencode-go-session-header-design.md
+@@ -3,7 +3,7 @@
+ ## Problem
+ 
+ OpenCode Go will begin rejecting some requests without an
+-`x-opencode-session` header on September 6, 2026. In 9Router v0.5.65,
++`x-opencode-session` header on September 6, 2026. In FreeRoute 9 v0.5.65,
+ `opencode-go` uses `DefaultExecutor`, whose generic header builder does not add
+ that header. The specialized OpenCode Free executor already sends it, but that
+ logic does not apply to the paid OpenCode Go provider or its three transports.
