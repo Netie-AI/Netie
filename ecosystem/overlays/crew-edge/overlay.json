@@ -146,6 +146,46 @@
     "NETIE-ATTRIBUTION.md"
   ],
   "series": [
-    "0001-rebrand.patch"
-  ]
+    "0001-rebrand.patch",
+    "0002-gate.patch",
+    "0003-stage3.patch"
+  ],
+  "stage2": {
+    "patch": "0002-gate.patch",
+    "gate_test": "crates/zeroclaw-runtime/src/netie_gate.rs",
+    "run": "cargo test --locked -p zeroclaw-runtime --lib netie_gate",
+    "env": "NETIE_OPENVAULT_URL",
+    "endpoint": "${NETIE_OPENVAULT_URL}/v1",
+    "default_provider": "[providers.models.custom.openvault], no api_key",
+    "tool_gate": "POST ${NETIE_OPENVAULT_URL}/api/crew/gate, kind=runtime, ids only, fail closed",
+    "channel_gate": "POST ${NETIE_OPENVAULT_URL}/api/crew/gate, kind=service, id=channel.<type>, intent=leave; cli stays local",
+    "session_backend": "ids-only",
+    "subscription_login_off": [
+      "copilot",
+      "gemini_cli",
+      "grok_cli",
+      "kilocli",
+      "auth_mode codex",
+      "auth_mode setup_token"
+    ],
+    "gate_cases": 10,
+    "gate_cases_failing_on_stage1": 10
+  },
+  "stage3_progress": {
+    "patch": "0003-stage3.patch",
+    "stage_claimed": 2,
+    "why_not_3": "no live OpenVault measured (crew gate kinds, seat token, /v1/models); crate, package and binary names still zeroclaw*",
+    "gate_tests": [
+      "crates/zeroclaw-runtime/src/netie_gate.rs",
+      "crates/zeroclaw-channels/src/netie_gate.rs",
+      "src/commands/update.rs::netie_self_update_is_refused"
+    ],
+    "run": "cargo test --locked -p zeroclaw-runtime -p zeroclaw-channels --lib netie_gate && cargo test --locked -p zeroclaw --lib netie_self_update_is_refused",
+    "added": [
+      "stored Codex and Claude setup-token credentials refused at request time",
+      "cron delivery and one-shot sends ask OpenVault leave-machine",
+      "self-update from upstream ZeroClaw refused",
+      "CLI help and product-name strings say Crew Edge in 5 locales"
+    ]
+  }
 }

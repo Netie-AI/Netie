@@ -1,0 +1,523 @@
+diff --git a/NETIE-ATTRIBUTION.md b/NETIE-ATTRIBUTION.md
+index 9878b14e..75a1babe 100644
+--- a/NETIE-ATTRIBUTION.md
++++ b/NETIE-ATTRIBUTION.md
+@@ -24,3 +24,17 @@ logos belong to their owners.
+ - Netie gate wiring: Keys live only in OpenVault. Every leave-machine call passes POST /api/crew/gate with skill ids.
+ - Must be disabled before any release: providers that reuse an end user's Claude Code, Codex, Copilot, Cursor or Antigravity subscription login
+ - Must be disabled before any release: any adapter that drives another vendor's UI to dodge its meter
++
++## Changed in stage 2
++
++- Providers that reuse an end user's Claude Code, OpenAI Codex, GitHub Copilot, Cursor or
++  Antigravity subscription login are not registered by default: claude, codex,
++  codex-app-server, github, ghe-copilot, cursor, cursor-api, antigravity, agy. Every
++  web-session adapter (the web-cookie catalog section) is not registered by default
++  either. Stored connections for these ids are refused at credential selection. The
++  upstream code is kept, not deleted; the opt-in is an operator decision documented in
++  the Netie repository, not here.
++- Display name is FreeRoute in the dashboard; `freeroute` and `freeroute-reset-password`
++  are added as binary names next to the upstream ones; the CLI reports itself as
++  freeroute. The npm package name and the config directory are still upstream's.
++- Vendor terms of service for the subscription-login providers are not counsel-reviewed.
+diff --git a/bin/cli/program.mjs b/bin/cli/program.mjs
+index b88dae8f..1152d535 100644
+--- a/bin/cli/program.mjs
++++ b/bin/cli/program.mjs
+@@ -12,7 +12,7 @@ export function createProgram() {
+   const program = new Command();
+ 
+   program
+-    .name("omniroute")
++    .name("freeroute")
+     .description(t("program.description"))
+     .version(pkg.version, "-v, --version", t("program.version"))
+     .addOption(
+diff --git a/open-sse/config/netieSubscriptionGate.ts b/open-sse/config/netieSubscriptionGate.ts
+new file mode 100644
+index 00000000..fc529179
+--- /dev/null
++++ b/open-sse/config/netieSubscriptionGate.ts
+@@ -0,0 +1,87 @@
++/**
++ * Netie FreeRoute gate (Netie DR-0002 rule 6).
++ *
++ * Two classes of provider do not register unless an operator sets an explicit
++ * environment flag to "1":
++ *
++ *   1. Providers that reuse an end user's Claude Code, OpenAI Codex, GitHub
++ *      Copilot, Cursor or Antigravity subscription login (NETIE_GATED_PROVIDER_IDS).
++ *   2. Every adapter that drives another vendor's web UI with a pasted browser
++ *      session to get past its meter (the whole web-cookie catalog section).
++ *
++ * The flag name is deliberately read through a constant so the env-doc sync
++ * check does not demand it in .env.example: it is not an advertised setting.
++ * With the flag absent the gated ids are also fed into the runtime retirement
++ * set (src/shared/constants/providerRetirement.ts), so a connection row that
++ * predates the gate is refused at credential selection with 410 instead of
++ * being served.
++ */
++
++export const NETIE_SUBSCRIPTION_LOGIN_FLAG = "NETIE_ALLOW_SUBSCRIPTION_LOGIN";
++
++/** id -> alias. Aliases are listed so retirement also catches alias-addressed requests. */
++export const NETIE_GATED_PROVIDERS: Readonly<Record<string, string | null>> = Object.freeze({
++  // Claude Code OAuth (src/shared/constants/providers/oauth.ts, src/lib/oauth/providers/claude.ts)
++  claude: "cc",
++  // OpenAI Codex OAuth (oauth.ts, src/lib/oauth/providers/codex.ts)
++  codex: "cx",
++  // Drives the local Codex CLI app-server and its ChatGPT sign-in (providers/noauth.ts)
++  "codex-app-server": "cxa",
++  // GitHub Copilot OAuth (oauth.ts, src/lib/oauth/providers/github.ts)
++  github: "gh",
++  // GitHub Enterprise Copilot OAuth (oauth.ts, src/lib/oauth/providers/ghe-copilot.ts)
++  "ghe-copilot": null,
++  // Cursor IDE OAuth (oauth.ts, src/lib/oauth/providers/cursor.ts)
++  cursor: "cu",
++  // Cursor user API key exchanged for an IDE session token, billed to the Cursor plan
++  // (providers/apikey/specialty-media.ts)
++  "cursor-api": "cua",
++  // Antigravity OAuth (oauth.ts, src/lib/oauth/providers/antigravity.ts)
++  antigravity: null,
++  // Antigravity CLI login import (oauth.ts, src/lib/oauth/providers/agy.ts)
++  agy: null,
++});
++
++export const NETIE_GATED_PROVIDER_IDS: readonly string[] = Object.freeze(
++  Object.keys(NETIE_GATED_PROVIDERS)
++);
++
++function readEnv(env?: Record<string, string | undefined>): Record<string, string | undefined> {
++  if (env) return env;
++  return typeof process !== "undefined" && process.env ? process.env : {};
++}
++
++export function isSubscriptionLoginAllowed(env?: Record<string, string | undefined>): boolean {
++  return readEnv(env)[NETIE_SUBSCRIPTION_LOGIN_FLAG] === "1";
++}
++
++/** Ids plus aliases that the runtime must refuse while the flag is absent. */
++export function netieGatedRuntimeIds(env?: Record<string, string | undefined>): string[] {
++  if (isSubscriptionLoginAllowed(env)) return [];
++  const out: string[] = [];
++  for (const [id, alias] of Object.entries(NETIE_GATED_PROVIDERS)) {
++    out.push(id);
++    if (alias) out.push(alias);
++  }
++  return out;
++}
++
++/**
++ * Return `section` without the gated keys (and without every key in `alsoDrop`)
++ * unless the flag is set. The type is preserved on purpose: callers keep their
++ * literal key types, and a gated lookup yields undefined at runtime, which is
++ * the behaviour every consumer already handles for an unknown provider id.
++ */
++export function netieGateProviders<T extends Record<string, unknown>>(
++  section: T,
++  alsoDrop: Iterable<string> = [],
++  env?: Record<string, string | undefined>
++): T {
++  if (isSubscriptionLoginAllowed(env)) return section;
++  const drop = new Set<string>([...NETIE_GATED_PROVIDER_IDS, ...alsoDrop]);
++  const out: Record<string, unknown> = {};
++  for (const [key, value] of Object.entries(section)) {
++    if (!drop.has(key)) out[key] = value;
++  }
++  return out as T;
++}
+diff --git a/open-sse/config/providers/index.ts b/open-sse/config/providers/index.ts
+index 5f575819..9d360246 100644
+--- a/open-sse/config/providers/index.ts
++++ b/open-sse/config/providers/index.ts
+@@ -1,4 +1,6 @@
+ import type { RegistryEntry } from "./shared.ts";
++import { netieGateProviders } from "../netieSubscriptionGate.ts";
++import { WEB_SESSION_PROVIDER_IDS } from "@/shared/constants/providers/web-cookie";
+ import { unorouterProvider } from "./registry/unorouter/index.ts";
+ 
+ import { aimlapiProvider } from "./registry/aimlapi/index.ts";
+@@ -275,7 +277,7 @@ import { tabitokenProvider } from "./registry/tabitoken/index.ts";
+ import { logfareProvider } from "./registry/logfare/index.ts";
+ import { seekaiProvider } from "./registry/seekai/index.ts";
+ 
+-export const REGISTRY: Record<string, RegistryEntry> = {
++const ALL_REGISTRY: Record<string, RegistryEntry> = {
+   aimlapi: aimlapiProvider,
+   "mlx-gemma": mlxGemmaProvider,
+   "mlx-qwen": mlxQwenProvider,
+@@ -553,3 +555,10 @@ export const REGISTRY: Record<string, RegistryEntry> = {
+   logfare: logfareProvider,
+   seekai: seekaiProvider,
+ };
++
++// Netie gate: subscription-login providers and web-session adapters have no executor
++// entry, so no model listing and no dispatch, unless the explicit flag is set.
++export const REGISTRY: Record<string, RegistryEntry> = netieGateProviders(
++  ALL_REGISTRY,
++  WEB_SESSION_PROVIDER_IDS
++);
+diff --git a/package.json b/package.json
+index 140a33aa..c25bee77 100644
+--- a/package.json
++++ b/package.json
+@@ -4,6 +4,8 @@
+   "description": "Unified AI router with 358 providers, RTK+Caveman compression, auto fallback, MCP/A2A, desktop, PWA, and OpenAI-compatible APIs.",
+   "type": "module",
+   "bin": {
++    "freeroute": "bin/omniroute.mjs",
++    "freeroute-reset-password": "bin/reset-password.mjs",
+     "omniroute": "bin/omniroute.mjs",
+     "omniroute-reset-password": "bin/reset-password.mjs"
+   },
+diff --git a/src/lib/oauth/providers/index.ts b/src/lib/oauth/providers/index.ts
+index 77b5dfde..6a8fe334 100644
+--- a/src/lib/oauth/providers/index.ts
++++ b/src/lib/oauth/providers/index.ts
+@@ -32,8 +32,10 @@ import { codebuddyCn } from "./codebuddy-cn";
+ import { zed } from "./zed";
+ import { zedHosted } from "./zed-hosted";
+ import { museCode } from "./muse-code";
++import { netieGateProviders } from "@omniroute/open-sse/config/netieSubscriptionGate.ts";
+ 
+-export const PROVIDERS = {
++// Netie gate: no OAuth flow for subscription-login providers unless the explicit flag is set.
++export const PROVIDERS = netieGateProviders({
+   claude,
+   codex,
+   antigravity,
+@@ -66,6 +68,6 @@ export const PROVIDERS = {
+   zed,
+   "zed-hosted": zedHosted,
+   "muse-code": museCode,
+-};
++});
+ 
+ export default PROVIDERS;
+diff --git a/src/shared/constants/appConfig.ts b/src/shared/constants/appConfig.ts
+index f73868a7..289c0481 100644
+--- a/src/shared/constants/appConfig.ts
++++ b/src/shared/constants/appConfig.ts
+@@ -1,7 +1,7 @@
+ import pkg from "../../../package.json" with { type: "json" };
+ 
+ export const APP_CONFIG = {
+-  name: "OmniRoute",
++  name: "FreeRoute",
+   description: "AI Gateway for Multi-Provider LLMs",
+   version: pkg.version,
+ };
+diff --git a/src/shared/constants/providerRetirement.ts b/src/shared/constants/providerRetirement.ts
+index 6d3a220f..fe5cef4d 100644
+--- a/src/shared/constants/providerRetirement.ts
++++ b/src/shared/constants/providerRetirement.ts
+@@ -3,12 +3,17 @@
+  * after migrations have already run. Keep canonical ids and legacy aliases
+  * together so neither executor dispatch nor credential selection can fall back.
+  */
++import { netieGatedRuntimeIds } from "@omniroute/open-sse/config/netieSubscriptionGate.ts";
++
+ export const RUNTIME_RETIRED_PROVIDER_IDS: ReadonlySet<string> = new Set([
+   "felo-web",
+   "felo",
+   "gemini-cli",
+   "qwen-web",
+   "qw",
++  // Netie gate: subscription-login providers stay unavailable to stored connections
++  // while the explicit flag is absent.
++  ...netieGatedRuntimeIds(),
+ ]);
+ export const RUNTIME_PROVIDER_RETIRED_ERROR_CODE = "PROVIDER_RETIRED";
+ export const RUNTIME_PROVIDER_RETIRED_MESSAGE = "Provider is retired and unavailable.";
+diff --git a/src/shared/constants/providers/apikey/index.ts b/src/shared/constants/providers/apikey/index.ts
+index fa8ed1f0..850de11b 100644
+--- a/src/shared/constants/providers/apikey/index.ts
++++ b/src/shared/constants/providers/apikey/index.ts
+@@ -10,12 +10,14 @@ import { APIKEY_PROVIDERS_INFERENCE } from "./inference-hosts";
+ import { APIKEY_PROVIDERS_ENTERPRISE } from "./enterprise-cloud";
+ import { APIKEY_PROVIDERS_REGIONAL } from "./regional";
+ import { APIKEY_PROVIDERS_SPECIALTY } from "./specialty-media";
++import { netieGateProviders } from "@omniroute/open-sse/config/netieSubscriptionGate.ts";
+ 
+-export const APIKEY_PROVIDERS = {
++// Netie gate: cursor-api bills to a Cursor plan through an IDE session token; off by default.
++export const APIKEY_PROVIDERS = netieGateProviders({
+   ...APIKEY_PROVIDERS_GATEWAYS,
+   ...APIKEY_PROVIDERS_FRONTIER,
+   ...APIKEY_PROVIDERS_INFERENCE,
+   ...APIKEY_PROVIDERS_ENTERPRISE,
+   ...APIKEY_PROVIDERS_REGIONAL,
+   ...APIKEY_PROVIDERS_SPECIALTY,
+-};
++});
+diff --git a/src/shared/constants/providers/noauth.ts b/src/shared/constants/providers/noauth.ts
+index 37a73b43..9b8aa747 100644
+--- a/src/shared/constants/providers/noauth.ts
++++ b/src/shared/constants/providers/noauth.ts
+@@ -2,7 +2,9 @@
+  * Provider catalog data — extracted from providers.ts (god-file decomposition).
+  * Pure data literal; re-exported by the providers.ts barrel. No behavior change.
+  */
+-export const NOAUTH_PROVIDERS = {
++import { netieGateProviders } from "@omniroute/open-sse/config/netieSubscriptionGate.ts";
++
++const ALL_NOAUTH_PROVIDERS = {
+   "devin-cli-agentic": {
+     id: "devin-cli-agentic",
+     alias: "dva",
+@@ -192,6 +194,9 @@ export const NOAUTH_PROVIDERS = {
+   },
+ };
+ 
++// Netie gate: codex-app-server drives the Codex CLI's ChatGPT sign-in; off by default.
++export const NOAUTH_PROVIDERS = netieGateProviders(ALL_NOAUTH_PROVIDERS);
++
+ // Provider-level proxy controls are exposed only for transports whose complete
+ // upstream path runs through OmniRoute's proxy-aware global fetch. Providers
+ // with browser, WebSocket, direct dispatcher, media, or local CLI paths stay
+diff --git a/src/shared/constants/providers/oauth.ts b/src/shared/constants/providers/oauth.ts
+index 1a6aba35..b3dd4978 100644
+--- a/src/shared/constants/providers/oauth.ts
++++ b/src/shared/constants/providers/oauth.ts
+@@ -3,8 +3,9 @@
+  * Pure data literal; re-exported by the providers.ts barrel. No behavior change.
+  */
+ import { GITLAB_DUO_OAUTH_SETUP_MESSAGE } from "@/shared/constants/gitlabDuoSetupMessage";
++import { netieGateProviders } from "@omniroute/open-sse/config/netieSubscriptionGate.ts";
+ 
+-export const OAUTH_PROVIDERS = {
++const ALL_OAUTH_PROVIDERS = {
+   "ghe-copilot": {
+     id: "ghe-copilot",
+     serviceKinds: ["llm"],
+@@ -323,3 +324,6 @@ export const OAUTH_PROVIDERS = {
+       "Sign in with the Muse Code device flow (same as `muse login` / CLIProxyAPI `-meta-login`) to use a Muse subscription, or paste a META_API_KEY. Device login keeps the durable dca token and mints the inference key; a 401 remints that key. Wire format is OpenAI Responses (POST /responses).",
+   },
+ };
++
++// Netie gate: subscription-login providers register only with the explicit flag.
++export const OAUTH_PROVIDERS = netieGateProviders(ALL_OAUTH_PROVIDERS);
+diff --git a/src/shared/constants/providers/web-cookie.ts b/src/shared/constants/providers/web-cookie.ts
+index b3707699..0993d26d 100644
+--- a/src/shared/constants/providers/web-cookie.ts
++++ b/src/shared/constants/providers/web-cookie.ts
+@@ -2,7 +2,9 @@
+  * Provider catalog data — extracted from providers.ts (god-file decomposition).
+  * Pure data literal; re-exported by the providers.ts barrel. No behavior change.
+  */
+-export const WEB_COOKIE_PROVIDERS = {
++import { netieGateProviders } from "@omniroute/open-sse/config/netieSubscriptionGate.ts";
++
++const ALL_WEB_COOKIE_PROVIDERS = {
+   "chatgpt-web": {
+     id: "chatgpt-web",
+     serviceKinds: ["llm"],
+@@ -518,6 +520,15 @@ export const WEB_COOKIE_PROVIDERS = {
+   },
+ };
+ 
++/** Every web-session adapter id, gated or not. The executor registry drops these too. */
++export const WEB_SESSION_PROVIDER_IDS: readonly string[] = Object.freeze(
++  Object.keys(ALL_WEB_COOKIE_PROVIDERS)
++);
++
++// Netie gate: adapters that drive another vendor's UI with a pasted session register
++// only with the explicit flag.
++export const WEB_COOKIE_PROVIDERS = netieGateProviders(ALL_WEB_COOKIE_PROVIDERS, WEB_SESSION_PROVIDER_IDS);
++
+ /** Resolved public site for a web-session provider (href + display host). */
+ export interface WebProviderHostLink {
+   /** Full URL to open in a new tab (the provider's own `website`, or the origin
+@@ -545,7 +556,7 @@ export function resolveWebProviderHost(
+   fallbackBaseUrl?: string | null
+ ): WebProviderHostLink | null {
+   if (!providerId) return null;
+-  const entry = (WEB_COOKIE_PROVIDERS as Record<string, { website?: string }>)[providerId];
++  const entry = (ALL_WEB_COOKIE_PROVIDERS as Record<string, { website?: string }>)[providerId];
+   const website = entry?.website?.trim();
+   const fallback = fallbackBaseUrl?.trim();
+   const source = website || fallback;
+diff --git a/tests/unit/netie-subscription-login-gate.test.ts b/tests/unit/netie-subscription-login-gate.test.ts
+new file mode 100644
+index 00000000..f1593a28
+--- /dev/null
++++ b/tests/unit/netie-subscription-login-gate.test.ts
+@@ -0,0 +1,178 @@
++// Netie FreeRoute gate (Netie DR-0002 rule 6).
++//
++// Providers that reuse an end user's Claude Code, Codex, GitHub Copilot, Cursor or
++// Antigravity subscription login, and every adapter that drives another vendor's web
++// UI with a pasted session, must be absent from every provider and model listing by
++// default, and present only when the explicit flag is set to "1".
++//
++// The listing is read from a child process so each half sees a fresh module graph
++// (the gate is evaluated at module load). The parent process then proves the two
++// artifacts an operator actually receives: the /v1/models response and credential
++// selection for a stored connection.
++import test from "node:test";
++import assert from "node:assert/strict";
++import { spawnSync } from "node:child_process";
++import fs from "node:fs";
++import os from "node:os";
++import path from "node:path";
++import { fileURLToPath } from "node:url";
++
++const FLAG = "NETIE_ALLOW_SUBSCRIPTION_LOGIN";
++const PROBE = "NETIE_GATE_PROBE";
++
++const GATED_IDS = [
++  "claude",
++  "codex",
++  "codex-app-server",
++  "github",
++  "ghe-copilot",
++  "cursor",
++  "cursor-api",
++  "antigravity",
++  "agy",
++];
++const GATED_ALIASES = ["cc", "cx", "cxa", "gh", "cu", "cua"];
++// A sample of the web-session class: one per named vendor plus the two token-based ones.
++const GATED_WEB_IDS = [
++  "claude-web",
++  "chatgpt-web-codex",
++  "chatgpt-web",
++  "copilot-web",
++  "copilot-m365-web",
++  "grok-web",
++  "gemini-web",
++  "maxai",
++  "uc",
++];
++const ALL_GATED = [...GATED_IDS, ...GATED_ALIASES, ...GATED_WEB_IDS];
++const GATED_MODEL_PREFIX = new RegExp(`^(${ALL_GATED.join("|")})/`);
++
++type Listing = {
++  providers: string[];
++  models: string[];
++  registry: string[];
++  oauthFlows: string[];
++  retired: string[];
++};
++
++if (process.env[PROBE] === "1") {
++  const providers = await import("../../src/shared/constants/providers.ts");
++  const models = await import("../../src/shared/constants/models.ts");
++  const registry = await import("@omniroute/open-sse/config/providerRegistry.ts");
++  const oauth = await import("../../src/lib/oauth/providers/index.ts");
++  const retirement = await import("../../src/shared/constants/providerRetirement.ts");
++  const listing: Listing = {
++    providers: Object.keys(providers.AI_PROVIDERS),
++    models: Object.keys(models.PROVIDER_MODELS),
++    registry: Object.keys(registry.REGISTRY),
++    oauthFlows: Object.keys(oauth.PROVIDERS),
++    retired: [...retirement.RUNTIME_RETIRED_PROVIDER_IDS],
++  };
++  process.stdout.write(`\n__NETIE_LISTING__${JSON.stringify(listing)}\n`);
++  process.exit(0);
++}
++
++function readListing(flagValue: string | undefined): Listing {
++  const dataDir = fs.mkdtempSync(path.join(os.tmpdir(), "netie-gate-probe-"));
++  const env: NodeJS.ProcessEnv = { ...process.env, [PROBE]: "1", DATA_DIR: dataDir };
++  delete env[FLAG];
++  if (flagValue !== undefined) env[FLAG] = flagValue;
++  const result = spawnSync(
++    process.execPath,
++    ["--import", "tsx/esm", fileURLToPath(import.meta.url)],
++    { env, encoding: "utf8", timeout: 180_000 }
++  );
++  fs.rmSync(dataDir, { recursive: true, force: true });
++  const line = result.stdout.split("\n").find((l) => l.startsWith("__NETIE_LISTING__"));
++  assert.ok(line, `probe produced no listing (status ${result.status})\n${result.stderr}`);
++  return JSON.parse(line.slice("__NETIE_LISTING__".length));
++}
++
++function present(keys: string[], wanted: string[]): string[] {
++  const set = new Set(keys);
++  return wanted.filter((k) => set.has(k));
++}
++
++test("by default no provider, model, executor or OAuth listing names a gated provider", () => {
++  const l = readListing(undefined);
++  assert.deepEqual(present(l.providers, ALL_GATED), [], "AI_PROVIDERS");
++  assert.deepEqual(present(l.models, ALL_GATED), [], "PROVIDER_MODELS");
++  assert.deepEqual(present(l.registry, ALL_GATED), [], "REGISTRY");
++  assert.deepEqual(present(l.oauthFlows, ALL_GATED), [], "OAuth flows");
++  // The runtime refuses the ids and aliases even for a connection row that predates the gate.
++  assert.deepEqual(present(l.retired, [...GATED_IDS, ...GATED_ALIASES]), [...GATED_IDS, ...GATED_ALIASES]);
++  // The gate must not take anything else with it.
++  assert.ok(l.providers.includes("openai"), "openai stays");
++  assert.ok(l.registry.includes("anthropic"), "anthropic API-key provider stays");
++  assert.ok(l.oauthFlows.includes("qoder"), "unrelated OAuth flows stay");
++});
++
++test("the flag is an opt-in: only the literal value 1 registers the gated providers", () => {
++  const off = readListing("true");
++  assert.deepEqual(present(off.providers, ALL_GATED), [], "a non-1 value keeps the gate closed");
++
++  const on = readListing("1");
++  assert.deepEqual(present(on.providers, GATED_IDS), GATED_IDS, "AI_PROVIDERS with flag");
++  assert.deepEqual(present(on.providers, GATED_WEB_IDS), GATED_WEB_IDS, "web adapters with flag");
++  assert.deepEqual(present(on.registry, GATED_IDS), GATED_IDS, "REGISTRY with flag");
++  assert.deepEqual(present(on.registry, GATED_WEB_IDS), GATED_WEB_IDS, "web executors with flag");
++  assert.ok(
++    present(on.models, GATED_ALIASES).length > 0,
++    "PROVIDER_MODELS is alias-keyed and must carry the gated aliases with the flag"
++  );
++  assert.deepEqual(
++    present(on.oauthFlows, ["claude", "codex", "github", "ghe-copilot", "cursor", "antigravity", "agy"]),
++    ["claude", "codex", "github", "ghe-copilot", "cursor", "antigravity", "agy"]
++  );
++  assert.deepEqual(present(on.retired, GATED_IDS), [], "retirement set releases them with the flag");
++});
++
++// Parent process: default environment (the test runner never sets the flag). The
++// heavy imports stay inside the test bodies so every test registers before any await:
++// under --test-force-exit a test registered after a top-level await is never run.
++process.env.API_KEY_SECRET ||= "netie-gate-test-secret";
++process.env.CATALOG_BUILD_TIMEOUT_MS ||= "120000";
++
++test("GET /v1/models never advertises a gated provider, even with a stored connection", async () => {
++  assert.notEqual(process.env[FLAG], "1");
++  const providersDb = await import("../../src/lib/db/providers.ts");
++  const v1ModelsCatalog = await import("../../src/app/api/v1/models/catalog.ts");
++  await providersDb.createProviderConnection({
++    provider: "openai",
++    authType: "apikey",
++    name: "openai-netie-gate",
++    apiKey: "sk-test",
++    isActive: true,
++    testStatus: "active",
++    providerSpecificData: {},
++  });
++  // A row that predates the gate (or was inserted by hand).
++  await providersDb.createProviderConnection({
++    provider: "github",
++    authType: "oauth",
++    name: "github-netie-gate",
++    apiKey: null,
++    accessToken: "gh-token",
++    isActive: true,
++    testStatus: "active",
++    providerSpecificData: {},
++  });
++
++  const response = await v1ModelsCatalog.getUnifiedModelsResponse(
++    new Request("http://localhost/api/v1/models")
++  );
++  const body = (await response.json()) as { data: Array<{ id: string }> };
++  const ids = body.data.map((item) => item.id);
++
++  assert.equal(response.status, 200);
++  assert.ok(ids.some((id) => id.startsWith("openai/")), "the ungated connection is listed");
++  assert.deepEqual(ids.filter((id) => GATED_MODEL_PREFIX.test(id)), []);
++});
++
++test("credential selection refuses a gated provider id and its alias", async () => {
++  const auth = await import("../../src/sse/services/auth.ts");
++  assert.equal(await auth.getProviderCredentials("github"), null);
++  assert.equal(await auth.getProviderCredentials("gh"), null);
++  assert.equal(await auth.getProviderCredentials("claude"), null);
++  assert.equal(await auth.getProviderCredentials("cursor-api"), null);
++});
