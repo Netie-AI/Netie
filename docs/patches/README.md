@@ -10,7 +10,7 @@ python3 scripts/apply_product_patches.py --product pointer --repo /path/to/Point
 python3 scripts/apply_product_patches.py --all --skip-tests
 ```
 
-`--push` is refused. Constructor extras `constructor-*-4896ddd.patch` stay out of `--all` (do not mix with the 26). OpenVault `crew-gate` lands before `crew-netie` (README's independent block is not apply order). Cortex never `uv add` Netie.git.
+`--push` is refused. `--all` clones `SIBLING_PINS` (constructor `4896ddd`, OpenVault `62bb1c7`, Cortex `bf4ecee`, dms `3f9a9be`, Pointer `8c0e6c2`, control `82ab1ae`, KB `10356e5`), not live HEAD. Live HEAD moved 2026-10-30; push 403 so patches stay on those pins. Constructor extras `constructor-*-4896ddd.patch` stay out of `--all` (do not mix with the 26). OpenVault `crew-gate` lands before `crew-netie` (README's independent block is not apply order). Cortex never `uv add` Netie.git.
 
 ## Constructor (`Netie-AI/constructor`)
 

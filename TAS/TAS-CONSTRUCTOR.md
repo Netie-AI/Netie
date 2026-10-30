@@ -33,7 +33,7 @@ node --test tests/compiler.test.cjs
 
 Patches: `docs/patches/constructor-compiler-tests.patch` then `docs/patches/constructor-empty-graph.patch` then `docs/patches/constructor-ir-refuse.patch` then `docs/patches/constructor-ir-ids.patch` then `docs/patches/constructor-ghost-refuse.patch` then `docs/patches/constructor-ir-emit.patch` then `docs/patches/constructor-tool-action.patch` then `docs/patches/constructor-inspect-action.patch` then `docs/patches/constructor-inspect-object.patch` then `docs/patches/constructor-inspect-tier.patch` then `docs/patches/constructor-chat-object.patch` then `docs/patches/constructor-topo-leftover.patch` then `docs/patches/constructor-ir-entry.patch` then `docs/patches/constructor-ir-output.patch` then `docs/patches/constructor-ir-object.patch` then `docs/patches/constructor-ir-bind.patch` then `docs/patches/constructor-ir-action-allow.patch` then `docs/patches/constructor-ir-intake.patch` then `docs/patches/constructor-ir-hitl.patch` then `docs/patches/constructor-ir-connected.patch` then `docs/patches/constructor-ir-note.patch` then `docs/patches/constructor-ir-cortex-post.patch` then `docs/patches/constructor-object-pick.patch` then `docs/patches/constructor-engine-order.patch` then `docs/patches/constructor-ir-post.patch` then `docs/patches/constructor-ir-kahn-nodes.patch` (also a `test.yml` workflow). Push 403.
 
-GitHub on default `landing-9-first-path`: **pages.yml** is green. There is **no unit-test workflow** on HEAD until that patch lands.
+GitHub on default `landing-9-first-path`: **pages.yml** is green. Pin `4896ddd` has **no unit-test workflow**; live HEAD `bfc7d3b` already has `test.yml` (our compiler-tests patch does not apply there).
 
 ---
 

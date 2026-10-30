@@ -21,6 +21,7 @@ from apply_product_patches import (
     OPENVAULT_STACK,
     PATCHES,
     ROOT,
+    SIBLING_PINS,
     STACKS,
     main,
 )
@@ -120,6 +121,7 @@ class ApplyProductPatchesTests(unittest.TestCase):
         self.assertEqual(proc.returncode, 0, proc.stderr)
         self.assertIn("pointer-netie-hands.patch", proc.stdout)
         self.assertIn("pointer-observe-guard.patch", proc.stdout)
+        self.assertIn(f"pin={SIBLING_PINS['pointer']}", proc.stdout)
         self.assertIn("do not push", proc.stdout)
         self.assertNotIn("Cloning", proc.stdout)
 
@@ -131,6 +133,35 @@ class ApplyProductPatchesTests(unittest.TestCase):
         self.assertIn("refuse mix", src)
         for extra in CONSTRUCTOR_EXTRAS:
             self.assertNotIn(extra, STACKS["constructor"].patches)
+
+    def test_stacks_pin_measured_shas_not_live_head(self) -> None:
+        self.assertEqual(
+            SIBLING_PINS,
+            {
+                "constructor": "4896ddd5edd46b6ccfdcfc2ec7fbe42d413a96fd",
+                "openvault": "62bb1c7b056aeb2429f6ecdd073c1a24f9c4ad44",
+                "cortex": "bf4eceea5595f426a613477cb36f1899e4842a78",
+                "dms": "3f9a9be48ede43c506fd86bd819c700abf355277",
+                "pointer": "8c0e6c21079d6cb4051cede7353cf23f04d4b3e9",
+                "control": "82ab1aefc6d320f9dc0dc5a329b66f2d0f36cb28",
+                "kb": "10356e58d1606b9b6bc2131edebc84bd0e42ab50",
+            },
+        )
+        for sha in SIBLING_PINS.values():
+            self.assertEqual(len(sha), 40, sha)
+        for name, stack in STACKS.items():
+            self.assertEqual(stack.pin, SIBLING_PINS[name], name)
+        apply_src = (ROOT / "scripts" / "apply_product_patches.py").read_text(
+            encoding="utf-8"
+        )
+        sibling_src = (ROOT / "scripts" / "test_sibling_patches.py").read_text(
+            encoding="utf-8"
+        )
+        self.assertIn("_clone_pinned", apply_src)
+        self.assertNotIn('"clone"', apply_src)
+        self.assertNotIn('"--branch"', apply_src)
+        self.assertNotIn('"clone"', sibling_src)
+        self.assertNotIn('"--branch"', sibling_src)
 
 
 if __name__ == "__main__":
