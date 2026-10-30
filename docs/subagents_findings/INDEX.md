@@ -5,6 +5,7 @@ class and the invariant it rests on. "R4 held" is a valid finding.
 
 | Date | File | One line |
 |---|---|---|
+| 2026-10-05 | `2026-10-05-freeroute-stage2.md` | OmniRoute fork: 42 providers gated off by default (9 subscription-login, 33 web-session), proved on the /v1/models artifact; full Next build OOMs here, stage stays 1 |
 | 2026-10-22 | `2026-10-22-wave2-sessions.md` | Shape of the 8 wave 2 sessions; netie-memory row contradicts ov_memory.py; parent replay: 6 of 6 stage 2 trees match (crew-harness after a restated hash); freeroute-core gate failed 1 of 17 once go test ran, fixed in 8318d9a, parent re-run green |
 | 2026-10-22 | `2026-10-22-crew-agent-stage2.md` (PR #54, branch `claude/stage2-crew-agent`) | crew-agent stage 2; replay matches |
 | 2026-10-22 | `2026-10-22-control-stage2.md` (PR #53, branch `claude/stage2-control`) | control stage 2; replay matches |
