@@ -1,12 +1,18 @@
 # TAS-CORTEX - Cortex technical architecture
 
 **Plane:** 3 (reasoning and governance) · **Repo:** `Netie-AI/Cortex` · `D:\Cortex`
-**Measured:** 2026-08-02. Route counts were obtained by **building the app**, not by
-reading source.
+**Measured:** 2026-08-02 (deps/shipped pass 2026-08-03). Route counts were obtained by
+**building the app**, not by reading source.
+
+**Tier 4 map:** purpose · plane · surface · dependencies · stores · trust · shipped vs
+scaffold · verify
 
 ---
 
 ## 1. What it is
+
+**One line:** governed execution engine - answers and actions carry evidence (SQL, rows,
+signed manifest, ledger entry) and refuse when proof fails.
 
 The governed execution engine: a FastAPI app that turns a question or goal into an answer
 or action **carrying its own evidence** - the SQL that ran, the rows behind it, the signed
@@ -17,6 +23,15 @@ cannot prove the work stayed inside what was granted.
 no CUDA path. `grep "chat/completions"` across `CortexOS` returns nothing. Tokens are
 bought through litellm (self-hosted vLLM default `http://127.0.0.1:8000/v1`) or via
 OpenVault FreeRoute. See `NETIE.md` section 2 for why that is a deliberate decline.
+
+Portable path check in this constitution repo (Cortex public; push 403):
+`scripts/cortex_path.py` / `python3 scripts/test_cortex_path.py`. JEPA and gen-cFSM are
+refused as route candidates. A tool that skips `tool_runner` is refused. Coding-agent tools (`bash` / filesystem)
+are refused even via `tool_runner` (Cortex is not Claude Code). A write
+without an actor is refused (`require_role` is still absent on HEAD execute
+modules). An answer without `verified=True` is refused (HEAD leaves it optional
+on `/dms/query`). `/a2a/messages` is dms-pack only. Observe tools call
+`guard_observe` (product `cortex-observe-guard.patch`).
 
 ---
 
@@ -79,12 +94,7 @@ is missing (`feature_stubs.py:28`) - so the route table is stable across profile
 
 ### The C2 false green
 
-`lint-imports` reports "Analyzed 294 files, 441 dependencies. Contracts: 2 kept, 0
-broken." grimp sees 67 `packs.dms.*` modules and **zero `packs.dms.semantic`** - it is the
-only subpackage under `packs/dms` without an `__init__.py` (18 others have one).
-`answer_engine` imports `packs.dms.semantic` on 8 lines, and `CortexOS.dms.answer_engine`
-is **not** in the `.importlinter` ignore list, so the contract *would* break if grimp could
-see it. **The green depends on a missing file.** Tracked at `Netie-AI/Cortex#9`.
+**C2 pack boundary** and **MIN_TESTS** stand as measured. This Netie branch does not mint Cortex issues (no #42) and does not edit Cortex PRs. The C2 false green stays a Cortex-repo fact (`Cortex#9`).
 
 ---
 
@@ -110,10 +120,13 @@ buckets; `action_value.py:4-5` says so.
 runs first (39 `re.search`, 37 `return MetricPlan`); the L2 block starts at `:1513` gated
 on `DMS_L2_ENABLED` (off) plus an OpenVault ping plus the leave-machine gate. Measured on
 with the corpus: **17 confidently wrong against a floor of 0.** Tracked at
-`Netie-AI/Cortex#12`, deferred until a real user exists.
+`Netie-AI/Cortex#12`, deferred until a real user exists. Portable
+`scripts/cortex_path.py` refuses `c7_sql=True` with that reason.
 
 **The action registry has 25 entries and 1 is invocable** - `export_pptx`. "Actions are
-the only write path" describes a path with one action.
+the only write path" describes a path with one action. Portable `scripts/cortex_path.py`
+also lists `item.intake` / `amend.apply` / `call_action` as governed writes (need an actor). `agent.checked`
+stays an event.
 
 ---
 
@@ -131,7 +144,52 @@ All runtime state is gitignored and regenerated.
 
 ---
 
-## 7. Contract
+## 7. Dependencies
+
+| On | How |
+|---|---|
+| OpenVault `:5000` | FreeRoute client path for litellm default; leave-machine not enforced inside Cortex itself |
+| Plane 1 (litellm / vLLM `:8000` or cloud) | token inference via configurable base URL - Cortex calls, does not serve |
+| DuckDB, SQLite, Qdrant (compose) | serving warehouse, ops DB, optional vector store |
+| `packs/dms` (when `PACK=dms`) | DMS-facing routes and semantic layer - pack registers into engine, never imported from `CortexOS` |
+
+| Depends on Cortex | How |
+|---|---|
+| DMS | HTTP only via pinned `cortex-contract` wheel - never imports `CortexOS` |
+| AirGPT | `/api/cortex/*`, workflows, engine plan/apply |
+| Pointer | `/dms/secure`, `/dms/classify`, `/dms/audit/append`, optional `/dms/agents/computer-use` |
+| Netie Space | `CortexClient.cs` - conditional escalation from `AiService` |
+
+---
+
+## 8. Shipped vs scaffold - honest
+
+**Shipped and exercised:**
+
+- FastAPI app - **90** OpenAPI paths default profile, **174** with `PACK=dms` (measured)
+- Manifest-enforced reads on the main submit path (`execution/manifest.py`)
+- Hash-chained ledger append through pack audit modules
+- Governed tool runner with allowlist, compliance, ledger on verdict
+- `packages/cortex_contract` + frozen OpenAPI specs `1.0.0` / `1.1.0` / `1.2.0`
+- Answer-path cascade (`route_to_metric`) plus `race_router.auto_route` behind
+  `POST /api/engine/auto`
+- CI green 2026-08-02 - **1310 passed** with `DMS_READ_ONLY_QUERIES=1` on Windows
+
+**Scaffold / partial / PLANNED:**
+
+- **`CortexOS/cli.py`** - 0-byte tracked file; no `[project.scripts]` entry
+- **WASM sandbox** - 0-byte modules; `wasm_isolate.py` has zero production callers
+- **C7 L2 path** - behind `DMS_L2_ENABLED` (off); corpus still wrong when forced on
+  (`Netie-AI/Cortex#12`)
+- **Action registry** - 25 entries, **1** invocable (`export_pptx`)
+- **`gen_cfsm` / `osr.route`** - code exists, no request path that runs them as selector
+- **C2 import boundary** - false green via missing `packs/dms/semantic/__init__.py`
+  (`Netie-AI/Cortex#9`)
+- **`netie.*` alias** - half the routers spell `netie.api.*`; grepping one spelling undercounts
+
+---
+
+## 9. Contract
 
 `packages/cortex_contract/` - models and Protocols only, zero `CortexOS` imports.
 Frozen specs in `contract/`: `openapi-1.0.0`, `1.1.0`, `1.2.0` plus `.sha256` sidecars.
@@ -148,7 +206,7 @@ identities of one file. Tracked at `Netie-AI/Cortex#5` - must land before any wh
 
 ---
 
-## 8. Structure problems
+## 10. Structure problems
 
 1. `CortexOS/AirGPT/` and `CortexOS/Vertex/` are untracked working mirrors sitting inside
    the engine package - gitignored, not importable, but a footgun for recursive tools.
@@ -162,7 +220,7 @@ identities of one file. Tracked at `Netie-AI/Cortex#5` - must land before any wh
 
 ---
 
-## 9. Verify
+## 11. Verify
 
 ```bash
 ruff check CortexOS packages/cortex_contract scripts tests/packaging tests/contract

@@ -1,0 +1,213 @@
+#!/usr/bin/env python3
+"""Skill kind needs a registry row. python3 scripts/test_crew_skills.py"""
+
+from __future__ import annotations
+
+import json
+import sys
+import unittest
+from pathlib import Path
+from typing import Any
+
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+
+from crew_ov_gate import OpenVaultCrewGate, refuse_crew_gate
+from crew_runs import CrewGraph
+from crew_skills import SkillDenied, SkillRegistry, register_from_kb, register_index, register_skill
+from crew_tool_wrap import CortexDenied
+
+
+def _allow(url: str, body: dict[str, Any]) -> dict[str, Any]:
+    return {"allowed": True, "found": True, "parent_run_id": body["parent_run_id"]}
+
+
+class CrewSkillTests(unittest.TestCase):
+    def test_register_is_ids_only(self) -> None:
+        reg = SkillRegistry()
+        register_skill(reg, "netie-kb.export-pptx")
+        self.assertTrue(reg.has("netie-kb.export-pptx"))
+        dumped = json.dumps(reg.index())
+        self.assertIn("netie-kb.export-pptx", dumped)
+        self.assertNotIn("skill_body", dumped)
+        with self.assertRaises(SkillDenied):
+            register_skill(reg, "x", skill_body="SECRET")
+        with self.assertRaises(SkillDenied):
+            register_skill(reg, "")
+
+    def test_skill_kind_needs_a_row(self) -> None:
+        with self.assertRaises(CortexDenied) as ctx:
+            refuse_crew_gate(kind="skill", id="netie-kb.export-pptx")
+        self.assertIn("no skill registered", str(ctx.exception))
+        reg = SkillRegistry()
+        register_skill(reg, "netie-kb.export-pptx")
+        ok = refuse_crew_gate(
+            kind="skill", id="netie-kb.export-pptx", registry=reg
+        )
+        self.assertEqual(ok["status"], "ok")
+        with self.assertRaises(CortexDenied):
+            refuse_crew_gate(
+                kind="skill",
+                id="netie-kb.export-pptx",
+                registry=reg,
+                skill_body="SECRET",
+            )
+
+    def test_spawn_skill_after_register(self) -> None:
+        reg = SkillRegistry()
+        register_skill(reg, "netie-kb.export-pptx")
+        g = CrewGraph(
+            ov=OpenVaultCrewGate(
+                "http://127.0.0.1:5000", post=_allow, registry=reg
+            )
+        )
+        g.open_parent("p1", "T1")
+        child = g.spawn_child(
+            parent_id="p1",
+            child_id="c1",
+            deficit="need export",
+            kind="skill",
+            resource_id="netie-kb.export-pptx",
+        )
+        self.assertEqual(child.id, "c1")
+        missing = CrewGraph(
+            ov=OpenVaultCrewGate("http://127.0.0.1:5000", post=_allow)
+        )
+        missing.open_parent("p1", "T1")
+        with self.assertRaises(CortexDenied):
+            missing.spawn_child(
+                parent_id="p1",
+                child_id="c1",
+                deficit="need export",
+                kind="skill",
+                resource_id="netie-kb.export-pptx",
+            )
+
+    def test_gate_post_sends_skill_ids_not_bodies(self) -> None:
+        seen: dict[str, Any] = {}
+
+        def _capture(url: str, body: dict[str, Any]) -> dict[str, Any]:
+            seen["body"] = body
+            return {
+                "allowed": True,
+                "found": True,
+                "parent_run_id": body["parent_run_id"],
+            }
+
+        reg = SkillRegistry()
+        register_skill(reg, "S-0004")
+        g = CrewGraph(
+            ov=OpenVaultCrewGate(
+                "http://127.0.0.1:5000", post=_capture, registry=reg
+            )
+        )
+        g.open_parent("p1", "T1")
+        g.spawn_child(
+            parent_id="p1",
+            child_id="c1",
+            deficit="need export",
+            kind="skill",
+            resource_id="S-0004",
+        )
+        self.assertEqual(seen["body"]["skill_ids"], ["S-0004"])
+        dumped = json.dumps(seen["body"])
+        self.assertNotIn("skill_body", dumped)
+        ok = refuse_crew_gate(kind="skill", id="S-0004", skill_ids=["S-0004"])
+        self.assertEqual(ok["status"], "ok")
+        with self.assertRaises(CortexDenied):
+            refuse_crew_gate(kind="skill", id="S-0004", skill_ids=["S-9999"])
+        with self.assertRaises(CortexDenied):
+            refuse_crew_gate(
+                kind="skill", id="S-0004", skill_ids=["S-0004"], skill_body="SECRET"
+            )
+
+
+    def test_register_from_kb_is_ids_only(self) -> None:
+        reg = SkillRegistry()
+        rows = [
+            {
+                "id": "S-0004",
+                "kind": "skill",
+                "title": "Find a skill",
+                "status": "active",
+            }
+        ]
+        sid = register_from_kb(reg, rows, "S-0004")
+        self.assertEqual(sid, "S-0004")
+        self.assertTrue(reg.has("S-0004"))
+        self.assertEqual(reg.index()[0]["source"], "netie-kb")
+        ok = refuse_crew_gate(kind="skill", id="S-0004", registry=reg)
+        self.assertEqual(ok["status"], "ok")
+        g = CrewGraph(
+            ov=OpenVaultCrewGate(
+                "http://127.0.0.1:5000", post=_allow, registry=reg
+            )
+        )
+        g.open_parent("p1", "T1")
+        child = g.spawn_child(
+            parent_id="p1",
+            child_id="c-kb",
+            deficit="need export",
+            kind="skill",
+            resource_id="S-0004",
+        )
+        self.assertEqual(child.id, "c-kb")
+        with self.assertRaises(SkillDenied):
+            register_from_kb(
+                reg,
+                [{"id": "S-0001", "kind": "skill", "title": "fleet", "body": "## Steps"}],
+                "S-0001",
+            )
+        with self.assertRaises(SkillDenied):
+            register_from_kb(
+                reg,
+                [{"id": "R-0016", "kind": "rule", "title": "skills live in KB"}],
+                "R-0016",
+            )
+        with self.assertRaises(SkillDenied):
+            register_from_kb(reg, rows, "S-0004", skill_body="SECRET")
+
+    def test_register_index_skips_corpus_and_refuses_bodies(self) -> None:
+        reg = SkillRegistry()
+        rows = [
+            {"id": "R-0016", "kind": "rule", "title": "skills live in KB"},
+            {"id": "S-0004", "kind": "skill", "title": "Find a skill"},
+            {"id": "S-0001", "kind": "skill", "title": "fleet"},
+        ]
+        ids = register_index(reg, rows)
+        self.assertEqual(ids, ["S-0004", "S-0001"])
+        self.assertTrue(reg.has("S-0004"))
+        self.assertTrue(reg.has("S-0001"))
+        dumped = json.dumps(reg.index())
+        self.assertNotIn("skill_body", dumped)
+        self.assertNotIn("Find a skill", dumped)
+        ok = refuse_crew_gate(kind="skill", id="S-0001", registry=reg)
+        self.assertEqual(ok["status"], "ok")
+        with self.assertRaises(SkillDenied):
+            register_index(
+                SkillRegistry(),
+                [{"id": "S-0001", "kind": "skill", "title": "fleet", "body": "## Steps"}],
+            )
+        with self.assertRaises(SkillDenied):
+            register_index(reg, rows, skill_body="SECRET")
+        empty = register_index(SkillRegistry(), [{"id": "R-0016", "kind": "rule"}])
+        self.assertEqual(empty, [])
+        from kb_lookup import list_briefs
+
+        dirty = [
+            {
+                "id": "S-0001",
+                "kind": "skill",
+                "title": "fleet",
+                "body": "## Steps",
+            }
+        ]
+        with self.assertRaises(SkillDenied):
+            register_index(SkillRegistry(), dirty)
+        cleaned = SkillRegistry()
+        register_index(cleaned, list_briefs(dirty, kind="skill"))
+        self.assertTrue(cleaned.has("S-0001"))
+        self.assertNotIn("## Steps", json.dumps(cleaned.index()))
+
+
+if __name__ == "__main__":
+    unittest.main()

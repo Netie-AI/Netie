@@ -1,22 +1,21 @@
-# STATUS
+# STATUS - Netie constitution repo
 
-Updated: 2026-08-24 21:10 UTC. Lane: Truelancer bids + HN/Starbridge outreach.
+**Branch:** `claude/netie-ecosystem-rebrand-uq9q3z` (from `8eb2d18`). **Gate:** `make ci`.
 
 ## Now
 
-- Starbridge: Jade Hapay asked for resume. PDF + LinkedIn already sent. Follow-up with plain proof URLs sent 2026-08-24 to recruiting@starbridge.ai. Do not dump skill gaps. Letter: `docs/side-hustle/outreach-starbridge.md`
-- SerpApi Python Developer Advocate: apply email sent to careers@serpapi.com (worldwide remote).
-- Evaboot form and Reef careers: not submitted (Google password / site blank).
-- Three Truelancer jobs still live. Bids drafted. **0 sent** (login wall).
-  - Vanish Hostinger Horizons: INR 3000 (~USD 36), 17 bids. https://www.truelancer.com/freelance-project/customization-of-existing-hostinger-horizons-website-655672
-  - Shruthi edu site: USD 600, 72 bids. https://www.truelancer.com/freelance-project/freelance-web-developer-for-interactive-educational-website-655708
-  - Samuel Vite/React: USD 60, 19 bids. UK client 10 paid / 91 posted. https://www.truelancer.com/freelance-project/need-vitereact-app-completed-655856
-- Marketing mail cards ($180 social / $300 Python / $600 ecom) are **not live listings**. Python + ecom bid text is ready. Social copywriting skipped (no proof).
-- High-pay queue: `docs/side-hustle/high-pay-ai-jobs.md`
+- Adoption lane built (DR-0002, **proposed**, not accepted): `ecosystem/catalog.json` holds 21 upstreams with licenses read from each LICENSE file on 2026-10-05, a license-class gate, a rebrand tool, and 13 stage 1 overlays. Overlay replay was byte-identical on 3 real upstreams (freeide, crew-desk, freeroute-core).
+- **Nothing is sellable yet.** Stage 1 is docs, attribution and strips. No fork is renamed, gated or built. Product remotes are still clone-yes push-403.
+- Not forkable for sale: n8n, Dify, Open WebUI, NadirClaw, Routerly. OpenWork `ee/` is stripped. OmniRoute and 9router must lose subscription-login providers before release.
+- docs-ci on `main` is green (2026-09-02). Crew wrap stays 3/10, HT1 not done, score stays 2/10.
 
-## Next
+## Next (founder clicks)
 
-1. Jian signs into Truelancer (Google). Agent pastes Samuel, Shruthi, Vanish bids, sets `sent`.
-2. If a live Python ~$300 or ecom ~$600 listing appears, paste `proposal-python-script.md` / `proposal-ecom-redesign.md`.
-3. Jian picks: apply US-only Ashby anyway, or only MY/EU-EOR roles.
-4. Other agents read this file before bidding.
+1. Merge or reject the DR-0002 PR. Merge also amends `NETIE.md` section 6.
+2. Create private `Netie-AI` repos for the first forks (suggest freeide, freeroute, airgpt) and grant this agent write.
+3. Revoke the leaked keys. Contents write on product remotes. Create Cortex-Crew.
+4. Answer the two unresolved names in `ecosystem/ECOSYSTEM.md` (openwillow/zillow, Andrew Ng openwork).
+
+## Later
+
+Stage 2 per fork (gate wiring, package renames, a build that passes). Nightly `make drift` routine once this is on `main`. Counsel review of vendor terms for subscription-login providers. HT1. AirGPT `rag/`. Do not mint Cortex #42. Do not clone Grok Bot reconstructed.

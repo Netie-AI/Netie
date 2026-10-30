@@ -1,0 +1,35 @@
+{
+  "slug": "netie-wiki",
+  "upstream": "langchain-ai/openwiki",
+  "base_commit": "c0173dca928862d0bd7991f134b5dfd615975e7c",
+  "license_sha256": "1126322e2cc8d165adc4c792eeb195717de2bcc7b39be1ce77959d78e87ef685",
+  "stripped": [],
+  "files_changed": [
+    "AGENTS.md",
+    "CLAUDE.md",
+    "CONTRIBUTING.md",
+    "DEVELOPMENT.md",
+    "README.md",
+    "NETIE-ATTRIBUTION.md"
+  ],
+  "series": [
+    "0001-rebrand.patch",
+    "0002-gate.patch"
+  ],
+  "stage2": {
+    "patch": "0002-gate.patch",
+    "gate_test": "test/netie/netie-wiki-gate.test.ts",
+    "run": "pnpm install --frozen-lockfile && npx vitest run test/netie/netie-wiki-gate.test.ts",
+    "cases": 12,
+    "baseline_failed": 12,
+    "env": [
+      "NETIE_OPENVAULT_URL",
+      "NETIE_KB_INDEX"
+    ],
+    "endpoint": "${NETIE_OPENVAULT_URL}/v1",
+    "default_provider": "openvault",
+    "leave_machine_gate": "POST ${NETIE_OPENVAULT_URL}/api/crew/gate kind=service id=wiki.connector.<id> intent=leave",
+    "kb_grounding": "openwiki/.claims/*.json claim.grounding netie-kb|ungrounded, claim.kb brief",
+    "replay_tree": "214d44def7a6aa5270e5dbfaa13f2da1088a69fa"
+  }
+}

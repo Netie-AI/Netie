@@ -29,55 +29,71 @@ REPOS: dict[str, Path] = {
     "AirGPT": Path("D:/AirGPT"),
     "Space": Path("D:/Space"),
     "Pointer": Path("D:/Pointer"),
+    "Constructor": Path("D:/constructor"),
+    # Fold into Crew when Crew exists. Not Guacamole.
+    "Control": Path("D:/netie-control"),
+    "KB": Path("D:/Netie-KB"),
+    # Planned: stamp when the repo exists. Not a second Cortex.
+    "Crew": Path("D:/Cortex-Crew"),
 }
+
+# What each product repo imports after `uv add` Netie.
+# Cortex cannot uv-add Netie.git: it already owns the package name `netie`.
+CALLERS: dict[str, str] = {
+    "Cortex": "from CortexOS.constitution.cortex_path import run_question, WRITE_ACTIONS",
+    "DMS": "from netie.dms import answer_or_abstain, browse_or_abstain, mint_object",
+    "OpenVault": "from netie.route import host_switchyard, report_deploy, assist_free_pool; from netie.crew import refuse_crew_gate",
+    "AirGPT": "from netie.airgpt import retrieve_space, chunk_table",
+    "Space": "from netie.space import chat_preview, leave",
+    "Pointer": "from netie.pointer import bind_computer, bind_pointer_skill, invoke_hand, guard_observe",
+    "Constructor": "from netie.route import compile_graph, compile_ir",
+    "Control": "from netie.control import project_board, project_session, MAX_BOARD_CHARS, board_index",
+    "KB": "from netie.kb import show_brief, lookup, list_briefs",
+    "Crew": "from netie.crew import bind_deep_agent, crew_harness_profile, TokenBudget, dispatch_seat, persist, resume, register_skill, register_from_kb, register_index, mint_issue, board_from_runs",
+}
+
+
+def _caller(product: str) -> str:
+    return CALLERS.get(product, "from netie.crew import bind_deep_agent")
+
+
+def _install_line(product: str) -> str:
+    if product == "Cortex":
+        return (
+            "Do not `uv add` Netie.git here: Cortex already owns the Python "
+            "package name `netie` (CortexOS alias). Apply "
+            "`docs/patches/cortex-netie-path.patch` from Netie-AI/Netie."
+        )
+    return "`uv add git+https://github.com/Netie-AI/Netie.git`"
 
 
 def _block(product: str) -> str:
     """The generated block. Same in every repo except the PRD pointer."""
+    caller = _caller(product)
+    install = _install_line(product)
     return f"""{BEGIN}
 
 ## Netie operating system
 
-This repo is governed by the Netie document system. **These rules bind here.**
+Cold start, in order: this file, then `D:\\Netie\\Software Blueprint\\{product}\\` (PRD + feedback
+ledger), `gh issue list` (live tickets, never a markdown backlog), `STATUS.md` (max 60 lines).
+`D:\\Netie` is `Netie-AI/Netie`; clone it if missing.
 
-### Resume from cold - read these four, in order
+**Route first.** A feature request or defect goes to `prd-agent` before anyone builds it. It
+decides: open epic, reopen a closed one, or PRD amendment for the founder.
 
-| # | Source | What it gives you |
-|---|--------|-------------------|
-| 1 | this file | the invariants you must not break |
-| 2 | `D:\\Netie\\Software Blueprint\\{product}\\` | the PRD, the epic waves, and **the feedback ledger** |
-| 3 | `gh issue list` in this repo | the live tickets - GitHub is the source of truth, never a markdown backlog |
-| 4 | `STATUS.md` | what is true right now (max 60 lines) |
+**Agents.** `prd-agent` -> `epic-agent` -> `ticket-runner`, on the model you selected.
+Fan-out subagents only: Sonnet in Claude Code, Grok 4.5 high or Composer 2.5 in Cursor.
 
-The **feedback ledger** is the PRD's memory: a table mapping every piece of feedback to
-the epic it belongs to. It lives with the PRD, not in this repo.
+**Five files, no sixth.** `CLAUDE.md` law, `docs/ACTIVE.md` map, `STATUS.md` state,
+`CHANGELOG.md` history, `PARKING_LOT.md` deferred (each entry has an unlock condition).
+Decisions: `docs/decisions/DR-NNNN-*.md`. Full law: `D:\\Netie\\Internal\\Rules\\DOCUMENT_SYSTEM.md`.
 
-`D:\\Netie` is a git repo (`Netie-AI/Netie`). If that path is missing, clone it first.
+**Product caller.** {install} Then `{caller}`. The wheel ships contracts as `netie._contracts`.
+Do not clone Grok Bot reconstructed. Do not vendor OpenWork `ee/`. Cortex is not Claude Code.
 
-### The routing rule - this is the one that prevents drift
-
-**Any feature request or defect report you are told about is routed to the `prd-agent`
-before it is implemented.** Not filed as a ticket. Not built. The PRD Agent decides
-whether it belongs to an open epic, a closed one that must reopen, or is a PRD amendment
-needing the founder.
-
-An agent that implements unrouted requests is how a PRD and a codebase drift apart, and
-the drift stays invisible until a release.
-
-### Agents
-
-`prd-agent` (slice + feedback intake) -> `epic-agent` (tickets + completeness check) ->
-`ticket-runner` (execute). They run on **whatever model you selected**; only subagent
-fan-out is pinned - Sonnet in Claude Code, Grok 4.5 high or Composer 2.5 in Cursor.
-
-### File law - five files per repo, no sixth
-
-`CLAUDE.md` (law) - `docs/ACTIVE.md` (map) - `STATUS.md` (state, <=60 lines) -
-`CHANGELOG.md` (history, append-only) - `PARKING_LOT.md` (deferred, every entry carries
-an unlock condition). Decisions go in `docs/decisions/DR-NNNN-*.md`.
-
-No per-agent files. No per-session files. No dates in filenames outside an archive.
-IDs are never reused. Full law: `D:\\Netie\\Internal\\Rules\\DOCUMENT_SYSTEM.md`.
+**Upstream code.** Fork and rebrand only what `D:\\Netie\\ecosystem\\ECOSYSTEM.md` marks
+fork-rebrand or fork-strip (DR-0002). Never edit a LICENSE or NOTICE. Host or block the rest.
 
 {END}"""
 
@@ -88,48 +104,90 @@ def _readme_block(product: str) -> str:
 
 ## How work happens here
 
-This repo runs on the Netie operating system. Three agents, one loop, everything in git.
+You write the PRD. `prd-agent` slices it into epics, `epic-agent` turns one epic into tickets,
+`ticket-runner` executes them, and `epic-agent` re-checks that the epic is really done.
 
-```
-  you write the PRD  ->  prd-agent slices it into epics
-                              |
-                         epic-agent turns one epic into tickets
-                              |
-                       ticket-runner executes them
-                              |
-                   epic-agent re-checks: is the epic actually done?
-                              |
-                   all epics done  ->  back to you for feedback
-```
-
-**Getting started in a new session** - just say what you want. The agent reads
-`CLAUDE.md`, which tells it where everything lives. You do not need to re-explain the
-project.
-
-**Reporting a bug or asking for a feature** - say it anywhere, in any repo. It gets
-routed to the PRD Agent, which files it against the right epic and records it in the
-feedback ledger. That ledger is why something you mentioned three weeks ago still lands
-in the right place.
-
-**Where things live**
+Just say what you want in a new session: the agent reads `CLAUDE.md` and knows where things
+live. Report a bug or ask for a feature anywhere; it is routed to the PRD Agent and recorded
+in the feedback ledger, so it still lands in the right epic weeks later.
 
 | You want | Look at |
 |---|---|
-| what we are building and why | `D:\\Netie\\Software Blueprint\\{product}\\` |
+| what we build and why | `D:\\Netie\\Software Blueprint\\{product}\\` |
 | the live task list | GitHub Issues on this repo |
 | what is true right now | `STATUS.md` |
 | why the code is shaped this way | `docs/decisions/` |
-| what we deliberately are not doing | `PARKING_LOT.md` |
 | the rules every repo follows | `D:\\Netie\\NETIE.md` |
 
-**Skills and prompts** - reusable agent prompts live in
-`D:\\Netie\\Internal\\Prompts\\`. Distilled lessons and invariants live in
-`D:\\Netie-KB` - search before non-trivial work with
-`python D:\\Netie-KB\\scripts\\kb.py search "<keywords>"`.
-
-To set this up in another repo: `python D:\\Netie\\scripts\\netie_init.py <path>`
+Search lessons before non-trivial work: `python D:\\Netie-KB\\scripts\\kb.py search "<keywords>"`.
+Set up another repo: `python D:\\Netie\\scripts\\netie_init.py <path>`
 
 {END}"""
+
+
+def _cursor_rule(product: str) -> str:
+    """Cursor .mdc equivalent of the CLAUDE.md block.
+
+    Cursor does not read CLAUDE.md, so without this the two tools follow different
+    rules in the same repo - which is the drift this whole system exists to stop.
+    alwaysApply keeps it in context rather than waiting for a glob to match.
+    """
+    return f"""---
+description: Netie operating system - resume points, routing rule, file law
+alwaysApply: true
+---
+
+# Netie operating system ({product})
+
+Generated by `D:\\Netie\\scripts\\netie_init.py`. Do not hand-edit - re-run the script.
+
+## Resume from cold
+
+| # | Source | What it gives you |
+|---|--------|-------------------|
+| 1 | `CLAUDE.md` in this repo | the invariants you must not break |
+| 2 | `D:\\Netie\\Software Blueprint\\{product}\\` | the PRD, the epic waves, and the feedback ledger |
+| 3 | `gh issue list` in this repo | the live tickets - GitHub is the source of truth, never a markdown backlog |
+| 4 | `STATUS.md` | what is true right now (max 60 lines) |
+
+The **feedback ledger** is the PRD's memory: a table mapping every piece of feedback to
+the epic it belongs to. It lives with the PRD, not in this repo.
+
+## The routing rule
+
+**Any feature request or defect report you are told about is routed to the PRD Agent
+before it is implemented.** Not filed as a ticket. Not built. It decides whether this
+belongs to an open epic, a closed one that must reopen, or is a PRD amendment needing the
+founder.
+
+An agent that implements unrouted requests is how a PRD and a codebase drift apart, and
+the drift stays invisible until a release.
+
+## Agent chain
+
+PRD Agent (slice + feedback intake) -> EPIC Agent (tickets + completeness check) ->
+Ticket Runner (execute). Spec: `D:\\Netie\\Internal\\Agents\\AGENT_SYSTEM.md`.
+
+**Model policy.** The agent you are talking to runs on whatever model is selected - these
+rules do not override it. Only subagent fan-out is pinned: in Cursor use **Grok 4.5 high**
+for hard work or **Composer 2.5** for routine.
+
+## File law - five files per repo, no sixth
+
+`CLAUDE.md` (law) - `docs/ACTIVE.md` (map) - `STATUS.md` (state, <=60 lines) -
+`CHANGELOG.md` (history, append-only) - `PARKING_LOT.md` (deferred, every entry carries an
+unlock condition). Decisions go in `docs/decisions/DR-NNNN-*.md`.
+
+No per-agent files. No per-session files - the answer to "what filename do I store this
+session in" is: none, update `STATUS.md`. No dates in filenames outside an archive. IDs
+are never reused. Full law: `D:\\Netie\\Internal\\Rules\\DOCUMENT_SYSTEM.md`.
+
+## Before deleting anything
+
+Grep the basename across **all** repos and check `git ls-files --error-unmatch`. An
+untracked file is not recoverable, and "no production callers" is not "no callers" - a
+prior cleanup nearly removed a module three test files imported.
+"""
 
 
 SEEDS: dict[str, str] = {
@@ -296,6 +354,18 @@ def stamp(repo: Path, product: str, *, dry: bool = False) -> list[str]:
             path.parent.mkdir(parents=True, exist_ok=True)
             path.write_text(body, encoding="utf-8", newline="\n")
         actions.append(f"created {rel}")
+
+    # Cursor reads .cursor/rules/*.mdc, not CLAUDE.md. Without this the two tools follow
+    # different rules in the same repo. Regenerated every run so it cannot drift from the
+    # CLAUDE.md block.
+    mdc = repo / ".cursor" / "rules" / "netie-system.mdc"
+    body = _cursor_rule(product)
+    if not mdc.is_file() or mdc.read_text(encoding="utf-8") != body:
+        verb = "refreshed" if mdc.is_file() else "created"
+        if not dry:
+            mdc.parent.mkdir(parents=True, exist_ok=True)
+            mdc.write_text(body, encoding="utf-8", newline="\n")
+        actions.append(f"{verb} .cursor/rules/netie-system.mdc")
 
     dr = repo / "docs" / "decisions" / "0001-record-decisions-in-this-repo.md"
     if not dr.exists():

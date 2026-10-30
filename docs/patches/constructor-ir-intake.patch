@@ -1,0 +1,42 @@
+diff --git a/engine.js b/engine.js
+index ff30f49..4797328 100644
+--- a/engine.js
++++ b/engine.js
+@@ -92,7 +92,7 @@ function listedOrEmpty(value, listed) {
+ 
+ const DEFAULT_OBJECTS = ["inventory", "suppliers"];
+ const DEFAULT_ACTIONS = ["export_pptx", "item.intake", "agent.checked"];
+-const WRITE_ACTIONS = ["export_pptx"];
++const WRITE_ACTIONS = ["export_pptx", "item.intake"];
+ const DATA_TYPES = ["string", "number", "integer", "boolean", "date"];
+ const DEFAULT_OBJECT_POINTS = {
+   inventory: [
+diff --git a/tests/compiler.test.cjs b/tests/compiler.test.cjs
+index 5c134df..a085846 100644
+--- a/tests/compiler.test.cjs
++++ b/tests/compiler.test.cjs
+@@ -532,6 +532,24 @@ test("export_pptx on foundry requires confirm", () => {
+   assert.equal(ir.nodes[0].requires_confirm, true);
+ });
+ 
++test("item.intake on foundry requires confirm", () => {
++  const ir = compileIR({
++    nodes: [{ id: "f", kind: "foundry", action_type: "item.intake" }],
++    edges: [],
++  });
++  assert.equal(ir.nodes[0].action_type, "item.intake");
++  assert.equal(ir.nodes[0].requires_confirm, true);
++});
++
++test("agent.checked on foundry is an event", () => {
++  const ir = compileIR({
++    nodes: [{ id: "f", kind: "foundry", action_type: "agent.checked" }],
++    edges: [],
++  });
++  assert.equal(ir.nodes[0].action_type, "agent.checked");
++  assert.equal(ir.nodes[0].requires_confirm, false);
++});
++
+ test("ghostWalk refuses unknown tool_call action", () => {
+   const walked = ghostWalk(
+     {
