@@ -225,6 +225,47 @@ Blocked by: Netie-AI/Cortex#412, Netie-AI/OpenVault#88
 Blocks: Netie-AI/dms#31
 ```
 
+#### No orphan tickets, ever (founder, 2026-08-21)
+
+**Every ticket has a live parent epic. There is no exception and no grace period.**
+
+A ticket whose parent is closed is an orphan, and an orphan is unscoped work that will be
+re-derived from memory by whoever finds it next. Closing an epic over unfinished work
+orphans every open child, so **an epic may not be closed until each open child has been
+re-parented, closed, or parked with an unlock condition.**
+
+When a ticket classifies under no existing epic, a new epic is generated to hold it -
+**subject to the amendment gate below, which wins.**
+
+#### The amendment gate wins over the no-orphan rule
+
+**A generated epic may hold only work that an existing PRD clause already authorizes.**
+Work with no PRD clause still stops at the founder as a PRD amendment.
+
+Without this line the no-orphan rule repeals the amendment gate by side effect: an agent
+forbidden to widen a PRD would be *required* to manufacture a parent for anything handed
+to it, and the appetite becomes meaningless. Both rules hold together: **no ticket may be
+an orphan, and no agent may invent scope.**
+
+Repo-infrastructure defects that serve no PRD clause - a malformed `.gitmodules`, a broken
+CI runner - are **exempt**. Generating a Tier 6 for a one-line infra fix manufactures fake
+structure. Fix them and close them.
+
+#### Open epic vs in-flight epic - they are counted differently
+
+| State | Means | Counted against WIP? |
+|---|---|---|
+| **Open** | A live parent of record. Its children are not orphans | **No** |
+| **In flight** | A ticket runner is authorized to work it now | **Yes** |
+| **Queued** | Open, parented, deliberately not being built | **No** |
+
+The WIP limit constrains **in-flight** epics only. This is not a loosening: it is the only
+way both laws can hold at once, because the no-orphan rule requires as many live parents as
+the board has ticket clusters, while the WIP limit deliberately allows two active lanes.
+
+An epic moved to queued **keeps its children**. Closing it to free a slot re-creates the
+orphans this rule exists to prevent.
+
 ### Tier 7 - TICKET
 
 | | |
@@ -267,6 +308,10 @@ written?* If not, the ticket is not ready.
 
 A ticket moves to closed **only** by editing its parent epic's task list in the same
 action. Closing without updating the parent is how a plan silently drifts from reality.
+
+**A ticket with no live parent may not be worked.** It goes back to the PRD Agent for
+re-parenting first. "It was obviously in scope" is how a closed epic's remainder becomes
+permanent unscheduled work.
 
 ---
 
