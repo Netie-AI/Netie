@@ -1,5 +1,70 @@
 # TAS-POINTER - Pointer technical architecture
 
+**Plane:** 4 (computer control) · **Repo:** `Netie-AI/Pointer` (public clone; push 403)
+**Measured:** 2026-08-28 HEAD `8c0e6c2`. Tray exists. UACC catalog names planner/clipboard/windows; native observe still publishes uncropped PNG. Additive `guard_observe` is opt-in. Score in `TAS/ESTATE-GAP.md`.
+
+---
+
+## 1. What it is
+
+The hands and eyes: an Electron tray client that sees a screen region, takes an instruction, and executes clicks/types as a coworker rather than a macro. Holds no keys. Trusts nothing on screen. Sends intents to Cortex and executes what comes back, fail-closed.
+
+**Is not:** a second orchestrator, UACC itself, Perplexity Computer, or a billing bypass into Cursor/Claude Code.
+
+---
+
+## 2. Entry points (founder inventory)
+
+| Claim | Status |
+|---|---|
+| Electron tray, Ctrl+Space, crop a region, instruct | founder table; not cloned |
+| ~216 files, 120 JS/TS | founder table |
+| Was NetieClicks / `jian-hong/NetieClicks` | `NETIE.md` |
+| Founder: "not working as expected" | treat as broken until HEAD is green |
+
+---
+
+## 3. vs Perplexity Computer and UACC
+
+| Analogue | License | Job | Pointer |
+|---|---|---|---|
+| Perplexity Computer | closed | hosted computer-use agent | not a host; local tray |
+| `uacc` (PyPI, MCP, ~68 tools) | open MCP server | pixel/a11y desktop tools for any agent | should be *optional hands* behind Cortex `tool_runner`, not a second brain |
+| `e2b-dev/open-computer-use` | Apache-2.0 | sandboxed desktop | different threat model (cloud VM vs operator laptop) |
+
+Fail-closed click contract in this repo: `scripts/pointer_click.py`. Unlabeled or unknown-role elements do not click. Password / OTP / cookie fields do not click even when labeled. No Cortex intent, no click. The file does not mention API keys or `os.environ`. Product copy: `docs/patches/pointer-netie-hands.patch`.
+
+MCP wrap of UACC 1.1.0's **68** public tool names: `scripts/pointer_hands.py`. Cortex must allow the name. Planner / workflow / memory / `get_action_history` / clipboard / `browser_execute_js` / ungated `open_url` refuse. `invoke_hand(ov=)` POSTs `/api/crew/gate` with skill ids; boolean `ov_leave` stays the stand-in. Screenshot / snapshot / screen-diff / `detect_elements_visual` / `get_screen_info` / `get_screen_info_enhanced` / `vlm_locate_element` need a labeled non-secret crop (`screenshot_uncropped` otherwise). `browser_get_page_info`, `list_processes`, `get_system_info`, `list_windows`, and `get_active_window` refuse. Hover/drag/`wait_for_element` reuse fail-closed click. `hotkey` / `scroll` / `paint_image` / `paint_preset` on a password/OTP field refuse (uncropped paint refuses). `acknowledge_user_override` / `set_kill_distance` refuse (UACC safety is not a second Cortex). `bind_computer` refuses e2b / Perplexity Computer / open-computer-use (local tray, not a hosted computer). Native `computer.observe` stays DR-0005. Opt-in Cortex path: `scripts/pointer_observe.py` `guard_observe` (product `governed: true`). We do not import `uacc`. `python3 scripts/test_pointer_click.py`, `python3 scripts/test_pointer_hands.py`, and `python3 scripts/test_pointer_observe.py`. Not a UACC clone.
+
+---
+
+## 4. Trust boundaries (constitution)
+
+| Boundary | Required | Verified on HEAD |
+|---|---|---|
+| No keys in the tray | yes | UNVERIFIABLE |
+| Cortex decides the intent | yes | UNVERIFIABLE |
+| Fail closed on ambiguous UI | yes | UNVERIFIABLE |
+| Leave-machine via OpenVault | yes | UNVERIFIABLE |
+
+---
+
+## 5. Verify
+
+```
+NEEDS-YOU TAS-POINTER  add Netie-AI/Pointer to this environment
+```
+
+Then: a tool-for-tool matrix against UACC, a fail-closed test (refuse to click unlabeled), and a proof the tray never reads `env.local`.
+
+---
+
+## Appendix - checkout-measured map (2026-08-03, from PR #1)
+
+Kept on merge so the checkout-measured detail is not lost. Main body above is newer; where they disagree, the body wins until re-measured.
+
+### TAS-POINTER - Pointer technical architecture
+
 **Plane:** 4 (application / computer control) · **Repo:** `Netie-AI/Pointer` · `D:\Pointer`
 **Measured:** 2026-08-03. Tests run locally; HTTP surfaces are outbound clients only
 (no server in this repo). `npm test` sums **147 passed** across 17 unit suites.
@@ -9,7 +74,7 @@ scaffold · verify
 
 ---
 
-## 1. What it is
+#### 1. What it is
 
 **One line:** Windows Electron buddy - region capture, governed plan, human-confirmed
 clicks/types - hands and eyes for the estate, not a second orchestrator.
@@ -25,7 +90,7 @@ name `netie-pointer`; user-facing folder still `%APPDATA%\NetieClicks` (rename l
 
 ---
 
-## 2. Entry points
+#### 2. Entry points
 
 | Path | Role |
 |---|---|
@@ -43,7 +108,7 @@ for vision/LLM proxy. README still references `D:\Netie Clicks` path alias.
 
 ---
 
-## 3. HTTP surface - measured
+#### 3. HTTP surface - measured
 
 **No inbound HTTP server.** Outbound calls only:
 
@@ -60,7 +125,7 @@ Default Cortex key: `dms-demo-steward-key` unless `NETIE_CORTEX_KEY` set or
 
 ---
 
-## 4. Trust boundaries
+#### 4. Trust boundaries
 
 | Boundary | Enforced by |
 |---|---|
@@ -82,7 +147,7 @@ Default Cortex key: `dms-demo-steward-key` unless `NETIE_CORTEX_KEY` set or
 
 ---
 
-## 5. Data stores
+#### 5. Data stores
 
 | Store | Location |
 |---|---|
@@ -99,7 +164,7 @@ No cloud SoT - fleet learning uploads encrypted envelopes to Cortex telemetry on
 
 ---
 
-## 6. Dependencies + what depends on it
+#### 6. Dependencies + what depends on it
 
 | On | How |
 |---|---|
@@ -119,7 +184,7 @@ Pointer does not depend on AirGPT or DMS directly.
 
 ---
 
-## 7. Shipped vs scaffold - honest
+#### 7. Shipped vs scaffold - honest
 
 **Shipped and exercised:**
 
@@ -145,7 +210,7 @@ Pointer does not depend on AirGPT or DMS directly.
 
 ---
 
-## 8. Structure problems
+#### 8. Structure problems
 
 1. **No CI workflow** in repo - 147 unit tests exist but nothing runs them on push.
 2. **Rename incomplete** - Pointer repo / package vs NetieClicks AppData confuses cross-repo docs.
@@ -158,17 +223,17 @@ Pointer does not depend on AirGPT or DMS directly.
 
 ---
 
-## 9. Verify
+#### 9. Verify
 
 ```powershell
-# Unit suites (fast)
+### Unit suites (fast)
 cd D:\Pointer
 npm test
 
-# Full agentic pack (slow - needs peers for strict acceptance)
+### Full agentic pack (slow - needs peers for strict acceptance)
 npm run test:agentic-pack
 
-# Manual stack (from README)
+### Manual stack (from README)
 powershell -File D:\Cortex\scripts\start_cortex_engine.ps1 -Port 8010 -Pack dms
 cd D:\OpenVault\OpenMW
 $env:CORTEX_URL = "http://127.0.0.1:8010"

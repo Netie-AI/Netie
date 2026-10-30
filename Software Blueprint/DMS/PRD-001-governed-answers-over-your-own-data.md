@@ -76,7 +76,10 @@ buys is one.
 **Q: Does the Space boundary actually hold?**
 No. `live_ask` mints its manifest from `demo_acl()`, which allowlists every table
 regardless of `space_id`. The correct functions exist, are unit-tested, and have no
-production caller. **Two customers in one room is a demo we cannot currently give.**
+production caller. Portable contract in Netie `scripts/dms_space_acl.py`: named warehouse
+bind, SQL required, row copy, abstain a row that declares another table, abstain Cortex
+DuckDB for a DMS-bound Space, abstain SQL that names an ungranted table. **Two customers in one room is a demo we cannot currently
+give** until that contract is the production caller.
 
 **Q: Can the system write?**
 Barely. The action registry has 25 entries and **one** is invocable - it exports a
@@ -130,7 +133,10 @@ at 80 percent and nothing finished.
 > a Space scoped to a subset of sources, and asks a question whose answer requires a
 > table outside that Space, **THE SYSTEM SHALL** return an abstention naming the refusal
 > - and when the question is inside the Space, return the answer, the contributing rows,
-> and a drillthrough token that reproduces them.
+> the SQL that ran, and a drillthrough token that reproduces them. A Space with no
+> warehouse bind, or an answer with no SQL, abstains. SQL that names a table
+> outside the Space grant abstains. A Cortex DuckDB ask for a
+> DMS-bound Space abstains. Row copies so a caller mutation cannot punch the warehouse.
 >
 > **AND WHEN** that person, in the same chat session, asks a grounded follow-up over the
 > prior certified answer (e.g. "average of them", "add 2000"), **THE SYSTEM SHALL** either
@@ -147,6 +153,15 @@ means more capable grounded follow-ups and NL over granted tables - not silent d
 fallback and not inventing. Azure AI Foundry is a competitor/positioning mention, not a
 build target.
 
+Licensed bootstrap when `Netie-AI/dms` is reachable:
+
+```
+uv add git+https://github.com/Netie-AI/Netie.git
+from netie.dms import answer_or_abstain, browse_or_abstain
+```
+
+`chat_mode=True` abstains (AnythingLLM overlay). SQL that names an ungranted table abstains. A Cortex DuckDB warehouse id on a DMS-bound Space abstains. Do not overlay AnythingLLM.
+
 ---
 
 ## 5. Epic decomposition
@@ -158,7 +173,7 @@ Ordered by **irreversibility**, not value. Two in flight at a time, at least one
 | Epic | Repo | Contract | Depends on | Visible |
 |---|---|---|---|---|
 | **EPIC-001** Eval gate can fail | Cortex | none | - | no |
-| **EPIC-003** Space boundary holds | DMS | none | **resolved: store=B** | **yes** |
+| **EPIC-003** Space boundary holds | DMS | `scripts/dms_space_acl.py` | **resolved: store=B** | **yes** |
 
 `EPIC-001` first because every number downstream is currently unfalsifiable. `EPIC-003`
 paired with it so the wave produces something you can open and react to.

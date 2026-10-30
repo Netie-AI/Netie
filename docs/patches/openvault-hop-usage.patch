@@ -1,0 +1,141 @@
+diff --git a/OpenMW/openmw/openvault/vault/proxy.py b/OpenMW/openmw/openvault/vault/proxy.py
+index 7325c40..597ef89 100644
+--- a/OpenMW/openmw/openvault/vault/proxy.py
++++ b/OpenMW/openmw/openvault/vault/proxy.py
+@@ -232,6 +232,7 @@ def _run_execution_shape(
+     stream_holder: dict[str, AsyncIterator[bytes]] = {}
+     stream_hold = "\x1eopenvault-stream-hold\x1e"
+     served: dict[str, str] = {}
++    last_usage: dict[str, Any] = {}
+ 
+     def _mark_served(key_id: str, provider: str, resolved: str) -> None:
+         # Last successful hop, not "dispatch".
+@@ -239,6 +240,12 @@ def _run_execution_shape(
+         served["provider"] = provider
+         served["model"] = resolved
+ 
++    def _mark_usage(payload: Any) -> None:
++        # Last hop usage only. Do not sum the fusion panel.
++        last_usage.clear()
++        if isinstance(payload, dict) and isinstance(payload.get("usage"), dict):
++            last_usage.update(payload["usage"])
++
+     def _flush_served() -> None:
+         if served.get("vault_key_id"):
+             trace.note_served(
+@@ -460,9 +467,11 @@ def _run_execution_shape(
+         if outcome.job == "dead":
+             raise ExecutionRefused(400, "request rejected by upstream (non-retryable)")
+         if outcome.attempt_class == "success":
+-            text = extract_assistant_text(resp.json())
++            payload = resp.json()
++            text = extract_assistant_text(payload)
+             if text and str(text).strip():
+                 _mark_served(rec.id, rec.provider, resolved)
++                _mark_usage(payload)
+             return text
+         return ""
+ 
+@@ -533,7 +542,7 @@ def _run_execution_shape(
+             }
+         }
+     _flush_served()
+-    return 200, {
++    out: dict[str, Any] = {
+         "id": "ov-dispatch",
+         "object": "chat.completion",
+         "choices": [
+@@ -543,6 +552,9 @@ def _run_execution_shape(
+             }
+         ],
+     }
++    if last_usage:
++        out["usage"] = dict(last_usage)
++    return 200, out
+ 
+ 
+ async def chat_completions(
+diff --git a/OpenMW/tests/test_execution_chat.py b/OpenMW/tests/test_execution_chat.py
+index b5c73be..c14f089 100644
+--- a/OpenMW/tests/test_execution_chat.py
++++ b/OpenMW/tests/test_execution_chat.py
+@@ -40,8 +40,12 @@ def _client(vault: KeyVault, tmp_path: Path, monkeypatch: pytest.MonkeyPatch) ->
+     return TestClient(app, client=("127.0.0.1", 5555))
+ 
+ 
+-def _ok(content: str) -> MagicMock:
+-    payload = {"choices": [{"message": {"role": "assistant", "content": content}}]}
++def _ok(content: str, usage: dict[str, int] | None = None) -> MagicMock:
++    payload: dict[str, object] = {
++        "choices": [{"message": {"role": "assistant", "content": content}}]
++    }
++    if usage is not None:
++        payload["usage"] = usage
+     resp = MagicMock()
+     resp.status_code = 200
+     resp.text = '{"ok":true}'
+@@ -540,6 +544,7 @@ def test_v1_fusion_usage_names_the_hop_that_served(
+     assert row["provider"] != "dispatch"
+     assert row["model_requested"] == "auto"
+     assert row["model_served"] == "gpt-4o-mini"
++    assert row["estimated"] is True
+ 
+ 
+ def test_v1_failover_usage_names_the_winning_key(
+@@ -585,5 +590,56 @@ def test_v1_failover_usage_names_the_winning_key(
+     assert events[0]["provider"] != "dispatch"
+ 
+ 
++def test_v1_fusion_usage_is_last_hop_not_panel_sum(
++    vault: KeyVault, monkeypatch: pytest.MonkeyPatch, tmp_path: Path
++) -> None:
++    rec = vault.create(
++        label="usage-tokens",
++        provider="openai",
++        secret="sk-test-tokens-aaaaaaaa",
++        role="primary",
++        priority=1,
++        base_url="https://example.invalid/v1",
++    )
++    vault.set_precheck(rec.id, status="ok", latency_ms=1.0, error=None)
++    client = _client(vault, tmp_path, monkeypatch)
++    _seat, headers = issue_key(client, label="usage-tokens-seat")
++    mock = _client_mock()
++    mock.post = MagicMock(
++        side_effect=[
++            _ok("ans-a", usage={"prompt_tokens": 40, "completion_tokens": 40, "total_tokens": 80}),
++            _ok("ans-b", usage={"prompt_tokens": 50, "completion_tokens": 50, "total_tokens": 100}),
++            _ok(
++                "FINAL",
++                usage={"prompt_tokens": 12, "completion_tokens": 8, "total_tokens": 20},
++            ),
++        ]
++    )
++    with patch("openmw.openvault.vault.proxy.httpx.Client", return_value=mock):
++        resp = client.post(
++            "/v1/chat/completions",
++            json={
++                "model": "auto",
++                "messages": [{"role": "user", "content": "Q"}],
++                "combo": {
++                    "strategy": "fusion",
++                    "models": ["gpt-4o-mini", "gpt-4o"],
++                    "judgeModel": "gpt-4o-mini",
++                },
++            },
++            headers=headers,
++        )
++    assert resp.status_code == 200, resp.text
++    assert resp.json()["usage"]["total_tokens"] == 20
++    events = client.get("/api/usage").json()["events"]
++    assert len(events) == 1
++    row = events[0]
++    assert row["vault_key_id"] == rec.id
++    assert row["total_tokens"] == 20
++    assert row["estimated"] is False
++    assert row["total_tokens"] != 200
++
++
++
+ 
+ 
