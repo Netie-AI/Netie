@@ -24,6 +24,15 @@ no CUDA path. `grep "chat/completions"` across `CortexOS` returns nothing. Token
 bought through litellm (self-hosted vLLM default `http://127.0.0.1:8000/v1`) or via
 OpenVault FreeRoute. See `NETIE.md` section 2 for why that is a deliberate decline.
 
+Portable path check in this constitution repo (Cortex public; push 403):
+`scripts/cortex_path.py` / `python3 scripts/test_cortex_path.py`. JEPA and gen-cFSM are
+refused as route candidates. A tool that skips `tool_runner` is refused. Coding-agent tools (`bash` / filesystem)
+are refused even via `tool_runner` (Cortex is not Claude Code). A write
+without an actor is refused (`require_role` is still absent on HEAD execute
+modules). An answer without `verified=True` is refused (HEAD leaves it optional
+on `/dms/query`). `/a2a/messages` is dms-pack only. Observe tools call
+`guard_observe` (product `cortex-observe-guard.patch`).
+
 ---
 
 ## 2. Entry points
@@ -85,12 +94,7 @@ is missing (`feature_stubs.py:28`) - so the route table is stable across profile
 
 ### The C2 false green
 
-`lint-imports` reports "Analyzed 294 files, 441 dependencies. Contracts: 2 kept, 0
-broken." grimp sees 67 `packs.dms.*` modules and **zero `packs.dms.semantic`** - it is the
-only subpackage under `packs/dms` without an `__init__.py` (18 others have one).
-`answer_engine` imports `packs.dms.semantic` on 8 lines, and `CortexOS.dms.answer_engine`
-is **not** in the `.importlinter` ignore list, so the contract *would* break if grimp could
-see it. **The green depends on a missing file.** Tracked at `Netie-AI/Cortex#9`.
+**C2 pack boundary** and **MIN_TESTS** stand as measured. This Netie branch does not mint Cortex issues (no #42) and does not edit Cortex PRs. The C2 false green stays a Cortex-repo fact (`Cortex#9`).
 
 ---
 
@@ -116,10 +120,13 @@ buckets; `action_value.py:4-5` says so.
 runs first (39 `re.search`, 37 `return MetricPlan`); the L2 block starts at `:1513` gated
 on `DMS_L2_ENABLED` (off) plus an OpenVault ping plus the leave-machine gate. Measured on
 with the corpus: **17 confidently wrong against a floor of 0.** Tracked at
-`Netie-AI/Cortex#12`, deferred until a real user exists.
+`Netie-AI/Cortex#12`, deferred until a real user exists. Portable
+`scripts/cortex_path.py` refuses `c7_sql=True` with that reason.
 
 **The action registry has 25 entries and 1 is invocable** - `export_pptx`. "Actions are
-the only write path" describes a path with one action.
+the only write path" describes a path with one action. Portable `scripts/cortex_path.py`
+also lists `item.intake` / `amend.apply` / `call_action` as governed writes (need an actor). `agent.checked`
+stays an event.
 
 ---
 
