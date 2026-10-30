@@ -87,6 +87,22 @@ and one 5-hour usage limit; each time the journal and the `/tmp` trees survived 
 - **Root-cause class:** a gate run in a subset (vitest transpiles without typechecking).
 - **Invariant:** prove the gate you claim; vitest green is not typecheck green.
 
+## F6. The full suite caught 7 regressions the importer-set runs missed
+
+- **Expected:** the edited-tree full suite shows no failure absent from the baseline list.
+- **Actual (first after-run, shards 1-4):** 7 new failures, each red on the edited tree and
+  green on the baseline in isolation. Six multiplex and output-batching tests assert the exact
+  options object `sendTerminalStreamInput` passes to `runtime.sendTerminal`, and the phone-typing
+  exemption had added a key to it. `proxy-guarded-fetch-call-site-audit.test.ts` requires every
+  non-default-session `.fetch(` to be listed, and the board read was not.
+- **Fix:** the exemption now marks the action object in a `WeakSet`
+  (`markNetieHumanInput`), so the upstream call shape is unchanged; the board read is listed in
+  the audit map with its reason (the injected `MainHttpClient`, like the Jira entry), as that
+  test's own instructions say. The after-run was restarted on the fixed tree.
+- **Root-cause class:** verification scoped to files that import a changed module; these tests
+  reach the change through a runtime object or by scanning source text.
+- **Invariant:** assert the artifact; a passing subset is not the suite.
+
 ## Measured before and after
 
 Box: 4 cores, 15 GB, Node 22.22.0, pnpm 12.8.1. Install needed two workarounds (install only,
@@ -101,17 +117,17 @@ called directly (same commands).
 | Typecheck node / web / cli (tsc --noEmit) | 0 / 0 / 0 errors | 0 / 0 / 0 errors |
 | Electron bundle build (`run-electron-vite-build.mjs`) | exit 0, 52.5 s, peak 4.83 GiB | exit 0, 39 s |
 | Upstream repo gates (8 from `pnpm lint`: reliability, max-lines, ts-nocheck, runtime-electron, readme links, node pin, localization x2) | 8 pass | 8 pass |
-| oxlint, anti-slop (deny warnings), oxfmt on 153 changed files | n/a | clean |
+| oxlint, anti-slop (deny warnings), oxfmt on every changed source file | n/a | clean |
 | Full unit suite, CI env, 6 shards: files | 10966 | PENDING |
 | passed / failed / skipped | 105738 / 59 / 1112 | PENDING |
 | Netie gate tests (21 files) | 21 of 21 files fail (46 cases run, all fail; the rest cannot load) | 21 of 21 pass, 335 cases |
-| Replay: fresh clone + apply, `git write-tree` | | `34bbdd7759480e8c74925ef6ca7569ce17792080` on both |
+| Replay: fresh clone + apply, `git write-tree` | | `0f8422e1a84d0349940d27446c19a98d335705a3` on both |
 | LICENSE sha256 | `ff1b611f...112f3` | unchanged |
 
-Upstream tests edited (5), each with the reason in the file: tray tooltip and window title now
+Upstream tests edited (6), each with the reason in the file: tray tooltip and window title now
 assert `APP_DISPLAY_NAME`; the dashboard pop-out relay and drawer now assert the Netie board,
 not the local store; the sidebar nav test mocks the Netie board source instead of the local
-counts hook. None was skipped or deleted. Every upstream suite that exercises the local launcher
+counts hook; the proxy-guarded fetch audit lists the board read with its count and reason. None was skipped or deleted. Every upstream suite that exercises the local launcher
 runs under the documented development override through one setup file
 (`config/scripts/vitest-netie-local-launch-override.ts`); the Netie tests clear it per case.
 

@@ -88,6 +88,6 @@
     "launch": "off unless NETIE_CONTROL_ALLOW_LOCAL_LAUNCH=1; refused in the main process with a label naming the Crew ticket runner",
     "model_endpoint": "${NETIE_OPENVAULT_URL}/v1 (default http://127.0.0.1:5000)",
     "display_name": "Netie Control",
-    "replay_tree": "34bbdd7759480e8c74925ef6ca7569ce17792080"
+    "replay_tree": "0f8422e1a84d0349940d27446c19a98d335705a3"
   }
 }

@@ -4036,10 +4036,11 @@ index 00000000..4513dc13
 +})
 diff --git a/src/main/netie-control/netie-gate-runtime-send.test.ts b/src/main/netie-control/netie-gate-runtime-send.test.ts
 new file mode 100644
-index 00000000..c78607e0
+index 00000000..c5629f2c
 --- /dev/null
 +++ b/src/main/netie-control/netie-gate-runtime-send.test.ts
-@@ -0,0 +1,594 @@
+@@ -0,0 +1,593 @@
++import { markNetieHumanInput } from './netie-terminal-send-gate'
 +import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 +import type * as OpenCodePtyLaunchModule from '../opencode/opencode-pty-launch'
 +import { setupPtyIpcSuite } from '../ipc/pty-ipc-test-harness'
@@ -4625,11 +4626,9 @@ index 00000000..c78607e0
 +  it('delivers the live keystroke stream unchanged even when it submits an agent command', async () => {
 +    const { runtime, handle, write } = await makeShellRuntime()
 +    await expect(
-+      runtime.sendTerminal(
-+        handle,
-+        { text: 'claude\r' },
-+        { inputKind: 'driving', netieHumanInput: true }
-+      )
++      runtime.sendTerminal(handle, markNetieHumanInput({ text: 'claude\r' }), {
++        inputKind: 'driving'
++      })
 +    ).resolves.toMatchObject({ accepted: true })
 +    expect(write).toHaveBeenCalled()
 +  })
@@ -7537,10 +7536,10 @@ index 00000000..facadd34
 +}
 diff --git a/src/main/netie-control/netie-terminal-send-gate.ts b/src/main/netie-control/netie-terminal-send-gate.ts
 new file mode 100644
-index 00000000..8e8b44e7
+index 00000000..2bba54cd
 --- /dev/null
 +++ b/src/main/netie-control/netie-terminal-send-gate.ts
-@@ -0,0 +1,143 @@
+@@ -0,0 +1,157 @@
 +import {
 +  NetieCrewLaunchRefusedError,
 +  isNetieAgentLaunchAllowed,
@@ -7683,6 +7682,20 @@ index 00000000..8e8b44e7
 +      }
 +    }
 +  }
++}
++
++// A person typing live (phone keystroke stream) is not an app launch, so it is not judged. Marked
++// on the action object so the upstream sendTerminal call keeps its exact options.
++type NetieTerminalAction = { text?: string; enter?: boolean; interrupt?: boolean }
++const humanInputActions = new WeakSet<NetieTerminalAction>()
++
++export function markNetieHumanInput<T extends NetieTerminalAction>(action: T): T {
++  humanInputActions.add(action)
++  return action
++}
++
++export function isNetieHumanInput(action: NetieTerminalAction): boolean {
++  return humanInputActions.has(action)
 +}
 diff --git a/src/main/netie-control/netie-worktree-startup-strip.ts b/src/main/netie-control/netie-worktree-startup-strip.ts
 new file mode 100644
@@ -7880,6 +7893,21 @@ index 731934d5..9ba2839d 100644
        const result = await delegate.sendTerminal(terminalId, action, { inputKind: 'driving' })
        return { accepted: result.accepted }
      },
+diff --git a/src/main/proxy-guarded-fetch-call-site-audit.test.ts b/src/main/proxy-guarded-fetch-call-site-audit.test.ts
+index 53d22bad..5c9e656d 100644
+--- a/src/main/proxy-guarded-fetch-call-site-audit.test.ts
++++ b/src/main/proxy-guarded-fetch-call-site-audit.test.ts
+@@ -22,7 +22,9 @@ const AUDITED_NON_NET_FETCH_CALLS = new Map<string, number>([
+   // (main/host/electron-http-client.ts) or to the global-fetch-audited Node fallback.
+   ['main/jira/authenticated-request.ts', 1],
+   // The same injected HttpClient, and the updater's deps.fetch that it is passed as.
+-  ['main/runtime/agent-state-rules/agent-state-rules-live-update.ts', 2]
++  ['main/runtime/agent-state-rules/agent-state-rules-live-update.ts', 2],
++  // Netie Control board read: the same injected MainHttpClient (getMainHttpClient()).
++  ['main/netie-control/netie-control-board-source.ts', 1]
+ ])
+ 
+ // `globalThis.fetch` / `global.fetch` belong to global-fetch-call-site-audit.test.ts.
 diff --git a/src/main/rate-limits/antigravity-usage-fetcher.ts b/src/main/rate-limits/antigravity-usage-fetcher.ts
 index 2097989e..33b97f03 100644
 --- a/src/main/rate-limits/antigravity-usage-fetcher.ts
@@ -7975,7 +8003,7 @@ index e10202fd..a1609d18 100644
      return codexUnavailable(
        'Codex is rebuilding its session index; usage will refresh when recovery finishes',
 diff --git a/src/main/runtime/orca-runtime-controller-knows-pty-is-live.ts b/src/main/runtime/orca-runtime-controller-knows-pty-is-live.ts
-index 3c9c8b7e..2ee0b80a 100644
+index 3c9c8b7e..de2ff579 100644
 --- a/src/main/runtime/orca-runtime-controller-knows-pty-is-live.ts
 +++ b/src/main/runtime/orca-runtime-controller-knows-pty-is-live.ts
 @@ -5,6 +5,7 @@ import { pruneExpiredProvenAbsentLeafPtyVerdicts } from './proven-absent-leaf-pt
@@ -7986,13 +8014,14 @@ index 3c9c8b7e..2ee0b80a 100644
  import {
    assertTerminalInputWithinLimitWithYield,
    buildTerminalSendPayload
-@@ -13,9 +14,27 @@ import {
+@@ -13,9 +14,28 @@ import {
    agentPromptTakesLeadLine,
    buildAgentPromptPasteBytes
  } from '../../shared/agent-prompt-injection'
 +import {
 +  NetieTerminalSendTracker,
-+  assertNetieTerminalSendAllowed
++  assertNetieTerminalSendAllowed,
++  isNetieHumanInput
 +} from '../netie-control/netie-terminal-send-gate'
  
  export class OrcaRuntimeWithControllerKnowsPtyIsLive extends OrcaRuntimeWithResolveTerminalPane {
@@ -8014,16 +8043,13 @@ index 3c9c8b7e..2ee0b80a 100644
  
    private pruneExpiredLeafPtyVerdicts(now: number): void {
      const lastPruneAt = this.lastProvenAbsentLeafPtyVerdictPruneAt
-@@ -105,8 +124,14 @@ export class OrcaRuntimeWithControllerKnowsPtyIsLive extends OrcaRuntimeWithReso
-       afterWrite?: (ptyId: string) => void | Promise<void>
-       suffixFailureError?: string
+@@ -107,6 +127,11 @@ export class OrcaRuntimeWithControllerKnowsPtyIsLive extends OrcaRuntimeWithReso
        inputKind: TerminalInputKind
-+      /** A person typing live (phone keystroke stream): not an app launch, so not judged. */
-+      netieHumanInput?: true
      }
    ): Promise<RuntimeTerminalSend> {
 +    // Netie Control: app-typed text that submits an agent start is refused before any write.
-+    if (!options.netieHumanInput) {
++    const humanInput = isNetieHumanInput(action)
++    if (!humanInput) {
 +      assertNetieTerminalSendAllowed(action)
 +    }
      const pty = this.getLivePtyForHandle(handle)
@@ -8034,7 +8060,7 @@ index 3c9c8b7e..2ee0b80a 100644
        }
        await assertTerminalInputWithinLimitWithYield(action.text)
 -      await this.writeTerminalAction(pty.pty.ptyId, action, payload, options)
-+      await (options.netieHumanInput
++      await (humanInput
 +        ? this.writeTerminalAction(pty.pty.ptyId, action, payload, options)
 +        : this.writeTrackedTerminalAction(pty.pty.ptyId, action, payload, options))
        return {
@@ -8045,7 +8071,7 @@ index 3c9c8b7e..2ee0b80a 100644
      }
  
 -    await this.writeTerminalAction(leaf.ptyId, action, payload, options)
-+    await (options.netieHumanInput
++    await (humanInput
 +      ? this.writeTerminalAction(leaf.ptyId, action, payload, options)
 +      : this.writeTrackedTerminalAction(leaf.ptyId, action, payload, options))
  
@@ -8622,26 +8648,24 @@ index e0d24119..135ad59b 100644
              ensureHost: async () => {
                await ensureHostInstalled(ctx)
 diff --git a/src/main/runtime/rpc/methods/terminal/terminal-input-delivery.ts b/src/main/runtime/rpc/methods/terminal/terminal-input-delivery.ts
-index 59fd827f..59071514 100644
+index 59fd827f..33cec088 100644
 --- a/src/main/runtime/rpc/methods/terminal/terminal-input-delivery.ts
 +++ b/src/main/runtime/rpc/methods/terminal/terminal-input-delivery.ts
-@@ -66,11 +66,15 @@ export async function sendTerminalStreamInput(
+@@ -1,3 +1,4 @@
++import { markNetieHumanInput } from '../../../../netie-control/netie-terminal-send-gate'
+ import { InvalidArgumentError } from '../../core'
+ import type { DriverState, OrcaRuntimeService } from '../../../orca-runtime'
+ import {
+@@ -61,7 +62,8 @@ export async function sendTerminalStreamInput(
+     isMobile: boolean
+   }
+ ): Promise<TerminalStreamInputOutcome> {
+-  const action = { text: args.text, enter: false, interrupt: false }
++  // Netie Control: live keystrokes from a person are not judged as app launch text.
++  const action = markNetieHumanInput({ text: args.text, enter: false, interrupt: false })
+   const clientId = args.isMobile ? args.client?.id : undefined
    const floorClaim: MobileInputFloorClaimHolder = { current: null }
    try {
-     if (!clientId) {
--      const result = await runtime.sendTerminal(args.terminal, action, { inputKind: 'driving' })
-+      const result = await runtime.sendTerminal(args.terminal, action, {
-+        inputKind: 'driving',
-+        netieHumanInput: true
-+      })
-       return result.accepted ? 'delivered' : 'rejected'
-     }
-     const result = await runtime.sendTerminal(args.terminal, action, {
-       inputKind: 'driving',
-+      netieHumanInput: true,
-       reserveWrite: (writePtyId) => {
-         const claim = runtime.beginMobileInputFloor(writePtyId, clientId)
-         if (!claim) {
 diff --git a/src/main/runtime/rpc/methods/terminal/terminal-send-method.ts b/src/main/runtime/rpc/methods/terminal/terminal-send-method.ts
 index ca7ac0ae..f62c16a0 100644
 --- a/src/main/runtime/rpc/methods/terminal/terminal-send-method.ts
