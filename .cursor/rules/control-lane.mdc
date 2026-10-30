@@ -1,0 +1,16 @@
+---
+description: Control lives at E:\NetieControl :8040. Do not clone the hyphen path or sit a second writer.
+alwaysApply: true
+---
+
+# Netie Control lane
+
+Tree: **E:\NetieControl** (no hyphen). Probe: `GET http://127.0.0.1:8040/healthz`.
+GitHub: `Netie-AI/netie-control`. KB F-0029. PRD F8.
+
+If `git -C E:\NetieControl status` is dirty, EXTRA_STOP. Writer is
+netie-controlagent. Do not clone `E:\Netie-Control`. Do not boot paperclip `:3100`.
+Do not edit Cortex or DMS to "help" Control.
+
+Cortex/DMS work stays in those repos. Control displays and may launch local CLI
+after `DR-PROPOSED-control-loopback-launchers.md` is accepted. `/v1/run` stays 405.
