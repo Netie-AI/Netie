@@ -232,7 +232,7 @@ index 071ca371..94636b6a 100644
  # Connects via Cloud Pub/Sub pull subscription (no public URL required).
  # Setup walkthrough: website/docs/user-guide/messaging/google_chat.md.
 diff --git a/NETIE-ATTRIBUTION.md b/NETIE-ATTRIBUTION.md
-index e3fa8951..02c1517d 100644
+index e3fa8951..b896456b 100644
 --- a/NETIE-ATTRIBUTION.md
 +++ b/NETIE-ATTRIBUTION.md
 @@ -1,7 +1,7 @@
@@ -244,7 +244,7 @@ index e3fa8951..02c1517d 100644
  
  Upstream license: MIT. LICENSE is included unmodified, with every
  upstream copyright line, and so is any NOTICE file.
-@@ -16,9 +16,78 @@ logos belong to their owners.
+@@ -16,9 +16,84 @@ logos belong to their owners.
  - Display name Hermes Agent rewritten to Crew Agent in prose docs only.
  - This file and a README banner added.
  
@@ -260,9 +260,11 @@ index e3fa8951..02c1517d 100644
 +  oneshot, TUI, messaging gateway, cron, ACP, API server, batch runner, delegation children,
 +  MoA presets, the model picker and the setup wizard (default choice "Keep OpenVault"). One
 +  URL normaliser (`hermes_constants.normalize_openvault_url`) serves the gate and the model
-+  endpoint. Model-provider key fields left `.env.example` and `cli-config.yaml.example`. A
-+  user's explicit provider, `base_url` or `HERMES_INFERENCE_PROVIDER` still wins, with a
-+  WARNING. Error copy names OpenVault, not a vendor.
++  endpoint. Model-provider key fields left `.env.example` and the model section of
++  `cli-config.yaml.example` (its commented custom-provider and auxiliary examples still show
++  `api_key` lines). A user's explicit provider, `base_url` or `HERMES_INFERENCE_PROVIDER`
++  still wins; a `base_url` without a provider logs a WARNING. Error copy names OpenVault,
++  not a vendor.
 +- Tools: every tool execution asks OpenVault `POST /api/crew/gate` with ids only
 +  (`{kind, id, intent, parent_run_id, child_id, deficit}`, the shape of Netie
 +  `scripts/crew_ov_gate.py`) and fails closed with a labelled refusal as the result. Covered:
@@ -285,8 +287,9 @@ index e3fa8951..02c1517d 100644
 +- Messaging gateways and other leave-machine paths: an OpenVault leave-machine allow is
 +  required before any adapter starts, reconnects or serves a profile, and before any
 +  standalone send (`send_message`, `hermes send`, cron delivery, the kanban notifier, a2a
-+  tools, the Teams pipeline, gateway proxy mode). A refusal is labelled
-+  (`netie_leave_machine_refused`) and queued for retry; asks run off the event loop.
++  tools, the Teams pipeline, gateway proxy mode). An adapter refusal is labelled
++  (`netie_leave_machine_refused`) and stays queued for retry; a standalone send returns the
++  labelled refusal as its error; asks run off the event loop.
 +- User-visible name and identity: version, help, banner, ACP `/version`, skin, setup,
 +  doctor, the WhatsApp reply prefix, the English gateway strings and the agent's own
 +  identity ("You are Crew Agent, built on Hermes Agent by Nous Research") use
@@ -298,9 +301,9 @@ index e3fa8951..02c1517d 100644
 +
 +## Declared, not changed
 +
-+- The conversation stays in the `state.db` messages table (TAS-CREW allows session
-+  transcripts on Crew disk; hashing them is not done), and so do these local transcript
-+  stores: `cron/output` run archives (`context_from` reads them back),
++- The conversation stays in the `state.db` messages table in plain text (TAS-CREW section 6
++  plans session transcripts on Crew disk, hashed; they are not hashed here), and so do these
++  local transcript stores: `cron/output` run archives (`context_from` reads them back),
 +  `cache/delegation/live` logs and `subagent-summary` spill files, `agent.log` on failed
 +  turns. Data that older builds wrote is labelled with a WARNING, never deleted.
 +- Digests are unsalted sha256, so short texts can be guessed by trial.
@@ -326,8 +329,11 @@ index e3fa8951..02c1517d 100644
 +  selectable by an explicit user choice. DR-0002 rule 6 says they are disabled in a fork.
 +- Tool keys for search, image, speech and browser services are still fields in
 +  `.env.example`.
-+- SECURITY, SUPPORT and CONTRIBUTING contacts and URLs still point at upstream. Translated
-+  docs, changelogs and third-party notices are untouched.
++- SECURITY and CONTRIBUTING contacts and URLs still point at upstream. Translated docs,
++  changelogs and third-party notices are untouched.
++- With OpenVault down, a turn fails only after upstream's provider auto-recovery runs out
++  (measured: about 5 minutes for a cron job). A refused loopback OpenVault should fail fast
++  with a message that names it.
 diff --git a/acp_adapter/commands.py b/acp_adapter/commands.py
 index f452e381..7d871325 100644
 --- a/acp_adapter/commands.py
