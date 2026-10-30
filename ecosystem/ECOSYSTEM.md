@@ -10,18 +10,18 @@ Stages: 0 catalogued | 1 overlay patch exists | 2 gate wired and tested | 3 ship
 
 | Netie name | Upstream | License | Feeds | Stage |
 |---|---|---|---|---|
-| AirGPT | danny-avila/LibreChat @ f10b1d91f1 | MIT | AirGPT | 1 |
+| AirGPT | danny-avila/LibreChat @ f10b1d91f1 | MIT | AirGPT | 2 |
 | Netie Control | stablyai/orca @ d17351401d | MIT | Control | 1 |
 | Crew Agent | NousResearch/hermes-agent @ e473f5a9c9 | MIT | Crew | 1 |
 | Crew Edge | zeroclaw-labs/zeroclaw @ f7bd2b9e94 | MIT OR Apache-2.0 | Crew | 2 |
-| Crew Harness | deepseek-ai/deepseek-harness @ 5badb15009 | MIT | Crew | 1 |
-| FreeIDE | anomalyco/opencode @ 907b3bc518 | MIT | FreeIDE | 1 |
+| Crew Harness | deepseek-ai/deepseek-harness @ 5badb15009 | MIT | Crew | 2 |
+| FreeIDE | anomalyco/opencode @ 907b3bc518 | MIT | FreeIDE | 2 |
 | FreeIDE for VS Code | Kilo-Org/kilocode @ a93088bfe2 | MIT | FreeIDE | 1 |
-| Netie Wiki | langchain-ai/openwiki @ c0173dca92 | MIT | KB | 1 |
-| FreeRoute Core | MiXaiLL76/auto_ai_router @ 4f8597503a | Apache-2.0 | OpenVault | 1 |
+| Netie Wiki | langchain-ai/openwiki @ c0173dca92 | MIT | KB | 2 |
+| FreeRoute Core | MiXaiLL76/auto_ai_router @ 4f8597503a | Apache-2.0 | OpenVault | 2 |
 
 - **airgpt**: Multi-provider chat shell. MIT, so it is the rebrandable base for AirGPT.
-  - Gate: Endpoints -> OpenVault /v1 only. Retrieval -> netie.airgpt retrieve_space. Cross-chat memory abstains until governed.
+  - Gate: Endpoints -> OpenVault /v1 only (0002-gate.patch, tested). Retrieval -> netie.airgpt retrieve_space (not wired). Cross-chat memory off and labeled ungoverned until it routes through Cortex actions.
 - **control**: Fleet board for parallel coding agents in isolated git worktrees. Closer analogue to Netie Control than Guacamole.
   - Gate: Board reads ids only through netie.control.project_board. Agent launches go through Crew ticket runner, never a second orchestrator.
 - **crew-agent**: Long-running personal agent with skills, sessions and messaging gateways.
@@ -29,22 +29,22 @@ Stages: 0 catalogued | 1 overlay patch exists | 2 gate wired and tested | 3 ship
 - **crew-edge**: Single Rust binary agent runtime for edge devices and small servers with 30+ channels.
   - Gate: Tested by cargo test -p zeroclaw-runtime --lib netie_gate (10 cases, 0 pass on stage 1): Quickstart offers OpenVault first and writes one [providers.models.custom.openvault] at ${NETIE_OPENVAULT_URL}/v1 with no api_key; Copilot, Gemini CLI, Grok CLI, KiloCLI, Codex and Claude setup-token logins refused; a tool with no OpenVault /api/crew/gate allow does not run and the refusal is the tool result; the default session record holds no message text; every non-CLI channel is labeled off until OpenVault leave-machine allows it. NOTICE and both license files unchanged.
 - **crew-harness**: Everything-is-a-plugin agent harness with web UI, headless command and Python SDK. Developer preview, version 0.1.0-rc.5 per its README.
-  - Gate: Model plugin -> OpenVault /v1. Tool and sandbox plugins register only through Cortex tool_runner.
+  - Gate: Tested in vitest on the shipped bundle patch files: default model plugin is one OpenAI-compatible route at NETIE_OPENVAULT_URL/v1 (no DeepSeek route, no provider key field); tools and sandbox-local refuse registration without the Crew gate wrap, which posts ids only to OpenVault POST /api/crew/gate and fails closed.
 - **freeide**: Terminal and desktop coding agent: the FreeIDE coding surface.
   - Gate: Provider base URL -> OpenVault /v1. Shell, edit and fetch tools -> Cortex tool_runner and OpenVault POST /api/crew/gate.
 - **freeide-ext**: Editor extension and CLI that is itself an opencode fork. Take the extension only; core stays on freeide.
   - Gate: Same as freeide. Both copyright lines (Kilo Code, opencode) stay in LICENSE.
 - **netie-wiki**: CLI that writes and maintains a linked markdown wiki (code brain and personal brain) with claims tied to versioned evidence.
-  - Gate: Grounded claims map to Netie-KB ids. Source connectors (mail, notes) run only through OpenVault leave-machine.
+  - Gate: Tested (test/netie/netie-wiki-gate.test.ts, 12 cases, red on stage 1): claims sidecar records grounding netie-kb with a KB brief or ungrounded, unknown KB ids and skill bodies refused; model calls default to OpenVault /v1 with no provider key and no ambient-key fallback; every connector but git-repo is off unless OpenVault crew/gate allows, with a visible label.
 - **freeroute-core**: Go proxy: credential pooling, round-robin, per-key rate limits, fail2ban. The high-throughput data plane under FreeRoute.
-  - Gate: Credentials are issued by OpenVault. The router holds no key of its own.
+  - Gate: Credentials are issued by OpenVault, the router holds no key of its own: config.Load refuses inline keys and fills the pool from GET {NETIE_OPENVAULT_URL}/api/freeroute/credentials; 17 go test gate cases on the loader and the real proxy, measured red on stage 1 and green after.
 
 ## Ship under the Netie name after stripping what the license or policy forbids
 
 | Netie name | Upstream | License | Feeds | Stage |
 |---|---|---|---|---|
 | Crew Desk | different-ai/openwork @ 581cbe4a14 | MIT core, ee/ under OpenWork EE License | Crew | 1 |
-| FreeBuild | oblien/openship @ 3d33f5d31e | Apache-2.0 | OpenVault | 1 |
+| FreeBuild | oblien/openship @ 3d33f5d31e | Apache-2.0 | OpenVault | 2 |
 | FreeRoute | diegosouzapw/OmniRoute @ 23a1148486 | MIT | OpenVault | 1 |
 | FreeRoute 9 | decolua/9router @ a99cf57239 | MIT | OpenVault | 1 |
 
@@ -53,7 +53,7 @@ Stages: 0 catalogued | 1 overlay patch exists | 2 gate wired and tested | 3 ship
   - Stripped paths: ee
   - Why: Everything under ee/ is under the OpenWork Enterprise Edition License, not MIT. Delete it before any distribution.
 - **freebuild**: Self-hosted deploy platform: git push to deploy, TLS, rollbacks. The FreeBuild base.
-  - Gate: A live label goes through claim_deploy (netie.route report_deploy). Simulated is never reported as live.
+  - Gate: Live label goes through claim_deploy (0002-gate.patch, tested): netie-claim mirrors freebuild_honesty.report_deploy, verdict stored as meta.netieClaim, API returns live and netieClaim, dashboard shows Deployed, unclaimed until a LIVE claim. Simulated or constructed URLs are never live; today no path observes a URL so nothing is live. cdn.oblien.com and Gellix: zero references in tracked files and built assets (tested). No vendor key in default config.
   - Must be off before release: cdn.oblien.com and Gellix font references (OpenVault DR-0003 explicitly did not copy them)
   - Why: Fonts and CDN assets are separate from the Apache-2.0 code grant. Use system fonts.
 - **freeroute**: AI gateway: one endpoint, fallback chains, circuit breaker, quota awareness. The FreeRoute base.
