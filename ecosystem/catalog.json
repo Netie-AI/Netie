@@ -284,12 +284,12 @@
       "netie_name": "FreeBuild",
       "brand_from": ["Openship", "OpenShip"],
       "role": "Self-hosted deploy platform: git push to deploy, TLS, rollbacks. The FreeBuild base.",
-      "gate": "A live label goes through claim_deploy (netie.route report_deploy). Simulated is never reported as live.",
+      "gate": "Live label goes through claim_deploy (0002-gate.patch, tested): netie-claim mirrors freebuild_honesty.report_deploy, verdict stored as meta.netieClaim, API returns live and netieClaim, dashboard shows Deployed, unclaimed until a LIVE claim. Simulated or constructed URLs are never live; today no path observes a URL so nothing is live. cdn.oblien.com and Gellix: zero references in tracked files and built assets (tested). No vendor key in default config.",
       "disable": [
         "cdn.oblien.com and Gellix font references (OpenVault DR-0003 explicitly did not copy them)"
       ],
       "why": "Fonts and CDN assets are separate from the Apache-2.0 code grant. Use system fonts.",
-      "stage": 1
+      "stage": 2
     },
     {
       "slug": "dify",
