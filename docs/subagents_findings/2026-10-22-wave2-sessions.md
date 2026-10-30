@@ -66,7 +66,7 @@ compared with the catalog row.
 |---|---|---|---|---|---|
 | #48 | netie-wiki | 2 | `214d44def7a6` | yes | equal |
 | #49 | freebuild | 2 | `c1d72e5f318b` | yes | equal |
-| #50 | crew-harness | 2 | `1746a25167e4` | no, see F3 | equal |
+| #50 | crew-harness | 2 | `1746a25167e4` | yes after `7035d25` (F3) | equal |
 | #51 | crew-edge | 2 (series 0001-0003) | `731efbaed1bb` | yes | equal |
 | #53 | control | 2 | `0f8422e1a84d` | yes | equal |
 | #54 | crew-agent | 2 | `335de3197226` | yes | equal |
@@ -85,6 +85,9 @@ describes, not that its tests pass.
 - **Root-cause class:** a measured number that outlives the artifact it measured.
 - **Invariant:** say what is measured and what is assumed. Sent to the crew-harness session
   to restate; no stage change.
+- **Resolved:** `7035d25` on `claude/stage2-crew-harness` names both cuts with their own
+  hashes (`1eae41fe5ca3` for `9f6d8c1`, `1746a25167e4` for `0179612`). Parent checked: that
+  commit touches only the finding, the overlay is unchanged since the replay above.
 
 ## F4. freeroute-core gate test fails its own case once go test is allowed
 
