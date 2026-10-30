@@ -535,3 +535,6 @@ When Cortex-Crew exists, it is the *runtime* that pulls these roles against GitH
 Issues and shows the board (Netie Control folded in). It does not author new agent
 types and it does not grow a second `dag_runner`. See `TAS/TAS-CREW.md` and
 `docs/decisions/DR-0001-one-decision-layer.md`.
+
+Marketing / public distribution is a **crew on Cortex**, not a fourth agent in this
+loop. Prompts: [`EXPOSURE.md`](EXPOSURE.md). Pack: `exposure/`. Contract: `exposure/crew.yaml`.
