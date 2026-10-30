@@ -1,26 +1,19 @@
-# STATUS.md - Netie estate
+# STATUS - Netie constitution repo
 
-**Last updated:** 2026-08-20
-**Rule:** Tier 1 roadmap only. Max 3 in Now. No dates. Problems, not features.
+**Branch:** `cursor/docs-ci-honest-ca9b` · **PR:** (this) · **main:** `d87abd4` (docs-ci green)
 
----
+**Local gate:** `make ci` (same command as GitHub `docs-ci`).
 
 ## Now
 
-1. **DMS CI past checkout, failing mypy** - `Netie-AI/dms#1` (`feat/grounding-promote-spaces-boundary`): `contract-pin` and `protected-paths` pass; `lint-type-test` fails (19 mypy errors + import-linter debt pre-existing, unmasked once checkout works). `CORTEX_CONTRACT_TOKEN` wired at repo level because org secrets cannot reach private repos on the current plan.
-2. **Cortex PR green on chore branch** - `Netie-AI/Cortex#4` (`chore/unblock-ci-and-estate-audit`): all checks pass (`lint-type-test`, `protected-paths`, `secrets-scan`, `rls-proof`). Wheel publish still blocked on dual-module identity (`Cortex#5` / EPIC-002).
-3. **Founder-overridden tickets queued** - C7 (`EPIC-006`) and claim_n 47->310 (`EPIC-010`) routed from PRD-001 feedback ledger; parent to file issues. Acceptance for C7 must require a held-out real-user question set OR an adversarial corpus not written by the team.
+- GitHub `docs-ci` on `main` is green (measured 2026-09-02, 2 checks). Older 1-5s red X jobs were billing, not a code ticket.
+- Crew wrap leave-machine POSTs are on main. Wrap stays **3/10**. HT1 not done. Score stays **2/10**.
+- Founder apply-all: `python3 scripts/apply_product_patches.py --dry-run`. Product remotes clone-yes push-403. 404: AirGPT, Space, Cortex-Crew. Keys.txt gone; founder must revoke. C2/MIN_TESTS stand.
 
-## Next
+## Next (founder clicks)
 
-- **Netie Control (option 3 locked)** - plane-4 client. Cortex hero + healthz + ledger probes. Goals/secrets writes 405. Heartbeat/agent-hire still live (rest of C05). GitHub Issues stay lawful.
-- **Plane.so trial** - Community v1.4.1 at `http://localhost:8099`. Mapping in `D:\plane-selfhost\HOWTO.md`. GitHub Issues stay lawful until DOCUMENT_SYSTEM is amended.
-- **TAS fill** - `TAS-CORTEX`, `TAS-DMS`, `TAS-SPACE` measured 2026-08-02; `TAS-OPENVAULT`, `TAS-AIRGPT`, `TAS-POINTER` still missing.
-- **PRD stubs** - thin PRD-001 files for OpenVault, AirGPT, Pointer, Space, Cortex (companion to DMS); slice on next PRD Agent pass.
-- **Open PRs** - Cortex #4, DMS #1 open; Cortex #2/#3 and DMS drafts remain.
+1. Revoke leaked keys. 2. Contents write on product remotes + add those URLs to env e/eb1a4238-9fe4-11f1-b532-320a589b8025, then boot a new agent. 3. Create Cortex-Crew. 4. Run `apply_product_patches.py` on a write machine.
 
 ## Later
 
-- Palantir/AIP marketing parity and full column lineage (parked until paying client)
-- Multi-tenant hosted DMS (self-host and single-tenant pilot only)
-- Plane 1 inference build (declined - host vLLM behind OpenVault if ever needed)
+HT1. AirGPT `rag/`. Do not mint Cortex #42. Do not clone Grok Bot reconstructed.

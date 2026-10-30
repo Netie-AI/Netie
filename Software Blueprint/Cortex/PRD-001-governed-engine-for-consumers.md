@@ -48,7 +48,7 @@ Measured on engine gates and contract tests, then on the consumer envelope (DMS:
 
 ```
 Serves: PRD-001 (DMS) EPIC-001, EPIC-002, EPIC-004, EPIC-005a, EPIC-006
-Ack: AirGPT F15 / DMS EPIC-016 Excel-native Copilot path — Cortex owns action/ledger gate only if exports become governed writes; do not invent a second orchestrator in AirGPT
+Ack: AirGPT F15 / DMS EPIC-016 Excel-native Copilot path - Cortex owns action/ledger gate only if exports become governed writes; do not invent a second orchestrator in AirGPT
 ```
 
 AirGPT and Pointer consume manifest enforcement from the same engine work; they do not own DMS epics.
@@ -60,7 +60,7 @@ AirGPT and Pointer consume manifest enforcement from the same engine work; they 
 | # | Date | Raised in | Feedback | Routed to | Outcome |
 |---|------|-----------|----------|-----------|---------|
 | F1 | 2026-08-03 | AirGPT PRD intake (founder via Cursor) | AirGPT demo wants governed write loop: identify row ("is it that one?"), amend (e.g. salary increment), confirm, then continue - not read-only RAG. | AirGPT EPIC-D02 (AUTHORIZED) | **Founder YES on AirGPT D02 2026-08-03.** Cortex ack: actions remain the only write path. AirGPT D02 may ship a **demo stub** on `demo/rag-ops-confirm` with Cortex-direct honesty. If D02 does **real** writes, file a Cortex confirm/refuse-gate ticket and block AirGPT adoption on it - do not let AirGPT invent a second write path. Serves: AirGPT PRD-001 F3. |
-| F2 | 2026-08-03 | AirGPT PRD intake (founder via Cursor) | Excel-native Copilot orchestration for multi-part filter+export+chart (frtr_00027); DMS owns drive; AirGPT surfaces only. | DMS EPIC-016 / AirGPT EPIC-D04 | **Ack only.** If Excel exports become governed writes, file Cortex action/confirm ticket and block consumer adoption — do not let AirGPT/DMS invent a second write path. Serves: AirGPT PRD-001 F15 / DMS F25. |
+| F2 | 2026-08-03 | AirGPT PRD intake (founder via Cursor) | Excel-native Copilot orchestration for multi-part filter+export+chart (frtr_00027); DMS owns drive; AirGPT surfaces only. | DMS EPIC-016 / AirGPT EPIC-D04 | **Ack only.** If Excel exports become governed writes, file Cortex action/confirm ticket and block consumer adoption - do not let AirGPT/DMS invent a second write path. Serves: AirGPT PRD-001 F15 / DMS F25. |
 | F3 | 2026-08-20 | Founder via Cursor (Netie Control lock) | Operator surface is a plane-4 app (Netie Control). Cortex stays engine-only: no UI organ. Customer writes still only through Cortex action types. Control GET-probes health. | none - **ack** | **Ack.** Serves Control PRD-001. No Cortex epic. |
 
 | F4 | 2026-08-22 | Founder override via UX Agent | Constructor must BUILD now as its own repo and public link. Do not keep it as a parked Cortex/RUMA Flows vertical. n8n banned. Activepieces clone at D:\\Cortex\\activeflow\\activepieces stays un-wired in Cortex. | **out of Cortex PRD** | **Ack. Cortex does not own constructor.** No Cortex ticket. No Space-grant mint. New unused Cortex branches only if Cortex work appears; this ask is not Cortex. |

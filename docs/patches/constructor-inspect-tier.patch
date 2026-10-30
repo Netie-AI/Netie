@@ -1,0 +1,52 @@
+diff --git a/app.js b/app.js
+index fa59c48..3dac344 100644
+--- a/app.js
++++ b/app.js
+@@ -654,7 +654,7 @@ function eventFieldsHtml(node) {
+     html += fieldSelect("action_type", "Action", listedOptions(allowed, node.action_type), action);
+   }
+   html +=
+-    fieldSelect("tier", "Router tier", TIERS, TIERS.indexOf(node.tier) >= 0 ? node.tier : "T0") +
++    fieldSelect("tier", "Router tier", listedOptions(TIERS, node.tier), listedOrEmpty(node.tier, TIERS)) +
+     fieldSelect("stream", "Stream", ["false", "true"], node.stream ? "true" : "false");
+   return html;
+ }
+diff --git a/engine.js b/engine.js
+index 3aeb57a..53bdf96 100644
+--- a/engine.js
++++ b/engine.js
+@@ -210,7 +210,7 @@ function compileIR(state) {
+         data_type: n.data_type || null,
+         action_type: n.action_type || null,
+         fetch_from: n.fetch_from || null,
+-        tier: n.tier || "T0",
++        tier: listedOrEmpty(n.tier, ["T0", "T1"]) || null,
+         stream: !!n.stream,
+         note: n.note,
+         requires_confirm: n.kind === "tool_call",
+diff --git a/tests/compiler.test.cjs b/tests/compiler.test.cjs
+index caaf44b..5ee9201 100644
+--- a/tests/compiler.test.cjs
++++ b/tests/compiler.test.cjs
+@@ -250,3 +250,21 @@ test("inspect does not invent inventory for a missing object", () => {
+   assert.deepEqual(listedOptions(objects, ""), ["", "inventory", "shipments"]);
+   assert.deepEqual(listedOptions(objects, "inventory"), objects);
+ });
++
++test("inspect does not invent T0 for a missing tier", () => {
++  const tiers = ["T0", "T1"];
++  assert.equal(listedOrEmpty("", tiers), "");
++  assert.equal(listedOrEmpty("nope", tiers), "");
++  assert.equal(listedOrEmpty("T0", tiers), "T0");
++  assert.deepEqual(listedOptions(tiers, ""), ["", "T0", "T1"]);
++  assert.deepEqual(listedOptions(tiers, "T0"), tiers);
++});
++
++test("compileIR does not invent T0 for a missing tier", () => {
++  const ir = compileIR({
++    nodes: [{ id: "c", kind: "connector" }],
++    edges: [],
++  });
++  assert.equal(ir.error, undefined);
++  assert.equal(ir.nodes[0].tier, null);
++});
