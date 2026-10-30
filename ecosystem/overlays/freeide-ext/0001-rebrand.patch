@@ -1,0 +1,112 @@
+diff --git a/AGENTS.md b/AGENTS.md
+index 433a397..50cc248 100644
+--- a/AGENTS.md
++++ b/AGENTS.md
+@@ -19,7 +19,7 @@ Kilo CLI is an open source AI coding agent that generates code from natural lang
+ - **SDK regen**: After changing server endpoints in `packages/opencode/src/server/`, run `./script/generate.ts` from root to regenerate `packages/sdk/js/`
+ - **Knip** (unused exports): `bun run knip` from `packages/kilo-vscode/`. CI runs this — all exported types/functions must be imported somewhere. Remove or unexport unused exports before pushing.
+ - **Source links**: After adding or changing URLs in `packages/kilo-vscode/`, `packages/kilo-vscode/webview-ui/`, or `packages/opencode/src/`, run `bun run script/extract-source-links.ts` from the repo root and commit the updated `packages/kilo-docs/source-links.md`. CI runs this check — the build fails if the file is stale.
+-- **kilocode_change check**: `bun run check-kilocode-change` from `packages/kilo-vscode/`. CI runs this — `kilocode_change` is a marker for upstream merge conflicts and must not appear in `packages/kilo-vscode/` or `packages/kilo-ui/` (these are entirely Kilo Code additions). Remove the markers before pushing.
++- **kilocode_change check**: `bun run check-kilocode-change` from `packages/kilo-vscode/`. CI runs this — `kilocode_change` is a marker for upstream merge conflicts and must not appear in `packages/kilo-vscode/` or `packages/kilo-ui/` (these are entirely FreeIDE for VS Code additions). Remove the markers before pushing.
+ - **opencode annotation check**: `bun run script/check-opencode-annotations.ts --worktree` from repo root when verifying local agent changes. CI runs `bun run script/check-opencode-annotations.ts` on PRs touching `packages/opencode/` — every Kilo-specific change in shared opencode files must be annotated with `kilocode_change` markers. Exempt paths (no markers needed): `packages/opencode/src/kilocode/`, `packages/opencode/test/kilocode/`, and any path containing `kilocode` in the name.
+ - **Effect facade ratchet**: Do not add runtime-backed Promise facades to shared `packages/opencode/src` Effect services; use service dependencies, `AppRuntime`, or Kilo-owned boundaries. Run `bun run script/check-opencode-promise-facades.ts` when touching service adapters.
+ - **workflow allowlist**: `bun run script/check-workflows.ts` from repo root. CI runs this as part of the annotations workflow — any `.yml` / `.yaml` file added to or removed from `.github/workflows/` must be reflected in the hardcoded list in `script/check-workflows.ts`. Prevents upstream-merged workflows from silently starting to run in our CI.
+@@ -209,6 +209,6 @@ When editing shared upstream files, mark Kilo-specific lines with `kilocode_chan
+ - New file in a shared path: `// kilocode_change - new file` at the top
+ - JSX/TSX: use `{/* kilocode_change */}` (and `{/* kilocode_change start */}` / `end`)
+ 
+-Markers are NOT needed in paths that contain `kilocode` in the name (e.g. `packages/opencode/src/kilocode/`, `packages/opencode/test/kilocode/`) — these are entirely Kilo Code additions and won't conflict with upstream.
++Markers are NOT needed in paths that contain `kilocode` in the name (e.g. `packages/opencode/src/kilocode/`, `packages/opencode/test/kilocode/`) — these are entirely FreeIDE for VS Code additions and won't conflict with upstream.
+ 
+ For decision rules on when to keep changes inline vs. extract Kilo logic, marker placement guidance, and verification commands, load `.kilo/skills/kilocode-merge-minimizer/SKILL.md`.
+diff --git a/CODE_OF_CONDUCT.md b/CODE_OF_CONDUCT.md
+index b4dca2d..1d84f97 100644
+--- a/CODE_OF_CONDUCT.md
++++ b/CODE_OF_CONDUCT.md
+@@ -1,4 +1,4 @@
+-# Kilo Code Community Code of Conduct
++# FreeIDE for VS Code Community Code of Conduct
+ 
+ ## Our Pledge
+ 
+diff --git a/NETIE-ATTRIBUTION.md b/NETIE-ATTRIBUTION.md
+new file mode 100644
+index 0000000..dd1e60e
+--- /dev/null
++++ b/NETIE-ATTRIBUTION.md
+@@ -0,0 +1,25 @@
++# Attribution
++
++Netie FreeIDE for VS Code is a modified distribution of Kilo-Org/kilocode
++(https://github.com/Kilo-Org/kilocode), pinned at commit 831805118a.
++
++Upstream license: MIT. LICENSE is included unmodified, with every
++upstream copyright line, and so is any NOTICE file.
++
++- Copyright (c) 2026 Kilo Code
++- Copyright (c) 2025 opencode
++
++Not affiliated with or endorsed by the upstream authors. Upstream names and
++logos belong to their owners.
++
++## Changed in stage 1
++
++- Display name Kilo Code rewritten to FreeIDE for VS Code in prose docs only.
++- This file and a README banner added.
++
++## Not done yet (stage 2)
++
++- Package names, binaries, identifiers and UI strings are still upstream's.
++- SECURITY, SUPPORT and CONTRIBUTING contacts and URLs still point at upstream.
++- Translated docs, changelogs and third-party notices are untouched.
++- Netie gate wiring: Same as freeide. Both copyright lines (Kilo Code, opencode) stay in LICENSE.
+diff --git a/README.md b/README.md
+index 9d51cb9..2e76187 100644
+--- a/README.md
++++ b/README.md
+@@ -1,3 +1,5 @@
++> **Netie FreeIDE for VS Code** is a modified distribution of [Kilo-Org/kilocode](https://github.com/Kilo-Org/kilocode) (MIT). See NETIE-ATTRIBUTION.md. Not endorsed by the upstream authors.
++
+ <p align="center">
+   English | <a href="translations/README.zh.md">简体中文</a> | <a href="translations/README.zht.md">繁體中文</a> | <a href="translations/README.ko.md">한국어</a> | <a href="translations/README.de.md">Deutsch</a> | <a href="translations/README.es.md">Español</a> | <a href="translations/README.fr.md">Français</a> | <a href="translations/README.it.md">Italiano</a> | <a href="translations/README.da.md">Dansk</a> | <a href="translations/README.ja.md">日本語</a> | <a href="translations/README.pl.md">Polski</a> | <a href="translations/README.ru.md">Русский</a> | <a href="translations/README.bs.md">Bosanski</a> | <a href="translations/README.ar.md">العربية</a> | <a href="translations/README.no.md">Norsk</a> | <a href="translations/README.br.md">Português (Brasil)</a> | <a href="translations/README.th.md">ไทย</a> | <a href="translations/README.tr.md">Türkçe</a> | <a href="translations/README.uk.md">Українська</a> | <a href="translations/README.bn.md">বাংলা</a> | <a href="translations/README.gr.md">Ελληνικά</a> | <a href="translations/README.vi.md">Tiếng Việt</a>
+ </p>
+@@ -21,7 +23,7 @@
+ 
+ ---
+ 
+-Kilo Code is an AI coding agent that meets you everywhere you work: [VS Code](https://kilo.ai/landing/vs-code), [JetBrains](https://kilo.ai/features/jetbrains-native), and the [CLI](https://kilo.ai/cli). It's open source with open pricing. You pick from 500+ models, switch between them mid-task, and pay the model provider's rate with zero markup. No API keys required to start.
++FreeIDE for VS Code is an AI coding agent that meets you everywhere you work: [VS Code](https://kilo.ai/landing/vs-code), [JetBrains](https://kilo.ai/features/jetbrains-native), and the [CLI](https://kilo.ai/cli). It's open source with open pricing. You pick from 500+ models, switch between them mid-task, and pay the model provider's rate with zero markup. No API keys required to start.
+ 
+ ### Installation
+ 
+@@ -32,7 +34,7 @@ Pick where you want to run Kilo.
+ 
+ <br>
+ 
+-Install the [Kilo Code extension](vscode:extension/kilocode.kilo-code) directly, or grab it from the [VS Code Marketplace](https://marketplace.visualstudio.com/items?itemName=kilocode.Kilo-Code). Create an account and you'll have access to 500+ models including GPT-6 Astra, Claude Fable 5.1, Gemini 3.8 Flash, Grok 4.6, and DeepSeek V4.1 Flash, all at provider pricing.
++Install the [FreeIDE for VS Code extension](vscode:extension/kilocode.kilo-code) directly, or grab it from the [VS Code Marketplace](https://marketplace.visualstudio.com/items?itemName=kilocode.Kilo-Code). Create an account and you'll have access to 500+ models including GPT-6 Astra, Claude Fable 5.1, Gemini 3.8 Flash, Grok 4.6, and DeepSeek V4.1 Flash, all at provider pricing.
+ 
+ </details>
+ 
+@@ -70,7 +72,7 @@ Then run `kilo` in any project directory to start.
+ 
+ <br>
+ 
+-Install the [Kilo Code plugin](https://plugins.jetbrains.com/plugin/28350-kilo-code) from the JetBrains Marketplace, or search "Kilo Code" in `Settings → Plugins` inside any JetBrains IDE.
++Install the [FreeIDE for VS Code plugin](https://plugins.jetbrains.com/plugin/28350-kilo-code) from the JetBrains Marketplace, or search "FreeIDE for VS Code" in `Settings → Plugins` inside any JetBrains IDE.
+ 
+ </details>
+ 
+diff --git a/RELEASING.md b/RELEASING.md
+index c6b3d4f..9127143 100644
+--- a/RELEASING.md
++++ b/RELEASING.md
+@@ -1,6 +1,6 @@
+-# Releasing Kilo Code
++# Releasing FreeIDE for VS Code
+ 
+-Kilo Code uses a fully automated CI pipeline triggered via GitHub Actions `workflow_dispatch`. A single workflow handles version bumping, building all artifacts, publishing to every distribution channel, and updating package registries.
++FreeIDE for VS Code uses a fully automated CI pipeline triggered via GitHub Actions `workflow_dispatch`. A single workflow handles version bumping, building all artifacts, publishing to every distribution channel, and updating package registries.
+ 
+ ## How to Trigger a Release
+ 

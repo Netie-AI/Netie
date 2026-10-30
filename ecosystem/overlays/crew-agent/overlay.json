@@ -1,0 +1,23 @@
+{
+  "slug": "crew-agent",
+  "upstream": "NousResearch/hermes-agent",
+  "base_commit": "e473f5a9c976a0b5bc292aa415dae28c638a47c3",
+  "license_sha256": "821556e6336796450ab852d375117b48a4887e71d255794fd6318d99982a5ab6",
+  "stripped": [],
+  "files_changed": [
+    "AGENTS.md",
+    "CONTRIBUTING.es.md",
+    "CONTRIBUTING.md",
+    "README.es.md",
+    "README.md",
+    "README.ur-pk.md",
+    "README.zh-CN.md",
+    "SECURITY.es.md",
+    "SECURITY.md",
+    "SOUL.md",
+    "NETIE-ATTRIBUTION.md"
+  ],
+  "series": [
+    "0001-rebrand.patch"
+  ]
+}

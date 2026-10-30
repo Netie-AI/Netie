@@ -1,0 +1,19 @@
+{
+  "slug": "freeroute-9router",
+  "upstream": "decolua/9router",
+  "base_commit": "a99cf57239ff778b61e434c2786009d5ed1c412c",
+  "license_sha256": "2e51fac8d7c32794775e690e2f6af5ebe846cf7ddf6fdd8877d3e03b9656d92c",
+  "stripped": [],
+  "files_changed": [
+    "CLAUDE.md",
+    "DOCKER.md",
+    "README.md",
+    "README.zh-CN.md",
+    "docs/ARCHITECTURE.md",
+    "docs/superpowers/specs/2026-09-04-opencode-go-session-header-design.md",
+    "NETIE-ATTRIBUTION.md"
+  ],
+  "series": [
+    "0001-rebrand.patch"
+  ]
+}

@@ -35,10 +35,21 @@ REQUIRED = [
     "docs/ACCESS.md",
     "Software Blueprint/Crew/PRD-002-operator-factory.md",
     "pyproject.toml",
+    "README.md",
+    "AGENTS.md",
+    "CLAUDE.md",
+    "ecosystem/catalog.json",
+    "ecosystem/ECOSYSTEM.md",
+    "docs/decisions/DR-0002-adopt-and-rebrand-permissive-upstreams.md",
+    "scripts/ecosystem.py",
 ]
 
 ASCII_ROOTS = [
     "NETIE.md",
+    "README.md",
+    "AGENTS.md",
+    "CLAUDE.md",
+    "ecosystem",
     "STATUS.md",
     "Internal",
     "TAS",
@@ -76,6 +87,10 @@ def main() -> int:
                     if ch in line:
                         rel = path.relative_to(ROOT)
                         fails.append(f"laptop-ASCII {rel}:{i} {name}")
+
+    status_lines = len((ROOT / "STATUS.md").read_text(encoding="utf-8").splitlines())
+    if status_lines > 60:
+        fails.append(f"STATUS.md is {status_lines} lines, hard cap 60 (move history to CHANGELOG)")
 
     if fails:
         print("FAIL")

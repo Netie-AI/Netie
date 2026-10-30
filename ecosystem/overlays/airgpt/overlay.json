@@ -1,0 +1,19 @@
+{
+  "slug": "airgpt",
+  "upstream": "danny-avila/LibreChat",
+  "base_commit": "f10b1d91f1eee3a2c82d5247bf620351486b7c1b",
+  "license_sha256": "1ce5c9d51e5ab764b44142cd44d1e687f5bfe32f807c7221c14d061007309b97",
+  "stripped": [],
+  "files_changed": [
+    "AGENTS.md",
+    "CONTEXT.md",
+    "README.md",
+    "README.zh.md",
+    "UPGRADING.md",
+    "tool-intent-spec.md",
+    "NETIE-ATTRIBUTION.md"
+  ],
+  "series": [
+    "0001-rebrand.patch"
+  ]
+}

@@ -1,0 +1,2477 @@
+diff --git a/AGENTS.md b/AGENTS.md
+index f57d35b..0fbbcb2 100644
+--- a/AGENTS.md
++++ b/AGENTS.md
+@@ -1,6 +1,6 @@
+ # AGENTS.md
+ 
+-OpenWork is a free, open-source desktop app (macOS, Windows, Linux) for doing
++Crew Desk is a free, open-source desktop app (macOS, Windows, Linux) for doing
+ work with AI agents on your own files — an open-source alternative to Claude
+ Cowork and Codex, built on OpenCode, running any model from 50+ providers.
+ Desktop mode keeps files local; cloud is optional. Three surfaces live in this
+@@ -9,17 +9,17 @@ repo:
+ * **Desktop app** (`apps/`, `packages/`) — local-first agent workspace: chat on
+   files, skills, browser automation, scheduled automations, Anthropic-compatible
+   plugins.
+-* **OpenWork MCP gateway** (`ee/apps/den-api`) — one URL
++* **Crew Desk MCP gateway** (`ee/apps/den-api`) — one URL
+   (`api.openworklabs.com/mcp/agent`) that brings org-assigned skills, plugins,
+   and connections (Google Workspace, Microsoft 365, MCPs) into Codex, Claude
+   Code, Cursor, or any MCP client via `search_capabilities` /
+   `execute_capability`.
+-* **OpenWork Den** (`ee/apps/den-*`) — the org control plane: provision
++* **Crew Desk Den** (`ee/apps/den-*`) — the org control plane: provision
+   inference, manage teams and access, set desktop policies, publish skills and
+   plugins through marketplaces.
+ 
+-The app consumes OpenWork server surfaces (self-hosted or hosted) rather than
+-inventing parallel behavior. Anything OpenCode can do is available in OpenWork,
++The app consumes Crew Desk server surfaces (self-hosted or hosted) rather than
++inventing parallel behavior. Anything OpenCode can do is available in Crew Desk,
+ even before a dedicated UI exists.
+ 
+ ## Confidentiality (hard rule — this repo is public)
+diff --git a/CODE_OF_CONDUCT.md b/CODE_OF_CONDUCT.md
+index fb9c64f..bbd59e9 100644
+--- a/CODE_OF_CONDUCT.md
++++ b/CODE_OF_CONDUCT.md
+@@ -2,7 +2,7 @@
+ 
+ ## Our commitment
+ 
+-We are committed to making participation in the OpenWork community a harassment-free
++We are committed to making participation in the Crew Desk community a harassment-free
+ experience for everyone, regardless of age, body size, disability, ethnicity, sex
+ characteristics, gender identity and expression, level of experience, education,
+ socio-economic status, nationality, personal appearance, race, religion, or sexual
+@@ -39,7 +39,7 @@ to behavior they deem inappropriate, threatening, offensive, or harmful.
+ ## Scope
+ 
+ This Code of Conduct applies within all community spaces, including GitHub issues,
+-pull requests, discussions, and direct interactions in official OpenWork channels.
++pull requests, discussions, and direct interactions in official Crew Desk channels.
+ 
+ ## Reporting
+ 
+diff --git a/CONTRIBUTING.md b/CONTRIBUTING.md
+index 261aa86..5a10f2f 100644
+--- a/CONTRIBUTING.md
++++ b/CONTRIBUTING.md
+@@ -1,4 +1,4 @@
+-# Contributing to OpenWork
++# Contributing to Crew Desk
+ 
+ Thanks for contributing. Two things keep this project's licensing clean —
+ please read them before opening a pull request.
+@@ -45,7 +45,7 @@ the terms above for the directories it modifies. Maintainers will not merge
+ If you are contributing as part of paid work, a work trial, or on behalf of
+ an employer, make sure a signed agreement covering intellectual property
+ assignment is in place with Different AI, Inc. **before** your first pull
+-request — ask your contact at OpenWork if you are unsure. Maintainers will
++request — ask your contact at Crew Desk if you are unsure. Maintainers will
+ not merge substantive contributions from paid engagements without one.
+ 
+ ## Practical notes
+diff --git a/DESIGN.md b/DESIGN.md
+index 2b0bf3c..d322f48 100644
+--- a/DESIGN.md
++++ b/DESIGN.md
+@@ -1,6 +1,6 @@
+ # DESIGN.md
+ 
+-How OpenWork UI is designed. Agents read this before building or reviewing any
++How Crew Desk UI is designed. Agents read this before building or reviewing any
+ user-facing surface (`apps/app`, `apps/desktop`, `ee/apps/den-web`, MCP Apps,
+ generated artifact views). The optional `.warden/skills/design-spec-review` skill
+ can review the numbered rules below locally. Automated Warden reviews focus on
+diff --git a/HANDOFF.md b/HANDOFF.md
+index cbedfe0..e3144b8 100644
+--- a/HANDOFF.md
++++ b/HANDOFF.md
+@@ -35,7 +35,7 @@ MCPs are one thing: **Connections (MCPs)**.
+   - **Connect your account / Reconnect** on the row when member OAuth needs it.
+   - Configure from that pane opens Library `connections`.
+   - **Scroll:** + panel has a definite `height` (was `maxHeight` only + `overflow-hidden`, so lists clipped with no scroll). Left nav and right list are `overflow-y-auto`. Cap raised 352 → 520.
+-- Model select and model picker no longer show the OpenWork Models subscribe promo (composer Configure still goes to `/settings/ai` for providers).
++- Model select and model picker no longer show the Crew Desk Models subscribe promo (composer Configure still goes to `/settings/ai` for providers).
+ 
+ Helpers: `apps/app/src/react-app/domains/session/surface/composer/composer-connections.ts`  
+ Tests: `apps/app/tests/composer-connections.test.ts`, `apps/app/tests/library-destination.test.ts` (17 unit tests passed locally). **No test evidence.** Verdict for UI claims is Incomplete until an `.e2e.test.ts` exists.
+diff --git a/NETIE-ATTRIBUTION.md b/NETIE-ATTRIBUTION.md
+new file mode 100644
+index 0000000..2733d27
+--- /dev/null
++++ b/NETIE-ATTRIBUTION.md
+@@ -0,0 +1,26 @@
++# Attribution
++
++Netie Crew Desk is a modified distribution of different-ai/openwork
++(https://github.com/different-ai/openwork), pinned at commit 581cbe4a14.
++
++Upstream license: MIT core, ee/ under OpenWork EE License. LICENSE is included unmodified, with every
++upstream copyright line, and so is any NOTICE file.
++
++- Copyright (c) 2026-present Different AI, Inc.
++- Copyright (c) 2026 Different AI
++
++Not affiliated with or endorsed by the upstream authors. Upstream names and
++logos belong to their owners.
++
++## Changed in stage 1
++
++- Display name OpenWork rewritten to Crew Desk in prose docs only.
++- This file and a README banner added.
++- Removed because the license or policy forbids shipping them: ee.
++
++## Not done yet (stage 2)
++
++- Package names, binaries, identifiers and UI strings are still upstream's.
++- SECURITY, SUPPORT and CONTRIBUTING contacts and URLs still point at upstream.
++- Translated docs, changelogs and third-party notices are untouched.
++- Netie gate wiring: Capability MCP -> netie.crew search_capabilities / execute_capability (granted ids only).
+diff --git a/README.md b/README.md
+index 9a25b32..31c2a29 100644
+--- a/README.md
++++ b/README.md
+@@ -1,20 +1,22 @@
+-# OpenWork
++> **Netie Crew Desk** is a modified distribution of [different-ai/openwork](https://github.com/different-ai/openwork) (MIT core, ee/ under OpenWork EE License). See NETIE-ATTRIBUTION.md. Not endorsed by the upstream authors.
+ 
+-OpenWork is the free, open-source alternative to Claude Cowork and Codex: a desktop app for macOS, Windows, and Linux where AI agents do real work on your own files. It is built on [OpenCode](https://opencode.ai), works with any model — 50+ providers, your own API keys, or local models via Ollama — and lets teams share skills and MCP servers.
++# Crew Desk
+ 
+-[**Download OpenWork**](https://openworklabs.com/download) · [GitHub releases](https://github.com/different-ai/openwork/releases) · [Docs](https://openworklabs.com/docs)
++Crew Desk is the free, open-source alternative to Claude Cowork and Codex: a desktop app for macOS, Windows, and Linux where AI agents do real work on your own files. It is built on [OpenCode](https://opencode.ai), works with any model — 50+ providers, your own API keys, or local models via Ollama — and lets teams share skills and MCP servers.
++
++[**Download Crew Desk**](https://openworklabs.com/download) · [GitHub releases](https://github.com/different-ai/openwork/releases) · [Docs](https://openworklabs.com/docs)
+ 
+ Read this in: [简体中文](./translated_readmes/README_ZH.md) · [繁體中文](./translated_readmes/README_ZH_hk.md) · [日本語](./translated_readmes/README_JA.md)
+ 
+-Add one OpenWork MCP to Codex, Claude Code, Cursor, or another compatible agent and reuse the same skills, MCPs, and connected services across your tools, teammates, and machines. Create something once, share it with coworkers or friends, or keep it for yourself.
++Add one Crew Desk MCP to Codex, Claude Code, Cursor, or another compatible agent and reuse the same skills, MCPs, and connected services across your tools, teammates, and machines. Create something once, share it with coworkers or friends, or keep it for yourself.
+ 
+-The desktop app is there when you want a dedicated workspace, but it is not required. You can use OpenWork from the agent you already have. For larger organizations, the admin interface lets you publish capabilities, manage access, and configure shared or per-user connections.
++The desktop app is there when you want a dedicated workspace, but it is not required. You can use Crew Desk from the agent you already have. For larger organizations, the admin interface lets you publish capabilities, manage access, and configure shared or per-user connections.
+ 
+ <img width="1481" height="842" alt="OpenWork desktop app" src="https://github.com/user-attachments/assets/66a8dd9b-5260-488c-957d-e54331e78c1c" />
+ 
+-## Why OpenWork instead of Claude Cowork
++## Why Crew Desk instead of Claude Cowork
+ 
+-- **Free and open source.** The desktop app is MIT-licensed; no OpenWork account is required to use it locally.
++- **Free and open source.** The desktop app is MIT-licensed; no Crew Desk account is required to use it locally.
+ - **Any model.** Bring your own API key, sign in with ChatGPT, or run local models through Ollama or any OpenAI-compatible server. See [Add a custom LLM](https://openworklabs.com/docs/start-here/connect-your-stack/add-a-custom-llm).
+ - **Runs on macOS, Windows, and Linux** as a desktop app — not a CLI.
+ - **Your files stay local.** Cloud is optional.
+@@ -30,15 +32,15 @@ Already use an AI agent? Copy this prompt and paste it into Claude Code, Cursor,
+ Install OpenWork on my computer, set up my first workspace, and open it ready to use. Follow the steps in https://openworklabs.com/start.md?v=hero
+ ```
+ 
+-1. Installs OpenWork
++1. Installs Crew Desk
+ 2. Creates your workspace
+ 3. Opens it ready to run
+ 
+-## Use OpenWork from any agent
++## Use Crew Desk from any agent
+ 
+-The OpenWork MCP brings your assigned skills, plugins, MCP connections, Google Workspace, and Microsoft 365 capabilities into any compatible agent.
++The Crew Desk MCP brings your assigned skills, plugins, MCP connections, Google Workspace, and Microsoft 365 capabilities into any compatible agent.
+ 
+-It exposes four tools: `search_capabilities` finds what you can use, `execute_capability` runs it, and `list_skills` / `get_skill` list your skills and read one SKILL.md directly. After adding the MCP, your client opens a browser so you can sign in and choose your OpenWork organization.
++It exposes four tools: `search_capabilities` finds what you can use, `execute_capability` runs it, and `list_skills` / `get_skill` list your skills and read one SKILL.md directly. After adding the MCP, your client opens a browser so you can sign in and choose your Crew Desk organization.
+ 
+ ### Codex
+ 
+@@ -77,15 +79,15 @@ Use this remote MCP server URL:
+ https://api.openworklabs.com/mcp/agent
+ ```
+ 
+-## OpenWork Den
++## Crew Desk Den
+ 
+-OpenWork Den is the control plane for managing OpenWork across a team or organization.
++Crew Desk Den is the control plane for managing Crew Desk across a team or organization.
+ 
+ - Provision inference at scale and control which members and teams can use each model provider.
+ - Invite teammates, create teams, and manage access from one place.
+ - Set desktop policies, restrict local model access, and control which app versions your organization can use.
+ - Publish skills and plugins through marketplaces, then assign them to the organization, a team, or specific people.
+-- Import Agent Plugins or Anthropic-compatible plugins and make their supported skills and remote MCPs available through the OpenWork MCP.
++- Import Agent Plugins or Anthropic-compatible plugins and make their supported skills and remote MCPs available through the Crew Desk MCP.
+ 
+ <img width="1546" height="915" alt="OpenWork Den organization control plane" src="https://github.com/user-attachments/assets/033dbbfe-5661-4f7c-869c-46278406d6cc" />
+ 
+@@ -94,13 +96,13 @@ OpenWork Den is the control plane for managing OpenWork across a team or organiz
+ This repository uses a directory-split license, similar to GitLab:
+ 
+ - **Everything outside `ee/` is MIT** — the desktop app and core platform are open source, free for any use.
+-- **Everything under `ee/` (OpenWork Den — the org control plane) is under the [OpenWork EE License](ee/LICENSE)**, a source-available license. The code is public so you can audit exactly what you deploy. Production use requires an [OpenWork subscription](https://openworklabs.com/pricing), except that it is **free for organizations with up to 5 users**, **free to evaluate for 30 days at any size**, and always free for development and testing. Each `ee/` release additionally converts to MIT two years after publication.
++- **Everything under `ee/` (Crew Desk Den — the org control plane) is under the [Crew Desk EE License](ee/LICENSE)**, a source-available license. The code is public so you can audit exactly what you deploy. Production use requires an [Crew Desk subscription](https://openworklabs.com/pricing), except that it is **free for organizations with up to 5 users**, **free to evaluate for 30 days at any size**, and always free for development and testing. Each `ee/` release additionally converts to MIT two years after publication.
+ 
+ Versions released before this license was adopted remain under their original license (FSL-1.1-MIT). See [pricing](https://openworklabs.com/pricing) and the [subscription terms](https://openworklabs.com/terms/subscription).
+ 
+ ## Documentation
+ 
+-[Read the OpenWork docs.](https://openworklabs.com/docs)
++[Read the Crew Desk docs.](https://openworklabs.com/docs)
+ 
+ ## Getting started (contributors)
+ 
+@@ -128,7 +130,7 @@ pnpm dev   # launches the Electron desktop app with hot reload
+ | --- | --- |
+ | `apps/` | the desktop app: React UI (`apps/app`), Electron shell (`apps/desktop`), and `openwork-server` (`apps/server`) (MIT) |
+ | `packages/` | shared core packages (MIT) |
+-| `ee/` | OpenWork Den — the org control plane, MCP gateway, and inference (EE License, see [Licensing](#licensing)) |
++| `ee/` | Crew Desk Den — the org control plane, MCP gateway, and inference (EE License, see [Licensing](#licensing)) |
+ | `evals/` | executable test specs built on `@openwork/testkit` — see [`evals/README.md`](./evals/README.md) |
+ | `worlds/` | declarative dev/test environment definitions for `pnpm world` |
+ | `docs/` | operator, feature, and release docs |
+@@ -173,7 +175,7 @@ If a second instance cannot get the profile lock it now says so and exits, inste
+ 
+ ### Headless web (no Electron)
+ 
+-To run the OpenWork UI in a browser against a local `openwork-server` (no desktop shell):
++To run the Crew Desk UI in a browser against a local `openwork-server` (no desktop shell):
+ 
+ ```bash
+ pnpm world up dev-app-web --detach
+@@ -210,7 +212,7 @@ Open the printed Web URL. Cloud sign-in in headless web uses the **copy/paste**
+ 
+ 1. Account → Sign in (opens Den; the paste field opens in Settings)
+ 2. Sign in on Den
+-3. Copy the OpenWork link / one-time code Den shows
++3. Copy the Crew Desk link / one-time code Den shows
+ 4. Paste it under **Paste sign-in code** → Finish sign-in
+ 
+ Point Den at a local stack with `OPENWORK_DEV_DEN_PROXY_TARGET=http://127.0.0.1:3005` while `pnpm dev:web-local` is running. Set `OPENWORK_DEV_HEADLESS_WEB_DEN_PROXY=0` to disable the Den wiring.
+diff --git a/SECURITY.md b/SECURITY.md
+index b8593f0..d9272c6 100644
+--- a/SECURITY.md
++++ b/SECURITY.md
+@@ -2,7 +2,7 @@
+ 
+ ## Supported versions
+ 
+-OpenWork is under active development and we prioritize fixes on the latest release and
++Crew Desk is under active development and we prioritize fixes on the latest release and
+ the current `dev` branch.
+ 
+ ## Reporting a vulnerability
+diff --git a/TRANSLATIONS.md b/TRANSLATIONS.md
+index c65a0ab..031f1a6 100644
+--- a/TRANSLATIONS.md
++++ b/TRANSLATIONS.md
+@@ -1,6 +1,6 @@
+-# Help Translate OpenWork
++# Help Translate Crew Desk
+ 
+-We are actively looking for contributors to translate OpenWork to your own native language.
++We are actively looking for contributors to translate Crew Desk to your own native language.
+ 
+ ## README translations
+ 
+diff --git a/docs/EMERGENCY-CHANGES.md b/docs/EMERGENCY-CHANGES.md
+index 4fbee3b..3f2431f 100644
+--- a/docs/EMERGENCY-CHANGES.md
++++ b/docs/EMERGENCY-CHANGES.md
+@@ -14,7 +14,7 @@ Every expedited path below has a compensating control and leaves evidence. No un
+ | Published-release rollback (`pnpm release:rollback`) | A bad version is live | The script is non-destructive: it re-points Latest and demotes the bad release, but never deletes it. It redeploys only previously reviewed artifacts. | GitHub audit log, release timeline, and a note in the post-hoc issue |
+ | Clean-revert fast lane (auto-approved revert PRs) | A reviewed change must be undone immediately | A machine verifies that the PR tree is the exact inverse of a commit that already passed review. Approval inherits the original review. | Bot approval with the verified SHA on the PR |
+ 
+-See [Releasing OpenWork](./RELEASING.md) for release mechanics.
++See [Releasing Crew Desk](./RELEASING.md) for release mechanics.
+ 
+ ## Post-hoc review SLA
+ 
+diff --git a/docs/RELEASING.md b/docs/RELEASING.md
+index fb6e540..ad2dbc9 100644
+--- a/docs/RELEASING.md
++++ b/docs/RELEASING.md
+@@ -1,4 +1,4 @@
+-# Releasing OpenWork
++# Releasing Crew Desk
+ 
+ Releases are **pure GitHub Actions + GitHub Releases**: versions live in git
+ tags, every committed `package.json` holds the permanent `0.0.0-dev`
+diff --git a/docs/alchemy-effect-testkit-migration.md b/docs/alchemy-effect-testkit-migration.md
+index 58624e8..fe7e967 100644
+--- a/docs/alchemy-effect-testkit-migration.md
++++ b/docs/alchemy-effect-testkit-migration.md
+@@ -1,4 +1,4 @@
+-# Alchemy + Effect migration proposal for OpenWork testkit
++# Alchemy + Effect migration proposal for Crew Desk testkit
+ 
+ Status: **Proposed**
+ Decision requested: approve an Effect-first refactor and one gated Alchemy
+@@ -15,8 +15,8 @@ Alchemy, Effect, and `@openwork/testkit` solve different problems:
+ - **Alchemy** is a desired-state engine built on Effect. It adds resource
+   identity, dependency graphs, plan/apply/destroy, provider lifecycle methods,
+   and persisted state.
+-- **OpenWork testkit** is an application/E2E harness. It decides placement,
+-  starts local or Daytona resources, drives OpenWork, records witness evidence,
++- **Crew Desk testkit** is an application/E2E harness. It decides placement,
++  starts local or Daytona resources, drives Crew Desk, records witness evidence,
+   and maps outcomes to Passed/Incomplete/Failed.
+ 
+ The current testkit is mostly **ephemeral orchestration**, not infrastructure
+@@ -86,7 +86,7 @@ Stack program
+ A custom provider implements required `reconcile` and `delete` behavior plus
+ optional hooks such as `read`, `diff`, and `list` as an Effect Layer. A stage
+ isolates physical resources and state. Alchemy's Vitest adapter can deploy and
+-destroy stacks, but it does not provide OpenWork's application-driving,
++destroy stacks, but it does not provide Crew Desk's application-driving,
+ witness, evidence, or verdict semantics.
+ 
+ Alchemy would **not** replace:
+@@ -105,13 +105,13 @@ after an OpenWork-specific provider exists. Alchemy has no built-in Daytona
+ provider, so adopting it does not remove the need to understand or test the
+ Daytona lifecycle.
+ 
+-There is also a known runner incompatibility in the reviewed versions. OpenWork
++There is also a known runner incompatibility in the reviewed versions. Crew Desk
+ evals use Vitest `^3.2.4`. `alchemy@2.0.0-beta.72` requires Effect
+ `>=4.0.0-beta.105` and depends on the matching Effect 4 `@effect/vitest`, whose
+ peer range requires Vitest `>=4.1.0 <5`. The Alchemy Vitest adapter therefore
+-cannot be installed as the OpenWork test fixture without upgrading the eval
++cannot be installed as the Crew Desk test fixture without upgrading the eval
+ runner. This proposal does not upgrade Vitest: the pilot may use only Alchemy's
+-core programmatic lifecycle behind OpenWork's existing fixture. If pnpm cannot
++core programmatic lifecycle behind Crew Desk's existing fixture. If pnpm cannot
+ isolate Alchemy's transitive Vitest 4 from the Vitest 3 runner, the Alchemy
+ pilot stops. The repository's existing Effect `4.0.0-beta.83` also does not
+ satisfy Alchemy's peer floor, so the isolated eval workspace would initially
+@@ -129,7 +129,7 @@ Effect adoption and Alchemy adoption are separate decisions.
+ | Dependency graph | Service/Layer composition | Resource inputs/outputs | Call order and nested helpers |
+ | Recovery after process death | No; the process is gone | Possible through state or deterministic identity plus `read` | No automatic recovery |
+ | Drift/reconciliation | Application-defined | Provider-defined plan/apply | Recreate, reuse, or health-check |
+-| Best OpenWork fit | Processes, DB handles, mocks, desktop, fixtures | Owned remote sandboxes/snapshots if discoverable | Spec API, evidence, user journeys |
++| Best Crew Desk fit | Processes, DB handles, mocks, desktop, fixtures | Owned remote sandboxes/snapshots if discoverable | Spec API, evidence, user journeys |
+ 
+ Alchemy is not an always-on controller. A killed CI job still needs a later
+ rerun or janitor to invoke reconciliation/deletion. Its normal plan is also
+@@ -153,7 +153,7 @@ reconciles. It must not be presented as universal drift detection.
+ ## Non-goals
+ 
+ - Rewriting all specs to `Effect.gen`.
+-- Replacing OpenWork's `test` fixture with `alchemy/Test/Vitest`.
++- Replacing Crew Desk's `test` fixture with `alchemy/Test/Vitest`.
+ - Treating users, org membership, OAuth grants, or seeded product data as IaC.
+ - Persisting test credentials in Alchemy props, outputs, or state.
+ - Managing an attached Den, an externally supplied reuse, or a borrowed
+@@ -310,7 +310,7 @@ Provider rules:
+   unsupported, and TTL cleanup uses a separately ownership-filtered janitor;
+ - caller-provided `reuse` is represented as an external reference outside the
+   Stack, never as a managed Resource;
+-- `alchemy unsafe nuke` is not part of any OpenWork workflow.
++- `alchemy unsafe nuke` is not part of any Crew Desk workflow.
+ 
+ If Daytona CLI/API behavior cannot support those rules, the Alchemy pilot is a
+ no-go. Wrapping the same create/delete script in a provider without reliable
+@@ -402,7 +402,7 @@ No production lifecycle moves in this phase.
+ 
+ 1. Pin exact `alchemy`, `effect`, and `@effect/platform-node` versions in the
+    isolated `evals/` workspace; do not depend on `@next` and do not add
+-   `@effect/vitest` to OpenWork's runner.
++   `@effect/vitest` to Crew Desk's runner.
+ 2. Use an Effect version satisfying Alchemy's reviewed
+    `>=4.0.0-beta.105` peer range. Verify pnpm + Node.js 22 execution,
+    TypeScript 5.9, Vitest 3.2, ESM exports, and the existing eval tsconfig. Bun
+@@ -423,7 +423,7 @@ No production lifecycle moves in this phase.
+    state without adopting `alchemy/Test/Vitest`.
+ 7. Measure install-size and cold-import impact of Alchemy's transitive graph.
+ 
+-**Gate:** stop Alchemy work if it requires replacing the OpenWork test fixture,
++**Gate:** stop Alchemy work if it requires replacing the Crew Desk test fixture,
+ requires upgrading Vitest, leaks a second Vitest into runner resolution,
+ requires Bun, or cannot run through the existing pnpm/Vitest lane. Effect-only
+ work may continue.
+@@ -595,7 +595,7 @@ rollout.
+ - Local and Daytona implementations can share orchestration while differing at
+   capability boundaries.
+ - Incremental adoption is possible behind Promise and `AsyncDisposable` APIs.
+-- OpenWork already has limited Effect 4 usage in `packages/codemode` and
++- Crew Desk already has limited Effect 4 usage in `packages/codemode` and
+   `ee/apps/den-api`, so the concepts are not entirely new to the repository.
+ 
+ ### Costs of Effect-first
+@@ -609,7 +609,7 @@ rollout.
+ - Effect 4 is currently beta in this repository, so version pinning and upgrade
+   work remain real.
+ - Alchemy's peer floor is newer than the Effect beta currently pinned elsewhere
+-  in OpenWork, creating temporary version skew even though evals are isolated.
++  in Crew Desk, creating temporary version skew even though evals are isolated.
+ - Scoped finalizers improve timeout and in-process failure handling but do not
+   clean detached processes or databases after a killed runner; a janitor is a
+   separate mechanism.
+@@ -629,11 +629,11 @@ rollout.
+ - Alchemy's README labels the project alpha and its current v2 package is beta;
+   breaking changes should be expected.
+ - The reviewed Alchemy/Effect Vitest adapter requires Vitest 4.1+, while
+-  OpenWork evals use Vitest 3.2; using the adapter would force an unrelated
++  Crew Desk evals use Vitest 3.2; using the adapter would force an unrelated
+   runner migration.
+ - It brings a broad IaC dependency graph into an otherwise narrow eval
+   workspace.
+-- There is no built-in Daytona provider. OpenWork must own `read`, `diff`,
++- There is no built-in Daytona provider. Crew Desk must own `read`, `diff`,
+   `reconcile`, `delete`, auth, ownership, and upgrade compatibility.
+ - Most testkit resources are short-lived runtime resources; modeling them in
+   persisted desired state would be conceptual and operational overhead.
+@@ -648,12 +648,12 @@ rollout.
+   a dedicated endpoint-lifetime design.
+ - A custom provider can become the same homegrown provisioner behind a more
+   complex interface. Alchemy is valuable only if the provider truly converges.
+-- Alchemy's documented test posture favors real cloud resources. OpenWork must
++- Alchemy's documented test posture favors real cloud resources. Crew Desk must
+   retain deterministic witnesses because identity, failure, and policy claims
+   require controlled observations.
+ - Alchemy cannot clean up after a dead runner without a subsequent command or
+   external janitor.
+-- Adopting Alchemy's Vitest adapter directly could conflict with OpenWork's
++- Adopting Alchemy's Vitest adapter directly could conflict with Crew Desk's
+   evidence fixture and skip mapping; this proposal avoids that coupling.
+ 
+ ## Alternatives considered
+@@ -727,7 +727,7 @@ problem.
+ 
+ ## References
+ 
+-OpenWork:
++Crew Desk:
+ 
+ - `evals/README.md`
+ - `evals/packages/testkit/src/fixture.ts`
+diff --git a/docs/architecture/team-execution-policy.md b/docs/architecture/team-execution-policy.md
+index 2fff40f..ca2a72a 100644
+--- a/docs/architecture/team-execution-policy.md
++++ b/docs/architecture/team-execution-policy.md
+@@ -38,10 +38,10 @@ responses from replacing newer policy.
+ 
+ Engine policy hooks use an ephemeral credential accepted only by
+ `POST /managed-policy/evaluate`. It grants no workspace, configuration, session,
+-or host API access. The next engine never inherits the general OpenWork client
++or host API access. The next engine never inherits the general Crew Desk client
+ credential; the legacy engine retains its existing credential for built-in tools.
+ 
+-The browser restriction applies to OpenWork's built-in browser. Native fetch
++The browser restriction applies to Crew Desk's built-in browser. Native fetch
+ and search are blocked while approved sites are configured: their redirects do
+ not expose a per-request enforcement hook. The agent is directed to the built-in
+ browser for approved-site reading. It is not device-wide DLP: allowed sites can receive data in read URLs,
+diff --git a/docs/aws-eks-helm.md b/docs/aws-eks-helm.md
+index a52f6cb..37814f9 100644
+--- a/docs/aws-eks-helm.md
++++ b/docs/aws-eks-helm.md
+@@ -1,9 +1,9 @@
+-# Deploy OpenWork EE on AWS with EKS and Helm
++# Deploy Crew Desk EE on AWS with EKS and Helm
+ 
+ Status: self-host operator guide
+ Related: `packaging/helm/openwork-ee`, `packaging/helm/openwork-ee/examples/values.aws-load-balancer.yaml`, `packaging/helm/openwork-ee/examples/values.aws-load-balancer-http-smoke.yaml`
+ 
+-This is the recommended AWS path for a first production-like OpenWork EE
++This is the recommended AWS path for a first production-like Crew Desk EE
+ self-host install. Use Helm on Amazon EKS with Amazon RDS for MySQL. For the
+ simplest customer deployment, use EKS Auto Mode and Kubernetes
+ `LoadBalancer` Services so AWS provisions Network Load Balancers directly from
+@@ -14,20 +14,20 @@ HTTP routing, WAF rules, or an existing ingress platform.
+ 
+ - Den API on port `8788`
+ - Den Web on port `3005`
+-- optional OpenWork Gateway service, disabled by default (`inference.enabled`)
++- optional Crew Desk Gateway service, disabled by default (`inference.enabled`)
+ - one RDS MySQL database
+-- one single-org OpenWork deployment
++- one single-org Crew Desk deployment
+ - two public AWS Network Load Balancers by default: one for web and one for API
+ 
+ AWS owns the EKS cluster, node lifecycle, VPC networking, load balancers, RDS,
+-DNS, TLS certificates, IAM, and security groups. The OpenWork Helm chart owns
+-OpenWork Deployments, Services, ConfigMaps, Secrets, health probes, and the
++DNS, TLS certificates, IAM, and security groups. The Crew Desk Helm chart owns
++Crew Desk Deployments, Services, ConfigMaps, Secrets, health probes, and the
+ database migration Job.
+ 
+ ## Use Helm or something else?
+ 
+ Use Helm on EKS for AWS unless the customer explicitly cannot run Kubernetes.
+-The OpenWork EE release artifact is already a Helm chart, the service split maps
++The Crew Desk EE release artifact is already a Helm chart, the service split maps
+ cleanly to Kubernetes, and EKS Auto Mode removes most node and load balancer
+ setup from the customer path. A VM or ECS guide can be useful later, but it
+ would be a separate packaging surface to maintain. The practical gap found by
+@@ -153,7 +153,7 @@ mysql://openwork:<password>@<rds-endpoint>:3306/openwork_den?sslaccept=accept
+ ```
+ 
+ Use `?sslaccept=accept` for the simple private-RDS smoke path. This keeps TLS on
+-but does not require the RDS CA bundle to be mounted into the OpenWork image.
++but does not require the RDS CA bundle to be mounted into the Crew Desk image.
+ Use strict certificate verification later, after you provide the RDS CA bundle,
+ with a hardened value such as `sslmode=verify-ca` or `sslmode=verify-full`.
+ 
+@@ -189,7 +189,7 @@ aws ec2 authorize-security-group-ingress \
+   --source-group "$NODE_SG_ID"
+ ```
+ 
+-Before installing OpenWork, verify network access from the cluster. One simple
++Before installing Crew Desk, verify network access from the cluster. One simple
+ way is to run a temporary MySQL client pod:
+ 
+ ```bash
+@@ -254,7 +254,7 @@ add those keys to the existing Kubernetes Secret referenced by
+ `SMTP_HOST`; leave `smtpHost` blank only when SMTP-backed transactional email
+ should be disabled.
+ 
+-Use a values file, not a long list of `--set` flags. Several OpenWork values are
++Use a values file, not a long list of `--set` flags. Several Crew Desk values are
+ comma-separated strings, such as `config.public.corsOrigins`, and plain
+ `--set` parsing commonly breaks them.
+ 
+@@ -277,7 +277,7 @@ grep -E 'DATABASE_URL|DEN_BASE_URL|DEN_WEB_PUBLIC_ORIGIN|EMAIL_FROM|SMTP_HOST|SM
+ 
+ Redact secrets before sharing rendered manifests or terminal output.
+ 
+-## 4. Install OpenWork
++## 4. Install Crew Desk
+ 
+ Published chart releases live in GHCR:
+ 
+@@ -470,7 +470,7 @@ For releases that include initial-administrator bootstrap, inject the
+ release-documented one-time setup secret through the Kubernetes Secret referenced
+ by `secret.existingSecret`. Do not store the code in the values file or a
+ ConfigMap. Then open `https://openwork.example.com/setup`, enter the configured
+-owner email and one-time operator code, and create the first account. OpenWork
++owner email and one-time operator code, and create the first account. Crew Desk
+ creates the singleton organization, grants owner and configured platform-admin
+ access, and signs the administrator in. Public signup remains disabled. After
+ the first user exists, the setup code cannot bootstrap another account.
+@@ -496,16 +496,16 @@ Configure the IdP application with these callback URLs:
+ https://openwork.example.com/api/auth/sso/callback/openwork-sso-<org-id>
+ ```
+ 
+-In OpenWork, sign in as the owner, open the organization SSO settings, and enter
++In Crew Desk, sign in as the owner, open the organization SSO settings, and enter
+ the IdP issuer/client details. After saving, the organization sign-in path is:
+ 
+ ```text
+ https://openwork.example.com/sso/<singleOrgSlug>
+ ```
+ 
+-For SAML, OpenWork shows the generated ACS URL and metadata URL after the SAML
++For SAML, Crew Desk shows the generated ACS URL and metadata URL after the SAML
+ connection is registered. Use those values in the IdP rather than guessing.
+-OpenWork rejects unsigned or weak SAML responses, so configure the IdP to sign
++Crew Desk rejects unsigned or weak SAML responses, so configure the IdP to sign
+ assertions.
+ 
+ After SSO is configured, root sign-in shows the SSO-only experience for the
+@@ -525,7 +525,7 @@ single organization. Password sign-in for that organization is rejected.
+ | Runtime is ready but migration failed | Helm hook did not complete | Check `kubectl get jobs` and the migration Job logs before testing web |
+ | `ImagePullBackOff` from GHCR | Private image or missing pull token | Add `imagePullSecrets` |
+ | Browser auth loops or CORS errors | Public origins do not match DNS/TLS | Set `webOrigin`, `apiOrigin`, `corsOrigins`, `betterAuthTrustedOrigins`, and `authCallbackUrl` to the final HTTPS domains |
+-| SSO callback rejected | IdP callback URL does not match OpenWork | Use the callback/ACS URL shown by OpenWork for that org/provider |
++| SSO callback rejected | IdP callback URL does not match Crew Desk | Use the callback/ACS URL shown by Crew Desk for that org/provider |
+ | SSO settings show Enterprise gating | `DEN_PLAN_GATING_ENABLED=true` or org is not entitled | Leave plan gating off for self-host smoke tests, or grant enterprise entitlement |
+ 
+ ## 11. Cleanup
+diff --git a/docs/azure-aks-helm.md b/docs/azure-aks-helm.md
+index afed8f4..1de2c34 100644
+--- a/docs/azure-aks-helm.md
++++ b/docs/azure-aks-helm.md
+@@ -1,23 +1,23 @@
+-# Deploy OpenWork EE on Azure with AKS and Helm
++# Deploy Crew Desk EE on Azure with AKS and Helm
+ 
+ Status: self-host operator guide
+ Related: `packaging/helm/openwork-ee`, `packaging/helm/openwork-ee/examples/values.azure-ingress.yaml`
+ 
+-This is the recommended Azure path for a first production-like OpenWork EE
++This is the recommended Azure path for a first production-like Crew Desk EE
+ self-host install. Use Helm on Azure Kubernetes Service with Azure Database for
+ MySQL Flexible Server. For web/API exposure, use the AKS application routing
+-add-on's managed NGINX Ingress controller so OpenWork gets stable HTTPS host
++add-on's managed NGINX Ingress controller so Crew Desk gets stable HTTPS host
+ names through a standard Kubernetes `Ingress`.
+ 
+ Azure is moving long-term L7 traffic management toward Gateway API, and
+ Microsoft notes that AKS application routing NGINX remains supported for
+-production workloads through November 2026. The current OpenWork chart emits
++production workloads through November 2026. The current Crew Desk chart emits
+ Ingress resources, so managed NGINX application routing is the simplest
+ supported Azure path today. Treat Gateway API support as a future chart/platform
+ hardening item.
+ 
+ Do not use raw Kubernetes `LoadBalancer` Services as the normal Azure path for
+-OpenWork. Azure Load Balancer is a layer 4 load balancer. It is useful for TCP
++Crew Desk. Azure Load Balancer is a layer 4 load balancer. It is useful for TCP
+ services and quick smoke tests, but it does not provide the browser-facing HTTPS
+ and host routing experience customers expect for auth and SSO.
+ 
+@@ -25,24 +25,24 @@ and host routing experience customers expect for auth and SSO.
+ 
+ - Den API on port `8788`
+ - Den Web on port `3005`
+-- optional OpenWork Gateway service, disabled by default (`inference.enabled`)
++- optional Crew Desk Gateway service, disabled by default (`inference.enabled`)
+ - one Azure Database for MySQL Flexible Server database
+-- one single-org OpenWork deployment
++- one single-org Crew Desk deployment
+ - one managed NGINX Ingress entry point for web and API hosts
+ 
+ Azure owns the AKS cluster, node lifecycle, VNet networking, managed ingress
+ controller, DNS, TLS certificate storage, MySQL Flexible Server, managed
+-identities, and network security groups. The OpenWork Helm chart owns OpenWork
++identities, and network security groups. The Crew Desk Helm chart owns Crew Desk
+ Deployments, Services, ConfigMaps, Secrets, health probes, the optional Ingress,
+ and the database migration Job.
+ 
+ ## Use Helm or something else?
+ 
+ Use Helm on AKS for Azure unless the customer explicitly cannot run Kubernetes.
+-The OpenWork EE release artifact is already a Helm chart, and AKS gives the
++The Crew Desk EE release artifact is already a Helm chart, and AKS gives the
+ cleanest fit for separate web/API services, migration Jobs, and later enterprise
+ network controls. The gap to fill is Azure-specific infrastructure guidance,
+-not a different OpenWork packaging format.
++not a different Crew Desk packaging format.
+ 
+ ## Prerequisites
+ 
+@@ -135,7 +135,7 @@ The output should include at least one tier such as `Burstable`,
+ `RequestDisallowedByAzure` with `locationineligible`, the subscription cannot
+ currently create MySQL Flexible Server in that region. Pick another region and
+ rerun this preflight before creating the resource group, VNet, AKS cluster, or
+-database. This is an Azure subscription/region eligibility issue, not OpenWork
++database. This is an Azure subscription/region eligibility issue, not Crew Desk
+ quota usage.
+ 
+ Check regional quota before creating AKS. `Current` shows existing usage and
+@@ -217,7 +217,7 @@ production node pool.
+ If AKS reports `Standard_DS2_v2 is not allowed` or
+ `ErrCode_InsufficientVCPUQuota`, check `az vm list-usage` in the target region.
+ Those errors usually mean Azure picked a default node SKU or node count that the
+-subscription cannot use, not that OpenWork has consumed quota. Pick an allowed
++subscription cannot use, not that Crew Desk has consumed quota. Pick an allowed
+ SKU from Azure's error output, lower `AKS_NODE_COUNT` for a disposable test, or
+ request regional and VM-family quota increases before production.
+ 
+@@ -232,7 +232,7 @@ platform requirements before following the rest of this guide:
+   subnet if required by your design, and the delegated MySQL Flexible Server
+   subnet.
+ - Region capacity varies. If AKS Automatic reports SKU/capacity failures, retry
+-  in a known-good region before debugging the OpenWork chart.
++  in a known-good region before debugging the Crew Desk chart.
+ 
+ If you are using an existing AKS cluster, enable the add-on instead:
+ 
+@@ -333,7 +333,7 @@ az provider show \
+ If the provider is `Registered` and the region is listed, repeated
+ `InternalServerError`, `ProvisionNotSupportedForRegion`, or
+ `locationineligible` responses from `list-skus` or `flexible-server create`
+-indicate an Azure MySQL subscription/region eligibility issue before OpenWork or
++indicate an Azure MySQL subscription/region eligibility issue before Crew Desk or
+ Helm is involved. Switch to a region where `list-skus` succeeds and create AKS
+ and MySQL there, or open an Azure Support case with the tracking IDs. For
+ disposable chart-only validation, you may temporarily use an in-cluster MySQL
+@@ -348,12 +348,12 @@ mysql://openwork:<password>@<server>.mysql.database.azure.com:3306/openwork_den?
+ ```
+ 
+ Use `?sslaccept=accept` for the simple private-MySQL smoke path. This keeps TLS
+-on without requiring a cloud CA bundle to be mounted into the OpenWork image.
++on without requiring a cloud CA bundle to be mounted into the Crew Desk image.
+ Use strict certificate verification later, after you provide the required CA
+ bundle, with a hardened value such as `sslmode=verify-ca` or
+ `sslmode=verify-full`.
+ 
+-Before installing OpenWork, verify network access from the cluster:
++Before installing Crew Desk, verify network access from the cluster:
+ 
+ ```bash
+ kubectl run mysql-client \
+@@ -410,7 +410,7 @@ add those keys to the existing Kubernetes Secret referenced by
+ `SMTP_HOST`; leave `smtpHost` blank only when SMTP-backed transactional email
+ should be disabled.
+ 
+-Use a values file, not a long list of `--set` flags. Several OpenWork values are
++Use a values file, not a long list of `--set` flags. Several Crew Desk values are
+ comma-separated strings, such as `config.public.corsOrigins`, and plain `--set`
+ parsing commonly breaks them.
+ 
+@@ -443,7 +443,7 @@ ingress:
+     - secretName: openwork-ee-tls
+ ```
+ 
+-Create that secret from a certificate that covers both OpenWork hosts:
++Create that secret from a certificate that covers both Crew Desk hosts:
+ 
+ ```bash
+ kubectl create namespace openwork-ee
+@@ -459,7 +459,7 @@ AKS application routing with Azure DNS and Key Vault, cert-manager, or an
+ existing ingress platform. Keep the Kubernetes secret name in the values file
+ aligned with whichever controller creates the certificate.
+ 
+-## 5. Install OpenWork
++## 5. Install Crew Desk
+ 
+ Published chart releases live in GHCR:
+ 
+@@ -615,7 +615,7 @@ For releases that include initial-administrator bootstrap, inject the
+ release-documented one-time setup secret through the Kubernetes Secret referenced
+ by `secret.existingSecret`. Do not store the code in the values file or a
+ ConfigMap. Then open `https://openwork.example.com/setup`, enter the configured
+-owner email and one-time operator code, and create the first account. OpenWork
++owner email and one-time operator code, and create the first account. Crew Desk
+ creates the singleton organization, grants owner and configured platform-admin
+ access, and signs the administrator in. Public signup remains disabled. After
+ the first user exists, the setup code cannot bootstrap another account.
+@@ -644,19 +644,19 @@ Configure the IdP application with this callback URL:
+ https://openwork.example.com/api/auth/sso/callback/openwork-sso-<org-id>
+ ```
+ 
+-In OpenWork, sign in as the owner, open the organization SSO settings, and enter
++In Crew Desk, sign in as the owner, open the organization SSO settings, and enter
+ the IdP issuer/client details. After saving, the organization sign-in path is:
+ 
+ ```text
+ https://openwork.example.com/sso/<singleOrgSlug>
+ ```
+ 
+-For SAML, OpenWork shows the generated ACS URL and metadata URL after the SAML
++For SAML, Crew Desk shows the generated ACS URL and metadata URL after the SAML
+ connection is registered. Use those values in the IdP rather than guessing.
+-OpenWork rejects unsigned or weak SAML responses, so configure the IdP to sign
++Crew Desk rejects unsigned or weak SAML responses, so configure the IdP to sign
+ assertions. For Microsoft Entra ID specifically, also make sure the Entra
+-**Identifier (Entity ID)** is the OpenWork auth origin and the certificate saved
+-in OpenWork is the active Entra token-signing certificate.
++**Identifier (Entity ID)** is the Crew Desk auth origin and the certificate saved
++in Crew Desk is the active Entra token-signing certificate.
+ 
+ After SSO is configured, root sign-in shows the SSO-only experience for the
+ single organization. Password sign-in for that organization is rejected.
+@@ -683,7 +683,7 @@ single organization. Password sign-in for that organization is rejected.
+ | `az mysql flexible-server create` or `list-skus` returns `InternalServerError`, `ProvisionNotSupportedForRegion`, or `locationineligible` | The subscription cannot currently create MySQL Flexible Server in that region, or the regional SKU service is failing before Helm install | Pick a new `AZURE_LOCATION` where `list-skus` succeeds before creating AKS; capture tracking IDs and region for Azure Support if every acceptable region fails; only use temporary in-cluster MySQL for chart-only smoke tests |
+ | `ImagePullBackOff` from GHCR | Private image or missing pull token | Add `imagePullSecrets` |
+ | Browser auth loops or CORS errors | Public origins do not match DNS/TLS | Set `webOrigin`, `apiOrigin`, `corsOrigins`, `betterAuthTrustedOrigins`, and `authCallbackUrl` to the final HTTPS domains |
+-| SSO callback rejected | IdP callback URL does not match OpenWork | Use the callback/ACS URL shown by OpenWork for that org/provider |
++| SSO callback rejected | IdP callback URL does not match Crew Desk | Use the callback/ACS URL shown by Crew Desk for that org/provider |
+ | SSO settings show Enterprise gating | `DEN_PLAN_GATING_ENABLED=true` or org is not entitled | Leave plan gating off for self-host smoke tests, or grant enterprise entitlement |
+ 
+ ## 12. Cleanup
+diff --git a/docs/blank-slate-test-profiles.md b/docs/blank-slate-test-profiles.md
+index 8d4d4c0..0e10bde 100644
+--- a/docs/blank-slate-test-profiles.md
++++ b/docs/blank-slate-test-profiles.md
+@@ -37,7 +37,7 @@ and redirects every persisted path into it before any other module loads:
+   `APPDATA`/`LOCALAPPDATA`
+ - desktop bootstrap (`OPENWORK_DESKTOP_BOOTSTRAP_PATH`) — an enterprise build
+   therefore starts at the activation gate, not an inherited control plane
+-- OpenWork server config, env store, token store, runtime DB, data dir
++- Crew Desk server config, env store, token store, runtime DB, data dir
+ - OpenCode config dir and database
+ 
+ It also:
+diff --git a/docs/cloud-organization-role-access.md b/docs/cloud-organization-role-access.md
+index 7f271e8..9d3592d 100644
+--- a/docs/cloud-organization-role-access.md
++++ b/docs/cloud-organization-role-access.md
+@@ -6,7 +6,7 @@ This guide documents the approved cloud organization hierarchy as it exists toda
+ 
+ Organization roles authorize access inside one cloud workspace. They are separate from platform Den admin access: platform Den admins are allowlisted operators for Den admin routes and the den-admin MCP surface, and organization `owner` or `super-admin` roles do not grant that platform access.
+ 
+-Den Web controls enforce policy in the client by hiding or disabling actions, and Den API endpoints enforce policy by rejecting unauthorized requests. UI disabling is not security enforcement; route guards and handler checks are the security boundary. Settings reads and writes are checked separately, and OpenWork Models is an operational Models surface outside Settings.
++Den Web controls enforce policy in the client by hiding or disabling actions, and Den API endpoints enforce policy by rejecting unauthorized requests. UI disabling is not security enforcement; route guards and handler checks are the security boundary. Settings reads and writes are checked separately, and Crew Desk Models is an operational Models surface outside Settings.
+ 
+ ## Built-in hierarchy
+ 
+@@ -33,13 +33,13 @@ For cloud organization admins (`owner`, `super-admin`, and `admin`), the Den Web
+   - Dashboard
+   - My Library
+   - My Automations, when enabled
+-  - OpenWork Web, when enabled
++  - Crew Desk Web, when enabled
+ - Manage
+   - Plugin Directory, with Plugins, Agents, Commands, Hooks, MCPs, and Sources tabs
+   - Connectors
+   - Dashboards, when enabled
+   - Models
+-    - OpenWork Models, on hosted deployments only
++    - Crew Desk Models, on hosted deployments only
+     - Bring your Own Keys
+   - Advanced, with Collections, Desktop policies, and Brand appearance tabs
+ - Observability
+@@ -56,7 +56,7 @@ For cloud organization admins (`owner`, `super-admin`, and `admin`), the Den Web
+     - SCIM
+     - Tool Tester, when connectors are enabled
+ 
+-Plain members have member access only: Dashboard, My Library, and My Automations / OpenWork Web when enabled.
++Plain members have member access only: Dashboard, My Library, and My Automations / Crew Desk Web when enabled.
+ 
+ ## Role matrix
+ 
+diff --git a/docs/codeql-results.md b/docs/codeql-results.md
+index 0f24af0..f6cec7c 100644
+--- a/docs/codeql-results.md
++++ b/docs/codeql-results.md
+@@ -1,6 +1,6 @@
+ # Missing CodeQL results despite successful jobs
+ 
+-OpenWork uses GitHub's CodeQL **default setup**, not a checked-in analysis workflow.
++Crew Desk uses GitHub's CodeQL **default setup**, not a checked-in analysis workflow.
+ GitHub can add a language automatically when repository contents change. Existing
+ PRs may have successful scans from before that change and still lack the newly
+ required result. The code-scanning merge rule checks uploaded analyses, not just
+diff --git a/docs/den-api-deployment-incident-runbook.md b/docs/den-api-deployment-incident-runbook.md
+index f97dc0b..0e4b10f 100644
+--- a/docs/den-api-deployment-incident-runbook.md
++++ b/docs/den-api-deployment-incident-runbook.md
+@@ -1,6 +1,6 @@
+ # Den API deployment incident runbook
+ 
+-Owner: OpenWork platform on-call
++Owner: Crew Desk platform on-call
+ 
+ Service: production Den API on Render
+ 
+@@ -40,7 +40,7 @@ Every alert must include:
+ - commit SHA and deployment URL
+ - Render deploy ID and failing phase
+ - error excerpt
+-- owner: OpenWork platform on-call
++- owner: Crew Desk platform on-call
+ - this runbook URL
+ - Render rollback and redeploy links
+ 
+diff --git a/docs/deploy/gcp/prompt.md b/docs/deploy/gcp/prompt.md
+index dd904bc..5abea81 100644
+--- a/docs/deploy/gcp/prompt.md
++++ b/docs/deploy/gcp/prompt.md
+@@ -1,6 +1,6 @@
+ # GCP Deployment Agent Prompt Template
+ 
+-Copy this prompt into your agent and replace every `{{PLACEHOLDER}}` before running it. The agent is expected to operate from a local OpenWork repository checkout and use CLI/API tools for infrastructure. Any browser-only step should be handed back to the operator.
++Copy this prompt into your agent and replace every `{{PLACEHOLDER}}` before running it. The agent is expected to operate from a local Crew Desk repository checkout and use CLI/API tools for infrastructure. Any browser-only step should be handed back to the operator.
+ 
+ ```text
+ You are deploying OpenWork EE to Google Cloud from this repository checkout:
+diff --git a/docs/desktop-app-policies.md b/docs/desktop-app-policies.md
+index a6e8fee..f85c34e 100644
+--- a/docs/desktop-app-policies.md
++++ b/docs/desktop-app-policies.md
+@@ -1,6 +1,6 @@
+ # Desktop App Policies
+ 
+-Desktop app policy config is loaded from OpenWork Cloud through `GET /v1/me/desktop-config` and exposed inside the desktop app through `DesktopConfigProvider`.
++Desktop app policy config is loaded from Crew Desk Cloud through `GET /v1/me/desktop-config` and exposed inside the desktop app through `DesktopConfigProvider`.
+ 
+ App code should read policy state through the hooks in `apps/app/src/react-app/domains/cloud/desktop-config-provider.tsx`. Do not read the provider's internal refs directly; those are only used to compare and apply newly loaded config safely.
+ 
+diff --git a/docs/desktop-policy-engine-rollback.md b/docs/desktop-policy-engine-rollback.md
+index e378af8..8a5cd02 100644
+--- a/docs/desktop-policy-engine-rollback.md
++++ b/docs/desktop-policy-engine-rollback.md
+@@ -1,11 +1,11 @@
+ # Desktop managed-policy engine rollback
+ 
+-OpenWork no longer automatically registers `managed-policy` in OpenCode v1 or
++Crew Desk no longer automatically registers `managed-policy` in OpenCode v1 or
+ `managed-policy-next` in OpenCode v2. Agent tools no longer wait for these
+ plugins' per-tool HTTP or IPC policy checks. The v2 engine is started without
+ the policy IPC channel; v1 no longer receives a policy-evaluation credential.
+ 
+-Restart OpenWork and its managed engines after upgrading. Rewriting generated
++Restart Crew Desk and its managed engines after upgrading. Rewriting generated
+ configuration does not unload hooks already installed in a running engine.
+ 
+ ## Configuration cleanup
+diff --git a/docs/enterprise-mock-lab.md b/docs/enterprise-mock-lab.md
+index bb67262..dff2e34 100644
+--- a/docs/enterprise-mock-lab.md
++++ b/docs/enterprise-mock-lab.md
+@@ -43,7 +43,7 @@ The local admin application is [`ee/apps/enterprise-mock-lab`](../ee/apps/enterp
+ Dependency rules:
+ 
+ 1. `enterprise-mock-lab` may depend on `enterprise-mcp-mock-server`.
+-2. `enterprise-mcp-mock-server` must not import Den, an EE app, OpenWork's MCP client, or a provider SDK.
++2. `enterprise-mcp-mock-server` must not import Den, an EE app, Crew Desk's MCP client, or a provider SDK.
+ 3. Den must not import the EE app. A future Den test connects to a lab data-plane URL like any other remote MCP client.
+ 4. Provider differences belong in named, sourced profiles or faults—not hidden environment checks.
+ 5. Runtime secrets and ports belong to the app or test harness, never to package fixtures.
+diff --git a/docs/enterprise/outbound-access.md b/docs/enterprise/outbound-access.md
+index e9e033d..f6d4d95 100644
+--- a/docs/enterprise/outbound-access.md
++++ b/docs/enterprise/outbound-access.md
+@@ -1,4 +1,4 @@
+-# Outbound network access for OpenWork
++# Outbound network access for Crew Desk
+ 
+ Status: maintainer pointer
+ 
+diff --git a/docs/extensions-manifest-foundation.md b/docs/extensions-manifest-foundation.md
+index 708e7dc..f7d74b7 100644
+--- a/docs/extensions-manifest-foundation.md
++++ b/docs/extensions-manifest-foundation.md
+@@ -1,12 +1,12 @@
+ # Extension Manifest Foundation
+ 
+-OpenWork should expose `extension` as the user-facing abstraction. Claude/Anthropic plugins are an initial source format that Den adapts into OpenWork extensions, not a separate product concept.
++Crew Desk should expose `extension` as the user-facing abstraction. Claude/Anthropic plugins are an initial source format that Den adapts into Crew Desk extensions, not a separate product concept.
+ 
+ ## Shape
+ 
+ An extension is a manifest-backed installed capability:
+ 
+-- `source`: where it came from, such as built-in, Den Claude plugin import, OpenWork manifest, MCP directory, or manual local install.
++- `source`: where it came from, such as built-in, Den Claude plugin import, Crew Desk manifest, MCP directory, or manual local install.
+ - `resources`: installable primitives, such as skills, MCP servers, OpenCode plugins, providers, secrets, native binaries, hooks, commands, or context files.
+ - `setup`: custom instructions, required env vars, primary CTA text, and optional test action refs.
+ - `contributions`: allowlisted UI/runtime refs, such as settings panels, composer prompts, session side panels, rail items, server routes, control actions, native capabilities, and tests.
+@@ -28,6 +28,6 @@ Always launch these from the Electron sandbox, not a standalone browser:
+ - Marketplace imports appear as installed extensions with resource composition.
+ - Image Gen setup accepts `OPENAI_API_KEY`, writes plugin/config files, and can run the test action.
+ - Ollama setup detects local availability, lists/pulls models, patches provider config, and reloads.
+-- Voice setup saves/uses an OpenAI key, mints a Realtime client secret through the local server, opens the right-side panel, and executes a semantic OpenWork UI action.
++- Voice setup saves/uses an OpenAI key, mints a Realtime client secret through the local server, opens the right-side panel, and executes a semantic Crew Desk UI action.
+ 
+-Den/local endpoint testing should point Electron at the target Den base URL through the existing Cloud account settings or the desktop bootstrap env/config path. OpenAI-key flows should use the OpenWork env store, preferring short-lived renderer credentials for Realtime.
++Den/local endpoint testing should point Electron at the target Den base URL through the existing Cloud account settings or the desktop bootstrap env/config path. OpenAI-key flows should use the Crew Desk env store, preferring short-lived renderer credentials for Realtime.
+diff --git a/docs/external-mcp-oauth.md b/docs/external-mcp-oauth.md
+index 7f0b888..03c5eb6 100644
+--- a/docs/external-mcp-oauth.md
++++ b/docs/external-mcp-oauth.md
+@@ -1,6 +1,6 @@
+ # External MCP OAuth administration
+ 
+-OpenWork discovers and authorizes Den-managed external MCP connections without
++Crew Desk discovers and authorizes Den-managed external MCP connections without
+ placing provider credentials in the agent engine. Tokens, refresh tokens,
+ client secrets, PKCE verifiers, and pending authorization transactions remain
+ encrypted in Den.
+@@ -8,7 +8,7 @@ encrypted in Den.
+ ## Required public origin
+ 
+ Set `DEN_API_PUBLIC_URL` to the externally reachable HTTPS base URL for the Den
+-deployment. OpenWork derives both public OAuth URLs exclusively from this
++deployment. Crew Desk derives both public OAuth URLs exclusively from this
+ configured origin; request host headers cannot replace it.
+ 
+ - Shared callback: `<DEN_API_PUBLIC_URL>/v1/mcp-connections/oauth/callback`
+@@ -16,7 +16,7 @@ configured origin; request host headers cannot replace it.
+ - Client metadata document: `<DEN_API_PUBLIC_URL>/oauth/client-metadata.json`
+ 
+ The client metadata document is public, contains no secrets, and describes
+-OpenWork as a web OAuth client. Each self-hosted Den deployment has its own
++Crew Desk as a web OAuth client. Each self-hosted Den deployment has its own
+ callback and metadata URL.
+ 
+ ## OAuth runtime and callback compatibility
+@@ -40,7 +40,7 @@ transactions signed with the stale mode keep failing closed.
+ 
+ ## Add a connection
+ 
+-In Cloud → Connections, enter the MCP server URL. OpenWork automatically runs
++In Cloud → Connections, enter the MCP server URL. Crew Desk automatically runs
+ discovery after the URL settles; there is no separate discovery step. A failed
+ check shows its error and a retry action. Discovery is side-effect free: it does
+ not create a connection, register an OAuth client, open a browser, or save credentials. It reports MCP
+@@ -48,7 +48,7 @@ initialization, RFC 9728 protected-resource metadata, authorization servers,
+ PKCE and refresh support, registration choices, scopes, visible tools, and any
+ network or administrator work that standards metadata cannot prove.
+ 
+-When authorization starts, OpenWork uses this registration priority:
++When authorization starts, Crew Desk uses this registration priority:
+ 
+ 1. An administrator-supplied pre-registered client.
+ 2. A client metadata URL (CIMD) when the authorization server advertises it.
+@@ -57,7 +57,7 @@ When authorization starts, OpenWork uses this registration priority:
+ 
+ Required challenge scopes are locked. Administrators may select optional
+ advertised scopes and edit the saved scope set later. When neither the 401
+-challenge nor the administrator selects scopes, OpenWork falls back to the
++challenge nor the administrator selects scopes, Crew Desk falls back to the
+ provider's advertised `scopes_supported` set; this preserves compatibility
+ with providers that reject scope-less authorization requests. A configured
+ scope set still takes precedence. `offline_access` is requested only when both
+@@ -100,7 +100,7 @@ so a secret can never be sent to a newly selected issuer.
+ - **Network trust required**: verify Den's proxy, private CA, DNS, firewall, and
+   service-mesh egress. Discovery uses the same Den network policy as live MCP calls.
+ - **Additional permission required**: review and approve the newly challenged
+-  scope before reconnecting; OpenWork does not silently expand access.
++  scope before reconnecting; Crew Desk does not silently expand access.
+ - **Provider identity/verification page after authorize**: leave requested
+   scopes empty only when the provider advertises the complete workable set, or
+   edit the connection's requested scopes and reconnect.
+diff --git a/docs/features/automation-runtime-placement/README.md b/docs/features/automation-runtime-placement/README.md
+index a999e82..90a424d 100644
+--- a/docs/features/automation-runtime-placement/README.md
++++ b/docs/features/automation-runtime-placement/README.md
+@@ -7,12 +7,12 @@ Automation's lifetime:
+ 
+ - Desktop creation produces a `desktop` Automation and continues to use the
+   authenticated desktop runner introduced by the existing Automations work.
+-- OpenWork Web and Cloud Chat creation produce a `cloud` Automation. Den
+-  schedules the occurrence, wakes the owner's existing OpenWork Cloud container
+-  when it is stopped, and runs a native OpenWork thread headlessly inside that
++- Crew Desk Web and Cloud Chat creation produce a `cloud` Automation. Den
++  schedules the occurrence, wakes the owner's existing Crew Desk Cloud container
++  when it is stopped, and runs a native Crew Desk thread headlessly inside that
+   container.
+ 
+-Desktop and OpenWork Web share one Automations surface in the app: the same
++Desktop and Crew Desk Web share one Automations surface in the app: the same
+ list, editor, detail, run history, receipts, and in-chat proposal card. The
+ runtime only decides the placement of what that surface creates, and the free
+ Zen starter model stays a published-Desktop exception. The desktop runner
+@@ -21,10 +21,10 @@ bridge never registers from a browser runtime.
+ Den's dashboard "My Automations" page is a monitor, not an authoring surface.
+ It groups Den-scheduled work by attention (running, needs attention,
+ scheduled, paused), shows receipts and Workflow results, and links each
+-Automation to the surface that manages it: OpenWork Web for Cloud placement,
++Automation to the surface that manages it: Crew Desk Web for Cloud placement,
+ the desktop app for Desktop placement. Cancelling an in-flight run is its only
+ operational control. A Workflow's "Automate" action deep-links into the
+-OpenWork Web editor with the exact Workflow version pinned.
++Crew Desk Web editor with the exact Workflow version pinned.
+ 
+ Both surfaces read the same Den Automation and run history. Placement is shown
+ on list cards and receipts, but it is not an editable setting. Moving execution
+@@ -73,7 +73,7 @@ admission, terminal errors, cancellation observation, dual worker credentials,
+ Cloud wake/idle lifecycle behavior, runtime-specific agent guidance, and
+ cross-surface execution labels. The testkit acceptance tape verifies that the
+ Den monitor lists Den-scheduled Automations without any create, edit, state,
+-run-now, or archive control and routes management to OpenWork Web or Desktop.
++run-now, or archive control and routes management to Crew Desk Web or Desktop.
+ Source-contract tests pin the shared app surface: one deployment gate for both
+ runtimes, runtime-derived placement on create, and the desktop-only runner.
+ 
+diff --git a/docs/features/automations-desktop-runner/README.md b/docs/features/automations-desktop-runner/README.md
+index ff412ad..851e844 100644
+--- a/docs/features/automations-desktop-runner/README.md
++++ b/docs/features/automations-desktop-runner/README.md
+@@ -19,7 +19,7 @@ activity, and its sleep is capped by the existing 15-second presence keepalive.
+ This preserves the resumable SSE and bounded claim protocol while reducing an
+ idle runner's steady-state notification queries from 60 to four per minute.
+ 
+-The claimed Automation runs as a normal visible local OpenWork thread in the
++The claimed Automation runs as a normal visible local Crew Desk thread in the
+ desktop's active workspace. It uses the selected model and the same local
+ OpenCode tool and integration experience as a thread started by the user.
+ 
+diff --git a/docs/features/dynamic-artifact-mcp-apps/README.md b/docs/features/dynamic-artifact-mcp-apps/README.md
+index 5134ce8..83028d5 100644
+--- a/docs/features/dynamic-artifact-mcp-apps/README.md
++++ b/docs/features/dynamic-artifact-mcp-apps/README.md
+@@ -1,6 +1,6 @@
+ # Workflow Artifacts as MCP Apps
+ 
+-OpenWork exposes Workflow results as portable, standards-based
++Crew Desk exposes Workflow results as portable, standards-based
+ MCP Apps. A supporting MCP host can render an artifact inline; every other MCP
+ client still receives a useful Markdown result.
+ 
+diff --git a/docs/features/local-managed-mcp-oauth/README.md b/docs/features/local-managed-mcp-oauth/README.md
+index 5e2437b..575e46c 100644
+--- a/docs/features/local-managed-mcp-oauth/README.md
++++ b/docs/features/local-managed-mcp-oauth/README.md
+@@ -1,9 +1,9 @@
+ # Local managed MCP OAuth
+ 
+-OpenWork desktop can own OAuth for a custom remote MCP and expose its tools to
++Crew Desk desktop can own OAuth for a custom remote MCP and expose its tools to
+ the bundled OpenCode engine through an authenticated loopback MCP gateway. This
+ provides a compatibility path for providers whose OAuth flow works through
+-OpenWork's enterprise MCP client but not through OpenCode's direct MCP client.
++Crew Desk's enterprise MCP client but not through OpenCode's direct MCP client.
+ 
+ ## User flow
+ 
+@@ -12,9 +12,9 @@ OpenWork's enterprise MCP client but not through OpenCode's direct MCP client.
+ 2. Optionally enter a pre-registered client ID, client secret, and scopes. If
+    the provider supports dynamic client registration, those fields may remain
+    empty.
+-3. OpenWork performs OAuth discovery, DCR when needed, PKCE authorization, the
++3. Crew Desk performs OAuth discovery, DCR when needed, PKCE authorization, the
+    loopback callback, token exchange, and an authenticated `tools/list` check.
+-4. OpenCode receives a remote MCP entry pointing at the OpenWork loopback
++4. OpenCode receives a remote MCP entry pointing at the Crew Desk loopback
+    gateway with `oauth: false`. It sees the provider tools but never receives
+    the provider access token, refresh token, or OAuth client secret.
+ 
+@@ -24,13 +24,13 @@ The managed path is opt-in per connection and is currently desktop-only.
+ ## Persistence and lifecycle
+ 
+ - Provider credentials, OAuth registrations, discovery state, and PKCE
+-  transactions are encrypted with AES-256-GCM in OpenWork's runtime storage.
+-- OpenWork Desktop keeps the encryption key behind the operating system's
++  transactions are encrypted with AES-256-GCM in Crew Desk's runtime storage.
++- Crew Desk Desktop keeps the encryption key behind the operating system's
+   secure-storage service and persists only the protected key blob, separately
+   from the encrypted vault. A standalone server must set
+   `OPENWORK_ENCRYPTION_KEY`; there is no plaintext key-file fallback.
+ - The gateway bearer is scoped to a workspace and connection, generated from a
+-  process-only secret, and rotated on every OpenWork server restart.
++  process-only secret, and rotated on every Crew Desk server restart.
+ - Startup reconciliation rewrites managed runtime MCP entries with the current
+   loopback port and bearer while keeping the encrypted provider credential.
+ - Disconnect deletes the stored credential and disables the gateway entry.
+diff --git a/docs/features/managed-models-dpa.md b/docs/features/managed-models-dpa.md
+index 2a02093..a448c76 100644
+--- a/docs/features/managed-models-dpa.md
++++ b/docs/features/managed-models-dpa.md
+@@ -15,7 +15,7 @@ new column, or new table is required. The canonical top-level key is a boolean:
+ 
+ The shared contract is `@openwork/types/den/managed-models-policy`.
+ 
+-- `dpaSigned: true`: company-provided OpenWork Models are forbidden.
++- `dpaSigned: true`: company-provided Crew Desk Models are forbidden.
+ - Missing `dpaSigned` or explicit `false`: existing eligibility is unchanged.
+ - Any present non-boolean value, malformed metadata, an array/scalar document,
+   a missing organization, or a failed policy lookup: do not authorize Models.
+@@ -107,7 +107,7 @@ An unavailable policy remains a retryable failure.
+ 
+ Usable provider lists, resource snapshots, and Web materialization exclude
+ company-managed (`source: openwork`) configurations when policy denies them.
+-Automation model authority rejects the OpenWork Models branch. In a list/connect
++Automation model authority rejects the Crew Desk Models branch. In a list/connect
+ race, direct managed connect deliberately stays HTTP 200 with null credentials,
+ empty models, `memberCredential.state: blocked`, and `managedModelsPolicy` denial,
+ so older desktops do not abort unrelated BYOK synchronization.
+diff --git a/docs/features/mcp-apps-host/README.md b/docs/features/mcp-apps-host/README.md
+index 5e0d518..b45d31c 100644
+--- a/docs/features/mcp-apps-host/README.md
++++ b/docs/features/mcp-apps-host/README.md
+@@ -1,15 +1,15 @@
+ # MCP Apps inline host
+ 
+-OpenWork Desktop can render the standard MCP Apps UI attached to a completed
++Crew Desk Desktop can render the standard MCP Apps UI attached to a completed
+ MCP tool call. The normal text result remains visible and usable if the view is
+ absent, unsupported, or fails to initialize.
+ 
+ ## Runtime flow
+ 
+ 1. OpenCode calls the configured MCP tool once.
+-2. OpenWork's bundled engine plugin preserves that call's standard `content`,
++2. Crew Desk's bundled engine plugin preserves that call's standard `content`,
+    `structuredContent`, and result `_meta` fields in the completed tool part.
+-3. The desktop asks its local OpenWork server to find the original projected
++3. The desktop asks its local Crew Desk server to find the original projected
+    tool on the configured MCP server.
+ 4. The server advertises the `io.modelcontextprotocol/ui` extension, reads the
+    tool's `_meta.ui.resourceUri`, and resolves the `ui://` resource through
+diff --git a/docs/features/models-task-analytics/README.md b/docs/features/models-task-analytics/README.md
+index 6daeb30..f4b1747 100644
+--- a/docs/features/models-task-analytics/README.md
++++ b/docs/features/models-task-analytics/README.md
+@@ -1,10 +1,10 @@
+-# OpenWork Models task analytics
++# Crew Desk Models task analytics
+ 
+ The API and migration land first in #4567. This desktop follow-up uses that
+ existing API after its deployment is verified. The organization rollout capability
+ remains off by default, and analytics still requires explicit admin consent.
+ 
+-Task analytics is included with a paid OpenWork Models subscription. An internal
++Task analytics is included with a paid Crew Desk Models subscription. An internal
+ organization capability, `modelsAnalytics`, controls rollout and defaults to off.
+ After rollout, workspace admins see **Unlock custom insights** on the Models page
+ and can choose **Enable task analytics** or **Not now**. Purchasing or enabling
+diff --git a/docs/features/remote-mcp-apps/README.md b/docs/features/remote-mcp-apps/README.md
+index 5c57d8c..da98b58 100644
+--- a/docs/features/remote-mcp-apps/README.md
++++ b/docs/features/remote-mcp-apps/README.md
+@@ -1,7 +1,7 @@
+ # Native MCP Apps
+ 
+-OpenWork supports MCP Apps delivered by standard MCP servers connected through
+-OpenWork Connect. A server advertises the stable
++Crew Desk supports MCP Apps delivered by standard MCP servers connected through
++Crew Desk Connect. A server advertises the stable
+ `io.modelcontextprotocol/ui` extension, a tool binds an exact UI resource with
+ `_meta.ui.resourceUri`, the host reads that resource with `resources/read`, and
+ tool inputs and results move over the standard MCP Apps bridge.
+@@ -17,7 +17,7 @@ resource loading or a standalone URL-App installation path.
+ ## Standard MCP server path
+ 
+ Connect continues to own server configuration, authentication, access grants,
+-per-member credentials, and tool policy. The OpenWork Cloud control server
++per-member credentials, and tool policy. The Crew Desk Cloud control server
+ publishes a member-scoped resource at:
+ 
+ ```text
+@@ -66,7 +66,7 @@ The app-host view preserves:
+ - one server identity per Connect connection, preserving the same-server
+   tool-call boundary.
+ 
+-OpenWork access grants, disabled-tool policy, and approval rules still apply at
++Crew Desk access grants, disabled-tool policy, and approval rules still apply at
+ the proxy boundary. The App-host credential authorizes only this bounded proxy
+ surface; it is not a provider credential and grants no direct cross-server
+ access.
+diff --git a/docs/features/remote-mcp-apps/demo-runbook.md b/docs/features/remote-mcp-apps/demo-runbook.md
+index 7fc01ce..ca07d9f 100644
+--- a/docs/features/remote-mcp-apps/demo-runbook.md
++++ b/docs/features/remote-mcp-apps/demo-runbook.md
+@@ -106,5 +106,5 @@ ordinary Connect when Apps are disabled.
+   failure.
+ 
+ The hosted SOL gallery may be checked separately as an external observation,
+-but its reachability is not OpenWork compatibility proof and it is not part of
++but its reachability is not Crew Desk compatibility proof and it is not part of
+ this required demo.
+diff --git a/docs/gateway-dashboard-administration.md b/docs/gateway-dashboard-administration.md
+index 26dda45..7a46f6e 100644
+--- a/docs/gateway-dashboard-administration.md
++++ b/docs/gateway-dashboard-administration.md
+@@ -67,7 +67,7 @@ synchronization, and runtime authorization retain their existing behavior.
+ Disabling management does not revoke keys or cancel billing. Removing the Helm
+ component can interrupt traffic and is a different operation.
+ 
+-OpenWork Models billing, subscriptions, keys, and legacy contracts are unchanged.
++Crew Desk Models billing, subscriptions, keys, and legacy contracts are unchanged.
+ Follow the current [Gateway deployment guide](../packages/docs/self-host/gateway.mdx)
+ and [safe upgrade and disable guide](../packages/docs/self-host/gateway-upgrade.mdx)
+ for installation configuration, schema cutover, secret handling, and recovery.
+diff --git a/docs/gateway-dashboard-verification.md b/docs/gateway-dashboard-verification.md
+index 8b47888..f3f968d 100644
+--- a/docs/gateway-dashboard-verification.md
++++ b/docs/gateway-dashboard-verification.md
+@@ -77,7 +77,7 @@ is required to deploy this feature flag.
+ - Enabled owner/super-admin/admin access; denied member access; missing,
+   malformed and false capability payloads; keyed provider state and scoped loads.
+ - Shared navigation/search builder; BYOK remains present. In the final combined
+-  implementation, OpenWork Models remains for non-opted-in organizations and is
++  implementation, Crew Desk Models remains for non-opted-in organizations and is
+   hidden when both organization and deployment Gateway enablement are effective.
+ - Real BYOK detail screen: migration controls appear only on opt-in and an open
+   migration confirmation disappears during an organization switch.
+diff --git a/docs/gateway-deployment-verification.md b/docs/gateway-deployment-verification.md
+index a5a775e..70e8b3b 100644
+--- a/docs/gateway-deployment-verification.md
++++ b/docs/gateway-deployment-verification.md
+@@ -60,7 +60,7 @@ temporary processes and scratch databases.
+ 
+   Feature children do not mount or fetch in that state. Loading and context
+   errors are distinct. An upstream outage does not change deployment capability.
+-- Effective deployment + organization enablement hides the OpenWork Models page
++- Effective deployment + organization enablement hides the Crew Desk Models page
+   and direct URL without altering keys, subscriptions, settlement, or runtime
+   authorization. Non-opted-in hosted organizations retain that page.
+ - Gateway internal and client-public origins are separate. The final combined
+@@ -154,7 +154,7 @@ Result: **2 lint configurations, 1 standalone render, 9 shell suites passed**;
+ the 71-case and 22-case matrices above are included in those suites, not extra
+ distinct tests. The other suites cover Automations, custom CA (including a
+ strict-TLS witness), Dashboards, image tags/migration hooks, observability,
+-OpenWork Web, and private MCP URLs. Helm's icon recommendation is informational.
++Crew Desk Web, and private MCP URLs. Helm's icon recommendation is informational.
+ 
+ ### Red iterations (not hidden or labelled pre-existing)
+ 
+diff --git a/docs/gateway-independent-validation.md b/docs/gateway-independent-validation.md
+index 914ba06..ce4b382 100644
+--- a/docs/gateway-independent-validation.md
++++ b/docs/gateway-independent-validation.md
+@@ -116,7 +116,7 @@ review. This concern is handed off, not silently fixed or dismissed as pre-exist
+   Loading and organization errors are separate; a Gateway upstream outage is an
+   error in the enabled feature, not a capability change.
+ - Sidebar/search/recent filtering use the shared navigation builder. Both effective
+-  flags hide hosted OpenWork Models and its direct route; non-opted hosted orgs
++  flags hide hosted Crew Desk Models and its direct route; non-opted hosted orgs
+   retain Models. Existing single-org Models restrictions remain. BYOK stays
+   available, with migration controls gated on effective Gateway access.
+ - All production Gateway data-hook callers are within the protected list/detail/
+diff --git a/docs/gcp-gke-helm.md b/docs/gcp-gke-helm.md
+index 0aa3f07..c2880ea 100644
+--- a/docs/gcp-gke-helm.md
++++ b/docs/gcp-gke-helm.md
+@@ -1,20 +1,20 @@
+-# Deploy OpenWork EE on Google Cloud with GKE and Helm
++# Deploy Crew Desk EE on Google Cloud with GKE and Helm
+ 
+ Status: self-host operator guide
+ Related: `packaging/helm/openwork-ee`, `packaging/helm/openwork-ee/examples/values.gcp-ingress.yaml`
+ 
+-This is the recommended Google Cloud path for a first production-like OpenWork
++This is the recommended Google Cloud path for a first production-like Crew Desk
+ EE self-host install. Use Helm on GKE Autopilot with Cloud SQL for MySQL. For
+ web/API exposure, use GKE Ingress with Google-managed certificates, a reserved
+ global IP address, and explicit backend health checks.
+ 
+ Google recommends Gateway API for new L7 traffic management, and GKE Ingress is
+-in maintenance mode. The current OpenWork chart emits Ingress resources, so GKE
++in maintenance mode. The current Crew Desk chart emits Ingress resources, so GKE
+ Ingress is the simplest supported GCP path today. Treat Gateway API support as a
+ future chart/platform hardening item.
+ 
+ Do not use raw Kubernetes `LoadBalancer` Services as the normal GCP path for
+-OpenWork. GKE `LoadBalancer` Services are useful for TCP services and quick
++Crew Desk. GKE `LoadBalancer` Services are useful for TCP services and quick
+ smoke tests, but the customer-facing web app and SSO flow need HTTP(S) load
+ balancing, host routing, managed certificates, and backend health checks.
+ 
+@@ -22,15 +22,15 @@ balancing, host routing, managed certificates, and backend health checks.
+ 
+ - Den API on port `8788`
+ - Den Web on port `3005`
+-- optional OpenWork Gateway service, disabled by default (`inference.enabled`)
++- optional Crew Desk Gateway service, disabled by default (`inference.enabled`)
+ - one Cloud SQL for MySQL database
+-- one single-org OpenWork deployment
++- one single-org Crew Desk deployment
+ - one external GKE Ingress backed by a Google Cloud Application Load Balancer
+ - one Google-managed certificate covering web and API hosts
+ 
+ Google Cloud owns the GKE cluster, Autopilot compute lifecycle, VPC networking,
+ Cloud Load Balancing, managed certificates, Cloud SQL, IAM, and firewall rules.
+-The OpenWork Helm chart owns OpenWork Deployments, Services, ConfigMaps,
++The Crew Desk Helm chart owns Crew Desk Deployments, Services, ConfigMaps,
+ Secrets, health probes, the optional Ingress, and the database migration Job.
+ The `BackendConfig` and `ManagedCertificate` resources in this guide are
+ GKE-specific platform resources applied alongside the chart.
+@@ -38,11 +38,11 @@ GKE-specific platform resources applied alongside the chart.
+ ## Use Helm or something else?
+ 
+ Use Helm on GKE for Google Cloud unless the customer explicitly cannot run
+-Kubernetes. The OpenWork EE release artifact is already a Helm chart, and GKE
++Kubernetes. The Crew Desk EE release artifact is already a Helm chart, and GKE
+ Autopilot keeps the first customer path small while still supporting migration
+ Jobs, separate web/API services, SSO-ready HTTPS, and later enterprise network
+ controls. The practical gap to fill is GCP-specific ingress and database
+-guidance, not a different OpenWork packaging format.
++guidance, not a different Crew Desk packaging format.
+ 
+ ## Prerequisites
+ 
+@@ -169,20 +169,20 @@ Example database URL:
+ mysql://openwork:<password>@<cloud-sql-private-ip>:3306/openwork_den
+ ```
+ 
+-This guide uses direct private IP because the current OpenWork chart does not
++This guide uses direct private IP because the current Crew Desk chart does not
+ inject Cloud SQL Auth Proxy sidecars. Cloud SQL Auth Proxy is a stronger future
+ hardening path when the chart supports sidecars or an operator-managed proxy
+ pattern.
+ 
+ If the Cloud SQL instance enforces encrypted client connections, use
+ `?sslaccept=accept` for the simple private-MySQL smoke path. This keeps TLS on
+-without requiring a cloud CA bundle to be mounted into the OpenWork image. Use
++without requiring a cloud CA bundle to be mounted into the Crew Desk image. Use
+ strict certificate verification later, after you provide the required CA bundle,
+ with a hardened value such as `sslmode=verify-ca` or `sslmode=verify-full`.
+ Verify the same URL works for both the migration Job and runtime pods before
+ testing the browser flow.
+ 
+-Before installing OpenWork, verify network access from the cluster:
++Before installing Crew Desk, verify network access from the cluster:
+ 
+ ```bash
+ kubectl run mysql-client \
+@@ -231,7 +231,7 @@ spec:
+ YAML
+ ```
+ 
+-Create explicit backend health checks for the two OpenWork services:
++Create explicit backend health checks for the two Crew Desk services:
+ 
+ ```bash
+ kubectl apply -n openwork-ee -f - <<'YAML'
+@@ -261,7 +261,7 @@ spec:
+ YAML
+ ```
+ 
+-The Helm values annotate the OpenWork Services so GKE associates these
++The Helm values annotate the Crew Desk Services so GKE associates these
+ `BackendConfig` objects with the Google Cloud backend services.
+ 
+ ## 4. Prepare Helm values
+@@ -305,7 +305,7 @@ add those keys to the existing Kubernetes Secret referenced by
+ `SMTP_HOST`; leave `smtpHost` blank only when SMTP-backed transactional email
+ should be disabled.
+ 
+-Use a values file, not a long list of `--set` flags. Several OpenWork values are
++Use a values file, not a long list of `--set` flags. Several Crew Desk values are
+ comma-separated strings, such as `config.public.corsOrigins`, and plain `--set`
+ parsing commonly breaks them.
+ 
+@@ -328,7 +328,7 @@ grep -E 'DATABASE_URL|DEN_BASE_URL|DEN_WEB_PUBLIC_ORIGIN|EMAIL_FROM|SMTP_HOST|SM
+ 
+ Redact secrets before sharing rendered manifests or terminal output.
+ 
+-## 5. Install OpenWork
++## 5. Install Crew Desk
+ 
+ Published chart releases live in GHCR:
+ 
+@@ -494,7 +494,7 @@ For releases that include initial-administrator bootstrap, inject the
+ release-documented one-time setup secret through the Kubernetes Secret referenced
+ by `secret.existingSecret`. Do not store the code in the values file or a
+ ConfigMap. Then open `https://openwork.example.com/setup`, enter the configured
+-owner email and one-time operator code, and create the first account. OpenWork
++owner email and one-time operator code, and create the first account. Crew Desk
+ creates the singleton organization, grants owner and configured platform-admin
+ access, and signs the administrator in. Public signup remains disabled. After
+ the first user exists, the setup code cannot bootstrap another account.
+@@ -520,16 +520,16 @@ Configure the IdP application with this callback URL:
+ https://openwork.example.com/api/auth/sso/callback/openwork-sso-<org-id>
+ ```
+ 
+-In OpenWork, sign in as the owner, open the organization SSO settings, and enter
++In Crew Desk, sign in as the owner, open the organization SSO settings, and enter
+ the IdP issuer/client details. After saving, the organization sign-in path is:
+ 
+ ```text
+ https://openwork.example.com/sso/<singleOrgSlug>
+ ```
+ 
+-For SAML, OpenWork shows the generated ACS URL and metadata URL after the SAML
++For SAML, Crew Desk shows the generated ACS URL and metadata URL after the SAML
+ connection is registered. Use those values in the IdP rather than guessing.
+-OpenWork rejects unsigned or weak SAML responses, so configure the IdP to sign
++Crew Desk rejects unsigned or weak SAML responses, so configure the IdP to sign
+ assertions.
+ 
+ After SSO is configured, root sign-in shows the SSO-only experience for the
+@@ -540,14 +540,14 @@ single organization. Password sign-in for that organization is rejected.
+ | Symptom | Likely cause | Fix |
+ |---|---|---|
+ | Ingress does not reconcile | HTTP load balancing add-on is disabled or Ingress annotation is wrong | Keep HTTP load balancing enabled and use `kubernetes.io/ingress.class: gce` |
+-| Backends are unhealthy | GKE load balancer health checks do not match OpenWork readiness endpoints | Apply the `BackendConfig` resources and keep the service annotations from the starter values |
++| Backends are unhealthy | GKE load balancer health checks do not match Crew Desk readiness endpoints | Apply the `BackendConfig` resources and keep the service annotations from the starter values |
+ | Ingress events report `TimeoutSec should be less than checkIntervalSec` | The backend health-check timeout is greater than or equal to its effective interval | Set `checkIntervalSec: 15` and `timeoutSec: 5` on both `BackendConfig` resources |
+ | Managed certificate is not `Active` | DNS does not point at the load balancer or provisioning is still running | Point both hosts at the reserved global IP and wait; check `kubectl describe managedcertificate` |
+ | Migration Job fails to connect to MySQL | Private services access, VPC, credentials, IP, or TLS mode are wrong | Test from `mysql-client`, confirm the private IP, and confirm GKE and Cloud SQL share VPC reachability |
+ | Migration Job logs show `self-signed certificate in certificate chain` | Strict certificate verification is being used without the cloud MySQL CA bundle | Use `?sslaccept=accept` for the smoke path or mount/configure the CA bundle before strict verification |
+ | `ImagePullBackOff` from GHCR | Private image or missing pull token | Add `imagePullSecrets` |
+ | Browser auth loops or CORS errors | Public origins do not match DNS/TLS | Set `webOrigin`, `apiOrigin`, `corsOrigins`, `betterAuthTrustedOrigins`, and `authCallbackUrl` to the final HTTPS domains |
+-| SSO callback rejected | IdP callback URL does not match OpenWork | Use the callback/ACS URL shown by OpenWork for that org/provider |
++| SSO callback rejected | IdP callback URL does not match Crew Desk | Use the callback/ACS URL shown by Crew Desk for that org/provider |
+ | SSO settings show Enterprise gating | `DEN_PLAN_GATING_ENABLED=true` or org is not entitled | Leave plan gating off for self-host smoke tests, or grant enterprise entitlement |
+ 
+ ## 12. Cleanup
+diff --git a/docs/google-workspace-oauth-verification.md b/docs/google-workspace-oauth-verification.md
+index dc7b716..7f4e15b 100644
+--- a/docs/google-workspace-oauth-verification.md
++++ b/docs/google-workspace-oauth-verification.md
+@@ -1,11 +1,11 @@
+ # Google Workspace OAuth Verification
+ 
+-Google Workspace uses only OpenWork Cloud connections. The former desktop OAuth
++Google Workspace uses only Crew Desk Cloud connections. The former desktop OAuth
+ verification procedure no longer applies: there is no local Google Workspace
+ extension, loopback sign-in flow, or desktop OAuth environment setup.
+ 
+ For account setup, follow [Connect your services](../packages/docs/start-here/connect-your-stack/connect-services.mdx#google-workspace):
+-sign in to OpenWork Cloud, open `Settings` > `Library` > `Connections`, select
++sign in to Crew Desk Cloud, open `Settings` > `Library` > `Connections`, select
+ the Google connection, and click `Connect`. Organization administrators configure
+ Google connections in Cloud `Connectors`, not in a desktop extension.
+ 
+diff --git a/docs/initial-admin-bootstrap.md b/docs/initial-admin-bootstrap.md
+index f78df88..1edfec8 100644
+--- a/docs/initial-admin-bootstrap.md
++++ b/docs/initial-admin-bootstrap.md
+@@ -1,6 +1,6 @@
+ # Initial Administrator Bootstrap
+ 
+-Private OpenWork Den deployments often disable public signup before anyone has an account. Configuring an owner or bootstrap administrator email authorizes that person after an account exists; it does not create the account and it does not make knowing the email sufficient to claim the deployment.
++Private Crew Desk Den deployments often disable public signup before anyone has an account. Configuring an owner or bootstrap administrator email authorizes that person after an account exists; it does not create the account and it does not make knowing the email sufficient to claim the deployment.
+ 
+ Use the initial-administrator bootstrap flow to create the first account without enabling public signup and without requiring SMTP.
+ 
+@@ -12,7 +12,7 @@ Use the initial-administrator bootstrap flow to create the first account without
+ 4. The submitted one-time setup code must match the server-side setup-code secret.
+ 5. The server issues a short-lived, email-bound bootstrap grant.
+ 6. The final account creation goes through Better Auth email/password signup.
+-7. OpenWork creates or reuses the singleton organization, grants owner membership, adds platform-admin authorization, and signs the admin in.
++7. Crew Desk creates or reuses the singleton organization, grants owner membership, adds platform-admin authorization, and signs the admin in.
+ 
+ After the first user exists, rotating or re-adding the setup-code secret cannot reopen bootstrap. Existing users are never deleted or mutated to recover setup.
+ 
+@@ -51,7 +51,7 @@ code_file=$(mktemp)
+ openssl rand -base64 32 | tr -d '\n' > "$code_file"
+ ```
+ 
+-Store the raw code from `code_file` in your password manager or break-glass secret store and in the OpenWork deployment secret.
++Store the raw code from `code_file` in your password manager or break-glass secret store and in the Crew Desk deployment secret.
+ 
+ Remove local files after the first administrator has signed in:
+ 
+@@ -126,7 +126,7 @@ After the first user is created, rotating the setup code cannot re-enable bootst
+ 
+ If the setup code is missing, bootstrap fails closed and `/setup` reports that setup is unavailable. Fix the secret and restart the API. Do not delete users or organizations to recover a malformed bootstrap configuration.
+ 
+-Bootstrap availability is checked with an existence query against the Better Auth `user` table (`SELECT id ... LIMIT 1`) instead of a full user count. Once any user exists, setup is permanently unavailable unless an operator deliberately changes the database outside OpenWork.
++Bootstrap availability is checked with an existence query against the Better Auth `user` table (`SELECT id ... LIMIT 1`) instead of a full user count. Once any user exists, setup is permanently unavailable unless an operator deliberately changes the database outside Crew Desk.
+ 
+ ## Security Warnings
+ 
+diff --git a/docs/managed-response-reliability.md b/docs/managed-response-reliability.md
+index 44740d5..757c5b8 100644
+--- a/docs/managed-response-reliability.md
++++ b/docs/managed-response-reliability.md
+@@ -1,6 +1,6 @@
+ # Managed response reliability
+ 
+-This change makes the existing OpenWork managed Chat Completions gateway report
++This change makes the existing Crew Desk managed Chat Completions gateway report
+ broken transport honestly, preserve usable partial work, and stop upstream work
+ when the client cancels. It does not change model configuration or billing.
+ 
+@@ -38,7 +38,7 @@ policy is separate.
+ 
+ Safe error categories distinguish provider authorization/rate/quota failures,
+ context/request rejection, unreachable providers, deadlines and malformed or
+-unfinished responses. Valid `Retry-After` and the OpenWork request ID are retained.
++unfinished responses. Valid `Retry-After` and the Crew Desk request ID are retained.
+ Provider error bodies and credential-bearing headers are not copied into routine
+ request diagnostics; request summaries contain counts and known role names, never
+ prompt, tool arguments or completion text. The organization-specific full-payload
+@@ -65,7 +65,7 @@ change does not claim to repair their underlying limitations.
+ 
+ ## Verification
+ 
+-`pnpm evals:pr specs/managed-inference.test.ts` runs the real gateway and OpenWork
++`pnpm evals:pr specs/managed-inference.test.ts` runs the real gateway and Crew Desk
+ server/OpenCode engine against a controlled HTTP provider, with disposable baseline
+ SQL only for authentication/admission. It checks success, fragmentation, terminal
+ length responses, choice handling, errors, cancellation, heartbeats, request
+diff --git a/docs/marketplace-capabilities-architecture.md b/docs/marketplace-capabilities-architecture.md
+index d815855..9c07e2a 100644
+--- a/docs/marketplace-capabilities-architecture.md
++++ b/docs/marketplace-capabilities-architecture.md
+@@ -256,11 +256,11 @@ Not in Phase 1: desktop UI, prompt edits, tool-description edits, schema changes
+ 
+ ### Phase 2: make the bridge real, still no removal
+ 
+-Provision an External MCP Connection from a plugin's `mcp` spec; add nullable `sourcePluginId` linkage column as the first schema change; add inline connect cards; add desktop provenance / "Available via Cloud — no install needed" states in the Extensions UI; add search-side hints for already-installed dedupe; add one-line teaching in the OpenWork agent prompt and `/mcp/agent` tool descriptions; add command argument schemas.
++Provision an External MCP Connection from a plugin's `mcp` spec; add nullable `sourcePluginId` linkage column as the first schema change; add inline connect cards; add desktop provenance / "Available via Cloud — no install needed" states in the Extensions UI; add search-side hints for already-installed dedupe; add one-line teaching in the Crew Desk agent prompt and `/mcp/agent` tool descriptions; add command argument schemas.
+ 
+ ### Phase 3: retire the requirement to copy
+ 
+-Add sandboxed `tool` execution via Den Worker Runtime; add `tools/searchText` caching if scale demands; add LOCAL rail parity so the local OpenWork server (`apps/server`) grows the same search/execute surface over locally-known catalogs for signed-out users; reposition copy-install as "pin locally / offline".
++Add sandboxed `tool` execution via Den Worker Runtime; add `tools/searchText` caching if scale demands; add LOCAL rail parity so the local Crew Desk server (`apps/server`) grows the same search/execute surface over locally-known catalogs for signed-out users; reposition copy-install as "pin locally / offline".
+ 
+ ---
+ 
+diff --git a/docs/mcp-ui-control-profile.md b/docs/mcp-ui-control-profile.md
+index c8dcd08..b738d4b 100644
+--- a/docs/mcp-ui-control-profile.md
++++ b/docs/mcp-ui-control-profile.md
+@@ -1,29 +1,29 @@
+-# Control OpenWork from any MCP client
++# Control Crew Desk from any MCP client
+ 
+-OpenWork exposes its UI as an MCP server so any MCP-capable app can read what's on screen and run actions — no DOM scraping, no coordinates, no accessibility hacks.
++Crew Desk exposes its UI as an MCP server so any MCP-capable app can read what's on screen and run actions — no DOM scraping, no coordinates, no accessibility hacks.
+ 
+ ## Why this exists
+ 
+ Apps like HandsFree let people control their computers hands-free using AI. But generic computer-use flows (screenshot → click coordinate) are slow, fragile, and need a vision model for every step.
+ 
+-OpenWork takes a different approach: the app itself tells you what actions are available, what the current state is, and lets you execute actions by name. The MCP server wraps that surface so any MCP client gets a first-class, semantic control experience out of the box.
++Crew Desk takes a different approach: the app itself tells you what actions are available, what the current state is, and lets you execute actions by name. The MCP server wraps that surface so any MCP client gets a first-class, semantic control experience out of the box.
+ 
+ This means:
+ 
+-- **HandsFree** can drive OpenWork sessions, composer, navigation, and transcript without guessing pixels.
+-- **OpenCode** can automate OpenWork as part of a larger coding workflow.
+-- **Claude Desktop, Codex, Cursor**, or any MCP-compatible tool can add OpenWork control with a single config line.
++- **HandsFree** can drive Crew Desk sessions, composer, navigation, and transcript without guessing pixels.
++- **OpenCode** can automate Crew Desk as part of a larger coding workflow.
++- **Claude Desktop, Codex, Cursor**, or any MCP-compatible tool can add Crew Desk control with a single config line.
+ - Your own app can do the same.
+ 
+-> Want to control OpenWork Cloud workers and server APIs instead of the desktop UI? Check out the **OpenWork Cloud MCP** (separate package, coming soon).
++> Want to control Crew Desk Cloud workers and server APIs instead of the desktop UI? Check out the **Crew Desk Cloud MCP** (separate package, coming soon).
+ 
+ ## Quick start with HandsFree
+ 
+-HandsFree auto-discovers the OpenWork MCP server when both apps are running on the same machine. No config needed.
++HandsFree auto-discovers the Crew Desk MCP server when both apps are running on the same machine. No config needed.
+ 
+-1. Launch **OpenWork** (desktop app).
++1. Launch **Crew Desk** (desktop app).
+ 2. Launch **HandsFree**.
+-3. Open the HandsFree connector panel — you should see **OpenWork** with a green "Connected" status and an action count.
++3. Open the HandsFree connector panel — you should see **Crew Desk** with a green "Connected" status and an action count.
+ 
+ That's it. HandsFree can now list your sessions, read transcripts, type into the composer, send prompts, and navigate the app — all through MCP.
+ 
+@@ -32,11 +32,11 @@ That's it. HandsFree can now list your sessions, read transcripts, type into the
+ - `ui_snapshot` — see the current route, status, and available actions.
+ - `ui_list_actions` — get every action the app currently exposes (session controls, composer, navigation, etc.).
+ - `ui_execute_action` — run an action by ID, e.g. `session.create_task`, `composer.set_text`, `composer.send`.
+-- `ui_status` — check if OpenWork is running and the bridge is reachable.
++- `ui_status` — check if Crew Desk is running and the bridge is reachable.
+ 
+ ### Cross-session memory
+ 
+-OpenWork's cross-session memory currently comes from saved session history exposed through the UI control surface. It is not a separate long-term memory database.
++Crew Desk's cross-session memory currently comes from saved session history exposed through the UI control surface. It is not a separate long-term memory database.
+ 
+ For requests like `What did I say in the customer migration session?` or `Remind me what we decided in session ses_abc123`, an MCP client can:
+ 
+@@ -45,11 +45,11 @@ For requests like `What did I say in the customer migration session?` or `Remind
+ 3. Run `session.read_transcript` to read recent messages from that session.
+ 4. Answer from the returned transcript, and say when the returned messages are insufficient.
+ 
+-This may navigate OpenWork away from the user's current session while the lookup runs. If multiple sessions match, ask which one to inspect.
++This may navigate Crew Desk away from the user's current session while the lookup runs. If multiple sessions match, ask which one to inspect.
+ 
+-### OpenWork agents
++### Crew Desk agents
+ 
+-Inside OpenWork, agents control the app through the semantic tools (`openwork_context`, `openwork_query`, `openwork_execute`) using affordance ids from context. External MCP clients can also use the hidden **OpenWork UI Control** MCP via **Settings -> Extensions -> Show hidden**.
++Inside Crew Desk, agents control the app through the semantic tools (`openwork_context`, `openwork_query`, `openwork_execute`) using affordance ids from context. External MCP clients can also use the hidden **Crew Desk UI Control** MCP via **Settings -> Extensions -> Show hidden**.
+ 
+ In-app agents do not need `session.open` to work with another session: `session.read` reads any session by id and `session.send { sessionId, text }` messages it, both without changing what the person sees (`docs/features/headless-session-control.md`). `composer.set_text` / `composer.send` type into the composer the person currently has focused.
+ 
+@@ -108,7 +108,7 @@ Restart the app. The four tools (`ui_status`, `ui_snapshot`, `ui_list_actions`,
+ 
+ ## Add to your own MCP client
+ 
+-If you're building an app that speaks MCP, you can connect to the OpenWork UI server the same way:
++If you're building an app that speaks MCP, you can connect to the Crew Desk UI server the same way:
+ 
+ ```js
+ import { Client } from "@modelcontextprotocol/sdk/client/index.js";
+@@ -140,7 +140,7 @@ await client.callTool({
+ 
+ ### `ui_status`
+ 
+-Check if OpenWork is running and reachable. Returns connection status and app info.
++Check if Crew Desk is running and reachable. Returns connection status and app info.
+ 
+ **No arguments.**
+ 
+@@ -154,7 +154,7 @@ Version: 1
+ 
+ ### `ui_snapshot`
+ 
+-Get the current OpenWork UI state: active route, narration, visible actions, and status. Call this before acting to understand what the user sees.
++Get the current Crew Desk UI state: active route, narration, visible actions, and status. Call this before acting to understand what the user sees.
+ 
+ **No arguments.**
+ 
+@@ -183,7 +183,7 @@ Returns the full list with labels, descriptions, and argument info.
+ 
+ ### `ui_execute_action`
+ 
+-Execute an OpenWork UI action by its id.
++Execute an Crew Desk UI action by its id.
+ 
+ | Argument | Type | Description |
+ |----------|------|-------------|
+@@ -210,7 +210,7 @@ Example — send the composer prompt:
+ 
+ ## Available actions
+ 
+-The exact list depends on the current OpenWork route and state. Common actions include:
++The exact list depends on the current Crew Desk route and state. Common actions include:
+ 
+ | Action | Description |
+ |--------|-------------|
+@@ -234,7 +234,7 @@ The exact list depends on the current OpenWork route and state. Common actions i
+ 
+ ## Requirements
+ 
+-- **OpenWork desktop** must be running. The MCP server connects to OpenWork's local bridge which starts automatically when the desktop app launches.
++- **Crew Desk desktop** must be running. The MCP server connects to Crew Desk's local bridge which starts automatically when the desktop app launches.
+ - **macOS** is the primary supported platform. The bridge uses Electron IPC and writes a discovery file to `~/Library/Application Support/com.differentai.openwork/`.
+ - The MCP server runs as a **stdio** process — your MCP client spawns it and communicates over stdin/stdout.
+ 
+@@ -249,7 +249,7 @@ The exact list depends on the current OpenWork route and state. Common actions i
+ └─────────────┘
+ ```
+ 
+-1. OpenWork desktop starts a private localhost HTTP bridge on a random port, protected by a bearer token.
++1. Crew Desk desktop starts a private localhost HTTP bridge on a random port, protected by a bearer token.
+ 2. It writes a discovery file with the port and token so `openwork-ui-mcp` can find it.
+ 3. `openwork-ui-mcp` reads the discovery file, proxies MCP tool calls to the bridge, and returns structured results.
+ 4. The bridge calls `window.__openworkControl` inside the Electron renderer to snapshot state and execute actions.
+diff --git a/docs/microsoft-entra-sso-scim.md b/docs/microsoft-entra-sso-scim.md
+index 940c313..1413a99 100644
+--- a/docs/microsoft-entra-sso-scim.md
++++ b/docs/microsoft-entra-sso-scim.md
+@@ -1,23 +1,23 @@
+ # Microsoft Entra SSO and SCIM
+ 
+-This guide connects Microsoft Entra ID to an OpenWork organization for SAML
++This guide connects Microsoft Entra ID to an Crew Desk organization for SAML
+ single sign-on and SCIM user provisioning.
+ 
+-## How OpenWork is wired
++## How Crew Desk is wired
+ 
+-OpenWork uses Better Auth for the underlying SSO and SCIM protocol handlers, then
+-wraps them with organization-scoped OpenWork routes and policy:
++Crew Desk uses Better Auth for the underlying SSO and SCIM protocol handlers, then
++wraps them with organization-scoped Crew Desk routes and policy:
+ 
+-| Area | OpenWork surface | Runtime behavior |
++| Area | Crew Desk surface | Runtime behavior |
+ |---|---|---|
+ | SSO management | `/dashboard/sso`, `/v1/sso`, `/v1/sso/saml`, `/v1/sso/oidc` | One SSO connection per organization. Owners and security admins can create or replace it. |
+-| SAML callback | `/api/auth/sso/saml2/sp/acs/openwork-sso-<org-id>` | Better Auth consumes the response after OpenWork validates SAML response policy. |
+-| SAML metadata | `/api/auth/sso/saml2/sp/metadata?providerId=openwork-sso-<org-id>` | Generated after the SAML connection is saved in OpenWork. |
++| SAML callback | `/api/auth/sso/saml2/sp/acs/openwork-sso-<org-id>` | Better Auth consumes the response after Crew Desk validates SAML response policy. |
++| SAML metadata | `/api/auth/sso/saml2/sp/metadata?providerId=openwork-sso-<org-id>` | Generated after the SAML connection is saved in Crew Desk. |
+ | SSO sign-in | `/sso/<org-slug>` | Starts SP-initiated SSO for one organization and redirects to Entra. |
+ | SCIM management | `/dashboard/scim`, `/v1/scim`, `/v1/scim/token` | Owners and security admins create or rotate an org-scoped SCIM bearer token. |
+ | SCIM provisioning | `/api/auth/scim/v2` | Supports SCIM user provisioning, updates, and deprovisioning. |
+ 
+-OpenWork enforces these SAML security settings for organization SSO:
++Crew Desk enforces these SAML security settings for organization SSO:
+ 
+ - Signed SAML assertions are required.
+ - IdP-initiated SAML is accepted only through the org-specific provider ACS URL.
+@@ -28,98 +28,98 @@ OpenWork enforces these SAML security settings for organization SSO:
+ - Email/password sign-in is rejected for users managed by an organization SSO or
+   SCIM connection.
+ 
+-OpenWork does not currently support SCIM Group object provisioning. You can
++Crew Desk does not currently support SCIM Group object provisioning. You can
+ assign Entra users and groups to the enterprise application for scope, but keep
+ the Entra group object mapping disabled.
+ 
+ ## Prerequisites
+ 
+-- An OpenWork organization owner or admin with security configuration access.
++- An Crew Desk organization owner or admin with security configuration access.
+ - A Microsoft Entra account with permission to manage Enterprise applications.
+   Microsoft documents this as Cloud Application Administrator, Application
+   Administrator, or owner of the service principal for SSO configuration.
+-- The public OpenWork web and auth URLs must already be final HTTPS URLs. SAML
++- The public Crew Desk web and auth URLs must already be final HTTPS URLs. SAML
+   and browser auth cookies should not be validated against temporary HTTP
+   origins in production.
+-- The OpenWork organization should have the expected email domain configured in
++- The Crew Desk organization should have the expected email domain configured in
+   organization settings before requiring SSO for that domain.
+-- The OpenWork organization must have the SSO/Enterprise entitlement enabled.
+-  Without it, OpenWork keeps the form editable but rejects save attempts with
++- The Crew Desk organization must have the SSO/Enterprise entitlement enabled.
++  Without it, Crew Desk keeps the form editable but rejects save attempts with
+   `SSO / SAML requires an Enterprise plan`.
+ 
+ ## Create or select the Entra enterprise application
+ 
+ 1. Open the Microsoft Entra admin center.
+ 2. Go to **Entra ID** -> **Enterprise apps** -> **All applications**.
+-3. Select the existing OpenWork enterprise application, or create a new
+-   non-gallery enterprise application for OpenWork.
++3. Select the existing Crew Desk enterprise application, or create a new
++   non-gallery enterprise application for Crew Desk.
+ 4. Assign at least one test user or test group under **Users and groups**.
+ 
+-For the OpenWork Labs test tenant, use:
++For the Crew Desk Labs test tenant, use:
+ 
+ - **Tenant ID**: `2b853de0-b14b-4433-90be-cced1b963647`
+-- **OpenWork SSO domain**: `omaropenworklabs.onmicrosoft.com`
++- **Crew Desk SSO domain**: `omaropenworklabs.onmicrosoft.com`
+ - **Test users**:
+   - `omar2@omaropenworklabs.onmicrosoft.com`
+   - `omar_openworklabs.com#EXT#@omaropenworklabs.onmicrosoft.com`
+-- **OpenWork organization**: `Omar Azure Test`
++- **Crew Desk organization**: `Omar Azure Test`
+ 
+-As of July 7, 2026, both test users are assigned to the **OpenWork Labs**
+-enterprise application in Entra, and the OpenWork Cloud org has the Enterprise
++As of July 7, 2026, both test users are assigned to the **Crew Desk Labs**
++enterprise application in Entra, and the Crew Desk Cloud org has the Enterprise
+ entitlement needed to save SSO settings.
+ 
+ ## Configure SAML SSO
+ 
+-There is a small handoff between Entra and OpenWork: OpenWork needs Entra's IdP
+-values before it can save the connection, and Entra needs OpenWork's generated
++There is a small handoff between Entra and Crew Desk: Crew Desk needs Entra's IdP
++values before it can save the connection, and Entra needs Crew Desk's generated
+ ACS URL before SAML can be fully tested.
+ 
+ 1. In the Entra enterprise application, open **Single sign-on** and choose
+    **SAML**.
+ 2. In the Entra SAML page, copy these IdP values:
+-   - **Microsoft Entra Identifier**. Use this as OpenWork **IdP Issuer URL**.
+-   - **Login URL**. Use this as OpenWork **SAML Entry Point**.
+-   - **Certificate (Base64)**. Paste the PEM certificate into OpenWork
++   - **Microsoft Entra Identifier**. Use this as Crew Desk **IdP Issuer URL**.
++   - **Login URL**. Use this as Crew Desk **SAML Entry Point**.
++   - **Certificate (Base64)**. Paste the PEM certificate into Crew Desk
+      **IdP Certificate**.
+-3. In OpenWork, open **Dashboard** -> **SSO** and choose **SAML**.
+-4. Fill the OpenWork fields:
++3. In Crew Desk, open **Dashboard** -> **SSO** and choose **SAML**.
++4. Fill the Crew Desk fields:
+    - **IdP Issuer URL**: the Entra **Microsoft Entra Identifier**. This is
+      the IdP issuer, not the Entra app's Identifier / Entity ID.
+    - **Domain**: the email domain that should use this SSO connection, for
+      example `example.com`.
+    - **SAML Entry Point**: the Entra **Login URL**.
+-   - **Audience URL**: leave blank to use the OpenWork auth URL, or enter a
++   - **Audience URL**: leave blank to use the Crew Desk auth URL, or enter a
+      stable Entity ID that you will also set as the Entra Identifier.
+    - **IdP Certificate**: the Entra Base64 certificate as PEM text.
+-5. Save the SSO connection in OpenWork.
++5. Save the SSO connection in Crew Desk.
+    - For a custom domain such as `example.com`, request the domain verification
+-     TXT token in OpenWork, publish it in DNS, then click **Verify domain**.
+-   - For Microsoft tenant domains ending in `.onmicrosoft.com`, OpenWork
++     TXT token in Crew Desk, publish it in DNS, then click **Verify domain**.
++   - For Microsoft tenant domains ending in `.onmicrosoft.com`, Crew Desk
+      verifies the domain from the matching Entra tenant issuer and SAML entry
+      point. You do not need to publish DNS records under Microsoft's
+      `onmicrosoft.com` zone.
+-6. Copy the generated OpenWork values:
++6. Copy the generated Crew Desk values:
+    - **ACS URL**.
+    - **Metadata URL**.
+    - **Sign-in URL**.
+ 7. Return to Entra **Single sign-on** -> **Basic SAML Configuration** and set:
+-   - **Identifier (Entity ID)**: the OpenWork audience. If you left the
+-     OpenWork audience blank, use the OpenWork auth URL shown by your deployment
++   - **Identifier (Entity ID)**: the Crew Desk audience. If you left the
++     Crew Desk audience blank, use the Crew Desk auth URL shown by your deployment
+      docs or metadata. Do not use the Entra `https://sts.windows.net/.../`
+      issuer here.
+-   - **Reply URL (Assertion Consumer Service URL)**: the OpenWork **ACS URL**.
+-   - **Sign on URL**: the OpenWork **Sign-in URL**.
++   - **Reply URL (Assertion Consumer Service URL)**: the Crew Desk **ACS URL**.
++   - **Sign on URL**: the Crew Desk **Sign-in URL**.
+ 8. Save the Entra SAML configuration.
+-9. In Entra **Attributes & Claims**, make sure OpenWork receives:
++9. In Entra **Attributes & Claims**, make sure Crew Desk receives:
+    - `email`: the user's email address, usually `user.mail` with fallback to
+      `user.userprincipalname` in tenants where `mail` is empty.
+    - `displayName`: the user's display name.
+    - Name ID: an email-like stable user identifier.
+-10. Test with an assigned user from the OpenWork `/sso/<org-slug>` URL or the
++10. Test with an assigned user from the Crew Desk `/sso/<org-slug>` URL or the
+     Entra My Apps tile. For multi-org users, the org slug, Entra app, and ACS
+-    URL choose which OpenWork organization they are entering.
++    URL choose which Crew Desk organization they are entering.
+ 
+-For the OpenWork Labs test tenant, the OpenWork SAML fields are:
++For the Crew Desk Labs test tenant, the Crew Desk SAML fields are:
+ 
+ - **IdP Issuer URL**:
+   `https://sts.windows.net/2b853de0-b14b-4433-90be-cced1b963647/`
+@@ -127,28 +127,28 @@ For the OpenWork Labs test tenant, the OpenWork SAML fields are:
+ - **SAML Entry Point**:
+   `https://login.microsoftonline.com/2b853de0-b14b-4433-90be-cced1b963647/saml2`
+ - **Audience URL**: leave blank unless you also set a custom Entra Identifier.
+-  With the field blank, set Entra **Identifier (Entity ID)** to the OpenWork
++  With the field blank, set Entra **Identifier (Entity ID)** to the Crew Desk
+   auth URL, not to the `sts.windows.net` issuer.
+ - **IdP Certificate**: paste the active Entra SAML signing certificate.
+ 
+ ## Configure SCIM user and group provisioning
+ 
+-1. In OpenWork, open **Dashboard** -> **SCIM**.
++1. In Crew Desk, open **Dashboard** -> **SCIM**.
+ 2. Copy the **SCIM base URL**.
+ 3. Create or rotate the connector token and copy the bearer token immediately.
+-   OpenWork only shows it after creation or rotation.
++   Crew Desk only shows it after creation or rotation.
+ 4. In the Entra enterprise application, open **Provisioning**.
+ 5. Set **Provisioning Mode** to **Automatic**.
+ 6. Under **Admin Credentials**, set:
+-   - **Tenant URL**: the OpenWork **SCIM base URL**.
+-   - **Secret Token**: the OpenWork SCIM bearer token.
++   - **Tenant URL**: the Crew Desk **SCIM base URL**.
++   - **Secret Token**: the Crew Desk SCIM bearer token.
+ 7. Select **Test Connection**.
+ 8. Open **Mappings**:
+     - Keep user provisioning enabled.
+-    - Enable group object provisioning when Entra groups should manage OpenWork teams.
+-    - Use a matching attribute that OpenWork can filter by, normally
++    - Enable group object provisioning when Entra groups should manage Crew Desk teams.
++    - Use a matching attribute that Crew Desk can filter by, normally
+       `userName` mapped from `userPrincipalName` or `mail`.
+-9. In OpenWork, enable **Create teams from SCIM groups** if provisioned groups
++9. In Crew Desk, enable **Create teams from SCIM groups** if provisioned groups
+    should create and manage matching teams. Leave it off to retain group metadata
+    without changing teams.
+ 10. Under **Settings**, choose the scope. For a controlled rollout, sync only
+@@ -158,31 +158,31 @@ For the OpenWork Labs test tenant, the OpenWork SAML fields are:
+ 
+ ## Validation checklist
+ 
+-- OpenWork's `/sso/<org-slug>` Sign-in URL redirects to Entra for SP-initiated
++- Crew Desk's `/sso/<org-slug>` Sign-in URL redirects to Entra for SP-initiated
+   SSO.
+-- Entra My Apps or test launch posts the SAML response to OpenWork's generated
++- Entra My Apps or test launch posts the SAML response to Crew Desk's generated
+   ACS URL.
+-- A first SSO login creates or updates an OpenWork user and organization member.
++- A first SSO login creates or updates an Crew Desk user and organization member.
+ - Email/password sign-in is rejected for managed users when SSO is required for
+   the organization domain.
+ - Entra SCIM **Test Connection** succeeds.
+-- Provisioning an assigned test user creates the OpenWork user and organization
++- Provisioning an assigned test user creates the Crew Desk user and organization
+   membership.
+-- Provisioning a group creates a matching OpenWork team when team sync is enabled.
+-- Removing the assignment retains a disconnected member record. OpenWork deletes
++- Provisioning a group creates a matching Crew Desk team when team sync is enabled.
++- Removing the assignment retains a disconnected member record. Crew Desk deletes
+   the global user only when the user has no other active organization membership.
+ 
+ ## Troubleshooting
+ 
+ | Symptom | Likely cause | Fix |
+ |---|---|---|
+-| Entra says the reply URL is invalid | The Entra Reply URL does not match OpenWork's generated ACS URL | Copy the ACS URL from OpenWork after saving the SAML connection and paste it into Basic SAML Configuration. |
+-| Microsoft shows `AADSTS700016` for `https://sts.windows.net/.../` | Entra is receiving the IdP issuer as the SP Entity ID / app identifier | Set Entra **Identifier (Entity ID)** to the OpenWork audience/auth URL, then resave the SSO connection in OpenWork so AuthnRequests use the OpenWork SP Entity ID. |
+-| SAML login fails with audience or recipient errors | Entra Identifier, OpenWork Audience URL, or ACS URL do not match | Keep the Entra Identifier equal to the OpenWork audience and the Entra Reply URL equal to the OpenWork ACS URL. |
+-| SAML login fails after changing certs | OpenWork still has the old IdP certificate | Paste the new Entra Base64 certificate into OpenWork and save the SAML connection again. |
+-| IdP-initiated login fails with `unsolicited_response` | The deployment is running an older OpenWork version that rejects IdP-initiated SAML | Upgrade OpenWork or start login from OpenWork's `/sso/<org-slug>` sign-in URL. |
+-| SCIM test connection is unauthorized | The token was copied incorrectly or rotated after Entra was configured | Rotate the OpenWork SCIM token and update Entra's Secret Token. |
+-| Entra group provisioning fails | OpenWork does not support SCIM Group objects yet | Disable the group object mapping and use group assignment only to scope user provisioning. |
++| Entra says the reply URL is invalid | The Entra Reply URL does not match Crew Desk's generated ACS URL | Copy the ACS URL from Crew Desk after saving the SAML connection and paste it into Basic SAML Configuration. |
++| Microsoft shows `AADSTS700016` for `https://sts.windows.net/.../` | Entra is receiving the IdP issuer as the SP Entity ID / app identifier | Set Entra **Identifier (Entity ID)** to the Crew Desk audience/auth URL, then resave the SSO connection in Crew Desk so AuthnRequests use the Crew Desk SP Entity ID. |
++| SAML login fails with audience or recipient errors | Entra Identifier, Crew Desk Audience URL, or ACS URL do not match | Keep the Entra Identifier equal to the Crew Desk audience and the Entra Reply URL equal to the Crew Desk ACS URL. |
++| SAML login fails after changing certs | Crew Desk still has the old IdP certificate | Paste the new Entra Base64 certificate into Crew Desk and save the SAML connection again. |
++| IdP-initiated login fails with `unsolicited_response` | The deployment is running an older Crew Desk version that rejects IdP-initiated SAML | Upgrade Crew Desk or start login from Crew Desk's `/sso/<org-slug>` sign-in URL. |
++| SCIM test connection is unauthorized | The token was copied incorrectly or rotated after Entra was configured | Rotate the Crew Desk SCIM token and update Entra's Secret Token. |
++| Entra group provisioning fails | Crew Desk does not support SCIM Group objects yet | Disable the group object mapping and use group assignment only to scope user provisioning. |
+ 
+ ## References
+ 
+diff --git a/docs/opencode-app-parity.md b/docs/opencode-app-parity.md
+index 939f4d7..f1a117c 100644
+--- a/docs/opencode-app-parity.md
++++ b/docs/opencode-app-parity.md
+@@ -2,9 +2,9 @@
+ 
+ ## Real-model native parity
+ 
+-Run `OPENWORK_LIVE_INSTALLED_GATEWAY=1 pnpm evals:parity:live --iterations=3` for the real-inference suite. This is separate from the deterministic integration suite below. It never falls back to scripted model answers. It requires an existing locally configured OpenWork Gateway provider with two assigned models and a matching API key; the fixture reads that configuration without changing it, copies only the endpoint and model definitions into an isolated app profile, and enters the key through the app's masked local-provider form. The key is sent only to its original Gateway destination and is never recorded in evidence. Infisical can supply credentials for individually selected live tests through `OPENWORK_LIVE_PROVIDER`, `OPENWORK_LIVE_KEY_ENV`, and `OPENWORK_LIVE_MODEL`; the complete Gateway matrix requires the installed-provider opt-in.
++Run `OPENWORK_LIVE_INSTALLED_GATEWAY=1 pnpm evals:parity:live --iterations=3` for the real-inference suite. This is separate from the deterministic integration suite below. It never falls back to scripted model answers. It requires an existing locally configured Crew Desk Gateway provider with two assigned models and a matching API key; the fixture reads that configuration without changing it, copies only the endpoint and model definitions into an isolated app profile, and enters the key through the app's masked local-provider form. The key is sent only to its original Gateway destination and is never recorded in evidence. Infisical can supply credentials for individually selected live tests through `OPENWORK_LIVE_PROVIDER`, `OPENWORK_LIVE_KEY_ENV`, and `OPENWORK_LIVE_MODEL`; the complete Gateway matrix requires the installed-provider opt-in.
+ 
+-Changed parity specs in PR CI run both pinned engines explicitly, with separate CLI records for each engine. A failed or skipped run keeps the job red. The real-model native chat spec runs in the existing protected `pr-slow-specs` environment using its `OPENAI_API_KEY`, entered through the app's provider form, and two explicitly selected OpenAI models. Local runs can continue using the installed Gateway. `OPENWORK_LIVE_PROVIDER=OpenAI`, `OPENWORK_LIVE_KEY_ENV=OPENAI_API_KEY`, and `OPENWORK_LIVE_MODELS=gpt-5.4,gpt-4.1-mini` select direct OpenAI for a named live-chat run; credentials alone never opt into inference. V1 free-starter tests remain credential-free and fail if the service refuses the pinned engine. V2 fresh-install tests require workspace creation and an editable composer; the existing free service is intentionally outside its migration gate. Real paid first sends remain required, and OpenWork's own free models need first-send coverage before GA.
++Changed parity specs in PR CI run both pinned engines explicitly, with separate CLI records for each engine. A failed or skipped run keeps the job red. The real-model native chat spec runs in the existing protected `pr-slow-specs` environment using its `OPENAI_API_KEY`, entered through the app's provider form, and two explicitly selected OpenAI models. Local runs can continue using the installed Gateway. `OPENWORK_LIVE_PROVIDER=OpenAI`, `OPENWORK_LIVE_KEY_ENV=OPENAI_API_KEY`, and `OPENWORK_LIVE_MODELS=gpt-5.4,gpt-4.1-mini` select direct OpenAI for a named live-chat run; credentials alone never opt into inference. V1 free-starter tests remain credential-free and fail if the service refuses the pinned engine. V2 fresh-install tests require workspace creation and an editable composer; the existing free service is intentionally outside its migration gate. Real paid first sends remain required, and Crew Desk's own free models need first-send coverage before GA.
+ 
+ The live runner produces `evals/results/engine-live-parity/<timestamp>/report.md` with named steps, screenshots, real model completion metadata, independently witnessed connector calls, and three native launch samples per engine. Missing, skipped, failed or duplicate cases fail the command. The blank-installation test always uses a profile with no copied credentials, even when the Gateway opt-in is set. It calls the existing free starter only on v1.
+ 
+@@ -30,7 +30,7 @@ The signed-in first-send regression is covered by `LIVE-ORG`. Native v2 create a
+ 
+ Cloud skills now follow the same v1 path on both engines: the shared Connect metadata catalog has a 30-second in-memory cache, and the model retrieves the selected skill's current instructions through Connect on demand. V2 no longer downloads every organization skill or writes their bodies into a native skill directory before sending a message. Existing generated Cloud copies are removed when the v2 runtime starts. No Den deployment is required. This preserves v1 discovery refresh timing; instant metadata updates are future work. `LIVE-CLOUD` uses real Den and real inference to check discovery, use, edited instructions, and removal in one conversation on both engines.
+ 
+-The existing free starter sometimes rejects the pinned v2 beta with HTTP 426. Compatibility with that service is outside the v2 migration gate. OpenWork will add and test its own free models before enabling v2 for GA. Paid OpenAI/Gateway success is separate evidence from signed-out free inference.
++The existing free starter sometimes rejects the pinned v2 beta with HTTP 426. Compatibility with that service is outside the v2 migration gate. Crew Desk will add and test its own free models before enabling v2 for GA. Paid OpenAI/Gateway success is separate evidence from signed-out free inference.
+ 
+ ## Verification recorded on 2026-09-23
+ 
+@@ -68,7 +68,7 @@ The stronger v1 skill experiment exposed an existing limitation: after an absent
+ 
+ ## What is real and what is controlled
+ 
+-The renderer, OpenWork server, OpenCode executables, Den, MySQL and Gateway are real processes. Only the paid model responses and the external connector are local deterministic witnesses. Administrators change assignments and skill files through the real Den/OpenWork APIs; model selection, task submission, streaming and answers are exercised in the visible app. The model emits protocol-valid tool calls; engines and Den must perform the work and return the real result. This proves integration behavior, not the reasoning quality of a live model or the health of an external provider account.
++The renderer, Crew Desk server, OpenCode executables, Den, MySQL and Gateway are real processes. Only the paid model responses and the external connector are local deterministic witnesses. Administrators change assignments and skill files through the real Den/OpenWork APIs; model selection, task submission, streaming and answers are exercised in the visible app. The model emits protocol-valid tool calls; engines and Den must perform the work and return the real result. This proves integration behavior, not the reasoning quality of a live model or the health of an external provider account.
+ 
+ Every app has an isolated profile, engine database, home, configuration and environment store. Den uses a disposable `openwork_eval_` database. Fixtures use synthetic identities and credentials. No production account is needed.
+ 
+diff --git a/docs/opencode-engine-migration.md b/docs/opencode-engine-migration.md
+index a99927e..7d78fc0 100644
+--- a/docs/opencode-engine-migration.md
++++ b/docs/opencode-engine-migration.md
+@@ -24,7 +24,7 @@ anyway"). Engine switches during a migration answer 409
+ `engine_migration_running`.
+ 
+ While a migration runs, a modal shows progress. The person can choose
+-**Continue using OpenWork**, which leaves a top banner ("OpenWork may be
++**Continue using Crew Desk**, which leaves a top banner ("Crew Desk may be
+ unstable until this finishes") with **Show progress**. Status reports a
+ `phase` (`starting`, `converting`, `copying`) and `startedAt`; the counts only
+ move while copying, so the bar is indeterminate before that instead of
+@@ -47,11 +47,11 @@ on both engines.
+ 
+ ## What migration does
+ 
+-Migration requires the OpenWork host token and explicit confirmation. It snapshots
++Migration requires the Crew Desk host token and explicit confirmation. It snapshots
+ the active profile's v1 SQLite database using SQLite backup (or `VACUUM INTO` on Bun), including committed
+ WAL writes, without modifying the original. A temporary, isolated instance of the
+ pinned v2 engine opens that snapshot and performs OpenCode's native conversion.
+-OpenWork waits for `/api/experimental/migration/v1` to report completion, then
++Crew Desk waits for `/api/experimental/migration/v1` to report completion, then
+ exports converted chats and imports them into the existing v2 engine using its
+ native APIs. Parents precede children. Existing IDs return a conflict and are
+ skipped, so retries preserve v2 conversations and do not duplicate imports.
+diff --git a/docs/opencode-v1-v2-benchmarks.md b/docs/opencode-v1-v2-benchmarks.md
+index 8627992..4f98ce1 100644
+--- a/docs/opencode-v1-v2-benchmarks.md
++++ b/docs/opencode-v1-v2-benchmarks.md
+@@ -22,7 +22,7 @@ The original questions map to the measured scenarios as follows.
+ 
+ ### Lane A: app perspective, pure CDP
+ 
+-Lane A runs the real OpenWork Electron app on the v1 engine. It drives the app
++Lane A runs the real Crew Desk Electron app on the v1 engine. It drives the app
+ only through the UI: CDP `Input.insertText` types into the real composer and
+ the real controls are clicked.
+ 
+@@ -30,7 +30,7 @@ The witness provider is provisioned by a file on disk before workspace
+ creation. The benchmark chooses its model through the picker UI. There is zero
+ API seeding of workspaces, sessions, messages, or model selection.
+ 
+-This is the lane that answers what an OpenWork user sees today.
++This is the lane that answers what an Crew Desk user sees today.
+ 
+ ### Lane B: engine vs engine
+ 
+@@ -39,11 +39,11 @@ Lane B compares the v1 engine, `opencode` 1.18.18, with the v2 engine,
+ each engine's own HTTP dialect and routes both engines to the same kind of
+ witness.
+ 
+-This isolates the engine boundary from OpenWork renderer and Electron costs.
++This isolates the engine boundary from Crew Desk renderer and Electron costs.
+ 
+ ### Why the pure-CDP v2 app lane arrived through the adapter
+ 
+-OpenWork's UI now routes chat through v2 behind the preview flag and the
++Crew Desk's UI now routes chat through v2 behind the preview flag and the
+ **Route chat through OpenCode v2** toggle from
+ `feat/opencode-v2-chat-routing`. Lane A was rerun in that mode with
+ `OPENWORK_BENCH_ENGINE=v2`, using the server-to-engine dialect adapter.
+@@ -60,8 +60,8 @@ That failure was reproduced through CDP in Chrome 152 on 2026-08-30 with both
+ way. The older 0.0.0-beta-17823 home screen never opened a session view.
+ 
+ Building the v2 desktop app from source would have benchmarked a different app,
+-not the proposed engine swap inside OpenWork. That is why the app lane arrived
+-through OpenWork's adapter rather than through the v2 web or desktop UI.
++not the proposed engine swap inside Crew Desk. That is why the app lane arrived
++through Crew Desk's adapter rather than through the v2 web or desktop UI.
+ 
+ ## Method
+ 
+@@ -203,7 +203,7 @@ Delta is v2 minus v1. Negative means v2 completed this boundary sooner.
+ - **Completion:** against the 400 ms witness pacing floor, median overhead is
+   52 ms for v1 and 117 ms for v2.
+ - **First-token caveat:** Lane B `first_token` is when a message-list poll sees
+-  persisted text. It is not user-perceived streaming. OpenWork receives push
++  persisted text. It is not user-perceived streaming. Crew Desk receives push
+   events; Lane A measures a 92 ms v1 user-visible first token.
+ - **Compaction:** v1 `summarize` and v2 `compact` are witness-served and nearly
+   equal on this boundary. Both are verified to reach the provider with their
+@@ -213,7 +213,7 @@ Delta is v2 minus v1. Negative means v2 completed this boundary sooner.
+   [no-reload provider injection](opencode-v2-parallel-lane.md#providers-on-v2-why-no-reload-is-needed),
+   durable sessions, and one daemon for many directories.
+ 
+-## Lane A results: OpenWork app on v1, pure CDP (medians, N=5)
++## Lane A results: Crew Desk app on v1, pure CDP (medians, N=5)
+ 
+ ### Cold boot to composer: DEV BUILD, not packaged startup
+ 
+@@ -256,10 +256,10 @@ first token, and 34 ms to completion. In practical terms, the 200 KB paste adds
+ roughly 40-70 ms around the normal round trip, with the exact observed boundary
+ deltas stated above.
+ 
+-`uiCompactionAvailable=false`: OpenWork has no user-facing compact or summarize
++`uiCompactionAvailable=false`: Crew Desk has no user-facing compact or summarize
+ control in this UI today. Engine-side compaction is covered in Lane B.
+ 
+-## Lane A results: OpenWork app on v2 (adapter preview), pure CDP (medians, N=5)
++## Lane A results: Crew Desk app on v2 (adapter preview), pure CDP (medians, N=5)
+ 
+ Delta is app on v2 minus app on v1. Negative means v2 completed this boundary
+ sooner.
+diff --git a/docs/opencode-v2-parallel-lane.md b/docs/opencode-v2-parallel-lane.md
+index 5b83bf9..0e713a2 100644
+--- a/docs/opencode-v2-parallel-lane.md
++++ b/docs/opencode-v2-parallel-lane.md
+@@ -11,7 +11,7 @@ clients in `packages/protocol`, SQLite storage, and one shared daemon serving
+ many directories (v2 `packages/protocol/src/api.ts:151-191`,
+ `packages/core/src/location-services.ts:25-44`).
+ 
+-The key property for OpenWork is that providers become usable at runtime with
++The key property for Crew Desk is that providers become usable at runtime with
+ no process restart and no instance reload.
+ The proof is `evals/specs/opencode-v2-provider-hot-inject.test.ts` in this PR,
+ using pinned binary `0.0.0-beta-18707`.
+@@ -69,7 +69,7 @@ eliminates those costs for provider changes
+ 
+ | Area | Current v1 integration |
+ | --- | --- |
+-| Engine binary | OpenWork uses the anomalyco/opencode fork pinned in `constants.json` as `"opencodeVersion": "v1.18.18"`; desktop sidecar preparation downloads it in `apps/desktop/scripts/prepare-sidecar.mjs:35-48`. |
++| Engine binary | Crew Desk uses the anomalyco/opencode fork pinned in `constants.json` as `"opencodeVersion": "v1.18.18"`; desktop sidecar preparation downloads it in `apps/desktop/scripts/prepare-sidecar.mjs:35-48`. |
+ | Spawn | `apps/server/src/managed-opencode.ts:147-234` runs `opencode serve --hostname --port --cors '*'`, supplies `OPENCODE_SERVER_USERNAME` and `OPENCODE_SERVER_PASSWORD`, waits for stdout `opencode server listening on <url>`, and sets `OPENCODE_CONFIG` to the runtime configuration file. |
+ | Desktop boot | `apps/desktop/electron/main.mjs:1385-1445` enters `apps/desktop/electron/runtime.mjs:1882-2028` through `startOpenworkServerInner`, then starts the in-process server at `apps/server/src/embedded.ts:190-281`, which owns the child engine. |
+ | Server client | The engine client factory is `apps/server/src/server.ts:1246-1280`. |
+@@ -161,7 +161,7 @@ Provider API keys live in the `credential` table, not `auth.json`
+ The TUI and desktop use that file for single-daemon discovery
+ (v2 `packages/cli/src/services/service-registration.ts:13-70`).
+ 
+-The OpenWork lane instead owns an isolated child in
++The Crew Desk lane instead owns an isolated child in
+ `apps/server/src/managed-opencode-v2.ts` and does not use service discovery.
+ 
+ ## Providers on v2: why no reload is needed
+@@ -225,8 +225,8 @@ V2 offers three runtime injection mechanisms:
+    cataloged provider; live credential resolution picks it up on the next
+    request (v2 `packages/core/src/credential/sql.ts:5-14`,
+    `packages/core/src/model-resolver.ts:274-303`).
+-2. OpenWork can atomically write managed provider configuration into the
+-   always-watched `OPENCODE_CONFIG_DIR`; this lets OpenWork own both key
++2. Crew Desk can atomically write managed provider configuration into the
++   always-watched `OPENCODE_CONFIG_DIR`; this lets Crew Desk own both key
+    material and configuration materialization, and is the mechanism used by
+    `evals/specs/opencode-v2-provider-hot-inject.test.ts`
+    (v2 `packages/cli/src/server-process.ts:83-128`,
+@@ -327,7 +327,7 @@ Place a v2 adapter behind the four existing touchpoints:
+ 
+ ### 4. Configuration materialization
+ 
+-Keep `apps/server/src/runtime-opencode-config-store.ts` as the OpenWork source
++Keep `apps/server/src/runtime-opencode-config-store.ts` as the Crew Desk source
+ of truth.
+ Render a v2 dialect using the `providers` key and v2 schema into
+ `OPENCODE_CONFIG_DIR/opencode.json`, following the existing
+@@ -391,7 +391,7 @@ That is the proposed continuity path for sessions and credentials.
+   credentials (v2 `packages/server/src/process.ts:54-55`,
+   `packages/cli/src/server-process.ts:68-80`;
+   v1 `apps/server/src/managed-opencode.ts:147-234`).
+-- The v2 single-daemon model differs from OpenWork's current per-workspace
++- The v2 single-daemon model differs from Crew Desk's current per-workspace
+   engine assumption. Location scoping covers directory isolation
+   (v2 `packages/server/src/location.ts:69-79`), but `EngineInfo` IPC shapes must
+   be versioned (`packages/types/src/desktop-ipc.ts:36-52,88-114`).
+@@ -414,7 +414,7 @@ server seams (`apps/server/src/server.ts:1246-1280`,
+ ### Embed `@opencode-ai/sdk` v2 in-process
+ 
+ Rejected for this lane.
+-The v2 implementation has Bun-flavored runtime dependencies, while OpenWork's
++The v2 implementation has Bun-flavored runtime dependencies, while Crew Desk's
+ embedded server runs in Electron's Node environment.
+ The subprocess approach matches the existing managed-engine boundary at
+ `apps/server/src/managed-opencode.ts:147-234` and preserves process isolation.
+diff --git a/docs/org-install-links.md b/docs/org-install-links.md
+index 74ad3ee..39f0897 100644
+--- a/docs/org-install-links.md
++++ b/docs/org-install-links.md
+@@ -9,8 +9,8 @@ Related: `ee/apps/den-api/src/install-links.ts`, `ee/apps/den-api/src/routes/org
+ 
+ An organization install link opens a three-step Den page:
+ 
+-1. Download and run the standard OpenWork installer.
+-2. Return to Den and click **Open OpenWork**.
++1. Download and run the standard Crew Desk installer.
++2. Return to Den and click **Open Crew Desk**.
+ 3. Confirm the exact organization and server in the app, then complete normal
+    organization sign-in.
+ 
+@@ -103,7 +103,7 @@ read-only PVC on every replica.
+ ## Default connection handoff (no key)
+ 
+ `DEN_CONNECT_LINK_MODE=exchange` is the default. When the user clicks **Open
+-OpenWork**, Den mints a fresh five-minute bearer code and stores only its
++Crew Desk**, Den mints a fresh five-minute bearer code and stores only its
+ SHA-256 hash. The app:
+ 
+ 1. posts the code back to the exact HTTPS API origin carried in the deep link
+@@ -203,7 +203,7 @@ compatibility. When both files exist, the valid configuration with the newest
+ | Download redirects to GitHub | Expected for internet-connected deployments. Allow `github.com` and its release-asset redirect/CDN host on the user's network. |
+ | Download returns `404` | The install token is invalid, expired, or revoked. Ask an org member for the current install page link. |
+ | Mounted download fails | Verify the filename exactly matches the configured release tag and every Den replica mounts the same readable PVC path. |
+-| **Open OpenWork** cannot prepare a connection | Verify the browser can reach Den API and `DEN_API_PUBLIC_URL` is the correct public HTTPS origin. |
+-| The app refuses an expired or used link | Return to the same Den install page and click **Open OpenWork** again to mint a fresh code. |
++| **Open Crew Desk** cannot prepare a connection | Verify the browser can reach Den API and `DEN_API_PUBLIC_URL` is the correct public HTTPS origin. |
++| The app refuses an expired or used link | Return to the same Den install page and click **Open Crew Desk** again to mint a fresh code. |
+ | Signed mode reports an unknown key | Return to `exchange` mode, or ship a desktop build containing the matching public key before re-enabling `signed`. |
+ | Install links point at the wrong web host | Correct `BETTER_AUTH_URL` and `DEN_BETTER_AUTH_TRUSTED_ORIGINS`, then restart Den. |
+diff --git a/docs/plans/web-evidence-checkpoints.md b/docs/plans/web-evidence-checkpoints.md
+index a756e36..fdcf48a 100644
+--- a/docs/plans/web-evidence-checkpoints.md
++++ b/docs/plans/web-evidence-checkpoints.md
+@@ -55,7 +55,7 @@ with the exact expected text. A disk mutation in one fork must not affect the
+ other or the immutable checkpoint. Delete both forks and snapshot.
+ 
+ The receipt explicitly identifies this as a **synthetic VM prerequisite**, not
+-an OpenWork E2E, browser proof or screenshot proof. Publish source SHA, individual
++an Crew Desk E2E, browser proof or screenshot proof. Publish source SHA, individual
+ checks, snapshot-ready and fork-ready latency, and cleanup result. No raw SDK
+ errors, private links or credentials belong in the artifact. Provider TTL bounds
+ resources if the runner disappears; successful completion also requires cleanup.
+@@ -154,7 +154,7 @@ be able to open the report and launch the restored browser without a local key.
+ Add an agent-first testkit journey following the write-a-spec skill:
+ 
+ 1. Boot the exact branch SHA into the isolated evidence web world.
+-2. Create ten actual OpenWork sessions and capture screenshot A + checkpoint.
++2. Create ten actual Crew Desk sessions and capture screenshot A + checkpoint.
+ 3. Start a deterministic mock reply; hold it at a known partial response; capture B.
+ 4. Allow the original journey to finish, then destroy the original VM.
+ 5. Open the branch-built review app, select A and click Open from here.
+diff --git a/docs/pr-proof/mcp-oauth-conformance/README.md b/docs/pr-proof/mcp-oauth-conformance/README.md
+index c05990f..4fb6623 100644
+--- a/docs/pr-proof/mcp-oauth-conformance/README.md
++++ b/docs/pr-proof/mcp-oauth-conformance/README.md
+@@ -2,7 +2,7 @@
+ 
+ Historical record: these screenshots were captured by the legacy `mcp-oauth-conformance` flow on
+ July 14, 2026 (America/Los_Angeles). The flow uses an isolated Den database and
+-OpenWork's local OAuth MCP conformance server; it does not use a third-party
++Crew Desk's local OAuth MCP conformance server; it does not use a third-party
+ service or pre-seeded connection.
+ 
+ The passing journey proves that:
+@@ -10,7 +10,7 @@ The passing journey proves that:
+ 1. URL-only requirements discovery reports OAuth, registration, scope, and
+    administrator requirements without creating a connection or registering a
+    client.
+-2. DCR identifies OpenWork as a web client, PKCE authorization completes, and
++2. DCR identifies Crew Desk as a web client, PKCE authorization completes, and
+    the provider returns through the deployment-wide callback.
+ 3. The normalized connection contract reports a connected dynamic client with
+    the shared callback and selected scope.
+diff --git a/docs/pr-proof/mcp-oauth-conformance/report.md b/docs/pr-proof/mcp-oauth-conformance/report.md
+index 9cea787..d158ede 100644
+--- a/docs/pr-proof/mcp-oauth-conformance/report.md
++++ b/docs/pr-proof/mcp-oauth-conformance/report.md
+@@ -17,12 +17,12 @@ Spec: docs/external-mcp-oauth.md
+   - Assertion: Visible text includes "Administrator action required" (passed)
+   - Assertion: Visible text includes "mcp:read" (passed)
+   - Frame: mcp-oauth-conformance-01-requirements-discovered.png (passed)
+-    - Voiceover: An administrator enters only the MCP URL and asks OpenWork to discover requirements. Before anything is saved, the dialog explains that OAuth is required, recommends dynamic registration, shows the available scopes, and calls out the administrator checks that standards metadata cannot prove.
++    - Voiceover: An administrator enters only the MCP URL and asks Crew Desk to discover requirements. Before anything is saved, the dialog explains that OAuth is required, recommends dynamic registration, shows the available scopes, and calls out the administrator checks that standards metadata cannot prove.
+ - ✅ DCR and PKCE return through the shared callback (479ms)
+   - Assertion: Visible text includes "OAuth conformance mrlgygve" (passed)
+   - Assertion: Visible text does not include "Connection failed" (passed)
+   - Frame: mcp-oauth-conformance-02-shared-callback-connected.png (passed)
+-    - Voiceover: After the administrator chooses the least-privilege read scope, OpenWork completes dynamic registration and PKCE authorization in a real browser window. The provider returns to the deployment-wide callback and Den shows the successful connection page.
++    - Voiceover: After the administrator chooses the least-privilege read scope, Crew Desk completes dynamic registration and PKCE authorization in a real browser window. The provider returns to the deployment-wide callback and Den shows the successful connection page.
+ - ✅ The normalized connection contract reports the shared callback (1841ms)
+   - Frame: mcp-oauth-conformance-03-dashboard-shared-callback.png (passed)
+     - Voiceover: Back on the Connections screen, the normalized connection card reports Connected, Shared callback, and dynamic registration. The callback shown is deployment-wide and contains no connection identifier.
+@@ -33,8 +33,8 @@ Spec: docs/external-mcp-oauth.md
+     - Voiceover: The connected server exposes its real Mock Echo tool in the dashboard catalog. The same connection is immediately usable through search_capabilities and execute_capability, proving the OAuth result reaches the agent-facing MCP surface end to end.
+ - ✅ Clean up the proof connection and mock server (17ms)
+ - ✅ Voice-over script coverage (0ms)
+-  - Assertion: Script frame 1 narrated: "An administrator enters only the MCP URL and asks OpenWork to discover requirements. Bef" (passed)
+-  - Assertion: Script frame 2 narrated: "After the administrator chooses the least-privilege read scope, OpenWork completes dynam" (passed)
++  - Assertion: Script frame 1 narrated: "An administrator enters only the MCP URL and asks Crew Desk to discover requirements. Bef" (passed)
++  - Assertion: Script frame 2 narrated: "After the administrator chooses the least-privilege read scope, Crew Desk completes dynam" (passed)
+   - Assertion: Script frame 3 narrated: "Back on the Connections screen, the normalized connection card reports Connected, Shared" (passed)
+   - Assertion: Script frame 4 narrated: "The connected server exposes its real Mock Echo tool in the dashboard catalog. The same " (passed)
+ 
+diff --git a/docs/remote-chat-over-mcp-architecture.md b/docs/remote-chat-over-mcp-architecture.md
+index d9e69e1..9d696a4 100644
+--- a/docs/remote-chat-over-mcp-architecture.md
++++ b/docs/remote-chat-over-mcp-architecture.md
+@@ -1,19 +1,19 @@
+-# Remote Chat over MCP — sessions on another surface via the OpenWork MCP Gateway
++# Remote Chat over MCP — sessions on another surface via the Crew Desk MCP Gateway
+ 
+ Status: proposal
+ Owner: TBD
+ Related: `docs/marketplace-capabilities-architecture.md`, `ee/apps/den-api/src/mcp/README.md`
+ 
+ Covers two execution targets behind the same gateway capabilities:
+-`target: "cloud"` (session on the member's OpenWork Web cloud worker) and
++`target: "cloud"` (session on the member's Crew Desk Web cloud worker) and
+ `target: "desktop"` (session on one of the member's signed-in desktop apps,
+ dispatched over the existing Desktop Automation runner channel).
+ 
+ ## Problem
+ 
+-OpenWork Desktop and OpenWork Web are both live chat surfaces, but they cannot
++Crew Desk Desktop and Crew Desk Web are both live chat surfaces, but they cannot
+ talk to each other. A member working in a desktop chat has no way to start or
+-continue a conversation that runs on their OpenWork Web cloud worker — for
++continue a conversation that runs on their Crew Desk Web cloud worker — for
+ example to hand long-running work to the cloud, to make a session visible to
+ teammates in the browser, or to keep work running after the laptop closes.
+ 
+@@ -27,17 +27,17 @@ workspace engine. Anything we build as a gateway capability works from desktop
+ From a desktop chat (or any MCP client connected to the gateway), the agent
+ can:
+ 
+-1. Create a chat session on the member's OpenWork Web cloud worker.
++1. Create a chat session on the member's Crew Desk Web cloud worker.
+ 2. Send prompts to it.
+ 3. Read back status and transcript.
+-4. Hand the member a link/card to open that session live in OpenWork Web.
++4. Hand the member a link/card to open that session live in Crew Desk Web.
+ 
+ Non-goals (v1):
+ 
+ - Streaming token-by-token output back over MCP (poll/read instead).
+ - Cross-member or cross-org sessions. Everything is scoped to the signed-in
+   member's own worker.
+-- A new chat UI. OpenWork Web renders the session with its existing UI because
++- A new chat UI. Crew Desk Web renders the session with its existing UI because
+   the session is a native openwork-server session — no sync layer needed.
+ 
+ ## What exists today (reused, not rebuilt)
+@@ -50,7 +50,7 @@ Non-goals (v1):
+ | openwork-server session API | `apps/server` (`POST /workspace/:id/opencode/session`, native prompt/transcript/status routes) | The actual chat runtime on the worker |
+ | Programmatic session client | `packages/headless-threads` | Typed client for driving native sessions from code |
+ | Desktop → gateway attach | `apps/app/src/react-app/domains/connections/cloud-mcp-reconciler.ts` + `apps/server/src/routes/cloud-mcp.ts` (token mint: `POST /v1/mcp/token`) | Desktop engines already have `/mcp/agent`; zero desktop changes required for v1 |
+-| MCP App cards | `ee/apps/den-api/src/mcp/plugin-flow-app.ts` pattern + `packages/mcp-apps` | Render an "Open in OpenWork Web" card |
++| MCP App cards | `ee/apps/den-api/src/mcp/plugin-flow-app.ts` pattern + `packages/mcp-apps` | Render an "Open in Crew Desk Web" card |
+ 
+ ## Architecture
+ 
+@@ -71,7 +71,7 @@ execute_capability                       │ resolve member worker
+ ```
+ 
+ Key property: the "web MCP" is not a second MCP server. The gateway is the
+-single MCP surface; OpenWork Web sees the session because the session lives on
++single MCP surface; Crew Desk Web sees the session because the session lives on
+ the same openwork-server the web UI already reads through den-gateway.
+ 
+ ### 1. New capability source: `remote-session-capabilities.ts`
+@@ -121,7 +121,7 @@ exists: `automation-index.ts`, `resource.ts`) — explicitly out of scope for v1
+ `remoteSession.create` and `remoteSession.send` results include a standard
+ MCP Apps `ui://` card (pattern: `plugin-flow-app.ts` +
+ `packages/mcp-apps` renderer): session title, state, last activity, and an
+-**Open in OpenWork Web** link (`https://web.openworklabs.com/...` deep link,
++**Open in Crew Desk Web** link (`https://web.openworklabs.com/...` deep link,
+ resolved from runtime config — same origin den-web's "Web tab" uses). Clients
+ without MCP Apps get text fallback with the same URL.
+ 
+@@ -133,7 +133,7 @@ without MCP Apps get text fallback with the same URL.
+   off via the existing exposure allowlist mechanics (`policy.ts` conventions).
+ - **Cloud entitlement**: Cloud is hosted-only (`cloud-hosting.ts`, multi-org
+   deployments with a Daytona provisioner) and entitled per organization by
+-  OpenWork Web access — a paid Web subscription or the platform-admin
++  Crew Desk Web access — a paid Web subscription or the platform-admin
+   complimentary grant — rather than a separate per-organization rollout flag.
+   When the deployment cannot host Cloud, the source is invisible in
+   `search_capabilities` and execute reports `unknown_capability`. Execution
+@@ -255,7 +255,7 @@ Deltas required (small, additive):
+    most-recently-seen runner within the presence window
+    (`GET /v1/automation-runners/presence`, 10 min window); allow explicit
+    `runnerId` (from `remoteSession.list`) to pin a machine. No runner in the
+-   presence window → actionable "open OpenWork Desktop and sign in" result,
++   presence window → actionable "open Crew Desk Desktop and sign in" result,
+    never a silent queue-forever.
+ 5. **Transcript reads:** Den cannot query the desktop, so `remoteSession.read`
+    for desktop targets reads the ordered task events the runner posted
+@@ -319,7 +319,7 @@ pulls. Therefore:
+ 
+ - **Default: fail fast.** No runner inside the 10-min presence window →
+   `remoteSession.create {target:"desktop"}` returns the exact human action
+-  ("open OpenWork Desktop on <machine> and sign in"). Conversations are not
++  ("open Crew Desk Desktop on <machine> and sign in"). Conversations are not
+   silently queued against machines that may be off for days.
+ - **Sleeping ≠ offline.** A running app on a sleeping laptop wakes and polls
+   immediately on `powerMonitor` resume/unlock, so delivery after lid-open is
+@@ -339,7 +339,7 @@ pulls. Therefore:
+ | Worker unreachable / asleep | Retryable error with `referenceId`; no partial session creation |
+ | Session deleted on web | `remoteSession.send`/`read` return `unknown_session`, prompting `remoteSession.list` |
+ | Token expiry mid-flow | Standard gateway 401 semantics; desktop reconciler already auto-refreshes |
+-| No desktop runner in presence window | `remoteSession.create {target:"desktop"}` returns actionable "open OpenWork Desktop and sign in on <machine>" — never queues forever |
++| No desktop runner in presence window | `remoteSession.create {target:"desktop"}` returns actionable "open Crew Desk Desktop and sign in on <machine>" — never queues forever |
+ | Desktop task unclaimed past deadline | Marked missed with cause, same as missed desktop automation runs; surfaced via `remoteSession.read` |
+ | Desktop goes offline mid-task | Lease expires (60 s heartbeat loss) → task marked interrupted with last posted events preserved |
+ 
+@@ -370,7 +370,7 @@ pulls. Therefore:
+ ## Alternatives considered
+ 
+ - **Desktop talks to the worker directly (connect-link handoff), skipping the
+-  gateway.** Fewer hops, but only works from OpenWork Desktop, duplicates
++  gateway.** Fewer hops, but only works from Crew Desk Desktop, duplicates
+   worker resolution/auth in the client, and bypasses org policy. Rejected.
+ - **New top-level MCP tools (`create_remote_chat`, `send_to_session`).**
+   Breaks the gateway's deliberate two-tool discovery contract and bloats
+@@ -402,6 +402,6 @@ pulls. Therefore:
+   (2) only if the Workflows product ever needs true sagas, an internal
+   orchestration seam with Postgres as the default implementation and an
+   engine as an optional adapter, so self-deploy stays vanilla Postgres.
+-- **A separate MCP server hosted by OpenWork Web.** There is no web MCP
++- **A separate MCP server hosted by Crew Desk Web.** There is no web MCP
+   server today (den-web is dashboard-only); building one duplicates auth,
+   policy, and exposure logic the gateway already owns. Rejected.
+diff --git a/docs/single-org-mode-plan.md b/docs/single-org-mode-plan.md
+index b8d9f00..cf2f0ba 100644
+--- a/docs/single-org-mode-plan.md
++++ b/docs/single-org-mode-plan.md
+@@ -13,8 +13,8 @@ behavior and production bootstrap-token UX remain follow-up work.
+ 
+ ## Goal
+ 
+-Make self-hosted OpenWork EE deployments behave like one customer-owned
+-workspace by default, while keeping hosted OpenWork Cloud multi-org.
++Make self-hosted Crew Desk EE deployments behave like one customer-owned
++workspace by default, while keeping hosted Crew Desk Cloud multi-org.
+ 
+ The internal model should still use organizations, members, roles, SSO, SCIM,
+ workers, plugins, API keys, and MCP resources. The product experience should
+@@ -34,7 +34,7 @@ Recommended defaults:
+ 
+ - Helm chart: `single_org`
+ - Local development: `single_org` unless a developer opts into multi-org
+-- Hosted OpenWork Cloud: `multi_org`
++- Hosted Crew Desk Cloud: `multi_org`
+ 
+ Suggested Helm values:
+ 
+@@ -450,9 +450,9 @@ validating worker output.
+ 6. How should existing customer DBs with multiple orgs behave when
+    `DEN_ORG_MODE=single_org` is enabled: fail fast, choose a configured slug, or
+    migrate one org?
+-7. Should self-host docs call Den web "OpenWork Cloud" after Helm defaults to
+-   single-org mode, or rename that surface in docs to "OpenWork web" /
+-   "OpenWork admin" for private deployments?
++7. Should self-host docs call Den web "Crew Desk Cloud" after Helm defaults to
++   single-org mode, or rename that surface in docs to "Crew Desk web" /
++   "Crew Desk admin" for private deployments?
+ 
+ ## Documentation Updates Needed
+ 
+@@ -460,7 +460,7 @@ Self-host and packaging docs need to stop describing the Helm path as if users
+ must understand multi-org creation.
+ 
+ - `packages/docs/start-here/self-host.mdx`: distinguish single-org private
+-  deployments from hosted OpenWork Cloud. The current "Cloud-style accounts,
++  deployments from hosted Crew Desk Cloud. The current "Cloud-style accounts,
+   teams, and organization management" wording conflicts with a single-org Helm
+   default.
+ - `packages/docs/start-here/self-host.mdx`: fix the "Minimal Working Stack"
+@@ -469,7 +469,7 @@ must understand multi-org creation.
+   single-org deployments still use org-scoped RBAC internally, while hosted cloud
+   remains multi-org.
+ - `packaging/docker/README.md`: avoid calling every local/private web surface
+-  "OpenWork Cloud web app" after single-org mode lands.
++  "Crew Desk Cloud web app" after single-org mode lands.
+ 
+ ## Proposed First Milestone
+ 
+diff --git a/docs/support/enterprise-network-doctor.md b/docs/support/enterprise-network-doctor.md
+index b0051c3..c81b2d8 100644
+--- a/docs/support/enterprise-network-doctor.md
++++ b/docs/support/enterprise-network-doctor.md
+@@ -19,7 +19,7 @@ powershell -NoProfile -ExecutionPolicy Bypass -File .\openwork-doctor.ps1 -WebUr
+ 
+ Common outcome patterns:
+ 
+-- `LIKELY TLS INTERCEPTION`: the leaf issuer is an internal/proxy CA instead of DigiCert. The corporate proxy is re-signing TLS; allowlist OpenWork hosts or ensure the app runtime trusts that enterprise root.
++- `LIKELY TLS INTERCEPTION`: the leaf issuer is an internal/proxy CA instead of DigiCert. The corporate proxy is re-signing TLS; allowlist Crew Desk hosts or ensure the app runtime trusts that enterprise root.
+ - `LIKELY MISSING INTERMEDIATE OR UNTRUSTED ROOT` plus `MISSING INTERMEDIATE CONFIRMED BY OPENSSL`: the server is probably serving the DigiCert leaf without the intermediate, or the machine lacks the issuing root. Fix the control-plane TLS `fullchain`/certificate bundle first.
+ - `LIKELY DNS ISSUE`: the hostname does not resolve on that machine. Check VPN, split-horizon DNS, and whether both web and API hostnames exist internally.
+ - `PROXY DETECTED`: WinHTTP or .NET routes the URL through a proxy. Verify proxy auth/allowlisting and whether the desktop runtime is expected to use system proxy settings.
+diff --git a/docs/testing.md b/docs/testing.md
+index 123406a..ebcb81d 100644
+--- a/docs/testing.md
++++ b/docs/testing.md
+@@ -1,6 +1,6 @@
+ # Testing without blocking unrelated work
+ 
+-OpenWork has no package-level unit tests. All executable coverage lives in the
++Crew Desk has no package-level unit tests. All executable coverage lives in the
+ E2E journeys under `evals/specs` (see `evals/README.md`). Install both
+ workspaces with `pnpm install --frozen-lockfile` and
+ `pnpm --dir evals install --frozen-lockfile` first. Use Node 24, Bun 1.3.14,
+@@ -42,7 +42,7 @@ Do not describe a run containing skips as full proof.
+ 
+ ## Why this changed
+ 
+-An audit of OpenWork Tests runs created August 28–September 3, 2026 (UTC)
++An audit of Crew Desk Tests runs created August 28–September 3, 2026 (UTC)
+ found 159 failures among 632 runs, including 17 awaiting approval. Among the
+ 615 success/failure results, 25.9% failed. These are run counts, including
+ repeated branch updates, not a measured flake rate.
