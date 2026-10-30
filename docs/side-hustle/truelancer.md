@@ -25,7 +25,7 @@ Truelancer promo cards are **samples**, not live jobs. Exact titles returned not
 | Python scripting expert | USD 300+ | no live match | bid text ready: `proposal-python-script.md` Drive https://docs.google.com/document/d/1BgJ-C0B-Gy_-BRp-ECxbzKBO6gnrGNThJwBvEevceoo/edit |
 | Ecom website redesign | USD 600 | no live match; closest live analog is Shruthi USD 600 | bid text ready: `proposal-ecom-redesign.md` Drive https://docs.google.com/document/d/1-vTLVncpkDws59ukZ7yYSOW_73tyVmPbuz2QfE5UJkE/edit |
 
-Larger web / order-mgmt / DBMS ($10k–$100k+) listings on Truelancer were either closed, INR-small, or login-gated. Do not spray SEO.
+Larger web / order-mgmt / DBMS ($10k-$100k+) listings on Truelancer were either closed, INR-small, or login-gated. Do not spray SEO.
 
 ## High-pay lane (USD / EUR / GBP)
 
