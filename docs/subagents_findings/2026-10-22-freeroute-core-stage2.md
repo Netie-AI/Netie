@@ -75,6 +75,29 @@ Branch `claude/stage2-freeroute-core`, base `claude/netie-ecosystem-rebrand-uq9q
 - **Invariants:** say what is measured and what is assumed; do not weaken or route around
   a control; adversary is not the verifier (the parent replays on a box that may build).
 
+## F5. One gate case asserted a fallback upstream never had
+
+- **Expected:** an `openai` credential marked `is_fallback: true` answers after the
+  primary `openai` credential returns 401.
+- **Actual (measured by the parent session on 2026-10-30, head 06655c6):** build rc 0 on
+  both trees; `go test ./...` 48 ok on stage 1, 47 ok and 1 FAIL on stage 2; gate 0 of 17
+  pass on stage 1 (good, red on baseline) and 16 of 17 after. The one failure,
+  deterministic 5 of 5, was `TestNetieGate_Fail2BanAndFallbackOnIssuedCredentials`: call 0
+  got 401.
+- **Root cause (read in `internal/balancer/roundrobin.go` and `internal/proxy/proxy.go`):**
+  direct providers retry on same-type credentials that are not `is_fallback`;
+  `TryFallbackProxy` only considers proxy-like (`proxy`, `air`) fallbacks; the test builder
+  defaults `maxProviderRetries` to 0. So the test asserted a path the upstream does not
+  have for `openai`, with inline or issued keys alike. Not a gate defect.
+- **Fix:** case renamed `TestNetieGate_Fail2BanAndRetryOnIssuedCredentials`: two `openai`
+  credentials, `WithMaxProviderRetries(2)`, 10 calls; primary called at most 3 times then
+  banned, secondary answers all 10. Patch recut; replay tree now
+  `a3447787dfdfe9f2207d1f1e290054fc0cadbf23`. Not yet measured; the parent re-runs it.
+- **Root-cause class:** a test written from the feature name (`is_fallback`) instead of
+  from the code path. Found only because a different session ran it.
+- **Invariants:** adversary is not the verifier; prove a gate can fail before trusting it
+  green (it did fail, on the right side of the line this time).
+
 ## F4. Replay held
 
 - `0002-gate.patch`: `git diff --binary` against the local baseline commit, 66,194 bytes,
@@ -89,14 +112,14 @@ Branch `claude/stage2-freeroute-core`, base `claude/netie-ecosystem-rebrand-uq9q
 
 | item | before (stage 1 tree) | after (0002 applied) |
 |---|---|---|
-| `go build ./...` | denied here; exit 0 measured by crew-agent session (167.3 s) | denied here; exit 0 measured by crew-agent session (21.3 s) |
-| `go test ./...` | not run (denied) | not run (denied) |
-| gate cases (`TestNetieGate*`) | predicted 0 of 16 pass | predicted 16 of 16 pass |
+| `go build ./...` | denied here; rc 0 (crew-agent 167.3 s, parent 80 s) | denied here; rc 0 (crew-agent 21.3 s, parent 8 s) |
+| `go test ./...` | denied here; parent: rc 0, 48 ok, 0 fail | denied here; parent: 47 ok, 1 FAIL (F5, fixed, unmeasured) |
+| gate cases (`TestNetieGate*`) | parent: 0 of 17 pass | parent: 16 of 17 pass on head 06655c6; fixed case unmeasured |
 | `gofmt -l` on touched Go files | n/a | clean |
 | `go vet` with the gate files | exit 0 (crew-agent session) | exit 0 (crew-agent session) |
 | credentials with an inline key in `config.yaml.example` | 5 of 6 | 0 of 6 |
 | inline keys in `docker-compose.chain.yml` + `examples/chain_mock` | 6 + 19 | 0 + 0 |
-| replay tree hash | n/a | equal on both checkouts |
+| replay tree hash | n/a | equal on both checkouts (`a3447787` after the F5 fix) |
 | LICENSE sha256 | catalog value | unchanged |
 | `scripts/ecosystem.py validate` / `render --check` / `test_ecosystem.py` / `secrets_scan.py` | ok | ok (22 tests) |
 | `scripts/test_sibling_patches.py` | 10 tests, 9 failures | 10 tests, 9 failures |

@@ -86,10 +86,9 @@ the upstream's own `NewTestProxyBuilder` from a config `Load` filled from a stub
 | case | asserts | expected on stage 1 tree | expected after 0002 |
 |---|---|---|---|
 | RouterSendsOnlyOpenVaultIssuedKeys | 6 chat calls answer 200; the upstream saw only `Bearer issued-a` / `Bearer issued-b`; both used (round-robin) | fail (`Load` refuses the keyless file with `api_key is required`) | pass |
-| Fail2BanAndFallbackOnIssuedCredentials | primary (issued key, answers 401) tried at most 3 times then banned; fallback (issued key) answers all 5 calls 200 | fail (same `Load` refusal) | pass |
+| Fail2BanAndRetryOnIssuedCredentials | two `openai` credentials, `WithMaxProviderRetries(2)`; primary (issued key, answers 401) is tried at most 3 times across 10 calls then banned; secondary (issued key) answers all 10 calls 200 | fail (same `Load` refusal) | pass (expected; the first version of this case was wrong, section 3) |
 
-Expected counts, not measured: 0 of 16 cases pass on the stage 1 tree, 16 of 16 after.
-The two tables are a prediction from reading the code. Section 3 says why.
+Expected: 0 cases pass on the stage 1 tree, all pass after. Section 3 has what was measured.
 
 ## 3. Build and test evidence: not run here
 
@@ -120,11 +119,36 @@ failures, not a compile error; replay `git write-tree` equals
 was denied in that container by the same classifier, so the gate counts and the suite
 delta stay predictions.
 
+Measured by the parent session (`session_0168dMM52yirXZgXMymEBTNv`) on 2026-10-30, go1.24.7
+linux/amd64, on PR #47 head 06655c6 (the version of the gate before the case 10 fix below):
+
+| | stage 1 (0001 only) | stage 2 (0001 + 0002) |
+|---|---|---|
+| `go build ./...` | rc 0, 80 s | rc 0, 8 s (warm cache) |
+| `go test ./...` | rc 0, 48 ok packages, 0 fail, 4 with no test files | rc 1, 47 ok, 1 FAIL (`internal/proxy`) |
+| `go test ./internal/config/ ./internal/proxy/ -run TestNetieGate -v` | 0 pass / 17 fail (gate files copied in) | 16 pass / 1 fail |
+
+The one failure was in this overlay's own test, deterministic 5 of 5 with `-count=5`:
+`TestNetieGate_Fail2BanAndFallbackOnIssuedCredentials`, call 0 answered 401 instead of 200.
+Root cause, read from the upstream balancer and proxy (not a gate defect): for a direct
+provider credential such as `openai`, a retryable error is retried on another credential
+of the same type that is not `is_fallback` (`NextRetryForModelExcludingScoped` rejects
+`IsFallback` and proxy-like candidates), and the `TryFallbackProxy` last resort only
+considers proxy-like (`proxy`, `air`) fallbacks. An `openai` credential marked
+`is_fallback: true` is therefore never reached from an `openai` primary, with inline keys
+or issued ones; the test asserted a behaviour upstream never had, and the test builder's
+`maxProviderRetries` defaults to 0 so no same-type retry ran either. Fix: the case is now
+`TestNetieGate_Fail2BanAndRetryOnIssuedCredentials`, two `openai` credentials, neither
+`is_fallback`, `WithMaxProviderRetries(2)`, 10 calls, primary called at most 3 times
+(fail2ban max_attempts), secondary answers all 10. The patch was recut and replayed
+(tree `a3447787dfdfe9f2207d1f1e290054fc0cadbf23`). The fixed case is not yet measured by any
+session; the parent re-runs it. Catalog stage stays 1 until that run is green.
+
 Per the stage rule this stage stops at a PLAN: the catalog row stays at stage 1, the patch,
 the tests and this contract are in the overlay. Stage 2 is claimed when, on a box that may
 build the upstream tree, `go build ./...` and `go test ./...` pass on the baseline, the
-gate tests fail there (16 cases), and both pass after 0002 with every baseline pass still
-passing. Estimated 20 to 40 minutes once the build is allowed; the Go 1.27 toolchain is
+gate tests fail there, and both pass after 0002 with every baseline pass still
+passing (the parent's run shows exactly that, except the case 10 fix is unmeasured). Estimated 20 to 40 minutes once the build is allowed; the Go 1.27 toolchain is
 already cached. Expected upstream deltas after 0002: none in `go build`; in `go test`, the
 `internal/config` package runs under the TestMain override, and the two renamed warning
 assertions in `internal/startup/validators_test.go` are pointed at the new text.

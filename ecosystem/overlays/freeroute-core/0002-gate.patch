@@ -49,7 +49,7 @@ index 6811e6e..e13dfa8 100644
  DOCKER_REGISTRY?=ghcr.io/mixaill76
  
 diff --git a/NETIE-ATTRIBUTION.md b/NETIE-ATTRIBUTION.md
-index 52ab227..d035c83 100644
+index 52ab227..99e80af 100644
 --- a/NETIE-ATTRIBUTION.md
 +++ b/NETIE-ATTRIBUTION.md
 @@ -1,7 +1,7 @@
@@ -95,7 +95,7 @@ index 52ab227..d035c83 100644
 +- Gate tests: `internal/config/netie_gate_test.go` (8 cases on the shipped
 +  example and the real loader) and `internal/proxy/netie_gate_test.go` (2 cases:
 +  the upstream sees only OpenVault-issued keys under round-robin; fail2ban and
-+  fallback work on issued credentials).
++  same-type retry work on issued credentials).
 +
 +## Not done yet (stage 3)
 +
@@ -1410,15 +1410,15 @@ index 0000000..7977fc0
 +}
 diff --git a/internal/proxy/netie_gate_test.go b/internal/proxy/netie_gate_test.go
 new file mode 100644
-index 0000000..b35d452
+index 0000000..23121f9
 --- /dev/null
 +++ b/internal/proxy/netie_gate_test.go
-@@ -0,0 +1,174 @@
+@@ -0,0 +1,183 @@
 +package proxy
 +
 +// Netie stage 2 gate for freeroute-core, data-plane half: the credential the
 +// router actually sends upstream is the one OpenVault issued, and round-robin,
-+// fallback and fail2ban keep working on issued credentials. The config file
++// same-type retry and fail2ban keep working on issued credentials. The config file
 +// used here carries no key. Names are string literals so this file compiles,
 +// and fails, on the upstream tree before the gate exists.
 +
@@ -1544,12 +1544,17 @@ index 0000000..b35d452
 +	assert.GreaterOrEqual(t, authLog.count("Bearer issued-b"), 1, "round-robin used pool-b: %v", seen)
 +}
 +
-+// Case 10: fail2ban and fallback work on issued credentials. The primary's
-+// issued key is refused upstream (401); the fallback's issued key answers.
-+// Every client call still succeeds, and after max_attempts (3 in the test
-+// builder) the primary is banned and no longer called.
-+func TestNetieGate_Fail2BanAndFallbackOnIssuedCredentials(t *testing.T) {
-+	var primaryLog, fallbackLog netieAuthLog
++// Case 10: fail2ban and same-type retry work on issued credentials. Upstream
++// semantics for a direct provider (openai): a retryable error is retried on
++// another credential of the same type that is not is_fallback (is_fallback
++// and the TryFallbackProxy path are for proxy-like credentials only), and
++// fail2ban bans a credential after max_attempts failures (3 in the test
++// builder, permanent). The primary's issued key is refused upstream (401);
++// the secondary's issued key answers. Every client call succeeds, the
++// secondary answers all of them, and the primary is called at most 3 times
++// across 10 calls because it is banned after the third 401.
++func TestNetieGate_Fail2BanAndRetryOnIssuedCredentials(t *testing.T) {
++	var primaryLog, secondaryLog netieAuthLog
 +	primary := newIPv4Server(t, http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 +		primaryLog.add(r.Header.Get("Authorization"))
 +		w.Header().Set("Content-Type", "application/json")
@@ -1557,21 +1562,25 @@ index 0000000..b35d452
 +		_, _ = io.WriteString(w, `{"error":{"message":"upstream refused this key","type":"authentication_error"}}`)
 +	}))
 +	defer primary.Close()
-+	fallback := newIPv4Server(t, http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-+		fallbackLog.add(r.Header.Get("Authorization"))
++	secondary := newIPv4Server(t, http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
++		secondaryLog.add(r.Header.Get("Authorization"))
 +		netieOKBody(w)
 +	}))
-+	defer fallback.Close()
++	defer secondary.Close()
 +
-+	vault := netieIssuingVault(t, map[string]string{"primary": "issued-primary", "fallback": "issued-fallback"})
++	vault := netieIssuingVault(t, map[string]string{"primary": "issued-primary", "secondary": "issued-secondary"})
 +	cfg := netieLoadKeylessConfig(t, vault.URL, fmt.Sprintf(
 +		"  - name: \"primary\"\n    type: \"openai\"\n    base_url: %q\n    rpm: 100\n    tpm: 10000\n"+
-+			"  - name: \"fallback\"\n    type: \"openai\"\n    base_url: %q\n    rpm: 100\n    tpm: 10000\n    is_fallback: true\n",
-+		primary.URL, fallback.URL))
++			"  - name: \"secondary\"\n    type: \"openai\"\n    base_url: %q\n    rpm: 100\n    tpm: 10000\n",
++		primary.URL, secondary.URL))
 +
-+	prx := NewTestProxyBuilder().WithCredentials(cfg.Credentials...).WithMasterKey(cfg.Server.MasterKey).Build()
++	prx := NewTestProxyBuilder().
++		WithCredentials(cfg.Credentials...).
++		WithMasterKey(cfg.Server.MasterKey).
++		WithMaxProviderRetries(2).
++		Build()
 +
-+	const calls = 5
++	const calls = 10
 +	for i := 0; i < calls; i++ {
 +		rec := httptest.NewRecorder()
 +		prx.ProxyRequest(rec, netieChatRequest())
@@ -1581,12 +1590,12 @@ index 0000000..b35d452
 +	for _, auth := range primaryLog.all() {
 +		assert.Equal(t, "Bearer issued-primary", auth, "primary saw only its issued key")
 +	}
-+	for _, auth := range fallbackLog.all() {
-+		assert.Equal(t, "Bearer issued-fallback", auth, "fallback saw only its issued key")
++	for _, auth := range secondaryLog.all() {
++		assert.Equal(t, "Bearer issued-secondary", auth, "secondary saw only its issued key")
 +	}
 +	assert.GreaterOrEqual(t, len(primaryLog.all()), 1, "primary was tried")
 +	assert.LessOrEqual(t, len(primaryLog.all()), 3, "fail2ban banned the primary after max_attempts: %v", primaryLog.all())
-+	assert.Equal(t, calls, len(fallbackLog.all()), "every call was answered by the fallback's issued key")
++	assert.Equal(t, calls, len(secondaryLog.all()), "every call was answered by the secondary's issued key")
 +}
 diff --git a/internal/startup/validators.go b/internal/startup/validators.go
 index 8b34498..459a439 100644
