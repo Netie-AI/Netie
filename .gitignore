@@ -17,3 +17,6 @@ key.md
 .env.*
 !.env.example
 *.pem
+
+# Provider key notes never belong in this public repo (keep them in OpenVault).
+Free APIs for OpenVault Free/
