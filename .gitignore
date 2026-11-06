@@ -17,3 +17,7 @@ key.md
 .env.*
 !.env.example
 *.pem
+
+# Never re-commit provider key notes (security)
+/Free APIs for OpenVault Free/
+**/Keys.txt
