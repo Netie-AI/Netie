@@ -4,7 +4,7 @@ Do not paste GitHub, email, or 2FA secrets into chat. NETIE.md forbids credentia
 
 This cloud environment currently has **only** `github.com/Netie-AI/Netie` in the Cursor env list. Public clones (HTTP 200) with **push** still 403: Cortex, dms, OpenVault, constructor, Pointer, netie-control, Netie-KB. AirGPT, Space, and Cortex-Crew return 404.
 
-Re-probed 2026-09-02: Cortex HEAD `bf4ecee`, dms HEAD `3f9a9be`, Pointer HEAD `8c0e6c2`, netie-control HEAD `82ab1ae`, Netie-KB HEAD `10356e5` (`kb.py validate` OK, 58 artifacts). OpenVault `main` still `62bb1c7` (GitHub CI success). constructor `landing-9-first-path` `4896ddd` (pages.yml success, no unit-test workflow on HEAD). Do not `uv add` Netie.git into Cortex (package name `netie` is the CortexOS alias). dms / Pointer / netie-control may `uv add git+https://github.com/Netie-AI/Netie.git`.
+Patch pins (measured 2026-08-28 / 2026-09-02; sibling tests and `apply_product_patches.py` fetch these, not live HEAD): Cortex `bf4ecee`, dms `3f9a9be`, Pointer `8c0e6c2`, netie-control `82ab1ae`, Netie-KB `10356e5` (`kb.py validate` OK, 58 artifacts), OpenVault `62bb1c7`, constructor `landing-9-first-path` `4896ddd` (pages.yml success, no unit-test workflow on the pin). Live HEAD 2026-10-30 moved: constructor `bfc7d3b` (now has `test.yml`, so the compiler-tests patch fails there), OpenVault `3ba51cd`, Cortex `2deb09c`, dms `1411323`, Pointer `b42b98d`, netie-control `93959c6` (KB still `10356e5`). Push 403, so we pin. Do not `uv add` Netie.git into Cortex (package name `netie` is the CortexOS alias). dms / Pointer / netie-control may `uv add git+https://github.com/Netie-AI/Netie.git`.
 
 `Keys.txt` is untracked. Curl samples use `$OPENROUTER_API_KEY`. Founder must revoke leaked keys (section 5). History still has blobs until a founder rewrite.
 
@@ -14,7 +14,7 @@ Local CI is the same gate GitHub `docs-ci` runs:
 make ci
 ```
 
-That is `python3 -m compileall -q scripts netie` then `python3 scripts/check_docs.py` (required files + laptop-ASCII + all `scripts/test_*.py`). GitHub `docs-ci` on `main` is green (measured 2026-09-02: `d87abd4` and the ship/ticket/batch/wrap commits before it, 2 checks). Older 1-5s red X jobs were org billing; those are not a code ticket. Pay or raise: `https://github.com/organizations/Netie-AI/settings/billing`. Origin (git remote) is already `origin`; we already push there. Switching hosts does not fix clone 404. Product callers: `uv add git+https://github.com/Netie-AI/Netie.git` (wheel ships `netie._contracts`; `--editable` is optional).
+That is `python3 -m compileall -q scripts netie` then `python3 scripts/check_docs.py` (required files + laptop-ASCII + all `scripts/test_*.py`). GitHub `docs-ci` on `main` was green through `8eb2d18` (measured 2026-09-02, 2 checks). `a8e895b` failed 28s because sibling tests cloned live HEAD that drifted; this change pins those clones. Older 1-5s red X jobs were org billing; those are not a code ticket. Pay or raise: `https://github.com/organizations/Netie-AI/settings/billing`. Origin (git remote) is already `origin`; we already push there. Switching hosts does not fix clone 404. Product callers: `uv add git+https://github.com/Netie-AI/Netie.git` (wheel ships `netie._contracts`; `--editable` is optional).
 
 Measured on this VM 2026-09-02 against public clones: Netie unittest via `make ci`; constructor (26 patches) `node --test` **62 passed**; OpenVault OpenMW (28 patches + free-pool) routing+chat+crew-gate pytest plus ship-claim plus crew-netie plus free-pool (sibling `make ci` runs them). Cortex constitution path tests after `cortex-netie-path.patch` (stdlib). `cortex-web-via-runner.patch` broker skip is a file-read assert (no pytest). dms `netie_acl` module is stdlib plus optional `netie.dms`; `dms-demo-acl-resolve.patch` makes `demo_acl` return `resolve_session_acl`. Pointer `netie-hands.test.js` **6 passed** after `pointer-netie-hands.patch`; additive `pointer-observe-guard.patch` (`netie-observe.test.js` **5 passed**; `uacc.test.js` still **16 passed**; native observe unchanged). Founder apply-all: `python3 scripts/apply_product_patches.py`. Control `test_netie_board.py` + plane-4 **51 passed** after `control-netie-board.patch` (needs fastapi). Netie-KB `kb.py validate` OK (58 artifacts); `kb-netie-index.patch` skill show is ids-only. AirGPT/Space/Crew still 404.
 
@@ -41,11 +41,11 @@ A fine-grained PAT is a fallback if the App UI is stuck: GitHub -> Settings -> D
 
 ## 2. GitHub Actions (Netie docs-ci)
 
-`docs-ci` on `main` now runs for real and is green (measured 2026-09-02, 2 checks). Local `make ci` is the same command and is still the merge gate this agent runs.
+`docs-ci` on `main` runs for real. It was green through `8eb2d18` (measured 2026-09-02, 2 checks). `a8e895b` failed because sibling tests cloned live HEAD; pins restore that gate. Local `make ci` is the same command and is still the merge gate this agent runs.
 
 Older 1-5s red X jobs were org billing. Do not treat those as a code ticket. Pay or raise: `https://github.com/organizations/Netie-AI/settings/billing`
 
-OpenVault `main` CI is already green. Constructor has green `pages.yml` and no unit-test workflow on HEAD.
+OpenVault pin `62bb1c7` CI is green. Constructor pin `4896ddd` has green `pages.yml` and no unit-test workflow; live HEAD `bfc7d3b` already has `test.yml`.
 
 ---
 
