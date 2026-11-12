@@ -1,8 +1,8 @@
 diff --git a/engine.js b/engine.js
-index cba6339..b8eab31 100644
+index 65209d2..a3c5c05 100644
 --- a/engine.js
 +++ b/engine.js
-@@ -116,6 +116,20 @@ function compileIR(state) {
+@@ -60,6 +60,20 @@ function compileIR(state) {
        error: "empty graph",
      };
    }

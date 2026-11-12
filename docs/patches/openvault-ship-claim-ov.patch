@@ -1,22 +1,22 @@
 diff --git a/OpenMW/openmw/openvault/app.py b/OpenMW/openmw/openvault/app.py
-index 7c2b838..0ca1b8e 100644
+index f5a5faf8..4138ef58 100644
 --- a/OpenMW/openmw/openvault/app.py
 +++ b/OpenMW/openmw/openvault/app.py
-@@ -625,6 +625,9 @@ class ShipEngineBody(BaseModel):
-     monthly_cap_usd: float | None = None
-     run_build: bool = False
-     prefer_remote_openship: bool = False
+@@ -929,6 +929,9 @@ class ShipEngineBody(BaseModel):
+     #: exactly one of key_id / secret_id. Spaceship writes them to a
+     #: non-public FTP dir only (SPACESHIP_FTP_ENV_DIR != SPACESHIP_FTP_DIR).
+     secrets: list[dict[str, str]] = Field(default_factory=list)
 +    parent_run_id: str = ""
 +    child_id: str = ""
 +    skill_ids: list[str] = Field(default_factory=list)
  
  
  class ShipPreflightBody(BaseModel):
-@@ -2240,17 +2243,32 @@ def create_app(
-                 request=request,
-             )
+@@ -3026,18 +3029,33 @@ def create_app(
+             request=request,
+         )
          try:
--            return run_ship_engine(
+-            payload = run_ship_engine(
 -                target=body.target,
 -                project_path=body.project_path,
 -                github_url=body.github_url,
@@ -26,6 +26,7 @@ index 7c2b838..0ca1b8e 100644
 -                monthly_cap_usd=body.monthly_cap_usd,
 -                run_build=body.run_build,
 -                prefer_remote_openship=body.prefer_remote_openship,
+-                ship_env=ship_env or None,
 -            )
 +            import inspect
 +
@@ -41,6 +42,7 @@ index 7c2b838..0ca1b8e 100644
 +                "monthly_cap_usd": body.monthly_cap_usd,
 +                "run_build": body.run_build,
 +                "prefer_remote_openship": body.prefer_remote_openship,
++                "ship_env": ship_env or None,
 +            }
 +            sig = inspect.signature(run_ship_engine)
 +            if "ov" in sig.parameters:
@@ -52,15 +54,15 @@ index 7c2b838..0ca1b8e 100644
 +                kw["ov"] = ov
 +                kw["parent_run_id"] = parent
 +                kw["child_id"] = child
-+            return run_ship_engine(**kw)
++            payload = run_ship_engine(**kw)
          except DeployInProgressError as exc:
              raise HTTPException(
                  status_code=409,
 diff --git a/OpenMW/openmw/openvault/ship/engine.py b/OpenMW/openmw/openvault/ship/engine.py
-index 080cb30..db0fbc6 100644
+index 27c7b059..680c7b32 100644
 --- a/OpenMW/openmw/openvault/ship/engine.py
 +++ b/OpenMW/openmw/openvault/ship/engine.py
-@@ -596,6 +596,9 @@ def run_ship_engine(
+@@ -543,6 +543,9 @@ def run_ship_engine(
      run_build: bool = False,
      prefer_remote_openship: bool = False,
      ship_env: Mapping[str, str] | None = None,
@@ -70,7 +72,7 @@ index 080cb30..db0fbc6 100644
  ) -> dict[str, Any]:
      """One-stop ship — FreeBuild concept in-process.
  
-@@ -604,6 +607,8 @@ def run_ship_engine(
+@@ -552,6 +555,8 @@ def run_ship_engine(
      Raises :class:`DeployInProgressError` when the same project is already being
      deployed. ``/api/ship/engine`` is a sync endpoint, so FastAPI runs it in a
      threadpool and two clients really can be inside this function at once.
@@ -79,7 +81,7 @@ index 080cb30..db0fbc6 100644
      """
      with project_deploy_lock(
          deploy_key(
-@@ -627,6 +632,9 @@ def run_ship_engine(
+@@ -575,6 +580,9 @@ def run_ship_engine(
              run_build=run_build,
              prefer_remote_openship=prefer_remote_openship,
              ship_env=ship_env,
@@ -89,7 +91,7 @@ index 080cb30..db0fbc6 100644
          )
  
  
-@@ -642,6 +650,9 @@ def _run_ship_engine_locked(
+@@ -590,6 +598,9 @@ def _run_ship_engine_locked(
      run_build: bool = False,
      prefer_remote_openship: bool = False,
      ship_env: Mapping[str, str] | None = None,
@@ -99,7 +101,7 @@ index 080cb30..db0fbc6 100644
  ) -> dict[str, Any]:
      """The engine proper. Only ``run_ship_engine`` may call this — it holds the lock."""
      budget = load_bill_budget()
-@@ -922,14 +933,22 @@ def _run_ship_engine_locked(
+@@ -853,14 +864,22 @@ def _run_ship_engine_locked(
          dep_mode = "simulated"
  
      if dep_mode == "live":
@@ -128,7 +130,7 @@ index 080cb30..db0fbc6 100644
              last = steps[-1]
              steps[-1] = EngineStep(
 diff --git a/OpenMW/openmw/openvault/ship/netie_claim.py b/OpenMW/openmw/openvault/ship/netie_claim.py
-index 30bcf8e..9c4be94 100644
+index 30bcf8e4..9c4be944 100644
 --- a/OpenMW/openmw/openvault/ship/netie_claim.py
 +++ b/OpenMW/openmw/openvault/ship/netie_claim.py
 @@ -6,21 +6,75 @@ from netie.route import report_deploy
@@ -229,7 +231,7 @@ index 30bcf8e..9c4be94 100644
 +            kw["child_id"] = child_id
 +    return report_deploy(**kw)
 diff --git a/OpenMW/tests/test_ship_netie_claim.py b/OpenMW/tests/test_ship_netie_claim.py
-index f965282..49e634a 100644
+index f965282c..49e634a4 100644
 --- a/OpenMW/tests/test_ship_netie_claim.py
 +++ b/OpenMW/tests/test_ship_netie_claim.py
 @@ -42,3 +42,77 @@ def test_simulated_is_not_ht1() -> None:

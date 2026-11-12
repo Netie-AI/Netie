@@ -1,13 +1,14 @@
 diff --git a/app.js b/app.js
-index e3f7d9e..0e69d72 100644
+index a925c17..2442f35 100644
 --- a/app.js
 +++ b/app.js
-@@ -296,12 +296,8 @@ function patchSelected(field, value) {
+@@ -1362,13 +1362,9 @@ function patchSelected(field, value) {
    const node = state.nodes.find((n) => n.id === selectedId);
    if (!node) return false;
    if (field === "stream") node.stream = value === true || value === "true";
 +  else if (field === "object_type") applyObjectType(node, value, OBJECTS);
    else node[field] = value;
+   if (field === "doing") node.note = value;
 -  if (field === "object_type" && OBJECTS[value]) {
 -    const first = Object.keys(OBJECTS[value].points)[0];
 -    node.data_point = first;
@@ -17,10 +18,10 @@ index e3f7d9e..0e69d72 100644
      node.data_type = OBJECTS[node.object_type].points[value];
    }
 diff --git a/engine.js b/engine.js
-index 34f84c0..a11c515 100644
+index d458e22..163a6cd 100644
 --- a/engine.js
 +++ b/engine.js
-@@ -148,6 +148,28 @@ function objectForSetPoint(objectType, objects) {
+@@ -92,6 +92,28 @@ function objectForSetPoint(objectType, objects) {
    return listedOrEmpty(objectType, listed);
  }
  
@@ -49,7 +50,7 @@ index 34f84c0..a11c515 100644
  function irError(ghost, message) {
    return {
      version: "1.0",
-@@ -896,6 +918,7 @@ if (typeof module !== "undefined" && module.exports) {
+@@ -1649,6 +1671,7 @@ if (typeof module !== "undefined" && module.exports) {
      listedOrEmpty,
      listedOptions,
      objectForSetPoint,
@@ -58,7 +59,7 @@ index 34f84c0..a11c515 100644
      pointsForObject,
      notesDenied,
 diff --git a/tests/compiler.test.cjs b/tests/compiler.test.cjs
-index 2fd613e..001ebb7 100644
+index 03a685f..b095438 100644
 --- a/tests/compiler.test.cjs
 +++ b/tests/compiler.test.cjs
 @@ -10,6 +10,7 @@ const {
@@ -69,7 +70,7 @@ index 2fd613e..001ebb7 100644
    cortexPayload,
    nodesWithoutNotes,
  } = require("../engine.js");
-@@ -752,3 +753,50 @@ test("nodesWithoutNotes drops only the note field", () => {
+@@ -742,3 +743,50 @@ test("nodesWithoutNotes drops only the note field", () => {
    assert.equal(rows[0].object_type, "inventory");
    assert.equal("note" in rows[0], false);
  });

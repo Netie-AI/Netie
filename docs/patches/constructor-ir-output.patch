@@ -1,8 +1,8 @@
 diff --git a/engine.js b/engine.js
-index c4877a4..52970fb 100644
+index c2fd465..6fc5a58 100644
 --- a/engine.js
 +++ b/engine.js
-@@ -196,10 +196,19 @@ function compileIR(state) {
+@@ -140,10 +140,19 @@ function compileIR(state) {
        return irError(ghost, "tool_call missing action_type");
      }
    }
@@ -27,7 +27,7 @@ index c4877a4..52970fb 100644
      version: "1.0",
      engine: "cortex",
 diff --git a/tests/compiler.test.cjs b/tests/compiler.test.cjs
-index f930e27..babf766 100644
+index 1ee7668..cf4c380 100644
 --- a/tests/compiler.test.cjs
 +++ b/tests/compiler.test.cjs
 @@ -80,6 +80,39 @@ test("compileIR entry is the Kahn source, not array[0]", () => {

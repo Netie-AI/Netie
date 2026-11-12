@@ -1,8 +1,8 @@
 diff --git a/engine.js b/engine.js
-index 7a2cac8..e40c81f 100644
+index d87a167..5e8ce7a 100644
 --- a/engine.js
 +++ b/engine.js
-@@ -229,6 +229,9 @@ function compileIR(state) {
+@@ -173,6 +173,9 @@ function compileIR(state) {
    if (seen !== nodes.length) {
      return irError(ghost, "cycle");
    }
@@ -12,7 +12,7 @@ index 7a2cac8..e40c81f 100644
    const order = topo({ nodes: nodes, edges: edges });
    if (!order.length) {
      return irError(ghost, "no entry");
-@@ -248,7 +251,12 @@ function compileIR(state) {
+@@ -192,7 +195,12 @@ function compileIR(state) {
      }
    }
    const byId = Object.create(null);
@@ -26,7 +26,7 @@ index 7a2cac8..e40c81f 100644
    let output = null;
    for (let i = order.length - 1; i >= 0; i--) {
      const n = byId[order[i]];
-@@ -258,7 +266,14 @@ function compileIR(state) {
+@@ -202,7 +210,14 @@ function compileIR(state) {
      }
    }
    if (!output) {
@@ -42,7 +42,7 @@ index 7a2cac8..e40c81f 100644
    }
    return {
      version: "1.0",
-@@ -314,6 +329,39 @@ function topo(state) {
+@@ -258,6 +273,39 @@ function topo(state) {
    return out;
  }
  
@@ -83,10 +83,10 @@ index 7a2cac8..e40c81f 100644
    const ir = compileIR(state);
    if (ir.error) {
 diff --git a/tests/compiler.test.cjs b/tests/compiler.test.cjs
-index dccecd3..90459e7 100644
+index cd2d767..56bb023 100644
 --- a/tests/compiler.test.cjs
 +++ b/tests/compiler.test.cjs
-@@ -384,8 +384,9 @@ test("compileIR uses the caller object catalog", () => {
+@@ -374,8 +374,9 @@ test("compileIR uses the caller object catalog", () => {
        { id: "ok", kind: "connector", object_type: "shipments" },
        { id: "no", kind: "connector", object_type: "inventory" },
      ],
@@ -97,7 +97,7 @@ index dccecd3..90459e7 100644
    assert.equal(ir.nodes.find((n) => n.id === "ok").object_type, "shipments");
    assert.equal(ir.nodes.find((n) => n.id === "no").object_type, null);
  });
-@@ -589,3 +590,83 @@ test("ghostWalk refuses unknown tool_call action", () => {
+@@ -579,3 +580,83 @@ test("ghostWalk refuses unknown tool_call action", () => {
    assert.equal(walked.error, "tool_call unknown action_type");
    assert.deepEqual(walked.log, []);
  });

@@ -1,5 +1,5 @@
 diff --git a/OpenMW/openmw/openvault/route/execution.py b/OpenMW/openmw/openvault/route/execution.py
-index c66b682..972ed67 100644
+index c66b682e..972ed671 100644
 --- a/OpenMW/openmw/openvault/route/execution.py
 +++ b/OpenMW/openmw/openvault/route/execution.py
 @@ -127,6 +127,68 @@ def unported_http(
@@ -72,7 +72,7 @@ index c66b682..972ed67 100644
      if not isinstance(tools, list) or not tools:
          return False
 diff --git a/OpenMW/openmw/openvault/vault/budget.py b/OpenMW/openmw/openvault/vault/budget.py
-index b97fa40..4de9f24 100644
+index 6ea5a3ce..34fd4fef 100644
 --- a/OpenMW/openmw/openvault/vault/budget.py
 +++ b/OpenMW/openmw/openvault/vault/budget.py
 @@ -40,6 +40,7 @@ from typing import Any
@@ -83,9 +83,9 @@ index b97fa40..4de9f24 100644
  from openmw.openvault.vault.providers import budget_for, get_provider
  
  log = structlog.get_logger()
-@@ -219,7 +220,7 @@ def prepare_hop_body(
-     not win over the ceiling, or a reasoning model with a nearly-full context
-     would get a budget that cannot fit.
+@@ -224,7 +225,7 @@ def prepare_hop_body(
+     the ceilings, so a reasoning floor above it skips the hop instead of
+     sending more than the cap allows.
      """
 -    hop = {**body, "model": model}
 +    hop = {**hop_body_from_chat(body), "model": model}
@@ -93,10 +93,10 @@ index b97fa40..4de9f24 100644
      window = context_window_for(provider, model)
  
 diff --git a/OpenMW/openmw/openvault/vault/proxy.py b/OpenMW/openmw/openvault/vault/proxy.py
-index 223a591..8f3ee9d 100644
+index f7f047cf..476fd133 100644
 --- a/OpenMW/openmw/openvault/vault/proxy.py
 +++ b/OpenMW/openmw/openvault/vault/proxy.py
-@@ -18,6 +18,7 @@ from openmw.openvault.route.execution import (
+@@ -22,6 +22,7 @@ from openmw.openvault.route.execution import (
      StrategyIsASort,
      chat_shape_refusal,
      combo_models_from_body,
@@ -104,8 +104,8 @@ index 223a591..8f3ee9d 100644
      dispatch_combo,
      extract_assistant_text,
      hop_call_model,
-@@ -587,6 +588,10 @@ async def chat_completions(
-     the return tuple is unpacked by four test modules that do not want it.
+@@ -1470,6 +1471,10 @@ async def chat_completions(
+     is exactly the pre-policy pool walk.
      """
      trace = trace if trace is not None else HopTrace()
 +    crew = crew_body_http(body)
@@ -115,7 +115,7 @@ index 223a591..8f3ee9d 100644
      unported = unported_http(body)
      if unported:
          trace.error_type = "openvault_unported"
-@@ -786,6 +791,10 @@ async def prepare_chat_stream(
+@@ -1770,6 +1775,10 @@ async def prepare_chat_stream(
      with the correct HTTP status (streaming cannot change status mid-flight).
      """
      trace = trace if trace is not None else HopTrace()
@@ -127,7 +127,7 @@ index 223a591..8f3ee9d 100644
      if unported:
          trace.error_type = "openvault_unported"
 diff --git a/OpenMW/tests/test_execution_chat.py b/OpenMW/tests/test_execution_chat.py
-index bf140e3..53197e7 100644
+index 22dfcbb5..c33fbcab 100644
 --- a/OpenMW/tests/test_execution_chat.py
 +++ b/OpenMW/tests/test_execution_chat.py
 @@ -137,6 +137,44 @@ def test_v1_parallel_is_501_not_key_walk(
@@ -176,7 +176,7 @@ index bf140e3..53197e7 100644
      vault: KeyVault, monkeypatch: pytest.MonkeyPatch, tmp_path: Path
  ) -> None:
 diff --git a/OpenMW/tests/test_execution_shapes.py b/OpenMW/tests/test_execution_shapes.py
-index 8112d16..2223b60 100644
+index 8112d162..2223b607 100644
 --- a/OpenMW/tests/test_execution_shapes.py
 +++ b/OpenMW/tests/test_execution_shapes.py
 @@ -34,6 +34,8 @@ from openmw.openvault.route.execution import (
@@ -218,10 +218,10 @@ index 8112d16..2223b60 100644
      reset_route_state()
      app = FastAPI()
 diff --git a/OpenMW/tests/test_freeroute_metering.py b/OpenMW/tests/test_freeroute_metering.py
-index e1b136e..6a82a9b 100644
+index 68aa3e9f..72a4b47b 100644
 --- a/OpenMW/tests/test_freeroute_metering.py
 +++ b/OpenMW/tests/test_freeroute_metering.py
-@@ -599,6 +599,26 @@ class TestBudgetResolution:
+@@ -606,6 +606,26 @@ class TestBudgetResolution:
          assert "max_tokens" not in decision.body
          assert decision.body["max_completion_tokens"] == 2000
  
