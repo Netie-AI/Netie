@@ -362,7 +362,7 @@ git apply docs/patches/dms-demo-acl-resolve.patch
 
 ## Pointer (`Netie-AI/Pointer`)
 
-`uv add git+https://github.com/Netie-AI/Netie.git` then `from netie.pointer import bind_computer, invoke_hand, guard_observe`. From the Pointer repo root, on `main` (`8c0e6c2`):
+`uv add git+https://github.com/Netie-AI/Netie.git` then `from netie.pointer import bind_computer, invoke_hand, guard_observe`. From the Pointer repo root, on `main` (`b42b98d`):
 
 ```
 git apply docs/patches/pointer-netie-hands.patch
