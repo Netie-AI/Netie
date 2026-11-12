@@ -328,7 +328,7 @@ Adds `POST /api/crew/gate`: location + allowed, never a skill body. Unknown kind
 
 ## Cortex (`Netie-AI/Cortex`)
 
-Do not `uv add git+https://github.com/Netie-AI/Netie.git`. Cortex already owns the Python package name `netie` (CortexOS alias). From the Cortex repo root, on `main` (`bf4ecee`):
+Do not `uv add git+https://github.com/Netie-AI/Netie.git`. Cortex already owns the Python package name `netie` (CortexOS alias). From the Cortex repo root, on `main` (`304bf84`):
 
 ```
 git apply docs/patches/cortex-netie-path.patch
@@ -338,7 +338,7 @@ git apply docs/patches/cortex-observe-guard.patch
 python3 -m pytest tests/dms/test_constitution_path.py tests/dms/test_broker_no_skip.py tests/dms/test_f7_rbac.py -k "not tool_runner" -q
 ```
 
-Copies `scripts/cortex_path.py` to `CortexOS/constitution/cortex_path.py`. `/dms/query` post-checks a bound VerifiedManifest before a non-abstain answer (unbound still abstains, not 400). `tool_runner` refuses coding-agent tools (`bash` / filesystem) before the ontology allowlist. `/a2a/messages` calls `run_question(..., pack=dms, a2a=True)`. `default_broker` no longer skips F8 for `web_search` / `web_fetch` / `find_*` (unregistered denies; C2 allowlist does not grow). Then `cortex-role-execute.patch` puts `require_role` on `app_routes` / `dag_run` / `dms_query` / `chat_routes` (TAS-CORTEX named gap). Then `cortex-observe-guard.patch` sends `computer.observe` / screenshot names through `guard_observe` (uncropped PNG / clipboard / window dump refuse). Portable Netie `run_question` also requires `role` on write/tool and calls `guard_observe` for observe tools. Score stays **4/10** governed Q&A. Pointer governed score stays **2/10** until this lands on Cortex HEAD. Push 403.
+Copies `scripts/cortex_path.py` to `CortexOS/constitution/cortex_path.py`. `/dms/query` post-checks a bound VerifiedManifest before a non-abstain answer (unbound still abstains, not 400). `tool_runner` refuses coding-agent tools (`bash` / filesystem) before the ontology allowlist. `/a2a/messages` calls `run_question(..., pack=dms, a2a=True)`. `default_broker` no longer skips F8 for `web_search` / `web_fetch` / `find_*` (unregistered denies; C2 allowlist does not grow). Then `cortex-role-execute.patch` puts `require_role` on `dms_query` (engine auth port) / `chat_routes` (TAS-CORTEX named gap). `app_routes` and `dag_run` are already gated on Cortex HEAD (TRUST-01, `require_spend_key`), so the patch no longer touches them. **Open decision:** on `304bf84` with the four patches applied, 43 of Cortex's own tests fail: 6 because `cortex-web-via-runner.patch` removes the built-in `web_fetch` Cortex now keeps with an SSRF guard, 37 because newer tests post `/dms/query` with no key and the gate answers 401. Then `cortex-observe-guard.patch` sends `computer.observe` / screenshot names through `guard_observe` (uncropped PNG / clipboard / window dump refuse). Portable Netie `run_question` also requires `role` on write/tool and calls `guard_observe` for observe tools. Score stays **4/10** governed Q&A. Pointer governed score stays **2/10** until this lands on Cortex HEAD. Push 403.
 
 ## DMS (`Netie-AI/dms`)
 

@@ -779,8 +779,22 @@ class SiblingPatchTests(unittest.TestCase):
                 encoding="utf-8"
             )
             self.assertIn('require_role("viewer")', query)
+            # Cortex HEAD gates /run itself (TRUST-01): the route takes an injected
+            # dependency, app.py injects require_spend_key, and that is a steward
+            # check. Assert all three links, not a string in dag_run.py.
             dag = (dest / "CortexOS" / "api" / "dag_run.py").read_text(encoding="utf-8")
-            self.assertIn('require_role("steward")', dag)
+            self.assertIn('@app.post("/run", dependencies=[Depends(auth)])', dag)
+            app_py = (dest / "CortexOS" / "api" / "app.py").read_text(encoding="utf-8")
+            self.assertIn(
+                "register_dag_run_routes(app, spend_auth=require_spend_key)", app_py
+            )
+            pack_auth = (
+                dest / "packs" / "dms" / "security" / "api_auth.py"
+            ).read_text(encoding="utf-8")
+            self.assertIn(
+                'require_spend_key = require_role("steward", honor_auth_disabled=False)',
+                pack_auth,
+            )
             apps = (dest / "CortexOS" / "api" / "app_routes.py").read_text(
                 encoding="utf-8"
             )
