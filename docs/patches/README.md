@@ -396,3 +396,32 @@ python3 tests/test_netie_index.py
 
 `kb_show` / GET `/item/S-*` return an index row (id, title, status), never the skill markdown body. GET `/index?kind=skill` and MCP `kb_list(kind=skill)` return JSON briefs (`list_briefs` when Netie is installed; `_brief` locally). Rules / workflows / findings / attacks still dump corpus text on show. `child_text` uses `from netie.kb import show_brief` when Netie is installed; same rule locally otherwise. Crew `register_index(list_briefs(rows))` is the dump path. Wrap score stays **3/10**. Push 403.
 
+
+## Voice capture (personal tool, not a Netie product)
+
+Founder's personal capture tool. It is **not** in `NETIE.md`, not in `ecosystem/catalog.json`
+and claims no stage. It calls the Anthropic API with its own key, so it is **off** the safe
+path (app -> Cortex -> OpenVault). Making it a product needs a PRD and an OpenVault route
+first. The patches are parked here only because this token cannot push anywhere else.
+
+Upstream: `https://github.com/shdennlin/whisper-wrap` at `56e5cf6` (MIT, class A). The
+upstream `LICENSE` is untouched by both patches.
+
+```
+git clone https://github.com/shdennlin/whisper-wrap && cd whisper-wrap
+git checkout 56e5cf60bc358a88b66b09909cefcab4fe211908
+git am /path/to/Netie/docs/patches/voice-capture-0001-capture.patch
+git am /path/to/Netie/docs/patches/voice-capture-0002-ask-claude.patch
+uv sync --extra dev && uv run pytest tests/test_capture.py tests/test_llm_claude.py
+```
+
+`0001` adds `POST /capture`: iPhone Shortcut audio -> Whisper -> Claude structured output ->
+`tasks.md`, `notes.md`, `expenses.csv` under `DATA_DIR/capture/`. Bearer token required, the
+endpoint refuses when `CAPTURE_TOKEN` is unset. A sort failure keeps the transcript in
+`inbox.md` and the response says `sorted: false`. `0002` answers `POST /ask` with Claude when
+`ANTHROPIC_API_KEY` is set and leaves Gemini in place otherwise. Setup and the Shortcut steps
+are in the patched tree at `docs/CAPTURE.md`.
+
+Measured: 13 of 13 service tests pass in an isolated venv with the Anthropic client stubbed.
+Not run: the 5 endpoint tests in `tests/test_capture.py`, the upstream suite, a live Claude
+call, and the Shortcut on a phone. See `docs/subagents_findings/2026-11-12-voice-capture.md`.

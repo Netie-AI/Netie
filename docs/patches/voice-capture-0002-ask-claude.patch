@@ -1,0 +1,344 @@
+From 66cd51fe3d591b1427acd8b603696d377e325ee2 Mon Sep 17 00:00:00 2001
+From: Claude <noreply@anthropic.com>
+Date: Thu, 12 Nov 2026 18:15:25 +0000
+Subject: [PATCH 2/2] Answer POST /ask with Claude when ANTHROPIC_API_KEY is
+ set
+
+Gemini stays the backend when the key is absent, so existing setups and
+tests are unchanged.
+---
+ .env.example               |  11 +++-
+ app/config.py              |   9 ++-
+ app/main.py                |  21 +++++--
+ app/services/llm_claude.py |  87 ++++++++++++++++++++++++++++
+ docs/CAPTURE.md            |  10 +++-
+ tests/test_llm_claude.py   | 114 +++++++++++++++++++++++++++++++++++++
+ 6 files changed, 240 insertions(+), 12 deletions(-)
+ create mode 100644 app/services/llm_claude.py
+ create mode 100644 tests/test_llm_claude.py
+
+diff --git a/.env.example b/.env.example
+index ac44508..a21b44d 100644
+--- a/.env.example
++++ b/.env.example
+@@ -26,10 +26,15 @@ GEMINI_API_KEY=
+ GEMINI_MODEL=gemini-3.1-flash-lite
+ # GEMINI_SYSTEM_PROMPT=                  # Override built-in Taiwan-friendly persona
+ 
+-# Voice capture (POST /capture): Whisper transcript -> Claude -> tasks.md,
+-# notes.md, expenses.csv under DATA_DIR/capture/. Both values are required;
+-# with CAPTURE_TOKEN empty the endpoint refuses every request.
++# Claude. With ANTHROPIC_API_KEY set, POST /ask answers with Claude and the
++# GEMINI_* values above are ignored.
+ ANTHROPIC_API_KEY=
++# CLAUDE_MODEL=claude-opus-5-5
++# CLAUDE_SYSTEM_PROMPT=
++
++# Voice capture (POST /capture): Whisper transcript -> Claude -> tasks.md,
++# notes.md, expenses.csv under DATA_DIR/capture/. Needs ANTHROPIC_API_KEY and
++# CAPTURE_TOKEN; with CAPTURE_TOKEN empty the endpoint refuses every request.
+ CAPTURE_TOKEN=                           # long random string; the Shortcut sends it as a Bearer token
+ # CAPTURE_MODEL=claude-opus-5-5
+ # CAPTURE_TOPICS=move,motorcycle,pj-shipping
+diff --git a/app/config.py b/app/config.py
+index 4c75add..a471254 100644
+--- a/app/config.py
++++ b/app/config.py
+@@ -148,9 +148,14 @@ class Config:
+         self.GEMINI_MODEL: str | None = os.environ.get("GEMINI_MODEL")
+         self.GEMINI_SYSTEM_PROMPT: str | None = os.environ.get("GEMINI_SYSTEM_PROMPT")
+ 
+-        # Voice capture (POST /capture): Claude sorts transcripts into tasks,
+-        # notes and expenses. CAPTURE_TOKEN unset = endpoint refuses (503).
++        # Claude. ANTHROPIC_API_KEY set = /ask answers with Claude instead of
++        # Gemini, and POST /capture can sort transcripts into tasks, notes and
++        # expenses. CAPTURE_TOKEN unset = /capture refuses (503).
+         self.ANTHROPIC_API_KEY: str | None = os.environ.get("ANTHROPIC_API_KEY") or None
++        self.CLAUDE_MODEL: str | None = os.environ.get("CLAUDE_MODEL") or None
++        self.CLAUDE_SYSTEM_PROMPT: str | None = (
++            os.environ.get("CLAUDE_SYSTEM_PROMPT") or None
++        )
+         self.CAPTURE_TOKEN: str | None = os.environ.get("CAPTURE_TOKEN") or None
+         self.CAPTURE_MODEL: str | None = os.environ.get("CAPTURE_MODEL") or None
+         self.CAPTURE_TOPICS: list[str] = [
+diff --git a/app/main.py b/app/main.py
+index 16ed09b..8782ffe 100644
+--- a/app/main.py
++++ b/app/main.py
+@@ -34,6 +34,7 @@ from app.services._whisper_backend import WhisperBackend, WhisperLoadError
+ from app.services.actions import load_actions, load_categories
+ from app.services.capture import CaptureService, CaptureStore
+ from app.services.llm import LLMClient
++from app.services.llm_claude import ClaudeLLMClient
+ from app.services.registry import (
+     HARDCODED_FALLBACK_MODEL_NAME,
+     RegistryError,
+@@ -272,13 +273,21 @@ async def lifespan(app: FastAPI):
+         len(app.state.action_categories),
+     )
+ 
+-    app.state.llm_client = LLMClient(
+-        api_key=config.GEMINI_API_KEY,
+-        model=config.GEMINI_MODEL,
+-        system_prompt=config.GEMINI_SYSTEM_PROMPT,
+-    )
++    if config.ANTHROPIC_API_KEY:
++        app.state.llm_client = ClaudeLLMClient(
++            api_key=config.ANTHROPIC_API_KEY,
++            model=config.CLAUDE_MODEL,
++            system_prompt=config.CLAUDE_SYSTEM_PROMPT,
++        )
++    else:
++        app.state.llm_client = LLMClient(
++            api_key=config.GEMINI_API_KEY,
++            model=config.GEMINI_MODEL,
++            system_prompt=config.GEMINI_SYSTEM_PROMPT,
++        )
+     logger.info(
+-        "Gemini LLM client: configured=%s, model=%s",
++        "/ask LLM client (%s): configured=%s, model=%s",
++        type(app.state.llm_client).__name__,
+         app.state.llm_client.configured,
+         app.state.llm_client.model,
+     )
+diff --git a/app/services/llm_claude.py b/app/services/llm_claude.py
+new file mode 100644
+index 0000000..22d76f6
+--- /dev/null
++++ b/app/services/llm_claude.py
+@@ -0,0 +1,87 @@
++"""Claude client for POST /ask. Same surface as `llm.LLMClient` (Gemini).
++
++The lifespan picks this one when `ANTHROPIC_API_KEY` is set; otherwise `/ask`
++stays on Gemini exactly as before. Reads `CLAUDE_MODEL` and
++`CLAUDE_SYSTEM_PROMPT` through `app.config`.
++"""
++
++import logging
++from collections.abc import AsyncIterator
++
++import anthropic
++
++from app.services.llm import LLMConfigError, LLMUpstreamError
++
++logger = logging.getLogger(__name__)
++
++DEFAULT_CLAUDE_MODEL = "claude-opus-5-5"
++DEFAULT_SYSTEM_PROMPT = (
++    "You are a voice assistant. The user asks by voice or text and the answer may "
++    "be read aloud, so reply briefly in plain spoken language with no markdown. "
++    "Answer in the language the user used."
++)
++FALLBACK_BETA = "server-side-fallback-2026-07-01"
++
++
++class ClaudeLLMClient:
++    """Single-shot and streaming Claude wrapper."""
++
++    def __init__(
++        self,
++        api_key: str | None,
++        model: str | None,
++        system_prompt: str | None,
++        *,
++        client_factory=None,
++    ):
++        self.api_key = api_key or None
++        self.model = model or DEFAULT_CLAUDE_MODEL
++        self.system_prompt = system_prompt or DEFAULT_SYSTEM_PROMPT
++        self._client_factory = client_factory or anthropic.AsyncAnthropic
++        self._client = None
++
++    @property
++    def configured(self) -> bool:
++        return bool(self.api_key)
++
++    def _ensure_client(self):
++        if not self.api_key:
++            raise LLMConfigError("ANTHROPIC_API_KEY is not configured")
++        if self._client is None:
++            self._client = self._client_factory(api_key=self.api_key)
++        return self._client
++
++    def _request(self, user_text: str) -> dict:
++        return {
++            "model": self.model,
++            "max_tokens": 16000,
++            "system": self.system_prompt,
++            "messages": [{"role": "user", "content": user_text}],
++            "betas": [FALLBACK_BETA],
++            "fallbacks": "default",
++        }
++
++    async def ask(self, user_text: str) -> str:
++        """Single-shot completion. Returns the answer text."""
++        client = self._ensure_client()
++        try:
++            response = await client.beta.messages.create(**self._request(user_text))
++        except Exception as e:
++            raise LLMUpstreamError(f"Claude call failed: {e}") from e
++        if response.stop_reason == "refusal":
++            raise LLMUpstreamError("Claude declined to answer")
++        return "".join(b.text for b in response.content if b.type == "text")
++
++    async def ask_stream(self, user_text: str) -> AsyncIterator[str]:
++        """Yield text deltas as Claude streams them."""
++        client = self._ensure_client()
++        try:
++            async with client.beta.messages.stream(**self._request(user_text)) as stream:
++                async for text in stream.text_stream:
++                    if text:
++                        yield text
++                final = await stream.get_final_message()
++        except Exception as e:
++            raise LLMUpstreamError(f"Claude streaming failed: {e}") from e
++        if final.stop_reason == "refusal":
++            raise LLMUpstreamError("Claude declined to answer")
+diff --git a/docs/CAPTURE.md b/docs/CAPTURE.md
+index 00c121f..16c711f 100644
+--- a/docs/CAPTURE.md
++++ b/docs/CAPTURE.md
+@@ -72,11 +72,19 @@ If Claude is unreachable, the key is wrong, or it declines, you still get HTTP 2
+ `Saved UNSORTED to inbox (...)`. The transcript is in `inbox.md` and `transcripts.jsonl`.
+ Nothing is dropped.
+ 
++## /ask on Claude
++
++Setting `ANTHROPIC_API_KEY` also moves the existing `POST /ask` endpoint (and the bundled
++ASR-Ask Shortcut) from Gemini to Claude. `/status` still reports it under the `gemini` key,
++because the PWA reads that name; the `model` value there shows which one is live.
++
+ ## Settings
+ 
+ | Variable | Default | Meaning |
+ |---|---|---|
+-| `ANTHROPIC_API_KEY` | none | Claude key. Unset means everything goes to the inbox. |
++| `ANTHROPIC_API_KEY` | none | Claude key. Unset means captures go to the inbox and `/ask` stays on Gemini. |
++| `CLAUDE_MODEL` | `claude-opus-5-5` | Model for `/ask`. |
++| `CLAUDE_SYSTEM_PROMPT` | short voice-assistant persona | System prompt for `/ask`. |
+ | `CAPTURE_TOKEN` | none | Bearer token the Shortcut sends. Unset means 503. |
+ | `CAPTURE_MODEL` | `claude-opus-5-5` | Any Claude model id. |
+ | `CAPTURE_TOPICS` | empty | Comma-separated tags Claude may attach. |
+diff --git a/tests/test_llm_claude.py b/tests/test_llm_claude.py
+new file mode 100644
+index 0000000..175b18a
+--- /dev/null
++++ b/tests/test_llm_claude.py
+@@ -0,0 +1,114 @@
++"""Unit tests for app/services/llm_claude.py (Claude backend for /ask)."""
++
++from types import SimpleNamespace
++from unittest.mock import AsyncMock, MagicMock
++
++import pytest
++
++from app.services.llm import LLMConfigError, LLMUpstreamError
++from app.services.llm_claude import (
++    DEFAULT_CLAUDE_MODEL,
++    DEFAULT_SYSTEM_PROMPT,
++    ClaudeLLMClient,
++)
++
++
++def _text(s):
++    return SimpleNamespace(type="text", text=s)
++
++
++def _client(fake=None, **kw):
++    kw.setdefault("api_key", "k")
++    kw.setdefault("model", None)
++    kw.setdefault("system_prompt", None)
++    return ClaudeLLMClient(client_factory=MagicMock(return_value=fake), **kw)
++
++
++class _FakeStream:
++    def __init__(self, chunks, stop_reason="end_turn", error=None):
++        self._chunks, self._stop_reason, self._error = chunks, stop_reason, error
++
++    async def __aenter__(self):
++        return self
++
++    async def __aexit__(self, *exc):
++        return False
++
++    @property
++    def text_stream(self):
++        async def gen():
++            for c in self._chunks:
++                yield c
++            if self._error:
++                raise self._error
++
++        return gen()
++
++    async def get_final_message(self):
++        return SimpleNamespace(stop_reason=self._stop_reason)
++
++
++def test_defaults_and_configured():
++    c = _client()
++    assert c.model == DEFAULT_CLAUDE_MODEL
++    assert c.system_prompt == DEFAULT_SYSTEM_PROMPT
++    assert c.configured is True
++    assert _client(api_key=None).configured is False
++    assert _client(api_key="").configured is False
++
++
++async def test_ask_raises_config_error_without_key():
++    with pytest.raises(LLMConfigError):
++        await _client(api_key=None).ask("hi")
++
++
++async def test_ask_forwards_request_and_joins_text_blocks():
++    fake = MagicMock()
++    fake.beta.messages.create = AsyncMock(
++        return_value=SimpleNamespace(
++            stop_reason="end_turn",
++            content=[SimpleNamespace(type="thinking", thinking=""), _text("hello "), _text("back")],
++        )
++    )
++    c = _client(fake, model="m", system_prompt="sp")
++    assert await c.ask("question") == "hello back"
++    kwargs = fake.beta.messages.create.await_args.kwargs
++    assert kwargs["model"] == "m"
++    assert kwargs["system"] == "sp"
++    assert kwargs["messages"] == [{"role": "user", "content": "question"}]
++
++
++async def test_ask_maps_upstream_error_and_refusal():
++    fake = MagicMock()
++    fake.beta.messages.create = AsyncMock(side_effect=Exception("rate limited"))
++    with pytest.raises(LLMUpstreamError, match="rate limited"):
++        await _client(fake).ask("hi")
++
++    fake.beta.messages.create = AsyncMock(
++        return_value=SimpleNamespace(stop_reason="refusal", content=[])
++    )
++    with pytest.raises(LLMUpstreamError, match="declined"):
++        await _client(fake).ask("hi")
++
++
++async def test_ask_stream_yields_deltas_and_skips_empty():
++    fake = MagicMock()
++    fake.beta.messages.stream = MagicMock(return_value=_FakeStream(["hel", "", "lo"]))
++    assert [t async for t in _client(fake).ask_stream("hi")] == ["hel", "lo"]
++
++
++async def test_ask_stream_maps_midstream_error_and_refusal():
++    fake = MagicMock()
++    fake.beta.messages.stream = MagicMock(
++        return_value=_FakeStream(["a"], error=Exception("dropped"))
++    )
++    got = []
++    with pytest.raises(LLMUpstreamError, match="dropped"):
++        async for t in _client(fake).ask_stream("hi"):
++            got.append(t)
++    assert got == ["a"]
++
++    fake.beta.messages.stream = MagicMock(return_value=_FakeStream([], stop_reason="refusal"))
++    with pytest.raises(LLMUpstreamError, match="declined"):
++        async for _ in _client(fake).ask_stream("hi"):
++            pass
+-- 
+2.43.0
+

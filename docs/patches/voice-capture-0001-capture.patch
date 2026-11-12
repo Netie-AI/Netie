@@ -1,0 +1,745 @@
+From 71171f26f3b997e37729b529704a106724c62285 Mon Sep 17 00:00:00 2001
+From: Claude <noreply@anthropic.com>
+Date: Thu, 12 Nov 2026 18:10:01 +0000
+Subject: [PATCH 1/2] Add POST /capture: voice note to tasks, notes and
+ expenses via Claude
+
+Whisper transcript goes to Claude (structured output), items are appended to
+tasks.md, notes.md and expenses.csv under DATA_DIR/capture. Bearer token
+required. A sort failure keeps the transcript in inbox.md and reports it.
+---
+ .env.example            |   9 ++
+ app/api/capture.py      |  83 ++++++++++++++
+ app/config.py           |  10 ++
+ app/main.py             |  17 +++
+ app/services/capture.py | 234 ++++++++++++++++++++++++++++++++++++++++
+ docs/CAPTURE.md         |  83 ++++++++++++++
+ pyproject.toml          |   1 +
+ tests/test_capture.py   | 192 +++++++++++++++++++++++++++++++++
+ 8 files changed, 629 insertions(+)
+ create mode 100644 app/api/capture.py
+ create mode 100644 app/services/capture.py
+ create mode 100644 docs/CAPTURE.md
+ create mode 100644 tests/test_capture.py
+
+diff --git a/.env.example b/.env.example
+index 7e5f5fe..ac44508 100644
+--- a/.env.example
++++ b/.env.example
+@@ -26,6 +26,15 @@ GEMINI_API_KEY=
+ GEMINI_MODEL=gemini-3.1-flash-lite
+ # GEMINI_SYSTEM_PROMPT=                  # Override built-in Taiwan-friendly persona
+ 
++# Voice capture (POST /capture): Whisper transcript -> Claude -> tasks.md,
++# notes.md, expenses.csv under DATA_DIR/capture/. Both values are required;
++# with CAPTURE_TOKEN empty the endpoint refuses every request.
++ANTHROPIC_API_KEY=
++CAPTURE_TOKEN=                           # long random string; the Shortcut sends it as a Bearer token
++# CAPTURE_MODEL=claude-opus-5-5
++# CAPTURE_TOPICS=move,motorcycle,pj-shipping
++# CAPTURE_DEFAULT_CURRENCY=MYR
++
+ # Transcription post-process filter (shared by /listen, /transcribe, /ask,
+ # /v1/audio/*). Whisper sometimes returns empty strings or pure punctuation
+ # ("。", "。。。") for noise; this filter suppresses those results so they
+diff --git a/app/api/capture.py b/app/api/capture.py
+new file mode 100644
+index 0000000..d87edec
+--- /dev/null
++++ b/app/api/capture.py
+@@ -0,0 +1,83 @@
++"""POST /capture: voice note (or text) in, sorted tasks / notes / expenses out.
++
++Same body dispatch as `/ask`: multipart `file`, raw `audio/*`, the
++`application/octet-stream` an iOS Shortcut sends, or JSON `{"text": "..."}`.
++
++Unlike the rest of this server, `/capture` requires `Authorization: Bearer
++<CAPTURE_TOKEN>`: it spends Claude credit and writes to personal records. With
++`CAPTURE_TOKEN` unset the endpoint refuses every request (fails closed).
++
++Always 200 once a transcript exists. `sorted: false` plus `error` means the
++transcript was kept in the inbox but Claude did not sort it; `summary` says so.
++"""
++
++import hmac
++import logging
++
++from fastapi import APIRouter, HTTPException, Query, Request
++from fastapi.responses import JSONResponse
++
++from app.api.ask import (
++    CT_JSON,
++    _extract_audio_body,
++    _is_supported_ask_content_type,
++    _read_text_body,
++    _run_audio_pipeline,
++)
++from app.api.transcribe import _normalize_content_type
++from app.config import config
++from app.services.postprocess import Drop, filter_empty_transcription
++
++logger = logging.getLogger(__name__)
++
++router = APIRouter()
++
++
++def _check_token(request: Request) -> None:
++    expected = config.CAPTURE_TOKEN
++    if not expected:
++        raise HTTPException(status_code=503, detail="CAPTURE_TOKEN is not configured")
++    supplied = request.headers.get("authorization", "")
++    if not hmac.compare_digest(supplied.encode(), f"Bearer {expected}".encode()):
++        raise HTTPException(status_code=401, detail="Invalid or missing bearer token")
++
++
++@router.post("/capture")
++async def capture(
++    request: Request,
++    language: str = Query("auto", description="Spoken language hint for audio inputs"),
++    prompt: str | None = Query(
++        None, description="Initial prompt seed for audio transcription"
++    ),
++):
++    _check_token(request)
++
++    content_type = _normalize_content_type(request.headers.get("content-type"))
++    if not _is_supported_ask_content_type(content_type):
++        raise HTTPException(
++            status_code=415,
++            detail=f"Unsupported Content-Type: {content_type or '<missing>'}",
++        )
++
++    if content_type == CT_JSON:
++        transcript = await _read_text_body(request)
++    else:
++        body, suffix, _mime = await _extract_audio_body(request, content_type)
++        raw, _duration = await _run_audio_pipeline(
++            request, body, suffix, language, prompt
++        )
++        decision = filter_empty_transcription(
++            text=raw,
++            duration_ms=None,
++            enabled=config.FILTER_EMPTY_ENABLED,
++            min_duration_ms=config.FILTER_MIN_DURATION_MS,
++        )
++        if isinstance(decision, Drop):
++            return JSONResponse(
++                {"error": "no_speech_detected", "summary": "No speech detected"},
++                status_code=400,
++            )
++        transcript = decision.text
++
++    result = await request.app.state.capture.capture(transcript)
++    return result.to_dict()
+diff --git a/app/config.py b/app/config.py
+index c449149..4c75add 100644
+--- a/app/config.py
++++ b/app/config.py
+@@ -148,6 +148,16 @@ class Config:
+         self.GEMINI_MODEL: str | None = os.environ.get("GEMINI_MODEL")
+         self.GEMINI_SYSTEM_PROMPT: str | None = os.environ.get("GEMINI_SYSTEM_PROMPT")
+ 
++        # Voice capture (POST /capture): Claude sorts transcripts into tasks,
++        # notes and expenses. CAPTURE_TOKEN unset = endpoint refuses (503).
++        self.ANTHROPIC_API_KEY: str | None = os.environ.get("ANTHROPIC_API_KEY") or None
++        self.CAPTURE_TOKEN: str | None = os.environ.get("CAPTURE_TOKEN") or None
++        self.CAPTURE_MODEL: str | None = os.environ.get("CAPTURE_MODEL") or None
++        self.CAPTURE_TOPICS: list[str] = [
++            t.strip() for t in os.getenv("CAPTURE_TOPICS", "").split(",") if t.strip()
++        ]
++        self.CAPTURE_DEFAULT_CURRENCY: str = os.getenv("CAPTURE_DEFAULT_CURRENCY", "MYR")
++
+         # Meeting analysis (POST /transcribe/meeting). Gated at endpoint level —
+         # missing HF_TOKEN does NOT block lifespan. HF_TOKEN preserves unset (None)
+         # vs empty ("") so the endpoint can translate either to a 503 without
+diff --git a/app/main.py b/app/main.py
+index bfd6e3b..16ed09b 100644
+--- a/app/main.py
++++ b/app/main.py
+@@ -21,6 +21,7 @@ from fastapi.staticfiles import StaticFiles
+ from app import __version__
+ from app.api.actions import router as actions_router
+ from app.api.ask import router as ask_router
++from app.api.capture import router as capture_router
+ from app.api.listen import router as listen_router
+ from app.api.meeting import router as meeting_router
+ from app.api.meeting_history import router as meeting_history_router
+@@ -31,6 +32,7 @@ from app.api.transcribe import router as transcribe_router
+ from app.config import config, load_env_file
+ from app.services._whisper_backend import WhisperBackend, WhisperLoadError
+ from app.services.actions import load_actions, load_categories
++from app.services.capture import CaptureService, CaptureStore
+ from app.services.llm import LLMClient
+ from app.services.registry import (
+     HARDCODED_FALLBACK_MODEL_NAME,
+@@ -281,6 +283,20 @@ async def lifespan(app: FastAPI):
+         app.state.llm_client.model,
+     )
+ 
++    app.state.capture = CaptureService(
++        api_key=config.ANTHROPIC_API_KEY,
++        store=CaptureStore(config.DATA_DIR / "capture"),
++        model=config.CAPTURE_MODEL,
++        topics=config.CAPTURE_TOPICS,
++        default_currency=config.CAPTURE_DEFAULT_CURRENCY,
++    )
++    logger.info(
++        "Capture: claude_configured=%s, token_set=%s, model=%s",
++        app.state.capture.configured,
++        bool(config.CAPTURE_TOKEN),
++        app.state.capture.model,
++    )
++
+     logger.info(
+         "Whisper backend ready (%s/%s) in %d ms",
+         metadata["backend"],
+@@ -314,6 +330,7 @@ app = FastAPI(
+ 
+ app.include_router(transcribe_router)
+ app.include_router(ask_router)
++app.include_router(capture_router)
+ app.include_router(status_router)
+ app.include_router(listen_router)
+ app.include_router(openai_compat_router)
+diff --git a/app/services/capture.py b/app/services/capture.py
+new file mode 100644
+index 0000000..bd8ad73
+--- /dev/null
++++ b/app/services/capture.py
+@@ -0,0 +1,234 @@
++"""Voice capture: sort a transcript into tasks, notes and expenses with Claude.
++
++Standalone on purpose: imports nothing from `app`, so it can be tested without
++the Whisper stack. The router in `app/api/capture.py` owns HTTP and STT.
++
++Data-loss rule: the raw transcript is appended to `transcripts.jsonl` BEFORE the
++Claude call. If sorting fails for any reason, the transcript also lands in
++`inbox.md` and the result says `sorted=False` with the cause. Nothing is
++dropped silently.
++
++Files written under `<data_dir>/capture/`:
++  transcripts.jsonl  every capture, raw
++  tasks.md           `- [ ] text (due 2026-11-20) #topic`
++  notes.md           `- 2026-11-12 14:03 text #topic`
++  expenses.csv       timestamp,amount,currency,description,topic
++  inbox.md           transcripts Claude could not sort
++"""
++
++from __future__ import annotations
++
++import csv
++import json
++import logging
++import threading
++from dataclasses import dataclass, field
++from datetime import datetime
++from pathlib import Path
++from typing import Literal
++
++import anthropic
++from pydantic import BaseModel
++
++logger = logging.getLogger(__name__)
++
++DEFAULT_CAPTURE_MODEL = "claude-opus-5-5"
++FALLBACK_BETA = "server-side-fallback-2026-07-01"
++
++SYSTEM_PROMPT = """\
++You sort one person's dictated voice notes into their personal records. Each \
++transcript comes from speech-to-text, so expect misheard words and missing \
++punctuation, and read for intent.
++
++Split the transcript into separate items and give each one a kind:
++- task: something they intend to do or must not forget to do.
++- expense: money they spent or committed to pay. Fill `amount` as a plain \
++number and `currency` as an ISO 4217 code. If they name no currency, use the \
++default currency given in the message.
++- note: anything else worth keeping (a fact, a quote, a price they were told \
++but have not paid, an idea).
++
++One transcript often holds several items, and one sentence can hold two (paying \
++a deposit and needing to collect the bike is an expense and a task). Write each \
++item's `text` as a short, self-contained line in their own words, cleaned of \
++filler. Do not invent details they did not say.
++
++Set `due` (YYYY-MM-DD) only when they state or clearly imply a date, resolving \
++relative dates against today's date in the message. Set `topic` to one of the \
++topics listed in the message when the item clearly belongs to it, otherwise \
++leave it empty. Leave `amount` and `currency` empty for tasks and notes.\
++"""
++
++
++class CaptureItem(BaseModel):
++    kind: Literal["task", "note", "expense"]
++    text: str
++    amount: float | None = None
++    currency: str | None = None
++    due: str | None = None
++    topic: str | None = None
++
++
++class CaptureItems(BaseModel):
++    items: list[CaptureItem]
++
++
++@dataclass
++class CaptureResult:
++    transcript: str
++    sorted: bool
++    items: list[CaptureItem] = field(default_factory=list)
++    error: str | None = None
++
++    @property
++    def summary(self) -> str:
++        """One line for the iPhone Shortcut to show as a notification."""
++        if not self.sorted:
++            return f"Saved UNSORTED to inbox ({self.error})"
++        if not self.items:
++            return "Nothing to file"
++        counts = {k: sum(i.kind == k for i in self.items) for k in ("task", "note", "expense")}
++        parts = [f"{n} {k}{'s' if n != 1 else ''}" for k, n in counts.items() if n]
++        return "Filed " + ", ".join(parts)
++
++    def to_dict(self) -> dict:
++        return {
++            "transcript": self.transcript,
++            "sorted": self.sorted,
++            "items": [i.model_dump() for i in self.items],
++            "error": self.error,
++            "summary": self.summary,
++        }
++
++
++class CaptureStore:
++    """Append-only files. One lock: captures are rare and tiny."""
++
++    def __init__(self, directory: Path):
++        self.directory = Path(directory)
++        self._lock = threading.Lock()
++
++    def _append(self, name: str, line: str) -> None:
++        self.directory.mkdir(parents=True, exist_ok=True)
++        with open(self.directory / name, "a", encoding="utf-8") as f:
++            f.write(line + "\n")
++
++    def save_transcript(self, transcript: str, now: datetime) -> None:
++        with self._lock:
++            self._append(
++                "transcripts.jsonl",
++                json.dumps({"at": now.isoformat(timespec="seconds"), "text": transcript}, ensure_ascii=False),
++            )
++
++    def save_unsorted(self, transcript: str, now: datetime, error: str) -> None:
++        with self._lock:
++            self._append("inbox.md", f"- {now:%Y-%m-%d %H:%M} {_one_line(transcript)} <!-- unsorted: {_one_line(error)} -->")
++
++    def save_items(self, items: list[CaptureItem], now: datetime) -> None:
++        with self._lock:
++            for item in items:
++                tag = f" #{item.topic}" if item.topic else ""
++                text = _one_line(item.text)
++                if item.kind == "task":
++                    due = f" (due {item.due})" if item.due else ""
++                    self._append("tasks.md", f"- [ ] {text}{due}{tag}")
++                elif item.kind == "expense":
++                    self.directory.mkdir(parents=True, exist_ok=True)
++                    path = self.directory / "expenses.csv"
++                    new = not path.exists()
++                    with open(path, "a", encoding="utf-8", newline="") as f:
++                        w = csv.writer(f)
++                        if new:
++                            w.writerow(["timestamp", "amount", "currency", "description", "topic"])
++                        w.writerow([
++                            now.isoformat(timespec="seconds"),
++                            "" if item.amount is None else item.amount,
++                            item.currency or "",
++                            text,
++                            item.topic or "",
++                        ])
++                else:
++                    self._append("notes.md", f"- {now:%Y-%m-%d %H:%M} {text}{tag}")
++
++
++def _one_line(s: str) -> str:
++    return " ".join(s.split())
++
++
++class CaptureService:
++    def __init__(
++        self,
++        *,
++        api_key: str | None,
++        store: CaptureStore,
++        model: str | None = None,
++        topics: list[str] | None = None,
++        default_currency: str = "MYR",
++        client: anthropic.AsyncAnthropic | None = None,
++    ):
++        self.api_key = api_key or None
++        self.model = model or DEFAULT_CAPTURE_MODEL
++        self.topics = topics or []
++        self.default_currency = default_currency
++        self.store = store
++        self._client = client
++
++    @property
++    def configured(self) -> bool:
++        return bool(self.api_key or self._client)
++
++    def _ensure_client(self) -> anthropic.AsyncAnthropic:
++        if self._client is None:
++            # 60 s: the Shortcut is holding the connection open.
++            self._client = anthropic.AsyncAnthropic(api_key=self.api_key, timeout=60.0)
++        return self._client
++
++    async def _classify(self, transcript: str, now: datetime) -> list[CaptureItem]:
++        client = self._ensure_client()
++        context = (
++            f"Today is {now:%A %Y-%m-%d}. Default currency: {self.default_currency}. "
++            f"Topics: {', '.join(self.topics) or '(none)'}.\n\n"
++            f"<transcript>\n{transcript}\n</transcript>"
++        )
++        response = await client.beta.messages.parse(
++            model=self.model,
++            max_tokens=4096,
++            system=SYSTEM_PROMPT,
++            messages=[{"role": "user", "content": context}],
++            output_format=CaptureItems,
++            output_config={"effort": "low"},
++            betas=[FALLBACK_BETA],
++            fallbacks="default",
++        )
++        if response.stop_reason == "refusal":
++            raise RuntimeError("Claude declined this transcript")
++        if response.stop_reason == "max_tokens" or response.parsed_output is None:
++            raise RuntimeError(f"Claude returned no usable result (stop_reason={response.stop_reason})")
++        return response.parsed_output.items
++
++    async def capture(self, transcript: str, now: datetime | None = None) -> CaptureResult:
++        now = now or datetime.now().astimezone()
++        self.store.save_transcript(transcript, now)  # before anything can fail
++        try:
++            if not self.configured:
++                raise RuntimeError("ANTHROPIC_API_KEY is not configured")
++            items = await self._classify(transcript, now)
++        except Exception as e:  # any sorting failure degrades to the inbox, visibly
++            error = _describe(e)
++            logger.warning("capture unsorted: %s", error)
++            self.store.save_unsorted(transcript, now, error)
++            return CaptureResult(transcript=transcript, sorted=False, error=error)
++        self.store.save_items(items, now)
++        return CaptureResult(transcript=transcript, sorted=True, items=items)
++
++
++def _describe(e: Exception) -> str:
++    if isinstance(e, anthropic.AuthenticationError):
++        return "Claude rejected the API key"
++    if isinstance(e, anthropic.RateLimitError):
++        return "Claude rate limit"
++    if isinstance(e, anthropic.APIStatusError):
++        return f"Claude API error {e.status_code}"
++    if isinstance(e, anthropic.APIConnectionError):
++        return "could not reach Claude"
++    return str(e) or type(e).__name__
+diff --git a/docs/CAPTURE.md b/docs/CAPTURE.md
+new file mode 100644
+index 0000000..00c121f
+--- /dev/null
++++ b/docs/CAPTURE.md
+@@ -0,0 +1,83 @@
++# Voice capture
++
++Talk into your iPhone. The server transcribes with Whisper, Claude splits what you said
++into tasks, notes and expenses, and each lands in a plain file you can open anywhere.
++
++```
++iPhone Shortcut -> POST /capture -> Whisper -> Claude -> DATA_DIR/capture/
++                                                          tasks.md
++                                                          notes.md
++                                                          expenses.csv
++                                                          inbox.md          (could not sort)
++                                                          transcripts.jsonl (every capture, raw)
++```
++
++## Server setup
++
++Add to `.env`, then restart:
++
++```
++ANTHROPIC_API_KEY=sk-ant-...
++CAPTURE_TOKEN=<output of: openssl rand -hex 32>
++CAPTURE_TOPICS=move,motorcycle,pj-shipping
++CAPTURE_DEFAULT_CURRENCY=MYR
++```
++
++`/capture` is the only endpoint on this server that checks a token. With `CAPTURE_TOKEN`
++empty it refuses every request. The other endpoints are still open to anyone who can reach
++the port, so keep the server on your LAN or Tailnet (see `HTTPS-TAILSCALE.md`), not on the
++public internet.
++
++Check it without a phone:
++
++```bash
++curl -s http://localhost:8000/capture \
++  -H "Authorization: Bearer $CAPTURE_TOKEN" \
++  -H "Content-Type: application/json" \
++  -d '{"text": "paid 500 ringgit deposit for the bike, collect it Saturday"}'
++```
++
++## iPhone Shortcut
++
++Shortcuts app, new shortcut, four actions:
++
++1. **Record Audio**. Start: Immediately. Finish: On Tap.
++2. **Get Contents of URL**
++   - URL: `https://<your-server>/capture`
++   - Method: POST
++   - Headers: `Authorization` = `Bearer <CAPTURE_TOKEN>`
++   - Request Body: File, set to the Recorded Audio
++3. **Get Dictionary Value**. Get Value for `summary` in Contents of URL.
++4. **Show Notification** with the Dictionary Value.
++
++Put it on the Action Button or Back Tap. Text works too: send JSON `{"text": "..."}`.
++
++## What comes back
++
++```json
++{
++  "transcript": "paid 500 ringgit deposit for the bike collect it saturday",
++  "sorted": true,
++  "items": [
++    {"kind": "expense", "text": "Deposit for the bike", "amount": 500.0, "currency": "MYR", "due": null, "topic": "motorcycle"},
++    {"kind": "task", "text": "Collect the bike", "amount": null, "currency": null, "due": "2026-11-14", "topic": "motorcycle"}
++  ],
++  "error": null,
++  "summary": "Filed 1 task, 1 expense"
++}
++```
++
++If Claude is unreachable, the key is wrong, or it declines, you still get HTTP 200 with
++`"sorted": false`, the cause in `error`, and `summary` reading
++`Saved UNSORTED to inbox (...)`. The transcript is in `inbox.md` and `transcripts.jsonl`.
++Nothing is dropped.
++
++## Settings
++
++| Variable | Default | Meaning |
++|---|---|---|
++| `ANTHROPIC_API_KEY` | none | Claude key. Unset means everything goes to the inbox. |
++| `CAPTURE_TOKEN` | none | Bearer token the Shortcut sends. Unset means 503. |
++| `CAPTURE_MODEL` | `claude-opus-5-5` | Any Claude model id. |
++| `CAPTURE_TOPICS` | empty | Comma-separated tags Claude may attach. |
++| `CAPTURE_DEFAULT_CURRENCY` | `MYR` | Used when you name an amount with no currency. |
+diff --git a/pyproject.toml b/pyproject.toml
+index a6a0d4d..b056eaa 100644
+--- a/pyproject.toml
++++ b/pyproject.toml
+@@ -16,6 +16,7 @@ dependencies = [
+     "python-dotenv>=1.0.0",
+     "faster-whisper>=1.0.0",
+     "google-genai>=0.3.0",
++    "anthropic>=2.8",
+     "PyYAML>=6.0",
+     "pywhispercpp>=1.2,<2.0; sys_platform == 'darwin'",
+     "silero-vad>=5.0,<6.0",
+diff --git a/tests/test_capture.py b/tests/test_capture.py
+new file mode 100644
+index 0000000..1c6e607
+--- /dev/null
++++ b/tests/test_capture.py
+@@ -0,0 +1,192 @@
++"""Tests for voice capture: the Claude sorter, the files it writes, and POST /capture.
++
++Service tests stub the Anthropic client. Endpoint tests stub the service, so
++they cover auth and the response the iPhone Shortcut actually receives.
++"""
++
++import csv
++import json
++from datetime import datetime
++from types import SimpleNamespace
++from unittest.mock import AsyncMock, MagicMock
++
++import pytest
++
++from app.services.capture import (
++    CaptureItem,
++    CaptureItems,
++    CaptureResult,
++    CaptureService,
++    CaptureStore,
++)
++
++NOW = datetime(2026, 11, 12, 14, 3)
++
++
++def _service(tmp_path, *, items=None, stop_reason="end_turn", error=None, api_key="k"):
++    parse = AsyncMock()
++    if error:
++        parse.side_effect = error
++    else:
++        parse.return_value = SimpleNamespace(
++            stop_reason=stop_reason,
++            parsed_output=None if items is None else CaptureItems(items=items),
++        )
++    client = MagicMock()
++    client.beta.messages.parse = parse
++    svc = CaptureService(
++        api_key=api_key,
++        store=CaptureStore(tmp_path / "capture"),
++        topics=["move", "motorcycle"],
++        client=client,
++    )
++    return svc, parse
++
++
++def _read(tmp_path, name):
++    return (tmp_path / "capture" / name).read_text(encoding="utf-8")
++
++
++# ---------- Service: the files the user ends up with ----------
++
++
++async def test_items_are_filed_by_kind(tmp_path):
++    svc, parse = _service(
++        tmp_path,
++        items=[
++            CaptureItem(kind="task", text="Collect the bike", due="2026-11-14", topic="motorcycle"),
++            CaptureItem(kind="expense", text="Deposit, for the bike", amount=500, currency="MYR", topic="motorcycle"),
++            CaptureItem(kind="note", text="Lorry quote was 1,200"),
++        ],
++    )
++    result = await svc.capture("paid 500 deposit collect the bike saturday lorry quoted 1200", now=NOW)
++
++    assert result.sorted is True
++    assert result.summary == "Filed 1 task, 1 note, 1 expense"
++    assert _read(tmp_path, "tasks.md") == "- [ ] Collect the bike (due 2026-11-14) #motorcycle\n"
++    assert _read(tmp_path, "notes.md") == "- 2026-11-12 14:03 Lorry quote was 1,200\n"
++    rows = list(csv.reader(_read(tmp_path, "expenses.csv").splitlines()))
++    assert rows == [
++        ["timestamp", "amount", "currency", "description", "topic"],
++        ["2026-11-12T14:03:00", "500.0", "MYR", "Deposit, for the bike", "motorcycle"],
++    ]
++    assert not (tmp_path / "capture" / "inbox.md").exists()
++
++    kwargs = parse.await_args.kwargs
++    assert "2026-11-12" in kwargs["messages"][0]["content"]
++    assert "move, motorcycle" in kwargs["messages"][0]["content"]
++    assert kwargs["output_format"] is CaptureItems
++
++
++async def test_expenses_csv_header_written_once(tmp_path):
++    svc, _ = _service(tmp_path, items=[CaptureItem(kind="expense", text="Petrol", amount=20, currency="MYR")])
++    await svc.capture("petrol 20", now=NOW)
++    await svc.capture("petrol 20", now=NOW)
++    assert _read(tmp_path, "expenses.csv").count("timestamp,amount") == 1
++    assert len(_read(tmp_path, "expenses.csv").splitlines()) == 3
++
++
++async def test_raw_transcript_is_always_kept(tmp_path):
++    svc, _ = _service(tmp_path, items=[])
++    result = await svc.capture("um never mind", now=NOW)
++    assert result.sorted is True and result.summary == "Nothing to file"
++    assert json.loads(_read(tmp_path, "transcripts.jsonl")) == {
++        "at": "2026-11-12T14:03:00",
++        "text": "um never mind",
++    }
++
++
++# ---------- Service: failure never loses the note and never looks like success ----------
++
++
++@pytest.mark.parametrize(
++    "kwargs, expected_error",
++    [
++        ({"error": RuntimeError("boom")}, "boom"),
++        ({"items": [], "stop_reason": "refusal"}, "Claude declined this transcript"),
++        ({"items": None}, "Claude returned no usable result (stop_reason=end_turn)"),
++    ],
++)
++async def test_sort_failure_goes_to_inbox_and_says_so(tmp_path, kwargs, expected_error):
++    svc, _ = _service(tmp_path, **kwargs)
++    result = await svc.capture("buy boxes\nfor the move", now=NOW)
++
++    assert result.sorted is False
++    assert result.error == expected_error
++    assert result.summary == f"Saved UNSORTED to inbox ({expected_error})"
++    assert _read(tmp_path, "inbox.md") == (
++        f"- 2026-11-12 14:03 buy boxes for the move <!-- unsorted: {expected_error} -->\n"
++    )
++    assert "buy boxes" in _read(tmp_path, "transcripts.jsonl")
++    assert not (tmp_path / "capture" / "tasks.md").exists()
++
++
++async def test_missing_api_key_goes_to_inbox_without_calling_claude(tmp_path):
++    svc = CaptureService(api_key=None, store=CaptureStore(tmp_path / "capture"))
++    result = await svc.capture("buy boxes", now=NOW)
++    assert result.sorted is False
++    assert result.error == "ANTHROPIC_API_KEY is not configured"
++    assert "buy boxes" in _read(tmp_path, "inbox.md")
++
++
++# ---------- Endpoint: auth and the JSON the Shortcut receives ----------
++
++
++@pytest.fixture
++def client(monkeypatch):
++    from fastapi.testclient import TestClient
++
++    monkeypatch.setattr(
++        "app.main._build_backend",
++        lambda **kw: (
++            MagicMock(name="WhisperBackend"),
++            {"backend": "ctranslate2", "format": "ct2", "compute_type": "default", "local_dir": "/fake"},
++        ),
++    )
++    from app.config import config
++    from app.main import app
++
++    monkeypatch.setattr(config, "CAPTURE_TOKEN", "s3cret")
++    with TestClient(app) as c:
++        fake = MagicMock()
++        fake.capture = AsyncMock(
++            return_value=CaptureResult(
++                transcript="buy boxes",
++                sorted=True,
++                items=[CaptureItem(kind="task", text="Buy boxes")],
++            )
++        )
++        app.state.capture = fake
++        c.fake = fake
++        yield c
++
++
++def test_capture_refuses_when_token_unset(client, monkeypatch):
++    from app.config import config
++
++    monkeypatch.setattr(config, "CAPTURE_TOKEN", None)
++    r = client.post("/capture", json={"text": "buy boxes"}, headers={"Authorization": "Bearer "})
++    assert r.status_code == 503
++    client.fake.capture.assert_not_awaited()
++
++
++@pytest.mark.parametrize("headers", [{}, {"Authorization": "Bearer wrong"}, {"Authorization": "s3cret"}])
++def test_capture_rejects_bad_token(client, headers):
++    r = client.post("/capture", json={"text": "buy boxes"}, headers=headers)
++    assert r.status_code == 401
++    client.fake.capture.assert_not_awaited()
++
++
++def test_capture_text_returns_sorted_items(client):
++    r = client.post("/capture", json={"text": "buy boxes"}, headers={"Authorization": "Bearer s3cret"})
++    assert r.status_code == 200
++    assert r.json() == {
++        "transcript": "buy boxes",
++        "sorted": True,
++        "items": [
++            {"kind": "task", "text": "Buy boxes", "amount": None, "currency": None, "due": None, "topic": None}
++        ],
++        "error": None,
++        "summary": "Filed 1 task",
++    }
++    client.fake.capture.assert_awaited_once_with("buy boxes")
+-- 
+2.43.0
+
