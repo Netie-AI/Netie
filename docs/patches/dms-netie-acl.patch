@@ -21,10 +21,10 @@ index 2e24a5b..c52855e 100644
          # Same answer as an ungranted table, deliberately. 404 for "no such table"
          # beside 403 for "real but not yours" is an enumeration oracle.
 diff --git a/apps/api/dms_api/wiring.py b/apps/api/dms_api/wiring.py
-index 7f8a987..54d1c8e 100644
+index bfc9710..2ccbd62 100644
 --- a/apps/api/dms_api/wiring.py
 +++ b/apps/api/dms_api/wiring.py
-@@ -88,12 +88,20 @@ def list_document_chunks(*, space_id: str) -> list[dict[str, Any]]:
+@@ -102,12 +102,20 @@ def list_document_chunks(*, space_id: str) -> list[dict[str, Any]]:
      )
  
  
@@ -50,19 +50,19 @@ index 7f8a987..54d1c8e 100644
  
  def library_tree(
 diff --git a/packages/executor/dms_executor/__init__.py b/packages/executor/dms_executor/__init__.py
-index ed0f956..f67aa68 100644
+index 3ad7e62..4927964 100644
 --- a/packages/executor/dms_executor/__init__.py
 +++ b/packages/executor/dms_executor/__init__.py
-@@ -339,6 +339,7 @@ class Executor:
-                 )
-             else:
-                 raise AskServiceError(err.code, err.detail) from exc
+@@ -1475,6 +1475,7 @@ class Executor:
+             )
+             self._store_turn(session_id, space_id, env)
+             return env
 +        resp = _apply_netie_acl(resp, acl=acl, space_id=space_id)
-         return map_ask_response_to_envelope(
-             resp,
-             space_id=space_id,
-@@ -441,6 +442,42 @@ def _chart_from_rows(rows: list[dict[str, Any]]) -> dict[str, Any] | None:
-     return None
+         env = attach_cascade(
+             map_ask_response_to_envelope(
+                 resp,
+@@ -1860,6 +1861,42 @@ def _chart_from_cortex_spec(spec: dict[str, Any] | None) -> dict[str, Any] | Non
+ _chart_from_rows = chart_from_rows
  
  
 +def _apply_netie_acl(
@@ -391,10 +391,10 @@ index 0000000..b772440
 +        bare = bare.split(":", 1)[-1]
 +    return browse_or_abstain({space_id: granted}, space_id, bare, tier=tier)
 diff --git a/packages/executor/dms_executor/warehouse_browse.py b/packages/executor/dms_executor/warehouse_browse.py
-index f449724..b5d800f 100644
+index 48ea889..e1e1805 100644
 --- a/packages/executor/dms_executor/warehouse_browse.py
 +++ b/packages/executor/dms_executor/warehouse_browse.py
-@@ -69,10 +69,22 @@ def preview_warehouse_table(
+@@ -116,10 +116,22 @@ def preview_warehouse_table(
      limit: int = 100,
      offset: int = 0,
      path: Path | None = None,
@@ -417,7 +417,7 @@ index f449724..b5d800f 100644
      lim = max(1, min(int(limit), 500))
      off = max(0, min(int(offset), 100_000))
      ensure_demo_warehouse(path)
-@@ -137,9 +149,25 @@ def preview_bronze_table(
+@@ -184,9 +196,25 @@ def preview_bronze_table(
      limit: int = 100,
      offset: int = 0,
      path: Path | None = None,
