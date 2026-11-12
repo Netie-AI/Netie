@@ -1,7 +1,7 @@
 From 66cd51fe3d591b1427acd8b603696d377e325ee2 Mon Sep 17 00:00:00 2001
 From: Claude <noreply@anthropic.com>
 Date: Thu, 12 Nov 2026 18:15:25 +0000
-Subject: [PATCH 2/2] Answer POST /ask with Claude when ANTHROPIC_API_KEY is
+Subject: [PATCH 2/3] Answer POST /ask with Claude when ANTHROPIC_API_KEY is
  set
 
 Gemini stays the backend when the key is absent, so existing setups and

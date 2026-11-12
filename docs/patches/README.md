@@ -400,28 +400,42 @@ python3 tests/test_netie_index.py
 ## Voice capture (personal tool, not a Netie product)
 
 Founder's personal capture tool. It is **not** in `NETIE.md`, not in `ecosystem/catalog.json`
-and claims no stage. It calls the Anthropic API with its own key, so it is **off** the safe
+and claims no stage. It calls Anthropic or Gemini with its own key, so it is **off** the safe
 path (app -> Cortex -> OpenVault). Making it a product needs a PRD and an OpenVault route
 first. The patches are parked here only because this token cannot push anywhere else.
 
 Upstream: `https://github.com/shdennlin/whisper-wrap` at `56e5cf6` (MIT, class A). The
-upstream `LICENSE` is untouched by both patches.
+upstream `LICENSE` is untouched by all three patches.
 
 ```
 git clone https://github.com/shdennlin/whisper-wrap && cd whisper-wrap
 git checkout 56e5cf60bc358a88b66b09909cefcab4fe211908
-git am /path/to/Netie/docs/patches/voice-capture-0001-capture.patch
-git am /path/to/Netie/docs/patches/voice-capture-0002-ask-claude.patch
-uv sync --extra dev && uv run pytest tests/test_capture.py tests/test_llm_claude.py
+git am /path/to/Netie/docs/patches/voice-capture-000*.patch
+uv sync --extra dev && PATH=$PWD/.venv/bin:$PATH bash scripts/model-manager.sh download breeze-asr-25
+uv run pytest tests/test_capture.py tests/test_capture_view.py tests/test_llm_claude.py
 ```
 
-`0001` adds `POST /capture`: iPhone Shortcut audio -> Whisper -> Claude structured output ->
-`tasks.md`, `notes.md`, `expenses.csv` under `DATA_DIR/capture/`. Bearer token required, the
-endpoint refuses when `CAPTURE_TOKEN` is unset. A sort failure keeps the transcript in
-`inbox.md` and the response says `sorted: false`. `0002` answers `POST /ask` with Claude when
-`ANTHROPIC_API_KEY` is set and leaves Gemini in place otherwise. Setup and the Shortcut steps
-are in the patched tree at `docs/CAPTURE.md`.
+`0001` adds `POST /capture`: iPhone Shortcut audio -> Whisper -> model -> `tasks.md`,
+`notes.md`, `expenses.csv` under `DATA_DIR/capture/`. Bearer token required, the endpoint
+refuses when `CAPTURE_TOKEN` is unset. A sort failure keeps the transcript in `inbox.md` and
+the response says `sorted: false`. `0002` lets `POST /ask` answer with Claude. `0003` adds a
+phone page (`/capture/ui`), an item list and task tick-off, sorting on Gemini's free tier when
+no Claude key is set, validation of every field the model returns, and `evals/` (59 cases and
+a scorer). Setup and the Shortcut steps are in the patched tree at `docs/CAPTURE.md`.
 
-Measured: 13 of 13 service tests pass in an isolated venv with the Anthropic client stubbed.
-Not run: the 5 endpoint tests in `tests/test_capture.py`, the upstream suite, a live Claude
-call, and the Shortcut on a phone. See `docs/subagents_findings/2026-11-12-voice-capture.md`.
+Measured 2026-11-12, with upstream installed in the session:
+
+- The three patches apply with `git am` on a pristine `56e5cf6`; there, the three capture test
+  files give 76 passed.
+- Whole suite on the patched tree: 605 passed, 9 failed. Pristine `56e5cf6`: 528 passed, 10
+  failed, the same meeting-mode, model-download and status tests (extras not installed).
+- Live server, real audio: two spoken recordings (text-to-speech, not a human voice) posted the
+  way the Shortcut posts them came back sorted in about 16 s each on CPU, the files were
+  written, the item list and tick-off worked, and the page was driven in a headless browser at
+  phone width. No token and a wrong token both got 401.
+- Sorting accuracy on `gemini-3.1-flash-lite`: 57 of 59 eval cases.
+
+Not run: sorting on Claude (no key in the session), the Shortcut on a real phone, a human
+voice, Docker (compose is not set up for capture; the doc says so). The model registry's
+`large-v3-turbo` entry points at a Hugging Face repo that returned "not found"; use the
+default `breeze-asr-25`. See `docs/subagents_findings/2026-11-12-voice-capture.md`.
