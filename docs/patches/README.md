@@ -376,14 +376,14 @@ UACC catalog still *names* planner / clipboard / list_windows (DR-0005). Search 
 
 ## Control (`Netie-AI/netie-control`)
 
-`uv add git+https://github.com/Netie-AI/Netie.git` then `from netie.control import project_board, project_session, MAX_BOARD_CHARS, board_index`. From the netie-control repo root, on `main` (`82ab1ae`):
+`uv add git+https://github.com/Netie-AI/Netie.git` then `from netie.control import project_board, project_session, MAX_BOARD_CHARS, board_index`. From the netie-control repo root, on `main` (`93959c6`):
 
 ```
 git apply docs/patches/control-netie-board.patch
 pytest tests/test_netie_board.py tests/test_control_stays_plane_4.py -q
 ```
 
-`sources.board` runs gh issues through `guard_issue_board` (`from netie.control import project_board` when installed; same refuse locally otherwise). Local fallback also projects `crew_index["skills"]` as id/source cards, exposes `board_index` (graph runs + Factory tickets + skill ids), and `project_session` lists skill ids. `/v1/rdp` `/v1/vnc` `/v1/guacamole` `/v1/ssh` answer 405. Score stays **1/10** Guacamole, **2/10** board. Push 403.
+`sources.board` runs gh issues through `guard_issue_board` (`from netie.control import project_board` when installed; same refuse locally otherwise). Local fallback also projects `crew_index["skills"]` as id/source cards, exposes `board_index` (graph runs + Factory tickets + skill ids), and `project_session` lists skill ids. `/v1/rdp` `/v1/vnc` `/v1/guacamole` `/v1/ssh` answer 405 (in `NOT_GUACAMOLE`, not `FORBIDDEN`, which stays the four write paths). Score stays **1/10** Guacamole, **2/10** board. Push 403.
 
 ## Netie-KB (`Netie-AI/Netie-KB`)
 
