@@ -1,21 +1,21 @@
 diff --git a/app.js b/app.js
-index fa59c48..3dac344 100644
+index c124a34..e4a824b 100644
 --- a/app.js
 +++ b/app.js
-@@ -654,7 +654,7 @@ function eventFieldsHtml(node) {
-     html += fieldSelect("action_type", "Action", listedOptions(allowed, node.action_type), action);
+@@ -1139,7 +1139,7 @@ function eventFieldsHtml(node) {
+       fieldSelect("persona", "Persona", PERSONAS, persona) +
+       fieldTextarea("doing", "Task", node.doing || node.note || "", "One bounded AGENT_TASK") +
+       objectPickHtml(node, "Works on object", null) +
+-      fieldSelect("tier", "Router tier", TIERS, TIERS.indexOf(node.tier) >= 0 ? node.tier : "T0");
++      fieldSelect("tier", "Router tier", listedOptions(TIERS, node.tier), listedOrEmpty(node.tier, TIERS));
+     return html;
    }
-   html +=
--    fieldSelect("tier", "Router tier", TIERS, TIERS.indexOf(node.tier) >= 0 ? node.tier : "T0") +
-+    fieldSelect("tier", "Router tier", listedOptions(TIERS, node.tier), listedOrEmpty(node.tier, TIERS)) +
-     fieldSelect("stream", "Stream", ["false", "true"], node.stream ? "true" : "false");
-   return html;
- }
+   if (kind === "hypothesize") {
 diff --git a/engine.js b/engine.js
-index 3aeb57a..53bdf96 100644
+index 6d36ebc..86864b8 100644
 --- a/engine.js
 +++ b/engine.js
-@@ -210,7 +210,7 @@ function compileIR(state) {
+@@ -154,7 +154,7 @@ function compileIR(state) {
          data_type: n.data_type || null,
          action_type: n.action_type || null,
          fetch_from: n.fetch_from || null,

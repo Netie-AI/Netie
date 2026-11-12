@@ -1,8 +1,8 @@
 diff --git a/engine.js b/engine.js
-index 33ac914..49dfd4e 100644
+index 65628db..8cf1b64 100644
 --- a/engine.js
 +++ b/engine.js
-@@ -85,20 +85,35 @@ function rankForKinds(kinds) {
+@@ -29,20 +29,35 @@ function rankForKinds(kinds) {
  }
  
  function compileIR(state) {
@@ -47,7 +47,7 @@ index 33ac914..49dfd4e 100644
        let kind = CORTEX_KIND[n.kind] || "DOCUMENT_REF";
        if (n.id === output.id) kind = "EMIT";
        else if (kind === "EMIT") kind = "DETERMINISTIC_RULE";
-@@ -117,7 +132,7 @@ function compileIR(state) {
+@@ -61,7 +76,7 @@ function compileIR(state) {
          requires_confirm: n.kind === "tool_call",
        };
      }),

@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Accessible product repos: sibling patches still apply. python3 scripts/test_sibling_patches.py
 
-Constructor has no unit-test workflow on HEAD. This gate clones it, applies
+Constructor HEAD has its own test.yml and ci.yml, but neither runs tests/compiler.test.cjs. This gate clones it, applies
 docs/patches/constructor-compiler-tests.patch then constructor-empty-graph.patch
 then constructor-ir-refuse.patch then constructor-ir-ids.patch then
 constructor-ghost-refuse.patch then constructor-ir-emit.patch then

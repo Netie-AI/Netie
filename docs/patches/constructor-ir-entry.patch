@@ -1,8 +1,8 @@
 diff --git a/engine.js b/engine.js
-index 68f0863..c4877a4 100644
+index c473600..c2fd465 100644
 --- a/engine.js
 +++ b/engine.js
-@@ -184,6 +184,10 @@ function compileIR(state) {
+@@ -128,6 +128,10 @@ function compileIR(state) {
    if (seen !== nodes.length) {
      return irError(ghost, "cycle");
    }
@@ -13,7 +13,7 @@ index 68f0863..c4877a4 100644
    for (let i = 0; i < nodes.length; i++) {
      const n = nodes[i];
      if (n.kind !== "tool_call") continue;
-@@ -200,7 +204,7 @@ function compileIR(state) {
+@@ -144,7 +148,7 @@ function compileIR(state) {
      version: "1.0",
      engine: "cortex",
      ghost: ghost,
@@ -23,7 +23,7 @@ index 68f0863..c4877a4 100644
      nodes: nodes.map((n) => {
        let kind = CORTEX_KIND[n.kind];
 diff --git a/tests/compiler.test.cjs b/tests/compiler.test.cjs
-index 6591689..f930e27 100644
+index f83c63c..1ee7668 100644
 --- a/tests/compiler.test.cjs
 +++ b/tests/compiler.test.cjs
 @@ -67,6 +67,19 @@ test("topo does not append leftover cyclic nodes", () => {
