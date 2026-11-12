@@ -10,7 +10,7 @@ python3 scripts/apply_product_patches.py --product pointer --repo /path/to/Point
 python3 scripts/apply_product_patches.py --all --skip-tests
 ```
 
-`--push` is refused. Constructor extras `constructor-*-4896ddd.patch` stay out of `--all` (do not mix with the 26). OpenVault `crew-gate` lands before `crew-netie` (README's independent block is not apply order). Cortex never `uv add` Netie.git.
+`--push` is refused. `--all` clones `SIBLING_PINS` (constructor `bfc7d3b`, OpenVault `3ba51cd`, Cortex `304bf84`, dms `ebe65cc`, Pointer `b42b98d`, control `93959c6`, KB `10356e5`), not live HEAD. Patches were re-cut on those pins on 2026-11-12; when a sibling moves, re-cut the lane and move its pin. Constructor extras `constructor-*-4896ddd.patch` stay out of `--all` (do not mix with the 26). OpenVault `crew-gate` lands before `crew-netie` (README's independent block is not apply order). Cortex never `uv add` Netie.git.
 
 ## Constructor (`Netie-AI/constructor`)
 
