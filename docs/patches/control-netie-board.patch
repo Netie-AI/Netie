@@ -1,11 +1,14 @@
 diff --git a/netie_control/app.py b/netie_control/app.py
-index e8fff88..5c9f172 100644
+index d50ed00..ca9b5e8 100644
 --- a/netie_control/app.py
 +++ b/netie_control/app.py
-@@ -51,6 +51,26 @@ FORBIDDEN: dict[str, dict[str, str]] = {
-         "why": "No write reaches a customer system except through a Cortex action type. "
-                "Control may launch a LOCAL CLI lane; it may not execute against a customer.",
+@@ -96,9 +96,36 @@ FORBIDDEN: dict[str, dict[str, str]] = {
      },
+ }
+ 
++#: Remote-desktop refusals. Kept out of FORBIDDEN, which stays exactly the four
++#: run/goal/route/secrets write paths. Same 405 body, same every-verb registration.
++NOT_GUACAMOLE: dict[str, dict[str, str]] = {
 +    "/v1/rdp": {
 +        "owner": "Crew",
 +        "why": "Control is not Guacamole. RDP is not a board card. Fold remote "
@@ -26,9 +29,26 @@ index e8fff88..5c9f172 100644
 +        "why": "Control is not Guacamole. SSH/telnet/k8s exec are not board cards. "
 +               "A local CLI launcher is not a remote shell.",
 +    },
- }
++}
++
++REFUSED: dict[str, dict[str, str]] = {**FORBIDDEN, **NOT_GUACAMOLE}
++
  
+ def _forbidden_response(path: str) -> JSONResponse:
+-    spec = FORBIDDEN[path]
++    spec = REFUSED[path]
+     return JSONResponse(
+         status_code=405,
+         content={
+@@ -489,7 +516,7 @@ def create_app() -> FastAPI:
+     )
+     app.include_router(router)
  
+-    for path in FORBIDDEN:
++    for path in REFUSED:
+         def _make(p: str):
+             def _handler() -> JSONResponse:
+                 return _forbidden_response(p)
 diff --git a/netie_control/netie_board.py b/netie_control/netie_board.py
 new file mode 100644
 index 0000000..54b6ef7
@@ -269,33 +289,67 @@ index 0000000..54b6ef7
 +    _budget_ok(blob, max_chars=max_chars, what="board")
 +    return data
 diff --git a/netie_control/sources.py b/netie_control/sources.py
-index 246067f..7682846 100644
+index 0c29002..fadadac 100644
 --- a/netie_control/sources.py
 +++ b/netie_control/sources.py
-@@ -17,6 +17,8 @@ from dataclasses import dataclass, field
- from pathlib import Path
+@@ -30,6 +30,8 @@ from pathlib import Path
  from typing import Any
+ from urllib.parse import quote, urlparse
  
 +from netie_control.netie_board import ControlDenied, guard_issue_board
 +
- NETIE = Path(r"D:\Netie")
- AGENTS = NETIE / "Internal" / "Agents"
- 
-@@ -135,9 +137,14 @@ def board(repos: tuple[str, ...] = ("Netie-AI/dms", "Netie-AI/Cortex")) -> Readi
- 
-     if unreachable and not rows:
-         return Reading.unreachable("gh issue list", "; ".join(unreachable))
-+    payload = {"items": rows, "unreachable": unreachable}
+ LOOPBACK_HOSTS = frozenset({"127.0.0.1", "localhost", "::1"})
+ CREW_BELT_WAIT_S = 1.5
+ OPENVAULT_USAGE_WAIT_S = 1.5
+@@ -2263,26 +2265,31 @@ def board(
+         detail_parts.append("skipped " + "; ".join(skipped))
+     if unreachable:
+         detail_parts.append("some github slices unreachable: " + "; ".join(unreachable))
++    payload: dict[str, Any] = {
++        "items": open_rows,
++        "open": open_rows,
++        "completed": completed,
++        "prs": prs,
++        "actions": actions,
++        "unreachable": unreachable,
++        "skipped": skipped,
++        "truncated": truncated,
++        "shown": len(open_rows),
++        "cap": BOARD_SEARCH_LIMIT,
++        "query": f"owner:{BOARD_OWNER} is:open",
++        "allow": BOARD_REPO_ALLOW.pattern,
++        "deny": BOARD_REPO_DENY.pattern,
++        "poll_s": OPS_POLL_S,
++        "poll": "/v1/ops",
++        "slices": list(wanted),
++    }
 +    try:
 +        payload = guard_issue_board(payload)
 +    except ControlDenied as exc:
 +        return Reading.unreachable("netie.control", str(exc))
      return Reading(
          ok=True,
--        data={"items": rows, "unreachable": unreachable},
+-        data={
+-            "items": open_rows,
+-            "open": open_rows,
+-            "completed": completed,
+-            "prs": prs,
+-            "actions": actions,
+-            "unreachable": unreachable,
+-            "skipped": skipped,
+-            "truncated": truncated,
+-            "shown": len(open_rows),
+-            "cap": BOARD_SEARCH_LIMIT,
+-            "query": f"owner:{BOARD_OWNER} is:open",
+-            "allow": BOARD_REPO_ALLOW.pattern,
+-            "deny": BOARD_REPO_DENY.pattern,
+-            "poll_s": OPS_POLL_S,
+-            "poll": "/v1/ops",
+-            "slices": list(wanted),
+-        },
 +        data=payload,
-         detail=("some repos unreachable: " + "; ".join(unreachable)) if unreachable else "",
-         source="gh issue list",
+         detail="; ".join(detail_parts),
+         source="gh search issues",
      )
 diff --git a/tests/test_netie_board.py b/tests/test_netie_board.py
 new file mode 100644
