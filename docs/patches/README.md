@@ -342,7 +342,7 @@ Copies `scripts/cortex_path.py` to `CortexOS/constitution/cortex_path.py`. `/dms
 
 ## DMS (`Netie-AI/dms`)
 
-dms package name is `dms`, so `uv add git+https://github.com/Netie-AI/Netie.git` is the intended caller. From the dms repo root, on `main` (`3f9a9be`):
+dms package name is `dms`, so `uv add git+https://github.com/Netie-AI/Netie.git` is the intended caller. From the dms repo root, on `main` (`ebe65cc`):
 
 ```
 git apply docs/patches/dms-netie-acl.patch
@@ -350,7 +350,7 @@ uv add git+https://github.com/Netie-AI/Netie.git
 pytest tests/test_netie_acl.py tests/test_space_acl_boundary.py tests/test_live_ask.py -q
 ```
 
-`live_ask` runs Cortex through `guard_live_answer` (`from netie.dms import answer_or_abstain` when installed; same rule locally otherwise). Warehouse/bronze preview with `space_id` calls `browse_or_abstain`. Without a Space, personal/company-default mint is unchanged. Score stays **3/10**. Push 403.
+`live_ask` runs Cortex through `guard_live_answer` (`from netie.dms import answer_or_abstain` when installed; same rule locally otherwise). Warehouse/bronze preview with `space_id` calls `browse_or_abstain`. Cortex's `warehouse_<table>` lake alias is read as `<table>` for the gate (granted stands, ungranted abstains). Without a Space, personal/company-default mint is unchanged. Score stays **3/10**. Push 403.
 
 Then:
 

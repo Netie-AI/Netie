@@ -106,10 +106,10 @@ index 3ad7e62..4927964 100644
      *,
 diff --git a/packages/executor/dms_executor/netie_acl.py b/packages/executor/dms_executor/netie_acl.py
 new file mode 100644
-index 0000000..b772440
+index 0000000..42df252
 --- /dev/null
 +++ b/packages/executor/dms_executor/netie_acl.py
-@@ -0,0 +1,280 @@
+@@ -0,0 +1,303 @@
 +"""live_ask and browse go through Netie Space ACL when installed.
 +
 +uv add git+https://github.com/Netie-AI/Netie.git
@@ -344,6 +344,28 @@ index 0000000..b772440
 +    return hits[0] if hits else ""
 +
 +
++_LAKE_ALIAS = "warehouse_"
++
++
++def lake_alias_sql(sql: str, granted: frozenset[str]) -> str:
++    """Read Cortex's unqualified ``warehouse_<t>`` lake alias as ``<t>``.
++
++    dms NAME-ECHO-01 lets a served SQL cite a lake table by that alias. The
++    Space gate matches bare names, so the alias is rewritten for the gate
++    only: a granted table stands and an ungranted one is seen and abstains.
++    A grant that is itself spelled ``warehouse_<t>`` and a qualified name
++    stay as written.
++    """
++    own = {name.lower() for name in granted}
++
++    def bare(match: re.Match[str]) -> str:
++        return match.group(0) if match.group(0).lower() in own else match.group(1)
++
++    return re.sub(
++        rf"(?<![\w.]){_LAKE_ALIAS}(\w+)\b", bare, sql or "", flags=re.IGNORECASE
++    )
++
++
 +def guard_live_answer(
 +    *,
 +    space_id: str | None,
@@ -362,7 +384,8 @@ index 0000000..b772440
 +        return None
 +    acl = {space_id: granted}
 +    binds = {space_id: warehouse_id}
-+    table = infer_table(sql or "", granted)
++    gate_sql = lake_alias_sql(sql or "", granted)
++    table = infer_table(gate_sql, granted)
 +    return answer_or_abstain(
 +        acl,
 +        space_id,
@@ -370,7 +393,7 @@ index 0000000..b772440
 +        list(rows or []),
 +        warehouse_id=warehouse_id,
 +        binds=binds,
-+        sql=sql or "",
++        sql=gate_sql,
 +        chat_mode=chat_mode,
 +    )
 +
@@ -446,10 +469,10 @@ index 48ea889..e1e1805 100644
      lim = max(1, min(int(limit), 500))
 diff --git a/tests/test_netie_acl.py b/tests/test_netie_acl.py
 new file mode 100644
-index 0000000..21dba3f
+index 0000000..ccd6b74
 --- /dev/null
 +++ b/tests/test_netie_acl.py
-@@ -0,0 +1,111 @@
+@@ -0,0 +1,142 @@
 +"""live_ask / browse go through Netie Space ACL when installed."""
 +
 +from __future__ import annotations
@@ -539,6 +562,37 @@ index 0000000..21dba3f
 +    assert out["status"] == "OK"
 +    out["rows"][0]["sku"] = "LEAK"
 +    assert rows[0]["sku"] == "A"
++
++
++def test_guard_live_answer_reads_granted_lake_alias() -> None:
++    out = guard_live_answer(
++        space_id="space-ops",
++        granted=frozenset({"inventory", "shipments"}),
++        warehouse_id="default",
++        sql="SELECT i.sku FROM warehouse_inventory AS i",
++        rows=[{"sku": "A"}],
++        route="sql",
++    )
++    assert out is not None
++    assert out["status"] == "OK"
++
++
++def test_guard_live_answer_ungranted_lake_alias_abstains() -> None:
++    for sql in (
++        "SELECT id FROM warehouse_invoices",
++        "SELECT i.sku FROM warehouse_inventory AS i JOIN warehouse_invoices AS v ON 1 = 1",
++        "SELECT sku FROM hr.warehouse_inventory",
++    ):
++        out = guard_live_answer(
++            space_id="space-ops",
++            granted=frozenset({"inventory", "shipments"}),
++            warehouse_id="default",
++            sql=sql,
++            rows=[{"sku": "A"}],
++            route="sql",
++        )
++        assert out is not None
++        assert out["status"] == "ABSTAIN", sql
 +
 +
 +def test_ops_cannot_browse_transactions() -> None:
