@@ -17,7 +17,7 @@
       "netie_name": "FreeIDE",
       "brand_from": ["OpenCode"],
       "role": "Terminal and desktop coding agent: the FreeIDE coding surface.",
-      "gate": "Provider base URL -> OpenVault /v1. Shell, edit and fetch tools -> Cortex tool_runner and OpenVault POST /api/crew/gate.",
+      "gate": "Provider base URL -> OpenVault /v1. Shell, edit and webfetch ask OpenVault POST /api/crew/gate with ids only and fail closed (0002-gate.patch, tested). Cortex tool_runner: not wired (stage 3).",
       "stage": 2
     },
     {
@@ -34,7 +34,7 @@
       "netie_name": "FreeIDE for VS Code",
       "brand_from": ["Kilo Code"],
       "role": "Editor extension and CLI that is itself an opencode fork. Take the extension only; core stays on freeide.",
-      "gate": "Same as freeide. Both copyright lines (Kilo Code, opencode) stay in LICENSE.",
+      "gate": "Target, not wired (overlays/freeide-ext/PLAN.md): model default openvault/auto at OpenVault /v1; every tool outside a local read-only allowlist asks OpenVault POST /api/crew/gate with ids only and fails closed; the extension refuses to start without the gate plugin. Both copyright lines (Kilo Code, opencode) stay in LICENSE.",
       "stage": 1
     },
     {

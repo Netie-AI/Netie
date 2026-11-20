@@ -69,7 +69,7 @@ compared with the catalog row.
 | #50 | crew-harness | 2 | `1746a25167e4` | yes after `7035d25` (F3) | equal |
 | #51 | crew-edge | 2 (series 0001-0003) | `731efbaed1bb` | yes | equal |
 | #53 | control | 2 | `0f8422e1a84d` | yes | equal |
-| #54 | crew-agent | 2 | `335de3197226` | yes | equal |
+| #54 | crew-agent | 2 | `335de319722b` (was typed `335de3197226`; corrected from the 2026-11-20 replay) | yes | equal |
 
 Not re-run by the parent: the upstream suites and gate tests of these six (the children's
 numbers stand as reported, unverified here). Replay proves the patch is what the finding
@@ -116,7 +116,20 @@ describes, not that its tests pass.
 ## Not done
 
 - The three wave 1 PRs (#44, #45, #46) and PR #43 still wait on founder review. Nothing here
-  merges them.
+  merges them. (All four merged on 2026-10-30; see the update below.)
 - `scripts/test_sibling_patches.py` stays red on the base (F2 of `2026-10-05-ecosystem-lane.md`).
   No wave 2 child was asked to fix it.
 - freeroute (OmniRoute) stays at stage 1: its baseline build does not fit this box.
+
+## Update 2026-11-20 (close-out pass, `2026-11-20-wave2-close.md`)
+
+- PR #43 and wave 1 (#44, #45, #46) merged on 2026-10-30 between 17:21 and 17:26 UTC; wave 2
+  (#47 to #54) merged the same day, the last at 17:43 UTC. The `claude/stage2-*` branches are
+  gone from origin; the PR refs remain. The per-fork finding headers that name those branches
+  are dated provenance and stay as written.
+- freeide-ext (PR #52) is missing from the replay table above because it claimed no stage 2:
+  it stopped at a PLAN. Its stage 1 replay on main `1a0a40d` gives tree `625d47c37a3e`,
+  LICENSE equal. Its 0002 gate patch is now written and statically reviewed but never
+  compiled or run; it is saved outside the `apply` path, and the row stays at stage 1.
+- All 13 overlays replayed on main `1a0a40d`: every series applies, every LICENSE hash is
+  equal, and every stated tree hash matches (8 of 8). Details in the close-out finding.

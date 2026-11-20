@@ -3,7 +3,8 @@
 Upstream `Kilo-Org/kilocode` at `a93088bfe2` (MIT, two copyright lines: Kilo Code and
 opencode), mode fork-rebrand, product FreeIDE, Netie name "FreeIDE for VS Code". Scope is
 `packages/kilo-vscode` only; the core stays on the `freeide` row. Series today:
-`0001-rebrand.patch`. Planned: `0002-gate.patch`. Catalog stage stays 1.
+`0001-rebrand.patch`. Written but never compiled or run: `wip/0002-gate.patch`
+(2026-11-20, see the end of section 0). Catalog stage stays 1.
 
 ## 0. Why this is a plan and not a patch
 
@@ -20,6 +21,38 @@ Environment drift worth knowing: the box's bun is 1.4.4. With 1.4.4,
 `bun install --frozen-lockfile` fails (`@ff-labs/fff-bun@0.9.4` patch hunk does not apply
 to `src/ffi.ts`). Upstream pins `packageManager: bun@1.4.2`; `npm pack
 @oven/bun-linux-x64@1.4.2` gives that binary and install is then green.
+
+2026-11-20: auto mode refused `bun test` again ("Undermining Oversight"), and it was not
+worked around. An agent workflow implemented section 2 and the section 3 tests without
+running any upstream code. The work went through one fix round after three review lenses
+(build conventions, gate semantics, test validity). A second review round was in flight
+when the session was told to wind down, so its findings are listed below, unapplied. The diff was cut
+with `git diff --binary` and replayed:
+- `clone` + `apply` on a fresh checkout of the pin gives the stage 1 tree `625d47c37a3e`.
+  This proves `apply` skips `wip/`, because it globs `*.patch` in this folder only.
+- `git apply --binary wip/0002-gate.patch` then gives tree `69e9ee6bf406`, equal to the
+  working tree it was cut from.
+- LICENSE sha256 is unchanged, and both copyright lines are present.
+- 17 files, 56651 bytes.
+It moves to `0002-gate.patch` only after section 4 passes.
+
+Open from review round 2 (static; no blocking or high finding; not fixed, the workflow was
+stopped on the wind-down):
+- Medium: the start guard checks only that `dist/netie-openvault-gate.js` exists. A bundle
+  that fails to import, or that lacks `id`/`server`, is skipped by the backend with at most
+  a log line, and tools then run ungated. Section 4 should load the real bundle once, and the
+  guard could check its shape.
+- Low: forcing `KILO_PURE=false` also loads every config plugin (a repo's
+  `.kilo/plugin/*.ts`) for a user who set `KILO_PURE=1`; refusing to start would match the
+  `KILO_CONFIG_CONTENT` rule.
+- Low: `NETIE_OPENVAULT_URL` is not validated before it goes into `KILO_CONFIG_CONTENT`; a
+  value that breaks `{env:}`/`{file:}` substitution drops the gate with a warning.
+- Low: with VS Code's `http.proxy` set, the loopback GateAsk can go through the proxy (fails
+  closed, but the ids reach the proxy).
+- Low: slash-command `!cmd` templates run before any plugin hook; the docs line "no setting
+  turns the gate off" overstates coverage.
+- Low: a non-empty `KILO_CONFIG_CONTENT` turns off the experimental Claude migration, and two
+  readers of `enableAutoTrigger` still fall back to true.
 
 ## 1. Read from code at the pin (file:line, not run)
 
@@ -101,25 +134,42 @@ Autocomplete:
      true, limit: { context: 128000, output: 32000 } } } }`. Limits are assumed.
    - `gatePluginPath(extensionPath)` is `dist/netie-openvault-gate.js`; throws a visible
      error if the file is missing (closes the fail-open risk in section 1).
-   - `buildConfigContent(userValue, pluginPath)`: base `{ provider: { openvault }, plugin:
-     [pathToFileURL(pluginPath).href] }`, deep-merged with a user-set `KILO_CONFIG_CONTENT`
-     (user keys win, except `plugin` which is concatenated so the gate stays). Bad user JSON
-     is not dropped silently: the user value is ignored, `vscode.window.showWarningMessage`
-     names it, and the log says so.
-   - `openVaultEnv(env, extensionPath)` returns `{ NETIE_OPENVAULT_URL, KILO_CONFIG_CONTENT }`.
-     ServerManager spreads it after `extraEnv`, built from `{ ...process.env, ...extraEnv }`,
-     so both the extension and the backend plugin see one URL.
+   - `KILO_CONFIG_CONTENT` is `{ provider: { openvault }, plugin:
+     [pathToFileURL(pluginPath).href] }` and nothing else.
+   - Changed in review (2026-11-20): a user-set `KILO_CONFIG_CONTENT` is refused, not merged.
+     The backend drops the whole variable, gate included, when any part of it fails to load
+     (`config.ts` 900 to 923 turns the error into a warning), so a merged user value could
+     switch the gate off. The error tells the user to move that config into `kilo.json`.
+   - `openVaultEnv(env, extensionPath)` returns `{ NETIE_OPENVAULT_URL, KILO_CONFIG_CONTENT,
+     KILO_PURE: "false" }`. `KILO_PURE` set in VS Code's env would make the backend load no
+     external plugin, gate included (`plugin/index.ts` 191). ServerManager spreads the result
+     after `extraEnv`, built from `{ ...process.env, ...extraEnv }`, so it wins, and the
+     extension and the backend plugin see one URL.
 3. `src/netie/openvault-gate-plugin.ts`, bundled by a new esbuild entry (ESM, platform node,
    no externals) to `dist/netie-openvault-gate.js`. `.vscodeignore` already ships
    `!dist/**`. Default export `{ id: "netie-openvault-gate", server }`; `server` returns
    `{ "tool.execute.before": ask }`. `ask` posts `{ kind: "service", id: input.tool, intent:
    "leave", parent_run_id: input.sessionID, child_id: input.callID, deficit: "" }` (GateAsk in
    `scripts/crew_ov_gate.py`), ids only, never `output.args`. 5 s timeout. Unreachable,
-   non-JSON, or `allowed !== true` throws `OpenVault refused <tool>: <reason>` or
+   non-JSON, a non-2xx reply (even one whose body says `allowed: true`), or `allowed !== true`
+   throws `OpenVault refused <tool>: <reason>` or
    `OpenVault gate unreachable at <url> ... <tool> was not run`.
-   Which tools: deny by default. Ungated is a short local allowlist: `read`, `glob`, `grep`,
-   `list`, `lsp`, `todowrite`, `todoread`, `question`, `skill`, `task`, `plan_exit`,
-   `open_plan`, `invalid`, `get_context_info`, `kilo_local_recall`. Everything else is gated,
+   Which tools: deny by default. The ungated local allowlist was narrowed in review to `read`,
+   `glob`, `grep`, `todowrite`, `question`, `task` and `invalid`. Dropped:
+   - `skill`, because a skill body can run shell.
+   - `lsp`, because it can start or download language servers.
+   - `list`, because no tool has that id.
+   - `todoread`, because it is only a permission key.
+   - `plan_exit`, `open_plan`, `get_context_info` and `kilo_local_recall`. MCP tools are
+     keyed `<server>_<tool>` and written after the built-ins, so an MCP server named `plan`
+     could take `plan_exit` and run ungated. The rule is: no underscore in an ungated id. The
+     cost is that leaving plan mode through the tool needs OpenVault.
+   Still ungated, and recorded: `read` warms a language server in the background, and `glob`
+   and `grep` can download ripgrep on first use. An allowlisted id skips the gate only while
+   the backend's
+   tool registry (`client.tool.ids()`) lists it exactly once. A plugin or config-dir tool can
+   take a built-in's id and replace it, so a duplicate, a missing id or an unreadable list is
+   gated. Everything else is gated,
    which covers the named ones (`bash`, `edit`, `write`, `apply_patch`, `webfetch`,
    `websearch`, `codesearch`) plus `repo_clone`, `generate_image`, `semantic_search`,
    `kilo_memory_*`, code-mode `execute`, every MCP tool and every plugin tool. Recorded
@@ -154,37 +204,62 @@ every case fails instead of the file failing to load; record that count.
    `displayName` is "FreeIDE for VS Code".
 2. `computeDefaultSelection(null, "", "")` is `openvault/auto`; a user `config.model` still wins.
 3. Env the real `ServerManager` passes to a fake CLI (a script that writes its env as JSON
-   and prints the port line): `NETIE_OPENVAULT_URL` present; `KILO_CONFIG_CONTENT` decodes
-   with `ConfigV1.Info` from `@opencode-ai/core/v1/config/config`, has `provider.openvault`
-   with `baseURL` `${url}/v1`, and a `file://` plugin that exists on disk.
-4. Merge: a user `KILO_CONFIG_CONTENT` keeps its keys and its plugins; bad JSON gives a
-   visible warning and the gate still loads.
+   and prints the port line). It must contain:
+   - `NETIE_OPENVAULT_URL`
+   - `KILO_PURE` "false", even when the parent env sets `KILO_PURE=1`
+   - a `KILO_CONFIG_CONTENT` that decodes with `ConfigV1.Info` from
+     `@opencode-ai/core/v1/config/config`, with `provider.openvault` at `baseURL` `${url}/v1`
+     and a `file://` plugin that exists on disk
+4. A user-set `KILO_CONFIG_CONTENT` (a valid object, a wrong shape, or bad JSON): the backend
+   does not start, and the error says to move that config into `kilo.json`. A blank value
+   counts as unset.
 5. Missing gate bundle: the backend does not start and the error names the file.
-6. Plugin, against a fake OpenVault on `127.0.0.1:0`: refused throws and the tool body did
-   not run; unreachable throws (fail closed); allowed returns; the recorded body has exactly
-   the six GateAsk keys and no argument value; an allowlisted tool sends no request.
-7. End to end, if it runs here: real backend from source with the env from case 3, fake
-   OpenVault serving `/v1/chat/completions` (one streamed `bash` tool call) and
+6. Plugin, against a fake OpenVault on `127.0.0.1:0`:
+   - the default export has the shape the backend requires
+   - refused throws with OpenVault's reason
+   - unreachable fails closed
+   - a non-2xx reply is a refusal, even with `allowed: true`
+   - allowed resolves, and the body is exactly the six GateAsk ids, with no argument value
+   - an allowlisted tool listed once in `client.tool.ids()` sends no request
+   - the same id listed twice, or missing, is gated
+7. Guard: the extension does not drive the V2 session API, whose runner fires no tool hook.
+   This test scans `src` and `webview-ui` for `v2.session` and passes on the baseline too.
+8. End to end, not written yet: the real backend from source with the env from case 3, and a
+   fake OpenVault serving `/v1/chat/completions` (one streamed `bash` tool call) and
    `/api/crew/gate`. Refused: the command's marker file is absent and the tool error carries
-   the reason. Allowed: the marker file exists.
+   the reason. Allowed: the marker file exists. Only this case proves that a hook that
+   throws stops the tool. Until it runs, that is read from code (`session/tools.ts`), not
+   measured.
+
+The test file in `wip/0002-gate.patch` holds cases 1 to 7: 14 tests. On the baseline, with
+this patch's `tests/` directory checked out over it (the vscode mock gains `ExtensionMode`),
+13 of the 14 should fail and the guard should pass. That is predicted from reading the code,
+not run.
 
 ## 4. Commands for the session that builds it
 
 In a box where these may run (bun 1.4.2, see section 0):
 
+`P` is `<this repo>/ecosystem/overlays/freeide-ext/wip/0002-gate.patch`.
+
 ```
 python3 scripts/ecosystem.py clone freeide-ext W && python3 scripts/ecosystem.py apply freeide-ext W
 cd W && git add -A && git commit -m baseline && bun install --frozen-lockfile
-cd packages/kilo-vscode && bun run test:unit   # baseline, expect 1 fail (orphan-size, root)
-# implement section 2 and 3, then:
-bun test tests/unit/netie-openvault-gate.test.ts
+(cd packages/kilo-vscode && bun run test:unit)   # baseline, expect 1 fail (orphan-size, root)
+git apply --include='packages/kilo-vscode/tests/*' "$P"
+(cd packages/kilo-vscode && bun test tests/unit/netie-openvault-gate.test.ts)   # red: 13 of 14 fail
+git checkout -- . && git clean -fdq packages/kilo-vscode/tests
+git apply --binary "$P"
+cd packages/kilo-vscode && bun test tests/unit/netie-openvault-gate.test.ts      # green: 14 of 14
 bun run test:unit && bun run typecheck && bun run lint && bun run format:check
 bun run knip && bun run check-kilocode-change && bun run bundle
 KILO_SKIP_BUNDLED_BWRAP=1 bun run prepare:cli-binary   # needs zig 0.14.0; binary then needs system bwrap
-cd ../.. && git add -A && git diff --binary --cached baseline > 0002-gate.patch
+cd ../.. && git add -A && git diff --binary --cached baseline > 0002-gate.patch   # recut after any fix
 ```
 
-Then replay in a fresh dir (`clone`, `apply` with both patches) and compare `git write-tree`;
+Then move the recut patch to `ecosystem/overlays/freeide-ext/0002-gate.patch`, delete
+`wip/`, add `0002-gate.patch` and `files_changed_stage2` to `overlay.json`, and write case 8
+if the box allows it. Replay in a fresh dir (`clone`, `apply` with both patches) and compare `git write-tree`;
 check LICENSE sha256 stays `8a088af74e19c37e62906321b1072f593113058ed9eae507d899d41e6e5e5bb4`.
 `local-bin.ts` writes a source wrapper at `bin/kilo` when the compiled build fails; that is
 not a compiled binary. If URLs in docs changed, run `bun run script/extract-source-links.ts`
@@ -199,9 +274,16 @@ and replay all held.
   `scripts/crew_ov_gate.py`.
 - Limits 128k context and 32k output for `openvault/auto`.
 - The webview lists a config-sourced provider as connected without a key.
-- A hook rejection shows to the user as a tool error (section 3 case 7 proves or refutes it).
+- A hook rejection stops the tool and shows to the user as a tool error (section 3 case 8
+  proves or refutes it).
 - `NETIE_OPENVAULT_URL` reaches the extension host only when VS Code is started from a shell
   that has it; a setting for it is stage 3.
+- Whether Bun sends the loopback gate call through `HTTP_PROXY`. If it does, the call fails
+  closed, not open, since only a 2xx JSON reply with `allowed: true` lets a tool run. Keep
+  loopback in `NO_PROXY` where OpenVault runs.
+- Not done yet (stage 3): the V2 `/api/session/:id/prompt` runner fires no tool hook, so the
+  gate covers only the session tool path this extension uses. Section 3 case 7 fails if the
+  extension starts driving V2.
 
 ## 6. What would make this stage 3
 

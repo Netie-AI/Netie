@@ -23,7 +23,7 @@ that skips a box is a bug. Planes 0 and 1 (silicon, inference serving) are bough
 
 ## Adopt, do not distill
 
-Reimplementing open-source projects was too slow, so DR-0002 (proposed) switches the lane:
+Reimplementing open-source projects was too slow, so DR-0002 (accepted 2026-10-30) switches the lane:
 
 - Permissive upstreams (MIT, Apache-2.0) are forked and rebranded with LICENSE and NOTICE
   untouched. A fork is a pinned upstream commit plus a patch series, never a vendored tree.
