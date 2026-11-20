@@ -51,10 +51,10 @@ index d50ed00..ca9b5e8 100644
                  return _forbidden_response(p)
 diff --git a/netie_control/netie_board.py b/netie_control/netie_board.py
 new file mode 100644
-index 0000000..54b6ef7
+index 0000000..3c422bb
 --- /dev/null
 +++ b/netie_control/netie_board.py
-@@ -0,0 +1,233 @@
+@@ -0,0 +1,298 @@
 +"""Board and session go through Netie Control when installed.
 +
 +uv add git+https://github.com/Netie-AI/Netie.git
@@ -90,16 +90,28 @@ index 0000000..54b6ef7
 +_LEAK_KEYS = frozenset({"skill_body", "prompt", "transcript", "password", "api" + "_key"})
 +
 +
-+class ControlDenied(PermissionError):
-+    """Board stays a view. It does not run the loop."""
++try:
++    # One refusal class. With Netie installed the contract raises its own, and a
++    # second local class would slip past every ``except ControlDenied`` here.
++    from netie.control import ControlDenied  # type: ignore[import-not-found]
++except ImportError:
++
++    class ControlDenied(PermissionError):  # type: ignore[no-redef]
++        """Board stays a view. It does not run the loop."""
 +
 +
 +def _netie():
 +    try:
 +        from netie.control import (  # type: ignore[import-not-found]
-+            ControlDenied as _Denied,
 +            MAX_BOARD_CHARS as _MAX,
++        )
++        from netie.control import (
++            ControlDenied as _Denied,
++        )
++        from netie.control import (
 +            project_board as _board,
++        )
++        from netie.control import (
 +            project_session as _session,
 +        )
 +    except ImportError:
@@ -278,6 +290,59 @@ index 0000000..54b6ef7
 +    return session
 +
 +
++def _dump(blob: object) -> str:
++    return json.dumps(blob, separators=(",", ":"), default=str)
++
++
++def fit_issue_board(data: dict[str, Any], *, max_chars: int = MAX_BOARD_CHARS) -> dict[str, Any]:
++    """Cut the open-issue rows to the board budget and count every row left out.
++
++    An over-budget list used to take the whole board dark. Here every row ends in
++    exactly one of three counts, so ``fetched == shown + omitted + withheld``:
++
++    - shown: the leading rows, in the order given, that fit ``max_chars``.
++    - omitted: rows past the first one that did not fit.
++    - withheld: rows whose text names a guarded key. Never displayed, only counted.
++
++    A guarded key as a row key, or a remote-desktop kind, still refuses the whole
++    board (``_guard_row``). ``guard_issue_board`` stays the strict gate and runs after.
++    """
++    budget = max_chars if max_chars > 0 else MAX_BOARD_CHARS
++    rows = list(data.get("items") or [])
++    for row in rows:
++        if isinstance(row, dict):
++            _guard_row(row)
++    unreachable = list(data.get("unreachable") or [])
++    used = len(_dump({"items": [], "unreachable": unreachable}))
++    kept: list[Any] = []
++    omitted = 0
++    withheld = 0
++    full = False
++    for row in rows:
++        text = _dump(row)
++        if any(needle in text for needle in _LEAK_KEYS):
++            withheld += 1
++            continue
++        cost = len(text) + (1 if kept else 0)
++        if full or used + cost > budget:
++            full = True
++            omitted += 1
++            continue
++        used += cost
++        kept.append(row)
++    out = dict(data)
++    out["items"] = kept
++    if "open" in out:
++        out["open"] = kept
++    out["shown"] = len(kept)
++    out["fetched"] = len(rows)
++    out["omitted"] = omitted
++    out["withheld"] = withheld
++    out["budget_chars"] = budget
++    out["truncated"] = bool(data.get("truncated")) or bool(omitted or withheld)
++    return out
++
++
 +def guard_issue_board(data: dict[str, Any], *, max_chars: int = MAX_BOARD_CHARS) -> dict[str, Any]:
 +    """GitHub issue list is display. Same leak / RDP / budget gate."""
 +    items = list(data.get("items") or [])
@@ -288,20 +353,62 @@ index 0000000..54b6ef7
 +    blob = {"items": items, "unreachable": list(data.get("unreachable") or [])}
 +    _budget_ok(blob, max_chars=max_chars, what="board")
 +    return data
+diff --git a/netie_control/render.py b/netie_control/render.py
+index 0c1edda..0d0d28d 100644
+--- a/netie_control/render.py
++++ b/netie_control/render.py
+@@ -244,6 +244,19 @@ def _board_body(d: dict[str, Any]) -> str:
+             f'{_esc(d.get("shown") or len(open_rows))} at cap {_esc(d.get("cap") or "")}. '
+             "Not a quiet omission.</p>"
+         )
++    if d.get("omitted"):
++        bits.append(
++            f'<p class="absent">Left out: {_esc(d.get("omitted"))} of '
++            f'{_esc(d.get("fetched") or "")} open issues did not fit the '
++            f'{_esc(d.get("budget_chars") or "")} character board budget. The first '
++            f'{_esc(len(open_rows))} in search order are shown. Not a quiet omission.</p>'
++        )
++    if d.get("withheld"):
++        bits.append(
++            f'<p class="absent">Withheld: {_esc(d.get("withheld"))} of '
++            f'{_esc(d.get("fetched") or "")} open issues are not shown because their '
++            "text names a guarded key. Not a quiet omission.</p>"
++        )
+     bits.extend(
+         [
+         (
+@@ -1714,6 +1727,17 @@ the founder's desktop software (R-0015).</p></div>
+         + esc(d.shown || openRows.length) + " at cap " + esc(d.cap || "")
+         + ". Not a quiet omission.</p>";
+     }}
++    if (d.omitted) {{
++      extra += '<p class="absent">Left out: ' + esc(d.omitted) + " of " + esc(d.fetched || "")
++        + " open issues did not fit the " + esc(d.budget_chars || "")
++        + " character board budget. The first " + esc(openRows.length)
++        + " in search order are shown. Not a quiet omission.</p>";
++    }}
++    if (d.withheld) {{
++      extra += '<p class="absent">Withheld: ' + esc(d.withheld) + " of " + esc(d.fetched || "")
++        + " open issues are not shown because their text names a guarded key."
++        + " Not a quiet omission.</p>";
++    }}
+     if (d.unreachable && d.unreachable.length) {{
+       extra += '<p class="absent">Not shown, unreachable: ' + esc(d.unreachable.join("; ")) + "</p>";
+     }}
 diff --git a/netie_control/sources.py b/netie_control/sources.py
-index 0c29002..fadadac 100644
+index 0c29002..fb1b0b8 100644
 --- a/netie_control/sources.py
 +++ b/netie_control/sources.py
 @@ -30,6 +30,8 @@ from pathlib import Path
  from typing import Any
  from urllib.parse import quote, urlparse
  
-+from netie_control.netie_board import ControlDenied, guard_issue_board
++from netie_control.netie_board import ControlDenied, fit_issue_board, guard_issue_board
 +
  LOOPBACK_HOSTS = frozenset({"127.0.0.1", "localhost", "::1"})
  CREW_BELT_WAIT_S = 1.5
  OPENVAULT_USAGE_WAIT_S = 1.5
-@@ -2263,26 +2265,31 @@ def board(
+@@ -2263,26 +2265,41 @@ def board(
          detail_parts.append("skipped " + "; ".join(skipped))
      if unreachable:
          detail_parts.append("some github slices unreachable: " + "; ".join(unreachable))
@@ -324,9 +431,19 @@ index 0c29002..fadadac 100644
 +        "slices": list(wanted),
 +    }
 +    try:
-+        payload = guard_issue_board(payload)
++        payload = guard_issue_board(fit_issue_board(payload))
 +    except ControlDenied as exc:
 +        return Reading.unreachable("netie.control", str(exc))
++    if payload["omitted"]:
++        detail_parts.append(
++            f"left out {payload['omitted']} of {payload['fetched']} open issues "
++            f"over the {payload['budget_chars']} character board budget"
++        )
++    if payload["withheld"]:
++        detail_parts.append(
++            f"withheld {payload['withheld']} of {payload['fetched']} open issues "
++            "whose text names a guarded key"
++        )
      return Reading(
          ok=True,
 -        data={
@@ -353,22 +470,35 @@ index 0c29002..fadadac 100644
      )
 diff --git a/tests/test_netie_board.py b/tests/test_netie_board.py
 new file mode 100644
-index 0000000..1db6c43
+index 0000000..cddbe7c
 --- /dev/null
 +++ b/tests/test_netie_board.py
-@@ -0,0 +1,131 @@
+@@ -0,0 +1,392 @@
 +"""Netie Control board caller. python -m pytest tests/test_netie_board.py -q"""
 +
 +from __future__ import annotations
 +
 +import importlib.util
++import json
++import shutil
++import subprocess
 +from pathlib import Path
++from typing import Any
 +
 +import pytest
 +from fastapi.testclient import TestClient
 +
++from netie_control import render, sources
 +from netie_control.app import create_app
-+from netie_control.netie_board import ControlDenied, board_index, guard_issue_board, project_board, project_session
++from netie_control.netie_board import (
++    MAX_BOARD_CHARS,
++    ControlDenied,
++    board_index,
++    fit_issue_board,
++    guard_issue_board,
++    project_board,
++    project_session,
++)
 +
 +
 +def test_issue_board_keeps_titles() -> None:
@@ -420,7 +550,7 @@ index 0000000..1db6c43
 +        ledger_peek=[],
 +        refusals=[],
 +    )
-+    skill = [c for c in board["cards"] if c["kind"] == "skill"][0]
++    skill = next(c for c in board["cards"] if c["kind"] == "skill")
 +    assert skill["id"] == "S-0004"
 +    assert skill["source"] == "netie-kb"
 +    with pytest.raises(ControlDenied, match="leaked"):
@@ -488,3 +618,251 @@ index 0000000..1db6c43
 +    assert "from netie.control import" in blob
 +    assert "board_index" in blob
 +    assert "Control is not Guacamole" in blob
++
++
++# --- The board past the budget: it degrades in the open, it does not go dark. ---
++
++# The gh mock below swaps these on the shared modules. node must still be the real one.
++_REAL_RUN = subprocess.run
++_REAL_WHICH = shutil.which
++
++ROW_KEYS = {
++    "repo", "number", "title", "url", "is_epic", "blocked", "assignees", "kind", "closed_at",
++}
++
++
++def _gh_items(n: int, *, title_len: int = 64) -> list[dict[str, Any]]:
++    """n open issues as gh search returns them, with a body the board must never carry."""
++    return [
++        {
++            "number": i,
++            "title": f"Board row {i:03d} ".ljust(title_len, "x"),
++            "url": f"https://github.com/Netie-AI/Cortex/issues/{i}",
++            "labels": [],
++            "assignees": [],
++            "repository": {"nameWithOwner": "Netie-AI/Cortex"},
++            "body": f"ISSUE-BODY-{i} must stay on GitHub",
++        }
++        for i in range(1, n + 1)
++    ]
++
++
++def _fake_gh(monkeypatch, items: list[dict[str, Any]] | None, *, stderr: str = "") -> None:
++    """gh answers the open-issue search with items, or fails with stderr when items is None."""
++
++    def fake_run(argv: object, **_k: object) -> subprocess.CompletedProcess[str]:
++        cmd = [str(x) for x in list(argv)]  # type: ignore[arg-type]
++        if items is None:
++            return subprocess.CompletedProcess(cmd, 1, "", stderr)
++        return subprocess.CompletedProcess(cmd, 0, json.dumps(items), "")
++
++    monkeypatch.setattr(sources.shutil, "which", lambda _name: "/usr/bin/gh")
++    monkeypatch.setattr(sources.subprocess, "run", fake_run)
++
++
++def _open_board(monkeypatch, items: list[dict[str, Any]] | None, **kw: Any) -> sources.Reading:
++    _fake_gh(monkeypatch, items, **kw)
++    return sources.board(slices=("open",))
++
++
++def _js_function(page: str, name: str) -> str:
++    start = page.index(f"function {name}(")
++    depth = 0
++    for i in range(page.index("{", start), len(page)):
++        depth += {"{": 1, "}": -1}.get(page[i], 0)
++        if depth == 0:
++            return page[start : i + 1]
++    raise AssertionError(f"unbalanced function {name}")
++
++
++def _page_script_board(reading: dict[str, Any]) -> str:
++    """The live page's own boardHtml, run on a reading. This is what the operator sees."""
++    node = _REAL_WHICH("node")
++    assert node, "node is required to run the page's own boardHtml; install it"
++    page = TestClient(create_app()).get("/").text
++    script = "\n".join(
++        [
++            _js_function(page, "esc"),
++            _js_function(page, "boardHtml"),
++            "function ticketCardHtml(r){return '<i>' + esc(r.title) + '</i>'}",
++            "function absentHtml(d, s){return 'ABSENT ' + d + ' ' + s}",
++            f"process.stdout.write(boardHtml({json.dumps(reading)}));",
++        ]
++    )
++    out = _REAL_RUN(
++        [node, "-e", script], capture_output=True, text=True, timeout=20, check=False
++    )
++    assert out.returncode == 0, out.stderr
++    return out.stdout
++
++
++def test_forty_rows_fit_and_carry_no_left_out_line(monkeypatch) -> None:
++    reading = _open_board(monkeypatch, _gh_items(40))
++    assert reading.ok is True
++    d = reading.data
++    assert (d["fetched"], d["shown"], d["omitted"], d["withheld"]) == (40, 40, 0, 0)
++    assert len(d["items"]) == 40
++    assert d["truncated"] is False
++    assert reading.detail == ""
++    for html in (render._board_body(d), _page_script_board(reading.to_dict())):
++        assert "Board row 001 " in html
++        assert "Board row 040 " in html
++        assert "Left out" not in html
++        assert "Withheld" not in html
++        assert "Truncated" not in html
++
++
++@pytest.mark.parametrize("n", [60, 100])
++def test_over_budget_board_shows_leading_rows_and_counts_the_rest(monkeypatch, n: int) -> None:
++    items = _gh_items(n)
++    reading = _open_board(monkeypatch, items)
++    assert reading.ok is True, reading.detail
++    d = reading.data
++    shown = d["shown"]
++    # Nothing is dropped without being counted.
++    assert d["fetched"] == n
++    assert d["withheld"] == 0
++    assert 0 < shown < n
++    assert shown + d["omitted"] + d["withheld"] == d["fetched"]
++    assert len(d["items"]) == shown
++    assert d["open"] == d["items"]
++    # The rows kept are the leading ones, in gh order, with no gap.
++    assert [r["number"] for r in d["items"]] == list(range(1, shown + 1))
++    # The cut is exact: what is shown fits, one more row would not.
++    def dump(rows: list[Any]) -> str:
++        return json.dumps({"items": rows, "unreachable": []}, separators=(",", ":"))
++
++    assert len(dump(d["items"])) <= MAX_BOARD_CHARS == d["budget_chars"]
++    next_row = sources.issues_from_gh_search(items)["items"][shown]
++    assert len(dump([*d["items"], next_row])) > MAX_BOARD_CHARS
++    # The existing truncation flag is raised, so every consumer that reads it sees it.
++    assert d["truncated"] is True
++    assert d["cap"] == sources.BOARD_SEARCH_LIMIT
++    assert f"left out {n - shown} of {n} open issues" in reading.detail
++    label = f"Left out: {n - shown} of {n} open issues did not fit the 12000 character"
++    first = f"The first {shown} in search order are shown."
++    body = render._board_body(d)
++    public = render.public_board_page(reading.to_dict())
++    script = _page_script_board(reading.to_dict())
++    for html in (body, public, script):
++        assert label in html
++        assert first in html
++        assert f"Truncated: showing {shown} at cap 100" in html
++        assert f"Board row {shown:03d} " in html
++        assert f"Board row {shown + 1:03d} " not in html
++    # Pickup reads the same payload: it lists what the board shows and says it is cut.
++    tray = sources.pickup_tray({"rows": []}, d)
++    assert tray["count"] == shown
++    assert tray["truncated"] is True
++
++
++def test_one_hundred_long_titles_still_read(monkeypatch) -> None:
++    """Measured 2026-11-20: real titles run to 155 characters. The board must still paint."""
++    reading = _open_board(monkeypatch, _gh_items(100, title_len=155))
++    assert reading.ok is True, reading.detail
++    d = reading.data
++    assert 0 < d["shown"] < 100
++    assert d["shown"] + d["omitted"] == 100
++
++
++def test_one_row_larger_than_the_budget_is_counted_not_dark(monkeypatch) -> None:
++    reading = _open_board(monkeypatch, _gh_items(1, title_len=MAX_BOARD_CHARS + 1))
++    assert reading.ok is True, reading.detail
++    d = reading.data
++    assert (d["fetched"], d["shown"], d["omitted"]) == (1, 0, 1)
++    assert "Left out: 1 of 1 open issues" in render._board_body(d)
++
++
++def test_fit_stops_at_the_first_row_that_does_not_fit() -> None:
++    """A later short row must not jump the queue: the board shows a prefix, not a pick."""
++    rows = [{"number": 1, "title": "a"}, {"number": 2, "title": "b" * 200}, {"number": 3, "title": "c"}]
++    out = fit_issue_board({"items": rows, "unreachable": []}, max_chars=120)
++    assert [r["number"] for r in out["items"]] == [1]
++    assert (out["fetched"], out["shown"], out["omitted"], out["withheld"]) == (3, 1, 2, 0)
++
++
++def test_strict_guard_still_refuses_an_unfitted_over_budget_board() -> None:
++    """The gate can still fail. fit_issue_board runs before it; it does not replace it."""
++    rows = sources.issues_from_gh_search(_gh_items(100))["items"]
++    with pytest.raises(ControlDenied, match="over DitchContext"):
++        guard_issue_board({"items": rows, "unreachable": []})
++    fitted = fit_issue_board({"items": rows, "unreachable": []})
++    assert guard_issue_board(fitted) is fitted
++
++
++def test_title_naming_a_guarded_key_is_withheld_and_counted(monkeypatch) -> None:
++    """One issue titled 'prompt cache' used to take the whole board dark."""
++    items = _gh_items(3)
++    items[1]["title"] = "fix prompt cache"
++    reading = _open_board(monkeypatch, items)
++    assert reading.ok is True, reading.detail
++    d = reading.data
++    assert (d["fetched"], d["shown"], d["omitted"], d["withheld"]) == (3, 2, 0, 1)
++    assert [r["number"] for r in d["items"]] == [1, 3]
++    assert d["truncated"] is True
++    assert "withheld 1 of 3 open issues" in reading.detail
++    for html in (render._board_body(d), _page_script_board(reading.to_dict())):
++        assert "Withheld: 1 of 3 open issues are not shown" in html
++        assert "Board row 003 " in html
++        assert "prompt cache" not in html
++    assert "prompt cache" not in json.dumps(reading.to_dict())
++
++
++def test_board_rows_stay_ids_only_at_every_size(monkeypatch) -> None:
++    """No issue body rides the board, cut or uncut."""
++    for n in (40, 60, 100):
++        sources.clear_shared_reads()
++        reading = _open_board(monkeypatch, _gh_items(n))
++        assert reading.ok is True
++        for row in reading.data["items"]:
++            assert set(row) == ROW_KEYS
++        blob = json.dumps(reading.to_dict())
++        assert "ISSUE-BODY" not in blob
++        assert "ISSUE-BODY" not in render._board_body(reading.data)
++
++
++def test_leaked_key_or_remote_desktop_kind_still_refuses_the_whole_board(monkeypatch) -> None:
++    """Fitting does not soften a structural leak, even in a row the cut would have left out."""
++    rows = sources.issues_from_gh_search(_gh_items(100))["items"]
++    leaked = [dict(r) for r in rows]
++    leaked[99]["transcript"] = "secret"
++    with pytest.raises(ControlDenied, match="leaked"):
++        fit_issue_board({"items": leaked, "unreachable": []})
++    desk = [dict(r) for r in rows]
++    desk[99]["kind"] = "rdp"
++    with pytest.raises(ControlDenied, match="Guacamole"):
++        fit_issue_board({"items": desk, "unreachable": []})
++
++    def leaky_row(repo: str, it: dict[str, Any], *, kind: str) -> dict[str, Any]:
++        return {"repo": repo, "number": it.get("number"), "transcript": "secret"}
++
++    monkeypatch.setattr(sources, "_issue_row", leaky_row)
++    reading = _open_board(monkeypatch, _gh_items(2))
++    assert reading.ok is False
++    assert reading.source == "netie.control"
++    assert "leaked" in reading.detail
++    assert reading.data is None
++
++
++def test_unreachable_gh_still_reads_unreachable(monkeypatch) -> None:
++    reading = _open_board(monkeypatch, None, stderr="gh: not logged in")
++    assert reading.ok is False
++    assert reading.data is None
++    assert reading.source == "gh search issues"
++    assert "open" in reading.detail
++    public = render.public_board_page(reading.to_dict())
++    assert "Board unread" in public
++    assert "Left out" not in public
++    assert _page_script_board(reading.to_dict()).startswith("ABSENT ")
++
++
++def test_one_refusal_class_with_or_without_netie() -> None:
++    """With Netie installed the contract raises its own class. The board must catch it."""
++    import netie_control.netie_board as local
++
++    try:
++        from netie.control import ControlDenied as shared  # type: ignore[import-not-found]
++    except ImportError:
++        assert issubclass(local.ControlDenied, PermissionError)
++        return
++    assert local.ControlDenied is shared

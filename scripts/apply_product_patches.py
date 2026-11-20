@@ -231,7 +231,7 @@ STACKS: dict[str, Stack] = {
                 "-q",
             ],
         ),
-        min_passed=51,
+        min_passed=149,
     ),
     "kb": Stack(
         repo="https://github.com/Netie-AI/Netie-KB.git",
