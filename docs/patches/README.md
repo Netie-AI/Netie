@@ -10,7 +10,7 @@ python3 scripts/apply_product_patches.py --product pointer --repo /path/to/Point
 python3 scripts/apply_product_patches.py --all --skip-tests
 ```
 
-`--push` is refused. Constructor extras `constructor-*-4896ddd.patch` stay out of `--all` (do not mix with the 26). OpenVault `crew-gate` lands before `crew-netie` (README's independent block is not apply order). Cortex never `uv add` Netie.git.
+`--push` is refused. `--all` clones `SIBLING_PINS` (constructor `bfc7d3b`, OpenVault `3ba51cd`, Cortex `304bf84`, dms `ebe65cc`, Pointer `b42b98d`, control `93959c6`, KB `10356e5`), not live HEAD. Patches were re-cut on those pins on 2026-11-12; when a sibling moves, re-cut the lane and move its pin. Constructor extras `constructor-*-4896ddd.patch` stay out of `--all` (do not mix with the 26). OpenVault `crew-gate` lands before `crew-netie` (README's independent block is not apply order). Cortex never `uv add` Netie.git.
 
 ## Constructor (`Netie-AI/constructor`)
 
@@ -46,8 +46,8 @@ git apply docs/patches/constructor-ir-kahn-nodes.patch
 node --test tests/compiler.test.cjs
 ```
 
-Adds `rankForKinds`, empty-graph IR (no invented Cortex nodes), refuse unknown kinds / cycles / dangling edges / missing ids / duplicate ids, `ghostWalk` that refuses those instead of walking a fake order, `EMIT` only on app/audit output (connector-only does not invent EMIT), unlabeled `tool_call` does not invent `export_pptx` (compileIR refuses; inspect shows `(pick)` not a silent first-choice), unlabeled object does not invent `inventory`, unlabeled tier does not invent `T0` (compileIR emits null; inspect shows `(pick)`), unlabeled `set point` does not invent `inventory`, picking `object_type` does not invent the first `data_point` (`sku`; inspect stays `(pick)`; `compileIR` still drops an unlabeled point), `index.html` loads `engine.js` before `app.js` (`listedOrEmpty` / `applyObjectType` exist on first paint; `bindWhenReady` waits for `window.Constructor`), `topo()` does not append leftover cyclic nodes, `compileIR` entry is the Kahn source not `nodes[0]`, `compileIR` output is the Kahn sink app (or unique Kahn sink when no app/audit) not array-last, `compileIR` drops unlisted `object_type` (`hr_notes` / `Insight` do not become Cortex ontology), `fetch_from` must name the node's listed object (not `warehouse.hr_notes` on inventory), `data_point` must be on that object (not `salary` on inventory), `tool_call` unknown action (`bash`) refuses, unlisted action on a non-tool node is dropped, `export_pptx` / `item.intake` / `amend.apply` / `call_action` on foundry set `requires_confirm` (`agent.checked` stays an event), disconnected graphs refuse (two workflows are not one IR), a fork with no app refuses (`ambiguous output`; a join still emits the app), canvas notes do not ride into Cortex IR (a `skill_body` / prompt / transcript note refuses; notes over DitchContext 12k refuse), ghost/run/fetch/recommend POST `cortexPayload` (compiled IR in Kahn order, not canvas array order; leaked/disconnected graphs do not leave the machine), node `--test`, and `.github/workflows/test.yml`.
-Measured on this VM 2026-08-28: 62 passed.
+Adds `rankForKinds`, empty-graph IR (no invented Cortex nodes), refuse unknown kinds / cycles / dangling edges / missing ids / duplicate ids, `ghostWalk` that refuses those instead of walking a fake order, `EMIT` only on app/audit output (connector-only does not invent EMIT), unlabeled `tool_call` does not invent `export_pptx` (compileIR refuses; inspect shows `(pick)` not a silent first-choice), unlabeled object does not invent `inventory`, unlabeled tier does not invent `T0` (compileIR emits null; inspect shows `(pick)`), unlabeled `set point` does not invent `inventory`, picking `object_type` does not invent the first `data_point` (`sku`; inspect stays `(pick)`; `compileIR` still drops an unlabeled point), `index.html` loads `engine.js` before `app.js` (`listedOrEmpty` / `applyObjectType` exist on first paint; `bindWhenReady` waits for `window.Constructor`), `topo()` does not append leftover cyclic nodes, `compileIR` entry is the Kahn source not `nodes[0]`, `compileIR` output is the Kahn sink app (or unique Kahn sink when no app/audit) not array-last, `compileIR` drops unlisted `object_type` (`hr_notes` / `Insight` do not become Cortex ontology), `fetch_from` must name the node's listed object (not `warehouse.hr_notes` on inventory), `data_point` must be on that object (not `salary` on inventory), `tool_call` unknown action (`bash`) refuses, unlisted action on a non-tool node is dropped, `export_pptx` / `item.intake` / `amend.apply` / `call_action` on foundry set `requires_confirm` (`agent.checked` stays an event), disconnected graphs refuse (two workflows are not one IR), a fork with no app refuses (`ambiguous output`; a join still emits the app), canvas notes do not ride into Cortex IR (a `skill_body` / prompt / transcript note refuses; notes over DitchContext 12k refuse), ghost/run/fetch/recommend POST `cortexPayload` (compiled IR in Kahn order, not canvas array order; leaked/disconnected graphs do not leave the machine), node `--test`, and a compiler step in the existing `.github/workflows/test.yml`.
+Measured on this VM 2026-11-12 against `landing-9-first-path` at `bfc7d3b`: 62 passed. Re-cut for the sibling's `core/constructor.js` split. **Open decision:** `constructor-engine-order.patch` reverses the sibling's own script-order test in `tests/pages-honesty.test.js`, and the strict compiler now sits in `engine.js` beside the sibling's `Core.compileIR`. The compiled-IR POST is not verified against a Cortex mount. The stack is all 26 or nothing.
 
 Optional thinner stack (do **not** mix with the 26): `constructor-ir-4896ddd.patch` then `constructor-inspect-4896ddd.patch`. Portable Python IR is `scripts/constructor_ir.py` (`from netie.route import compile_ir`).
 
@@ -328,7 +328,7 @@ Adds `POST /api/crew/gate`: location + allowed, never a skill body. Unknown kind
 
 ## Cortex (`Netie-AI/Cortex`)
 
-Do not `uv add git+https://github.com/Netie-AI/Netie.git`. Cortex already owns the Python package name `netie` (CortexOS alias). From the Cortex repo root, on `main` (`bf4ecee`):
+Do not `uv add git+https://github.com/Netie-AI/Netie.git`. Cortex already owns the Python package name `netie` (CortexOS alias). From the Cortex repo root, on `main` (`304bf84`):
 
 ```
 git apply docs/patches/cortex-netie-path.patch
@@ -338,11 +338,11 @@ git apply docs/patches/cortex-observe-guard.patch
 python3 -m pytest tests/dms/test_constitution_path.py tests/dms/test_broker_no_skip.py tests/dms/test_f7_rbac.py -k "not tool_runner" -q
 ```
 
-Copies `scripts/cortex_path.py` to `CortexOS/constitution/cortex_path.py`. `/dms/query` post-checks a bound VerifiedManifest before a non-abstain answer (unbound still abstains, not 400). `tool_runner` refuses coding-agent tools (`bash` / filesystem) before the ontology allowlist. `/a2a/messages` calls `run_question(..., pack=dms, a2a=True)`. `default_broker` no longer skips F8 for `web_search` / `web_fetch` / `find_*` (unregistered denies; C2 allowlist does not grow). Then `cortex-role-execute.patch` puts `require_role` on `app_routes` / `dag_run` / `dms_query` / `chat_routes` (TAS-CORTEX named gap). Then `cortex-observe-guard.patch` sends `computer.observe` / screenshot names through `guard_observe` (uncropped PNG / clipboard / window dump refuse). Portable Netie `run_question` also requires `role` on write/tool and calls `guard_observe` for observe tools. Score stays **4/10** governed Q&A. Pointer governed score stays **2/10** until this lands on Cortex HEAD. Push 403.
+Copies `scripts/cortex_path.py` to `CortexOS/constitution/cortex_path.py`. `/dms/query` post-checks a bound VerifiedManifest before a non-abstain answer (unbound still abstains, not 400). `tool_runner` refuses coding-agent tools (`bash` / filesystem) before the ontology allowlist. `/a2a/messages` calls `run_question(..., pack=dms, a2a=True)`. `default_broker` no longer skips F8 for `web_search` / `web_fetch` / `find_*` (unregistered denies; C2 allowlist does not grow). Then `cortex-role-execute.patch` puts `require_role` on `dms_query` (engine auth port) / `chat_routes` (TAS-CORTEX named gap). `app_routes` and `dag_run` are already gated on Cortex HEAD (TRUST-01, `require_spend_key`), so the patch no longer touches them. **Open decision:** on `304bf84` with the four patches applied, 43 of Cortex's own tests fail: 6 because `cortex-web-via-runner.patch` removes the built-in `web_fetch` Cortex now keeps with an SSRF guard, 37 because newer tests post `/dms/query` with no key and the gate answers 401. Then `cortex-observe-guard.patch` sends `computer.observe` / screenshot names through `guard_observe` (uncropped PNG / clipboard / window dump refuse). Portable Netie `run_question` also requires `role` on write/tool and calls `guard_observe` for observe tools. Score stays **4/10** governed Q&A. Pointer governed score stays **2/10** until this lands on Cortex HEAD. Push 403.
 
 ## DMS (`Netie-AI/dms`)
 
-dms package name is `dms`, so `uv add git+https://github.com/Netie-AI/Netie.git` is the intended caller. From the dms repo root, on `main` (`3f9a9be`):
+dms package name is `dms`, so `uv add git+https://github.com/Netie-AI/Netie.git` is the intended caller. From the dms repo root, on `main` (`ebe65cc`):
 
 ```
 git apply docs/patches/dms-netie-acl.patch
@@ -350,7 +350,7 @@ uv add git+https://github.com/Netie-AI/Netie.git
 pytest tests/test_netie_acl.py tests/test_space_acl_boundary.py tests/test_live_ask.py -q
 ```
 
-`live_ask` runs Cortex through `guard_live_answer` (`from netie.dms import answer_or_abstain` when installed; same rule locally otherwise). Warehouse/bronze preview with `space_id` calls `browse_or_abstain`. Without a Space, personal/company-default mint is unchanged. Score stays **3/10**. Push 403.
+`live_ask` runs Cortex through `guard_live_answer` (`from netie.dms import answer_or_abstain` when installed; same rule locally otherwise). Warehouse/bronze preview with `space_id` calls `browse_or_abstain`. Cortex's `warehouse_<table>` lake alias is read as `<table>` for the gate (granted stands, ungranted abstains). Without a Space, personal/company-default mint is unchanged. Score stays **3/10**. Push 403.
 
 Then:
 
@@ -362,7 +362,7 @@ git apply docs/patches/dms-demo-acl-resolve.patch
 
 ## Pointer (`Netie-AI/Pointer`)
 
-`uv add git+https://github.com/Netie-AI/Netie.git` then `from netie.pointer import bind_computer, invoke_hand, guard_observe`. From the Pointer repo root, on `main` (`8c0e6c2`):
+`uv add git+https://github.com/Netie-AI/Netie.git` then `from netie.pointer import bind_computer, invoke_hand, guard_observe`. From the Pointer repo root, on `main` (`b42b98d`):
 
 ```
 git apply docs/patches/pointer-netie-hands.patch
@@ -376,14 +376,14 @@ UACC catalog still *names* planner / clipboard / list_windows (DR-0005). Search 
 
 ## Control (`Netie-AI/netie-control`)
 
-`uv add git+https://github.com/Netie-AI/Netie.git` then `from netie.control import project_board, project_session, MAX_BOARD_CHARS, board_index`. From the netie-control repo root, on `main` (`82ab1ae`):
+`uv add git+https://github.com/Netie-AI/Netie.git` then `from netie.control import project_board, project_session, MAX_BOARD_CHARS, board_index`. From the netie-control repo root, on `main` (`93959c6`):
 
 ```
 git apply docs/patches/control-netie-board.patch
 pytest tests/test_netie_board.py tests/test_control_stays_plane_4.py -q
 ```
 
-`sources.board` runs gh issues through `guard_issue_board` (`from netie.control import project_board` when installed; same refuse locally otherwise). Local fallback also projects `crew_index["skills"]` as id/source cards, exposes `board_index` (graph runs + Factory tickets + skill ids), and `project_session` lists skill ids. `/v1/rdp` `/v1/vnc` `/v1/guacamole` `/v1/ssh` answer 405. Score stays **1/10** Guacamole, **2/10** board. Push 403.
+`sources.board` runs gh issues through `guard_issue_board` (`from netie.control import project_board` when installed; same refuse locally otherwise). Local fallback also projects `crew_index["skills"]` as id/source cards, exposes `board_index` (graph runs + Factory tickets + skill ids), and `project_session` lists skill ids. `/v1/rdp` `/v1/vnc` `/v1/guacamole` `/v1/ssh` answer 405 (in `NOT_GUACAMOLE`, not `FORBIDDEN`, which stays the four write paths). Score stays **1/10** Guacamole, **2/10** board. Push 403.
 
 ## Netie-KB (`Netie-AI/Netie-KB`)
 
@@ -396,3 +396,46 @@ python3 tests/test_netie_index.py
 
 `kb_show` / GET `/item/S-*` return an index row (id, title, status), never the skill markdown body. GET `/index?kind=skill` and MCP `kb_list(kind=skill)` return JSON briefs (`list_briefs` when Netie is installed; `_brief` locally). Rules / workflows / findings / attacks still dump corpus text on show. `child_text` uses `from netie.kb import show_brief` when Netie is installed; same rule locally otherwise. Crew `register_index(list_briefs(rows))` is the dump path. Wrap score stays **3/10**. Push 403.
 
+
+## Voice capture (personal tool, not a Netie product)
+
+Founder's personal capture tool. It is **not** in `NETIE.md`, not in `ecosystem/catalog.json`
+and claims no stage. It calls Anthropic or Gemini with its own key, so it is **off** the safe
+path (app -> Cortex -> OpenVault). Making it a product needs a PRD and an OpenVault route
+first. The patches are parked here only because this token cannot push anywhere else.
+
+Upstream: `https://github.com/shdennlin/whisper-wrap` at `56e5cf6` (MIT, class A). The
+upstream `LICENSE` is untouched by all three patches.
+
+```
+git clone https://github.com/shdennlin/whisper-wrap && cd whisper-wrap
+git checkout 56e5cf60bc358a88b66b09909cefcab4fe211908
+git am /path/to/Netie/docs/patches/voice-capture-000*.patch
+uv sync --extra dev && PATH=$PWD/.venv/bin:$PATH bash scripts/model-manager.sh download breeze-asr-25
+uv run pytest tests/test_capture.py tests/test_capture_view.py tests/test_llm_claude.py
+```
+
+`0001` adds `POST /capture`: iPhone Shortcut audio -> Whisper -> model -> `tasks.md`,
+`notes.md`, `expenses.csv` under `DATA_DIR/capture/`. Bearer token required, the endpoint
+refuses when `CAPTURE_TOKEN` is unset. A sort failure keeps the transcript in `inbox.md` and
+the response says `sorted: false`. `0002` lets `POST /ask` answer with Claude. `0003` adds a
+phone page (`/capture/ui`), an item list and task tick-off, sorting on Gemini's free tier when
+no Claude key is set, validation of every field the model returns, and `evals/` (59 cases and
+a scorer). Setup and the Shortcut steps are in the patched tree at `docs/CAPTURE.md`.
+
+Measured 2026-11-12, with upstream installed in the session:
+
+- The three patches apply with `git am` on a pristine `56e5cf6`; there, the three capture test
+  files give 76 passed.
+- Whole suite on the patched tree: 605 passed, 9 failed. Pristine `56e5cf6`: 528 passed, 10
+  failed, the same meeting-mode, model-download and status tests (extras not installed).
+- Live server, real audio: two spoken recordings (text-to-speech, not a human voice) posted the
+  way the Shortcut posts them came back sorted in about 16 s each on CPU, the files were
+  written, the item list and tick-off worked, and the page was driven in a headless browser at
+  phone width. No token and a wrong token both got 401.
+- Sorting accuracy on `gemini-3.1-flash-lite`: 57 of 59 eval cases.
+
+Not run: sorting on Claude (no key in the session), the Shortcut on a real phone, a human
+voice, Docker (compose is not set up for capture; the doc says so). The model registry's
+`large-v3-turbo` entry points at a Hugging Face repo that returned "not found"; use the
+default `breeze-asr-25`. See `docs/subagents_findings/2026-11-12-voice-capture.md`.

@@ -1,9 +1,9 @@
 diff --git a/engine.js b/engine.js
-index b8eab31..a049bd2 100644
+index a3c5c05..7c27e78 100644
 --- a/engine.js
 +++ b/engine.js
-@@ -223,6 +223,33 @@ function topo(state) {
-   return out;
+@@ -148,6 +148,34 @@ function topo(state) {
+   return Core.topo(state);
  }
  
 +function ghostWalk(state, ghostFlag) {
@@ -21,6 +21,7 @@ index b8eab31..a049bd2 100644
 +      id: node.id,
 +      kind: node.kind,
 +      cortex: CORTEX_KIND[node.kind],
++      hop: Core.hopForKind(node.kind),
 +      ghost: ghostFlag || !write,
 +      write: !!write,
 +      would: node.note,
@@ -33,54 +34,61 @@ index b8eab31..a049bd2 100644
 +  return { error: undefined, log: log, order: order };
 +}
 +
- async function ghostRun() {
+ function canvasIR(state) {
+   // Brain panel view: the compiled IR plus the head digests. Never a POST body.
    const C = window.Constructor;
-   const state = C.getState();
-@@ -243,34 +270,20 @@ async function ghostRun() {
- 
+@@ -503,34 +531,39 @@ function formatGraphIssues(v) {
  function localGhostWalk() {
    const C = window.Constructor;
--  const state = C.getState();
--  const order = topo(state);
--  const log = [];
--  for (const id of order) {
--    const node = state.nodes.find((n) => n.id === id);
--    const write = !C.ghost && (node.kind === "tool_call" || node.kind === "app");
--    log.push({
--      id: node.id,
--      kind: node.kind,
--      cortex: CORTEX_KIND[node.kind],
--      ghost: C.ghost || !write,
--      write: !!write,
--      would: node.note,
--      action_type: node.action_type || (node.kind === "tool_call" ? "export_pptx" : "agent.checked"),
--      object_type: node.object_type || null,
--      data_point: node.data_point || null,
--      fetch_from: node.fetch_from || null,
--    });
-+  const walked = ghostWalk(C.getState(), C.ghost);
+   const state = C.getState();
+-  const walked = Core.ghostWalk(state, !!C.ghost);
+-  if (!walked.ok) {
++  const v = Core.validateGraph(state);
++  if (!v.ok) {
+     C.showAudit({
+       mode: "ghost-refuse",
+       engine: cortexOrigin() ? "cortex-origin" : "pages-sketch",
+-      reasons: walked.reasons,
+-      warnings: walked.warnings,
++      reasons: v.errors,
++      warnings: v.warnings,
+     });
+-    const lines = (walked.reasons || []).map(function (r) {
++    const lines = (v.errors || []).map(function (r) {
+       return r.code + ": " + r.message;
+     });
+     return "Ghost refused. " + (lines.join(" ") || "Invalid graph.");
+   }
++  const walked = ghostWalk(state, !!C.ghost);
 +  if (walked.error) {
 +    C.showAudit({ mode: "ghost-refused", error: walked.error, steps: [] });
 +    return "Ghost refused: " + walked.error + ". No walk.";
-   }
--  C.markGhostWalk(order);
-+  C.markGhostWalk(walked.order);
++  }
+   C.markGhostWalk(walked.order);
    C.showAudit({
      mode: C.ghost ? "ghost" : "live-local",
      engine: cortexOrigin() ? "cortex-origin" : "pages-sketch",
--    steps: log,
+-    steps: walked.steps,
+-    warnings: walked.warnings,
 +    steps: walked.log,
++    warnings: v.warnings,
    });
+-  const warn = (walked.warnings || [])
++  const warn = (v.warnings || [])
+     .map(function (w) {
+       return w.message;
+     })
+     .join(" ");
    return (
      (C.ghost ? "Ghost run (no writes). " : "Local walk. Tool/app nodes would write. ") +
--    log.length +
+-    walked.steps.length +
 +    walked.log.length +
-     " steps. Audit panel has the ledger."
+     " steps. Audit panel has the ledger." +
+     (warn ? " " + warn : "")
    );
- }
-@@ -677,5 +690,6 @@ if (typeof module !== "undefined" && module.exports) {
+@@ -1363,5 +1396,6 @@ if (typeof module !== "undefined" && module.exports) {
      rankForKinds,
-     scoreApproach,
+     scoreApproach: Core.scoreApproach,
      topo,
 +    ghostWalk,
    };

@@ -1,8 +1,8 @@
 diff --git a/engine.js b/engine.js
-index e40c81f..331e9ca 100644
+index 5e8ce7a..91a48a7 100644
 --- a/engine.js
 +++ b/engine.js
-@@ -94,6 +94,8 @@ const DEFAULT_OBJECTS = ["inventory", "suppliers"];
+@@ -38,6 +38,8 @@ const DEFAULT_OBJECTS = ["inventory", "suppliers"];
  const DEFAULT_ACTIONS = ["export_pptx", "item.intake", "amend.apply", "call_action", "agent.checked"];
  const WRITE_ACTIONS = ["export_pptx", "item.intake", "amend.apply", "call_action"];
  const DATA_TYPES = ["string", "number", "integer", "boolean", "date"];
@@ -11,7 +11,7 @@ index e40c81f..331e9ca 100644
  const DEFAULT_OBJECT_POINTS = {
    inventory: [
      "sku",
-@@ -159,6 +161,22 @@ function irError(ghost, message) {
+@@ -103,6 +105,22 @@ function irError(ghost, message) {
    };
  }
  
@@ -34,7 +34,7 @@ index e40c81f..331e9ca 100644
  function compileIR(state) {
    const nodes = (state && state.nodes) || [];
    const edges = (state && state.edges) || [];
-@@ -232,6 +250,10 @@ function compileIR(state) {
+@@ -176,6 +194,10 @@ function compileIR(state) {
    if (componentCount(nodes, edges) > 1) {
      return irError(ghost, "disconnected graph");
    }
@@ -45,7 +45,7 @@ index e40c81f..331e9ca 100644
    const order = topo({ nodes: nodes, edges: edges });
    if (!order.length) {
      return irError(ghost, "no entry");
-@@ -300,7 +322,6 @@ function compileIR(state) {
+@@ -244,7 +266,6 @@ function compileIR(state) {
          fetch_from: fetchFromListed(n.fetch_from, listedObjects, obj) || null,
          tier: listedOrEmpty(n.tier, ["T0", "T1"]) || null,
          stream: !!n.stream,
@@ -54,10 +54,10 @@ index e40c81f..331e9ca 100644
        };
      }),
 diff --git a/tests/compiler.test.cjs b/tests/compiler.test.cjs
-index 90459e7..a8b41b0 100644
+index 56bb023..5a708eb 100644
 --- a/tests/compiler.test.cjs
 +++ b/tests/compiler.test.cjs
-@@ -670,3 +670,47 @@ test("compileIR fork with one app keeps that sink", () => {
+@@ -660,3 +660,47 @@ test("compileIR fork with one app keeps that sink", () => {
    assert.equal(ir.output_node_id, "sink");
    assert.equal(ir.nodes.find((n) => n.id === "sink").kind, "EMIT");
  });

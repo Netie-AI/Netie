@@ -1,35 +1,40 @@
 diff --git a/engine.js b/engine.js
-index 22497cc..e56528e 100644
+index 163a6cd..2d2fb3b 100644
 --- a/engine.js
 +++ b/engine.js
-@@ -1408,12 +1408,21 @@ function bindChat() {
-   rankApproaches();
+@@ -1647,16 +1647,25 @@ async function loadGovernedAnswerUrl(url) {
+   }
  }
  
--if (typeof document !== "undefined") {
+-if (typeof window !== "undefined" && window.Constructor) {
++function bindWhenReady() {
++  if (typeof document === "undefined") return;
++  if (document.readyState === "loading") {
++    // engine.js loads before app.js now. Bind after every other DOMContentLoaded mount, as before.
++    document.addEventListener("DOMContentLoaded", function () {
++      setTimeout(bindWhenReady, 0);
++    });
++    return;
++  }
++  if (!window.Constructor) {
++    setTimeout(bindWhenReady, 0);
++    return;
++  }
+   window.Constructor.loadGovernedAnswerUrl = loadGovernedAnswerUrl;
++  bindChat();
+ }
+ 
+ if (typeof document !== "undefined") {
 -  if (document.readyState === "loading") {
 -    document.addEventListener("DOMContentLoaded", bindChat);
 -  } else {
 -    bindChat();
-+function bindWhenReady() {
-+  if (typeof document === "undefined") return;
-+  if (!window.Constructor) {
-+    if (document.readyState === "loading") {
-+      document.addEventListener("DOMContentLoaded", bindWhenReady);
-+      return;
-+    }
-+    setTimeout(bindWhenReady, 0);
-+    return;
-   }
-+  bindChat();
-+}
-+
-+if (typeof document !== "undefined") {
+-  }
 +  bindWhenReady();
  }
  
  if (typeof module !== "undefined" && module.exports) {
-@@ -1434,5 +1443,6 @@ if (typeof module !== "undefined" && module.exports) {
+@@ -1677,5 +1686,6 @@ if (typeof module !== "undefined" && module.exports) {
      notesDenied,
      nodesWithoutNotes,
      cortexPayload,
@@ -37,16 +42,22 @@ index 22497cc..e56528e 100644
    };
  }
 diff --git a/index.html b/index.html
-index f14349d..92639b1 100644
+index 7be89b1..3b980e5 100644
 --- a/index.html
 +++ b/index.html
-@@ -125,7 +125,7 @@
-       </form>
-     </div>
- 
--    <script src="app.js?v=17"></script>
-     <script src="engine.js?v=17"></script>
-+    <script src="app.js?v=17"></script>
+@@ -224,6 +224,7 @@
+     <script src="ontology.js?v=28"></script>
+     <script src="skin-state.js?v=33"></script>
+     <script src="governed-answer.js?v=34"></script>
++    <script src="engine.js?v=28"></script>
+     <script src="app.js?v=34"></script>
+     <script src="ontology-studio.js?v=33"></script>
+     <script src="planner-prices.js?v=31"></script>
+@@ -233,6 +234,5 @@
+     <script src="planner-ui.js?v=33"></script>
+     <script src="tryit.js?v=33"></script>
+     <script src="object-map-ui.js?v=35"></script>
+-    <script src="engine.js?v=28"></script>
    </body>
  </html>
 diff --git a/tests/compiler.test.cjs b/tests/compiler.test.cjs
@@ -79,3 +90,25 @@ index b095438..48d0605 100644
 +test("bindWhenReady is a no-op without a document", () => {
 +  bindWhenReady();
 +});
+diff --git a/tests/pages-honesty.test.js b/tests/pages-honesty.test.js
+index e2403ee..e75690a 100644
+--- a/tests/pages-honesty.test.js
++++ b/tests/pages-honesty.test.js
+@@ -43,14 +43,14 @@ test("README names real browse URLs and what this is not", () => {
+   assert.match(src, /Crew/i);
+ });
+ 
+-test("index.html loads core then canvas then engine", () => {
++test("index.html loads core then engine then canvas", () => {
+   const html = read("index.html");
+   const coreAt = html.indexOf("core/constructor.js");
+   const appAt = html.indexOf("app.js");
+   const engineAt = html.indexOf("engine.js");
+   assert.equal(coreAt >= 0, true);
+-  assert.equal(coreAt < appAt, true);
+-  assert.equal(appAt < engineAt, true);
++  assert.equal(coreAt < engineAt, true);
++  assert.equal(engineAt < appAt, true);
+   assert.match(html, /NETIE \/ CONSTRUCTOR/);
+ });
+ 

@@ -1,87 +1,196 @@
 diff --git a/.github/workflows/test.yml b/.github/workflows/test.yml
-new file mode 100644
-index 0000000..ab0c5e7
---- /dev/null
+index 88b0692..4aa72a7 100644
+--- a/.github/workflows/test.yml
 +++ b/.github/workflows/test.yml
-@@ -0,0 +1,16 @@
-+name: test
-+
-+on:
-+  push:
-+  pull_request:
-+
-+jobs:
-+  compiler:
-+    runs-on: ubuntu-latest
-+    steps:
-+      - uses: actions/checkout@v4
-+      - uses: actions/setup-node@v4
-+        with:
-+          node-version: "22"
+@@ -12,3 +12,5 @@ jobs:
+         with:
+           node-version: "22"
+       - run: node --test tests/*.test.js
 +      - name: Constructor compiler
 +        run: node --test tests/compiler.test.cjs
 diff --git a/engine.js b/engine.js
-index adc61d0..33ac914 100644
+index 3e04f97..65628db 100644
 --- a/engine.js
 +++ b/engine.js
-@@ -72,6 +72,18 @@ function scoreApproach(row) {
-   return row.audit * 2 + statusWeight(row.cortex_status) - row.cost - row.blast;
+@@ -3,7 +3,11 @@
+    Execution truth stays on Cortex dag_runner. This file only compiles, ghosts, and ranks.
+    Pure IR lives in core/constructor.js (v0.1.0). */
+ 
+-const Core = globalThis.NetieConstructorCore;
++const Core =
++  globalThis.NetieConstructorCore ||
++  (typeof module !== "undefined" && module.exports && typeof require === "function"
++    ? require("./core/constructor.js")
++    : null);
+ if (!Core) {
+   throw new Error("NetieConstructorCore missing. Load core/constructor.js before engine.js.");
+ }
+@@ -15,12 +19,62 @@ function cortexOrigin() {
+   return Core.cortexOriginFrom(location.hostname, location.pathname);
  }
  
 +function rankForKinds(kinds) {
-+  const set = kinds instanceof Set ? kinds : new Set(kinds);
-+  const foundry = ["ontology", "insight", "foundry", "app"].every((k) => set.has(k));
-+  const verify = set.has("hypothesize") && set.has("audit") && !foundry;
-+  return APPROACHES.map((row) => {
-+    let score = scoreApproach(row);
-+    if (foundry && row.id === "orchestrator_subagent") score += 20;
-+    if (verify && row.id === "generator_verifier") score += 20;
-+    return Object.assign({}, row, { score: score });
-+  }).sort((a, b) => b.score - a.score);
++  const list = kinds instanceof Set ? Array.from(kinds) : Array.from(kinds || []);
++  return Core.rankApproachesForGraph({
++    nodes: list.map(function (kind) {
++      return { kind: kind };
++    }),
++  });
 +}
 +
  function compileIR(state) {
-   const output =
-     [...state.nodes].reverse().find((n) => n.kind === "app") ||
-@@ -80,7 +92,10 @@ function compileIR(state) {
-   return {
-     version: "1.0",
-     engine: "cortex",
--    ghost: !!window.Constructor.ghost,
++  const output =
++    [...state.nodes].reverse().find((n) => n.kind === "app") ||
++    [...state.nodes].reverse().find((n) => n.kind === "audit") ||
++    state.nodes[state.nodes.length - 1];
++  return {
++    version: "1.0",
++    engine: "cortex",
 +    ghost: !!(
 +      state.ghost ||
 +      (typeof window !== "undefined" && window.Constructor && window.Constructor.ghost)
 +    ),
-     entry_node_id: state.nodes[0].id,
-     output_node_id: output.id,
-     nodes: state.nodes.map((n) => {
-@@ -218,15 +233,9 @@ async function rankApproaches() {
++    entry_node_id: state.nodes[0].id,
++    output_node_id: output.id,
++    nodes: state.nodes.map((n) => {
++      let kind = CORTEX_KIND[n.kind] || "DOCUMENT_REF";
++      if (n.id === output.id) kind = "EMIT";
++      else if (kind === "EMIT") kind = "DETERMINISTIC_RULE";
++      return {
++        id: n.id,
++        kind: kind,
++        constructor_kind: n.kind,
++        object_type: n.object_type || null,
++        data_point: n.data_point || null,
++        data_type: n.data_type || null,
++        action_type: n.action_type || null,
++        fetch_from: n.fetch_from || null,
++        tier: n.tier || "T0",
++        stream: !!n.stream,
++        note: n.note,
++        requires_confirm: n.kind === "tool_call",
++      };
++    }),
++    edges: state.edges.slice(),
++  };
++}
++
++function topo(state) {
++  return Core.topo(state);
++}
++
++function canvasIR(state) {
++  // Brain panel view: the compiled IR plus the head digests. Never a POST body.
+   const C = window.Constructor;
+-  const ir = Core.compileIR(state, {
+-    ghost: !!(C && C.ghost),
+-    rsf: C && C.lastRsf && C.lastRsf.wire,
+-  });
++  const ir = compileIR(state);
++  ir.rsf = C && C.lastRsf && C.lastRsf.wire ? Core.rsfDigest(C.lastRsf.wire) : null;
++  ir.fde = Core.fdeDigest(state);
+   ir.ontology = ontologyDigest();
+   return ir;
+ }
+@@ -143,7 +197,7 @@ async function syncCortexBrain(extra) {
+   extra = extra || {};
+   const C = window.Constructor;
+   if (!C || typeof C.getState !== "function") return;
+-  const ir = compileIR(C.getState());
++  const ir = canvasIR(C.getState());
+   if (!cortexOrigin()) {
+     paintCortexBrain(ir, extra);
+     return ir;
+@@ -287,22 +341,18 @@ async function ontologyChat(t) {
+   return null;
+ }
+ 
+-function topo(state) {
+-  return Core.topo(state);
+-}
+-
+ async function ghostRun() {
+   const C = window.Constructor;
+   const state = C.getState();
+   const v = Core.validateGraph(state);
+   if (!v.ok) {
+-    paintCortexBrain(compileIR(state), { source: "ghost-refuse" });
++    paintCortexBrain(canvasIR(state), { source: "ghost-refuse" });
+     return localGhostWalk();
+   }
+   if (cortexOrigin()) {
+     const remote = await cortexPost("/cortex/constructor/ghost", constructorRunBody());
+     C.showAudit({ mode: "cortex-ghost", remote: remote });
+-    paintCortexBrain(compileIR(state), { remote: remote, source: "ghost" });
++    paintCortexBrain(canvasIR(state), { remote: remote, source: "ghost" });
+     if (remote && remote.ok) {
+       C.markGhostWalk((remote.nodes || []).map((n) => n.id));
+       return "Cortex ghost compile ok. EMIT=" + remote.output_node_id + ". No writes. Brain shows the DAG.";
+@@ -310,7 +360,7 @@ async function ghostRun() {
+     return "Cortex ghost blocked (" + (remote && (remote.status || remote.error) || "offline") + "). Local walk instead. " + localGhostWalk();
+   }
+   const local = localGhostWalk();
+-  paintCortexBrain(compileIR(state), { source: "local-ghost" });
++  paintCortexBrain(canvasIR(state), { source: "local-ghost" });
+   return local;
+ }
+ 
+@@ -444,7 +494,9 @@ async function rankApproaches() {
        return ranked;
      }
    }
--  const kinds = new Set(window.Constructor.getState().nodes.map((n) => n.kind));
--  const foundry = ["ontology", "insight", "foundry", "app"].every((k) => kinds.has(k));
--  const verify = kinds.has("hypothesize") && kinds.has("audit") && !foundry;
--  const ranked = APPROACHES.map((row) => {
--    let score = scoreApproach(row);
--    if (foundry && row.id === "orchestrator_subagent") score += 20;
--    if (verify && row.id === "generator_verifier") score += 20;
--    return Object.assign({}, row, { score: score });
--  }).sort((a, b) => b.score - a.score);
+-  const ranked = Core.rankApproachesForGraph(window.Constructor.getState());
 +  const ranked = rankForKinds(
 +    window.Constructor.getState().nodes.map((n) => n.kind)
 +  );
    const box = document.getElementById("approaches");
    box.innerHTML = ranked
      .map((row, i) => {
-@@ -573,8 +582,21 @@ function bindChat() {
-   rankApproaches();
+@@ -607,7 +659,7 @@ async function liveOrGhost(forceLive) {
+   const C = window.Constructor;
+   const v = Core.validateGraph(C.getState());
+   if (!v.ok) return localGhostWalk();
+-  const ir = compileIR(C.getState());
++  const ir = canvasIR(C.getState());
+   if (forceLive) {
+     if (!cortexOrigin()) {
+       return "Live run is Cortex only (POST /cortex/constructor/run). Pages never fetch. Open http://127.0.0.1:8012/cortex (constructor-mount). Prod app.netie.ai/cortex is 404 until Hyperlift.";
+@@ -663,7 +715,7 @@ async function consumeRsfChat(raw) {
+     error: result.error || null,
+   });
+   if (!result.ok) {
+-    paintCortexBrain(compileIR(C.getState()), { rsf: result, source: "rsf-refuse" });
++    paintCortexBrain(canvasIR(C.getState()), { rsf: result, source: "rsf-refuse" });
+     return result.summary;
+   }
+   C.lastRsf = result;
+@@ -676,7 +728,7 @@ async function consumeRsfChat(raw) {
+     return await liveOrGhost(true);
+   }
+   const walk = await ghostRun();
+-  paintCortexBrain(compileIR(C.getState()), { rsf: result, source: "rsf-consume" });
++  paintCortexBrain(canvasIR(C.getState()), { rsf: result, source: "rsf-consume" });
+   return result.summary + " " + walk;
  }
  
--if (document.readyState === "loading") {
--  document.addEventListener("DOMContentLoaded", bindChat);
--} else {
--  bindChat();
+@@ -1017,7 +1069,7 @@ async function pressNode() {
+   const C = window.Constructor;
+   const node = C.selected && C.selected();
+   if (!node) return "Select or click a node first.";
+-  const ir = compileIR(C.getState());
++  const ir = canvasIR(C.getState());
+   const compiled = (ir.nodes || []).find((n) => n.id === node.id) || {};
+   let remote = null;
+   if (cortexOrigin()) {
+@@ -1212,10 +1264,25 @@ async function loadGovernedAnswerUrl(url) {
+   }
+ }
+ 
+-if (window.Constructor) window.Constructor.loadGovernedAnswerUrl = loadGovernedAnswerUrl;
++if (typeof window !== "undefined" && window.Constructor) {
++  window.Constructor.loadGovernedAnswerUrl = loadGovernedAnswerUrl;
++}
++
 +if (typeof document !== "undefined") {
 +  if (document.readyState === "loading") {
 +    document.addEventListener("DOMContentLoaded", bindChat);
@@ -89,14 +198,18 @@ index adc61d0..33ac914 100644
 +    bindChat();
 +  }
 +}
-+
+ 
+-if (document.readyState === "loading") {
+-  document.addEventListener("DOMContentLoaded", bindChat);
+-} else {
+-  bindChat();
 +if (typeof module !== "undefined" && module.exports) {
 +  module.exports = {
-+    APPROACHES,
++    APPROACHES: Core.APPROACHES,
 +    CORTEX_KIND,
 +    compileIR,
 +    rankForKinds,
-+    scoreApproach,
++    scoreApproach: Core.scoreApproach,
 +    topo,
 +  };
  }

@@ -1,9 +1,9 @@
 diff --git a/engine.js b/engine.js
-index 49dfd4e..cba6339 100644
+index 8cf1b64..65209d2 100644
 --- a/engine.js
 +++ b/engine.js
-@@ -84,6 +84,19 @@ function rankForKinds(kinds) {
-   }).sort((a, b) => b.score - a.score);
+@@ -28,6 +28,19 @@ function rankForKinds(kinds) {
+   });
  }
  
 +function irError(ghost, message) {
@@ -22,7 +22,7 @@ index 49dfd4e..cba6339 100644
  function compileIR(state) {
    const nodes = (state && state.nodes) || [];
    const edges = (state && state.edges) || [];
-@@ -103,6 +116,43 @@ function compileIR(state) {
+@@ -47,6 +60,43 @@ function compileIR(state) {
        error: "empty graph",
      };
    }
@@ -66,7 +66,7 @@ index 49dfd4e..cba6339 100644
    const output =
      [...nodes].reverse().find((n) => n.kind === "app") ||
      [...nodes].reverse().find((n) => n.kind === "audit") ||
-@@ -114,7 +164,7 @@ function compileIR(state) {
+@@ -58,7 +108,7 @@ function compileIR(state) {
      entry_node_id: nodes[0].id,
      output_node_id: output.id,
      nodes: nodes.map((n) => {

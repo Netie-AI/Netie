@@ -1,8 +1,8 @@
 diff --git a/engine.js b/engine.js
-index 52970fb..184e1de 100644
+index 6fc5a58..4d5286e 100644
 --- a/engine.js
 +++ b/engine.js
-@@ -90,6 +90,8 @@ function listedOrEmpty(value, listed) {
+@@ -34,6 +34,8 @@ function listedOrEmpty(value, listed) {
    return want;
  }
  
@@ -11,7 +11,7 @@ index 52970fb..184e1de 100644
  function listedOptions(listed, value) {
    const rows = Array.isArray(listed) ? listed.slice() : [];
    const want = listedOrEmpty(value, rows);
-@@ -209,6 +211,7 @@ function compileIR(state) {
+@@ -153,6 +155,7 @@ function compileIR(state) {
    if (!output) {
      output = byId[order[order.length - 1]];
    }
@@ -19,7 +19,7 @@ index 52970fb..184e1de 100644
    return {
      version: "1.0",
      engine: "cortex",
-@@ -223,7 +226,7 @@ function compileIR(state) {
+@@ -167,7 +170,7 @@ function compileIR(state) {
          id: n.id,
          kind: kind,
          constructor_kind: n.kind,
@@ -28,7 +28,7 @@ index 52970fb..184e1de 100644
          data_point: n.data_point || null,
          data_type: n.data_type || null,
          action_type: n.action_type || null,
-@@ -270,6 +273,7 @@ function ghostWalk(state, ghostFlag) {
+@@ -214,6 +217,7 @@ function ghostWalk(state, ghostFlag) {
      const node = state.nodes.find((n) => n.id === id);
      if (!node) continue;
      const write = !ghostFlag && (node.kind === "tool_call" || node.kind === "app");
@@ -36,7 +36,7 @@ index 52970fb..184e1de 100644
      log.push({
        id: node.id,
        kind: node.kind,
-@@ -278,7 +282,7 @@ function ghostWalk(state, ghostFlag) {
+@@ -223,7 +227,7 @@ function ghostWalk(state, ghostFlag) {
        write: !!write,
        would: node.note,
        action_type: node.action_type || null,
@@ -46,10 +46,10 @@ index 52970fb..184e1de 100644
        fetch_from: node.fetch_from || null,
      });
 diff --git a/tests/compiler.test.cjs b/tests/compiler.test.cjs
-index babf766..05ce073 100644
+index cf4c380..fe9610c 100644
 --- a/tests/compiler.test.cjs
 +++ b/tests/compiler.test.cjs
-@@ -354,3 +354,50 @@ test("set point does not invent inventory for a missing object", () => {
+@@ -344,3 +344,50 @@ test("set point does not invent inventory for a missing object", () => {
    assert.equal(objectForSetPoint("nope", objects), "");
    assert.equal(objectForSetPoint("inventory", objects), "inventory");
  });

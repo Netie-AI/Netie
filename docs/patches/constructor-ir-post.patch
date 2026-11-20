@@ -1,8 +1,8 @@
 diff --git a/engine.js b/engine.js
-index e56528e..123c6af 100644
+index 2d2fb3b..3a152c9 100644
 --- a/engine.js
 +++ b/engine.js
-@@ -217,7 +217,7 @@ function nodesWithoutNotes(nodes) {
+@@ -160,7 +160,7 @@ function nodesWithoutNotes(nodes) {
  }
  
  function cortexPayload(state) {
@@ -11,7 +11,7 @@ index e56528e..123c6af 100644
    const ir = compileIR(state || {});
    if (ir.error) {
      return { error: ir.error, body: null };
-@@ -225,8 +225,13 @@ function cortexPayload(state) {
+@@ -168,8 +168,13 @@ function cortexPayload(state) {
    return {
      error: undefined,
      body: {

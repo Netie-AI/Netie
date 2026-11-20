@@ -1,21 +1,30 @@
 diff --git a/app.js b/app.js
-index c503566..9ec1738 100644
+index e4a824b..a925c17 100644
 --- a/app.js
 +++ b/app.js
-@@ -237,7 +237,7 @@ const LINKS = [
+@@ -114,6 +114,8 @@ const PERSONAS = ["loader", "source", "modeler", "analyst", "compiler", "operato
+ const ACTION_META = [
+   { id: "export_pptx", objects: ["*"], label: "export_pptx (any object)" },
+   { id: "item.intake", objects: ["inventory"], label: "item.intake (inventory)" },
++  { id: "amend.apply", objects: ["*"], label: "amend.apply (governed write)" },
++  { id: "call_action", objects: ["*"], label: "call_action (governed write)" },
+   { id: "agent.checked", objects: ["*"], label: "agent.checked (ledger)" },
+   { id: "image.enhance", objects: ["images", "matches"], label: "image.enhance (images)" },
+   { id: "suspect.match", objects: ["suspects", "matches", "images"], label: "suspect.match (watchlist)" },
+@@ -250,7 +252,7 @@ const LINKS = [
    { id: "match_of_image", from: "matches", to: "images", via: "image_id" },
    { id: "match_of_suspect", from: "matches", to: "suspects", via: "suspect_id" },
  ];
--const ACTIONS = ["export_pptx", "item.intake", "agent.checked", "image.enhance", "suspect.match"];
-+const ACTIONS = ["export_pptx", "item.intake", "amend.apply", "call_action", "agent.checked", "image.enhance", "suspect.match"];
+-const ACTIONS = ["export_pptx", "item.intake", "agent.checked", "image.enhance", "suspect.match", "draft_email", "draft_whatsapp"];
++const ACTIONS = ["export_pptx", "item.intake", "amend.apply", "call_action", "agent.checked", "image.enhance", "suspect.match", "draft_email", "draft_whatsapp"];
  const FETCH_PLACES = [
    "warehouse.inventory",
    "warehouse.suppliers",
 diff --git a/engine.js b/engine.js
-index 62b8068..012d6cf 100644
+index 69e894c..d87a167 100644
 --- a/engine.js
 +++ b/engine.js
-@@ -92,8 +92,8 @@ function listedOrEmpty(value, listed) {
+@@ -35,8 +35,8 @@ function listedOrEmpty(value, listed) {
  }
  
  const DEFAULT_OBJECTS = ["inventory", "suppliers"];
@@ -26,15 +35,6 @@ index 62b8068..012d6cf 100644
  const DATA_TYPES = ["string", "number", "integer", "boolean", "date"];
  const DEFAULT_OBJECT_POINTS = {
    inventory: [
-@@ -688,7 +688,7 @@ async function handleChat(raw) {
-   const setAct = t.match(/^set action (\S+)$/);
-   if (setAct) {
-     if (C.ACTIONS.indexOf(setAct[1]) < 0) {
--      return "Action must be export_pptx, item.intake, agent.checked, image.enhance, or suspect.match.";
-+      return "Action must be export_pptx, item.intake, amend.apply, call_action, agent.checked, image.enhance, or suspect.match.";
-     }
-     return C.patchSelected("action_type", setAct[1]) ? "Action " + setAct[1] + "." : "Select a node first.";
-   }
 diff --git a/tests/compiler.test.cjs b/tests/compiler.test.cjs
 index a085846..cd2d767 100644
 --- a/tests/compiler.test.cjs

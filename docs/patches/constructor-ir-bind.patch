@@ -1,8 +1,8 @@
 diff --git a/engine.js b/engine.js
-index 184e1de..388799e 100644
+index 4d5286e..2764b1d 100644
 --- a/engine.js
 +++ b/engine.js
-@@ -91,6 +91,47 @@ function listedOrEmpty(value, listed) {
+@@ -35,6 +35,47 @@ function listedOrEmpty(value, listed) {
  }
  
  const DEFAULT_OBJECTS = ["inventory", "suppliers"];
@@ -50,7 +50,7 @@ index 184e1de..388799e 100644
  
  function listedOptions(listed, value) {
    const rows = Array.isArray(listed) ? listed.slice() : [];
-@@ -212,6 +253,7 @@ function compileIR(state) {
+@@ -156,6 +197,7 @@ function compileIR(state) {
      output = byId[order[order.length - 1]];
    }
    const listedObjects = Array.isArray(state.objects) ? state.objects : DEFAULT_OBJECTS;
@@ -58,7 +58,7 @@ index 184e1de..388799e 100644
    return {
      version: "1.0",
      engine: "cortex",
-@@ -222,15 +264,18 @@ function compileIR(state) {
+@@ -166,15 +208,18 @@ function compileIR(state) {
        let kind = CORTEX_KIND[n.kind];
        if (n.id === output.id && (n.kind === "app" || n.kind === "audit")) kind = "EMIT";
        else if (kind === "EMIT") kind = "DETERMINISTIC_RULE";
@@ -81,7 +81,7 @@ index 184e1de..388799e 100644
          tier: listedOrEmpty(n.tier, ["T0", "T1"]) || null,
          stream: !!n.stream,
          note: n.note,
-@@ -283,8 +328,8 @@ function ghostWalk(state, ghostFlag) {
+@@ -228,8 +273,8 @@ function ghostWalk(state, ghostFlag) {
        would: node.note,
        action_type: node.action_type || null,
        object_type: compiled ? compiled.object_type : null,
@@ -92,7 +92,7 @@ index 184e1de..388799e 100644
      });
    }
    return { error: undefined, log: log, order: order };
-@@ -735,5 +780,7 @@ if (typeof module !== "undefined" && module.exports) {
+@@ -1460,5 +1505,7 @@ if (typeof module !== "undefined" && module.exports) {
      listedOrEmpty,
      listedOptions,
      objectForSetPoint,
@@ -101,10 +101,10 @@ index 184e1de..388799e 100644
    };
  }
 diff --git a/tests/compiler.test.cjs b/tests/compiler.test.cjs
-index 05ce073..72e10ce 100644
+index fe9610c..b51d2e4 100644
 --- a/tests/compiler.test.cjs
 +++ b/tests/compiler.test.cjs
-@@ -401,3 +401,115 @@ test("ghostWalk does not log an unlisted object_type", () => {
+@@ -391,3 +391,115 @@ test("ghostWalk does not log an unlisted object_type", () => {
    assert.equal(walked.error, undefined);
    assert.equal(walked.log[0].object_type, null);
  });

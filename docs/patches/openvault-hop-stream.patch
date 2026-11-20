@@ -1,5 +1,5 @@
 diff --git a/OpenMW/openmw/openvault/route/execution.py b/OpenMW/openmw/openvault/route/execution.py
-index 415c7de..d7ecfa0 100644
+index 415c7de9..d7ecfa0a 100644
 --- a/OpenMW/openmw/openvault/route/execution.py
 +++ b/OpenMW/openmw/openvault/route/execution.py
 @@ -15,6 +15,7 @@ from __future__ import annotations
@@ -21,18 +21,18 @@ index 415c7de..d7ecfa0 100644
 +    payload = json.dumps({"choices": [{"delta": {"content": str(text)}}]})
 +    return f"data: {payload}\n\n".encode("utf-8"), b"data: [DONE]\n\n"
 diff --git a/OpenMW/openmw/openvault/vault/proxy.py b/OpenMW/openmw/openvault/vault/proxy.py
-index 8a433e0..31c69a3 100644
+index 15ddc4bb..eeb675d4 100644
 --- a/OpenMW/openmw/openvault/vault/proxy.py
 +++ b/OpenMW/openmw/openvault/vault/proxy.py
-@@ -22,6 +22,7 @@ from openmw.openvault.route.execution import (
+@@ -26,6 +26,7 @@ from openmw.openvault.route.execution import (
      extract_assistant_text,
      hop_call_model,
      shape_from_chat_body,
 +    sse_wrap_text,
      user_text_from_body,
  )
- from openmw.openvault.vault.budget import estimate_tokens_for_body, prepare_hop_body
-@@ -219,20 +220,15 @@ def _run_execution_shape(
+ from openmw.openvault.vault.budget import (
+@@ -1106,20 +1107,15 @@ def _run_execution_shape(
      timeout_s: float,
      trace: HopTrace,
      tenant: str,
@@ -58,7 +58,7 @@ index 8a433e0..31c69a3 100644
      shape = shape_from_chat_body(body) or ""
      if shape == "auto":
          trace.error_type = "openvault_execution_shape"
-@@ -291,20 +287,111 @@ def _run_execution_shape(
+@@ -1178,20 +1174,107 @@ def _run_execution_shape(
          hop_body: dict[str, Any] = {
              "model": resolved,
              "messages": messages,
@@ -91,7 +91,6 @@ index 8a433e0..31c69a3 100644
 +                    vault,
 +                    fallback,
 +                    key_id=rec.id,
-+                    provider=rec.provider,
 +                    outcome=outcome,
 +                    error="timeout",
 +                )
@@ -103,7 +102,6 @@ index 8a433e0..31c69a3 100644
 +                    vault,
 +                    fallback,
 +                    key_id=rec.id,
-+                    provider=rec.provider,
 +                    outcome=outcome,
 +                    error=str(exc),
 +                )
@@ -115,7 +113,6 @@ index 8a433e0..31c69a3 100644
 +                    vault,
 +                    fallback,
 +                    key_id=rec.id,
-+                    provider=rec.provider,
 +                    outcome=outcome,
 +                    error="transport_error",
 +                )
@@ -140,7 +137,6 @@ index 8a433e0..31c69a3 100644
 +                vault,
 +                fallback,
 +                key_id=rec.id,
-+                provider=rec.provider,
 +                outcome=outcome,
 +                error=err,
 +            )
@@ -175,7 +171,7 @@ index 8a433e0..31c69a3 100644
                      json=hop_body,
                  )
          except httpx.TimeoutException:
-@@ -365,7 +452,7 @@ def _run_execution_shape(
+@@ -1248,7 +1331,7 @@ def _run_execution_shape(
              models,
              hop_call_model(hops, post, serves=serves),
              user_text=user_text_from_body(body),
@@ -184,7 +180,7 @@ index 8a433e0..31c69a3 100644
              tools=body.get("tools"),
              tool_choice=body.get("tool_choice"),
              judge_model=combo.get("judgeModel") or combo.get("judge_model"),
-@@ -392,6 +479,27 @@ def _run_execution_shape(
+@@ -1275,6 +1358,27 @@ def _run_execution_shape(
                  "type": "openvault_execution_shape",
              }
          }
@@ -213,10 +209,10 @@ index 8a433e0..31c69a3 100644
          trace.error_type = "openvault_execution_shape"
          return 503, {
 diff --git a/OpenMW/tests/test_execution_chat.py b/OpenMW/tests/test_execution_chat.py
-index 698ffc1..be0760a 100644
+index fcf04061..76aae9fa 100644
 --- a/OpenMW/tests/test_execution_chat.py
 +++ b/OpenMW/tests/test_execution_chat.py
-@@ -299,3 +299,118 @@ def test_v1_open_breaker_skips_hop_without_post(
+@@ -303,3 +303,118 @@ def test_v1_open_breaker_skips_hop_without_post(
      assert "hops failed" in resp.json()["error"]["message"]
      assert mock.post.call_count == 0
  
@@ -336,7 +332,7 @@ index 698ffc1..be0760a 100644
 +
 +
 diff --git a/OpenMW/tests/test_execution_shapes.py b/OpenMW/tests/test_execution_shapes.py
-index bf990ee..0e05d26 100644
+index bf990eee..0e05d266 100644
 --- a/OpenMW/tests/test_execution_shapes.py
 +++ b/OpenMW/tests/test_execution_shapes.py
 @@ -24,6 +24,7 @@ from openmw.openvault.route.execution import (

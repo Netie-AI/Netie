@@ -2,8 +2,9 @@ name: docs-ci
 
 # Gate for the constitution repo: laptop-ASCII, required files, and patched
 # public product tests (constructor node --test, OpenVault routing pytest).
-# GitHub docs-ci on main is green (measured 2026-09-02). Local `make ci` is
-# the same command.
+# GitHub docs-ci on main was green through 8eb2d18. a8e895b failed when
+# sibling tests cloned live HEAD; clones now pin measured SHAs.
+# Local `make ci` is the same command.
 
 on:
   push:

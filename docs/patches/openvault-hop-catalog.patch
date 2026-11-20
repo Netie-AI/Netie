@@ -1,5 +1,5 @@
 diff --git a/OpenMW/openmw/openvault/route/execution.py b/OpenMW/openmw/openvault/route/execution.py
-index 15231fd..5f62dcb 100644
+index 15231fd6..5f62dcb0 100644
 --- a/OpenMW/openmw/openvault/route/execution.py
 +++ b/OpenMW/openmw/openvault/route/execution.py
 @@ -25,6 +25,10 @@ HANDOFF_WARNING = 0.85
@@ -41,10 +41,10 @@ index 15231fd..5f62dcb 100644
      hops: list[Hop],
      model: str,
 diff --git a/OpenMW/openmw/openvault/vault/proxy.py b/OpenMW/openmw/openvault/vault/proxy.py
-index cb7a825..4b08a2c 100644
+index 582fd4c4..b76f559f 100644
 --- a/OpenMW/openmw/openvault/vault/proxy.py
 +++ b/OpenMW/openmw/openvault/vault/proxy.py
-@@ -21,6 +21,7 @@ from openmw.openvault.route.execution import (
+@@ -25,6 +25,7 @@ from openmw.openvault.route.execution import (
      dispatch_combo,
      extract_assistant_text,
      hop_call_model,
@@ -52,16 +52,7 @@ index cb7a825..4b08a2c 100644
      process_relay_store,
      relay_available_from_body,
      relay_handoff_from_body,
-@@ -33,7 +34,7 @@ from openmw.openvault.route.execution import (
- from openmw.openvault.vault.budget import estimate_tokens_for_body, prepare_hop_body
- from openmw.openvault.vault.fallback import FallbackManager
- from openmw.openvault.vault.precheck import _default_base_url
--from openmw.openvault.vault.providers import resolve_model
-+from openmw.openvault.vault.providers import models_for, resolve_model
- from openmw.openvault.vault.store import KeyVault
- from openmw.openvault.vault.usage_store import HopTrace
- 
-@@ -280,7 +281,10 @@ def _run_execution_shape(
+@@ -1167,7 +1168,10 @@ def _run_execution_shape(
          rec = by_id.get(hop.execution_key)
          if rec is None:
              return False
@@ -74,10 +65,10 @@ index cb7a825..4b08a2c 100644
      def post(
          hop: Hop,
 diff --git a/OpenMW/tests/test_execution_chat.py b/OpenMW/tests/test_execution_chat.py
-index 5ce82d0..5d2e747 100644
+index 3511cecb..bd1a9230 100644
 --- a/OpenMW/tests/test_execution_chat.py
 +++ b/OpenMW/tests/test_execution_chat.py
-@@ -771,6 +771,75 @@ def test_v1_anthropic_only_shape_names_the_skip(
+@@ -775,6 +775,75 @@ def test_v1_anthropic_only_shape_names_the_skip(
      assert mock.post.call_count == 0
  
  
@@ -154,7 +145,7 @@ index 5ce82d0..5d2e747 100644
  
  
 diff --git a/OpenMW/tests/test_execution_shapes.py b/OpenMW/tests/test_execution_shapes.py
-index d54c798..d27df6a 100644
+index d54c798f..d27df6a2 100644
 --- a/OpenMW/tests/test_execution_shapes.py
 +++ b/OpenMW/tests/test_execution_shapes.py
 @@ -16,6 +16,7 @@ from openmw.openvault.route.execution import (

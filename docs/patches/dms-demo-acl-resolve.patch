@@ -1,17 +1,17 @@
 diff --git a/packages/executor/dms_executor/__init__.py b/packages/executor/dms_executor/__init__.py
-index ed0f956..b6629fd 100644
+index 3ad7e62..63cced6 100644
 --- a/packages/executor/dms_executor/__init__.py
 +++ b/packages/executor/dms_executor/__init__.py
-@@ -8,7 +8,7 @@ from __future__ import annotations
- import logging
+@@ -9,7 +9,7 @@ import logging
+ import time
  from pathlib import Path
- from typing import Any
+ from typing import Any, Literal
 -from uuid import uuid4
 +from uuid import UUID, uuid4, uuid5
  
  from cortex_client import CortexClient
- from cortex_client.models import AskRequest, AskResponse
-@@ -238,14 +238,25 @@ class Executor:
+ from cortex_client.compute import insights_budget_stop
+@@ -619,14 +619,25 @@ class Executor:
          if selection:
              parts.append(f"scope:{'+'.join(sorted(selection))}")
          sid = f"{base}::{'::'.join(parts)}" if parts else base

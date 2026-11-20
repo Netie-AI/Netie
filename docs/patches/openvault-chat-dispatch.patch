@@ -1,5 +1,5 @@
 diff --git a/OpenMW/openmw/openvault/route/execution.py b/OpenMW/openmw/openvault/route/execution.py
-index 78ba549..73cdb80 100644
+index 78ba5498..73cdb805 100644
 --- a/OpenMW/openmw/openvault/route/execution.py
 +++ b/OpenMW/openmw/openvault/route/execution.py
 @@ -1,7 +1,8 @@
@@ -138,29 +138,29 @@ index 78ba549..73cdb80 100644
 +        )
 +    raise ExecutionRefused(400, f"unknown execution shape {name!r}")
 diff --git a/OpenMW/openmw/openvault/vault/proxy.py b/OpenMW/openmw/openvault/vault/proxy.py
-index fa3908e..1f579d4 100644
+index 94275ed0..b5889c7b 100644
 --- a/OpenMW/openmw/openvault/vault/proxy.py
 +++ b/OpenMW/openmw/openvault/vault/proxy.py
-@@ -12,6 +12,7 @@ import structlog
+@@ -16,6 +16,7 @@ import structlog
  
  from openmw.openvault.route.attempt import AttemptOutcome, classify_attempt
- from openmw.openvault.route.breaker import get_circuit_breaker
+ from openmw.openvault.route.breaker import CircuitBreaker, get_circuit_breaker
 +from openmw.openvault.route.execution import chat_shape_refusal
- from openmw.openvault.vault.budget import estimate_tokens_for_body, prepare_hop_body
- from openmw.openvault.vault.fallback import FallbackManager
- from openmw.openvault.vault.precheck import _default_base_url
-@@ -215,6 +216,10 @@ async def chat_completions(
-     the return tuple is unpacked by four test modules that do not want it.
+ from openmw.openvault.vault.budget import (
+     BudgetDecision,
+     estimate_tokens_for_body,
+@@ -1106,6 +1107,10 @@ async def chat_completions(
+     is exactly the pre-policy pool walk.
      """
      trace = trace if trace is not None else HopTrace()
 +    refused = chat_shape_refusal(body)
 +    if refused:
 +        trace.error_type = "openvault_execution_shape"
 +        return 400, refused
-     candidates = fallback.ordered_candidates(affinity_key=affinity_key_for(body, tenant=tenant))
-     if not candidates:
-         return 503, _no_candidates_refusal(vault)
-@@ -402,6 +407,10 @@ async def prepare_chat_stream(
+     request_id = uuid.uuid4().hex
+     work = dict(body)
+     walk = _open_walk(vault, fallback, work, tenant=tenant, trace=trace, path="chat_completions")
+@@ -1394,6 +1399,10 @@ async def prepare_chat_stream(
      with the correct HTTP status (streaming cannot change status mid-flight).
      """
      trace = trace if trace is not None else HopTrace()
@@ -168,12 +168,12 @@ index fa3908e..1f579d4 100644
 +    if refused:
 +        trace.error_type = "openvault_execution_shape"
 +        return 400, refused
-     candidates = fallback.ordered_candidates(affinity_key=affinity_key_for(body, tenant=tenant))
-     if not candidates:
-         return 503, _no_candidates_refusal(vault)
+     request_id = uuid.uuid4().hex
+     work = dict(body)
+     walk = _open_walk(vault, fallback, work, tenant=tenant, trace=trace, path="prepare_chat_stream")
 diff --git a/OpenMW/tests/test_execution_chat.py b/OpenMW/tests/test_execution_chat.py
 new file mode 100644
-index 0000000..30dff90
+index 00000000..30dff902
 --- /dev/null
 +++ b/OpenMW/tests/test_execution_chat.py
 @@ -0,0 +1,77 @@
@@ -255,7 +255,7 @@ index 0000000..30dff90
 +    assert resp.status_code == 400
 +    assert resp.json()["error"]["type"] == "openvault_execution_shape"
 diff --git a/OpenMW/tests/test_execution_shapes.py b/OpenMW/tests/test_execution_shapes.py
-index e12c42b..793b765 100644
+index e12c42b0..793b7650 100644
 --- a/OpenMW/tests/test_execution_shapes.py
 +++ b/OpenMW/tests/test_execution_shapes.py
 @@ -9,11 +9,15 @@ from fastapi.testclient import TestClient
