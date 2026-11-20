@@ -209,3 +209,27 @@ patches, same order, same verify command).
 - Cortex lint, type check and import-linter were not run on the patched tree.
 - Option B of the memo was not cut or run as a patch; its only evidence is the repro in F3.
 - DMS PRD-001 EPIC-004 was not checked against the keyless ruling.
+
+## Verified by T1 (a different agent from the builder)
+
+Replayed by the T1 executor session (`session_01N6JxFSgYhMwLMkHASHXL38`) on two fresh clones
+of the pin `304bf84`, one unpatched and one with the four patches applied in gate order from
+`claude/recut2`. Python 3.13.18, `uv sync --all-extras` then `uv run --all-extras`. The two
+trees ran side by side on one 4-CPU box, while other lanes also ran.
+
+| Command | Unpatched | Patched | Builder's claim |
+|---|---|---|---|
+| `pytest tests/dms tests/test_api tests/contract tests/harness tests/security -q -rfEs -p no:cacheprovider` | 2729 passed, 0 failed, 12 skipped, 4 xfailed | 2745 passed, 0 failed, 12 skipped, 4 xfailed | same, confirmed |
+| `pytest tests -q -rfEs -p no:cacheprovider` (whole suite) | 5280 passed, 0 failed, 13 skipped, 4 xfailed | 5296 passed, 0 failed, 13 skipped, 4 xfailed | same, confirmed |
+
+- Test ids: `pytest tests --collect-only -q` on both trees, 5296 against 5312 ids. Nothing is
+  only in the baseline. The 16 ids only in the patched tree are exactly the 16 listed under
+  "Result" above (8 `test_broker_no_skip`, 6 `test_constitution_path`, 2 `test_f7_rbac`).
+- Patched tree: `git write-tree` of the patched clone (logs excluded) is `729e1dd`, the tree
+  the builder ran on.
+- F3 repro: on the patched clone, `git checkout 304bf84 -- tests/dms/test_f2_chat.py` then
+  `uv run --all-extras pytest tests/dms/test_f2_chat.py -q`: 1 failed, 2 passed
+  (`test_chat_api_routes`, `assert 401 == 200`). Same file with the patch's edit restored:
+  3 passed. Unpatched clone: 3 passed. Confirmed.
+- Not replayed: the builder's mutation runs (F2, Measured) and the README verify command.
+- The F3 memo is a founder decision. `cortex-role-execute.patch` is unchanged by T1.
