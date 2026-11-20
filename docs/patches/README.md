@@ -405,12 +405,12 @@ path (app -> Cortex -> OpenVault). Making it a product needs a PRD and an OpenVa
 first. The patches are parked here only because this token cannot push anywhere else.
 
 Upstream: `https://github.com/shdennlin/whisper-wrap` at `56e5cf6` (MIT, class A). The
-upstream `LICENSE` is untouched by all three patches.
+upstream `LICENSE` is untouched by every patch in the series.
 
 ```
 git clone https://github.com/shdennlin/whisper-wrap && cd whisper-wrap
 git checkout 56e5cf60bc358a88b66b09909cefcab4fe211908
-git am /path/to/Netie/docs/patches/voice-capture-000*.patch
+git am /path/to/Netie/docs/patches/voice-capture-000*.patch    # 0001 to 0004 (0005 once added)
 uv sync --extra dev && PATH=$PWD/.venv/bin:$PATH bash scripts/model-manager.sh download breeze-asr-25
 uv run pytest tests/test_capture.py tests/test_capture_view.py tests/test_llm_claude.py
 ```
@@ -422,6 +422,10 @@ the response says `sorted: false`. `0002` lets `POST /ask` answer with Claude. `
 phone page (`/capture/ui`), an item list and task tick-off, sorting on Gemini's free tier when
 no Claude key is set, validation of every field the model returns, and `evals/` (59 cases and
 a scorer). Setup and the Shortcut steps are in the patched tree at `docs/CAPTURE.md`.
+
+`0004` adds `evals/audio/`: the 59 cases turned into speech, run through Whisper, then through
+the same sorter, with word error rate and a results file per model, plus runner tests with the
+network stubbed. It also fixes the `large-v3-turbo` registry entry (see below).
 
 Measured 2026-11-12, with upstream installed in the session:
 
@@ -439,3 +443,20 @@ Not run: sorting on Claude (no key in the session), the Shortcut on a real phone
 voice, Docker (compose is not set up for capture; the doc says so). The model registry's
 `large-v3-turbo` entry points at a Hugging Face repo that returned "not found"; use the
 default `breeze-asr-25`. See `docs/subagents_findings/2026-11-12-voice-capture.md`.
+
+Measured 2026-11-20 (`0004`), 59 clips from one synthetic English voice (gTTS), CPU only, sorter
+`gemini-3.1-flash-lite`, one run unless stated:
+
+| Speech model | WER raw / numbers folded | End to end correct (run 1 / run 2) | s per clip | Server memory after load |
+|---|---|---|---|---|
+| `breeze-asr-25` (default) | 14.0% / 10.6% | 53 of 59 / 54 of 59 | 12.0 | 2.4 GB |
+| `large-v3-turbo` | 10.7% / 7.5% | 49 of 59 / 50 of 59 | 15.6 | 4.0 GB |
+
+Clean text on the same sorter scored 57 of 59. The default stays `breeze-asr-25`: turbo hears
+English better but filed 4 fewer cases right in both runs, ran 30% slower and held 1.6 GB more.
+Three of breeze's four losses against clean text are Malay words mis-heard by Whisper. The
+fixed `large-v3-turbo` entry points at `dropbox-dash/faster-whisper-large-v3-turbo` (the repo
+faster-whisper's own alias now redirects to); `Systran/faster-whisper-large-v3-turbo` answers
+401. Limits: n = 59, cases written by a model, one synthetic voice, Malay words read by an
+English voice; numbers and limits in the patched tree's `evals/audio/README.md`. Finding:
+`docs/subagents_findings/2026-11-20-voice-capture-track.md`.
