@@ -1,0 +1,416 @@
+From 59f6d4fb1907d16066596261f2a0c6260b14ee03 Mon Sep 17 00:00:00 2001
+From: Claude <noreply@anthropic.com>
+Date: Fri, 20 Nov 2026 03:56:41 +0000
+Subject: [PATCH] Docker: run voice capture in a container
+
+- Dockerfile: copy alembic.ini and alembic/ (the lifespan runs `alembic upgrade head`; the
+  container crashed at start without them), put the venv on PATH for model-manager.sh, install
+  the locked packages with CPU-only torch (5.5 GB instead of 15.2 GB; only silero-vad uses
+  torch), strip CRLF from the shell scripts, run the server from the venv through
+  deploy/docker-entrypoint.sh (seeds the chosen model if the volume lacks it; `uv run` would
+  re-sync at every start), DATA_DIR=/data. The model layer sits before app/ so a code edit
+  rebuilds in seconds.
+- docker-compose.yml: pass CAPTURE_TOKEN, GEMINI_API_KEY, ANTHROPIC_API_KEY, CAPTURE_BACKEND,
+  CAPTURE_MODEL, CAPTURE_TOPICS, CAPTURE_DEFAULT_CURRENCY, CAPTURE_TZ, ASK_BACKEND and
+  CLAUDE_MODEL through; a whisper-data volume for DATA_DIR; a /status healthcheck; the port
+  mapping is HOST:8000 (API_PORT was also used as the container port, which the server ignores).
+- pyproject.toml, uv.lock: tzdata as a direct dependency (CAPTURE_TZ needs it on slim images and
+  Windows).
+- .dockerignore: models, data, evals, docs out of the build context.
+- docs/CAPTURE-DOCKER.md: Windows and Linux steps, .env, iPhone reach, backup, speed.
+
+Co-Authored-By: Claude Sonnet 5.5 <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_01N6JxFSe19mgswm8NxDVbZh
+---
+ .dockerignore               |   9 ++-
+ Dockerfile                  |  56 +++++++++++---
+ deploy/docker-entrypoint.sh |  13 ++++
+ docker-compose.yml          |  33 ++++++++-
+ docs/CAPTURE-DOCKER.md      | 142 ++++++++++++++++++++++++++++++++++++
+ pyproject.toml              |   2 +
+ uv.lock                     |   2 +
+ 7 files changed, 243 insertions(+), 14 deletions(-)
+ create mode 100755 deploy/docker-entrypoint.sh
+ create mode 100644 docs/CAPTURE-DOCKER.md
+
+diff --git a/.dockerignore b/.dockerignore
+index c9aae87..981485d 100644
+--- a/.dockerignore
++++ b/.dockerignore
+@@ -6,4 +6,11 @@ __pycache__
+ *.pyc
+ .env
+ .DS_Store
+-tests/
+\ No newline at end of file
++tests
++# keep the build context small: model weights come from the registry at build time
++models
++data
++evals
++docs
++openspec
++samples
+diff --git a/Dockerfile b/Dockerfile
+index 147c677..7680d0b 100644
+--- a/Dockerfile
++++ b/Dockerfile
+@@ -1,9 +1,14 @@
+ FROM python:3.12-slim
+ 
+ ARG MODEL_NAME=breeze-asr-25
++# CPU-only torch. The lockfile resolves torch to the CUDA build, which drags in about
++# 4 GB of nvidia-* wheels the container cannot use (no GPU passthrough is set up).
++# torch is only needed by silero-vad. Set TORCH_INDEX= (empty) to keep the lockfile's wheels.
++ARG TORCH_INDEX=https://download.pytorch.org/whl/cpu
+ 
+ # Runtime-only dependencies. v2 drops cmake/g++/make/pkg-config/git because we no
+-# longer build whisper.cpp from source — the CT2 model is downloaded via `hf`.
++# longer build whisper.cpp from source; the CT2 model is downloaded via `hf`.
++# ffmpeg decodes the phone's m4a/webm, libmagic sniffs the upload type.
+ RUN apt-get update && apt-get install -y --no-install-recommends \
+     ffmpeg \
+     libmagic1 \
+@@ -15,16 +20,36 @@ COPY --from=ghcr.io/astral-sh/uv:latest /uv /bin/uv
+ 
+ WORKDIR /app
+ 
++# model-manager.sh needs `hf` from the venv on PATH.
++ENV PATH="/app/.venv/bin:$PATH"
++
+ COPY pyproject.toml uv.lock README.md ./
+ 
+-# Install Python deps (faster-whisper, google-genai, etc.). --no-dev keeps the
+-# image small; tests are not shipped.
+-RUN uv sync --frozen --no-dev
++# Install the locked dependencies without the project itself (it runs from /app).
++# uv export pins every transitive package, so --no-deps installs exactly the lock.
++# --no-dev keeps tests out. When TORCH_INDEX is set, torch/torchaudio and the nvidia-*
++# and triton wheels that only exist for them are swapped for the CPU build.
++RUN uv venv /app/.venv && \
++    uv export --frozen --no-dev --no-hashes --no-emit-project -o /tmp/req.txt && \
++    if [ -n "$TORCH_INDEX" ]; then \
++        grep -Ev '^(nvidia-|triton|torch==|torchaudio==)' /tmp/req.txt > /tmp/req-main.txt && \
++        grep -E '^(torch|torchaudio)==' /tmp/req.txt | sed 's/ *;.*//' > /tmp/req-torch.txt && \
++        uv pip install --python /app/.venv/bin/python --no-deps -r /tmp/req-main.txt && \
++        uv pip install --python /app/.venv/bin/python --no-deps --index-url "$TORCH_INDEX" -r /tmp/req-torch.txt; \
++    else \
++        uv pip install --python /app/.venv/bin/python --no-deps -r /tmp/req.txt; \
++    fi && rm -f /tmp/req*.txt
+ 
+-# Registry + model manager — needed to download the model at build time.
++# Registry and model manager, plus the three app files model-manager.sh imports to read
++# the registry. The model comes next, before the rest of app/, so editing app code does
++# not re-run the 1.5 GB download layer.
+ COPY registry/ /app/registry/
+ COPY scripts/ /app/scripts/
+-COPY app/ /app/app/
++# A Windows checkout with autocrlf turns these shell scripts into CRLF, which sh cannot run.
++RUN sed -i 's/\r$//' /app/scripts/*.sh
++COPY app/__init__.py /app/app/__init__.py
++COPY app/services/__init__.py /app/app/services/__init__.py
++COPY app/services/registry.py /app/app/services/registry.py
+ 
+ # Pre-download the configured model variant via the v2 manager (uses `hf download`
+ # under the hood, honouring the registry's `subfolder` and `revision` fields).
+@@ -32,16 +57,27 @@ RUN mkdir -p /app/models && \
+     WHISPER_WRAP_PYTHONPATH=/app PYTHON_BIN=/app/.venv/bin/python \
+     bash /app/scripts/model-manager.sh download "$MODEL_NAME"
+ 
++# alembic.ini and alembic/ are needed: the lifespan runs `alembic upgrade head` from
++# the working directory before the model loads.
++COPY alembic.ini /app/alembic.ini
++COPY alembic/ /app/alembic/
++COPY app/ /app/app/
++COPY deploy/docker-entrypoint.sh /app/deploy/docker-entrypoint.sh
++RUN sed -i 's/\r$//' /app/deploy/docker-entrypoint.sh
++
+ # Persist the chosen model name into the runtime env file consulted by Config.
+ RUN printf "MODEL_NAME=%s\n" "$MODEL_NAME" > /app/.env
+ 
+-RUN mkdir -p /tmp/whisper-wrap
++RUN mkdir -p /tmp/whisper-wrap /data
++
++ENV DATA_DIR=/data
+ 
+ EXPOSE 8000
+ 
+-# Single in-process FastAPI server — lifespan eagerly loads the WhisperModel.
+-# No whisper-server subprocess, no startup sleep.
++# Single in-process FastAPI server; lifespan eagerly loads the WhisperModel.
+ HEALTHCHECK --interval=30s --timeout=10s --start-period=120s --retries=3 \
+     CMD curl -f http://localhost:8000/status || exit 1
+ 
+-CMD ["uv", "run", "uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"]
++# The entrypoint calls the venv directly. `uv run` would re-sync (and pull the dev
++# group) at every start.
++ENTRYPOINT ["sh", "/app/deploy/docker-entrypoint.sh"]
+diff --git a/deploy/docker-entrypoint.sh b/deploy/docker-entrypoint.sh
+new file mode 100755
+index 0000000..0239340
+--- /dev/null
++++ b/deploy/docker-entrypoint.sh
+@@ -0,0 +1,13 @@
++#!/bin/sh
++# Seed the speech model on first start, then run the server.
++#
++# The image already holds MODEL_NAME as built. Two cases need the download here:
++# MODEL_NAME at run time differs from the build, or the models volume was created
++# by an older image and lacks the model. model-manager.sh is a no-op when the model
++# is installed ("already installed, skipping"), so this costs nothing on later starts.
++set -eu
++cd /app
++MODEL_NAME="${MODEL_NAME:-breeze-asr-25}"
++WHISPER_WRAP_PYTHONPATH=/app PYTHON_BIN=/app/.venv/bin/python \
++    bash /app/scripts/model-manager.sh download "$MODEL_NAME"
++exec /app/.venv/bin/python -m uvicorn app.main:app --host 0.0.0.0 --port 8000
+diff --git a/docker-compose.yml b/docker-compose.yml
+index c3ce270..86bf735 100644
+--- a/docker-compose.yml
++++ b/docker-compose.yml
+@@ -4,12 +4,16 @@ services:
+       context: .
+       args:
+         MODEL_NAME: ${MODEL_NAME:-breeze-asr-25}
++        # CPU-only torch (smaller image). Set TORCH_INDEX= (empty) to keep the lockfile's CUDA wheels.
++        TORCH_INDEX: ${TORCH_INDEX-https://download.pytorch.org/whl/cpu}
+     image: whisper-wrap:latest
+     container_name: whisper-wrap
+     ports:
+-      - "${API_PORT:-8000}:${API_PORT:-8000}"
++      # The server always listens on 8000 inside the container; API_PORT is the host port.
++      - "${API_PORT:-8000}:8000"
++    # Values come from the host environment or an optional .env next to this file.
++    # Empty is fine for every key: an empty CAPTURE_TOKEN makes /capture refuse (503).
+     environment:
+-      - API_PORT=${API_PORT:-8000}
+       - API_HOST=${API_HOST:-0.0.0.0}
+       - MODEL_NAME=${MODEL_NAME:-breeze-asr-25}
+       # Override the default ./models/<name> resolution when mounting a pre-built model.
+@@ -17,18 +21,41 @@ services:
+       - COMPUTE_TYPE=${COMPUTE_TYPE:-default}
+       - DEVICE=${DEVICE:-auto}
+       - GEMINI_API_KEY=${GEMINI_API_KEY:-}
++      # Differs from the code default (app/services/llm.py uses gemini-3.1-flash-lite when
++      # unset). It only affects /ask; /capture sorts with CAPTURE_MODEL or its own default.
+       - GEMINI_MODEL=${GEMINI_MODEL:-gemini-2.5-flash}
+       # - GEMINI_SYSTEM_PROMPT=
+       - MAX_FILE_SIZE_MB=${MAX_FILE_SIZE_MB:-200}
+       - TEMP_DIR=/tmp/whisper-wrap
+       - LOG_LEVEL=${LOG_LEVEL:-INFO}
+       - UPLOAD_TIMEOUT_SECONDS=${UPLOAD_TIMEOUT_SECONDS:-60}
++      # Voice capture (docs/CAPTURE-DOCKER.md)
++      - CAPTURE_TOKEN=${CAPTURE_TOKEN:-}
++      - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY:-}
++      - CAPTURE_BACKEND=${CAPTURE_BACKEND:-auto}
++      - CAPTURE_MODEL=${CAPTURE_MODEL:-}
++      - CAPTURE_TOPICS=${CAPTURE_TOPICS:-}
++      - CAPTURE_DEFAULT_CURRENCY=${CAPTURE_DEFAULT_CURRENCY:-MYR}
++      - CAPTURE_TZ=${CAPTURE_TZ:-}
++      - ASK_BACKEND=${ASK_BACKEND:-gemini}
++      - CLAUDE_MODEL=${CLAUDE_MODEL:-}
++      # Captures (capture/tasks.md, notes.md, expenses.csv) and history.db live here.
++      - DATA_DIR=/data
+     volumes:
+       - whisper-models:/app/models
+-    # The container hosts a single FastAPI process — let the supervisor recover
++      - whisper-data:/data
++    healthcheck:
++      test: ["CMD", "curl", "-fsS", "http://localhost:8000/status"]
++      interval: 30s
++      timeout: 10s
++      start_period: 120s
++      retries: 3
++    # The container hosts a single FastAPI process; let the supervisor recover
+     # from process crashes instead of relying on in-app auto-restart.
+     restart: unless-stopped
+ 
+ volumes:
+   whisper-models:
+     driver: local
++  whisper-data:
++    driver: local
+diff --git a/docs/CAPTURE-DOCKER.md b/docs/CAPTURE-DOCKER.md
+new file mode 100644
+index 0000000..986419e
+--- /dev/null
++++ b/docs/CAPTURE-DOCKER.md
+@@ -0,0 +1,142 @@
++# Voice capture in Docker
++
++Run the capture server in a container on an always-on machine (a Windows PC with Docker
++Desktop, or any Linux box). Read `docs/CAPTURE.md` first for what `/capture` does and for the
++iPhone Shortcut steps. This page covers only the container.
++
++Status of this page: every command below was run on Linux (Docker Engine 29, Compose v5,
++4-core x86 CPU, no GPU) unless it says **not run**. Nothing here was run on Windows or on a
++phone.
++
++## What you get
++
++- `docker compose up -d --build` builds one image (about 5.5 GB: Python and ffmpeg 0.7 GB,
++  libraries with CPU-only torch 1.3 GB, the `breeze-asr-25` speech model 1.6 GB) and starts it.
++- The speech model is downloaded while the image is built, so the first start needs no extra
++  step. If you later set `MODEL_NAME` to another model in the registry, the container fetches it
++  on start (`deploy/docker-entrypoint.sh`, about 20 s for `large-v3-turbo`).
++- Two named volumes survive `down`, `up` and `up --build`: `whisper-models` (`/app/models`) and
++  `whisper-data` (`/data`, which holds `capture/` and `history.db`).
++- Healthy when `GET /status` answers (the compose healthcheck calls it).
++
++## 1. Install Docker
++
++- **Windows:** install Docker Desktop with the WSL 2 backend. **Not run**: nothing on this page
++  was tried on Windows. Two risks to watch: Git may check files out with CRLF line endings (the
++  Dockerfile strips them from the shell scripts, **not run** with a real Windows checkout; it was
++  checked by converting the scripts to CRLF on Linux), and Docker Desktop keeps volumes inside its
++  VM, so use the backup command below, not Explorer.
++- **Linux:** install Docker Engine and the Compose plugin from Docker's repository, then
++  `sudo usermod -aG docker $USER` and log in again.
++
++## 2. Configure
++
++Get the code (the patched tree), then create `.env` next to `docker-compose.yml`.
++
++Linux or macOS:
++
++    cp .env.example .env        # then edit; or write the five lines below
++
++Windows PowerShell: `Copy-Item .env.example .env`
++
++Smallest useful `.env` (no spaces around `=`, no comment on the same line as a value):
++
++    CAPTURE_TOKEN=put-a-long-random-string-here
++    GEMINI_API_KEY=your-free-key-from-aistudio.google.com
++    CAPTURE_TZ=Asia/Kuala_Lumpur
++    CAPTURE_TOPICS=move: moving house,motorcycle: buying a bike
++    CAPTURE_DEFAULT_CURRENCY=MYR
++
++Make a token with `openssl rand -hex 24` or any password manager. Compose reads `.env` and the
++shell environment (the shell wins). These pass through to the container:
++
++| Variable | Default | Note |
++|---|---|---|
++| `CAPTURE_TOKEN` | empty | Empty: `/capture` answers 503 and refuses everything. |
++| `GEMINI_API_KEY` | empty | Free tier sorts the notes (15 requests a minute). |
++| `ANTHROPIC_API_KEY` | empty | If set, `CAPTURE_BACKEND=auto` sorts with Claude. |
++| `CAPTURE_BACKEND` | `auto` | `claude`, `gemini` or `auto`. |
++| `CAPTURE_MODEL` | empty | Empty uses the code default for the backend. |
++| `CAPTURE_TOPICS` | empty | Comma separated `slug: description`. |
++| `CAPTURE_DEFAULT_CURRENCY` | `MYR` | |
++| `CAPTURE_TZ` | empty (container is UTC) | Set it: files are stamped in this zone (`+08:00`). |
++| `ASK_BACKEND` | `gemini` | `claude` makes the unauthenticated `/ask` spend your Claude key. |
++| `CLAUDE_MODEL` | empty | |
++| `MODEL_NAME` | `breeze-asr-25` | Any key in `registry/models.yaml`. |
++| `API_PORT` | `8000` | The host port. The server always listens on 8000 inside. |
++
++`GEMINI_MODEL` defaults to `gemini-2.5-flash` in `docker-compose.yml` (as shipped upstream), but
++the code default in `app/services/llm.py` is `gemini-3.1-flash-lite`. It only changes `/ask`;
++`/capture` uses `CAPTURE_MODEL` or its own default. Set `GEMINI_MODEL` in `.env` to match if you
++care.
++
++## 3. Start
++
++    docker compose up -d --build
++    docker compose ps            # wait for "healthy"
++    curl http://localhost:8000/status
++
++Measured on the Linux box: cold build 130 s (base images already pulled; apt, Python packages and
++the model downloaded fresh), time to healthy 20 s after `up`, idle memory about 1.8 GiB
++(`docker stats`). The first Windows build will also have to pull the base images.
++
++Image size: 5.47 GB. The lockfile resolves torch to the CUDA build, and the same tree built with
++the lockfile's wheels is much larger (see below); the Dockerfile swaps in the CPU wheels
++(`TORCH_INDEX`, only silero-vad uses torch). `COMPUTE_TYPE` and `DEVICE=auto` run on the CPU.
++With CPU torch the silero VAD loads (`/status` reports `"vad": {"backend": "silero"}`) and the
++capture tests pass inside the container (76 passed). For a GPU container set `TORCH_INDEX=` in
++`.env` and add the GPU runtime to the compose file yourself: **not run**.
++
++## 4. Check it
++
++    curl -s -o /dev/null -w "%{http_code}\n" -X POST localhost:8000/capture \
++      -H 'Content-Type: application/json' -d '{"text":"x"}'        # 401, no token
++    curl -s -X POST localhost:8000/capture -H "Authorization: Bearer $CAPTURE_TOKEN" \
++      -H 'Content-Type: application/json' \
++      -d '{"text": "paid 500 ringgit deposit for the bike, collect it Saturday"}'
++
++A wrong token is also 401; an empty `CAPTURE_TOKEN` in `.env` is 503. The text call above came back
++sorted into an expense (500 MYR) and a task due the next Saturday, and the files appeared in the
++volume.
++
++## 5. Reach it from the iPhone
++
++- **Same Wi-Fi (LAN):** find the PC's address (`ipconfig` on Windows, `ip addr` on Linux) and use
++  `http://<that-address>:8000`. On Windows allow the Docker Desktop prompt through the firewall.
++  **Not run** (no phone, no Windows).
++- **Away from home (Tailscale):** install Tailscale on the PC and the phone, then use
++  `http://<pc-name>.<tailnet>.ts.net:8000`. **Not run.**
++- **The Shortcut works over plain HTTP** (the Get Contents of URL action posts the audio with the
++  Bearer header). This is the setup in `docs/CAPTURE.md`; **not run on a phone**.
++- **The page's Record button needs HTTPS.** Browsers allow the microphone only on HTTPS or
++  `localhost`. Put HTTPS in front with Tailscale (`docs/HTTPS-TAILSCALE.md`), then open
++  `https://<pc-name>.<tailnet>.ts.net/capture/ui`. The item list and tick boxes work over HTTP;
++  only Record does not. **Not run.**
++- Do not expose port 8000 to the internet. `/transcribe`, `/ask` and `/listen` have no token.
++
++## 6. Your data, and backups
++
++Captures live in the `whisper-data` volume under `capture/`: `tasks.md`, `notes.md`,
++`expenses.csv` (`notes.md` appears with the first note; `transcripts.jsonl` and `inbox.md` too). They survive `docker compose down` and
++`up --build` (checked: after `down`, `up` and a rebuild after a source edit, the item list still
++held the earlier task and both expenses). `docker compose down -v` deletes them.
++
++Back up from the running container (works on Windows too):
++
++    docker compose cp whisper-wrap:/data/capture ./capture-backup
++
++Copy `capture-backup` somewhere safe on a schedule. To restore into a fresh volume, start the
++container once and run `docker compose cp ./capture-backup/. whisper-wrap:/data/capture/`.
++
++## 7. Speed
++
++Seconds per note on a 4-core CPU with no GPU (`breeze-asr-25`, short clips of 2 to 8 seconds):
++about 12 s in the server, 13.5 s for a whole `/capture` call from a clip through sorting. Longer
++notes take longer. `large-v3-turbo` is slower here (about 15.6 s). A Windows PC will differ:
++**not run**.
++
++## 8. Update, stop, remove
++
++    docker compose up -d --build     # after pulling new code; data and models stay
++    docker compose down              # stop; volumes stay
++    docker compose down -v           # also deletes models and ALL captured data
+diff --git a/pyproject.toml b/pyproject.toml
+index b056eaa..4b1b8aa 100644
+--- a/pyproject.toml
++++ b/pyproject.toml
+@@ -22,6 +22,8 @@ dependencies = [
+     "silero-vad>=5.0,<6.0",
+     "sqlalchemy>=2.0",
+     "alembic>=1.13",
++    # CAPTURE_TZ uses zoneinfo; slim images and Windows have no system tz database.
++    "tzdata>=2024.1",
+ ]
+ 
+ [project.optional-dependencies]
+diff --git a/uv.lock b/uv.lock
+index b6ef6a6..8c24b29 100644
+--- a/uv.lock
++++ b/uv.lock
+@@ -4858,6 +4858,7 @@ dependencies = [
+     { name = "pyyaml" },
+     { name = "silero-vad" },
+     { name = "sqlalchemy" },
++    { name = "tzdata" },
+     { name = "uvicorn", extra = ["standard"] },
+ ]
+ 
+@@ -4901,6 +4902,7 @@ requires-dist = [
+     { name = "silero-vad", specifier = ">=5.0,<6.0" },
+     { name = "sqlalchemy", specifier = ">=2.0" },
+     { name = "torch", marker = "extra == 'meeting'", specifier = ">=2.0" },
++    { name = "tzdata", specifier = ">=2024.1" },
+     { name = "uvicorn", extras = ["standard"], specifier = ">=0.23.0" },
+     { name = "whisperx", marker = "extra == 'meeting'", specifier = ">=3.1.0" },
+ ]
+-- 
+2.43.0
+
