@@ -1,8 +1,8 @@
 diff --git a/OpenMW/openmw/openvault/ship/engine.py b/OpenMW/openmw/openvault/ship/engine.py
-index 2d694dc..080cb30 100644
+index 71fce0f..27c7b05 100644
 --- a/OpenMW/openmw/openvault/ship/engine.py
 +++ b/OpenMW/openmw/openvault/ship/engine.py
-@@ -921,6 +921,26 @@ def _run_ship_engine_locked(
+@@ -852,6 +852,26 @@ def _run_ship_engine_locked(
          )
          dep_mode = "simulated"
  

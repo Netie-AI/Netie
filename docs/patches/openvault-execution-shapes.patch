@@ -545,20 +545,23 @@ index 0000000..e12c42b
 +    resp = client.put("/api/route/strategy", json={"strategy": "fusion"})
 +    assert resp.status_code == 400
 +    assert "execution shape" in resp.json()["detail"]
-diff --git a/OpenMW/tests/test_route_strategies.py b/OpenMW/tests/test_route_strategies.py
-index e2901cd..c561e4d 100644
---- a/OpenMW/tests/test_route_strategies.py
-+++ b/OpenMW/tests/test_route_strategies.py
-@@ -8,7 +8,7 @@ from fastapi.testclient import TestClient
+diff --git a/OpenMW/tests/test_route_strategies_netie.py b/OpenMW/tests/test_route_strategies_netie.py
+index 71797f7..e2e907e 100644
+--- a/OpenMW/tests/test_route_strategies_netie.py
++++ b/OpenMW/tests/test_route_strategies_netie.py
+@@ -5,8 +5,10 @@ OpenVault's own tests/test_route_strategies.py is left as the sibling wrote it.
  
- from openmw.openvault.route.registry import reset_route_state, set_targets
+ from __future__ import annotations
+ 
++import pytest
++
  from openmw.openvault.route.rr_state import reset_decks
 -from openmw.openvault.route.strategies import apply_strategy
 +from openmw.openvault.route.strategies import StrategyNotASort, apply_strategy
  from openmw.openvault.route.types import ComboMetrics, RouteTarget
- from openmw.openvault.routers.route import router as route_router
  
-@@ -203,3 +203,8 @@ def test_cache_optimized_same_key_is_stable() -> None:
+ 
+@@ -137,3 +139,8 @@ def test_cache_optimized_same_key_is_stable() -> None:
      reversed_targets = list(reversed(_targets()))
      second = apply_strategy("cache-optimized", reversed_targets, cache_key="conv-1")[0].execution_key
      assert first == second

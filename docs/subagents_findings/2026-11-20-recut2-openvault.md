@@ -226,3 +226,78 @@ patches from `claude/recut2` applied in `OPENVAULT_STACK` order. It edited nothi
   three skipped tests as they are. Not cut or run.
 - Gate: `test_openvault_patches_apply_on_main` OK (with `tests/test_access_routing.py`).
 - Not replayed: the old-cut and mutation claims in Measured.
+
+## Rule-1 re-cut (T1)
+
+Rule 1 of `DR-PROPOSED-parked-patches-yield-to-sibling-tests.md`: a parked patch may not edit,
+reverse, skip or delete a test the sibling wrote. F4 and "Verified by T1" above found three
+OpenVault test files the stack modified. This re-cut removes all three.
+
+### Expected, Actual, Repro, Root-cause class, Invariant
+
+- **Expected:** after the 32 patches in `OPENVAULT_STACK` order on pin `3ba51cd`,
+  `git diff --name-status <pin>` over every tests dir shows only `A`.
+- **Actual (old patches):** three `M` lines. `OpenMW/tests/test_detect_stacks.py` (three
+  Windows-only skipped tests rewritten onto `tmp_path`), `OpenMW/tests/test_route_strategies.py`
+  (one import line plus tests appended by 8 patches), `OpenMW/tests/test_freeroute_metering.py`
+  (one test inserted into `TestBudgetResolution` by `hop-strip`, edited by `hop-sidecar`). The
+  verifier's note called the metering change append-only; it is an insert inside an existing
+  class, no existing line changed.
+- **Repro:** fresh pin clone, apply the old 32 patches, `git add -N .`, `git diff --name-status
+  <pin> -- ':(glob)**/tests/**'`.
+- **Fix:** the tests moved, assertions byte for byte, into files our patches add:
+  `OpenMW/tests/test_detect_stacks_tmp_path.py` (3 tests, first in `detect-stacks`),
+  `OpenMW/tests/test_route_strategies_netie.py` (16 tests, created by `strict-random`, later
+  patches append to it; it carries its own copy of the `_targets()` helper and the
+  `StrategyNotASort` import), `OpenMW/tests/test_freeroute_metering_strip.py` (1 test, a
+  module-level function, created by `hop-strip`, edited by `hop-sidecar`). The OpenVault
+  originals are byte-identical to the pin. No re-export was needed: their
+  `test_route_strategies.py` imports only `apply_strategy`, which is untouched. Same 32 patch
+  names, same order. 28 patch files changed (test hunks only; the non-test hunks are unchanged).
+  Source tree check: after the new stack and after the old stack, `openmw/` is identical
+  (`diff -r`), so no product code moved.
+- **Root-cause class:** a patch put its tests where the code under test already had a test
+  file, instead of beside it.
+- **Invariant:** the gate method now fails when the stack changes any existing file under a
+  tests dir (`git diff --name-status <pin> -- ':(glob)**/tests/**' ':(glob)**/test_*.py`,
+  after `git add -N .`, every line must start with `A<TAB>`), and requires
+  `test_route_strategies_netie.py` to be one of the added files.
+
+### Measured
+
+All on 2026-11-20, pin `3ba51cdc307f539be13fd872230d660d31436bab`, Linux, fresh clones,
+`cd OpenMW && uv run --with-editable <worktree> pytest -q --tb=short -p no:cacheprovider -rfE -rs`.
+
+1. Unpatched: 1504 passed, 7 skipped, 0 failed. Patched (new stack): 1619 passed, 7 skipped,
+   0 failed, 0 errors. Failures patched but not unpatched: none.
+2. `--collect-only -q`: 1511 unpatched, 1626 patched. Ids only in unpatched: none. Ids only in
+   patched: 115, all passed: `test_crew_gate` 7, `test_crew_netie_gate` 7,
+   `test_detect_stacks_tmp_path` 3, `test_execution_chat` 29, `test_execution_shapes` 39,
+   `test_free_pool` 5, `test_free_pool_route` 3, `test_freeroute_metering_strip` 1,
+   `test_route_strategies_netie` 16, `test_ship_netie_claim` 5.
+3. Against the old stack (1623 ids): the 3 `test_detect_stacks.py::...[tree0]` ids are back
+   and skipped, as at the pin, so skips are 7 not 4 (the 4 DPAPI skips plus the 3 Windows
+   tree probes). The rest of the diff is 17 tests that moved file (16 strategy, 1 metering).
+4. `git diff --name-status <pin>` of the patched clone: M `openmw/openvault/app.py`,
+   `route/strategies.py`, `route/types.py`, `routers/route.py`, `ship/engine.py`,
+   `vault/budget.py`, `vault/proxy.py` (all under `OpenMW/`); A `crew_netie.py`,
+   `route/execution.py`, `route/free_pool.py`, `ship/netie_claim.py`; and under
+   `OpenMW/tests`, only A: `test_crew_gate.py`, `test_crew_netie_gate.py`,
+   `test_detect_stacks_tmp_path.py`, `test_execution_chat.py`, `test_execution_shapes.py`,
+   `test_free_pool.py`, `test_free_pool_route.py`, `test_freeroute_metering_strip.py`,
+   `test_route_strategies_netie.py`, `test_ship_netie_claim.py`. No `M`, `D` or `R` under any
+   tests dir.
+5. Gate red on the old patches: copied the old 32 patches back, ran
+   `python3 -m unittest test_sibling_patches.SiblingPatchTests.test_openvault_patches_apply_on_main`
+   from `scripts/`: FAILED with the three `M` lines named. New patches: OK, 24 s.
+6. `python3 scripts/test_apply_product_patches.py`: 13 tests OK. `make ci`: ok 30 files, laptop-ASCII clean, 46 script tests passed.
+7. The pytest lists in the gate method and the `openvault` entry now also name the three new
+   files (`tests/test_access_routing.py` stays).
+
+### Not run
+
+- No memo needed: neither behaviour conflict arose.
+- OpenVault on Windows (the 3 tree probes and 4 DPAPI tests stay skipped here).
+- `scripts/apply_product_patches.py --all` end to end.
+- Per-patch tests at each intermediate stack position beyond `git apply` succeeding in order.
+- No push to OpenVault.

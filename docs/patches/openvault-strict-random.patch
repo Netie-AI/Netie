@@ -55,14 +55,30 @@ index be53611..e89149b 100644
  )
  
  BreakerProfileName = Literal["oauth", "api_key", "local"]
-diff --git a/OpenMW/tests/test_route_strategies.py b/OpenMW/tests/test_route_strategies.py
-index 341d5a3..bb4ca6b 100644
---- a/OpenMW/tests/test_route_strategies.py
-+++ b/OpenMW/tests/test_route_strategies.py
-@@ -82,3 +82,19 @@ def test_route_api_breakers_empty() -> None:
-     resp = client.get("/api/route/breakers")
-     assert resp.status_code == 200
-     assert "breakers" in resp.json()
+diff --git a/OpenMW/tests/test_route_strategies_netie.py b/OpenMW/tests/test_route_strategies_netie.py
+new file mode 100644
+index 0000000..5f19a76
+--- /dev/null
++++ b/OpenMW/tests/test_route_strategies_netie.py
+@@ -0,0 +1,34 @@
++"""Routing strategy tests added by Netie patches.
++
++OpenVault's own tests/test_route_strategies.py is left as the sibling wrote it.
++"""
++
++from __future__ import annotations
++
++from openmw.openvault.route.rr_state import reset_decks
++from openmw.openvault.route.strategies import apply_strategy
++from openmw.openvault.route.types import RouteTarget
++
++
++def _targets() -> list[RouteTarget]:
++    return [
++        RouteTarget("a", "openai", "openai/gpt-4", weight=1.0, priority=10, cost=3.0),
++        RouteTarget("b", "anthropic", "anthropic/claude", weight=5.0, priority=20, cost=1.0),
++        RouteTarget("c", "google", "google/gemini", weight=2.0, priority=30, cost=2.0),
++    ]
 +
 +
 +def test_strict_random_cycle_uses_each_key_once() -> None:

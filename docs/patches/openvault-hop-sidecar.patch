@@ -53,7 +53,7 @@ index 972ed67..e57358e 100644
  
  def crew_body_http(
 diff --git a/OpenMW/tests/test_execution_chat.py b/OpenMW/tests/test_execution_chat.py
-index 53197e7..f2c49ff 100644
+index c33fbca..55c0001 100644
 --- a/OpenMW/tests/test_execution_chat.py
 +++ b/OpenMW/tests/test_execution_chat.py
 @@ -175,6 +175,25 @@ def test_v1_combo_transcript_is_400(
@@ -121,24 +121,21 @@ index 2223b60..884973b 100644
  def test_route_api_quota_share_is_501() -> None:
      reset_route_state()
      app = FastAPI()
-diff --git a/OpenMW/tests/test_freeroute_metering.py b/OpenMW/tests/test_freeroute_metering.py
-index 6a82a9b..7c32105 100644
---- a/OpenMW/tests/test_freeroute_metering.py
-+++ b/OpenMW/tests/test_freeroute_metering.py
-@@ -608,6 +608,7 @@ class TestBudgetResolution:
-                 "max_tokens": 16,
-                 "combo": {"strategy": "fusion", "handoff": {"summary": "SECRET"}},
-                 "skill_body": "LEAK",
-+                "metadata": {"skill_body": "LEAK", "user": "ok"},
-             },
-             provider="openai",
-             model="gpt-4o",
-@@ -618,6 +619,8 @@ class TestBudgetResolution:
-         assert decision.body["messages"][0]["content"] == "hi"
-         assert decision.body["max_tokens"] == 16
-         assert decision.body["model"] == "gpt-4o"
-+        assert "skill_body" not in decision.body["metadata"]
-+        assert decision.body["metadata"]["user"] == "ok"
- 
-     def test_the_tightest_budget_wins(self) -> None:
-         """First-match-wins widened a deliberate 100 cap to 8000."""
+diff --git a/OpenMW/tests/test_freeroute_metering_strip.py b/OpenMW/tests/test_freeroute_metering_strip.py
+index ecff06d..f759436 100644
+--- a/OpenMW/tests/test_freeroute_metering_strip.py
++++ b/OpenMW/tests/test_freeroute_metering_strip.py
+@@ -15,6 +15,7 @@ def test_hop_body_does_not_forward_combo_or_skill_body() -> None:
+             "max_tokens": 16,
+             "combo": {"strategy": "fusion", "handoff": {"summary": "SECRET"}},
+             "skill_body": "LEAK",
++            "metadata": {"skill_body": "LEAK", "user": "ok"},
+         },
+         provider="openai",
+         model="gpt-4o",
+@@ -25,3 +26,5 @@ def test_hop_body_does_not_forward_combo_or_skill_body() -> None:
+     assert decision.body["messages"][0]["content"] == "hi"
+     assert decision.body["max_tokens"] == 16
+     assert decision.body["model"] == "gpt-4o"
++    assert "skill_body" not in decision.body["metadata"]
++    assert decision.body["metadata"]["user"] == "ok"

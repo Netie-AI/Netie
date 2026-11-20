@@ -22,10 +22,10 @@ index 60797d7..9ac0289 100644
  
      return call
 diff --git a/OpenMW/tests/test_execution_chat.py b/OpenMW/tests/test_execution_chat.py
-index 276ffba..0f18873 100644
+index 096cdfc..025c243 100644
 --- a/OpenMW/tests/test_execution_chat.py
 +++ b/OpenMW/tests/test_execution_chat.py
-@@ -690,6 +690,40 @@ def test_v1_fusion_usage_is_last_hop_not_panel_sum(
+@@ -694,6 +694,40 @@ def test_v1_fusion_usage_is_last_hop_not_panel_sum(
      assert row["total_tokens"] != 200
  
  

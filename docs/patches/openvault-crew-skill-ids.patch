@@ -1,5 +1,5 @@
 diff --git a/OpenMW/openmw/openvault/app.py b/OpenMW/openmw/openvault/app.py
-index 8bb93f95..9ec1e9c0 100644
+index 8bb93f9..9ec1e9c 100644
 --- a/OpenMW/openmw/openvault/app.py
 +++ b/OpenMW/openmw/openvault/app.py
 @@ -671,6 +671,7 @@ class CrewGateBody(BaseModel):
@@ -19,7 +19,7 @@ index 8bb93f95..9ec1e9c0 100644
          except PermissionError as exc:
              refusal = str(exc)
 diff --git a/OpenMW/openmw/openvault/crew_netie.py b/OpenMW/openmw/openvault/crew_netie.py
-index 85783bc5..1cc5b310 100644
+index 85783bc..1cc5b31 100644
 --- a/OpenMW/openmw/openvault/crew_netie.py
 +++ b/OpenMW/openmw/openvault/crew_netie.py
 @@ -23,8 +23,9 @@ def check_crew_gate(
@@ -68,7 +68,7 @@ index 85783bc5..1cc5b310 100644
 +        kw["skill_ids"] = skill_ids
 +    return refuse_crew_gate(**kw)
 diff --git a/OpenMW/tests/test_crew_netie_gate.py b/OpenMW/tests/test_crew_netie_gate.py
-index 5c8c42d2..82ba8e9a 100644
+index 5c8c42d..82ba8e9 100644
 --- a/OpenMW/tests/test_crew_netie_gate.py
 +++ b/OpenMW/tests/test_crew_netie_gate.py
 @@ -19,6 +19,14 @@ def test_skill_kind_is_refused() -> None:

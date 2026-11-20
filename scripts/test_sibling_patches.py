@@ -236,6 +236,31 @@ class SiblingPatchTests(unittest.TestCase):
                 self.assertEqual(check.returncode, 0, f"{patch.name}: {check.stderr}")
                 applied = _run(["git", "apply", str(patch)], cwd=dest)
                 self.assertEqual(applied.returncode, 0, f"{patch.name}: {applied.stderr}")
+            # Rule 1 of DR-PROPOSED-parked-patches-yield-to-sibling-tests: the stack
+            # may add test files under any tests dir but must not edit, delete or
+            # rename one OpenVault wrote. `add -N` makes new files show as "A".
+            intent = _run(["git", "add", "-N", "."], cwd=dest)
+            self.assertEqual(intent.returncode, 0, intent.stderr)
+            changed = _run(
+                [
+                    "git",
+                    "diff",
+                    "--name-status",
+                    SIBLING_PINS["openvault"],
+                    "--",
+                    ":(glob)**/tests/**",
+                    ":(glob)**/test_*.py",
+                ],
+                cwd=dest,
+            )
+            self.assertEqual(changed.returncode, 0, changed.stderr)
+            not_added = [
+                line for line in changed.stdout.splitlines() if not line.startswith("A\t")
+            ]
+            self.assertEqual(
+                not_added, [], "stack edits an OpenVault test file: " + repr(not_added)
+            )
+            self.assertIn("A\tOpenMW/tests/test_route_strategies_netie.py", changed.stdout)
             strategies = (
                 dest / "OpenMW" / "openmw" / "openvault" / "route" / "strategies.py"
             ).read_text(encoding="utf-8")
@@ -329,10 +354,13 @@ class SiblingPatchTests(unittest.TestCase):
                     str(ROOT),
                     "pytest",
                     "tests/test_route_strategies.py",
+                    "tests/test_route_strategies_netie.py",
+                    "tests/test_detect_stacks_tmp_path.py",
                     "tests/test_execution_shapes.py",
                     "tests/test_execution_chat.py",
                     "tests/test_freeroute_acceptance.py",
                     "tests/test_freeroute_metering.py",
+                    "tests/test_freeroute_metering_strip.py",
                     "tests/test_crew_gate.py",
                     "tests/test_crew_netie_gate.py",
                     "tests/test_ship_netie_claim.py",

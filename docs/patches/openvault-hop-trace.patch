@@ -1,8 +1,8 @@
 diff --git a/OpenMW/openmw/openvault/vault/proxy.py b/OpenMW/openmw/openvault/vault/proxy.py
-index 6dc05d6..7325c40 100644
+index 616dcf1..ec1dcd7 100644
 --- a/OpenMW/openmw/openvault/vault/proxy.py
 +++ b/OpenMW/openmw/openvault/vault/proxy.py
-@@ -231,6 +231,22 @@ def _run_execution_shape(
+@@ -1118,6 +1118,22 @@ def _run_execution_shape(
      want_stream = bool(body.get("stream"))
      stream_holder: dict[str, AsyncIterator[bytes]] = {}
      stream_hold = "\x1eopenvault-stream-hold\x1e"
@@ -25,7 +25,7 @@ index 6dc05d6..7325c40 100644
      shape = shape_from_chat_body(body) or ""
      if shape == "auto":
          trace.error_type = "openvault_execution_shape"
-@@ -388,6 +404,7 @@ def _run_execution_shape(
+@@ -1271,6 +1287,7 @@ def _run_execution_shape(
                      owned.close()
  
              stream_holder["iter"] = _byte_iter()
@@ -33,7 +33,7 @@ index 6dc05d6..7325c40 100644
              return stream_hold
          try:
              with httpx.Client(timeout=timeout_s) as client:
-@@ -443,7 +460,10 @@ def _run_execution_shape(
+@@ -1322,7 +1339,10 @@ def _run_execution_shape(
          if outcome.job == "dead":
              raise ExecutionRefused(400, "request rejected by upstream (non-retryable)")
          if outcome.attempt_class == "success":
@@ -45,7 +45,7 @@ index 6dc05d6..7325c40 100644
          return ""
  
      combo = body.get("combo") if isinstance(body.get("combo"), dict) else {}
-@@ -486,7 +506,7 @@ def _run_execution_shape(
+@@ -1365,7 +1385,7 @@ def _run_execution_shape(
      if want_stream:
          held = stream_holder.get("iter")
          if held is not None:
@@ -54,7 +54,7 @@ index 6dc05d6..7325c40 100644
              return 200, held
          if text and str(text).strip() and text != stream_hold:
              first, done = sse_wrap_text(text)
-@@ -495,7 +515,7 @@ def _run_execution_shape(
+@@ -1374,7 +1394,7 @@ def _run_execution_shape(
                  yield first
                  yield done
  
@@ -63,7 +63,7 @@ index 6dc05d6..7325c40 100644
              return 200, _wrapped()
          trace.error_type = "openvault_execution_shape"
          return 503, {
-@@ -512,7 +532,7 @@ def _run_execution_shape(
+@@ -1391,7 +1411,7 @@ def _run_execution_shape(
                  "type": "openvault_execution_shape",
              }
          }
@@ -73,10 +73,10 @@ index 6dc05d6..7325c40 100644
          "id": "ov-dispatch",
          "object": "chat.completion",
 diff --git a/OpenMW/tests/test_execution_chat.py b/OpenMW/tests/test_execution_chat.py
-index c6e9852..b5c73be 100644
+index a7e3774..6d335bb 100644
 --- a/OpenMW/tests/test_execution_chat.py
 +++ b/OpenMW/tests/test_execution_chat.py
-@@ -501,4 +501,89 @@ def test_v1_context_relay_all_unavailable_503(
+@@ -505,4 +505,89 @@ def test_v1_context_relay_all_unavailable_503(
      assert mock.post.call_count == 0
  
  

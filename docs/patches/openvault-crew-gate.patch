@@ -1,5 +1,5 @@
 diff --git a/OpenMW/openmw/openvault/app.py b/OpenMW/openmw/openvault/app.py
-index 696d12e2..4ff0a77e 100644
+index 696d12e..4ff0a77 100644
 --- a/OpenMW/openmw/openvault/app.py
 +++ b/OpenMW/openmw/openvault/app.py
 @@ -657,6 +657,11 @@ class CrewGateBody(BaseModel):
@@ -62,7 +62,7 @@ index 696d12e2..4ff0a77e 100644
          payload["deficit"] = body.deficit
 diff --git a/OpenMW/tests/test_crew_gate.py b/OpenMW/tests/test_crew_gate.py
 new file mode 100644
-index 00000000..8957f77d
+index 0000000..8957f77
 --- /dev/null
 +++ b/OpenMW/tests/test_crew_gate.py
 @@ -0,0 +1,121 @@

@@ -1,5 +1,5 @@
 diff --git a/OpenMW/openmw/openvault/route/execution.py b/OpenMW/openmw/openvault/route/execution.py
-index 5f62dcb0..c66b682e 100644
+index 5f62dcb..c66b682 100644
 --- a/OpenMW/openmw/openvault/route/execution.py
 +++ b/OpenMW/openmw/openvault/route/execution.py
 @@ -41,6 +41,92 @@ class ExecutionRefused(ValueError):
@@ -112,7 +112,7 @@ index 5f62dcb0..c66b682e 100644
      if name in SORT_STRATEGY_NAMES:
          raise StrategyIsASort(name)
 diff --git a/OpenMW/openmw/openvault/routers/route.py b/OpenMW/openmw/openvault/routers/route.py
-index 19656241..2df278cc 100644
+index 1965624..2df278c 100644
 --- a/OpenMW/openmw/openvault/routers/route.py
 +++ b/OpenMW/openmw/openvault/routers/route.py
 @@ -11,6 +11,7 @@ from fastapi import APIRouter, HTTPException
@@ -135,7 +135,7 @@ index 19656241..2df278cc 100644
      if normalized is None:
          raise HTTPException(
 diff --git a/OpenMW/openmw/openvault/vault/proxy.py b/OpenMW/openmw/openvault/vault/proxy.py
-index b76f559f..f7f047cf 100644
+index b76f559..f7f047c 100644
 --- a/OpenMW/openmw/openvault/vault/proxy.py
 +++ b/OpenMW/openmw/openvault/vault/proxy.py
 @@ -33,6 +33,7 @@ from openmw.openvault.route.execution import (
@@ -169,7 +169,7 @@ index b76f559f..f7f047cf 100644
      if refused:
          trace.error_type = "openvault_execution_shape"
 diff --git a/OpenMW/tests/test_execution_chat.py b/OpenMW/tests/test_execution_chat.py
-index bd1a9230..22dfcbb5 100644
+index bd1a923..22dfcbb 100644
 --- a/OpenMW/tests/test_execution_chat.py
 +++ b/OpenMW/tests/test_execution_chat.py
 @@ -80,6 +80,63 @@ def test_v1_fusion_is_400_not_key_walk(
@@ -237,7 +237,7 @@ index bd1a9230..22dfcbb5 100644
      vault: KeyVault, monkeypatch: pytest.MonkeyPatch, tmp_path: Path
  ) -> None:
 diff --git a/OpenMW/tests/test_execution_shapes.py b/OpenMW/tests/test_execution_shapes.py
-index d27df6a2..8112d162 100644
+index d27df6a..8112d16 100644
 --- a/OpenMW/tests/test_execution_shapes.py
 +++ b/OpenMW/tests/test_execution_shapes.py
 @@ -33,6 +33,7 @@ from openmw.openvault.route.execution import (

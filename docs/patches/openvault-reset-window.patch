@@ -63,11 +63,11 @@ index 6ea9de3..b863db0 100644
  
  
  @dataclass
-diff --git a/OpenMW/tests/test_route_strategies.py b/OpenMW/tests/test_route_strategies.py
-index 12d5285..44cf70c 100644
---- a/OpenMW/tests/test_route_strategies.py
-+++ b/OpenMW/tests/test_route_strategies.py
-@@ -150,3 +150,20 @@ def test_headroom_missing_util_is_full() -> None:
+diff --git a/OpenMW/tests/test_route_strategies_netie.py b/OpenMW/tests/test_route_strategies_netie.py
+index 81a5444..8f23262 100644
+--- a/OpenMW/tests/test_route_strategies_netie.py
++++ b/OpenMW/tests/test_route_strategies_netie.py
+@@ -84,3 +84,20 @@ def test_headroom_missing_util_is_full() -> None:
      ordered = apply_strategy("headroom", targets)
      assert ordered[0].execution_key in {"b", "c"}
      assert ordered[-1].execution_key == "a"

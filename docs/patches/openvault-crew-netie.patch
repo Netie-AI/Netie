@@ -1,5 +1,5 @@
 diff --git a/OpenMW/openmw/openvault/app.py b/OpenMW/openmw/openvault/app.py
-index 4ff0a77e..8bb93f95 100644
+index 4ff0a77..8bb93f9 100644
 --- a/OpenMW/openmw/openvault/app.py
 +++ b/OpenMW/openmw/openvault/app.py
 @@ -2426,17 +2426,23 @@ def create_app(
@@ -35,7 +35,7 @@ index 4ff0a77e..8bb93f95 100644
              kind=body.kind,
 diff --git a/OpenMW/openmw/openvault/crew_netie.py b/OpenMW/openmw/openvault/crew_netie.py
 new file mode 100644
-index 00000000..85783bc5
+index 0000000..85783bc
 --- /dev/null
 +++ b/OpenMW/openmw/openvault/crew_netie.py
 @@ -0,0 +1,47 @@
@@ -88,7 +88,7 @@ index 00000000..85783bc5
 +    )
 diff --git a/OpenMW/tests/test_crew_netie_gate.py b/OpenMW/tests/test_crew_netie_gate.py
 new file mode 100644
-index 00000000..5c8c42d2
+index 0000000..5c8c42d
 --- /dev/null
 +++ b/OpenMW/tests/test_crew_netie_gate.py
 @@ -0,0 +1,65 @@

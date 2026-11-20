@@ -1,5 +1,5 @@
 diff --git a/OpenMW/openmw/openvault/route/execution.py b/OpenMW/openmw/openvault/route/execution.py
-index 78ba5498..73cdb805 100644
+index 78ba549..73cdb80 100644
 --- a/OpenMW/openmw/openvault/route/execution.py
 +++ b/OpenMW/openmw/openvault/route/execution.py
 @@ -1,7 +1,8 @@
@@ -138,7 +138,7 @@ index 78ba5498..73cdb805 100644
 +        )
 +    raise ExecutionRefused(400, f"unknown execution shape {name!r}")
 diff --git a/OpenMW/openmw/openvault/vault/proxy.py b/OpenMW/openmw/openvault/vault/proxy.py
-index 94275ed0..b5889c7b 100644
+index 94275ed..b5889c7 100644
 --- a/OpenMW/openmw/openvault/vault/proxy.py
 +++ b/OpenMW/openmw/openvault/vault/proxy.py
 @@ -16,6 +16,7 @@ import structlog
@@ -173,7 +173,7 @@ index 94275ed0..b5889c7b 100644
      walk = _open_walk(vault, fallback, work, tenant=tenant, trace=trace, path="prepare_chat_stream")
 diff --git a/OpenMW/tests/test_execution_chat.py b/OpenMW/tests/test_execution_chat.py
 new file mode 100644
-index 00000000..30dff902
+index 0000000..30dff90
 --- /dev/null
 +++ b/OpenMW/tests/test_execution_chat.py
 @@ -0,0 +1,77 @@
@@ -255,7 +255,7 @@ index 00000000..30dff902
 +    assert resp.status_code == 400
 +    assert resp.json()["error"]["type"] == "openvault_execution_shape"
 diff --git a/OpenMW/tests/test_execution_shapes.py b/OpenMW/tests/test_execution_shapes.py
-index e12c42b0..793b7650 100644
+index e12c42b..793b765 100644
 --- a/OpenMW/tests/test_execution_shapes.py
 +++ b/OpenMW/tests/test_execution_shapes.py
 @@ -9,11 +9,15 @@ from fastapi.testclient import TestClient
