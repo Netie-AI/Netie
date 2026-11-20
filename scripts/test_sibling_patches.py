@@ -379,6 +379,7 @@ class SiblingPatchTests(unittest.TestCase):
                     "tests/test_ship_netie_claim.py",
                     "tests/test_free_pool.py",
                     "tests/test_free_pool_route.py",
+                    "tests/test_access_routing.py",
                     "-q",
                     "--tb=line",
                 ],

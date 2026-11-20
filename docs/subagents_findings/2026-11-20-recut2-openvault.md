@@ -188,3 +188,17 @@ All on 2026-11-20, pin `3ba51cdc307f539be13fd872230d660d31436bab`, Linux, Python
 
 - That a 422 for an unknown kind or intent is an acceptable refusal for Netie's portable
   client (`OpenVaultCrewGate.allow` treats a transport error as a refusal; read, not run).
+
+## Follow-up on F2 (T1 executor, recut 2 consolidation)
+
+- **Done:** `tests/test_access_routing.py` added to the OpenVault pytest list in
+  `scripts/test_sibling_patches.py::test_openvault_patches_apply_on_main` and in the
+  `openvault` entry of `scripts/apply_product_patches.py`. `min_passed` stays 90. No other
+  line in either file changed.
+- **Proved it can fail:** fresh clones at the pin, the 32 patches applied in stack order, then
+  `cd OpenMW && uv run --with-editable <Netie> pytest tests/test_access_routing.py -q`.
+  Old cut (patches as of `dbaaaa5`): 2 failed, 18 passed
+  (`test_crew_gate_is_resolve_plus_audit`, `test_no_route_path_is_registered_twice`).
+  New cut: 20 passed.
+- **Gate:** `python3 -m unittest test_sibling_patches.SiblingPatchTests.test_openvault_patches_apply_on_main`
+  (cwd `scripts/`): OK, 39 s.
