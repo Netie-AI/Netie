@@ -26,7 +26,7 @@ to `src/ffi.ts`). Upstream pins `packageManager: bun@1.4.2`; `npm pack
 worked around. An agent workflow implemented section 2 and the section 3 tests without
 running any upstream code. The work went through one fix round after three review lenses
 (build conventions, gate semantics, test validity). A second review round was in flight
-when the session was told to wind down, so its findings were not applied. The diff was cut
+when the session was told to wind down, so its findings are listed below, unapplied. The diff was cut
 with `git diff --binary` and replayed:
 - `clone` + `apply` on a fresh checkout of the pin gives the stage 1 tree `625d47c37a3e`.
   This proves `apply` skips `wip/`, because it globs `*.patch` in this folder only.
@@ -35,6 +35,24 @@ with `git diff --binary` and replayed:
 - LICENSE sha256 is unchanged, and both copyright lines are present.
 - 17 files, 56651 bytes.
 It moves to `0002-gate.patch` only after section 4 passes.
+
+Open from review round 2 (static; no blocking or high finding; not fixed, the workflow was
+stopped on the wind-down):
+- Medium: the start guard checks only that `dist/netie-openvault-gate.js` exists. A bundle
+  that fails to import, or that lacks `id`/`server`, is skipped by the backend with at most
+  a log line, and tools then run ungated. Section 4 should load the real bundle once, and the
+  guard could check its shape.
+- Low: forcing `KILO_PURE=false` also loads every config plugin (a repo's
+  `.kilo/plugin/*.ts`) for a user who set `KILO_PURE=1`; refusing to start would match the
+  `KILO_CONFIG_CONTENT` rule.
+- Low: `NETIE_OPENVAULT_URL` is not validated before it goes into `KILO_CONFIG_CONTENT`; a
+  value that breaks `{env:}`/`{file:}` substitution drops the gate with a warning.
+- Low: with VS Code's `http.proxy` set, the loopback GateAsk can go through the proxy (fails
+  closed, but the ids reach the proxy).
+- Low: slash-command `!cmd` templates run before any plugin hook; the docs line "no setting
+  turns the gate off" overstates coverage.
+- Low: a non-empty `KILO_CONFIG_CONTENT` turns off the experimental Claude migration, and two
+  readers of `enableAutoTrigger` still fall back to true.
 
 ## 1. Read from code at the pin (file:line, not run)
 
