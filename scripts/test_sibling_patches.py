@@ -686,6 +686,15 @@ class SiblingPatchTests(unittest.TestCase):
             self.assertNotIn("WEB_TOOLS", body)
             self.assertNotIn("DISCOVERY_TOOLS", body)
             self.assertIn("run_tool_call", body)
+            # Founder ruling 2026-11-20: web_fetch runs inside the runner with
+            # Cortex's public-only guard forced, and only for the broker.
+            self.assertIn("agent_builtins=True", body)
+            runner = (dest / "CortexOS" / "execution" / "tool_runner.py").read_text(
+                encoding="utf-8"
+            )
+            self.assertIn('AGENT_BUILTINS = frozenset({"web_fetch"})', runner)
+            self.assertIn("web_tools.fetch(**kwargs, public_only=True)", runner)
+            self.assertIn("agent_builtins: bool = False", runner)
             test_py = dest / "tests" / "dms" / "test_broker_no_skip.py"
             self.assertTrue(test_py.is_file())
             src = test_py.read_text(encoding="utf-8")
@@ -714,7 +723,20 @@ class SiblingPatchTests(unittest.TestCase):
             query = (dest / "CortexOS" / "api" / "dms_query.py").read_text(
                 encoding="utf-8"
             )
-            self.assertIn('require_role("viewer")', query)
+            # Founder ruling 2026-11-20: /dms/query stays keyless. The route
+            # carries no auth dependency; the write routes in the same module
+            # and the chat routes stay gated. Run on Cortex's own stack, the
+            # patch's test_dms_query_stays_keyless proves the keyless answer.
+            self.assertIn(
+                '    @app.post("/dms/query", response_model=DMSQueryResponse)\n', query
+            )
+            self.assertNotIn('require_role("viewer")', query)
+            for route in ("propose-edit", "analyse-entry", "add-entry"):
+                self.assertIn(
+                    f'@app.post("/dms/{route}", '
+                    'dependencies=[Depends(require_role("steward"))])',
+                    query,
+                )
             # Cortex HEAD gates /run itself (TRUST-01): the route takes an injected
             # dependency, app.py injects require_spend_key, and that is a steward
             # check. Assert all three links, not a string in dag_run.py.
@@ -739,8 +761,15 @@ class SiblingPatchTests(unittest.TestCase):
                 encoding="utf-8"
             )
             self.assertIn('require_role("steward")', chat)
+            self.assertEqual(chat.count('Depends(require_role("steward"))'), 2)
+            self.assertEqual(chat.count('Depends(require_role("viewer"))'), 1)
             f7 = (dest / "tests" / "dms" / "test_f7_rbac.py").read_text(encoding="utf-8")
             self.assertIn("execute_modules_require_a_key", f7)
+            self.assertIn("def test_dms_query_stays_keyless", f7)
+            self.assertIn("res.status_code not in (401, 403)", f7)
+            self.assertNotIn(
+                'post("/dms/query", json={"question": "x"}).status_code == 401', f7
+            )
             path_py = (dest / "CortexOS" / "constitution" / "cortex_path.py").read_text(
                 encoding="utf-8"
             )
