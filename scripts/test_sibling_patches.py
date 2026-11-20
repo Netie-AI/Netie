@@ -595,6 +595,55 @@ class SiblingPatchTests(unittest.TestCase):
                 }
             )
             self.assertEqual(kept["items"][0]["title"], "acl wave")
+            # Past the budget the board degrades in the open. It does not go dark.
+            self.assertIn("fit_issue_board(payload)", sources)
+            page = (dest / "netie_control" / "render.py").read_text(encoding="utf-8")
+            self.assertEqual(page.count("Left out: "), 2)  # server body and page script
+            self.assertEqual(page.count("Withheld: "), 2)
+            for count in (40, 60, 100):
+                rows = [
+                    {
+                        "repo": "Netie-AI/Cortex",
+                        "number": n,
+                        "title": f"Board row {n:03d} ".ljust(64, "x"),
+                        "url": f"https://github.com/Netie-AI/Cortex/issues/{n}",
+                        "is_epic": False,
+                        "blocked": False,
+                        "assignees": [],
+                        "kind": "issue",
+                        "closed_at": "",
+                    }
+                    for n in range(1, count + 1)
+                ]
+                fitted = loaded.fit_issue_board({"items": rows, "unreachable": []})
+                shown = fitted["shown"]
+                self.assertEqual(fitted["fetched"], count)
+                self.assertEqual(shown + fitted["omitted"] + fitted["withheld"], count)
+                self.assertEqual(fitted["items"], rows[:shown])
+                self.assertIs(loaded.guard_issue_board(fitted), fitted)
+                if count == 40:
+                    self.assertEqual((shown, fitted["truncated"]), (40, False))
+                else:
+                    self.assertTrue(0 < shown < count)
+                    self.assertTrue(fitted["truncated"])
+                    # The strict gate is unchanged: unfitted, the same rows still refuse.
+                    with self.assertRaises(loaded.ControlDenied):
+                        loaded.guard_issue_board({"items": rows, "unreachable": []})
+            word = loaded.fit_issue_board(
+                {
+                    "items": [
+                        {"repo": "Netie-AI/dms", "number": 1, "title": "fix prompt cache"},
+                        {"repo": "Netie-AI/dms", "number": 2, "title": "acl wave"},
+                    ],
+                    "unreachable": [],
+                }
+            )
+            self.assertEqual((word["shown"], word["withheld"], word["omitted"]), (1, 1, 0))
+            self.assertNotIn("prompt", str(word["items"]))
+            with self.assertRaises(loaded.ControlDenied):
+                loaded.fit_issue_board(
+                    {"items": [{"id": "x", "transcript": "secret"}], "unreachable": []}
+                )
             skill_board = loaded.project_board(
                 crew_index={"skills": [{"id": "S-0004", "source": "netie-kb"}]},
                 ledger_peek=[],
