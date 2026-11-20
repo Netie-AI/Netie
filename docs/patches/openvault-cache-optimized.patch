@@ -80,11 +80,11 @@ index f28e83b..04ce077 100644
  )
  
  BreakerProfileName = Literal["oauth", "api_key", "local"]
-diff --git a/OpenMW/tests/test_route_strategies.py b/OpenMW/tests/test_route_strategies.py
-index 6dc1502..e2901cd 100644
---- a/OpenMW/tests/test_route_strategies.py
-+++ b/OpenMW/tests/test_route_strategies.py
-@@ -191,3 +191,15 @@ def test_reset_aware_limit_reached_last() -> None:
+diff --git a/OpenMW/tests/test_route_strategies_netie.py b/OpenMW/tests/test_route_strategies_netie.py
+index 6d347f2..71797f7 100644
+--- a/OpenMW/tests/test_route_strategies_netie.py
++++ b/OpenMW/tests/test_route_strategies_netie.py
+@@ -125,3 +125,15 @@ def test_reset_aware_limit_reached_last() -> None:
      ordered = apply_strategy("reset-aware", targets)
      assert ordered[-1].execution_key == "a"
      assert "a" not in [t.execution_key for t in ordered[:-1]]

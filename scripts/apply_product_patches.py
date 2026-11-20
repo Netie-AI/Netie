@@ -9,7 +9,7 @@ Clones SIBLING_PINS (the SHAs the patches were cut against), not live HEAD.
 Patches were re-cut on 2026-11-12; when a sibling moves, re-cut and move its pin.
 Order matches sibling `scripts/test_sibling_patches.py`, not the README
 "independent" crew-gate placement (crew-gate must land before crew-netie).
-Constructor extras `constructor-*-4896ddd.patch` stay out of the 26-stack.
+Constructor extras `constructor-*-4896ddd.patch` stay out of the 3-patch stack.
 Does not push. Does not vendor OpenWork or Grok Bot. Cortex never
 `uv add` Netie.git.
 """
@@ -30,33 +30,10 @@ PATCHES = ROOT / "docs" / "patches"
 _LOCAL_BIN = str(Path.home() / ".local" / "bin")
 os.environ["PATH"] = _LOCAL_BIN + os.pathsep + os.environ.get("PATH", "")
 
-CONSTRUCTOR_26: tuple[str, ...] = (
+CONSTRUCTOR_STACK: tuple[str, ...] = (
+    "constructor-core-strict-ir.patch",
+    "constructor-engine-core.patch",
     "constructor-compiler-tests.patch",
-    "constructor-empty-graph.patch",
-    "constructor-ir-refuse.patch",
-    "constructor-ir-ids.patch",
-    "constructor-ghost-refuse.patch",
-    "constructor-ir-emit.patch",
-    "constructor-tool-action.patch",
-    "constructor-inspect-action.patch",
-    "constructor-inspect-object.patch",
-    "constructor-inspect-tier.patch",
-    "constructor-chat-object.patch",
-    "constructor-topo-leftover.patch",
-    "constructor-ir-entry.patch",
-    "constructor-ir-output.patch",
-    "constructor-ir-object.patch",
-    "constructor-ir-bind.patch",
-    "constructor-ir-action-allow.patch",
-    "constructor-ir-intake.patch",
-    "constructor-ir-hitl.patch",
-    "constructor-ir-connected.patch",
-    "constructor-ir-note.patch",
-    "constructor-ir-cortex-post.patch",
-    "constructor-object-pick.patch",
-    "constructor-engine-order.patch",
-    "constructor-ir-post.patch",
-    "constructor-ir-kahn-nodes.patch",
 )
 
 CONSTRUCTOR_EXTRAS: tuple[str, ...] = (
@@ -132,7 +109,7 @@ STACKS: dict[str, Stack] = {
         repo="https://github.com/Netie-AI/constructor.git",
         branch="landing-9-first-path",
         pin=SIBLING_PINS["constructor"],
-        patches=CONSTRUCTOR_26,
+        patches=CONSTRUCTOR_STACK,
         verify=(["node", "--test", "tests/compiler.test.cjs"],),
         min_passed=62,
     ),
@@ -149,15 +126,19 @@ STACKS: dict[str, Stack] = {
                 "run",
                 "pytest",
                 "tests/test_route_strategies.py",
+                "tests/test_route_strategies_netie.py",
+                "tests/test_detect_stacks_tmp_path.py",
                 "tests/test_execution_shapes.py",
                 "tests/test_execution_chat.py",
                 "tests/test_freeroute_acceptance.py",
                 "tests/test_freeroute_metering.py",
+                "tests/test_freeroute_metering_strip.py",
                 "tests/test_crew_gate.py",
                 "tests/test_crew_netie_gate.py",
                 "tests/test_ship_netie_claim.py",
                 "tests/test_free_pool.py",
                 "tests/test_free_pool_route.py",
+                "tests/test_access_routing.py",
                 "-q",
                 "--tb=line",
             ],
@@ -199,9 +180,20 @@ STACKS: dict[str, Stack] = {
             [
                 "pytest",
                 "tests/test_netie_acl.py",
+                "tests/test_netie_acl_paths.py",
                 "tests/test_space_acl_boundary.py",
                 "tests/test_live_ask.py",
                 "-q",
+            ],
+            # dms CI (.github/workflows/ci.yml): the same two commands.
+            ["ruff", "check", "apps", "packages", "tests"],
+            [
+                "mypy",
+                "apps/api/dms_api",
+                "packages/core/dms_core",
+                "packages/cortex_client/cortex_client",
+                "packages/executor/dms_executor",
+                "packages/ledger/dms_ledger",
             ],
         ),
     ),
@@ -231,7 +223,7 @@ STACKS: dict[str, Stack] = {
                 "-q",
             ],
         ),
-        min_passed=51,
+        min_passed=149,
     ),
     "kb": Stack(
         repo="https://github.com/Netie-AI/Netie-KB.git",

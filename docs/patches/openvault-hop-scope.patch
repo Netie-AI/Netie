@@ -64,10 +64,10 @@ index 9ac0289..47c0231 100644
  
  def user_text_from_body(body: dict[str, Any] | None) -> str:
 diff --git a/OpenMW/openmw/openvault/vault/proxy.py b/OpenMW/openmw/openvault/vault/proxy.py
-index 6a47b4b..cb7a825 100644
+index 937df51..582fd4c 100644
 --- a/OpenMW/openmw/openvault/vault/proxy.py
 +++ b/OpenMW/openmw/openvault/vault/proxy.py
-@@ -481,9 +481,11 @@ def _run_execution_shape(
+@@ -1360,9 +1360,11 @@ def _run_execution_shape(
      combo = body.get("combo") if isinstance(body.get("combo"), dict) else {}
      models = combo_models_from_body(body)
      caller_handoff = relay_handoff_from_body(body)
@@ -83,10 +83,10 @@ index 6a47b4b..cb7a825 100644
          text = dispatch_combo(
              shape,
 diff --git a/OpenMW/tests/test_execution_chat.py b/OpenMW/tests/test_execution_chat.py
-index 0f18873..5ce82d0 100644
+index 025c243..3511cec 100644
 --- a/OpenMW/tests/test_execution_chat.py
 +++ b/OpenMW/tests/test_execution_chat.py
-@@ -528,6 +528,53 @@ def test_v1_context_relay_persists_caller_handoff(
+@@ -532,6 +532,53 @@ def test_v1_context_relay_persists_caller_handoff(
      assert user.endswith("again")
  
  

@@ -69,11 +69,20 @@ index e89149b..e4088fd 100644
 +            # OmniRoute clearLKGP: do not keep a just-failed key first.
 +            self.last_success_key = None
          m.total_latency_ms += max(0.0, latency_ms)
-diff --git a/OpenMW/tests/test_route_strategies.py b/OpenMW/tests/test_route_strategies.py
-index bb4ca6b..3623399 100644
---- a/OpenMW/tests/test_route_strategies.py
-+++ b/OpenMW/tests/test_route_strategies.py
-@@ -98,3 +98,24 @@ def test_strict_random_remainder_is_permutation() -> None:
+diff --git a/OpenMW/tests/test_route_strategies_netie.py b/OpenMW/tests/test_route_strategies_netie.py
+index 5f19a76..59cc9b6 100644
+--- a/OpenMW/tests/test_route_strategies_netie.py
++++ b/OpenMW/tests/test_route_strategies_netie.py
+@@ -7,7 +7,7 @@ from __future__ import annotations
+ 
+ from openmw.openvault.route.rr_state import reset_decks
+ from openmw.openvault.route.strategies import apply_strategy
+-from openmw.openvault.route.types import RouteTarget
++from openmw.openvault.route.types import ComboMetrics, RouteTarget
+ 
+ 
+ def _targets() -> list[RouteTarget]:
+@@ -32,3 +32,24 @@ def test_strict_random_remainder_is_permutation() -> None:
      reset_decks()
      ordered = apply_strategy("strict-random", _targets(), combo_name="sr2")
      assert sorted(t.execution_key for t in ordered) == ["a", "b", "c"]

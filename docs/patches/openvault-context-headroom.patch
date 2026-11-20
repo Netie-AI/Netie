@@ -88,11 +88,11 @@ index e4088fd..6ea9de3 100644
  
  
  @dataclass
-diff --git a/OpenMW/tests/test_route_strategies.py b/OpenMW/tests/test_route_strategies.py
-index 3623399..12d5285 100644
---- a/OpenMW/tests/test_route_strategies.py
-+++ b/OpenMW/tests/test_route_strategies.py
-@@ -119,3 +119,34 @@ def test_lkgp_failure_of_sticky_clears_pin() -> None:
+diff --git a/OpenMW/tests/test_route_strategies_netie.py b/OpenMW/tests/test_route_strategies_netie.py
+index 59cc9b6..81a5444 100644
+--- a/OpenMW/tests/test_route_strategies_netie.py
++++ b/OpenMW/tests/test_route_strategies_netie.py
+@@ -53,3 +53,34 @@ def test_lkgp_failure_of_sticky_clears_pin() -> None:
      ordered = apply_strategy("lkgp", _targets(), metrics=metrics)
      assert [t.execution_key for t in ordered] == ["a", "b", "c"]
      assert metrics.last_success_key is None

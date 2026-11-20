@@ -1,5 +1,5 @@
 diff --git a/OpenMW/openmw/openvault/route/execution.py b/OpenMW/openmw/openvault/route/execution.py
-index c66b682e..972ed671 100644
+index c66b682..972ed67 100644
 --- a/OpenMW/openmw/openvault/route/execution.py
 +++ b/OpenMW/openmw/openvault/route/execution.py
 @@ -127,6 +127,68 @@ def unported_http(
@@ -72,7 +72,7 @@ index c66b682e..972ed671 100644
      if not isinstance(tools, list) or not tools:
          return False
 diff --git a/OpenMW/openmw/openvault/vault/budget.py b/OpenMW/openmw/openvault/vault/budget.py
-index 6ea5a3ce..34fd4fef 100644
+index 6ea5a3c..34fd4fe 100644
 --- a/OpenMW/openmw/openvault/vault/budget.py
 +++ b/OpenMW/openmw/openvault/vault/budget.py
 @@ -40,6 +40,7 @@ from typing import Any
@@ -93,7 +93,7 @@ index 6ea5a3ce..34fd4fef 100644
      window = context_window_for(provider, model)
  
 diff --git a/OpenMW/openmw/openvault/vault/proxy.py b/OpenMW/openmw/openvault/vault/proxy.py
-index f7f047cf..476fd133 100644
+index f7f047c..476fd13 100644
 --- a/OpenMW/openmw/openvault/vault/proxy.py
 +++ b/OpenMW/openmw/openvault/vault/proxy.py
 @@ -22,6 +22,7 @@ from openmw.openvault.route.execution import (
@@ -127,7 +127,7 @@ index f7f047cf..476fd133 100644
      if unported:
          trace.error_type = "openvault_unported"
 diff --git a/OpenMW/tests/test_execution_chat.py b/OpenMW/tests/test_execution_chat.py
-index 22dfcbb5..c33fbcab 100644
+index 22dfcbb..c33fbca 100644
 --- a/OpenMW/tests/test_execution_chat.py
 +++ b/OpenMW/tests/test_execution_chat.py
 @@ -137,6 +137,44 @@ def test_v1_parallel_is_501_not_key_walk(
@@ -176,7 +176,7 @@ index 22dfcbb5..c33fbcab 100644
      vault: KeyVault, monkeypatch: pytest.MonkeyPatch, tmp_path: Path
  ) -> None:
 diff --git a/OpenMW/tests/test_execution_shapes.py b/OpenMW/tests/test_execution_shapes.py
-index 8112d162..2223b607 100644
+index 8112d16..2223b60 100644
 --- a/OpenMW/tests/test_execution_shapes.py
 +++ b/OpenMW/tests/test_execution_shapes.py
 @@ -34,6 +34,8 @@ from openmw.openvault.route.execution import (
@@ -217,34 +217,36 @@ index 8112d162..2223b607 100644
  def test_route_api_quota_share_is_501() -> None:
      reset_route_state()
      app = FastAPI()
-diff --git a/OpenMW/tests/test_freeroute_metering.py b/OpenMW/tests/test_freeroute_metering.py
-index 68aa3e9f..72a4b47b 100644
---- a/OpenMW/tests/test_freeroute_metering.py
-+++ b/OpenMW/tests/test_freeroute_metering.py
-@@ -606,6 +606,26 @@ class TestBudgetResolution:
-         assert "max_tokens" not in decision.body
-         assert decision.body["max_completion_tokens"] == 2000
- 
-+    def test_hop_body_does_not_forward_combo_or_skill_body(self) -> None:
-+        from openmw.openvault.vault.budget import prepare_hop_body
+diff --git a/OpenMW/tests/test_freeroute_metering_strip.py b/OpenMW/tests/test_freeroute_metering_strip.py
+new file mode 100644
+index 0000000..ecff06d
+--- /dev/null
++++ b/OpenMW/tests/test_freeroute_metering_strip.py
+@@ -0,0 +1,27 @@
++"""Hop-body strip test added by Netie patches.
 +
-+        decision = prepare_hop_body(
-+            {
-+                "messages": [{"role": "user", "content": "hi"}],
-+                "max_tokens": 16,
-+                "combo": {"strategy": "fusion", "handoff": {"summary": "SECRET"}},
-+                "skill_body": "LEAK",
-+            },
-+            provider="openai",
-+            model="gpt-4o",
-+        )
-+        assert decision.body is not None
-+        assert "combo" not in decision.body
-+        assert "skill_body" not in decision.body
-+        assert decision.body["messages"][0]["content"] == "hi"
-+        assert decision.body["max_tokens"] == 16
-+        assert decision.body["model"] == "gpt-4o"
++OpenVault's own tests/test_freeroute_metering.py is left as the sibling wrote it.
++"""
 +
-     def test_the_tightest_budget_wins(self) -> None:
-         """First-match-wins widened a deliberate 100 cap to 8000."""
-         from openmw.openvault.vault.budget import prepare_hop_body
++from __future__ import annotations
++
++
++def test_hop_body_does_not_forward_combo_or_skill_body() -> None:
++    from openmw.openvault.vault.budget import prepare_hop_body
++
++    decision = prepare_hop_body(
++        {
++            "messages": [{"role": "user", "content": "hi"}],
++            "max_tokens": 16,
++            "combo": {"strategy": "fusion", "handoff": {"summary": "SECRET"}},
++            "skill_body": "LEAK",
++        },
++        provider="openai",
++        model="gpt-4o",
++    )
++    assert decision.body is not None
++    assert "combo" not in decision.body
++    assert "skill_body" not in decision.body
++    assert decision.body["messages"][0]["content"] == "hi"
++    assert decision.body["max_tokens"] == 16
++    assert decision.body["model"] == "gpt-4o"

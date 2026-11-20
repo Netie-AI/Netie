@@ -46,10 +46,10 @@ index d7ecfa0..2652682 100644
      if not isinstance(body, dict):
          return ""
 diff --git a/OpenMW/openmw/openvault/vault/proxy.py b/OpenMW/openmw/openvault/vault/proxy.py
-index 31c69a3..6dc05d6 100644
+index eeb675d..616dcf1 100644
 --- a/OpenMW/openmw/openvault/vault/proxy.py
 +++ b/OpenMW/openmw/openvault/vault/proxy.py
-@@ -21,6 +21,8 @@ from openmw.openvault.route.execution import (
+@@ -25,6 +25,8 @@ from openmw.openvault.route.execution import (
      dispatch_combo,
      extract_assistant_text,
      hop_call_model,
@@ -58,7 +58,7 @@ index 31c69a3..6dc05d6 100644
      shape_from_chat_body,
      sse_wrap_text,
      user_text_from_body,
-@@ -456,6 +458,8 @@ def _run_execution_shape(
+@@ -1335,6 +1337,8 @@ def _run_execution_shape(
              tools=body.get("tools"),
              tool_choice=body.get("tool_choice"),
              judge_model=combo.get("judgeModel") or combo.get("judge_model"),
@@ -68,10 +68,10 @@ index 31c69a3..6dc05d6 100644
      except ExecutionRefused as exc:
          if "non-retryable" in exc.message:
 diff --git a/OpenMW/tests/test_execution_chat.py b/OpenMW/tests/test_execution_chat.py
-index be0760a..c6e9852 100644
+index 76aae9f..a7e3774 100644
 --- a/OpenMW/tests/test_execution_chat.py
 +++ b/OpenMW/tests/test_execution_chat.py
-@@ -414,3 +414,91 @@ def test_v1_stream_500_falls_through_to_sse(
+@@ -418,3 +418,91 @@ def test_v1_stream_500_falls_through_to_sse(
      assert mock.send.call_count == 2
  
  

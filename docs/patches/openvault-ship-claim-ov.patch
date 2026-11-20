@@ -1,8 +1,8 @@
 diff --git a/OpenMW/openmw/openvault/app.py b/OpenMW/openmw/openvault/app.py
-index f5a5faf8..4138ef58 100644
+index 3222c0c..494e8ec 100644
 --- a/OpenMW/openmw/openvault/app.py
 +++ b/OpenMW/openmw/openvault/app.py
-@@ -929,6 +929,9 @@ class ShipEngineBody(BaseModel):
+@@ -918,6 +918,9 @@ class ShipEngineBody(BaseModel):
      #: exactly one of key_id / secret_id. Spaceship writes them to a
      #: non-public FTP dir only (SPACESHIP_FTP_ENV_DIR != SPACESHIP_FTP_DIR).
      secrets: list[dict[str, str]] = Field(default_factory=list)
@@ -12,7 +12,7 @@ index f5a5faf8..4138ef58 100644
  
  
  class ShipPreflightBody(BaseModel):
-@@ -3026,18 +3029,33 @@ def create_app(
+@@ -2960,18 +2963,33 @@ def create_app(
              request=request,
          )
          try:
@@ -59,7 +59,7 @@ index f5a5faf8..4138ef58 100644
              raise HTTPException(
                  status_code=409,
 diff --git a/OpenMW/openmw/openvault/ship/engine.py b/OpenMW/openmw/openvault/ship/engine.py
-index 27c7b059..680c7b32 100644
+index 27c7b05..680c7b3 100644
 --- a/OpenMW/openmw/openvault/ship/engine.py
 +++ b/OpenMW/openmw/openvault/ship/engine.py
 @@ -543,6 +543,9 @@ def run_ship_engine(
@@ -130,7 +130,7 @@ index 27c7b059..680c7b32 100644
              last = steps[-1]
              steps[-1] = EngineStep(
 diff --git a/OpenMW/openmw/openvault/ship/netie_claim.py b/OpenMW/openmw/openvault/ship/netie_claim.py
-index 30bcf8e4..9c4be944 100644
+index 30bcf8e..9c4be94 100644
 --- a/OpenMW/openmw/openvault/ship/netie_claim.py
 +++ b/OpenMW/openmw/openvault/ship/netie_claim.py
 @@ -6,21 +6,75 @@ from netie.route import report_deploy
@@ -231,7 +231,7 @@ index 30bcf8e4..9c4be944 100644
 +            kw["child_id"] = child_id
 +    return report_deploy(**kw)
 diff --git a/OpenMW/tests/test_ship_netie_claim.py b/OpenMW/tests/test_ship_netie_claim.py
-index f965282c..49e634a4 100644
+index f965282..49e634a 100644
 --- a/OpenMW/tests/test_ship_netie_claim.py
 +++ b/OpenMW/tests/test_ship_netie_claim.py
 @@ -42,3 +42,77 @@ def test_simulated_is_not_ht1() -> None:

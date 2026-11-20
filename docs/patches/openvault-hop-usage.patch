@@ -1,8 +1,8 @@
 diff --git a/OpenMW/openmw/openvault/vault/proxy.py b/OpenMW/openmw/openvault/vault/proxy.py
-index 7325c40..597ef89 100644
+index ec1dcd7..e89ca44 100644
 --- a/OpenMW/openmw/openvault/vault/proxy.py
 +++ b/OpenMW/openmw/openvault/vault/proxy.py
-@@ -232,6 +232,7 @@ def _run_execution_shape(
+@@ -1119,6 +1119,7 @@ def _run_execution_shape(
      stream_holder: dict[str, AsyncIterator[bytes]] = {}
      stream_hold = "\x1eopenvault-stream-hold\x1e"
      served: dict[str, str] = {}
@@ -10,7 +10,7 @@ index 7325c40..597ef89 100644
  
      def _mark_served(key_id: str, provider: str, resolved: str) -> None:
          # Last successful hop, not "dispatch".
-@@ -239,6 +240,12 @@ def _run_execution_shape(
+@@ -1126,6 +1127,12 @@ def _run_execution_shape(
          served["provider"] = provider
          served["model"] = resolved
  
@@ -23,7 +23,7 @@ index 7325c40..597ef89 100644
      def _flush_served() -> None:
          if served.get("vault_key_id"):
              trace.note_served(
-@@ -460,9 +467,11 @@ def _run_execution_shape(
+@@ -1339,9 +1346,11 @@ def _run_execution_shape(
          if outcome.job == "dead":
              raise ExecutionRefused(400, "request rejected by upstream (non-retryable)")
          if outcome.attempt_class == "success":
@@ -36,7 +36,7 @@ index 7325c40..597ef89 100644
              return text
          return ""
  
-@@ -533,7 +542,7 @@ def _run_execution_shape(
+@@ -1412,7 +1421,7 @@ def _run_execution_shape(
              }
          }
      _flush_served()
@@ -45,7 +45,7 @@ index 7325c40..597ef89 100644
          "id": "ov-dispatch",
          "object": "chat.completion",
          "choices": [
-@@ -543,6 +552,9 @@ def _run_execution_shape(
+@@ -1422,6 +1431,9 @@ def _run_execution_shape(
              }
          ],
      }
@@ -56,7 +56,7 @@ index 7325c40..597ef89 100644
  
  async def chat_completions(
 diff --git a/OpenMW/tests/test_execution_chat.py b/OpenMW/tests/test_execution_chat.py
-index b5c73be..c14f089 100644
+index 6d335bb..9ec5b69 100644
 --- a/OpenMW/tests/test_execution_chat.py
 +++ b/OpenMW/tests/test_execution_chat.py
 @@ -40,8 +40,12 @@ def _client(vault: KeyVault, tmp_path: Path, monkeypatch: pytest.MonkeyPatch) ->
@@ -74,7 +74,7 @@ index b5c73be..c14f089 100644
      resp = MagicMock()
      resp.status_code = 200
      resp.text = '{"ok":true}'
-@@ -540,6 +544,7 @@ def test_v1_fusion_usage_names_the_hop_that_served(
+@@ -544,6 +548,7 @@ def test_v1_fusion_usage_names_the_hop_that_served(
      assert row["provider"] != "dispatch"
      assert row["model_requested"] == "auto"
      assert row["model_served"] == "gpt-4o-mini"
@@ -82,7 +82,7 @@ index b5c73be..c14f089 100644
  
  
  def test_v1_failover_usage_names_the_winning_key(
-@@ -585,5 +590,56 @@ def test_v1_failover_usage_names_the_winning_key(
+@@ -589,5 +594,56 @@ def test_v1_failover_usage_names_the_winning_key(
      assert events[0]["provider"] != "dispatch"
  
  

@@ -1,8 +1,8 @@
 diff --git a/OpenMW/openmw/openvault/app.py b/OpenMW/openmw/openvault/app.py
-index b2a1e4e..24543d0 100644
+index 9ec1e9c..3222c0c 100644
 --- a/OpenMW/openmw/openvault/app.py
 +++ b/OpenMW/openmw/openvault/app.py
-@@ -1229,6 +1229,38 @@ def create_app(
+@@ -1796,6 +1796,38 @@ def create_app(
          """Uptime for this process and every mesh surface. ``up: null`` = unprobed."""
          return uptime_payload()
  

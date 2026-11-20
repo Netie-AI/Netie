@@ -111,10 +111,10 @@ index 2652682..60797d7 100644
      if not isinstance(body, dict):
          return ""
 diff --git a/OpenMW/openmw/openvault/vault/proxy.py b/OpenMW/openmw/openvault/vault/proxy.py
-index 597ef89..6a47b4b 100644
+index e89ca44..937df51 100644
 --- a/OpenMW/openmw/openvault/vault/proxy.py
 +++ b/OpenMW/openmw/openvault/vault/proxy.py
-@@ -21,8 +21,11 @@ from openmw.openvault.route.execution import (
+@@ -25,8 +25,11 @@ from openmw.openvault.route.execution import (
      dispatch_combo,
      extract_assistant_text,
      hop_call_model,
@@ -126,7 +126,7 @@ index 597ef89..6a47b4b 100644
      shape_from_chat_body,
      sse_wrap_text,
      user_text_from_body,
-@@ -477,6 +480,10 @@ def _run_execution_shape(
+@@ -1356,6 +1359,10 @@ def _run_execution_shape(
  
      combo = body.get("combo") if isinstance(body.get("combo"), dict) else {}
      models = combo_models_from_body(body)
@@ -137,7 +137,7 @@ index 597ef89..6a47b4b 100644
      try:
          text = dispatch_combo(
              shape,
-@@ -488,7 +495,7 @@ def _run_execution_shape(
+@@ -1367,7 +1374,7 @@ def _run_execution_shape(
              tool_choice=body.get("tool_choice"),
              judge_model=combo.get("judgeModel") or combo.get("judge_model"),
              available=relay_available_from_body(body),
@@ -147,7 +147,7 @@ index 597ef89..6a47b4b 100644
      except ExecutionRefused as exc:
          if "non-retryable" in exc.message:
 diff --git a/OpenMW/tests/test_execution_chat.py b/OpenMW/tests/test_execution_chat.py
-index c14f089..276ffba 100644
+index 9ec5b69..096cdfc 100644
 --- a/OpenMW/tests/test_execution_chat.py
 +++ b/OpenMW/tests/test_execution_chat.py
 @@ -12,6 +12,7 @@ from fastapi.testclient import TestClient
@@ -169,7 +169,7 @@ index c14f089..276ffba 100644
  
  
  @pytest.fixture()
-@@ -478,6 +481,53 @@ def test_v1_context_relay_injects_handoff(
+@@ -482,6 +485,53 @@ def test_v1_context_relay_injects_handoff(
      assert "keep going" in user
  
  

@@ -10,46 +10,30 @@ python3 scripts/apply_product_patches.py --product pointer --repo /path/to/Point
 python3 scripts/apply_product_patches.py --all --skip-tests
 ```
 
-`--push` is refused. `--all` clones `SIBLING_PINS` (constructor `bfc7d3b`, OpenVault `3ba51cd`, Cortex `304bf84`, dms `ebe65cc`, Pointer `b42b98d`, control `93959c6`, KB `10356e5`), not live HEAD. Patches were re-cut on those pins on 2026-11-12; when a sibling moves, re-cut the lane and move its pin. Constructor extras `constructor-*-4896ddd.patch` stay out of `--all` (do not mix with the 26). OpenVault `crew-gate` lands before `crew-netie` (README's independent block is not apply order). Cortex never `uv add` Netie.git.
+`--push` is refused. `--all` clones `SIBLING_PINS` (constructor `bfc7d3b`, OpenVault `3ba51cd`, Cortex `304bf84`, dms `ebe65cc`, Pointer `b42b98d`, control `93959c6`, KB `10356e5`), not live HEAD. Patches were re-cut on those pins on 2026-11-12; when a sibling moves, re-cut the lane and move its pin. Constructor extras `constructor-*-4896ddd.patch` stay out of `--all` (do not mix with the 3). OpenVault `crew-gate` lands before `crew-netie` (README's independent block is not apply order). Cortex never `uv add` Netie.git.
 
 ## Constructor (`Netie-AI/constructor`)
 
-From the constructor repo root, on `landing-9-first-path`:
+From the constructor repo root, on `landing-9-first-path` at `bfc7d3b`:
 
 ```
+git apply docs/patches/constructor-core-strict-ir.patch
+git apply docs/patches/constructor-engine-core.patch
 git apply docs/patches/constructor-compiler-tests.patch
-git apply docs/patches/constructor-empty-graph.patch
-git apply docs/patches/constructor-ir-refuse.patch
-git apply docs/patches/constructor-ir-ids.patch
-git apply docs/patches/constructor-ghost-refuse.patch
-git apply docs/patches/constructor-ir-emit.patch
-git apply docs/patches/constructor-tool-action.patch
-git apply docs/patches/constructor-inspect-action.patch
-git apply docs/patches/constructor-inspect-object.patch
-git apply docs/patches/constructor-inspect-tier.patch
-git apply docs/patches/constructor-chat-object.patch
-git apply docs/patches/constructor-topo-leftover.patch
-git apply docs/patches/constructor-ir-entry.patch
-git apply docs/patches/constructor-ir-output.patch
-git apply docs/patches/constructor-ir-object.patch
-git apply docs/patches/constructor-ir-bind.patch
-git apply docs/patches/constructor-ir-action-allow.patch
-git apply docs/patches/constructor-ir-intake.patch
-git apply docs/patches/constructor-ir-hitl.patch
-git apply docs/patches/constructor-ir-connected.patch
-git apply docs/patches/constructor-ir-note.patch
-git apply docs/patches/constructor-ir-cortex-post.patch
-git apply docs/patches/constructor-object-pick.patch
-git apply docs/patches/constructor-engine-order.patch
-git apply docs/patches/constructor-ir-post.patch
-git apply docs/patches/constructor-ir-kahn-nodes.patch
 node --test tests/compiler.test.cjs
 ```
 
-Adds `rankForKinds`, empty-graph IR (no invented Cortex nodes), refuse unknown kinds / cycles / dangling edges / missing ids / duplicate ids, `ghostWalk` that refuses those instead of walking a fake order, `EMIT` only on app/audit output (connector-only does not invent EMIT), unlabeled `tool_call` does not invent `export_pptx` (compileIR refuses; inspect shows `(pick)` not a silent first-choice), unlabeled object does not invent `inventory`, unlabeled tier does not invent `T0` (compileIR emits null; inspect shows `(pick)`), unlabeled `set point` does not invent `inventory`, picking `object_type` does not invent the first `data_point` (`sku`; inspect stays `(pick)`; `compileIR` still drops an unlabeled point), `index.html` loads `engine.js` before `app.js` (`listedOrEmpty` / `applyObjectType` exist on first paint; `bindWhenReady` waits for `window.Constructor`), `topo()` does not append leftover cyclic nodes, `compileIR` entry is the Kahn source not `nodes[0]`, `compileIR` output is the Kahn sink app (or unique Kahn sink when no app/audit) not array-last, `compileIR` drops unlisted `object_type` (`hr_notes` / `Insight` do not become Cortex ontology), `fetch_from` must name the node's listed object (not `warehouse.hr_notes` on inventory), `data_point` must be on that object (not `salary` on inventory), `tool_call` unknown action (`bash`) refuses, unlisted action on a non-tool node is dropped, `export_pptx` / `item.intake` / `amend.apply` / `call_action` on foundry set `requires_confirm` (`agent.checked` stays an event), disconnected graphs refuse (two workflows are not one IR), a fork with no app refuses (`ambiguous output`; a join still emits the app), canvas notes do not ride into Cortex IR (a `skill_body` / prompt / transcript note refuses; notes over DitchContext 12k refuse), ghost/run/fetch/recommend POST `cortexPayload` (compiled IR in Kahn order, not canvas array order; leaked/disconnected graphs do not leave the machine), node `--test`, and a compiler step in the existing `.github/workflows/test.yml`.
-Measured on this VM 2026-11-12 against `landing-9-first-path` at `bfc7d3b`: 62 passed. Re-cut for the sibling's `core/constructor.js` split. **Open decision:** `constructor-engine-order.patch` reverses the sibling's own script-order test in `tests/pages-honesty.test.js`, and the strict compiler now sits in `engine.js` beside the sibling's `Core.compileIR`. The compiled-IR POST is not verified against a Cortex mount. The stack is all 26 or nothing.
+Re-cut 2 (2026-11-20) replaced the 26-patch all-or-nothing stack with 3. The compiler is the constructor repo's own `core/constructor.js`. Our checks are added there behind `compileIR(state, { strict: true })`, `topo(state, { strict: true })` and two new functions, `walkIR` and `cortexPayload`. Without `strict`, `compileIR`, `topo` and `ghostWalk` behave as at the pin. No second compiler lives in `engine.js`. No sibling-written test is edited, and the page keeps the sibling's load order (core, canvas, engine).
 
-Optional thinner stack (do **not** mix with the 26): `constructor-ir-4896ddd.patch` then `constructor-inspect-4896ddd.patch`. Portable Python IR is `scripts/constructor_ir.py` (`from netie.route import compile_ir`).
+- `constructor-core-strict-ir.patch`: `core/constructor.js` only. Stands alone and changes nothing for the sibling's callers. Strict mode refuses an empty graph, unknown kinds, dangling edges, cycles, missing or duplicate ids, a disconnected graph, a fork with no app (`ambiguous output`), an unlabeled or unlisted `tool_call` action, and a note that carries `skill_body` / prompt / transcript / key text or runs over DitchContext 12k. It compiles only listed `object_type`, `data_point`, `data_type`, `action_type`, `fetch_from` and `tier` (an unlisted value is `null`, never invented: no `T0`, no `export_pptx`, no `inventory`). The entry is the Kahn source, the output is the Kahn sink app (or the one sink), notes never ride into the IR, `export_pptx` / `item.intake` / `amend.apply` / `call_action` set `requires_confirm` and `agent.checked` stays an event. It also exports `rankForKinds`, `listedOrEmpty`, `listedOptions`, `objectForSetPoint`, `applyObjectType`, `nodesWithoutNotes`, `walkIR` and `cortexPayload`.
+- `constructor-engine-core.patch`: needs the first. `engine.js` calls the strict compiler with the canvas catalog (`canvasState`), ghost / run / fetch / recommend POST `cortexPayload` (compiled IR in Kahn order; a refused graph does not leave the machine), `set point` does not invent `inventory`, and `bindWhenReady` lets the file load in Node. `app.js` adds `amend.apply` / `call_action` to the action list and its pickers show `(pick)` instead of inventing the first object, point, action or tier.
+- `constructor-compiler-tests.patch`: needs both. Adds `tests/compiler.test.cjs` and a compiler step in `.github/workflows/test.yml`.
+
+Measured 2026-11-20 on fresh clones of `landing-9-first-path` at `bfc7d3b`, unpatched and patched: `node --test tests/compiler.test.cjs` 62 passed; `node --test tests/*.test.js tests/unit/*.test.js` 118 passed, 0 failed both ways, same test names; `node scripts/check-laws.js` passes both ways; the Playwright suite (`tests/e2e`, 52 tests) 52 passed both ways. The patched tree changes 5 files (`.github/workflows/test.yml`, `app.js`, `core/constructor.js`, `engine.js`, new `tests/compiler.test.cjs`) and none of the 20 files the constructor repo wrote under `tests/`. Playwright ran as the preinstalled 1.63.0 runner, not the repo's pinned 1.56.1. The compiled-IR POST is not verified against a Cortex mount.
+
+**Open decision (founder):** strict is opt-in, not the default. The constructor repo's `tests/constructor.test.js` pins `compileIR(state).nodes[app].action_type === "emit"`, and its own `fdeSample()` sets it. Strict mode drops an unlisted action on a non-tool node (the gate's `unlisted action_type on a non-tool node is dropped` asserts that exact input). Both cannot be the default without editing one of the two tests, so the memo is in `docs/subagents_findings/2026-11-20-recut2-constructor.md` (D1).
+
+Optional thinner stack (do **not** mix with the 3): `constructor-ir-4896ddd.patch` then `constructor-inspect-4896ddd.patch`. Portable Python IR is `scripts/constructor_ir.py` (`from netie.route import compile_ir`).
 
 ## OpenVault (`Netie-AI/OpenVault`)
 
@@ -57,15 +41,17 @@ From the OpenVault repo root, on `main`:
 
 ```
 git apply docs/patches/openvault-detect-stacks.patch
-cd OpenMW && uv run pytest tests/test_detect_stacks.py -q
+cd OpenMW && uv run pytest tests/test_detect_stacks.py tests/test_detect_stacks_tmp_path.py -q
 ```
+
+No patch in this stack edits a test file OpenVault wrote (rule 1 of `DR-PROPOSED-parked-patches-yield-to-sibling-tests.md`). Tests the patches add live in new files: `test_detect_stacks_tmp_path.py`, `test_route_strategies_netie.py`, `test_freeroute_metering_strip.py` (the commands below name both the sibling file and ours). The gate asserts the stack only adds files under any `tests/` dir.
 
 Also, in this order (lkgp edits StrategyName after strict-random):
 
 ```
 git apply docs/patches/openvault-strict-random.patch
 git apply docs/patches/openvault-lkgp.patch
-cd OpenMW && uv run pytest tests/test_route_strategies.py -q
+cd OpenMW && uv run pytest tests/test_route_strategies.py tests/test_route_strategies_netie.py -q
 ```
 
 Adds `strict-random` (9th) then `lkgp` (10th of 19 OmniRoute user-facing strategies). LKGP stickies the last *successful* `execution_key` and clears that pin on a later failure of the same key. Not OmniRoute SQLite provider+connection.
@@ -74,7 +60,7 @@ Then:
 
 ```
 git apply docs/patches/openvault-context-headroom.patch
-cd OpenMW && uv run pytest tests/test_route_strategies.py -q
+cd OpenMW && uv run pytest tests/test_route_strategies.py tests/test_route_strategies_netie.py -q
 ```
 
 Adds `context-optimized` (11th: largest known `context_window` first; no model catalog) and `headroom` (12th: `1 - max(util_5h, util_7d)`; missing util = full headroom; no provider quota fetch).
@@ -83,7 +69,7 @@ Then:
 
 ```
 git apply docs/patches/openvault-reset-window.patch
-cd OpenMW && uv run pytest tests/test_route_strategies.py -q
+cd OpenMW && uv run pytest tests/test_route_strategies.py tests/test_route_strategies_netie.py -q
 ```
 
 Adds `reset-window` (13th: soonest `reset_remaining_ms` first; unknown last; no quota fetch; tie-band rotation not ported).
@@ -92,7 +78,7 @@ Then:
 
 ```
 git apply docs/patches/openvault-reset-aware.patch
-cd OpenMW && uv run pytest tests/test_route_strategies.py -q
+cd OpenMW && uv run pytest tests/test_route_strategies.py tests/test_route_strategies_netie.py -q
 ```
 
 Adds `reset-aware` (14th: session/weekly remaining mixed with reset-pressure; missing reset remaining => urgency 0, remaining-only; OmniRoute uses 0.5 there; `limit_reached` last).
@@ -101,7 +87,7 @@ Then:
 
 ```
 git apply docs/patches/openvault-cache-optimized.patch
-cd OpenMW && uv run pytest tests/test_route_strategies.py -q
+cd OpenMW && uv run pytest tests/test_route_strategies.py tests/test_route_strategies_netie.py -q
 ```
 
 Adds `cache-optimized` (15th: SHA-256 rendezvous of caller `cache_key` onto connection/execution identity; empty key leaves order; no prefix analyzer, no OAuth occupancy). Measured on this VM 2026-08-27: 22 passed. Push 403.
@@ -110,7 +96,7 @@ Then:
 
 ```
 git apply docs/patches/openvault-execution-shapes.patch
-cd OpenMW && uv run pytest tests/test_route_strategies.py tests/test_execution_shapes.py -q
+cd OpenMW && uv run pytest tests/test_route_strategies.py tests/test_route_strategies_netie.py tests/test_execution_shapes.py -q
 ```
 
 Adds the last 4 OmniRoute *names* as execution shapes, not sorts: `fusion` (panel + judge), `pipeline` (sequential thread), `context-relay` (first available + warning-band handoff), `auto` (must resolve to a sort). `apply_strategy` raises `StrategyNotASort`. PUT `/api/route/strategy` returns 400. Chat `/v1` is not wired to `run_fusion`. No autoCombo engine, no Codex quota fetch, no quorum-grace timers. Measured 2026-08-27: 35 passed. Push 403.
@@ -119,7 +105,7 @@ Then:
 
 ```
 git apply docs/patches/openvault-chat-dispatch.patch
-cd OpenMW && uv run pytest tests/test_route_strategies.py tests/test_execution_shapes.py tests/test_execution_chat.py tests/test_freeroute_acceptance.py -q
+cd OpenMW && uv run pytest tests/test_route_strategies.py tests/test_route_strategies_netie.py tests/test_execution_shapes.py tests/test_execution_chat.py tests/test_freeroute_acceptance.py -q
 ```
 
 `dispatch_combo` runs the 4 shapes. `/v1` fail-closes (`openvault_execution_shape`) so `model: fusion` is 400, not a key walk. `model: auto` stays the catalog alias (empty pool still 503). Measured 2026-08-27: 43 passed. Push 403.
@@ -128,7 +114,7 @@ Then:
 
 ```
 git apply docs/patches/openvault-hop-walk.patch
-cd OpenMW && uv run pytest tests/test_route_strategies.py tests/test_execution_shapes.py tests/test_execution_chat.py tests/test_freeroute_acceptance.py -q
+cd OpenMW && uv run pytest tests/test_route_strategies.py tests/test_route_strategies_netie.py tests/test_execution_shapes.py tests/test_execution_chat.py tests/test_freeroute_acceptance.py -q
 ```
 
 Hop-walk `call_model`: first healthy hop that can serve the panel model, sequential httpx.Client posts. `combo.models` present -> dispatch. Missing models still 400. Streaming shapes still 400. No quorum-grace, no breaker park on this path. Measured 2026-08-27: 47 passed. Push 403.
@@ -137,7 +123,7 @@ Then:
 
 ```
 git apply docs/patches/openvault-hop-failover.patch
-cd OpenMW && uv run pytest tests/test_route_strategies.py tests/test_execution_shapes.py tests/test_execution_chat.py tests/test_freeroute_acceptance.py -q
+cd OpenMW && uv run pytest tests/test_route_strategies.py tests/test_route_strategies_netie.py tests/test_execution_shapes.py tests/test_execution_chat.py tests/test_freeroute_acceptance.py -q
 ```
 
 Empty first hop falls through to the next hop that can serve the model. Pipeline `/v1` threads step output. Still sequential, not parallel quorum-grace. Measured 2026-08-27: 50 passed. Push 403.
@@ -146,7 +132,7 @@ Then:
 
 ```
 git apply docs/patches/openvault-hop-park.patch
-cd OpenMW && uv run pytest tests/test_route_strategies.py tests/test_execution_shapes.py tests/test_execution_chat.py tests/test_freeroute_acceptance.py -q
+cd OpenMW && uv run pytest tests/test_route_strategies.py tests/test_route_strategies_netie.py tests/test_execution_shapes.py tests/test_execution_chat.py tests/test_freeroute_acceptance.py -q
 ```
 
 Execution-shape posts use the same `classify_attempt` / `_apply_outcome` as the key walk: 429 parks, 5xx trips, 401 quarantines, 422 kills the job, OPEN breaker skips the post. Empty dispatch is 503, not a fake 200. Measured 2026-08-27: 53 passed. Push 403.
@@ -155,7 +141,7 @@ Then:
 
 ```
 git apply docs/patches/openvault-hop-stream.patch
-cd OpenMW && uv run pytest tests/test_route_strategies.py tests/test_execution_shapes.py tests/test_execution_chat.py tests/test_freeroute_acceptance.py -q
+cd OpenMW && uv run pytest tests/test_route_strategies.py tests/test_route_strategies_netie.py tests/test_execution_shapes.py tests/test_execution_chat.py tests/test_freeroute_acceptance.py -q
 ```
 
 Last hop may SSE (panel and intermediate pipeline steps stay buffered). Nameless `model: fusion` with `stream: true` is still 400. 500 on the stream hop falls through. One-survivor skip wraps buffered text as SSE (no second call). Not OmniRoute parallel quorum-grace. Measured 2026-08-27: 57 passed. Push 403.
@@ -164,7 +150,7 @@ Then:
 
 ```
 git apply docs/patches/openvault-hop-relay.patch
-cd OpenMW && uv run pytest tests/test_route_strategies.py tests/test_execution_shapes.py tests/test_execution_chat.py tests/test_freeroute_acceptance.py -q
+cd OpenMW && uv run pytest tests/test_route_strategies.py tests/test_route_strategies_netie.py tests/test_execution_shapes.py tests/test_execution_chat.py tests/test_freeroute_acceptance.py -q
 ```
 
 `/v1` context-relay reads caller `combo.available` and `combo.handoff` (or `contextHandoff`). Skip unavailable; inject the handoff blob; all-unavailable is 503. No Codex quota fetch. Not OmniRoute SQLite contextHandoffs. Measured 2026-08-27: 62 passed. Push 403.
@@ -173,7 +159,7 @@ Then:
 
 ```
 git apply docs/patches/openvault-hop-trace.patch
-cd OpenMW && uv run pytest tests/test_route_strategies.py tests/test_execution_shapes.py tests/test_execution_chat.py tests/test_freeroute_acceptance.py -q
+cd OpenMW && uv run pytest tests/test_route_strategies.py tests/test_route_strategies_netie.py tests/test_execution_shapes.py tests/test_execution_chat.py tests/test_freeroute_acceptance.py -q
 ```
 
 Usage ledger names the last successful hop (`vault_key_id` / provider / model_served), not `provider=dispatch`. Panel members before the judge are not each a ledger row (one request, one row). Measured 2026-08-27: 64 passed. Push 403.
@@ -182,7 +168,7 @@ Then:
 
 ```
 git apply docs/patches/openvault-hop-usage.patch
-cd OpenMW && uv run pytest tests/test_route_strategies.py tests/test_execution_shapes.py tests/test_execution_chat.py tests/test_freeroute_acceptance.py -q
+cd OpenMW && uv run pytest tests/test_route_strategies.py tests/test_route_strategies_netie.py tests/test_execution_shapes.py tests/test_execution_chat.py tests/test_freeroute_acceptance.py -q
 ```
 
 Last-hop upstream `usage` is copied onto the dispatch JSON so the ledger is measured, not a reservation. Panel tokens are not summed. No usage on the last hop stays estimated. Measured 2026-08-27: 65 passed. Push 403.
@@ -191,7 +177,7 @@ Then:
 
 ```
 git apply docs/patches/openvault-hop-persist.patch
-cd OpenMW && uv run pytest tests/test_route_strategies.py tests/test_execution_shapes.py tests/test_execution_chat.py tests/test_freeroute_acceptance.py -q
+cd OpenMW && uv run pytest tests/test_route_strategies.py tests/test_route_strategies_netie.py tests/test_execution_shapes.py tests/test_execution_chat.py tests/test_freeroute_acceptance.py -q
 ```
 
 `/v1` context-relay remembers a caller-supplied handoff blob in process memory so the next request can omit the blob (`combo.sessionId`). Caller blob wins over the store. No Codex quota fetch. No generated summary. Not OmniRoute SQLite. Measured 2026-08-27: 68 passed. Push 403.
@@ -200,7 +186,7 @@ Then:
 
 ```
 git apply docs/patches/openvault-hop-anthropic.patch
-cd OpenMW && uv run pytest tests/test_route_strategies.py tests/test_execution_shapes.py tests/test_execution_chat.py tests/test_freeroute_acceptance.py -q
+cd OpenMW && uv run pytest tests/test_route_strategies.py tests/test_route_strategies_netie.py tests/test_execution_shapes.py tests/test_execution_chat.py tests/test_freeroute_acceptance.py -q
 ```
 
 Execution-shape hop-walk skips Anthropic hops (same as the key walk). If they were the only matches, `/v1` returns 503 `anthropic chat not via /v1 proxy yet` and does not post. Not a Messages API. Measured 2026-08-27: 70 passed. Push 403.
@@ -209,7 +195,7 @@ Then:
 
 ```
 git apply docs/patches/openvault-hop-scope.patch
-cd OpenMW && uv run pytest tests/test_route_strategies.py tests/test_execution_shapes.py tests/test_execution_chat.py tests/test_freeroute_acceptance.py -q
+cd OpenMW && uv run pytest tests/test_route_strategies.py tests/test_route_strategies_netie.py tests/test_execution_shapes.py tests/test_execution_chat.py tests/test_freeroute_acceptance.py -q
 ```
 
 In-process handoff store is keyed by issued-seat identity (`tenant`) plus session. Same `sessionId` on another seat does not inject. Empty tenant does not persist. Not OmniRoute SQLite. Measured 2026-08-27: 72 passed. Push 403.
@@ -218,7 +204,7 @@ Then:
 
 ```
 git apply docs/patches/openvault-hop-serve.patch
-cd OpenMW && uv run pytest tests/test_route_strategies.py tests/test_execution_shapes.py tests/test_execution_chat.py tests/test_freeroute_acceptance.py -q
+cd OpenMW && uv run pytest tests/test_route_strategies.py tests/test_route_strategies_netie.py tests/test_execution_shapes.py tests/test_execution_chat.py tests/test_freeroute_acceptance.py -q
 ```
 
 No matching hop raises 503 `no hop can serve model` instead of empty-dispatch. Not a fake 200. Measured 2026-08-27: 73 passed. Push 403.
@@ -227,7 +213,7 @@ Then:
 
 ```
 git apply docs/patches/openvault-hop-bound.patch
-cd OpenMW && uv run pytest tests/test_route_strategies.py tests/test_execution_shapes.py tests/test_execution_chat.py tests/test_freeroute_acceptance.py -q
+cd OpenMW && uv run pytest tests/test_route_strategies.py tests/test_route_strategies_netie.py tests/test_execution_shapes.py tests/test_execution_chat.py tests/test_freeroute_acceptance.py -q
 ```
 
 In-process handoff store keeps at most 32 blobs per issued seat; oldest session is evicted. Other seats are untouched. Not OmniRoute SQLite. Measured 2026-08-27: 74 passed. Push 403.
@@ -236,7 +222,7 @@ Then:
 
 ```
 git apply docs/patches/openvault-hop-catalog.patch
-cd OpenMW && uv run pytest tests/test_route_strategies.py tests/test_execution_shapes.py tests/test_execution_chat.py tests/test_freeroute_acceptance.py -q
+cd OpenMW && uv run pytest tests/test_route_strategies.py tests/test_route_strategies_netie.py tests/test_execution_shapes.py tests/test_execution_chat.py tests/test_freeroute_acceptance.py -q
 ```
 
 Execution-shape `serves()` is catalog membership, not `resolve_model` first-choice rewrite. Garbage ids and other-provider ids are 503 `no hop can serve model`. Empty catalog (anthropic) still owns a concrete id so the named skip can fire. Key walk is unchanged. Measured 2026-08-27: 77 passed. Push 403.
@@ -245,7 +231,7 @@ Then:
 
 ```
 git apply docs/patches/openvault-quota-share.patch
-cd OpenMW && uv run pytest tests/test_route_strategies.py tests/test_execution_shapes.py tests/test_execution_chat.py tests/test_freeroute_acceptance.py -q
+cd OpenMW && uv run pytest tests/test_route_strategies.py tests/test_route_strategies_netie.py tests/test_execution_shapes.py tests/test_execution_chat.py tests/test_freeroute_acceptance.py -q
 ```
 
 `combo.strategy: quota-share` (and PUT `/api/route/strategy`) is 501 `openvault_unported`, not unknown 400 and not a key walk. Body flags `parallel` / `quorumGrace` / `fetchQuota` / `persist: sqlite` / `autoCombo` / `compress` / `mcp` / `a2a` are the same 501, not a silent sequential walk. OmniRoute-internal quota-share is not a 16th sort. Measured 2026-08-28: 86 passed. Push 403.
@@ -254,7 +240,7 @@ Then:
 
 ```
 git apply docs/patches/openvault-hop-strip.patch
-cd OpenMW && uv run pytest tests/test_route_strategies.py tests/test_execution_shapes.py tests/test_execution_chat.py tests/test_freeroute_acceptance.py tests/test_freeroute_metering.py -q
+cd OpenMW && uv run pytest tests/test_route_strategies.py tests/test_route_strategies_netie.py tests/test_execution_shapes.py tests/test_execution_chat.py tests/test_freeroute_acceptance.py tests/test_freeroute_metering.py tests/test_freeroute_metering_strip.py -q
 ```
 
 Upstream hop posts drop `combo` / `skill_body` / `transcript` / OmniRoute flags. `/v1` with `skill_body` (or combo.transcript) is 400 `openvault_crew_body`, not a key walk. Measured 2026-08-28: routing+chat **90 passed**. Push 403.
@@ -263,7 +249,7 @@ Then:
 
 ```
 git apply docs/patches/openvault-hop-sidecar.patch
-cd OpenMW && uv run pytest tests/test_route_strategies.py tests/test_execution_shapes.py tests/test_execution_chat.py tests/test_freeroute_acceptance.py tests/test_freeroute_metering.py -q
+cd OpenMW && uv run pytest tests/test_route_strategies.py tests/test_route_strategies_netie.py tests/test_execution_shapes.py tests/test_execution_chat.py tests/test_freeroute_acceptance.py tests/test_freeroute_metering.py tests/test_freeroute_metering_strip.py -q
 ```
 
 `metadata` / `extra` sidecar bags with `skill_body` / `transcript` / `instructions` are 400 `openvault_crew_body`. Hop posts strip those keys from sidecar dicts. Chat `messages` text may still say the word `skill_body`. Do not recurse into `tools` (a schema may name `instructions`). Measured 2026-08-28: routing+chat+crew-gate **145 passed**. Push 403.
@@ -286,7 +272,7 @@ cd OpenMW && uv add git+https://github.com/Netie-AI/Netie.git
 uv run pytest tests/test_crew_gate.py tests/test_crew_netie_gate.py -q
 ```
 
-`POST /api/crew/gate` calls `check_crew_gate`, which uses `from netie.crew import refuse_crew_gate` when Netie is installed. Skill bodies and unknown kinds refuse. `kind=skill` is ok only when the POST carries ids-only `skill_ids` that include that id (`openvault-crew-skill-ids.patch`). Without Netie the same rule runs locally. Vault lookup stays in OpenVault. Wrap score stays **3/10**. Push 403.
+OpenVault's own `POST /api/crew/gate` calls `check_crew_gate` before its resolver. `check_crew_gate` uses `from netie.crew import refuse_crew_gate` when Netie is installed. Skill bodies and kinds Netie does not know (`skill` without ids, `mcp`) refuse. A refusal lowers `allowed` and goes first in `reasons`; OpenVault's signpost (`found`, `owner`, `location`) and the audit echo stay. `kind=skill` passes the check only when the POST carries ids-only `skill_ids` that include that id (`openvault-crew-skill-ids.patch`); OpenVault's registry still decides after that. Without Netie the same rule runs locally. Vault lookup stays in OpenVault. Wrap score stays **3/10**. Push 403.
 
 Then:
 
@@ -324,7 +310,13 @@ git apply docs/patches/openvault-crew-gate.patch
 cd OpenMW && uv run pytest tests/test_crew_gate.py tests/test_contract.py -q
 ```
 
-Adds `POST /api/crew/gate`: location + allowed, never a skill body. Unknown kinds (including `skill` until a registry row exists) refuse. This is not OpenVault PR #44 (that RFC also adds Netie-KB signposts). Measured 2026-08-27: 17 passed with contract tests.
+Re-cut 2026-11-20. OpenVault PR #44 is on the pin and owns `POST /api/crew/gate`. This patch no longer registers a second route (the old cut shadowed #44 and turned 2 of OpenVault's own tests red). It edits the one route, tighten only:
+
+- A request that carries `skill_body` / `prompt` / `instructions` / `transcript` is `allowed: false` (#44 dropped the field and answered as if it was not sent).
+- `kind=skill` and `kind=mcp` keep #44's signpost (`found`, `owner`, `location`) but are `allowed: false` (#44 says `allowed: true` for both Netie-KB rows). Open decision, see `docs/subagents_findings/2026-11-20-recut2-openvault.md`.
+- Every other kind gets the resolver verdict unchanged. Unknown kind or intent stays #44's 422.
+
+No OpenVault test is edited: the old `tests/test_contract.py` hunk is gone (the pin already lists the route). Measured 2026-11-20 on pin `3ba51cd`: `tests/test_crew_gate.py` 7 passed after this patch; full OpenMW suite with all 32 patches in the finding.
 
 ## Cortex (`Netie-AI/Cortex`)
 
@@ -338,27 +330,32 @@ git apply docs/patches/cortex-observe-guard.patch
 python3 -m pytest tests/dms/test_constitution_path.py tests/dms/test_broker_no_skip.py tests/dms/test_f7_rbac.py -k "not tool_runner" -q
 ```
 
-Copies `scripts/cortex_path.py` to `CortexOS/constitution/cortex_path.py`. `/dms/query` post-checks a bound VerifiedManifest before a non-abstain answer (unbound still abstains, not 400). `tool_runner` refuses coding-agent tools (`bash` / filesystem) before the ontology allowlist. `/a2a/messages` calls `run_question(..., pack=dms, a2a=True)`. `default_broker` no longer skips F8 for `web_search` / `web_fetch` / `find_*` (unregistered denies; C2 allowlist does not grow). Then `cortex-role-execute.patch` puts `require_role` on `dms_query` (engine auth port) / `chat_routes` (TAS-CORTEX named gap). `app_routes` and `dag_run` are already gated on Cortex HEAD (TRUST-01, `require_spend_key`), so the patch no longer touches them. **Open decision:** on `304bf84` with the four patches applied, 43 of Cortex's own tests fail: 6 because `cortex-web-via-runner.patch` removes the built-in `web_fetch` Cortex now keeps with an SSRF guard, 37 because newer tests post `/dms/query` with no key and the gate answers 401. Then `cortex-observe-guard.patch` sends `computer.observe` / screenshot names through `guard_observe` (uncropped PNG / clipboard / window dump refuse). Portable Netie `run_question` also requires `role` on write/tool and calls `guard_observe` for observe tools. Score stays **4/10** governed Q&A. Pointer governed score stays **2/10** until this lands on Cortex HEAD. Push 403.
+Copies `scripts/cortex_path.py` to `CortexOS/constitution/cortex_path.py`. `/dms/query` post-checks a bound VerifiedManifest before a non-abstain answer (unbound still abstains, not 400). `tool_runner` refuses coding-agent tools (`bash` / filesystem) before the ontology allowlist. `/a2a/messages` calls `run_question(..., pack=dms, a2a=True)`. `default_broker` no longer skips F8 for `web_search` / `web_fetch` / `find_*`: every broker call is one `run_tool_call`. `web_fetch` is a runner built-in (`AGENT_BUILTINS`) that only the broker opts into (`agent_builtins=True`): the runner forces Cortex's `public_only` guard whatever the model passes, ledgers `action.tool_call` or `action.tool_call_denied` (verdict `public_only`), and returns Cortex's own fetch result, so Cortex's `tests/harness/test_hx01_quick_fixes.py` passes unchanged (founder ruling 2026-11-20: both). `web_search` and `find_*` have no runner handler and still deny as unregistered. `/dms/actions/web_fetch` and DAG tool nodes still deny; the C2 allowlist does not grow. Then `cortex-role-execute.patch` puts `require_role` on the `dms_query.py` write routes (`propose-edit`, `analyse-entry`, `add-entry`: steward, engine auth port) and on `chat_routes` (TAS-CORTEX named gap). `/dms/query` itself stays keyless (founder ruling 2026-11-20); the patch's `test_dms_query_stays_keyless` asserts it. `app_routes` and `dag_run` are already gated on Cortex HEAD (TRUST-01, `require_spend_key`), so the patch no longer touches them. **Open decision:** the `chat_routes` gate passes Cortex's own `tests/dms/test_f2_chat.py::test_chat_api_routes` only because the patch adds a key header to that test (3 lines); unedited, that test gets 401. Memo and suite counts: `docs/subagents_findings/2026-11-20-recut2-cortex.md`. Then `cortex-observe-guard.patch` sends `computer.observe` / screenshot names through `guard_observe` (uncropped PNG / clipboard / window dump refuse). Portable Netie `run_question` also requires `role` on write/tool and calls `guard_observe` for observe tools. Score stays **4/10** governed Q&A. Pointer governed score stays **2/10** until this lands on Cortex HEAD. Push 403.
 
 ## DMS (`Netie-AI/dms`)
 
-dms package name is `dms`, so `uv add git+https://github.com/Netie-AI/Netie.git` is the intended caller. From the dms repo root, on `main` (`ebe65cc`):
+dms package name is `dms`, so `uv add git+https://github.com/Netie-AI/Netie.git` is the intended caller. From the dms repo root, on `main` (`ebe65cc`), apply in this order (the second also applies alone on the pin):
 
 ```
 git apply docs/patches/dms-netie-acl.patch
-uv add git+https://github.com/Netie-AI/Netie.git
-pytest tests/test_netie_acl.py tests/test_space_acl_boundary.py tests/test_live_ask.py -q
-```
-
-`live_ask` runs Cortex through `guard_live_answer` (`from netie.dms import answer_or_abstain` when installed; same rule locally otherwise). Warehouse/bronze preview with `space_id` calls `browse_or_abstain`. Cortex's `warehouse_<table>` lake alias is read as `<table>` for the gate (granted stands, ungranted abstains). Without a Space, personal/company-default mint is unchanged. Score stays **3/10**. Push 403.
-
-Then:
-
-```
 git apply docs/patches/dms-demo-acl-resolve.patch
+uv add git+https://github.com/Netie-AI/Netie.git
+pytest tests/test_netie_acl.py tests/test_netie_acl_paths.py tests/test_space_acl_boundary.py tests/test_live_ask.py -q
+ruff check apps packages tests
+mypy apps/api/dms_api packages/core/dms_core packages/cortex_client/cortex_client packages/executor/dms_executor packages/ledger/dms_ledger
 ```
 
-`demo_acl` returns `resolve_session_acl` (SourceGrant rows) instead of `row_predicates={t: "TRUE"}`. Portable `from netie.dms import mint_object`. Score stays **3/10**. Push 403.
+Re-cut 2 (2026-11-20, finding `docs/subagents_findings/2026-11-20-recut2-dms.md`). The first cut gated one of nine answer paths (six lanes of `live_ask`, user SQL, a confirmed held SQL, the demo ask). Now every executor path that returns source rows goes through one entry, `dms_executor.netie_acl.guard_envelope`, which calls `guard_live_answer` and so `answer_or_abstain` (from `netie.dms` when installed; the same rule locally otherwise):
+
+- `Executor.live_ask`: one call at the exit, beside dms's own `refuse_ungranted_answer`. That covers all six lanes (follow-up, verified query, pack, bronze sheet, generative, contract ask).
+- `Executor.answer_user_sql`, `Executor._run_held_sql` (the Yes of a reconfirm; the Space's grants are re-read at Yes time, not taken from the stored token) and `Executor.demo_ask` (only when a `space_id` is given).
+- Warehouse and bronze preview with `space_id` call `browse_or_abstain` (unchanged from the first cut).
+
+A refusal is an envelope with `abstained: true`, `abstain_reason: space_acl`, `rows: []`; its text names no table. The statement is read through dms's own parsers (DuckDB's parse and the audit parser, unioned) and restated as the relations it reads before the gate sees it, so a quoted name, a default schema, `TABLE t`, Cortex's `warehouse_<table>` lake alias and `bronze.<t>` for a bare upload grant `<t>` are read as the table they are (granted stands, ungranted abstains; `hr.<t>` or another upload do not). SQL that reads no relation, a table function, or an unparseable statement abstains. Without a Space, personal/company-default mint is unchanged.
+
+The series adds `tests/test_netie_acl.py` and `tests/test_netie_acl_paths.py` and edits no test the sibling wrote (the gate in `scripts/test_sibling_patches.py` asserts that). What the dms suite showed, base and patched, is in the finding. One behaviour is open for the founder: a Space-scoped answer whose rows serialize past 12000 characters abstains (`answer_or_abstain` DitchContext), now on every path. To run the whole dms suite on a patched clone, commit the applied patches in that clone first (locally, never pushed): the grade52 tests refuse an uncommitted `apps/` or `packages/`. Score stays **3/10**. Push 403.
+
+`dms-demo-acl-resolve.patch`: `demo_acl` returns `resolve_session_acl` (SourceGrant rows) instead of `row_predicates={t: "TRUE"}`. Portable `from netie.dms import mint_object`. Unchanged in re-cut 2; it applies alone on the pin and after the first patch.
 
 ## Pointer (`Netie-AI/Pointer`)
 
@@ -383,7 +380,11 @@ git apply docs/patches/control-netie-board.patch
 pytest tests/test_netie_board.py tests/test_control_stays_plane_4.py -q
 ```
 
-`sources.board` runs gh issues through `guard_issue_board` (`from netie.control import project_board` when installed; same refuse locally otherwise). Local fallback also projects `crew_index["skills"]` as id/source cards, exposes `board_index` (graph runs + Factory tickets + skill ids), and `project_session` lists skill ids. `/v1/rdp` `/v1/vnc` `/v1/guacamole` `/v1/ssh` answer 405 (in `NOT_GUACAMOLE`, not `FORBIDDEN`, which stays the four write paths). Score stays **1/10** Guacamole, **2/10** board. Push 403.
+`sources.board` runs gh issues through `fit_issue_board` and then `guard_issue_board` (`from netie.control import project_board` when installed; same refuse locally otherwise). Local fallback also projects `crew_index["skills"]` as id/source cards, exposes `board_index` (graph runs + Factory tickets + skill ids), and `project_session` lists skill ids. `/v1/rdp` `/v1/vnc` `/v1/guacamole` `/v1/ssh` answer 405 (in `NOT_GUACAMOLE`, not `FORBIDDEN`, which stays the four write paths). Score stays **1/10** Guacamole, **2/10** board. Push 403.
+
+Past the board budget (`MAX_BOARD_CHARS` 12000, unchanged) the board no longer goes dark. `fit_issue_board` keeps the leading open-issue rows that fit, in gh search order, and counts every other row: `fetched == shown + omitted + withheld`. `omitted` is the rows past the first one that did not fit. `withheld` is a row whose text names a guarded key (`prompt`, `transcript`, `password`, `skill_body`, the vault key name): it is never displayed, only counted. Both counts print on the board, in the server body, the public Pages board and the page script (`Left out: 58 of 100 open issues did not fit the 12000 character board budget. The first 42 in search order are shown.`), next to the sibling's own `Truncated:` line, and `truncated` is raised so pickup sees it. A guarded key as a row key, or a remote-desktop kind, still refuses the whole board, and an unreachable gh still reads unreachable. `guard_issue_board` itself is unchanged and still refuses an unfitted over-budget list. The patch's `ControlDenied` is the contract's class when Netie is installed, so one `except` catches both.
+
+Measured on this VM 2026-11-20 on `93959c6` (fresh clones, `fastapi` 0.165.0, `pytest` 9.2.0, Python 3.13): sibling suite **173 passed** unpatched, **194 passed** patched (no failure, 21 added tests), 194 with `netie.control` importable. The two files above: 149 passed. `ruff check netie_control tests` (the sibling CI lint, ruff 0.16.8): clean patched, as on base. Real rows: the org's newest 100 open issues (of 307 visible to this session) show 42 and count 58 left out. **Not covered:** the `completed`, `prs` and `actions` slices are not budgeted or row-guarded, as before. Not run: a live `gh` on an operator machine, and a browser. See `docs/subagents_findings/2026-11-20-recut2-control.md`.
 
 ## Netie-KB (`Netie-AI/Netie-KB`)
 

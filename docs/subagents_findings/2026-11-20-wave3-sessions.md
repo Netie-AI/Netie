@@ -76,3 +76,41 @@ Two of its lanes did need their own container and went to sessions: the Docker i
 
 Not known when this file was first committed. The parent appends them here, per lane, after
 replaying each one.
+
+State at 2026-11-20 03:51 UTC. Every child of this wave ran on Fable and hit the account's
+Fable limit at about 01:59. The founder then ruled that nothing runs on Fable. A replacement
+parent (`session_01N6JxFRqgMNSLVYd5A1tK96`, Opus) rebuilt the state from the transcripts and
+pushed branches, and on the founder's 02:10 ask ("too many branches") folded the five patch
+lanes into one track, branch `claude/recut2`, draft PR #63, executor
+`session_01N6JxFSgYhMwLMkHASHXL38` (Opus). The voice capture lanes became one track, branch
+`claude/voice-capture`, executor `session_01N6JxFSe19mgswm8NxDVbZh` (Sonnet).
+
+| Lane | Built by | Carried into #63 | Verified by | Result |
+|---|---|---|---|---|
+| OpenVault | Fable lane, PR #60 (closed into #63); rule-1 re-cut by T1 (779fcc4) | 39d3199, 779fcc4 | T1 verifier (802d168, cce71c6); parent scan | Unpatched 1504 passed 7 skipped, patched 1619 passed 7 skipped, 0 failed. No OpenVault-written test file edited (parent checked the pin tree: only `test_detect_stacks.py` and `test_route_strategies.py` exist there, both untouched). Gate runs `tests/test_access_routing.py` and asserts the stack adds test files only |
+| Control | Fable lane, PR #61 (closed into #63) | 4e930aa | T1 verifier (802d168) | Unpatched 173 passed, patched 194 passed, 0 failed, no Control test file edited |
+| Cortex | Fable lane, PR #62 (closed into #63) | 71eb2a0, 8fcb420 | T1 executor (d79b82a) | Wide 2729 vs 2745 passed, whole 5280 vs 5296 passed, 0 failed both; the diff is the 16 added test ids |
+| constructor | T1 executor (7d2ed1b) | 95ac504 | independent T1 subagent (fcbabd2) | 26 patches cut to 3; unit 118/118 both, e2e 52/52 both, 62 compiler tests, no pin `tests/` file touched |
+| dms | T1 executor (4479ece) | f325bf3 | T1 verifier, running at 03:51 | Guard on all 9 answer paths, 53 new tests, lint clean. Builder suite: unpatched 3791 passed 0 failed, patched 3850 passed 3 failed (timing tests in `test_bank_02_scrub_redos.py`). Not accepted until a paired run under equal load shows the 3 are not ours |
+| Voice audio eval | T2 executor, patch 0004 (77e56f8), draft PR #65; the Fable lane's e4e831c is superseded, not carried | PR #65 | second run by T2, and the Fable run as an independent third | breeze-asr-25 53 and 54 of 59 (Fable: 52), large-v3-turbo 49 and 50 (Fable: 48), clean text 57. Default stays breeze-asr-25 |
+| Voice Docker | T2 executor | not yet | not yet | In progress at 03:51 (T2 reports the image builds, CPU-only, 5.47 GB, healthy in about 20 s) |
+
+Open founder decisions: D1 (OpenVault skill and mcp signpost rows), Control withheld rows,
+Cortex F3 (chat gate needs one Cortex test edited, or drop the gate), constructor strict
+`emit` on app nodes, dms 12000-character abstain on Space-scoped answers, and acceptance of
+the proposed DR via PR #59.
+
+### F3. Background tasks woke two stopped Fable sessions
+
+- **Expected:** a session stopped at a usage limit, then idle, does no more work.
+- **Actual:** the Cortex lane (02:13) and the audio lane (02:59) each resumed on Fable when
+  a background task they had started before the limit finished, and each pushed. The
+  founder's rule was that nothing runs on Fable. The work was usable and is being verified,
+  but it ran on the excluded model and raced the replacement lanes on the same branches.
+- **Repro:** start a long `run_in_background` command in a session, let the session go
+  idle on a usage limit that resets before the command ends.
+- **Root-cause class:** a stop that covers turns but not the timers and tasks that start
+  turns.
+- **Invariant:** a control that blocks legitimate work is a failure, and the converse: a
+  stop that does not stop is not a control. Archiving the session (which releases its
+  container) is the stop that holds; an interrupt is not.

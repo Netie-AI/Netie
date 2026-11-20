@@ -50,55 +50,81 @@ index bfc9710..2ccbd62 100644
  
  def library_tree(
 diff --git a/packages/executor/dms_executor/__init__.py b/packages/executor/dms_executor/__init__.py
-index 3ad7e62..4927964 100644
+index 3ad7e62..9998364 100644
 --- a/packages/executor/dms_executor/__init__.py
 +++ b/packages/executor/dms_executor/__init__.py
-@@ -1475,6 +1475,7 @@ class Executor:
-             )
-             self._store_turn(session_id, space_id, env)
-             return env
-+        resp = _apply_netie_acl(resp, acl=acl, space_id=space_id)
-         env = attach_cascade(
-             map_ask_response_to_envelope(
-                 resp,
-@@ -1860,6 +1861,42 @@ def _chart_from_cortex_spec(spec: dict[str, Any] | None) -> dict[str, Any] | Non
+@@ -503,13 +503,21 @@ class Executor:
+             route="user_sql",
+             question=sql,
+         )
++        env = _apply_netie_acl(env, grants=grants, space_id=space_id, question=sql)
+         stamp_engine_clock(env)
+         assert_envelope_valid(env)
+         return env
+ 
+     def demo_ask(self, question: str, *, space_id: str | None = None) -> dict[str, Any]:
+         ensure_demo_warehouse(self._warehouse)
+-        return answer_demo_question(question, space_id=space_id)
++        env = answer_demo_question(question, space_id=space_id)
++        if not space_id:
++            return env
++        try:
++            grants: list[str] = self.grantable_tables(space_id=space_id)
++        except Exception:  # noqa: BLE001 -- refuse closed: no grants, no figure
++            grants = []
++        return _apply_netie_acl(env, grants=grants, space_id=space_id, question=question)
+ 
+     def mint_manifest(self, session: SessionContext | SessionAcl) -> Any:
+         if isinstance(session, SessionAcl):
+@@ -884,6 +892,14 @@ class Executor:
+             if refused is not env:
+                 env = refused
+                 self._store_turn(session_id, space_id, env)
++            # Same exit, Netie's Space gate: every lane (follow-up, verified, pack,
++            # bronze, generative, contract ask) is gated here, not only the last.
++            guarded = _apply_netie_acl(
++                env, grants=turn_grants(), space_id=space_id, question=question
++            )
++            if guarded is not env:
++                env = guarded
++                self._store_turn(session_id, space_id, env)
+             stamp_engine_clock(env)
+             payload = next((p for p in reversed(seen) if isinstance(p, dict)), None)
+             stamped = with_served_attribution(env, payload)
+@@ -1743,6 +1759,13 @@ class Executor:
+             route="generated",
+             question=question,
+         )
++        # The Space's grants now, not the list the offer held: a Space can be narrowed
++        # between the offer and the Yes, and a stored list is only a token's word.
++        try:
++            current: list[str] = self.grantable_tables(space_id=space_id) if space_id else []
++        except Exception:  # noqa: BLE001 -- refuse closed: no grants, no figure
++            current = []
++        env = _apply_netie_acl(env, grants=current, space_id=space_id, question=question)
+         assert_envelope_valid(env)
+         abstained = env.get("abstained") is True or str(env.get("badge") or "") == "ABSTAIN"
+         if not abstained:
+@@ -1860,6 +1883,24 @@ def _chart_from_cortex_spec(spec: dict[str, Any] | None) -> dict[str, Any] | Non
  _chart_from_rows = chart_from_rows
  
  
 +def _apply_netie_acl(
-+    resp: AskResponse,
++    env: dict[str, Any],
 +    *,
-+    acl: SessionAcl,
++    grants: list[str] | set[str] | frozenset[str] | None,
 +    space_id: str | None,
-+) -> AskResponse:
-+    """PRD-001 caller: Space-scoped live_ask goes through answer_or_abstain."""
-+    from dms_executor.netie_acl import guard_live_answer
++    question: str = "",
++) -> dict[str, Any]:
++    """PRD-001 caller: an answer envelope leaves through ``answer_or_abstain``.
 +
-+    if resp.abstained:
-+        return resp
-+    granted = frozenset(acl.row_predicates)
-+    warehouse_id = (acl.pool_id or "default").strip() or "default"
-+    gate = guard_live_answer(
-+        space_id=space_id,
-+        granted=granted,
-+        warehouse_id=warehouse_id,
-+        sql=resp.sql_used,
-+        rows=list(resp.rows or []),
-+        route=resp.route,
-+    )
-+    if gate is None:
-+        return resp
-+    if gate.get("status") == "ABSTAIN":
-+        return resp.model_copy(
-+            update={
-+                "abstained": True,
-+                "badge": "abstain",
-+                "rows": [],
-+                "answer": gate.get("reason") or "Abstained.",
-+                "sql_used": None,
-+            }
-+        )
-+    return resp.model_copy(update={"rows": list(gate.get("rows") or [])})
++    Called where each path hands its envelope back: ``live_ask`` (every lane),
++    ``answer_user_sql``, ``_run_held_sql`` and ``demo_ask``. A refusal is a
++    built abstain envelope, never dropped rows.
++    """
++    from dms_executor.netie_acl import guard_envelope
++
++    return guard_envelope(env, granted=grants, space_id=space_id, question=question)
 +
 +
  def map_ask_response_to_envelope(
@@ -106,10 +132,10 @@ index 3ad7e62..4927964 100644
      *,
 diff --git a/packages/executor/dms_executor/netie_acl.py b/packages/executor/dms_executor/netie_acl.py
 new file mode 100644
-index 0000000..42df252
+index 0000000..b9cd0c1
 --- /dev/null
 +++ b/packages/executor/dms_executor/netie_acl.py
-@@ -0,0 +1,303 @@
+@@ -0,0 +1,506 @@
 +"""live_ask and browse go through Netie Space ACL when installed.
 +
 +uv add git+https://github.com/Netie-AI/Netie.git
@@ -127,7 +153,7 @@ index 0000000..42df252
 +
 +import json
 +import re
-+from collections.abc import Mapping
++from collections.abc import Iterable, Mapping
 +from typing import Any
 +
 +Acl = Mapping[str, frozenset[str]]
@@ -146,9 +172,17 @@ index 0000000..42df252
 +    try:
 +        from netie.dms import (  # type: ignore[import-not-found]
 +            MAX_ANSWER_CHARS as _MAX,
++        )
++        from netie.dms import (
 +            SpaceDenied as _Denied,
++        )
++        from netie.dms import (
 +            answer_or_abstain as _answer,
++        )
++        from netie.dms import (
 +            browse_or_abstain as _browse,
++        )
++        from netie.dms import (
 +            mint_manifest as _mint,
 +        )
 +    except ImportError:
@@ -366,6 +400,109 @@ index 0000000..42df252
 +    )
 +
 +
++#: Stands for a read the parse cannot call a plain table (a table function,
++#: a macro). No grant spells it, so the gate sees a relation it must refuse.
++NOT_A_TABLE = "<not a plain table>"
++
++
++def _relations_read(sql: str) -> tuple[str, ...]:
++    """Relations the statement reads, from dms's two parsers, unioned.
++
++    DuckDB's own parse (the engine that runs the text) sees ``TABLE t`` and
++    refuses table functions; the audit parser (sqlglot) covers SQL DuckDB
++    will not parse and a second statement. Each is the other's blind spot, so
++    the gate takes the union: more names, never fewer. Imported late so
++    ``netie_acl`` stays importable on its own. Nothing read returns ``()``,
++    which abstains.
++    """
++    found: dict[str, str] = {}
++    try:
++        from dms_executor.grant_struct import _duckdb_statements, duckdb_read_relations
++
++        parsed = _duckdb_statements(sql)
++        if not isinstance(parsed, str):
++            reads = duckdb_read_relations(parsed)
++            if reads is None:
++                found[NOT_A_TABLE.casefold()] = NOT_A_TABLE
++            else:
++                for parts in reads:
++                    label = ".".join(parts)
++                    found.setdefault(label.casefold(), label)
++    except Exception:  # noqa: BLE001 - the other parser still reads it
++        pass
++    try:
++        from dms_executor.sql_currency import tables_read_checked
++
++        labels, _approximate = tables_read_checked(sql)
++        for label in labels:
++            if label:
++                found.setdefault(label.casefold(), label)
++    except Exception:  # noqa: BLE001 - fail closed: what is left is all it reads
++        pass
++    return tuple(found.values())
++
++
++def _grant_for(label: str, granted: frozenset[str]) -> str | None:
++    """The grant entry that opens ``label``.
++
++    Three spellings open a grant, each one dms already honours:
++
++    * ``relation_gap``, the structural key ``serve_gap`` uses
++      (``other_schema.inventory`` does not open a grant on ``inventory``);
++    * Cortex's unqualified ``warehouse_<t>`` lake alias, for a demo-lake table
++      the Space grants (``name_echo`` owns that rule);
++    * ``bronze.<t>`` for a bare grant ``<t>``: an upload is granted by its bare
++      name and read through the bronze schema, which ``name_echo`` serves
++      (pinned by ``tests/test_name_echo_01.py``). Only the ``bronze`` schema and
++      only a bare grant; ``hr.<t>`` or a qualified grant opens nothing here.
++    """
++    from dms_executor.grant_struct import relation_gap
++    from dms_executor.name_echo import _dialect, _lake_alias_granted, _ungranted
++
++    parts = tuple(part for part in label.split(".") if part)
++    if not parts:
++        return None
++    ordered = sorted(granted, key=lambda g: (g.casefold() != label.casefold(), g))
++    for name in ordered:
++        if relation_gap(label, grantable={name}, dialect=_dialect()) is None:
++            return name
++    if len(parts) == 1 and _lake_alias_granted(parts, set(granted)):
++        lake = parts[0][len(_LAKE_ALIAS) :].casefold()
++        for name in ordered:
++            if name.casefold() in {lake, parts[0].casefold()}:
++                return name
++    if len(parts) == 2 and parts[0].casefold() == "bronze":
++        for name in ordered:
++            if "." not in name and not _ungranted([parts], {name}):
++                return name
++    return None
++
++
++def restate_relations(sql: str, granted: frozenset[str]) -> tuple[str, frozenset[str]]:
++    """``(gate_sql, outside)``: the statement restated as the relations it reads.
++
++    The Space gate matches table names by word boundary, so quoting
++    (``bronze."01_sales"``), a default schema or the ``warehouse_<t>`` lake
++    alias made a granted read look like no table at all. Each relation read is
++    restated under the grant entry that opens it. A relation no grant opens
++    keeps its own name and is returned in ``outside`` so the gate sees it.
++    Nothing read at all returns ``("", frozenset())`` and the gate abstains.
++    """
++    labels = _relations_read(sql or "")
++    if not labels:
++        return "", frozenset()
++    named: list[str] = []
++    outside: set[str] = set()
++    for label in labels:
++        grant = _grant_for(label, granted)
++        if grant is None:
++            outside.add(label)
++            named.append(label)
++        else:
++            named.append(grant)
++    return "SELECT 1 FROM " + ", ".join(dict.fromkeys(named)), frozenset(outside)
++
++
 +def guard_live_answer(
 +    *,
 +    space_id: str | None,
@@ -375,18 +512,26 @@ index 0000000..42df252
 +    rows: list[dict[str, Any]] | None,
 +    route: str | None,
 +    chat_mode: bool = False,
++    max_chars: int | None = None,
 +) -> dict[str, Any] | None:
-+    """None means leave the Cortex response alone (no Space, or doc route)."""
-+    if not (space_id or "").strip():
++    """None means leave the response alone (no Space, or doc route).
++
++    Every executor path that returns source rows calls this one function.
++    """
++    if not space_id or not space_id.strip():
 +        return None
 +    route_l = (route or "").lower()
 +    if route_l in _DOC_ROUTES:
 +        return None
-+    acl = {space_id: granted}
++    gate_sql, outside = restate_relations(sql or "", granted)
++    acl: dict[str, frozenset[str]] = {space_id: granted}
++    if outside:
++        # Not a Space: names the gate must see as "known, not granted".
++        acl["<outside>"] = outside
 +    binds = {space_id: warehouse_id}
-+    gate_sql = lake_alias_sql(sql or "", granted)
 +    table = infer_table(gate_sql, granted)
-+    return answer_or_abstain(
++    extra: dict[str, Any] = {} if max_chars is None else {"max_chars": max_chars}
++    out = answer_or_abstain(
 +        acl,
 +        space_id,
 +        table,
@@ -395,7 +540,17 @@ index 0000000..42df252
 +        binds=binds,
 +        sql=gate_sql,
 +        chat_mode=chat_mode,
++        **extra,
 +    )
++    if out.get("status") == "OK" and outside:
++        # A name the word-boundary scan cannot see (odd characters) still
++        # abstains: the parser found a relation no grant opens.
++        return {
++            "status": "ABSTAIN",
++            "reason": f"space {space_id} reads a relation it is not granted",
++            "rows": [],
++        }
++    return out
 +
 +
 +def guard_browse(
@@ -405,7 +560,7 @@ index 0000000..42df252
 +    tier: str,
 +    granted: frozenset[str],
 +) -> dict[str, Any] | None:
-+    if not (space_id or "").strip():
++    if not space_id or not space_id.strip():
 +        return None
 +    bare = (table or "").strip()
 +    if "." in bare:
@@ -413,6 +568,80 @@ index 0000000..42df252
 +    if bare.lower().startswith("bronze:"):
 +        bare = bare.split(":", 1)[-1]
 +    return browse_or_abstain({space_id: granted}, space_id, bare, tier=tier)
++
++
++_REFUSED_TEXT = (
++    "I can't answer this: the Space's access rule stopped the query behind "
++    "this answer. No figure was returned."
++)
++
++
++def guard_envelope(
++    env: dict[str, Any],
++    *,
++    granted: Iterable[str] | None,
++    space_id: str | None,
++    question: str = "",
++    warehouse_id: str = "default",
++) -> dict[str, Any]:
++    """Run an answer envelope through ``guard_live_answer``.
++
++    One entry for every executor path that returns source rows (live_ask, user
++    SQL, a confirmed held SQL, the demo ask). Returns ``env`` when the answer
++    stands (rows copied by the gate), or a built abstain envelope: the caller
++    sees ``abstained: true``, never a silent drop of rows. The abstain text
++    names no table; the gate's reason rides on the ticket only.
++
++    Left alone: no Space, an envelope that already abstains, and an envelope
++    with neither SQL nor rows (nothing source-derived to gate).
++    """
++    if not (space_id or "").strip() or not isinstance(env, dict):
++        return env
++    if env.get("abstained") is True or str(env.get("badge") or "").upper() == "ABSTAIN":
++        return env
++    sql = env.get("sql_used")
++    rows = env.get("rows")
++    has_sql = isinstance(sql, str) and bool(sql.strip())
++    if not has_sql and not rows:
++        return env
++    gate = guard_live_answer(
++        space_id=space_id,
++        granted=frozenset(granted or ()),
++        warehouse_id=warehouse_id,
++        sql=sql if has_sql else None,
++        rows=list(rows) if isinstance(rows, list) else [],
++        route=str(env.get("route") or ""),
++    )
++    if gate is None:
++        return env
++    if gate.get("status") != "ABSTAIN":
++        if isinstance(rows, list):
++            env["rows"] = list(gate.get("rows") or [])
++        return env
++    from dms_executor.abstain import build_abstain
++    from dms_executor.envelope import assert_envelope_valid
++
++    out = build_abstain(
++        reason="space_acl: " + str(gate.get("reason") or "refused"),
++        question=question,
++        sql=sql if has_sql else None,
++        stage="served_sql",
++        answer_id=str(env.get("answer_id") or "ans_space_acl"),
++        text=_REFUSED_TEXT,
++        values=[],
++        rows=[],
++        sql_used=None,
++        assumptions=["Space access rule refused the query behind this answer"],
++        abstain_reason="space_acl",
++        audit_id=env.get("audit_id"),
++        as_of=env.get("as_of"),
++        space_id=env.get("space_id") or space_id,
++        session_id=env.get("session_id"),
++        ask_mode=str(env.get("ask_mode") or "live"),
++        route=env.get("route"),
++    )
++    assert_envelope_valid(out)
++    return out
 diff --git a/packages/executor/dms_executor/warehouse_browse.py b/packages/executor/dms_executor/warehouse_browse.py
 index 48ea889..e1e1805 100644
 --- a/packages/executor/dms_executor/warehouse_browse.py
@@ -469,10 +698,10 @@ index 48ea889..e1e1805 100644
      lim = max(1, min(int(limit), 500))
 diff --git a/tests/test_netie_acl.py b/tests/test_netie_acl.py
 new file mode 100644
-index 0000000..ccd6b74
+index 0000000..f4ebfc6
 --- /dev/null
 +++ b/tests/test_netie_acl.py
-@@ -0,0 +1,142 @@
+@@ -0,0 +1,141 @@
 +"""live_ask / browse go through Netie Space ACL when installed."""
 +
 +from __future__ import annotations
@@ -483,7 +712,6 @@ index 0000000..ccd6b74
 +    guard_browse,
 +    guard_live_answer,
 +)
-+
 +
 +ACL = {
 +    "space-ops": frozenset({"inventory", "shipments"}),
@@ -615,3 +843,445 @@ index 0000000..ccd6b74
 +        )
 +        is None
 +    )
+diff --git a/tests/test_netie_acl_paths.py b/tests/test_netie_acl_paths.py
+new file mode 100644
+index 0000000..6d5e5b4
+--- /dev/null
++++ b/tests/test_netie_acl_paths.py
+@@ -0,0 +1,436 @@
++"""Every executor path that returns source rows goes through the Netie Space gate.
++
++``tests/test_netie_acl.py`` proves the gate functions. This file proves each
++caller: ``live_ask`` (every lane), ``answer_user_sql``, a confirmed held SQL
++(``_run_held_sql``) and ``demo_ask``. For each path: a granted table stands, an
++ungranted one abstains, ``warehouse_<table>`` is read as ``<table>``, and
++hostile or malformed SQL abstains. A refusal is an envelope with
++``abstained: true`` and ``abstain_reason: space_acl``, never rows silently
++dropped.
++
++dms's own ``serve_gap`` already refuses most of these first. Where the test is
++about the Netie gate, it makes ``serve_gap`` permissive so the Netie gate is
++the only thing standing.
++"""
++
++from __future__ import annotations
++
++import json
++from typing import Any
++from unittest.mock import MagicMock
++
++import dms_executor as pkg
++import pytest
++from cortex_contract.execution import Manifest
++from dms_executor import Executor
++from dms_executor.demo_warehouse import ensure_demo_warehouse
++from dms_executor.envelope import assert_envelope_valid, build_answer_envelope
++from dms_executor.manifest import ManifestMinter, SessionAcl
++from dms_executor.netie_acl import guard_envelope
++
++from tests.test_live_ask import FakeCortex
++
++# Warehouse Ops (DR-0002 seed): locations, inventory, shipments. Not transactions.
++OPS = "dddddddd-dddd-dddd-dddd-dddddddddddd"
++GRANTED = ("inventory", "locations", "shipments")
++UNGRANTED_SQL = "SELECT txn_id FROM transactions"
++GRANTED_SQL = "SELECT sku FROM inventory"
++ROWS = [{"sku": "SKU-1"}]
++
++
++def _env(sql: str | None, rows: list[dict[str, Any]], *, route: str = "sql") -> dict[str, Any]:
++    env = build_answer_envelope(
++        answer_id="ans_t",
++        text="Query result.",
++        badge="L2_VALIDATED",
++        abstained=False,
++        rows=rows,
++        sql_used=sql,
++        space_id=OPS,
++        session_id="ses_t",
++        ask_mode="live",
++        route=route,
++        question="q",
++    )
++    assert_envelope_valid(env)
++    return env
++
++
++def _exe(tmp_path: Any) -> Executor:
++    return Executor(warehouse_path=ensure_demo_warehouse(tmp_path / "w.duckdb"))
++
++
++def _refused(env: dict[str, Any]) -> bool:
++    return (
++        env["abstained"] is True
++        and env["badge"] == "ABSTAIN"
++        and env["rows"] == []
++        and not env.get("sql_used")
++        and env.get("abstain_reason") == "space_acl"
++    )
++
++
++# ---------------------------------------------------------------- the entry
++
++
++def test_granted_table_stands() -> None:
++    out = guard_envelope(_env(GRANTED_SQL, ROWS), granted=GRANTED, space_id=OPS)
++    assert out["abstained"] is False
++    assert out["rows"] == ROWS
++    assert out["sql_used"] == GRANTED_SQL
++
++
++@pytest.mark.parametrize(
++    "sql",
++    [
++        'SELECT sku FROM "inventory"',
++        "SELECT i.sku FROM main.inventory AS i",
++        "SELECT i.sku FROM warehouse_inventory AS i",
++        "SELECT i.sku FROM WAREHOUSE_INVENTORY AS i JOIN shipments AS s ON s.sku = i.sku",
++        "WITH t AS (SELECT sku FROM inventory) SELECT sku FROM t",
++    ],
++)
++def test_granted_spellings_stand(sql: str) -> None:
++    """Quoted, schema-defaulted, the warehouse_ lake alias and a CTE over a grant."""
++    out = guard_envelope(_env(sql, ROWS), granted=GRANTED, space_id=OPS)
++    assert out["abstained"] is False, sql
++    assert out["rows"] == ROWS
++
++
++def test_bronze_read_of_a_bare_upload_grant_stands_and_nothing_wider() -> None:
++    """dms grants an upload by its bare name and serves the read through ``bronze.``.
++
++    ``tests/test_name_echo_01.py`` pins that. Only the bronze schema and only a bare
++    grant: another schema, another upload, or a qualified grant opens nothing.
++    """
++    grants = ("q3_po_Sales",)
++    ok = _env("SELECT SUM(amount) AS total FROM bronze.q3_po_Sales", [{"total": 1}])
++    assert guard_envelope(ok, granted=grants, space_id=OPS)["abstained"] is False
++    for sql in (
++        "SELECT SUM(amount) FROM hr.q3_po_Sales",
++        "SELECT SUM(amount) FROM bronze.q4_po_Sales",
++        "SELECT SUM(amount) FROM bronze.q3_po_Sales JOIN bronze.payroll ON 1 = 1",
++    ):
++        assert _refused(guard_envelope(_env(sql, ROWS), granted=grants, space_id=OPS)), sql
++    qualified = ("other.q3_po_Sales",)
++    env = _env("SELECT 1 FROM bronze.q3_po_Sales", ROWS)
++    assert _refused(guard_envelope(env, granted=qualified, space_id=OPS))
++
++
++def test_ungranted_table_abstains_and_names_nothing() -> None:
++    out = guard_envelope(_env(UNGRANTED_SQL, [{"txn_id": 7}]), granted=GRANTED, space_id=OPS)
++    assert _refused(out)
++    blob = json.dumps(out)
++    assert "transactions" not in blob and "txn_id" not in blob
++
++
++@pytest.mark.parametrize(
++    "sql",
++    [
++        "SELECT txn_id FROM warehouse_transactions",
++        "SELECT i.sku FROM warehouse_inventory AS i JOIN warehouse_transactions AS t ON 1 = 1",
++        "SELECT sku FROM hr.warehouse_inventory",
++        "SELECT sku FROM other_schema.inventory",
++        "SELECT sku FROM inventory JOIN transactions ON 1 = 1",
++        "SELECT sku FROM inventory UNION SELECT txn_id FROM transactions",
++        "SELECT sku FROM inventory WHERE sku IN (SELECT sku FROM transactions)",
++        "WITH t AS (SELECT * FROM transactions) SELECT * FROM t",
++        "SELECT sku FROM inventory; SELECT txn_id FROM transactions",
++    ],
++)
++def test_ungranted_alias_join_and_hiding_places_abstain(sql: str) -> None:
++    out = guard_envelope(_env(sql, ROWS), granted=GRANTED, space_id=OPS)
++    assert _refused(out), sql
++
++
++@pytest.mark.parametrize(
++    "sql",
++    [
++        "SELEC FROM (((",
++        "this is not sql at all",
++        "SELECT 1",
++        "SELECT * FROM read_csv('/etc/passwd')",
++        "SELECT * FROM inventory\u043e",  # Cyrillic o: not the granted name
++        "SELECT * FROM 'inventory.csv'",
++        "-- inventory",
++        "   ",
++    ],
++)
++def test_hostile_or_malformed_sql_abstains(sql: str) -> None:
++    """Rows came back with a statement that names no granted relation: refuse."""
++    out = guard_envelope(_env(sql.strip() or None, ROWS), granted=GRANTED, space_id=OPS)
++    assert _refused(out), sql
++
++
++def test_rows_with_no_sql_abstain_but_a_bare_answer_is_left_alone() -> None:
++    assert _refused(guard_envelope(_env(None, ROWS), granted=GRANTED, space_id=OPS))
++    nothing = _env(None, [])
++    assert guard_envelope(nothing, granted=GRANTED, space_id=OPS) is nothing
++
++
++def test_empty_grant_set_abstains() -> None:
++    assert _refused(guard_envelope(_env(GRANTED_SQL, ROWS), granted=(), space_id=OPS))
++    assert _refused(guard_envelope(_env(GRANTED_SQL, ROWS), granted=None, space_id=OPS))
++
++
++def test_no_space_doc_route_and_prior_abstain_are_left_alone() -> None:
++    env = _env(UNGRANTED_SQL, ROWS)
++    assert guard_envelope(env, granted=GRANTED, space_id=None) is env
++    doc = _env(None, [{"chunk": "text"}], route="document")
++    assert guard_envelope(doc, granted=GRANTED, space_id=OPS) is doc
++    refused = guard_envelope(_env(UNGRANTED_SQL, ROWS), granted=GRANTED, space_id=OPS)
++    assert guard_envelope(refused, granted=GRANTED, space_id=OPS) is refused
++
++
++def test_row_naming_another_table_abstains() -> None:
++    out = guard_envelope(
++        _env(GRANTED_SQL, [{"sku": "A", "_table": "transactions"}]),
++        granted=GRANTED,
++        space_id=OPS,
++    )
++    assert _refused(out)
++
++
++# ------------------------------------------------------ answer_user_sql
++
++
++def _lax_dms_gate(monkeypatch: pytest.MonkeyPatch) -> None:
++    """dms's structural gate says yes. The Netie gate is then the only one left."""
++    monkeypatch.setattr(pkg, "serve_gap", lambda *a, **k: None)
++
++
++def test_answer_user_sql_granted_stands(tmp_path: Any) -> None:
++    exe = _exe(tmp_path)
++    env = exe.answer_user_sql("SELECT COUNT(*) AS n FROM inventory", space_id=OPS)
++    assert env["abstained"] is False
++    assert env["rows"] and env["rows"][0]["n"] > 0
++
++
++def test_answer_user_sql_ungranted_abstains_on_dms_gate_alone(tmp_path: Any) -> None:
++    exe = _exe(tmp_path)
++    env = exe.answer_user_sql(UNGRANTED_SQL, space_id=OPS)
++    assert env["abstained"] is True
++    assert env["rows"] == []
++
++
++@pytest.mark.parametrize(
++    "sql",
++    [
++        "SELECT COUNT(*) AS n FROM transactions",
++        "SELECT COUNT(*) AS n FROM inventory, transactions",
++        "SELECT COUNT(*) AS n FROM main.transactions",
++    ],
++)
++def test_answer_user_sql_netie_gate_stops_what_dms_gate_missed(
++    tmp_path: Any, monkeypatch: pytest.MonkeyPatch, sql: str
++) -> None:
++    exe = _exe(tmp_path)
++    _lax_dms_gate(monkeypatch)
++    env = exe.answer_user_sql(sql, space_id=OPS)
++    assert _refused(env), (sql, env.get("abstain_reason"))
++    assert_envelope_valid(env)
++
++
++def test_answer_user_sql_without_a_space_is_unchanged(tmp_path: Any) -> None:
++    exe = _exe(tmp_path)
++    env = exe.answer_user_sql("SELECT COUNT(*) AS n FROM transactions")
++    assert env["abstained"] is False
++    assert env["rows"][0]["n"] > 0
++
++
++# ------------------------------------- reconfirm: _run_held_sql (Yes)
++
++
++def _held(sql: str, grantable: list[str]) -> dict[str, Any]:
++    return {
++        "sql": sql,
++        "grantable": grantable,
++        "reason_code": "definition",
++        "question": "how many",
++        "space_id": OPS,
++        "session_id": "ses_held",
++    }
++
++
++def test_held_sql_granted_stands(tmp_path: Any) -> None:
++    exe = _exe(tmp_path)
++    out = exe._run_held_sql(_held("SELECT COUNT(*) AS n FROM inventory", list(GRANTED)))
++    assert out["abstained"] is False
++    assert out["rows"]
++
++
++@pytest.mark.parametrize(
++    "sql",
++    [
++        "SELECT COUNT(*) AS n FROM transactions",
++        "SELECT COUNT(*) AS n FROM inventory JOIN transactions ON 1 = 1",
++    ],
++)
++def test_held_sql_ungranted_abstains_even_if_the_held_grant_list_is_stale(
++    tmp_path: Any, sql: str
++) -> None:
++    """The pending entry names a wider grant set than the Space holds now.
++
++    The held list is what the offer saw. The gate re-reads the Space's grants
++    at Yes time, so a revoked or forged list does not widen the Space.
++    """
++    exe = _exe(tmp_path)
++    out = exe._run_held_sql(_held(sql, [*GRANTED, "transactions"]))
++    assert _refused(out), sql
++    assert out.get("reconfirm_accepted") is None
++
++
++# --------------------------------------------------------------- demo_ask
++
++
++def test_demo_ask_in_a_space_without_the_table_abstains(tmp_path: Any) -> None:
++    exe = _exe(tmp_path)
++    env = exe.demo_ask("What was total revenue?", space_id=OPS)
++    assert env["abstained"] is True
++    assert env["rows"] == []
++    assert not env.get("values")
++
++
++def test_demo_ask_without_a_space_is_unchanged(tmp_path: Any) -> None:
++    exe = _exe(tmp_path)
++    env = exe.demo_ask("What was total revenue?")
++    assert env["abstained"] is False
++
++
++# ------------------------------------------------- live_ask, every lane
++
++
++@pytest.fixture()
++def minter(monkeypatch: pytest.MonkeyPatch) -> ManifestMinter:
++    m = ManifestMinter()
++    key = MagicMock()
++    key.kid = "test-kid"
++
++    def _mint(acl: SessionAcl) -> Manifest:
++        return Manifest(
++            session_id=acl.session_id,
++            org_id=acl.org_id,
++            space_id=acl.space_id,
++            pool_id=acl.pool_id,
++            issuer_key_id="test-kid",
++            allowed_paths=list(acl.allowed_paths),
++            row_predicates=dict(acl.row_predicates),
++            issued_at="2026-07-30T00:00:00+00:00",
++            expires_at="2026-07-30T01:00:00+00:00",
++            signature="dGVzdHNpZw",
++        )
++
++    monkeypatch.setattr(m, "mint_manifest", _mint)
++    monkeypatch.setattr(m, "fetch_intermediate", lambda: None)
++    monkeypatch.setattr(m, "close", lambda: None)
++    monkeypatch.setattr(m, "invalidate", lambda *_a, **_k: None)
++    return m
++
++
++LANES = ("followup", "verified", "pack", "bronze", "generative")
++
++
++def _stub_lane(monkeypatch: pytest.MonkeyPatch, lane: str, env: dict[str, Any]) -> None:
++    """Make one lane answer with ``env``. The lanes before it miss (return None)."""
++    names = {
++        "followup": "maybe_followup",
++        "verified": "maybe_verified_ask",
++        "pack": "maybe_pack_ask",
++        "generative": "maybe_generative_ask",
++    }
++    if lane == "bronze":
++        monkeypatch.setattr(pkg, "bronze_lane_table", lambda q: "bronze.sheet")
++        monkeypatch.setattr(pkg, "ingested_bronze_tables", lambda *a, **k: ("bronze.sheet",))
++        monkeypatch.setattr(pkg, "relation_gap", lambda *a, **k: None)
++        monkeypatch.setattr(pkg, "bronze_sheet_lane_enabled", lambda: True)
++        monkeypatch.setattr(pkg, "maybe_bronze_sheet_ask", lambda *a, **k: env)
++        return
++    monkeypatch.setattr(pkg, names[lane], lambda *a, **k: env)
++
++
++@pytest.mark.parametrize("lane", LANES)
++def test_every_live_ask_lane_is_gated_at_the_exit(
++    minter: ManifestMinter, monkeypatch: pytest.MonkeyPatch, lane: str
++) -> None:
++    """The lane built an answer over a table the Space does not hold."""
++    exe = Executor(cortex=FakeCortex(submits=[], asks=[]), minter=minter)  # type: ignore[arg-type]
++    _stub_lane(monkeypatch, lane, _env(UNGRANTED_SQL, [{"txn_id": 7}]))
++    out = exe.live_ask("zzq neutral question", space_id=OPS, session_id=f"ses_{lane}")
++    assert out["abstained"] is True, lane
++    assert out["rows"] == [], lane
++    assert out.get("abstain_reason") in {"space_acl", "ungranted"}, lane
++
++
++@pytest.mark.parametrize("lane", LANES)
++def test_every_live_ask_lane_granted_answer_stands(
++    minter: ManifestMinter, monkeypatch: pytest.MonkeyPatch, lane: str
++) -> None:
++    exe = Executor(cortex=FakeCortex(submits=[], asks=[]), minter=minter)  # type: ignore[arg-type]
++    _stub_lane(monkeypatch, lane, _env("SELECT sku FROM warehouse_inventory", ROWS))
++    out = exe.live_ask("zzq neutral question", space_id=OPS, session_id=f"ses_{lane}")
++    assert out["abstained"] is False, lane
++    assert out["rows"] == ROWS, lane
++
++
++def test_netie_gate_alone_stops_a_lane_when_dms_name_check_misses(
++    minter: ManifestMinter, monkeypatch: pytest.MonkeyPatch
++) -> None:
++    """dms's served-SQL refusal says nothing is ungranted; the Netie gate still refuses."""
++    exe = Executor(cortex=FakeCortex(submits=[], asks=[]), minter=minter)  # type: ignore[arg-type]
++    _stub_lane(monkeypatch, "verified", _env(UNGRANTED_SQL, [{"txn_id": 7}]))
++    monkeypatch.setattr(pkg, "refuse_ungranted_answer", lambda env, **k: env)
++    out = exe.live_ask("zzq neutral question", space_id=OPS, session_id="ses_only_netie")
++    assert _refused(out)
++
++
++def test_contract_ask_lane_ungranted_abstains_and_granted_stands(
++    minter: ManifestMinter, monkeypatch: pytest.MonkeyPatch
++) -> None:
++    from cortex_client.models import AskResponse
++
++    def ask_with(sql: str, rows: list[dict[str, Any]]) -> dict[str, Any]:
++        fake = FakeCortex(
++            submits=[],
++            asks=[],
++            ask_response=AskResponse(
++                answer="Result.",
++                badge="certified",
++                sql_used=sql,
++                rows=rows,
++                assumptions="fixture",
++                audit_id="aud-p",
++                route="sql",
++            ),
++        )
++        exe = Executor(cortex=fake, minter=minter)  # type: ignore[arg-type]
++        return exe.live_ask("zzq neutral question", space_id=OPS, session_id="ses_contract")
++
++    ok = ask_with("SELECT sku, quantity_kg FROM inventory LIMIT 5", ROWS)
++    assert ok["abstained"] is False
++    assert ok["rows"] == ROWS
++    bad = ask_with("SELECT txn_id FROM warehouse_transactions", [{"txn_id": 7}])
++    assert bad["abstained"] is True
++    assert bad["rows"] == []
++
++
++def test_a_submit_of_ungranted_steward_sql_reaches_no_caller(
++    minter: ManifestMinter, monkeypatch: pytest.MonkeyPatch
++) -> None:
++    """``_submit_verified_sql`` hands rows to a lane; the lane's envelope is gated.
++
++    Steward SQL is registered by a human, but a Space can be narrowed after it
++    was. The verified lane is stubbed to return what a submit of that SQL
++    would have produced.
++    """
++    exe = Executor(cortex=FakeCortex(submits=[], asks=[]), minter=minter)  # type: ignore[arg-type]
++    seen: list[str] = []
++
++    def lane(*_a: Any, **kw: Any) -> dict[str, Any]:
++        seen.append("ran")
++        return _env("SELECT txn_id FROM transactions", [{"txn_id": 1}])
++
++    monkeypatch.setattr(pkg, "maybe_verified_ask", lane)
++    out = exe.live_ask("zzq neutral question", space_id=OPS, session_id="ses_vq")
++    assert seen == ["ran"]
++    assert out["abstained"] is True
++    assert out["rows"] == []

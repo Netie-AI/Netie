@@ -8,226 +8,35 @@ index 88b0692..4aa72a7 100644
        - run: node --test tests/*.test.js
 +      - name: Constructor compiler
 +        run: node --test tests/compiler.test.cjs
-diff --git a/engine.js b/engine.js
-index 3e04f97..65628db 100644
---- a/engine.js
-+++ b/engine.js
-@@ -3,7 +3,11 @@
-    Execution truth stays on Cortex dag_runner. This file only compiles, ghosts, and ranks.
-    Pure IR lives in core/constructor.js (v0.1.0). */
- 
--const Core = globalThis.NetieConstructorCore;
-+const Core =
-+  globalThis.NetieConstructorCore ||
-+  (typeof module !== "undefined" && module.exports && typeof require === "function"
-+    ? require("./core/constructor.js")
-+    : null);
- if (!Core) {
-   throw new Error("NetieConstructorCore missing. Load core/constructor.js before engine.js.");
- }
-@@ -15,12 +19,62 @@ function cortexOrigin() {
-   return Core.cortexOriginFrom(location.hostname, location.pathname);
- }
- 
-+function rankForKinds(kinds) {
-+  const list = kinds instanceof Set ? Array.from(kinds) : Array.from(kinds || []);
-+  return Core.rankApproachesForGraph({
-+    nodes: list.map(function (kind) {
-+      return { kind: kind };
-+    }),
-+  });
-+}
-+
- function compileIR(state) {
-+  const output =
-+    [...state.nodes].reverse().find((n) => n.kind === "app") ||
-+    [...state.nodes].reverse().find((n) => n.kind === "audit") ||
-+    state.nodes[state.nodes.length - 1];
-+  return {
-+    version: "1.0",
-+    engine: "cortex",
-+    ghost: !!(
-+      state.ghost ||
-+      (typeof window !== "undefined" && window.Constructor && window.Constructor.ghost)
-+    ),
-+    entry_node_id: state.nodes[0].id,
-+    output_node_id: output.id,
-+    nodes: state.nodes.map((n) => {
-+      let kind = CORTEX_KIND[n.kind] || "DOCUMENT_REF";
-+      if (n.id === output.id) kind = "EMIT";
-+      else if (kind === "EMIT") kind = "DETERMINISTIC_RULE";
-+      return {
-+        id: n.id,
-+        kind: kind,
-+        constructor_kind: n.kind,
-+        object_type: n.object_type || null,
-+        data_point: n.data_point || null,
-+        data_type: n.data_type || null,
-+        action_type: n.action_type || null,
-+        fetch_from: n.fetch_from || null,
-+        tier: n.tier || "T0",
-+        stream: !!n.stream,
-+        note: n.note,
-+        requires_confirm: n.kind === "tool_call",
-+      };
-+    }),
-+    edges: state.edges.slice(),
-+  };
-+}
-+
-+function topo(state) {
-+  return Core.topo(state);
-+}
-+
-+function canvasIR(state) {
-+  // Brain panel view: the compiled IR plus the head digests. Never a POST body.
-   const C = window.Constructor;
--  const ir = Core.compileIR(state, {
--    ghost: !!(C && C.ghost),
--    rsf: C && C.lastRsf && C.lastRsf.wire,
--  });
-+  const ir = compileIR(state);
-+  ir.rsf = C && C.lastRsf && C.lastRsf.wire ? Core.rsfDigest(C.lastRsf.wire) : null;
-+  ir.fde = Core.fdeDigest(state);
-   ir.ontology = ontologyDigest();
-   return ir;
- }
-@@ -143,7 +197,7 @@ async function syncCortexBrain(extra) {
-   extra = extra || {};
-   const C = window.Constructor;
-   if (!C || typeof C.getState !== "function") return;
--  const ir = compileIR(C.getState());
-+  const ir = canvasIR(C.getState());
-   if (!cortexOrigin()) {
-     paintCortexBrain(ir, extra);
-     return ir;
-@@ -287,22 +341,18 @@ async function ontologyChat(t) {
-   return null;
- }
- 
--function topo(state) {
--  return Core.topo(state);
--}
--
- async function ghostRun() {
-   const C = window.Constructor;
-   const state = C.getState();
-   const v = Core.validateGraph(state);
-   if (!v.ok) {
--    paintCortexBrain(compileIR(state), { source: "ghost-refuse" });
-+    paintCortexBrain(canvasIR(state), { source: "ghost-refuse" });
-     return localGhostWalk();
-   }
-   if (cortexOrigin()) {
-     const remote = await cortexPost("/cortex/constructor/ghost", constructorRunBody());
-     C.showAudit({ mode: "cortex-ghost", remote: remote });
--    paintCortexBrain(compileIR(state), { remote: remote, source: "ghost" });
-+    paintCortexBrain(canvasIR(state), { remote: remote, source: "ghost" });
-     if (remote && remote.ok) {
-       C.markGhostWalk((remote.nodes || []).map((n) => n.id));
-       return "Cortex ghost compile ok. EMIT=" + remote.output_node_id + ". No writes. Brain shows the DAG.";
-@@ -310,7 +360,7 @@ async function ghostRun() {
-     return "Cortex ghost blocked (" + (remote && (remote.status || remote.error) || "offline") + "). Local walk instead. " + localGhostWalk();
-   }
-   const local = localGhostWalk();
--  paintCortexBrain(compileIR(state), { source: "local-ghost" });
-+  paintCortexBrain(canvasIR(state), { source: "local-ghost" });
-   return local;
- }
- 
-@@ -444,7 +494,9 @@ async function rankApproaches() {
-       return ranked;
-     }
-   }
--  const ranked = Core.rankApproachesForGraph(window.Constructor.getState());
-+  const ranked = rankForKinds(
-+    window.Constructor.getState().nodes.map((n) => n.kind)
-+  );
-   const box = document.getElementById("approaches");
-   box.innerHTML = ranked
-     .map((row, i) => {
-@@ -607,7 +659,7 @@ async function liveOrGhost(forceLive) {
-   const C = window.Constructor;
-   const v = Core.validateGraph(C.getState());
-   if (!v.ok) return localGhostWalk();
--  const ir = compileIR(C.getState());
-+  const ir = canvasIR(C.getState());
-   if (forceLive) {
-     if (!cortexOrigin()) {
-       return "Live run is Cortex only (POST /cortex/constructor/run). Pages never fetch. Open http://127.0.0.1:8012/cortex (constructor-mount). Prod app.netie.ai/cortex is 404 until Hyperlift.";
-@@ -663,7 +715,7 @@ async function consumeRsfChat(raw) {
-     error: result.error || null,
-   });
-   if (!result.ok) {
--    paintCortexBrain(compileIR(C.getState()), { rsf: result, source: "rsf-refuse" });
-+    paintCortexBrain(canvasIR(C.getState()), { rsf: result, source: "rsf-refuse" });
-     return result.summary;
-   }
-   C.lastRsf = result;
-@@ -676,7 +728,7 @@ async function consumeRsfChat(raw) {
-     return await liveOrGhost(true);
-   }
-   const walk = await ghostRun();
--  paintCortexBrain(compileIR(C.getState()), { rsf: result, source: "rsf-consume" });
-+  paintCortexBrain(canvasIR(C.getState()), { rsf: result, source: "rsf-consume" });
-   return result.summary + " " + walk;
- }
- 
-@@ -1017,7 +1069,7 @@ async function pressNode() {
-   const C = window.Constructor;
-   const node = C.selected && C.selected();
-   if (!node) return "Select or click a node first.";
--  const ir = compileIR(C.getState());
-+  const ir = canvasIR(C.getState());
-   const compiled = (ir.nodes || []).find((n) => n.id === node.id) || {};
-   let remote = null;
-   if (cortexOrigin()) {
-@@ -1212,10 +1264,25 @@ async function loadGovernedAnswerUrl(url) {
-   }
- }
- 
--if (window.Constructor) window.Constructor.loadGovernedAnswerUrl = loadGovernedAnswerUrl;
-+if (typeof window !== "undefined" && window.Constructor) {
-+  window.Constructor.loadGovernedAnswerUrl = loadGovernedAnswerUrl;
-+}
-+
-+if (typeof document !== "undefined") {
-+  if (document.readyState === "loading") {
-+    document.addEventListener("DOMContentLoaded", bindChat);
-+  } else {
-+    bindChat();
-+  }
-+}
- 
--if (document.readyState === "loading") {
--  document.addEventListener("DOMContentLoaded", bindChat);
--} else {
--  bindChat();
-+if (typeof module !== "undefined" && module.exports) {
-+  module.exports = {
-+    APPROACHES: Core.APPROACHES,
-+    CORTEX_KIND,
-+    compileIR,
-+    rankForKinds,
-+    scoreApproach: Core.scoreApproach,
-+    topo,
-+  };
- }
 diff --git a/tests/compiler.test.cjs b/tests/compiler.test.cjs
 new file mode 100644
-index 0000000..de9fd5c
+index 0000000..ebe8eea
 --- /dev/null
 +++ b/tests/compiler.test.cjs
-@@ -0,0 +1,45 @@
+@@ -0,0 +1,860 @@
 +"use strict";
 +
 +const { test } = require("node:test");
 +const assert = require("node:assert/strict");
++// One compiler: core/constructor.js. Strict mode is how Netie callers (engine.js, the
++// Cortex POST bodies) invoke it. Loading core first also sets globalThis.NetieConstructorCore,
++// which engine.js needs for bindWhenReady.
++const Core = require("../core/constructor.js");
 +const {
-+  compileIR,
 +  rankForKinds,
-+  topo,
-+} = require("../engine.js");
++  listedOrEmpty,
++  listedOptions,
++  objectForSetPoint,
++  applyObjectType,
++  nodesWithoutNotes,
++} = Core;
++const compileIR = (state) => Core.compileIR(state, { strict: true });
++const topo = (state) => Core.topo(state, { strict: true });
++const ghostWalk = (state, ghost) => Core.walkIR(state, ghost);
++const cortexPayload = (state) => Core.cortexPayload(state);
++const { bindWhenReady } = require("../engine.js");
++const fs = require("node:fs");
++const path = require("node:path");
 +
 +test("foundry path ranks orchestrator-subagent first", () => {
 +  const ranked = rankForKinds(["connector", "ontology", "insight", "foundry", "app"]);
@@ -263,4 +72,805 @@ index 0000000..de9fd5c
 +    ],
 +  });
 +  assert.deepEqual(order, ["a", "b", "c"]);
++});
++
++test("topo does not append leftover cyclic nodes", () => {
++  const mixed = topo({
++    nodes: [{ id: "a" }, { id: "b" }, { id: "free" }],
++    edges: [
++      { from: "a", to: "b" },
++      { from: "b", to: "a" },
++    ],
++  });
++  assert.deepEqual(mixed, ["free"]);
++  const cycle = topo({
++    nodes: [{ id: "a" }, { id: "b" }],
++    edges: [
++      { from: "a", to: "b" },
++      { from: "b", to: "a" },
++    ],
++  });
++  assert.deepEqual(cycle, []);
++});
++
++test("compileIR entry is the Kahn source, not array[0]", () => {
++  const ir = compileIR({
++    nodes: [
++      { id: "sink", kind: "app", note: "out" },
++      { id: "src", kind: "connector", note: "in" },
++    ],
++    edges: [{ from: "src", to: "sink" }],
++  });
++  assert.equal(ir.error, undefined);
++  assert.equal(ir.entry_node_id, "src");
++  assert.equal(ir.output_node_id, "sink");
++  assert.equal(ir.nodes[0].id, "src");
++  assert.equal(ir.nodes[ir.nodes.length - 1].id, "sink");
++  const packed = cortexPayload({
++    nodes: [
++      { id: "sink", kind: "app", note: "out" },
++      { id: "src", kind: "connector", note: "in" },
++    ],
++    edges: [{ from: "src", to: "sink" }],
++  });
++  assert.equal(packed.error, undefined);
++  assert.equal(packed.body.nodes[0].id, "src");
++  assert.equal(packed.body.entry_node_id, "src");
++});
++
++test("compileIR output is the Kahn sink app, not array last app", () => {
++  const ir = compileIR({
++    nodes: [
++      { id: "sink", kind: "app", note: "out" },
++      { id: "src", kind: "connector", note: "in" },
++      { id: "mid", kind: "app", note: "mid" },
++    ],
++    edges: [
++      { from: "src", to: "mid" },
++      { from: "mid", to: "sink" },
++    ],
++  });
++  assert.equal(ir.error, undefined);
++  assert.equal(ir.entry_node_id, "src");
++  assert.equal(ir.output_node_id, "sink");
++  assert.equal(ir.nodes.find((n) => n.id === "sink").kind, "EMIT");
++  assert.equal(ir.nodes.find((n) => n.id === "mid").kind, "DETERMINISTIC_RULE");
++});
++
++test("compileIR output is the Kahn sink, not array last, when no app", () => {
++  const ir = compileIR({
++    nodes: [
++      { id: "sink", kind: "ontology", note: "types" },
++      { id: "src", kind: "connector", note: "in" },
++    ],
++    edges: [{ from: "src", to: "sink" }],
++  });
++  assert.equal(ir.error, undefined);
++  assert.equal(ir.entry_node_id, "src");
++  assert.equal(ir.output_node_id, "sink");
++  assert.equal(ir.nodes.find((n) => n.id === "sink").kind, "DOCUMENT_REF");
++});
++
++test("verify path ranks generator-verifier first", () => {
++  const ranked = rankForKinds(["hypothesize", "audit"]);
++  assert.equal(ranked[0].id, "generator_verifier");
++});
++
++test("ghost is false when unset", () => {
++  const ir = compileIR({
++    nodes: [{ id: "c", kind: "connector", note: "in" }],
++    edges: [],
++  });
++  assert.equal(ir.ghost, false);
++  assert.equal(ir.error, undefined);
++});
++
++test("empty graph does not invent Cortex nodes", () => {
++  const ir = compileIR({ nodes: [], edges: [] });
++  assert.equal(ir.engine, "cortex");
++  assert.equal(ir.error, "empty graph");
++  assert.deepEqual(ir.nodes, []);
++  assert.equal(ir.entry_node_id, null);
++});
++
++test("unknown kind does not invent DOCUMENT_REF", () => {
++  const ir = compileIR({
++    nodes: [{ id: "x", kind: "n8n", note: "no" }],
++    edges: [],
++  });
++  assert.equal(ir.error, "unknown kind: n8n");
++  assert.deepEqual(ir.nodes, []);
++  assert.equal(ir.entry_node_id, null);
++});
++
++test("cycle does not emit a fake topo", () => {
++  const ir = compileIR({
++    nodes: [
++      { id: "a", kind: "connector" },
++      { id: "b", kind: "ontology" },
++    ],
++    edges: [
++      { from: "a", to: "b" },
++      { from: "b", to: "a" },
++    ],
++  });
++  assert.equal(ir.error, "cycle");
++  assert.deepEqual(ir.nodes, []);
++});
++
++test("dangling edge does not invent a node", () => {
++  const ir = compileIR({
++    nodes: [{ id: "a", kind: "connector" }],
++    edges: [{ from: "a", to: "missing" }],
++  });
++  assert.equal(ir.error, "dangling edge");
++  assert.deepEqual(ir.nodes, []);
++});
++
++test("missing id does not invent a Cortex node", () => {
++  const ir = compileIR({
++    nodes: [{ kind: "connector", note: "no id" }],
++    edges: [],
++  });
++  assert.equal(ir.error, "missing id");
++  assert.deepEqual(ir.nodes, []);
++  assert.equal(ir.entry_node_id, null);
++});
++
++test("duplicate id does not emit a fake Kahn walk", () => {
++  const ir = compileIR({
++    nodes: [
++      { id: "a", kind: "connector" },
++      { id: "a", kind: "ontology" },
++    ],
++    edges: [],
++  });
++  assert.equal(ir.error, "duplicate id: a");
++  assert.deepEqual(ir.nodes, []);
++  assert.equal(ir.entry_node_id, null);
++});
++
++test("ghostWalk refuses a cycle instead of walking leftovers", () => {
++  const walked = ghostWalk(
++    {
++      nodes: [
++        { id: "a", kind: "connector" },
++        { id: "b", kind: "ontology" },
++      ],
++      edges: [
++        { from: "a", to: "b" },
++        { from: "b", to: "a" },
++      ],
++    },
++    true
++  );
++  assert.equal(walked.error, "cycle");
++  assert.deepEqual(walked.log, []);
++  assert.deepEqual(walked.order, []);
++});
++
++test("ghostWalk refuses a dangling edge instead of inventing a step", () => {
++  const walked = ghostWalk(
++    {
++      nodes: [{ id: "a", kind: "connector" }],
++      edges: [{ from: "a", to: "missing" }],
++    },
++    true
++  );
++  assert.equal(walked.error, "dangling edge");
++  assert.deepEqual(walked.log, []);
++});
++
++test("ghostWalk logs a valid DAG in topo order", () => {
++  const walked = ghostWalk(
++    {
++      nodes: [
++        { id: "c", kind: "connector", note: "in" },
++        { id: "a", kind: "app", note: "out" },
++      ],
++      edges: [{ from: "c", to: "a" }],
++    },
++    true
++  );
++  assert.equal(walked.error, undefined);
++  assert.deepEqual(walked.order, ["c", "a"]);
++  assert.equal(walked.log.length, 2);
++  assert.equal(walked.log[0].write, false);
++});
++
++test("connector-only graph does not invent EMIT", () => {
++  const ir = compileIR({
++    nodes: [{ id: "c", kind: "connector", note: "in" }],
++    edges: [],
++  });
++  assert.equal(ir.error, undefined);
++  assert.equal(ir.output_node_id, "c");
++  assert.equal(ir.nodes[0].kind, "DOCUMENT_REF");
++});
++
++test("audit output is still EMIT", () => {
++  const ir = compileIR({
++    nodes: [
++      { id: "h", kind: "hypothesize" },
++      { id: "a", kind: "audit" },
++    ],
++    edges: [{ from: "h", to: "a" }],
++  });
++  assert.equal(ir.error, undefined);
++  assert.equal(ir.nodes.find((n) => n.id === "a").kind, "EMIT");
++  assert.equal(ir.nodes.find((n) => n.id === "h").kind, "DOCUMENT_REF");
++});
++
++test("unlabeled tool_call does not invent export_pptx", () => {
++  const ir = compileIR({
++    nodes: [{ id: "t", kind: "tool_call", note: "write" }],
++    edges: [],
++  });
++  assert.equal(ir.error, "tool_call missing action_type");
++  assert.deepEqual(ir.nodes, []);
++  assert.equal(ir.entry_node_id, null);
++});
++
++test("labeled tool_call keeps the caller action_type", () => {
++  const ir = compileIR({
++    nodes: [{ id: "t", kind: "tool_call", action_type: "export_pptx" }],
++    edges: [],
++  });
++  assert.equal(ir.error, undefined);
++  assert.equal(ir.nodes[0].action_type, "export_pptx");
++});
++
++test("ghostWalk refuses unlabeled tool_call instead of inventing a write", () => {
++  const walked = ghostWalk(
++    {
++      nodes: [{ id: "t", kind: "tool_call", note: "write" }],
++      edges: [],
++    },
++    true
++  );
++  assert.equal(walked.error, "tool_call missing action_type");
++  assert.deepEqual(walked.log, []);
++  assert.deepEqual(walked.order, []);
++});
++
++test("inspect does not invent export_pptx for a missing action", () => {
++  const actions = ["export_pptx", "item.intake", "agent.checked"];
++  assert.equal(listedOrEmpty("", actions), "");
++  assert.equal(listedOrEmpty("nope", actions), "");
++  assert.equal(listedOrEmpty("export_pptx", actions), "export_pptx");
++  assert.deepEqual(listedOptions(actions, ""), [
++    "",
++    "export_pptx",
++    "item.intake",
++    "agent.checked",
++  ]);
++  assert.deepEqual(listedOptions(actions, "export_pptx"), actions);
++});
++
++test("inspect does not invent inventory for a missing object", () => {
++  const objects = ["inventory", "shipments"];
++  assert.equal(listedOrEmpty("", objects), "");
++  assert.equal(listedOrEmpty("nope", objects), "");
++  assert.deepEqual(listedOptions(objects, ""), ["", "inventory", "shipments"]);
++  assert.deepEqual(listedOptions(objects, "inventory"), objects);
++});
++
++test("inspect does not invent T0 for a missing tier", () => {
++  const tiers = ["T0", "T1"];
++  assert.equal(listedOrEmpty("", tiers), "");
++  assert.equal(listedOrEmpty("nope", tiers), "");
++  assert.equal(listedOrEmpty("T0", tiers), "T0");
++  assert.deepEqual(listedOptions(tiers, ""), ["", "T0", "T1"]);
++  assert.deepEqual(listedOptions(tiers, "T0"), tiers);
++});
++
++test("compileIR does not invent T0 for a missing tier", () => {
++  const ir = compileIR({
++    nodes: [{ id: "c", kind: "connector" }],
++    edges: [],
++  });
++  assert.equal(ir.error, undefined);
++  assert.equal(ir.nodes[0].tier, null);
++});
++
++test("set point does not invent inventory for a missing object", () => {
++  const objects = {
++    inventory: { points: { sku: "string" } },
++    shipments: { points: { dest: "string" } },
++  };
++  assert.equal(objectForSetPoint("", objects), "");
++  assert.equal(objectForSetPoint("nope", objects), "");
++  assert.equal(objectForSetPoint("inventory", objects), "inventory");
++});
++
++test("compileIR does not keep an unlisted object_type", () => {
++  const ir = compileIR({
++    nodes: [{ id: "c", kind: "connector", object_type: "hr_notes" }],
++    edges: [],
++  });
++  assert.equal(ir.error, undefined);
++  assert.equal(ir.nodes[0].object_type, null);
++  const insight = compileIR({
++    nodes: [{ id: "i", kind: "insight", object_type: "Insight" }],
++    edges: [],
++  });
++  assert.equal(insight.nodes[0].object_type, null);
++});
++
++test("compileIR keeps a listed object_type", () => {
++  const ir = compileIR({
++    nodes: [{ id: "c", kind: "connector", object_type: "inventory" }],
++    edges: [],
++  });
++  assert.equal(ir.nodes[0].object_type, "inventory");
++});
++
++test("compileIR uses the caller object catalog", () => {
++  const ir = compileIR({
++    objects: ["shipments"],
++    nodes: [
++      { id: "ok", kind: "connector", object_type: "shipments" },
++      { id: "no", kind: "connector", object_type: "inventory" },
++    ],
++    edges: [{ from: "ok", to: "no" }],
++  });
++  assert.equal(ir.error, undefined);
++  assert.equal(ir.nodes.find((n) => n.id === "ok").object_type, "shipments");
++  assert.equal(ir.nodes.find((n) => n.id === "no").object_type, null);
++});
++
++test("ghostWalk does not log an unlisted object_type", () => {
++  const walked = ghostWalk(
++    {
++      nodes: [{ id: "c", kind: "connector", object_type: "hr_notes" }],
++      edges: [],
++    },
++    true
++  );
++  assert.equal(walked.error, undefined);
++  assert.equal(walked.log[0].object_type, null);
++});
++
++test("compileIR drops fetch_from that names an unlisted table", () => {
++  const bad = compileIR({
++    nodes: [
++      {
++        id: "c",
++        kind: "connector",
++        object_type: "inventory",
++        fetch_from: "warehouse.hr_notes",
++      },
++    ],
++    edges: [],
++  });
++  assert.equal(bad.nodes[0].fetch_from, null);
++  const ok = compileIR({
++    nodes: [
++      {
++        id: "c",
++        kind: "connector",
++        object_type: "inventory",
++        fetch_from: "warehouse.inventory",
++      },
++    ],
++    edges: [],
++  });
++  assert.equal(ok.nodes[0].fetch_from, "warehouse.inventory");
++  const mismatch = compileIR({
++    nodes: [
++      {
++        id: "c",
++        kind: "connector",
++        object_type: "inventory",
++        fetch_from: "warehouse.suppliers",
++      },
++    ],
++    edges: [],
++  });
++  assert.equal(mismatch.nodes[0].fetch_from, null);
++});
++
++test("compileIR drops a data_point that is not on the listed object", () => {
++  const bad = compileIR({
++    nodes: [
++      {
++        id: "c",
++        kind: "connector",
++        object_type: "inventory",
++        data_point: "salary",
++        data_type: "number",
++      },
++    ],
++    edges: [],
++  });
++  assert.equal(bad.nodes[0].object_type, "inventory");
++  assert.equal(bad.nodes[0].data_point, null);
++  assert.equal(bad.nodes[0].data_type, null);
++  const ok = compileIR({
++    nodes: [
++      {
++        id: "c",
++        kind: "connector",
++        object_type: "inventory",
++        data_point: "sku",
++        data_type: "string",
++      },
++    ],
++    edges: [],
++  });
++  assert.equal(ok.nodes[0].data_point, "sku");
++  assert.equal(ok.nodes[0].data_type, "string");
++});
++
++test("compileIR drops data_point when object_type was unlisted", () => {
++  const ir = compileIR({
++    nodes: [
++      {
++        id: "c",
++        kind: "connector",
++        object_type: "hr_notes",
++        data_point: "sku",
++        data_type: "string",
++        fetch_from: "warehouse.inventory",
++      },
++    ],
++    edges: [],
++  });
++  assert.equal(ir.nodes[0].object_type, null);
++  assert.equal(ir.nodes[0].data_point, null);
++  assert.equal(ir.nodes[0].data_type, null);
++  assert.equal(ir.nodes[0].fetch_from, null);
++});
++
++test("ghostWalk matches IR fetch_from and data_point", () => {
++  const walked = ghostWalk(
++    {
++      nodes: [
++        {
++          id: "c",
++          kind: "connector",
++          object_type: "inventory",
++          data_point: "salary",
++          fetch_from: "warehouse.hr_notes",
++        },
++      ],
++      edges: [],
++    },
++    true
++  );
++  assert.equal(walked.log[0].object_type, "inventory");
++  assert.equal(walked.log[0].data_point, null);
++  assert.equal(walked.log[0].fetch_from, null);
++});
++
++test("tool_call unknown action_type does not compile", () => {
++  const ir = compileIR({
++    nodes: [{ id: "t", kind: "tool_call", action_type: "bash" }],
++    edges: [],
++  });
++  assert.equal(ir.error, "tool_call unknown action_type");
++  assert.deepEqual(ir.nodes, []);
++});
++
++test("unlisted action_type on a non-tool node is dropped", () => {
++  const ir = compileIR({
++    nodes: [{ id: "a", kind: "app", action_type: "emit" }],
++    edges: [],
++  });
++  assert.equal(ir.error, undefined);
++  assert.equal(ir.nodes[0].action_type, null);
++  assert.equal(ir.nodes[0].requires_confirm, false);
++});
++
++test("export_pptx on foundry requires confirm", () => {
++  const ir = compileIR({
++    nodes: [{ id: "f", kind: "foundry", action_type: "export_pptx" }],
++    edges: [],
++  });
++  assert.equal(ir.nodes[0].action_type, "export_pptx");
++  assert.equal(ir.nodes[0].requires_confirm, true);
++});
++
++test("item.intake on foundry requires confirm", () => {
++  const ir = compileIR({
++    nodes: [{ id: "f", kind: "foundry", action_type: "item.intake" }],
++    edges: [],
++  });
++  assert.equal(ir.nodes[0].action_type, "item.intake");
++  assert.equal(ir.nodes[0].requires_confirm, true);
++});
++
++test("agent.checked on foundry is an event", () => {
++  const ir = compileIR({
++    nodes: [{ id: "f", kind: "foundry", action_type: "agent.checked" }],
++    edges: [],
++  });
++  assert.equal(ir.nodes[0].action_type, "agent.checked");
++  assert.equal(ir.nodes[0].requires_confirm, false);
++});
++
++test("amend.apply on foundry requires confirm", () => {
++  const ir = compileIR({
++    nodes: [{ id: "f", kind: "foundry", action_type: "amend.apply" }],
++    edges: [],
++  });
++  assert.equal(ir.nodes[0].action_type, "amend.apply");
++  assert.equal(ir.nodes[0].requires_confirm, true);
++});
++
++test("call_action on foundry requires confirm", () => {
++  const ir = compileIR({
++    nodes: [{ id: "f", kind: "foundry", action_type: "call_action" }],
++    edges: [],
++  });
++  assert.equal(ir.nodes[0].action_type, "call_action");
++  assert.equal(ir.nodes[0].requires_confirm, true);
++});
++
++test("ghostWalk refuses unknown tool_call action", () => {
++  const walked = ghostWalk(
++    {
++      nodes: [{ id: "t", kind: "tool_call", action_type: "bash" }],
++      edges: [],
++    },
++    true
++  );
++  assert.equal(walked.error, "tool_call unknown action_type");
++  assert.deepEqual(walked.log, []);
++});
++
++test("compileIR refuses a disconnected graph", () => {
++  const ir = compileIR({
++    nodes: [
++      { id: "a", kind: "connector" },
++      { id: "b", kind: "connector" },
++    ],
++    edges: [],
++  });
++  assert.equal(ir.error, "disconnected graph");
++  assert.deepEqual(ir.nodes, []);
++  assert.equal(ir.entry_node_id, null);
++  assert.equal(ir.output_node_id, null);
++});
++
++test("ghostWalk refuses a disconnected graph", () => {
++  const walked = ghostWalk(
++    {
++      nodes: [
++        { id: "a", kind: "connector" },
++        { id: "b", kind: "app" },
++      ],
++      edges: [],
++    },
++    true
++  );
++  assert.equal(walked.error, "disconnected graph");
++  assert.deepEqual(walked.log, []);
++});
++
++test("compileIR refuses a fork with no app", () => {
++  const ir = compileIR({
++    nodes: [
++      { id: "src", kind: "connector" },
++      { id: "left", kind: "ontology" },
++      { id: "right", kind: "ontology" },
++    ],
++    edges: [
++      { from: "src", to: "left" },
++      { from: "src", to: "right" },
++    ],
++  });
++  assert.equal(ir.error, "ambiguous output");
++  assert.deepEqual(ir.nodes, []);
++});
++
++test("compileIR join still emits the app", () => {
++  const ir = compileIR({
++    nodes: [
++      { id: "b", kind: "connector" },
++      { id: "a", kind: "connector" },
++      { id: "sink", kind: "app" },
++    ],
++    edges: [
++      { from: "a", to: "sink" },
++      { from: "b", to: "sink" },
++    ],
++  });
++  assert.equal(ir.error, undefined);
++  assert.equal(ir.output_node_id, "sink");
++  assert.equal(ir.nodes.find((n) => n.id === "sink").kind, "EMIT");
++});
++
++test("compileIR fork with one app keeps that sink", () => {
++  const ir = compileIR({
++    nodes: [
++      { id: "src", kind: "connector" },
++      { id: "side", kind: "ontology" },
++      { id: "sink", kind: "app" },
++    ],
++    edges: [
++      { from: "src", to: "side" },
++      { from: "src", to: "sink" },
++    ],
++  });
++  assert.equal(ir.error, undefined);
++  assert.equal(ir.entry_node_id, "src");
++  assert.equal(ir.output_node_id, "sink");
++  assert.equal(ir.nodes.find((n) => n.id === "sink").kind, "EMIT");
++});
++
++test("compileIR does not copy canvas notes into Cortex IR", () => {
++  const ir = compileIR({
++    nodes: [{ id: "c", kind: "connector", note: "in" }],
++    edges: [],
++  });
++  assert.equal(ir.error, undefined);
++  assert.equal("note" in ir.nodes[0], false);
++});
++
++test("compileIR refuses a note that leaked a body", () => {
++  const ir = compileIR({
++    nodes: [{ id: "c", kind: "connector", note: "skill_body: SECRET" }],
++    edges: [],
++  });
++  assert.equal(ir.error, "note leaked a body");
++  assert.deepEqual(ir.nodes, []);
++  const prompt = compileIR({
++    nodes: [{ id: "c", kind: "connector", note: "system prompt dump" }],
++    edges: [],
++  });
++  assert.equal(prompt.error, "note leaked a body");
++});
++
++test("ghostWalk refuses a transcript note", () => {
++  const walked = ghostWalk(
++    {
++      nodes: [{ id: "c", kind: "connector", note: "transcript of the room" }],
++      edges: [],
++    },
++    true
++  );
++  assert.equal(walked.error, "note leaked a body");
++  assert.deepEqual(walked.log, []);
++});
++
++test("compileIR refuses notes over DitchContext", () => {
++  const ir = compileIR({
++    nodes: [{ id: "c", kind: "connector", note: "x".repeat(12001) }],
++    edges: [],
++  });
++  assert.equal(ir.error, "notes over DitchContext");
++  assert.deepEqual(ir.nodes, []);
++});
++
++test("cortexPayload strips notes and does not POST a leaked body", () => {
++  const packed = cortexPayload({
++    nodes: [{ id: "c", kind: "connector", note: "in" }],
++    edges: [],
++  });
++  assert.equal(packed.error, undefined);
++  assert.equal(packed.body.engine, "cortex");
++  assert.equal(packed.body.nodes[0].kind, "DOCUMENT_REF");
++  assert.equal("note" in packed.body.nodes[0], false);
++  const leak = cortexPayload({
++    nodes: [{ id: "c", kind: "connector", note: "skill_body: SECRET" }],
++    edges: [],
++  });
++  assert.equal(leak.error, "note leaked a body");
++  assert.equal(leak.body, null);
++});
++
++test("cortexPayload POSTs compileIR not the canvas", () => {
++  const packed = cortexPayload({
++    nodes: [
++      {
++        id: "c",
++        kind: "connector",
++        object_type: "hr_notes",
++        data_point: "salary",
++        action_type: "bash",
++        x: 9,
++        note: "in",
++      },
++    ],
++    edges: [],
++  });
++  assert.equal(packed.error, undefined);
++  const n = packed.body.nodes[0];
++  assert.equal(n.kind, "DOCUMENT_REF");
++  assert.equal(n.constructor_kind, "connector");
++  assert.equal(n.object_type, null);
++  assert.equal(n.data_point, null);
++  assert.equal(n.action_type, null);
++  assert.equal("x" in n, false);
++  assert.equal("note" in n, false);
++  assert.equal(n.requires_confirm, false);
++  const write = cortexPayload({
++    nodes: [{ id: "t", kind: "tool_call", action_type: "export_pptx" }],
++    edges: [],
++  });
++  assert.equal(write.error, undefined);
++  assert.equal(write.body.nodes[0].kind, "TOOL_CALL");
++  assert.equal(write.body.nodes[0].action_type, "export_pptx");
++  assert.equal(write.body.nodes[0].requires_confirm, true);
++});
++
++test("cortexPayload refuses a disconnected graph before Cortex", () => {
++  const packed = cortexPayload({
++    nodes: [
++      { id: "a", kind: "connector" },
++      { id: "b", kind: "app" },
++    ],
++    edges: [],
++  });
++  assert.equal(packed.error, "disconnected graph");
++  assert.equal(packed.body, null);
++});
++
++test("nodesWithoutNotes drops only the note field", () => {
++  const rows = nodesWithoutNotes([
++    { id: "c", kind: "connector", note: "in", object_type: "inventory" },
++  ]);
++  assert.equal(rows[0].id, "c");
++  assert.equal(rows[0].object_type, "inventory");
++  assert.equal("note" in rows[0], false);
++});
++
++test("applyObjectType does not invent the first data_point", () => {
++  const objects = {
++    inventory: { points: { sku: "string", sku_name: "string" } },
++    suppliers: { points: { supplier_id: "string" } },
++  };
++  const node = { object_type: "", data_point: "", data_type: "" };
++  applyObjectType(node, "inventory", objects);
++  assert.equal(node.object_type, "inventory");
++  assert.equal(node.data_point, "");
++  assert.equal(node.data_type, "");
++});
++
++test("applyObjectType keeps a data_point still listed on the new object", () => {
++  const objects = {
++    inventory: { points: { sku: "string", supplier_id: "string" } },
++    suppliers: { points: { supplier_id: "string" } },
++  };
++  const node = {
++    object_type: "inventory",
++    data_point: "supplier_id",
++    data_type: "string",
++  };
++  applyObjectType(node, "suppliers", objects);
++  assert.equal(node.object_type, "suppliers");
++  assert.equal(node.data_point, "supplier_id");
++  assert.equal(node.data_type, "string");
++});
++
++test("applyObjectType clears a data_point not on the new object", () => {
++  const objects = {
++    inventory: { points: { sku: "string" } },
++    suppliers: { points: { supplier_id: "string" } },
++  };
++  const unlabeled = {
++    object_type: "inventory",
++    data_point: "sku",
++    data_type: "string",
++  };
++  applyObjectType(unlabeled, "suppliers", objects);
++  assert.equal(unlabeled.object_type, "suppliers");
++  assert.equal(unlabeled.data_point, "");
++  assert.equal(unlabeled.data_type, "");
++  applyObjectType(unlabeled, "hr_notes", objects);
++  assert.equal(unlabeled.object_type, "");
++  assert.equal(unlabeled.data_point, "");
++});
++
++test("index.html loads core, then app.js, then engine.js (the repo's own order)", () => {
++  const html = fs.readFileSync(path.join(__dirname, "..", "index.html"), "utf8");
++  const coreAt = html.indexOf("core/constructor.js");
++  const engineAt = html.indexOf("engine.js");
++  const appAt = html.indexOf("app.js");
++  assert.ok(coreAt >= 0 && appAt > coreAt && engineAt > appAt);
++});
++
++test("bindWhenReady is a no-op without a document", () => {
++  bindWhenReady();
 +});

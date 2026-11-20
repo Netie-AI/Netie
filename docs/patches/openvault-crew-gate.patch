@@ -1,144 +1,71 @@
 diff --git a/OpenMW/openmw/openvault/app.py b/OpenMW/openmw/openvault/app.py
-index b2a1e4e..d292288 100644
+index 696d12e..4ff0a77 100644
 --- a/OpenMW/openmw/openvault/app.py
 +++ b/OpenMW/openmw/openvault/app.py
-@@ -49,6 +49,7 @@ from openmw.openvault.mesh.orchestration import (
- from openmw.openvault.mesh.slots import list_slots
- from openmw.openvault.observe.path import bottleneck_payload, observe_path_payload
- from openmw.openvault.route.access import (
-+    ACCESS_KINDS,
-     AccessIntent,
-     AccessKind,
-     registry_payload,
-@@ -428,6 +429,26 @@ class AccessResolveBody(BaseModel):
+@@ -657,6 +657,11 @@ class CrewGateBody(BaseModel):
+ 
+     OpenVault answers with a location + verdict. It does not spawn the child
+     or load the skill body (DR-0012). ``parent_run_id`` is audit-only.
++
++    A request that carries a skill body is refused, not silently dropped.
++    ``skill`` and ``mcp`` resolve to their Netie-KB signpost but stay
++    ``allowed: false`` here: the signpost row is a location, not a crew
++    registry row. Skill bodies belong in Netie-KB, not here.
+     """
+ 
+     kind: AccessKind = "skill"
+@@ -666,6 +671,10 @@ class CrewGateBody(BaseModel):
+     child_id: str = ""
+     deficit: str = ""
      required_providers: list[str] = Field(default_factory=list)
- 
- 
-+class CrewGateBody(BaseModel):
-+    """Crew asks: may this child invoke? Location + verdict, no skill body.
-+
-+    Unknown kinds (including ``skill`` until a registry entry exists) refuse.
-+    ``parent_run_id`` is audit-only. Skill bodies belong in Netie-KB, not here.
-+    """
-+
-+    kind: str
-+    id: str
-+    intent: str = "invoke"
-+    parent_run_id: str = ""
-+    child_id: str = ""
-+    deficit: str = ""
-+    required_providers: list[str] = Field(default_factory=list)
 +    skill_body: object | None = None
 +    prompt: object | None = None
 +    instructions: object | None = None
 +    transcript: object | None = None
-+
-+
- class PasswordCreate(BaseModel):
-     label: str
-     password: str
-@@ -1224,6 +1245,83 @@ def create_app(
-             )
-         return result.to_dict()
  
-+    _CREW_BODY_KEYS = frozenset({"skill_body", "prompt", "instructions", "transcript"})
+ 
+ class PasswordCreate(BaseModel):
+@@ -2417,9 +2426,17 @@ def create_app(
+         """Parent-run ids only. Transcripts stay in Cortex."""
+         return await cortex.crew_index()
+ 
++    _CREW_BODY_KEYS = ("skill_body", "prompt", "instructions", "transcript")
++    _CREW_GATE_KINDS = frozenset({"memory", "api", "component", "runtime", "model", "service"})
 +
-+    @app.post("/api/crew/gate")
-+    def crew_gate(body: CrewGateBody) -> dict[str, Any]:
-+        """Crew: may this child invoke? Location + allowed, never a skill body."""
-+        if any(
-+            getattr(body, key) is not None
-+            for key in ("skill_body", "prompt", "instructions", "transcript")
-+        ):
-+            log.info(
-+                "crew_gate",
-+                kind=body.kind,
-+                resource=body.id,
-+                allowed=False,
-+                reasons=["skill_body must never go to the gate"],
-+            )
-+            return {
-+                "allowed": False,
-+                "found": False,
-+                "kind": body.kind,
-+                "id": body.id,
-+                "intent": body.intent,
-+                "parent_run_id": body.parent_run_id,
-+                "child_id": body.child_id,
-+                "reasons": ["skill_body must never go to the gate"],
-+            }
-+        if body.kind not in ACCESS_KINDS:
-+            payload = {
-+                "allowed": False,
-+                "found": False,
-+                "kind": body.kind,
-+                "id": body.id,
-+                "intent": body.intent,
-+                "parent_run_id": body.parent_run_id,
-+                "child_id": body.child_id,
-+                "reasons": [f"no {body.kind} registered as '{body.id}'"],
-+            }
-+            log.info("crew_gate", **{k: payload[k] for k in ("kind", "id", "allowed")})
-+            return payload
-+        if body.intent not in ("read", "write", "invoke", "deploy", "leave", "connect"):
-+            return {
-+                "allowed": False,
-+                "found": False,
-+                "kind": body.kind,
-+                "id": body.id,
-+                "intent": body.intent,
-+                "parent_run_id": body.parent_run_id,
-+                "child_id": body.child_id,
-+                "reasons": [f"unknown intent '{body.intent}'"],
-+            }
-+        result = resolve_access(
-+            vault=state_vault,
-+            kind=body.kind,  # type: ignore[arg-type]
-+            resource_id=body.id,
-+            intent=body.intent,  # type: ignore[arg-type]
-+            fallback=fallback,
-+            openvault_url=self_url,
-+            required_providers=list(body.required_providers) or None,
-+        )
-+        payload = result.to_dict()
-+        payload["parent_run_id"] = body.parent_run_id
-+        payload["child_id"] = body.child_id
-+        payload["deficit"] = body.deficit
-+        for key in list(payload):
-+            if key in _CREW_BODY_KEYS:
-+                payload.pop(key, None)
-+        log.info(
-+            "crew_gate",
-+            kind=result.kind,
-+            resource=result.id,
-+            parent_run_id=body.parent_run_id or None,
-+            child_id=body.child_id or None,
-+            allowed=result.allowed,
-+            reasons=result.reasons,
-+        )
-+        return payload
-+
-     @app.get("/api/access/uptime")
-     def api_access_uptime() -> dict[str, Any]:
-         """Uptime for this process and every mesh surface. ``up: null`` = unprobed."""
-diff --git a/OpenMW/tests/test_contract.py b/OpenMW/tests/test_contract.py
-index d866e09..1cc446a 100644
---- a/OpenMW/tests/test_contract.py
-+++ b/OpenMW/tests/test_contract.py
-@@ -40,6 +40,7 @@ CONTRACT_ROUTES = [
-     ("GET", "/api/keyvault/snapshot"),
-     ("POST", "/api/keyvault/upsert"),
-     ("POST", "/api/gate/check"),
-+    ("POST", "/api/crew/gate"),
-     ("POST", "/api/cloud/shares"),
-     ("POST", "/api/cloud/firewall/check"),
-     ("POST", "/api/cloud/sessions"),
+     @app.post("/api/crew/gate")
+     def crew_gate(body: CrewGateBody) -> dict[str, Any]:
+         """Cortex crew: may this child invoke? Location + verdict, no skill body."""
++        refusal = ""
++        if any(getattr(body, key) is not None for key in _CREW_BODY_KEYS):
++            refusal = "skill_body must never go to the gate"
++        elif body.kind not in _CREW_GATE_KINDS:
++            refusal = f"no {body.kind} registered as '{body.id}'"
+         result = resolve_access(
+             vault=state_vault,
+             kind=body.kind,
+@@ -2437,10 +2454,14 @@ def create_app(
+             parent_run_id=body.parent_run_id or None,
+             child_id=body.child_id or None,
+             deficit=body.deficit or None,
+-            allowed=result.allowed,
+-            reasons=result.reasons,
++            allowed=result.allowed and not refusal,
++            reasons=[refusal, *result.reasons] if refusal else result.reasons,
+         )
+         payload = result.to_dict()
++        if refusal:
++            # Tighten only: the resolve verdict can be lowered here, never raised.
++            payload["allowed"] = False
++            payload["reasons"] = [refusal, *result.reasons]
+         payload["parent_run_id"] = body.parent_run_id
+         payload["child_id"] = body.child_id
+         payload["deficit"] = body.deficit
 diff --git a/OpenMW/tests/test_crew_gate.py b/OpenMW/tests/test_crew_gate.py
 new file mode 100644
-index 0000000..a599d80
+index 0000000..8957f77
 --- /dev/null
 +++ b/OpenMW/tests/test_crew_gate.py
-@@ -0,0 +1,63 @@
+@@ -0,0 +1,121 @@
 +"""POST /api/crew/gate: location + allowed, never a skill body."""
 +
 +from __future__ import annotations
@@ -202,3 +129,61 @@ index 0000000..a599d80
 +    assert "allowed" in body
 +    assert "skill_body" not in body
 +    assert "transcript" not in body
++
++
++def test_gate_is_one_route_not_a_shadow(tmp_path, monkeypatch) -> None:
++    """The patch tightens OpenVault's own route. A second registration shadows it."""
++    monkeypatch.setenv("OPENVAULT_HOME", str(tmp_path))
++    app = create_app(mock_health=True, enable_precheck_loop=False)
++    hits = [
++        route
++        for route in app.routes
++        if getattr(route, "path", "") == "/api/crew/gate"
++        and "POST" in (getattr(route, "methods", None) or ())
++    ]
++    assert len(hits) == 1
++
++
++def test_refused_skill_keeps_the_signpost_and_the_audit_echo(tmp_path, monkeypatch) -> None:
++    """Refusal lowers `allowed`. It does not hide where the registry lives."""
++    monkeypatch.setenv("OPENVAULT_HOME", str(tmp_path))
++    body = _client().post(
++        "/api/crew/gate",
++        json={
++            "kind": "skill",
++            "id": "netie-kb.skills",
++            "intent": "invoke",
++            "parent_run_id": "p1",
++            "child_id": "c1",
++            "deficit": "need space.acl",
++        },
++    ).json()
++    assert body["allowed"] is False
++    assert body["found"] is True
++    assert body["owner"] == "netie-kb"
++    assert body["reasons"][0] == "no skill registered as 'netie-kb.skills'"
++    assert body["parent_run_id"] == "p1"
++    assert body["child_id"] == "c1"
++    assert body["deficit"] == "need space.acl"
++
++
++def test_mcp_kind_is_refused(tmp_path, monkeypatch) -> None:
++    monkeypatch.setenv("OPENVAULT_HOME", str(tmp_path))
++    body = _client().post(
++        "/api/crew/gate",
++        json={"kind": "mcp", "id": "netie-kb.mcp", "intent": "invoke"},
++    ).json()
++    assert body["allowed"] is False
++    assert body["reasons"][0] == "no mcp registered as 'netie-kb.mcp'"
++
++
++def test_known_service_verdict_is_the_resolver_verdict(tmp_path, monkeypatch) -> None:
++    """A kind this gate knows is not tightened: same answer as /api/access/resolve."""
++    monkeypatch.setenv("OPENVAULT_HOME", str(tmp_path))
++    client = _client()
++    ask = {"kind": "service", "id": "service.freeroute", "intent": "invoke"}
++    gate = client.post("/api/crew/gate", json=ask).json()
++    resolved = client.post("/api/access/resolve", json=ask).json()
++    assert gate["allowed"] == resolved["allowed"]
++    assert gate["reasons"] == resolved["reasons"]
++    assert gate["location"] == resolved["location"]
