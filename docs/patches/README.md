@@ -348,23 +348,28 @@ Copies `scripts/cortex_path.py` to `CortexOS/constitution/cortex_path.py`. `/dms
 
 ## DMS (`Netie-AI/dms`)
 
-dms package name is `dms`, so `uv add git+https://github.com/Netie-AI/Netie.git` is the intended caller. From the dms repo root, on `main` (`ebe65cc`):
+dms package name is `dms`, so `uv add git+https://github.com/Netie-AI/Netie.git` is the intended caller. From the dms repo root, on `main` (`ebe65cc`), apply in this order (the second also applies alone on the pin):
 
 ```
 git apply docs/patches/dms-netie-acl.patch
-uv add git+https://github.com/Netie-AI/Netie.git
-pytest tests/test_netie_acl.py tests/test_space_acl_boundary.py tests/test_live_ask.py -q
-```
-
-`live_ask` runs Cortex through `guard_live_answer` (`from netie.dms import answer_or_abstain` when installed; same rule locally otherwise). Warehouse/bronze preview with `space_id` calls `browse_or_abstain`. Cortex's `warehouse_<table>` lake alias is read as `<table>` for the gate (granted stands, ungranted abstains). Without a Space, personal/company-default mint is unchanged. Score stays **3/10**. Push 403.
-
-Then:
-
-```
 git apply docs/patches/dms-demo-acl-resolve.patch
+uv add git+https://github.com/Netie-AI/Netie.git
+pytest tests/test_netie_acl.py tests/test_netie_acl_paths.py tests/test_space_acl_boundary.py tests/test_live_ask.py -q
+ruff check apps packages tests
+mypy apps/api/dms_api packages/core/dms_core packages/cortex_client/cortex_client packages/executor/dms_executor packages/ledger/dms_ledger
 ```
 
-`demo_acl` returns `resolve_session_acl` (SourceGrant rows) instead of `row_predicates={t: "TRUE"}`. Portable `from netie.dms import mint_object`. Score stays **3/10**. Push 403.
+Re-cut 2 (2026-11-20, finding `docs/subagents_findings/2026-11-20-recut2-dms.md`). The first cut gated one of nine answer paths (six lanes of `live_ask`, user SQL, a confirmed held SQL, the demo ask). Now every executor path that returns source rows goes through one entry, `dms_executor.netie_acl.guard_envelope`, which calls `guard_live_answer` and so `answer_or_abstain` (from `netie.dms` when installed; the same rule locally otherwise):
+
+- `Executor.live_ask`: one call at the exit, beside dms's own `refuse_ungranted_answer`. That covers all six lanes (follow-up, verified query, pack, bronze sheet, generative, contract ask).
+- `Executor.answer_user_sql`, `Executor._run_held_sql` (the Yes of a reconfirm; the Space's grants are re-read at Yes time, not taken from the stored token) and `Executor.demo_ask` (only when a `space_id` is given).
+- Warehouse and bronze preview with `space_id` call `browse_or_abstain` (unchanged from the first cut).
+
+A refusal is an envelope with `abstained: true`, `abstain_reason: space_acl`, `rows: []`; its text names no table. The statement is read through dms's own parsers (DuckDB's parse and the audit parser, unioned) and restated as the relations it reads before the gate sees it, so a quoted name, a default schema, `TABLE t`, Cortex's `warehouse_<table>` lake alias and `bronze.<t>` for a bare upload grant `<t>` are read as the table they are (granted stands, ungranted abstains; `hr.<t>` or another upload do not). SQL that reads no relation, a table function, or an unparseable statement abstains. Without a Space, personal/company-default mint is unchanged.
+
+The series adds `tests/test_netie_acl.py` and `tests/test_netie_acl_paths.py` and edits no test the sibling wrote (the gate in `scripts/test_sibling_patches.py` asserts that). What the dms suite showed, base and patched, is in the finding. One behaviour is open for the founder: a Space-scoped answer whose rows serialize past 12000 characters abstains (`answer_or_abstain` DitchContext), now on every path. To run the whole dms suite on a patched clone, commit the applied patches in that clone first (locally, never pushed): the grade52 tests refuse an uncommitted `apps/` or `packages/`. Score stays **3/10**. Push 403.
+
+`dms-demo-acl-resolve.patch`: `demo_acl` returns `resolve_session_acl` (SourceGrant rows) instead of `row_predicates={t: "TRUE"}`. Portable `from netie.dms import mint_object`. Unchanged in re-cut 2; it applies alone on the pin and after the first patch.
 
 ## Pointer (`Netie-AI/Pointer`)
 
