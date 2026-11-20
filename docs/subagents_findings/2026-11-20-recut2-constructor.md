@@ -210,3 +210,32 @@ plus the 3 patches. Node 22.23.5.
   (the DR's reading, open to correction).
 - A `strict` option on the sibling's compiler counts as "added to" it. If the founder wants the
   sibling's bare call to be strict, that is D1 option 2 or 3.
+
+## Verified by T1 (independent agent, not the builder)
+
+Replayed by a separate verifier agent on its own fresh clones at pin `bfc7d3b`, at Netie
+commit `95ac504`. It edited nothing in this repo.
+
+- Stack applies in order: confirmed. Changed files: `.github/workflows/test.yml`, `app.js`,
+  `core/constructor.js`, `engine.js`, new `tests/compiler.test.cjs` (+467/-55). None of the
+  pin's 20 files under `tests/` changed. `git diff -- index.html` is empty.
+- `node --test tests/compiler.test.cjs`: 62 pass, 0 fail. The 62 test names equal the old
+  26-patch stack's (rebuilt from `06f4599`). Only change besides the header wiring: the
+  script-order test, now core < app.js < engine.js. No other assertion removed or weakened.
+- Unit `node --test tests/*.test.js tests/unit/*.test.js`: base 118/0, patched 118/0.
+  `node scripts/check-laws.js`: exit 0 both. Playwright e2e (1.63 via shim, `--trace off`):
+  base 52 passed, patched 52 passed, identical name lists.
+- Gate: `test_constructor_compiler_tests_on_patched_head` OK; `test_apply_product_patches.py`
+  13 OK. Proved red in a mirror copy: dropping `constructor-core-strict-ir.patch` from the
+  stack, and turning the disconnected-graph refusal into a pass, each fail the gate. Not seen
+  red: the "no sibling test touched" assertion (no mutation tried).
+- Gate assertions: the six moved strings are asserted in `core/constructor.js` and, for the
+  key names, absent from `engine.js`. Nothing that still applies was dropped.
+- D1: strict-by-default in core gave 114 pass, 4 fail on the sibling's 118 (the four tests
+  named in D1). The claim that pass-through fields leave exactly the one `emit` failure was
+  not run by the verifier (assumed from the builder).
+- Gap checked by T1: `engine.js` keeps `function topo(state) { return Core.topo(state); }`
+  without `strict`. That wrapper is the pin's own code (`engine.js:290` at `bfc7d3b`), the
+  stack does not change it, and nothing in the page calls it (grep of all `.js` and `.html`
+  outside `tests/` and core). So the old "leftover cyclic nodes" behaviour does not reach any
+  caller through it. Not changed.
