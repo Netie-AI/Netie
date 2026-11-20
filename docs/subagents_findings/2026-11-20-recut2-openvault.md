@@ -301,3 +301,27 @@ All on 2026-11-20, pin `3ba51cdc307f539be13fd872230d660d31436bab`, Linux, fresh 
 - `scripts/apply_product_patches.py --all` end to end.
 - Per-patch tests at each intermediate stack position beyond `git apply` succeeding in order.
 - No push to OpenVault.
+
+### Rule-1 re-cut, verified by a non-builder (T1)
+
+A separate verifier agent replayed `779fcc4` on its own fresh clones at pin `3ba51cd`. It
+edited nothing here.
+
+- All 32 patches apply in order (new set and the old set from `3864439`).
+- Patched clone, `git add -N . && git diff --name-status <pin>`: 21 entries. Modified: 7
+  source files under `OpenMW/openmw/openvault/`. Added: 4 source files and 10 test files.
+  No M, D or R under any tests dir. `test_detect_stacks.py`, `test_route_strategies.py` and
+  `test_freeroute_metering.py` are byte-identical to the pin (`cmp`). The old set shows M on
+  exactly those three.
+- `diff -r -x __pycache__` of `OpenMW/openmw` between old-patched and new-patched: empty.
+- Moved tests compared by AST: 16 route-strategies, 3 detect-stacks, 1 metering, bodies
+  and assertions identical. Not compared: imports and helper copies.
+- Suite, `cd OpenMW && uv run --with-editable <Netie> pytest -q --tb=short -p no:cacheprovider -rfE -rs`:
+  unpatched 1504 passed, 7 skipped, 0 failed; patched 1619 passed, 7 skipped, 0 failed.
+  `--collect-only`: 1511 against 1626 ids, 0 only unpatched, 115 only patched.
+- Gate `test_openvault_patches_apply_on_main`: OK, 26 s. Mirror copy with the old
+  `openvault-detect-stacks.patch` put back: red in 1.3 s
+  (`stack edits an OpenVault test file: ['M\tOpenMW/tests/test_detect_stacks.py']`).
+- Known gap in the new assertion (code reading, not run): a test file outside a `tests/` dir
+  and not named `test_*.py` (for example `foo_test.py`) is not covered. D, R and nested
+  tests dirs were not mutated; covered by reading only.
