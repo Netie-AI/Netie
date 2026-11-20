@@ -152,3 +152,19 @@ What was checked before choosing (a):
   before or after this cut. The budget covers `items` and `unreachable` only.
 - The budget fits about 42 real rows of a 100-row cap. Whether 12000 is the right number for a
   human board is a contract question for the parent. This cut makes any answer safe.
+
+## Verified by T1 (independent agent, not the builder)
+
+A separate verifier agent replayed the lane on its own fresh clones at pin `93959c6`. It
+edited nothing here.
+
+- Command, both trees: `uv run --with 'fastapi>=0.110' --with 'uvicorn[standard]' --with pytest --with httpx python -m pytest -q --tb=short -p no:cacheprovider -rfE`
+  (an ephemeral uv env, not this finding's venv; Netie not installed).
+- Unpatched: 173 passed, 0 failed, 0 errors, 0 skipped. Patched: 194 passed, 0 failed.
+  Patched with `PYTHONPATH=<Netie>`: 194 passed. Confirmed.
+- The +21 are all in the new `tests/test_netie_board.py`. No per-id diff was run; this is
+  inferred from the counts and from the patch's file list. No existing Control test file is
+  modified (`git diff --name-status` against the pin: `netie_control/{app,render,sources}.py`
+  M, `netie_control/netie_board.py` A, `tests/test_netie_board.py` A).
+- Gate: `test_control_netie_board_applies_on_main` OK.
+- Not replayed: the builder's mutation claims.

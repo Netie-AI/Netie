@@ -202,3 +202,27 @@ All on 2026-11-20, pin `3ba51cdc307f539be13fd872230d660d31436bab`, Linux, Python
   New cut: 20 passed.
 - **Gate:** `python3 -m unittest test_sibling_patches.SiblingPatchTests.test_openvault_patches_apply_on_main`
   (cwd `scripts/`): OK, 39 s.
+
+## Verified by T1 (independent agent, not the builder)
+
+A separate verifier agent replayed the lane on its own fresh clones at pin `3ba51cd`, the 32
+patches from `claude/recut2` applied in `OPENVAULT_STACK` order. It edited nothing here.
+
+- Command, both trees: `cd OpenMW && uv run --with-editable <Netie> pytest -q --tb=short -p no:cacheprovider -rfE -rs`.
+- Unpatched: 1504 passed, 0 failed, 0 errors, 7 skipped. Patched: 1619 passed, 0 failed,
+  0 errors, 4 skipped (DPAPI). Failures patched but not unpatched: none. Confirmed.
+- `--collect-only`: 1511 against 1623 ids. Only unpatched: the 3 `test_detect_stacks`
+  `[tree0]` ids (skipped there; they return unparametrized and pass). Only patched: 115 new
+  ids, all passed, same per-file split as this finding's Measured item 4. Confirmed.
+- Existing OpenVault test files the stack modifies (`git diff --name-status` against the
+  pin): `tests/test_detect_stacks.py` (3 Windows-only skipped tests rewritten onto `tmp_path`,
+  skip helper removed, assertions kept), `tests/test_route_strategies.py` (one import line
+  plus appended tests), `tests/test_freeroute_metering.py` (one appended test, no existing
+  line changed). F4 above discloses the first two; the third is append-only.
+- Open against rule 1 of the proposed DR (no edit to a sibling-written test): the
+  `test_detect_stacks.py` rewrite is an edit, even though it removes skips and keeps every
+  assertion. Not changed by T1; raised with the parent. A compliant re-cut that needs no
+  founder call would put the `tmp_path` versions in a new test file and leave OpenVault's
+  three skipped tests as they are. Not cut or run.
+- Gate: `test_openvault_patches_apply_on_main` OK (with `tests/test_access_routing.py`).
+- Not replayed: the old-cut and mutation claims in Measured.
