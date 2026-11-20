@@ -10,46 +10,30 @@ python3 scripts/apply_product_patches.py --product pointer --repo /path/to/Point
 python3 scripts/apply_product_patches.py --all --skip-tests
 ```
 
-`--push` is refused. `--all` clones `SIBLING_PINS` (constructor `bfc7d3b`, OpenVault `3ba51cd`, Cortex `304bf84`, dms `ebe65cc`, Pointer `b42b98d`, control `93959c6`, KB `10356e5`), not live HEAD. Patches were re-cut on those pins on 2026-11-12; when a sibling moves, re-cut the lane and move its pin. Constructor extras `constructor-*-4896ddd.patch` stay out of `--all` (do not mix with the 26). OpenVault `crew-gate` lands before `crew-netie` (README's independent block is not apply order). Cortex never `uv add` Netie.git.
+`--push` is refused. `--all` clones `SIBLING_PINS` (constructor `bfc7d3b`, OpenVault `3ba51cd`, Cortex `304bf84`, dms `ebe65cc`, Pointer `b42b98d`, control `93959c6`, KB `10356e5`), not live HEAD. Patches were re-cut on those pins on 2026-11-12; when a sibling moves, re-cut the lane and move its pin. Constructor extras `constructor-*-4896ddd.patch` stay out of `--all` (do not mix with the 3). OpenVault `crew-gate` lands before `crew-netie` (README's independent block is not apply order). Cortex never `uv add` Netie.git.
 
 ## Constructor (`Netie-AI/constructor`)
 
-From the constructor repo root, on `landing-9-first-path`:
+From the constructor repo root, on `landing-9-first-path` at `bfc7d3b`:
 
 ```
+git apply docs/patches/constructor-core-strict-ir.patch
+git apply docs/patches/constructor-engine-core.patch
 git apply docs/patches/constructor-compiler-tests.patch
-git apply docs/patches/constructor-empty-graph.patch
-git apply docs/patches/constructor-ir-refuse.patch
-git apply docs/patches/constructor-ir-ids.patch
-git apply docs/patches/constructor-ghost-refuse.patch
-git apply docs/patches/constructor-ir-emit.patch
-git apply docs/patches/constructor-tool-action.patch
-git apply docs/patches/constructor-inspect-action.patch
-git apply docs/patches/constructor-inspect-object.patch
-git apply docs/patches/constructor-inspect-tier.patch
-git apply docs/patches/constructor-chat-object.patch
-git apply docs/patches/constructor-topo-leftover.patch
-git apply docs/patches/constructor-ir-entry.patch
-git apply docs/patches/constructor-ir-output.patch
-git apply docs/patches/constructor-ir-object.patch
-git apply docs/patches/constructor-ir-bind.patch
-git apply docs/patches/constructor-ir-action-allow.patch
-git apply docs/patches/constructor-ir-intake.patch
-git apply docs/patches/constructor-ir-hitl.patch
-git apply docs/patches/constructor-ir-connected.patch
-git apply docs/patches/constructor-ir-note.patch
-git apply docs/patches/constructor-ir-cortex-post.patch
-git apply docs/patches/constructor-object-pick.patch
-git apply docs/patches/constructor-engine-order.patch
-git apply docs/patches/constructor-ir-post.patch
-git apply docs/patches/constructor-ir-kahn-nodes.patch
 node --test tests/compiler.test.cjs
 ```
 
-Adds `rankForKinds`, empty-graph IR (no invented Cortex nodes), refuse unknown kinds / cycles / dangling edges / missing ids / duplicate ids, `ghostWalk` that refuses those instead of walking a fake order, `EMIT` only on app/audit output (connector-only does not invent EMIT), unlabeled `tool_call` does not invent `export_pptx` (compileIR refuses; inspect shows `(pick)` not a silent first-choice), unlabeled object does not invent `inventory`, unlabeled tier does not invent `T0` (compileIR emits null; inspect shows `(pick)`), unlabeled `set point` does not invent `inventory`, picking `object_type` does not invent the first `data_point` (`sku`; inspect stays `(pick)`; `compileIR` still drops an unlabeled point), `index.html` loads `engine.js` before `app.js` (`listedOrEmpty` / `applyObjectType` exist on first paint; `bindWhenReady` waits for `window.Constructor`), `topo()` does not append leftover cyclic nodes, `compileIR` entry is the Kahn source not `nodes[0]`, `compileIR` output is the Kahn sink app (or unique Kahn sink when no app/audit) not array-last, `compileIR` drops unlisted `object_type` (`hr_notes` / `Insight` do not become Cortex ontology), `fetch_from` must name the node's listed object (not `warehouse.hr_notes` on inventory), `data_point` must be on that object (not `salary` on inventory), `tool_call` unknown action (`bash`) refuses, unlisted action on a non-tool node is dropped, `export_pptx` / `item.intake` / `amend.apply` / `call_action` on foundry set `requires_confirm` (`agent.checked` stays an event), disconnected graphs refuse (two workflows are not one IR), a fork with no app refuses (`ambiguous output`; a join still emits the app), canvas notes do not ride into Cortex IR (a `skill_body` / prompt / transcript note refuses; notes over DitchContext 12k refuse), ghost/run/fetch/recommend POST `cortexPayload` (compiled IR in Kahn order, not canvas array order; leaked/disconnected graphs do not leave the machine), node `--test`, and a compiler step in the existing `.github/workflows/test.yml`.
-Measured on this VM 2026-11-12 against `landing-9-first-path` at `bfc7d3b`: 62 passed. Re-cut for the sibling's `core/constructor.js` split. **Open decision:** `constructor-engine-order.patch` reverses the sibling's own script-order test in `tests/pages-honesty.test.js`, and the strict compiler now sits in `engine.js` beside the sibling's `Core.compileIR`. The compiled-IR POST is not verified against a Cortex mount. The stack is all 26 or nothing.
+Re-cut 2 (2026-11-20) replaced the 26-patch all-or-nothing stack with 3. The compiler is the constructor repo's own `core/constructor.js`. Our checks are added there behind `compileIR(state, { strict: true })`, `topo(state, { strict: true })` and two new functions, `walkIR` and `cortexPayload`. Without `strict`, `compileIR`, `topo` and `ghostWalk` behave as at the pin. No second compiler lives in `engine.js`. No sibling-written test is edited, and the page keeps the sibling's load order (core, canvas, engine).
 
-Optional thinner stack (do **not** mix with the 26): `constructor-ir-4896ddd.patch` then `constructor-inspect-4896ddd.patch`. Portable Python IR is `scripts/constructor_ir.py` (`from netie.route import compile_ir`).
+- `constructor-core-strict-ir.patch`: `core/constructor.js` only. Stands alone and changes nothing for the sibling's callers. Strict mode refuses an empty graph, unknown kinds, dangling edges, cycles, missing or duplicate ids, a disconnected graph, a fork with no app (`ambiguous output`), an unlabeled or unlisted `tool_call` action, and a note that carries `skill_body` / prompt / transcript / key text or runs over DitchContext 12k. It compiles only listed `object_type`, `data_point`, `data_type`, `action_type`, `fetch_from` and `tier` (an unlisted value is `null`, never invented: no `T0`, no `export_pptx`, no `inventory`). The entry is the Kahn source, the output is the Kahn sink app (or the one sink), notes never ride into the IR, `export_pptx` / `item.intake` / `amend.apply` / `call_action` set `requires_confirm` and `agent.checked` stays an event. It also exports `rankForKinds`, `listedOrEmpty`, `listedOptions`, `objectForSetPoint`, `applyObjectType`, `nodesWithoutNotes`, `walkIR` and `cortexPayload`.
+- `constructor-engine-core.patch`: needs the first. `engine.js` calls the strict compiler with the canvas catalog (`canvasState`), ghost / run / fetch / recommend POST `cortexPayload` (compiled IR in Kahn order; a refused graph does not leave the machine), `set point` does not invent `inventory`, and `bindWhenReady` lets the file load in Node. `app.js` adds `amend.apply` / `call_action` to the action list and its pickers show `(pick)` instead of inventing the first object, point, action or tier.
+- `constructor-compiler-tests.patch`: needs both. Adds `tests/compiler.test.cjs` and a compiler step in `.github/workflows/test.yml`.
+
+Measured 2026-11-20 on fresh clones of `landing-9-first-path` at `bfc7d3b`, unpatched and patched: `node --test tests/compiler.test.cjs` 62 passed; `node --test tests/*.test.js tests/unit/*.test.js` 118 passed, 0 failed both ways, same test names; `node scripts/check-laws.js` passes both ways; the Playwright suite (`tests/e2e`, 52 tests) 52 passed both ways. The patched tree changes 5 files (`.github/workflows/test.yml`, `app.js`, `core/constructor.js`, `engine.js`, new `tests/compiler.test.cjs`) and none of the 20 files the constructor repo wrote under `tests/`. Playwright ran as the preinstalled 1.63.0 runner, not the repo's pinned 1.56.1. The compiled-IR POST is not verified against a Cortex mount.
+
+**Open decision (founder):** strict is opt-in, not the default. The constructor repo's `tests/constructor.test.js` pins `compileIR(state).nodes[app].action_type === "emit"`, and its own `fdeSample()` sets it. Strict mode drops an unlisted action on a non-tool node (the gate's `unlisted action_type on a non-tool node is dropped` asserts that exact input). Both cannot be the default without editing one of the two tests, so the memo is in `docs/subagents_findings/2026-11-20-recut2-constructor.md` (D1).
+
+Optional thinner stack (do **not** mix with the 3): `constructor-ir-4896ddd.patch` then `constructor-inspect-4896ddd.patch`. Portable Python IR is `scripts/constructor_ir.py` (`from netie.route import compile_ir`).
 
 ## OpenVault (`Netie-AI/OpenVault`)
 

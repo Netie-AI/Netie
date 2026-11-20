@@ -16,7 +16,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 from apply_product_patches import (
-    CONSTRUCTOR_26,
+    CONSTRUCTOR_STACK,
     CONSTRUCTOR_EXTRAS,
     OPENVAULT_STACK,
     PATCHES,
@@ -36,11 +36,24 @@ class ApplyProductPatchesTests(unittest.TestCase):
                 self.assertTrue(path.is_file(), f"{name}: missing {patch_name}")
 
     def test_constructor_does_not_mix_extras(self) -> None:
-        self.assertEqual(len(CONSTRUCTOR_26), 26)
-        self.assertEqual(STACKS["constructor"].patches, CONSTRUCTOR_26)
+        self.assertEqual(len(CONSTRUCTOR_STACK), 3)
+        self.assertEqual(STACKS["constructor"].patches, CONSTRUCTOR_STACK)
         for extra in CONSTRUCTOR_EXTRAS:
             self.assertNotIn(extra, STACKS["constructor"].patches)
             self.assertTrue((PATCHES / extra).is_file(), extra)
+
+    def test_constructor_stack_order_core_first(self) -> None:
+        names = list(CONSTRUCTOR_STACK)
+        self.assertEqual(
+            names,
+            [
+                "constructor-core-strict-ir.patch",
+                "constructor-engine-core.patch",
+                "constructor-compiler-tests.patch",
+            ],
+        )
+        # The retired patch reversed the sibling's own script-order test.
+        self.assertFalse((PATCHES / "constructor-engine-order.patch").exists())
 
     def test_openvault_crew_gate_before_crew_netie(self) -> None:
         names = list(OPENVAULT_STACK)
