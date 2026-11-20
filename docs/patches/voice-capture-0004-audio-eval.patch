@@ -1,4 +1,4 @@
-From 821a9bfc23d4c5a0b7528f61a199bd81ceb9cedb Mon Sep 17 00:00:00 2001
+From 760b1ce6ecf7eef74ce6e6569317bb644a2e1c1d Mon Sep 17 00:00:00 2001
 From: Claude <noreply@anthropic.com>
 Date: Fri, 20 Nov 2026 03:35:15 +0000
 Subject: [PATCH] Eval: accuracy from audio, and the large-v3-turbo registry
@@ -20,13 +20,13 @@ the revision. The registry default is unchanged.
 Co-Authored-By: Claude Sonnet 5.5 <noreply@anthropic.com>
 Claude-Session: https://claude.ai/code/session_01N6JxFSe19mgswm8NxDVbZh
 ---
- evals/audio/README.md                         | 148 +++++++
+ evals/audio/README.md                         | 160 ++++++++
  .../results-breeze-asr-25-2026-11-20.jsonl    |  59 +++
  .../results-large-v3-turbo-2026-11-20.jsonl   |  59 +++
  evals/audio/run_audio.py                      | 366 ++++++++++++++++++
  evals/audio/test_run_audio.py                 | 185 +++++++++
  registry/models.yaml                          |   3 +-
- 6 files changed, 819 insertions(+), 1 deletion(-)
+ 6 files changed, 831 insertions(+), 1 deletion(-)
  create mode 100644 evals/audio/README.md
  create mode 100644 evals/audio/results-breeze-asr-25-2026-11-20.jsonl
  create mode 100644 evals/audio/results-large-v3-turbo-2026-11-20.jsonl
@@ -35,10 +35,10 @@ Claude-Session: https://claude.ai/code/session_01N6JxFSe19mgswm8NxDVbZh
 
 diff --git a/evals/audio/README.md b/evals/audio/README.md
 new file mode 100644
-index 0000000..c056bd0
+index 0000000..ceb59ed
 --- /dev/null
 +++ b/evals/audio/README.md
-@@ -0,0 +1,148 @@
+@@ -0,0 +1,160 @@
 +# Accuracy from audio, and the default speech model
 +
 +`evals/` measures the sorter on clean text. This folder measures the whole path a
@@ -154,14 +154,26 @@ index 0000000..c056bd0
 +Keep `breeze-asr-25` as the default; the registry default is unchanged.
 +
 +Turbo hears English better (7.5% against 10.6% numbers folded) but that did not turn into
-+better filing: it was 4 cases behind in both end-to-end runs (49 and 50 against 53 and 54),
-+took 30% longer per clip (15.6 s against 12.0 s on this CPU) and held 1.6 GB more memory.
++better filing: it was 4 cases behind in both end-to-end runs (49 and 50 against 53 and 54).
 +Four of its extra losses (both-malay-lori, malay-esok-klinik, multi-two-dated-tasks,
 +quote-motorcycle) failed in both runs. The evidence does not show turbo winning anywhere
-+that matters for this speaker, and it costs more, so there is no reason to switch.
++that matters for this speaker, so there is no reason to switch on accuracy.
 +
-+This is not proof that breeze is better. The gap is 4 cases of 59 and the sorter alone moves
-+a case or two between runs. `large-v3-turbo` stays available (`MODEL_NAME=large-v3-turbo`)
++On cost, the table above is turbo at the default compute type (30% slower, 1.6 GB more
++memory). That is not the whole story. `COMPUTE_TYPE=int8` is the working control (the registry's
++`compute_type` does not decide what the server loads on this path, and without it the float16
++weights are converted to float32). With `COMPUTE_TYPE=int8`, on 15 of the clips, turbo took
++10.2 s per clip (float32 turbo 15.3 s on the same clips, breeze 12.0 s), server memory peaked
++at 1.8 GB (breeze 3.0 GB), and the text was identical to the float32 turbo text on all 15. An
++independent run of the same cases by another session on the same kind of CPU measured 10.0 s
++and 2.4 GB peak for all 59 clips, and 11.0% raw / 7.9% folded WER. So the cost argument against
++turbo only holds at the default compute type. The end-to-end filing count was not re-run for
++int8; the text is the same as float32 turbo, so expect the same 49 to 50.
++
++This is not proof that breeze is better, and turbo with `COMPUTE_TYPE=int8` is faster and
++lighter than breeze here, so it is worth a trial on real recordings. The gap is 4 cases of 59 and the sorter alone moves
++a case or two between runs. Try `MODEL_NAME=large-v3-turbo COMPUTE_TYPE=int8` on twenty or so
++real captures, corrected by hand, before changing the default. `large-v3-turbo` stays available (`MODEL_NAME=large-v3-turbo`)
 +now that its registry entry points at a repo that exists.
 +
 +## Limits. Read before quoting a number.

@@ -1,4 +1,4 @@
-From 59f6d4fb1907d16066596261f2a0c6260b14ee03 Mon Sep 17 00:00:00 2001
+From 9aaf5f029916f95ed4c280ec5a9ec8e66e131ec5 Mon Sep 17 00:00:00 2001
 From: Claude <noreply@anthropic.com>
 Date: Fri, 20 Nov 2026 03:56:41 +0000
 Subject: [PATCH] Docker: run voice capture in a container

@@ -56,6 +56,10 @@ depend on 0004 (checked, see Replay).
   three times separates hearing (8 cases pass 3 of 3 on clean text) from sorter noise (3 cases).
   Default stays `breeze-asr-25`; the registry is unchanged. This is not evidence that breeze
   is better: 4 cases of 59, one synthetic English voice reading Malay with English sounds.
+  The cost half of that comparison holds only at the default compute type: with
+  `COMPUTE_TYPE=int8` turbo took 10.2 s per clip and peaked at 1.8 GB on 15 clips (breeze 12.0 s,
+  3.0 GB), with the same text as float32 turbo on all 15 (see "Cross-check" below). The registry's
+  `compute_type: int8_float16` does not decide what the server loads.
 - **Repro:** `evals/audio/run_audio.py` steps in the README.
 - **Root-cause class:** a component metric (WER) that does not track the end-to-end outcome.
 - **Invariant:** separate verified fact from assumption; a lower WER is not a better filing rate.
@@ -100,9 +104,48 @@ depend on 0004 (checked, see Replay).
   times for 11 cases. 20 runner tests pass with the network stubbed; the 46 `evals/` tests pass.
 - Registry fix proved by load, transcription, `model-manager.sh`, server and Docker run time.
 
+### B7. My own edit doubled docs/patches/README.md and I pushed it
+
+- **Expected:** the README gains a paragraph per patch.
+- **Actual:** a scripted edit (`s += X if False else s`) appended the whole file to itself, so
+  commit 75fa389 pushed a 940-line README with every section twice. Found while applying a later
+  edit (a string that must occur once occurred twice). Rebuilt from the first copy plus the 0005
+  block (477 lines, one "Voice capture" section) in the next commit.
+- **Root-cause class:** a generated edit not checked against the diff before committing.
+- **Invariant:** assert the artifact received: read `git diff --stat` before commit (it said
+  "+477 -2" there, not the roughly 25 lines intended).
+
+### Cross-check with the earlier audio session ("Verified by T2")
+
+The parent pointed at `origin/claude/voice-audio-eval` (e4e831c): an earlier session's version of
+Part B (`voice-capture-audio-eval.patch` and `2026-11-20-voice-audio-eval.md`). It reached me after
+my Part B was already built and pushed, so I did **not** merge it (that would put two
+`evals/audio` trees in one series); I fetched it read-only and compared. What matched and what did
+not, 59 cases, same gTTS US voice, same sorter:
+
+| | Earlier session | This track | Match |
+|---|---|---|---|
+| breeze raw WER | 14.2% (93/655) | 14.0% (92/657) | yes, within 1 word |
+| breeze folded WER | 9.6% (63) | 10.6% (69); their text under my metric: 10.0% | metric differs, text agrees |
+| turbo raw / folded WER | 10.7% / 7.5% (70, 49) | 10.7% / 7.5% (70, 49) | identical |
+| heard text, breeze | | identical 56 of 59, equal after number folding 58 of 59 | one clip differs in punctuation and spacing |
+| heard text, turbo | | identical 58 of 59, 59 of 59 after folding | yes |
+| end to end, breeze / turbo | 52 / 48 | 53 (52 before two 503 re-runs) and 54 / 49 and 50 | within sorter noise |
+| seconds per clip, breeze / turbo | 12.4 / 16.4 | 12.0 / 15.6 | yes |
+| registry repo | `dropbox-dash/...` | same repo (plus a pinned revision here) | yes |
+| turbo `COMPUTE_TYPE=int8` | 10.0 s, 2.4 GB peak, 11.0% / 7.9% WER (59 clips, STT only) | 10.2 s, 1.8 GB peak, text identical to float32 on 15 clips | agrees on speed; memory differs (their peak, my RSS on 15 clips) |
+
+Their claims I could not match by running: the UK-voice passes, the 6 x 3 repeat check (I ran 11
+cases x 3, different set), their two mutation proofs on their runner (I did not run their tests).
+Their patch was not applied or tested by me. Differences that matter: they report the int8 finding
+(F4: `compute_type` in the registry is not wired); I confirm it. I do not repeat their scorer
+suggestion here: `quote-motorcycle` keyword `y15` vs `Y-15`, which I also hit; the proposed edit to
+`evals/capture_cases.jsonl` (`"y15"` to `"y15|y-15"`) is theirs and is not made in this track.
+
 ### Not run (Part B)
 
-- Claude as the sorter (no Anthropic key). A human voice or a phone microphone. A real
+- Claude as the sorter (no Anthropic key). The end-to-end filing count for turbo with `COMPUTE_TYPE=int8`
+  (speed and text checked on 15 clips only). A human voice or a phone microphone. A real
   Malaysian speaker saying the Malay words (gTTS read them with English sounds, so the Malay WER
   ranks nothing). A GPU. Windows. `language=` hints. A second synthetic voice.
 
@@ -209,8 +252,10 @@ whole upstream suite inside the container. A build on a machine without the base
 
 A different agent (sonnet, isolated) cloned `shdennlin/whisper-wrap` fresh at `56e5cf6`, ran
 `git am` on `0001` to `0005` in order: all applied cleanly, no warnings; the tree hash equals the
-builder's (`f96e388a`); upstream `LICENSE` unchanged. It also applied `0001-0003` plus `0005`
+builder's (`6b2f43b4`, after 0004 was recut to add the int8 note; the first replay, before the recut, matched at `f96e388a` and ran the tests); upstream `LICENSE` unchanged. It also applied `0001-0003` plus `0005`
 without `0004`: clean, so the two new patches are independent apart from order. After `uv sync
 --extra dev`: capture tests 76 passed, `evals` 46 passed (includes the 20 runner tests). Static
-checks passed (yaml, `sh -n`). The only key-like strings in the tree are the documented
+checks passed (yaml, `sh -n`). After the recut a second fresh agent repeated `git am` (clean,
+same tree hash, `LICENSE` unchanged, 0005 without 0004 clean); `uv sync` and the tests were not
+re-run, since only README text changed. The only key-like strings in the tree are the documented
 placeholders `sk-ant-...` and `AIza...` in upstream docs. The agent ran no Docker.
