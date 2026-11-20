@@ -1,0 +1,397 @@
+diff --git a/core/constructor.js b/core/constructor.js
+index 4dbf422..5d81866 100644
+--- a/core/constructor.js
++++ b/core/constructor.js
+@@ -408,8 +408,321 @@
+     return { data_in: "in", data_out: "out" };
+   }
+ 
++  /* Strict mode (opts.strict === true). Netie's additions to compileIR. Without it
++     compileIR, topo and ghostWalk behave exactly as at the pin. With it, the compiler
++     refuses what it cannot compile honestly and lists what it keeps:
++       - refuses: empty graph, missing/duplicate id, unknown kind, dangling edge, cycle,
++         disconnected graph, unlabeled or unlisted tool_call action, leaked or oversize
++         notes, a fork with no app/audit (ambiguous output)
++       - lists: object_type, data_point, data_type, action_type, fetch_from, tier. An
++         unlisted value compiles to null. Nothing is invented (no T0, no export_pptx).
++       - entry is the Kahn source, output is the Kahn sink app, order is Kahn order
++       - canvas notes never ride into the IR
++     A refused graph returns the IR header with nodes [] and an `error` string.
++     Why a flag: tests/constructor.test.js (written by the constructor repo) pins
++     `app.action_type === "emit"` on compileIR(state) and the sample FDE graph sets it,
++     while strict drops an unlisted action on a non-tool node. See the recut 2 finding. */
++  const DEFAULT_OBJECTS = ["inventory", "suppliers"];
++  const DEFAULT_ACTIONS = ["export_pptx", "item.intake", "amend.apply", "call_action", "agent.checked"];
++  const WRITE_ACTIONS = ["export_pptx", "item.intake", "amend.apply", "call_action"];
++  const DATA_TYPES = ["string", "number", "integer", "boolean", "date"];
++  const NOTE_LEAK = ["skill_body", "prompt", "transcript", "api_key", "password"];
++  const MAX_NOTE_CHARS = 12000; // same DitchContext as DMS/AirGPT/Space/Control
++  const DEFAULT_OBJECT_POINTS = {
++    inventory: [
++      "sku",
++      "sku_name",
++      "category",
++      "supplier_id",
++      "location_id",
++      "storage_bin",
++      "quantity_kg",
++      "reorder_level_kg",
++      "unit_cost_myr",
++      "last_restocked",
++      "expiry_date",
++      "is_hazardous",
++    ],
++    suppliers: [
++      "supplier_id",
++      "supplier_name",
++      "country",
++      "lead_time_days",
++      "payment_terms",
++      "last_audit_date",
++      "risk_score",
++    ],
++  };
++
++  function rankForKinds(kinds) {
++    const list = kinds instanceof Set ? Array.from(kinds) : Array.from(kinds || []);
++    return rankApproachesForGraph({
++      nodes: list.map(function (kind) {
++        return { kind: kind };
++      }),
++    });
++  }
++
++  function listedOrEmpty(value, listed) {
++    const want = String(value || "").trim();
++    if (!Array.isArray(listed) || listed.indexOf(want) < 0) return "";
++    return want;
++  }
++
++  function listedOptions(listed, value) {
++    const rows = Array.isArray(listed) ? listed.slice() : [];
++    const want = listedOrEmpty(value, rows);
++    return want ? rows : [""].concat(rows);
++  }
++
++  function pointsForObject(name, catalog) {
++    if (catalog && catalog[name] && Array.isArray(catalog[name])) return catalog[name];
++    return DEFAULT_OBJECT_POINTS[name] || [];
++  }
++
++  function fetchFromListed(fetch, listed, objectType) {
++    const raw = String(fetch || "").trim();
++    if (!raw) return "";
++    const parts = raw.split(".");
++    const table = parts.length >= 2 ? parts[1] : parts[0];
++    if (!objectType || !Array.isArray(listed) || listed.indexOf(table) < 0) return "";
++    if (table !== objectType) return "";
++    return raw;
++  }
++
++  function objectForSetPoint(objectType, objects) {
++    const listed = objects && typeof objects === "object" ? Object.keys(objects) : [];
++    return listedOrEmpty(objectType, listed);
++  }
++
++  function applyObjectType(node, value, objects) {
++    if (!node || typeof node !== "object") return node;
++    const listed = objects && typeof objects === "object" ? Object.keys(objects) : [];
++    const ot = listedOrEmpty(value, listed);
++    node.object_type = ot;
++    if (!ot) {
++      node.data_point = "";
++      node.data_type = "";
++      return node;
++    }
++    const catalog = objects[ot] && objects[ot].points ? objects[ot].points : {};
++    const point = listedOrEmpty(node.data_point, Object.keys(catalog));
++    if (!point) {
++      node.data_point = "";
++      node.data_type = "";
++      return node;
++    }
++    node.data_point = point;
++    node.data_type = catalog[point] || "";
++    return node;
++  }
++
++  function irError(ghost, message) {
++    return {
++      version: "1.0",
++      engine: ENGINE,
++      ghost: ghost,
++      entry_node_id: null,
++      output_node_id: null,
++      nodes: [],
++      edges: [],
++      error: message,
++    };
++  }
++
++  function notesDenied(nodes) {
++    // Canvas notes are labels. They are not a Cortex prompt bus.
++    let total = 0;
++    for (let i = 0; i < nodes.length; i++) {
++      const raw = nodes[i] && nodes[i].note;
++      const blob = raw === undefined || raw === null ? "" : String(raw);
++      total += blob.length;
++      const lower = blob.toLowerCase();
++      for (let j = 0; j < NOTE_LEAK.length; j++) {
++        if (lower.indexOf(NOTE_LEAK[j]) >= 0) return "note leaked a body";
++      }
++    }
++    if (total > MAX_NOTE_CHARS) return "notes over DitchContext";
++    return "";
++  }
++
++  function nodesWithoutNotes(nodes) {
++    const out = [];
++    for (let i = 0; i < (nodes || []).length; i++) {
++      const n = nodes[i];
++      if (!n || typeof n !== "object") continue;
++      const row = {};
++      for (const k in n) {
++        if (!Object.prototype.hasOwnProperty.call(n, k)) continue;
++        if (k === "note") continue;
++        row[k] = n[k];
++      }
++      out.push(row);
++    }
++    return out;
++  }
++
++  function componentCount(nodes, edges) {
++    // Weakly connected parts. Two workflows are not one Cortex IR.
++    if (!nodes.length) return 0;
++    const adj = Object.create(null);
++    for (let i = 0; i < nodes.length; i++) adj[nodes[i].id] = [];
++    for (let i = 0; i < edges.length; i++) {
++      const from = edges[i].from;
++      const to = edges[i].to;
++      if (!adj[from] || !adj[to]) continue;
++      adj[from].push(to);
++      adj[to].push(from);
++    }
++    const seen = Object.create(null);
++    let parts = 0;
++    for (let i = 0; i < nodes.length; i++) {
++      const start = nodes[i].id;
++      if (seen[start]) continue;
++      parts += 1;
++      const q = [start];
++      seen[start] = true;
++      while (q.length) {
++        const id = q.shift();
++        const nbrs = adj[id] || [];
++        for (let j = 0; j < nbrs.length; j++) {
++          if (seen[nbrs[j]]) continue;
++          seen[nbrs[j]] = true;
++          q.push(nbrs[j]);
++        }
++      }
++    }
++    return parts;
++  }
++
++  function compileStrict(state, opts) {
++    const nodes = (state && state.nodes) || [];
++    const edges = (state && state.edges) || [];
++    const ghost = opts.ghost != null ? !!opts.ghost : !!(state && state.ghost);
++    if (!nodes.length) {
++      const empty = irError(ghost, "empty graph");
++      empty.edges = edges.slice();
++      return empty;
++    }
++    for (let i = 0; i < nodes.length; i++) {
++      const raw = nodes[i] && nodes[i].id;
++      if (raw === undefined || raw === null || String(raw).trim() === "") {
++        return irError(ghost, "missing id");
++      }
++    }
++    const seenIds = Object.create(null);
++    for (let i = 0; i < nodes.length; i++) {
++      const id = String(nodes[i].id);
++      if (seenIds[id]) return irError(ghost, "duplicate id: " + id);
++      seenIds[id] = true;
++    }
++    const unknown = nodes.filter(function (n) {
++      return !Object.prototype.hasOwnProperty.call(CORTEX_KIND, n.kind);
++    });
++    if (unknown.length) {
++      return irError(
++        ghost,
++        "unknown kind: " + unknown.map(function (n) { return n.kind; }).join(", ")
++      );
++    }
++    const ids = {};
++    for (let i = 0; i < nodes.length; i++) ids[nodes[i].id] = true;
++    for (let i = 0; i < edges.length; i++) {
++      if (!ids[edges[i].from] || !ids[edges[i].to]) return irError(ghost, "dangling edge");
++    }
++    const order = topo({ nodes: nodes, edges: edges }, { strict: true });
++    if (order.length !== nodes.length) return irError(ghost, "cycle");
++    if (componentCount(nodes, edges) > 1) return irError(ghost, "disconnected graph");
++    const leaked = notesDenied(nodes);
++    if (leaked) return irError(ghost, leaked);
++    const listedObjects = Array.isArray(state.objects) ? state.objects : DEFAULT_OBJECTS;
++    const listedActions = Array.isArray(state.actions) ? state.actions : DEFAULT_ACTIONS;
++    const pointCatalog = state.object_points && typeof state.object_points === "object" ? state.object_points : null;
++    for (let i = 0; i < nodes.length; i++) {
++      const n = nodes[i];
++      if (n.kind !== "tool_call") continue;
++      if (!String(n.action_type || "").trim()) return irError(ghost, "tool_call missing action_type");
++      if (!listedOrEmpty(n.action_type, listedActions)) return irError(ghost, "tool_call unknown action_type");
++    }
++    const byId = Object.create(null);
++    const outgoing = Object.create(null);
++    for (let i = 0; i < nodes.length; i++) {
++      byId[nodes[i].id] = nodes[i];
++      outgoing[nodes[i].id] = 0;
++    }
++    for (let i = 0; i < edges.length; i++) outgoing[edges[i].from] += 1;
++    let output = null;
++    for (let i = order.length - 1; i >= 0; i--) {
++      const n = byId[order[i]];
++      if (n && (n.kind === "app" || n.kind === "audit")) {
++        output = n;
++        break;
++      }
++    }
++    if (!output) {
++      const sinks = nodes.filter(function (n) {
++        return outgoing[n.id] === 0;
++      });
++      if (sinks.length !== 1) return irError(ghost, "ambiguous output");
++      output = sinks[0];
++    }
++    const compiledById = Object.create(null);
++    for (let i = 0; i < nodes.length; i++) {
++      const n = nodes[i];
++      let kind = CORTEX_KIND[n.kind];
++      if (n.id === output.id && (n.kind === "app" || n.kind === "audit")) kind = "EMIT";
++      else if (kind === "EMIT") kind = "DETERMINISTIC_RULE";
++      const obj = listedOrEmpty(n.object_type, listedObjects);
++      const point = obj ? listedOrEmpty(n.data_point, pointsForObject(obj, pointCatalog)) : "";
++      const action = listedOrEmpty(n.action_type, listedActions);
++      compiledById[n.id] = {
++        id: n.id,
++        kind: kind,
++        constructor_kind: n.kind,
++        object_type: obj || null,
++        data_point: point || null,
++        data_type: point ? listedOrEmpty(n.data_type, DATA_TYPES) || null : null,
++        action_type: action || null,
++        fetch_from: fetchFromListed(n.fetch_from, listedObjects, obj) || null,
++        tier: listedOrEmpty(n.tier, ["T0", "T1"]) || null,
++        stream: !!n.stream,
++        requires_confirm: n.kind === "tool_call" || WRITE_ACTIONS.indexOf(action) >= 0,
++      };
++    }
++    return {
++      version: "1.0",
++      engine: ENGINE,
++      ghost: ghost,
++      entry_node_id: order[0],
++      output_node_id: output.id,
++      nodes: order.map(function (id) {
++        return compiledById[id];
++      }),
++      edges: edges.slice(),
++    };
++  }
++
++  function cortexPayload(state, opts) {
++    // The strict compileIR is the gate and the body. Raw canvas never POSTs to Cortex.
++    const ir = compileIR(state || {}, Object.assign({}, opts, { strict: true }));
++    if (ir.error) return { error: ir.error, body: null };
++    return {
++      error: undefined,
++      body: {
++        version: ir.version,
++        engine: ir.engine,
++        ghost: ir.ghost,
++        entry_node_id: ir.entry_node_id,
++        output_node_id: ir.output_node_id,
++        nodes: ir.nodes,
++        edges: ir.edges,
++      },
++    };
++  }
++
+   function compileIR(state, opts) {
+     opts = opts || {};
++    if (opts.strict === true) return compileStrict(state || {}, opts);
+     const ghost = opts.ghost != null ? !!opts.ghost : true;
+     const nodes = (state && state.nodes) || [];
+     const edges = (state && state.edges) || [];
+@@ -471,7 +784,7 @@
+     };
+   }
+ 
+-  function topo(state) {
++  function topo(state, opts) {
+     const incoming = {};
+     for (const n of state.nodes) incoming[n.id] = 0;
+     for (const e of state.edges) {
+@@ -488,12 +801,43 @@
+         if (incoming[e.to] === 0) q.push(e.to);
+       }
+     }
++    // Kahn leftovers are a cycle, not an order. Strict mode does not invent one.
++    if (opts && opts.strict === true) return out;
+     for (const n of state.nodes) {
+       if (!out.includes(n.id)) out.push(n.id);
+     }
+     return out;
+   }
+ 
++  function walkIR(state, ghost) {
++    // Walk what compileIR(strict) would send, in its order. A refused graph has no walk.
++    const ir = compileIR(state || {}, { strict: true, ghost: ghost });
++    if (ir.error) return { error: ir.error, log: [], order: [] };
++    const order = ir.nodes.map(function (row) {
++      return row.id;
++    });
++    const log = [];
++    for (const id of order) {
++      const node = state.nodes.find((n) => n.id === id);
++      const compiled = ir.nodes.find((row) => row.id === id);
++      const write = !ghost && (node.kind === "tool_call" || node.kind === "app");
++      log.push({
++        id: node.id,
++        kind: node.kind,
++        cortex: CORTEX_KIND[node.kind],
++        hop: hopForKind(node.kind),
++        ghost: !!ghost || !write,
++        write: !!write,
++        would: node.note,
++        action_type: compiled.action_type,
++        object_type: compiled.object_type,
++        data_point: compiled.data_point,
++        fetch_from: compiled.fetch_from,
++      });
++    }
++    return { error: undefined, log: log, order: order };
++  }
++
+   function ghostWalk(state, ghost) {
+     const v = validateGraph(state);
+     if (!v.ok) {
+@@ -1407,6 +1751,17 @@
+     fdeDigest: fdeDigest,
+     fdeSample: fdeSample,
+     ghostWalk: ghostWalk,
++    walkIR: walkIR,
++    cortexPayload: cortexPayload,
++    rankForKinds: rankForKinds,
++    listedOrEmpty: listedOrEmpty,
++    listedOptions: listedOptions,
++    objectForSetPoint: objectForSetPoint,
++    applyObjectType: applyObjectType,
++    fetchFromListed: fetchFromListed,
++    pointsForObject: pointsForObject,
++    notesDenied: notesDenied,
++    nodesWithoutNotes: nodesWithoutNotes,
+     scoreApproach: scoreApproach,
+     rankApproachesForGraph: rankApproachesForGraph,
+     objectsInPrompt: objectsInPrompt,

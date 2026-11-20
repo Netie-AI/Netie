@@ -9,7 +9,7 @@ Clones SIBLING_PINS (the SHAs the patches were cut against), not live HEAD.
 Patches were re-cut on 2026-11-12; when a sibling moves, re-cut and move its pin.
 Order matches sibling `scripts/test_sibling_patches.py`, not the README
 "independent" crew-gate placement (crew-gate must land before crew-netie).
-Constructor extras `constructor-*-4896ddd.patch` stay out of the 26-stack.
+Constructor extras `constructor-*-4896ddd.patch` stay out of the 3-patch stack.
 Does not push. Does not vendor OpenWork or Grok Bot. Cortex never
 `uv add` Netie.git.
 """
@@ -30,33 +30,10 @@ PATCHES = ROOT / "docs" / "patches"
 _LOCAL_BIN = str(Path.home() / ".local" / "bin")
 os.environ["PATH"] = _LOCAL_BIN + os.pathsep + os.environ.get("PATH", "")
 
-CONSTRUCTOR_26: tuple[str, ...] = (
+CONSTRUCTOR_STACK: tuple[str, ...] = (
+    "constructor-core-strict-ir.patch",
+    "constructor-engine-core.patch",
     "constructor-compiler-tests.patch",
-    "constructor-empty-graph.patch",
-    "constructor-ir-refuse.patch",
-    "constructor-ir-ids.patch",
-    "constructor-ghost-refuse.patch",
-    "constructor-ir-emit.patch",
-    "constructor-tool-action.patch",
-    "constructor-inspect-action.patch",
-    "constructor-inspect-object.patch",
-    "constructor-inspect-tier.patch",
-    "constructor-chat-object.patch",
-    "constructor-topo-leftover.patch",
-    "constructor-ir-entry.patch",
-    "constructor-ir-output.patch",
-    "constructor-ir-object.patch",
-    "constructor-ir-bind.patch",
-    "constructor-ir-action-allow.patch",
-    "constructor-ir-intake.patch",
-    "constructor-ir-hitl.patch",
-    "constructor-ir-connected.patch",
-    "constructor-ir-note.patch",
-    "constructor-ir-cortex-post.patch",
-    "constructor-object-pick.patch",
-    "constructor-engine-order.patch",
-    "constructor-ir-post.patch",
-    "constructor-ir-kahn-nodes.patch",
 )
 
 CONSTRUCTOR_EXTRAS: tuple[str, ...] = (
@@ -132,7 +109,7 @@ STACKS: dict[str, Stack] = {
         repo="https://github.com/Netie-AI/constructor.git",
         branch="landing-9-first-path",
         pin=SIBLING_PINS["constructor"],
-        patches=CONSTRUCTOR_26,
+        patches=CONSTRUCTOR_STACK,
         verify=(["node", "--test", "tests/compiler.test.cjs"],),
         min_passed=62,
     ),

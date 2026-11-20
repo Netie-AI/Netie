@@ -2,13 +2,14 @@
 """Accessible product repos: sibling patches still apply. python3 scripts/test_sibling_patches.py
 
 Constructor pin `bfc7d3b` has its own test.yml and ci.yml, but neither runs tests/compiler.test.cjs. This gate clones the pin, applies
-docs/patches/constructor-compiler-tests.patch then constructor-empty-graph.patch
-then constructor-ir-refuse.patch then constructor-ir-ids.patch then
-constructor-ghost-refuse.patch then constructor-ir-emit.patch then
-constructor-tool-action.patch then constructor-inspect-action.patch then constructor-inspect-object.patch then constructor-inspect-tier.patch then constructor-chat-object.patch then constructor-topo-leftover.patch then constructor-ir-entry.patch then constructor-ir-output.patch then constructor-ir-object.patch then constructor-ir-bind.patch then constructor-ir-action-allow.patch then constructor-ir-intake.patch then constructor-ir-hitl.patch then constructor-ir-connected.patch then constructor-ir-note.patch then constructor-ir-cortex-post.patch then constructor-object-pick.patch then constructor-engine-order.patch then constructor-ir-post.patch then constructor-ir-kahn-nodes.patch, and runs
-node --test (62 passed). Extra `constructor-ir-4896ddd.patch` /
+docs/patches/constructor-core-strict-ir.patch (strict mode in core/constructor.js, the one compiler)
+then constructor-engine-core.patch (engine.js and app.js call it) then
+constructor-compiler-tests.patch (tests/compiler.test.cjs and a test.yml step), and runs
+node --test tests/compiler.test.cjs (62 passed) and the repo's own
+node --test tests/*.test.js tests/unit/*.test.js (fail 0). It also asserts no file the
+constructor repo wrote under tests/ is changed. Extra `constructor-ir-4896ddd.patch` /
 `constructor-inspect-4896ddd.patch` are a thinner alternate stack (do not mix
-with the 26). Portable Python IR is `scripts/constructor_ir.py`.
+with the 3). Portable Python IR is `scripts/constructor_ir.py`.
 OpenVault patches apply on pin `3ba51cd` then `uv run pytest` on the routing+chat+crew-gate+ship-claim+free-pool files (>= 90 passed). The 28th patch (`openvault-crew-netie.patch`) makes `/api/crew/gate` call `from netie.crew import refuse_crew_gate` when Netie is installed. Then `openvault-crew-skill-ids.patch` lets kind=skill through when the POST carries ids-only `skill_ids`. Then `openvault-free-pool.patch` + `openvault-free-pool-route.patch` add `POST /api/route/free`. Then `openvault-ship-claim-ov.patch` forwards `ov=` from `claim_deploy` / the live engine label / `/api/ship/engine` (in-process crew post, no HTTP loopback). HT1 is still not done.
 Cortex `cortex-netie-path.patch` applies on pin `304bf84` (do not uv-add Netie.git). `cortex-web-via-runner.patch` applies on that pin (`default_broker` no web/discovery skip). `cortex-role-execute.patch` applies after those (`require_role` on execute modules). `cortex-observe-guard.patch` applies after those (`computer.observe` through guard_observe). dms `dms-netie-acl.patch` applies on pin `ebe65cc` (`live_ask` / browse through `netie.dms` when installed). Pointer `pointer-netie-hands.patch` then `pointer-observe-guard.patch` apply on pin `b42b98d` (UACC search drops planner/clipboard/window dump; native observe stays DR-0005; governed:true is opt-in). Control `control-netie-board.patch` applies on pin `93959c6` (`guard_issue_board` / Guacamole 405s). Netie-KB `kb-netie-index.patch` applies on pin `10356e5` (skill `kb_show` is ids-only). Founder apply-all: `scripts/apply_product_patches.py` clones the same pins (does not push).
 """
@@ -26,7 +27,7 @@ import unittest
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from apply_product_patches import SIBLING_PINS, _clone_pinned
+from apply_product_patches import CONSTRUCTOR_STACK, SIBLING_PINS, _clone_pinned
 
 ROOT = Path(__file__).resolve().parents[1]
 PATCHES = ROOT / "docs" / "patches"
@@ -51,60 +52,8 @@ def _run(
 
 class SiblingPatchTests(unittest.TestCase):
     def test_constructor_compiler_tests_on_patched_head(self) -> None:
-        first = PATCHES / "constructor-compiler-tests.patch"
-        second = PATCHES / "constructor-empty-graph.patch"
-        third = PATCHES / "constructor-ir-refuse.patch"
-        fourth = PATCHES / "constructor-ir-ids.patch"
-        fifth = PATCHES / "constructor-ghost-refuse.patch"
-        sixth = PATCHES / "constructor-ir-emit.patch"
-        seventh = PATCHES / "constructor-tool-action.patch"
-        eighth = PATCHES / "constructor-inspect-action.patch"
-        ninth = PATCHES / "constructor-inspect-object.patch"
-        tenth = PATCHES / "constructor-inspect-tier.patch"
-        eleventh = PATCHES / "constructor-chat-object.patch"
-        twelfth = PATCHES / "constructor-topo-leftover.patch"
-        thirteenth = PATCHES / "constructor-ir-entry.patch"
-        fourteenth = PATCHES / "constructor-ir-output.patch"
-        fifteenth = PATCHES / "constructor-ir-object.patch"
-        sixteenth = PATCHES / "constructor-ir-bind.patch"
-        seventeenth = PATCHES / "constructor-ir-action-allow.patch"
-        eighteenth = PATCHES / "constructor-ir-intake.patch"
-        nineteenth = PATCHES / "constructor-ir-hitl.patch"
-        twentieth = PATCHES / "constructor-ir-connected.patch"
-        twenty_first = PATCHES / "constructor-ir-note.patch"
-        twenty_second = PATCHES / "constructor-ir-cortex-post.patch"
-        twenty_third = PATCHES / "constructor-object-pick.patch"
-        twenty_fourth = PATCHES / "constructor-engine-order.patch"
-        twenty_fifth = PATCHES / "constructor-ir-post.patch"
-        twenty_sixth = PATCHES / "constructor-ir-kahn-nodes.patch"
-        self.assertTrue(
-            first.is_file()
-            and second.is_file()
-            and third.is_file()
-            and fourth.is_file()
-            and fifth.is_file()
-            and sixth.is_file()
-            and seventh.is_file()
-            and eighth.is_file()
-            and ninth.is_file()
-            and tenth.is_file()
-            and eleventh.is_file()
-            and twelfth.is_file()
-            and thirteenth.is_file()
-            and fourteenth.is_file()
-            and fifteenth.is_file()
-            and sixteenth.is_file()
-            and seventeenth.is_file()
-            and eighteenth.is_file()
-            and nineteenth.is_file()
-            and twentieth.is_file()
-            and twenty_first.is_file()
-            and twenty_second.is_file()
-            and twenty_third.is_file()
-            and twenty_fourth.is_file()
-            and twenty_fifth.is_file()
-            and twenty_sixth.is_file()
-        )
+        patches = [PATCHES / name for name in CONSTRUCTOR_STACK]
+        self.assertTrue(all(patch.is_file() for patch in patches))
         with tempfile.TemporaryDirectory() as tmp:
             dest = Path(tmp) / "constructor"
             clone = _clone_pinned(
@@ -113,56 +62,66 @@ class SiblingPatchTests(unittest.TestCase):
                 SIBLING_PINS["constructor"],
             )
             self.assertEqual(clone.returncode, 0, clone.stderr)
-            for patch in (
-                first,
-                second,
-                third,
-                fourth,
-                fifth,
-                sixth,
-                seventh,
-                eighth,
-                ninth,
-                tenth,
-                eleventh,
-                twelfth,
-                thirteenth,
-                fourteenth,
-                fifteenth,
-                sixteenth,
-                seventeenth,
-                eighteenth,
-                nineteenth,
-                twentieth,
-                twenty_first,
-                twenty_second,
-                twenty_third,
-                twenty_fourth,
-                twenty_fifth,
-                twenty_sixth,
-            ):
+            # Tests the constructor repo wrote: every file under tests/ at the pin.
+            listed = _run(
+                ["git", "ls-tree", "-r", "--name-only", "HEAD", "tests/"], cwd=dest
+            )
+            self.assertEqual(listed.returncode, 0, listed.stderr)
+            sibling_tests = set(listed.stdout.split())
+            self.assertIn("tests/pages-honesty.test.js", sibling_tests)
+            for patch in patches:
                 applied = _run(["git", "apply", str(patch)], cwd=dest)
                 self.assertEqual(applied.returncode, 0, applied.stderr)
+            changed = _run(["git", "diff", "--name-only", "HEAD"], cwd=dest)
+            self.assertEqual(changed.returncode, 0, changed.stderr)
+            touched = sibling_tests.intersection(changed.stdout.split())
+            self.assertEqual(
+                touched, set(), "a patch edits a test the constructor repo wrote"
+            )
             tests = _run(["node", "--test", "tests/compiler.test.cjs"], cwd=dest)
             self.assertEqual(tests.returncode, 0, tests.stdout + tests.stderr)
             self.assertIn("pass 62", tests.stdout + tests.stderr)
+            own = _run(
+                ["sh", "-c", "node --test tests/*.test.js tests/unit/*.test.js"],
+                cwd=dest,
+                timeout=300,
+            )
+            self.assertEqual(own.returncode, 0, own.stdout + own.stderr)
+            self.assertIn("fail 0", own.stdout + own.stderr)
+            # One compiler: the strict checks live in core, not in engine.js.
+            core = (dest / "core" / "constructor.js").read_text(encoding="utf-8")
             engine = (dest / "engine.js").read_text(encoding="utf-8")
             self.assertIn(
                 'WRITE_ACTIONS = ["export_pptx", "item.intake", "amend.apply", "call_action"]',
-                engine,
+                core,
             )
-            self.assertIn("NOTE_LEAK", engine)
-            self.assertIn("function cortexPayload", engine)
-            self.assertIn("nodes: ir.nodes", engine)
-            self.assertIn("compiledById", engine)
-            self.assertIn("function applyObjectType", engine)
+            self.assertIn("NOTE_LEAK", core)
+            self.assertIn("function cortexPayload", core)
+            self.assertIn("nodes: ir.nodes", core)
+            self.assertIn("compiledById", core)
+            self.assertIn("function applyObjectType", core)
+            for moved in (
+                "WRITE_ACTIONS",
+                "NOTE_LEAK",
+                "compiledById",
+                "function applyObjectType",
+                "function cortexPayload",
+                "function compileStrict",
+            ):
+                self.assertNotIn(moved, engine)
+            self.assertIn("Core.compileIR(canvasState(state), { strict: true })", engine)
+            self.assertIn("Core.cortexPayload(canvasState", engine)
             self.assertIn("function bindWhenReady", engine)
             app = (dest / "app.js").read_text(encoding="utf-8")
             self.assertNotIn("Object.keys(OBJECTS[value].points)[0]", app)
             self.assertIn("applyObjectType(node, value, OBJECTS)", app)
             html = (dest / "index.html").read_text(encoding="utf-8")
-            self.assertGreater(html.find("engine.js"), -1)
-            self.assertGreater(html.find("app.js"), html.find("engine.js"))
+            core_at = html.find("core/constructor.js")
+            app_at = html.find("app.js")
+            engine_at = html.find("engine.js")
+            self.assertGreater(core_at, -1)
+            self.assertGreater(app_at, core_at)
+            self.assertGreater(engine_at, app_at)
 
     def test_openvault_patches_apply_on_main(self) -> None:
         detect = PATCHES / "openvault-detect-stacks.patch"
