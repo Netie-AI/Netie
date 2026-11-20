@@ -6,6 +6,7 @@ class and the invariant it rests on. "R4 held" is a valid finding.
 | Date | File | One line |
 |---|---|---|
 | 2026-11-20 | `2026-11-20-voice-capture-track.md` | Voice capture from audio: 53 of 59 (breeze) and 49 of 59 (turbo) against 57 on clean text; lower WER did not mean better filing, default kept; large-v3-turbo registry repo was a 401; Docker section follows |
+| 2026-11-20 | `2026-11-20-wave3-sessions.md` | Shape of wave 3: 5 patch-lane sessions (recut 2) and 2 personal-tool sessions, plus 2 workflows; the PRD agent refused the first proposal until the founder ruled; rulings quoted in `docs/decisions/DR-PROPOSED-parked-patches-yield-to-sibling-tests.md`; results appended after parent replay |
 | 2026-11-12 | `2026-11-12-sibling-recut.md` (PR #59) | 6 lanes re-cut, `make ci` green (46 script tests); parent wrongly called the gate unfixable, and committed dms before its agent reported; green gate hides 43 Cortex and 2 OpenVault sibling test failures |
 | 2026-11-12 | `2026-11-12-voice-capture.md` | Personal voice capture on whisper-wrap (MIT): installed and run end to end on real audio; 76 capture tests pass; 57 of 59 eval cases on Gemini free tier; review caught a stale lock file and an env line that would have published the token; off the safe path, not a catalog entry |
 | 2026-10-05 | `2026-10-05-freeroute-stage2.md` | OmniRoute fork: 42 providers gated off by default (9 subscription-login, 33 web-session), proved on the /v1/models artifact; full Next build OOMs here, stage stays 1 |

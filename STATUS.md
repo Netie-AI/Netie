@@ -1,6 +1,6 @@
 # STATUS - Netie constitution repo
 
-**Branch:** `cursor/pin-sibling-shas-ca9b` · **PR:** https://github.com/Netie-AI/Netie/pull/57 · **main:** `1a0a40d` (gitignore Free APIs key-notes)
+**Branch:** `claude/friendly-feynman-x4hd1v` · **PR:** https://github.com/Netie-AI/Netie/pull/59 (draft; #57 closed, folded in) · **main:** `1a0a40d` (gitignore Free APIs key-notes)
 
 **Local gate:** `make ci` (same as GitHub `docs-ci`). `make drift` is network, not ci.
 
@@ -9,6 +9,8 @@
 - GitHub `docs-ci` on `main` was green through `8eb2d18`. `a8e895b` through `1a0a40d` failed ~28s (real): sibling clones hit live HEAD that drifted past the patches. Tests and `apply_product_patches.py` pin the SHAs the patches were re-cut on (2026-11-12): constructor `bfc7d3b`, OpenVault `3ba51cd`, Cortex `304bf84`, dms `ebe65cc`, Pointer `b42b98d`, control `93959c6`, KB `10356e5`. Live HEAD 2026-10-30: constructor `bfc7d3b`, OpenVault `3ba51cd`, Cortex `2deb09c`, dms `1411323`, Pointer `b42b98d`, control `93959c6` (KB still `10356e5`). Push 403. Do not claim those patches apply on live HEAD.
 - DR-0002 is on main (**proposed**): `ecosystem/catalog.json` 21 upstreams, 13 stage 1 overlays. Overlay replay byte-identical on 3 upstreams. Nothing sellable yet. n8n / Dify / Open WebUI / NadirClaw / Routerly not forkable. OpenWork `ee/` stripped.
 - `README.md` / `AGENTS.md` / `CLAUDE.md` bind agents to `NETIE.md`. Crew wrap stays **3/10**. HT1 not done. Score stays **2/10**. C2/MIN_TESTS stand.
+
+- 2026-11-20: five recut-2 sessions in flight (Cortex, OpenVault, constructor, Control, dms), each on `claude/recut2-<lane>` stacked on PR #59, under `docs/decisions/DR-PROPOSED-parked-patches-yield-to-sibling-tests.md`. The bar is the sibling's own suite, unpatched vs patched on the pin, not only the gate. Nothing from them is merged yet. Shape and rulings: `docs/subagents_findings/2026-11-20-wave3-sessions.md`.
 
 ## Next (founder clicks)
 
