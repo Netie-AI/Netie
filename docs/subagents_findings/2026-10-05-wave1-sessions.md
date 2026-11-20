@@ -18,3 +18,7 @@ the other ten.
 - Preflight: none of the three sessions can read `D:\Netie-KB`. PREFLIGHT: MISS.
 - Not started: the other 10 forks, and any nightly routine. Both wait for PR #43 to merge,
   because a routine fires against `main`, where `ecosystem.py` does not exist yet.
+- Update 2026-11-20: PR #43 and #44 to #46 merged on 2026-10-30 with base main, so
+  `ecosystem.py` is on main. Wave 2 (`2026-10-22-wave2-sessions.md`) started 8 of the other
+  10 forks; crew-desk and freeroute-9router were left out on the catalog's own words. The
+  nightly drift routine is still not started.

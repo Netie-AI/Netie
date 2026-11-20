@@ -141,8 +141,8 @@ or issued ones; the test asserted a behaviour upstream never had, and the test b
 `TestNetieGate_Fail2BanAndRetryOnIssuedCredentials`, two `openai` credentials, neither
 `is_fallback`, `WithMaxProviderRetries(2)`, 10 calls, primary called at most 3 times
 (fail2ban max_attempts), secondary answers all 10. The patch was recut and replayed
-(tree `a3447787dfdfe9f2207d1f1e290054fc0cadbf23`). The fixed case is not yet measured by any
-session; the parent re-runs it. Catalog stage stays 1 until that run is green.
+(tree `a3447787dfdfe9f2207d1f1e290054fc0cadbf23`). The fixed case was then measured by the
+parent (table below), and the catalog row is at stage 2.
 
 Measured by the parent session on 2026-10-30 at head 8318d9a (the fixed case 10), go1.24.7
 linux/amd64, all with `-count=1`:
@@ -165,7 +165,7 @@ parent's, which is the verifier wave 1 named (adversary is not the verifier).
 Before the parent's run this stage stopped at a PLAN with the row at stage 1. Stage 2 was
 claimed once, on a box that may build the upstream tree, `go build ./...` and `go test ./...` pass on the baseline, the
 gate tests fail there, and both pass after 0002 with every baseline pass still
-passing (the parent's run shows exactly that, except the case 10 fix is unmeasured). Estimated 20 to 40 minutes once the build is allowed; the Go 1.27 toolchain is
+passing (the parent's run above shows exactly that, case 10 fix included). Estimated 20 to 40 minutes once the build is allowed; the Go 1.27 toolchain is
 already cached. Expected upstream deltas after 0002: none in `go build`; in `go test`, the
 `internal/config` package runs under the TestMain override, and the two renamed warning
 assertions in `internal/startup/validators_test.go` are pointed at the new text.

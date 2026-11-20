@@ -157,8 +157,9 @@ Branch `claude/stage2-freeroute-core`, base `claude/netie-ecosystem-rebrand-uq9q
 | Optional Redis (`redis:` block) for shared rate-limit buckets, LiteLLM DB, Kafka, OTEL | upstream features untouched; not needed for a single instance |
 
 Verdict: not launchable tomorrow as a product. The fork is build-green and key-free, but its
-one credential source is an OpenVault endpoint that does not exist yet, and its gate tests are
-unmeasured. The shortest path to a working product is (1) OpenVault implements the endpoint
+one credential source is an OpenVault endpoint that does not exist yet. (Update 2026-11-20:
+the gate tests were measured by the parent on 2026-10-30, 17 of 17 and 85 of 85 at
+`-count=5`, see F6 and PLAN.md; the OpenVault endpoint is still missing.) The shortest path to a working product is (1) OpenVault implements the endpoint
 above, about one route plus a seat check, (2) `go test` is allowed on this fork once, (3) one
 end-to-end chat call through OpenVault `/v1` to this router to a real provider, observed.
 

@@ -31,9 +31,9 @@ Stages: 0 catalogued | 1 overlay patch exists | 2 gate wired and tested | 3 ship
 - **crew-harness**: Everything-is-a-plugin agent harness with web UI, headless command and Python SDK. Developer preview, version 0.1.0-rc.5 per its README.
   - Gate: Tested in vitest on the shipped bundle patch files: default model plugin is one OpenAI-compatible route at NETIE_OPENVAULT_URL/v1 (no DeepSeek route, no provider key field); tools and sandbox-local refuse registration without the Crew gate wrap, which posts ids only to OpenVault POST /api/crew/gate and fails closed.
 - **freeide**: Terminal and desktop coding agent: the FreeIDE coding surface.
-  - Gate: Provider base URL -> OpenVault /v1. Shell, edit and fetch tools -> Cortex tool_runner and OpenVault POST /api/crew/gate.
+  - Gate: Provider base URL -> OpenVault /v1. Shell, edit and webfetch ask OpenVault POST /api/crew/gate with ids only and fail closed (0002-gate.patch, tested). Cortex tool_runner: not wired (stage 3).
 - **freeide-ext**: Editor extension and CLI that is itself an opencode fork. Take the extension only; core stays on freeide.
-  - Gate: Same as freeide. Both copyright lines (Kilo Code, opencode) stay in LICENSE.
+  - Gate: Target, not wired (overlays/freeide-ext/PLAN.md): model default openvault/auto at OpenVault /v1; every tool outside a local read-only allowlist asks OpenVault POST /api/crew/gate with ids only and fails closed; the extension refuses to start without the gate plugin. Both copyright lines (Kilo Code, opencode) stay in LICENSE.
 - **netie-wiki**: CLI that writes and maintains a linked markdown wiki (code brain and personal brain) with claims tied to versioned evidence.
   - Gate: Tested (test/netie/netie-wiki-gate.test.ts, 12 cases, red on stage 1): claims sidecar records grounding netie-kb with a KB brief or ungrounded, unknown KB ids and skill bodies refused; model calls default to OpenVault /v1 with no provider key and no ambient-key fallback; every connector but git-repo is off unless OpenVault crew/gate allows, with a visible label.
 - **freeroute-core**: Go proxy: credential pooling, round-robin, per-key rate limits, fail2ban. The high-throughput data plane under FreeRoute.
