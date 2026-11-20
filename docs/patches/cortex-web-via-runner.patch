@@ -1,8 +1,8 @@
 diff --git a/CortexOS/execution/agent_task.py b/CortexOS/execution/agent_task.py
-index be52df1..a32d23a 100644
+index be52df1..2ee7a8a 100644
 --- a/CortexOS/execution/agent_task.py
 +++ b/CortexOS/execution/agent_task.py
-@@ -88,24 +88,12 @@ class AgentTaskTelemetry:
+@@ -88,28 +88,20 @@ class AgentTaskTelemetry:
  
  
  def default_broker(name: str, params: dict) -> dict:
@@ -26,23 +26,82 @@ index be52df1..a32d23a 100644
 +    """Every tool goes through the governed F8 runner.
  
 +    Web search/fetch and discovery used to skip ``run_tool_call``. That is
-+    leave-machine without an allowlist row. Skip is refused: unregistered
-+    names deny here instead of DuckDuckGo.
++    leave-machine without the runner seeing it. Skip is refused. ``web_fetch``
++    is a runner built-in for this broker only: the runner forces the
++    public-only guard (PRD R4.6) and ledgers the call. ``web_search`` and
++    ``find_*`` have no runner handler and deny as unregistered.
 +    """
      from CortexOS.execution.tool_runner import ToolCallError, run_tool_call
  
      try:
+-        return run_tool_call(name, params, actor="workflow", run_id="workflow")
++        return run_tool_call(
++            name, params, actor="workflow", run_id="workflow", agent_builtins=True
++        )
+     except ToolCallError as exc:
+         return {"ok": False, "error": str(exc), "verdict": exc.verdict}
+ 
+diff --git a/CortexOS/execution/tool_runner.py b/CortexOS/execution/tool_runner.py
+index b79c39b..af1a1bd 100644
+--- a/CortexOS/execution/tool_runner.py
++++ b/CortexOS/execution/tool_runner.py
+@@ -129,2 +129,20 @@ def _run_export_pptx(params: dict[str, Any], out_dir: Path) -> Path:
+ 
++#: Tools the agent broker may run without an ontology action-type row. They are
++#: reachable only when the caller passes ``agent_builtins=True`` (the workflow
++#: broker), so ``/dms/actions/<tool>`` and DAG tool nodes still deny them and
++#: the registry-derived allowlist does not grow.
++AGENT_BUILTINS = frozenset({"web_fetch"})
++
++
++def _run_web_fetch(params: dict[str, Any]) -> dict[str, Any]:
++    from CortexOS.execution import web_tools
++
++    kwargs: dict[str, Any] = {"url": str(params.get("url") or "")}
++    if "max_chars" in params:
++        kwargs["max_chars"] = int(params["max_chars"])
++    # The model never chooses its own SSRF guard (PRD R4.6): whatever
++    # ``public_only`` it passed is dropped here.
++    return web_tools.fetch(**kwargs, public_only=True)
++
++
+ def run_tool_call(
+@@ -136,2 +154,3 @@ def run_tool_call(
+     db_path: Path | str | None = None,
++    agent_builtins: bool = False,
+ ) -> dict[str, Any]:
+@@ -159,2 +178,17 @@ def run_tool_call(
+ 
++    if agent_builtins and tool_name in AGENT_BUILTINS:
++        page = _run_web_fetch(raw_params)
++        error = str(page.get("error") or "")
++        if not page.get("ok") and error.startswith("refused:"):
++            _deny("public_only", error)
++        payload = {
++            "tool": tool_name,
++            "params_hash": phash,
++            "path": None,
++            "verdict": "pass",
++            "run_id": rid,
++        }
++        _ledger(actor, "action.tool_call", payload, db_path=db_path)
++        return page
++
+     if tool_name not in allowed_action_tools(db_path):
 diff --git a/tests/dms/test_broker_no_skip.py b/tests/dms/test_broker_no_skip.py
 new file mode 100644
-index 0000000..21e92f3
+index 0000000..4136646
 --- /dev/null
 +++ b/tests/dms/test_broker_no_skip.py
-@@ -0,0 +1,16 @@
-+"""default_broker must not skip F8. File read only; no litellm."""
+@@ -0,0 +1,94 @@
++"""default_broker must not skip F8, and web_fetch keeps its guard inside F8."""
 +
 +from __future__ import annotations
 +
 +from pathlib import Path
++from typing import Any
++
++import pytest
 +
 +
 +def test_broker_source_has_no_web_or_discovery_skip() -> None:
@@ -54,3 +113,78 @@ index 0000000..21e92f3
 +    assert "WEB_TOOLS" not in body
 +    assert "DISCOVERY_TOOLS" not in body
 +    assert "run_tool_call" in body
++
++
++@pytest.fixture
++def ops_db(tmp_path, monkeypatch) -> Path:
++    db = tmp_path / "ops.db"
++    monkeypatch.setenv("DMS_OPS_DB", str(db))
++    monkeypatch.delenv("DMS_LEDGER_DSN", raising=False)
++    return db
++
++
++def _events(db: Path) -> list[tuple[str, dict[str, Any]]]:
++    from packs.dms.audit import ledger
++
++    return [(e.event_type, e.payload) for e in ledger.list_entries(db_path=db)]
++
++
++def test_web_fetch_reaches_the_net_only_through_the_runner(ops_db, monkeypatch) -> None:
++    from CortexOS.execution import agent_task, tool_runner, web_tools
++
++    seen: list[tuple[str, dict[str, Any]]] = []
++    real = tool_runner.run_tool_call
++
++    def spy(tool: str, params: Any = None, **kw: Any) -> dict[str, Any]:
++        seen.append((tool, dict(kw)))
++        return real(tool, params, **kw)
++
++    fetched: list[str] = []
++    monkeypatch.setattr(tool_runner, "run_tool_call", spy)
++    monkeypatch.setattr(web_tools, "non_public_reason", lambda url: "")
++    monkeypatch.setattr(web_tools, "_get", lambda *a, **k: pytest.fail("unguarded fetch used"))
++    monkeypatch.setattr(
++        web_tools, "_get_public", lambda target, **k: fetched.append(target) or b"<title>ok</title>hi"
++    )
++    out = agent_task.default_broker("web_fetch", {"url": "https://example.com/", "public_only": False})
++    assert out["ok"] is True and out["title"] == "ok"
++    assert fetched == ["https://example.com/"]
++    assert [tool for tool, _ in seen] == ["web_fetch"]
++    events = _events(ops_db)
++    assert [kind for kind, _ in events] == ["action.tool_call"]
++    assert events[0][1]["tool"] == "web_fetch" and events[0][1]["verdict"] == "pass"
++
++
++def test_web_fetch_internal_address_is_refused_and_ledgered(ops_db, monkeypatch) -> None:
++    from CortexOS.execution import agent_task, web_tools
++
++    monkeypatch.setattr(web_tools, "_get", lambda *a, **k: pytest.fail("fetched"))
++    monkeypatch.setattr(web_tools, "_get_public", lambda *a, **k: pytest.fail("fetched"))
++    out = agent_task.default_broker(
++        "web_fetch", {"url": "http://169.254.169.254/latest/meta-data/", "public_only": False}
++    )
++    assert out["ok"] is False and out["error"].startswith("refused:")
++    assert out["verdict"] == "public_only"
++    events = _events(ops_db)
++    assert [kind for kind, _ in events] == ["action.tool_call_denied"]
++    assert events[0][1]["tool"] == "web_fetch"
++
++
++@pytest.mark.parametrize("name", ["web_search", "find_skills", "find_mcp", "find_subagents"])
++def test_search_and_discovery_have_no_handler_and_deny(ops_db, monkeypatch, name) -> None:
++    from CortexOS.execution import agent_task, web_tools
++
++    monkeypatch.setattr(web_tools, "_get", lambda *a, **k: pytest.fail("left the machine"))
++    out = agent_task.default_broker(name, {"query": "x"})
++    assert out["ok"] is False and out["verdict"] == "allowlist"
++
++
++def test_web_fetch_is_not_an_action_route_or_dag_tool(ops_db, monkeypatch) -> None:
++    """Only the workflow broker opts in. The allowlist itself does not grow."""
++    from CortexOS.execution import tool_runner, web_tools
++
++    monkeypatch.setattr(web_tools, "_get_public", lambda *a, **k: pytest.fail("fetched"))
++    assert "web_fetch" not in tool_runner.allowed_action_tools()
++    with pytest.raises(tool_runner.ToolCallError) as exc:
++        tool_runner.run_tool_call("web_fetch", {"url": "https://example.com/"}, actor="steward")
++    assert exc.value.verdict == "allowlist"

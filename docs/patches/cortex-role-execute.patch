@@ -49,24 +49,24 @@ index aefdf9f..ef923e9 100644
          if pack is None or pack.name != "dms":
              raise HTTPException(status_code=404, detail="DMS routes require PACK=dms")
 diff --git a/CortexOS/api/dms_query.py b/CortexOS/api/dms_query.py
-index 5eae88b..9536a05 100644
+index 5eae88b..5bad528 100644
 --- a/CortexOS/api/dms_query.py
 +++ b/CortexOS/api/dms_query.py
-@@ -88,9 +88,11 @@ def _missing_dataset_response() -> dict[str, Any]:
+@@ -88,8 +88,12 @@ def _missing_dataset_response() -> dict[str, Any]:
  
  
  def register_dms_routes(app: Any) -> None:
 -    from fastapi import HTTPException, Query
 +    from fastapi import Depends, HTTPException, Query
  
--    @app.post("/dms/query", response_model=DMSQueryResponse)
 +    from CortexOS.security.auth_port import require_role
 +
-+    @app.post("/dms/query", response_model=DMSQueryResponse, dependencies=[Depends(require_role("viewer"))])
++    # /dms/query stays keyless (founder ruling 2026-11-20). The write routes
++    # below need a steward key.
+     @app.post("/dms/query", response_model=DMSQueryResponse)
      async def dms_query(body: DMSQueryRequest) -> dict[str, Any]:
          pack = getattr(app.state, "pack", None)
-         if pack is None or pack.name != "dms":
-@@ -210,7 +212,7 @@ def register_dms_routes(app: Any) -> None:
+@@ -210,7 +214,7 @@ def register_dms_routes(app: Any) -> None:
              "columns": all_cols,
          }
  
@@ -75,7 +75,7 @@ index 5eae88b..9536a05 100644
      async def dms_propose_edit(body: ProposeEditRequest) -> dict[str, Any]:
          pack = getattr(app.state, "pack", None)
          if pack is None or pack.name != "dms":
-@@ -259,7 +261,7 @@ def register_dms_routes(app: Any) -> None:
+@@ -259,7 +263,7 @@ def register_dms_routes(app: Any) -> None:
              return {"entries": []}
          return {"entries": _load_changelog(limit)}
  
@@ -84,7 +84,7 @@ index 5eae88b..9536a05 100644
      async def dms_analyse_entry(body: AnalyseEntryRequest) -> dict[str, Any]:
          pack = getattr(app.state, "pack", None)
          if pack is None or pack.name != "dms":
-@@ -268,7 +270,7 @@ def register_dms_routes(app: Any) -> None:
+@@ -268,7 +272,7 @@ def register_dms_routes(app: Any) -> None:
  
          return analyse_raw_entry(body.raw_text)
  
@@ -125,19 +125,29 @@ index 255a476..7cb3b00 100644
      assert len(res.json()["messages"]) == 1
  
 diff --git a/tests/dms/test_f7_rbac.py b/tests/dms/test_f7_rbac.py
-index 3184a4d..8df9675 100644
+index 3184a4d..b2f810b 100644
 --- a/tests/dms/test_f7_rbac.py
 +++ b/tests/dms/test_f7_rbac.py
-@@ -87,6 +87,14 @@ def test_invalid_key_rejected(dms_client, api_keys_env):
+@@ -87,6 +87,24 @@ def test_invalid_key_rejected(dms_client, api_keys_env):
      assert res.status_code == 401
  
  
 +def test_execute_modules_require_a_key(dms_client):
-+    """TAS-CORTEX: app_routes / dag_run / dms_query / chat_routes were missing RBAC."""
-+    assert dms_client.post("/dms/query", json={"question": "x"}).status_code == 401
++    """TAS-CORTEX: app_routes / dag_run / dms write routes / chat_routes need a key."""
++    assert dms_client.post("/dms/propose-edit", json={}).status_code == 401
++    assert dms_client.post("/dms/analyse-entry", json={}).status_code == 401
++    assert dms_client.post("/dms/add-entry", json={}).status_code == 401
 +    assert dms_client.post("/run", json={"dag": {"nodes": []}}).status_code == 401
 +    assert dms_client.post("/api/apps/import", json={"zip_base64": "QUFB"}).status_code == 401
 +    assert dms_client.post("/dms/threads", json={}).status_code == 401
++    assert dms_client.post("/dms/threads/t1/messages", json={}).status_code == 401
++    assert dms_client.get("/dms/threads/t1/messages").status_code == 401
++
++
++def test_dms_query_stays_keyless(dms_client):
++    """Founder ruling 2026-11-20: asking a question needs no key."""
++    res = dms_client.post("/dms/query", json={"question": "x"})
++    assert res.status_code not in (401, 403), res.text
 +
 +
  def test_rate_limit_429(dms_client, api_keys_env, monkeypatch):
