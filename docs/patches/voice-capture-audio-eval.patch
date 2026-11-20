@@ -1,0 +1,1181 @@
+From c77d28bde1b2e4749daa40e7677b8700739586f0 Mon Sep 17 00:00:00 2001
+From: Claude <noreply@anthropic.com>
+Date: Fri, 20 Nov 2026 02:57:58 +0000
+Subject: [PATCH] Capture: accuracy measured from audio, working large-v3-turbo
+ registry entry
+
+evals/audio/ posts synthetic clips of the 59 eval cases to POST /transcribe on the
+running server, feeds what Whisper heard through the real sorter, and reports word
+error rate (raw and number-normalised), the end-to-end score, and which cases changed
+against the clean-text run. Results for breeze-asr-25 and large-v3-turbo are stored
+next to the runner; evals/audio/README.md has the numbers and their limits.
+
+registry/models.yaml: the large-v3-turbo entry pointed at
+Systran/faster-whisper-large-v3-turbo, which does not exist. It now points at
+dropbox-dash/faster-whisper-large-v3-turbo (MIT), downloaded with the model manager
+and used for the turbo results. The default model is unchanged.
+---
+ evals/audio/README.md                         | 206 +++++++++
+ ...-breeze-asr-25-gtts-en-us-2026-11-20.jsonl |  59 +++
+ ...large-v3-turbo-gtts-en-us-2026-11-20.jsonl |  59 +++
+ evals/audio/run_audio_eval.py                 | 405 ++++++++++++++++++
+ ...-breeze-asr-25-gtts-en-uk-2026-11-20.jsonl |  59 +++
+ ...large-v3-turbo-gtts-en-uk-2026-11-20.jsonl |  59 +++
+ ...-v3-turbo-int8-gtts-en-us-2026-11-20.jsonl |  59 +++
+ evals/audio/test_audio_eval.py                | 175 ++++++++
+ registry/models.yaml                          |   2 +-
+ 9 files changed, 1082 insertions(+), 1 deletion(-)
+ create mode 100644 evals/audio/README.md
+ create mode 100644 evals/audio/results-breeze-asr-25-gtts-en-us-2026-11-20.jsonl
+ create mode 100644 evals/audio/results-large-v3-turbo-gtts-en-us-2026-11-20.jsonl
+ create mode 100644 evals/audio/run_audio_eval.py
+ create mode 100644 evals/audio/stt-only-breeze-asr-25-gtts-en-uk-2026-11-20.jsonl
+ create mode 100644 evals/audio/stt-only-large-v3-turbo-gtts-en-uk-2026-11-20.jsonl
+ create mode 100644 evals/audio/stt-only-large-v3-turbo-int8-gtts-en-us-2026-11-20.jsonl
+ create mode 100644 evals/audio/test_audio_eval.py
+
+diff --git a/evals/audio/README.md b/evals/audio/README.md
+new file mode 100644
+index 0000000..d317c8c
+--- /dev/null
++++ b/evals/audio/README.md
+@@ -0,0 +1,206 @@
++# Capture accuracy from audio
++
++`evals/README.md` measures the sorter on clean text. This folder measures the path the
++phone really uses: a clip is posted to the running server, Whisper transcribes it, and
++what Whisper heard (not the clean text) goes through the real sorter.
++
++## Files
++
++- `run_audio_eval.py`: the runner. Three steps: `stt`, `sort`, `report`. Standard library
++  only, plus what `evals/run_eval.py` needs for `sort`.
++- `test_audio_eval.py`: 20 tests. The server and the model are stubbed. No network.
++- `results-<speech model>-<voice>-<date>.jsonl`: one row per case with `source` (the
++  text that was spoken), `heard`, `seconds`, and the sorter's `items`.
++- `stt-only-*.jsonl`: the same without the sorting step (second accent, and turbo at int8).
++
++The clips are not in the repository. Make them again with gTTS (below).
++
++## Run
++
++    # 1. clips, in a throwaway virtualenv (gTTS calls Google's translate voice, needs network)
++    python -m venv /tmp/tts && /tmp/tts/bin/pip install gTTS
++    /tmp/tts/bin/python -c "
++    import json
++    from gtts import gTTS
++    for line in open('evals/capture_cases.jsonl'):
++        c = json.loads(line)
++        gTTS(c['transcript'], lang='en', tld='com').save('/tmp/clips/' + c['id'] + '.mp3')"
++
++    # 2. server with the speech model under test
++    CAPTURE_TOKEN=x MODEL_NAME=breeze-asr-25 python -m uvicorn app.main:app --host 127.0.0.1 --port 8000
++
++    # 3. measure
++    python evals/audio/run_audio_eval.py stt --clips /tmp/clips --out r.jsonl --model breeze-asr-25 --voice gtts-en-us
++    GEMINI_API_KEY=... python evals/audio/run_audio_eval.py sort --results r.jsonl --delay 5
++    python evals/audio/run_audio_eval.py report --results r.jsonl
++
++    python -m pytest evals/audio -c /dev/null      # the tests
++
++`stt` posts the raw clip with `Content-Type: application/octet-stream`, as the Shortcut
++does. `sort` makes one request at a time; on a rate limit it waits 60 s and tries again,
++at most 8 times per case; on a daily-quota error it stops and a later run resumes. A case
++the API never answered is reported as unanswered, not as wrong. An empty transcript is
++not sent to the sorter, because `POST /capture` answers "No speech detected" and files
++nothing.
++
++## How the numbers are computed
++
++- **Word error rate**: word-level edit distance (substitutions + deletions + insertions)
++  summed over all clips, divided by the number of source words. Lowercase, punctuation
++  stripped. `raw` compares the words as written. `numbers normalised` first rewrites
++  numbers to one spelling, so `five hundred`, `500` and `0.5k` are equal and `RM85` equals
++  `RM 85`. It does not make `fifty` equal `fifteen`.
++- What still counts as an error although nobody misheard anything: `millimetres` vs
++  `millimeters`, `licence` vs `license`, `Dr` vs `Doctor`, `30 dollars` vs `$30`,
++  `SGD` vs `Singapore dollars`, `twelve fifty` vs `12.50`, `1k` vs `one k`, `Y15` vs
++  `Y-15`. Four cases also carry a deliberate mis-hearing in the source text (for example
++  `ring it`, `bill of leading`); when Whisper writes the correct word that is counted
++  against it. So the rate is an upper reading, not a count of hearing mistakes.
++- **End to end**: `evals/score.py`, unchanged, against the unchanged expected answers.
++  The comparison run on clean text is `evals/results-gemini-3.1-flash-lite-2026-11-12.jsonl`.
++
++## Measured 2026-11-20
++
++Real path: the patched server, `POST /transcribe`, CTranslate2 on CPU (4 virtual cores,
++Xeon 2.1 GHz, no GPU). Sorter: `gemini-3.1-flash-lite`, free tier. 59 clips, 655 source
++words, 277 s of audio, median clip 4.1 s.
++
++| Speech model | Voice | Word error rate, raw | numbers normalised | Word-perfect clips | End to end | Seconds per clip, median | Peak memory |
++|---|---|---|---|---|---|---|---|
++| `breeze-asr-25` (default) | gTTS US | 14.2% (93/655) | 9.6% (63/655) | 37/59 | answered 59, correct 52 | 12.4 | 3.4 GB |
++| `large-v3-turbo` | gTTS US | 10.7% (70/655) | 7.5% (49/655) | 38/59 | answered 59, correct 48 | 16.4 | 4.5 GB |
++| `large-v3-turbo`, `COMPUTE_TYPE=int8` | gTTS US | 11.0% (72/655) | 7.9% (52/655) | 37/59 | not run | 10.0 | 2.4 GB |
++| `breeze-asr-25` | gTTS UK | 12.8% (84/655) | 9.5% (62/655) | 37/59 | not run | 12.2 | not measured |
++| `large-v3-turbo` | gTTS UK | 12.8% (84/655) | 9.5% (62/655) | 35/59 | not run | 16.5 | not measured |
++
++Clean text, stored run of 2026-11-12: 57 of 59. Word-perfect is after number
++normalisation. Seconds are wall time for the whole request, file conversion included.
++Peak memory is the server process high-water mark (`VmHWM`) after the 59 clips.
++
++Two things the table hides:
++
++- `large-v3-turbo` ships as float16. On this CPU the server loaded it as float32 (the
++  CTranslate2 log says so); the `compute_type` in the registry entry is not what decides
++  that. `COMPUTE_TYPE=int8` made it faster than the default model and smaller.
++- `breeze-asr-25` reported the language as `zh` for all 59 US-voice clips while writing
++  English. `large-v3-turbo` reported `en` for all 59.
++
++### Malay words
++
++An English voice cannot say Malay. The six cases tagged `manglish` (`both-malay-lori`,
++`multi-manglish-run-on`, `date-lusa-malay`, `amount-malay-words`, `malay-esok-klinik`,
++`malay-lori-note`) are therefore a test of a mispronounced input, not of either model on a
++Malay speaker. Others hold single Malay words (`ringgit`, `sen`, `nasi lemak`, `teh tarik`,
++`roti canai`, `nasi kandar`, `aircond`, `lori`).
++
++| Speech model, US voice | Six Malay cases: word errors | end to end | Other 53: word errors | end to end |
++|---|---|---|---|---|
++| `breeze-asr-25` | 28/66 | 3 of 6 | 35/589 (5.9%) | 49 of 53 |
++| `large-v3-turbo` | 24/66 | 1 of 6 | 25/589 (4.2%) | 47 of 53 |
++
++### Which cases changed against the clean-text run, and why
++
++Six flipped cases whose words were heard right or nearly right (two from the breeze list,
++four from the turbo list) were sent to the sorter three more times with the same heard
++text, to tell a hearing problem from sorter variation. "Repeats" below is that check.
++
++`breeze-asr-25`, 5 cases pass on text and fail on audio:
++
++| Case | Cause | Evidence |
++|---|---|---|
++| `multi-manglish-run-on` | hearing | `bayar tol` became `by are tall`; the toll was filed as "Bought lunch" |
++| `amount-malay-words` | hearing | `seratus lima puluh` became `Saratis Lima pulo`; filed 50, not 150 |
++| `malay-lori-note` | hearing | `cakap` became `kakup`; a note became a dated task |
++| `multi-three-kinds` | sorting | words equal but `Dr` vs `Doctor`; repeats: 1 of 3 pass |
++| `date-vague-no-due` | sorting | `aircond` vs `aircon`; repeats: 3 of 3 pass |
++
++`large-v3-turbo`, 9 cases pass on text and fail on audio:
++
++| Case | Cause | Evidence |
++|---|---|---|
++| `multi-manglish-run-on` | hearing | `bayar tol` became `buy our tall`; same wrong filing |
++| `amount-malay-words` | hearing | `seratus` became `Serratis`; filed 350, not 150 |
++| `malay-lori-note` | hearing | `cakap` became `Kakup`; a note became a dated task |
++| `malay-esok-klinik` | hearing | `esok` became `Isak`; due today, not tomorrow |
++| `both-malay-lori` | hearing | `esok` became `isaq`; the task lost its date |
++| `multi-two-dated-tasks` | punctuation | every word right, but `...the loan Friday. Send the signed form` ties Friday to the wrong sentence; repeats: 0 of 3 pass |
++| `quote-motorcycle` | scorer | `Y15` written `Y-15`; the note is right, the keyword check `y15` is not met; repeats: 0 of 3 |
++| `date-year-rollover` | sorting | words equal (`eight` vs `8`); due came back 2026-01-03, a year early; repeats: 1 of 3 pass |
++| `ambig-balance-due` | sorting | words equal; one item came back as two; repeats: 1 of 3 pass |
++
++`multi-five-across-topics` and `ambig-lorry-which-project` fail on text and on audio with
++both models. No case went from fail to pass.
++
++Every flip caused by hearing is on a Malay-tagged clip. On the 53 other clips neither
++model lost a case to a misheard word; turbo lost one to punctuation and one to the
++scorer's keyword check.
++
++### The ten most damaging mis-hearings
++
++Ranked by what ended up filed, not by word count.
++
++1. `bayar seratus lima puluh ringgit` -> `Byar Saratis Lima pulo ringat` (breeze, filed
++   50) and `Bayar Serratis Lima Pulo Ringgit` (turbo, filed 350). A wrong amount on disk.
++2. `eh tadi bayar tol 12 ringgit` -> `A toddy by are tall twelve ring it` (breeze) and
++   `A toddy buy our tall 12 ringgit` (turbo). The toll was filed as lunch.
++3. `boss cakap lori sampai PJ warehouse pukul tiga` -> `Boss kakup lori ...` (both). A
++   report of what the boss said became a task due today.
++4. `esok pagi kena pergi klinik` -> `Isak Pagi Kenna Pergi Clinic` (turbo). "Tomorrow"
++   was lost. Breeze wrote `Esak Pagi` and the sorter still read it as tomorrow.
++5. `esok kena confirm masa dengan dia` -> `isaq kenna confirm masa dengan dia` (turbo).
++   The task lost its date.
++6. `lorry is booked already` -> `Laurie is booked already` (breeze) and `Lori is booked
++   already` (turbo). A vehicle became a person.
++7. `...about the loan Friday send the signed form to HR` -> `...about the loan Friday.
++   Send the signed form to HR.` (turbo). No wrong word; the full stop moved the date.
++8. `Honda RS150 seat height` -> `Honda 150 rupees seat height` (both models, both
++   voices). A currency that was never said. The case still passed.
++9. `teh tarik and roti canai six ringgit fifty sen` -> `... 6 ringgit 50 cent` (breeze).
++   Still passed.
++10. `remind me to actually no forget it` -> `Remind me to actually know forget it`
++    (breeze). Still passed (nothing filed).
++
++The one mis-hearing seen in the live run of 2026-11-12, `collect it this Saturday` heard
++as `Collected this Saturday`, did not come back: both models, both voices, four clips,
++all four heard it right. That run used a different synthetic voice.
++
++## Which model should be the default
++
++Not changed. The evidence does not separate the two models.
++
++- Word errors: turbo lower with the US voice (49 vs 63 of 655), equal with the UK voice
++  (62 vs 62). One voice in favour, one a tie.
++- End to end: breeze 52, turbo 48. Turbo failed six cases that breeze passed and breeze
++  failed two that turbo passed. Of turbo's six, one is the scorer's keyword check and two
++  came back right on some repeats; breeze's two are sorter variation as well. The sorter
++  alone moves a result by a few cases between runs, so 52 against 48 is inside that.
++- Speed and memory on this CPU: turbo as shipped is slower and larger; turbo with
++  `COMPUTE_TYPE=int8` is faster and smaller than breeze, with the same word errors as
++  turbo float32 to within three words.
++- Neither model coped with the Malay clips, and those clips are mispronounced, so they
++  say nothing about a Malay speaker.
++
++What changed: the `large-v3-turbo` registry entry now points at a repository that exists
++(`dropbox-dash/faster-whisper-large-v3-turbo`, MIT; the Hugging Face API redirects
++faster-whisper's own alias `mobiuslabsgmbh/faster-whisper-large-v3-turbo` to it). It was
++downloaded with `scripts/model-manager.sh download large-v3-turbo` and served all the
++turbo rows above. For an English and Manglish speaker it is worth trying on real
++recordings with `MODEL_NAME=large-v3-turbo COMPUTE_TYPE=int8`. A decision needs the
++speaker's own voice: twenty or so real captures from `transcripts.jsonl`, corrected by
++hand, run through both models.
++
++## Limits. Read before quoting a number.
++
++- **n is 59**, six of them Malay. Nothing here is an error rate. A difference of a few
++  cases or a few words between two rows is not a finding.
++- **The cases were written by a model**, not taken from real recordings.
++- **The voice is synthetic** (gTTS 2.5.4, Google's translate voice, `tld=com` for US and
++  `tld=co.uk` for UK): one steady speaker, no background noise, no phone microphone, no
++  car park. A person will be heard worse than this. Sorting was run for the US voice only.
++- **The English voice mispronounces Malay**, so the Malay rows measure the voice.
++- **One sorting run per model.** The sorter is not deterministic; see the repeats above.
++- **Timing** is one pass on a shared 4-core cloud CPU. A sorting job ran alongside part
++  of the turbo passes (network only). A phone-to-server round trip was not measured.
++- **Not run:** a human voice, a real phone recording, sorting for the UK voice or the int8
++  run, Claude as the sorter, a GPU, the Apple (`ggml`) variant, `breeze-asr-25` with
++  `language=en` forced.
+diff --git a/evals/audio/results-breeze-asr-25-gtts-en-us-2026-11-20.jsonl b/evals/audio/results-breeze-asr-25-gtts-en-us-2026-11-20.jsonl
+new file mode 100644
+index 0000000..2663f36
+--- /dev/null
++++ b/evals/audio/results-breeze-asr-25-gtts-en-us-2026-11-20.jsonl
+@@ -0,0 +1,59 @@
++{"id": "task-plain", "model": "breeze-asr-25", "voice": "gtts-en-us", "source": "remind me to call the dentist and book a cleaning", "heard": "Remind me to call the dentist and book a cleaning.", "language": "zh", "seconds": 12.93, "items": [{"kind": "task", "text": "Call the dentist and book a cleaning", "amount": null, "currency": null, "due": null, "topic": null}], "tries": 1}
++{"id": "task-move", "model": "breeze-asr-25", "voice": "gtts-en-us", "source": "need to buy more boxes and bubble wrap for the move", "heard": "Need to buy more boxes and bubble wrap for the move.", "language": "zh", "seconds": 15.12, "items": [{"kind": "task", "text": "Buy more boxes and bubble wrap for the move", "amount": null, "currency": null, "due": null, "topic": "move"}], "tries": 1}
++{"id": "task-motorcycle", "model": "breeze-asr-25", "voice": "gtts-en-us", "source": "book a test ride for the Yamaha Y15 at the dealer in Sunway", "heard": "Book a test ride for the Yamaha Y15 at the dealer in Sunway.", "language": "zh", "seconds": 14.02, "items": [{"kind": "task", "text": "Book a test ride for the Yamaha Y15 at the dealer in Sunway", "amount": null, "currency": null, "due": null, "topic": "motorcycle"}], "tries": 1}
++{"id": "task-shipping", "model": "breeze-asr-25", "voice": "gtts-en-us", "source": "got to email the forwarder the packing list for the PJ shipment", "heard": "Got to email the forwarder the packing list for the PJ shipment.", "language": "zh", "seconds": 12.97, "items": [{"kind": "task", "text": "Email the forwarder the packing list for the PJ shipment", "amount": null, "currency": null, "due": null, "topic": "pj-shipping"}], "tries": 1}
++{"id": "exp-ringgit", "model": "breeze-asr-25", "voice": "gtts-en-us", "source": "lunch nasi lemak twelve ringgit", "heard": "Lunch nasi lemak 12 ringgit", "language": "zh", "seconds": 12.09, "items": [{"kind": "expense", "text": "Lunch nasi lemak", "amount": 12.0, "currency": "MYR", "due": null, "topic": null}], "tries": 1}
++{"id": "exp-rm-prefix", "model": "breeze-asr-25", "voice": "gtts-en-us", "source": "Paid RM85 for petrol for the car.", "heard": "Paid RM 85 for petrol for the car.", "language": "zh", "seconds": 12.48, "items": [{"kind": "expense", "text": "Paid for petrol for the car", "amount": 85.0, "currency": "MYR", "due": null, "topic": null}], "tries": 1}
++{"id": "exp-no-currency", "model": "breeze-asr-25", "voice": "gtts-en-us", "source": "grab ride to the office was twenty three", "heard": "Grab ride to the office was twenty three.", "language": "zh", "seconds": 13.37, "items": [{"kind": "expense", "text": "Grab ride to the office", "amount": 23.0, "currency": "MYR", "due": null, "topic": null}], "tries": 1}
++{"id": "exp-bucks", "model": "breeze-asr-25", "voice": "gtts-en-us", "source": "spent fifty bucks on parking and toll", "heard": "Spent fifty bucks on parking and toll.", "language": "zh", "seconds": 12.7, "items": [{"kind": "expense", "text": "Parking and toll fees", "amount": 50.0, "currency": "MYR", "due": null, "topic": null}], "tries": 1}
++{"id": "exp-us-dollars", "model": "breeze-asr-25", "voice": "gtts-en-us", "source": "paid forty US dollars for the VPN renewal", "heard": "Paid 40 US dollars for the VPN renewal.", "language": "zh", "seconds": 11.96, "items": [{"kind": "expense", "text": "VPN renewal", "amount": 40.0, "currency": "USD", "due": null, "topic": null}], "tries": 1}
++{"id": "exp-sgd", "model": "breeze-asr-25", "voice": "gtts-en-us", "source": "paid 120 SGD for the hotel in Singapore", "heard": "Paid 120 Singapore dollars for the hotel in Singapore.", "language": "zh", "seconds": 12.03, "items": [{"kind": "expense", "text": "Paid for hotel in Singapore", "amount": 120.0, "currency": "SGD", "due": null, "topic": null}], "tries": 1}
++{"id": "exp-sen", "model": "breeze-asr-25", "voice": "gtts-en-us", "source": "teh tarik and roti canai six ringgit fifty sen", "heard": "Tay tarik and roti canai 6 ringgit 50 cent.", "language": "zh", "seconds": 12.6, "items": [{"kind": "expense", "text": "Tea tarik and roti canai", "amount": 6.5, "currency": "MYR", "due": null, "topic": null}], "tries": 1}
++{"id": "exp-move", "model": "breeze-asr-25", "voice": "gtts-en-us", "source": "paid the movers 300 for the packing service", "heard": "Paid the movers three hundred for the packing service.", "language": "zh", "seconds": 12.23, "items": [{"kind": "expense", "text": "Paid movers for packing service", "amount": 300.0, "currency": "MYR", "due": null, "topic": "move"}], "tries": 1}
++{"id": "exp-shipping", "model": "breeze-asr-25", "voice": "gtts-en-us", "source": "paid the lorry driver 450 cash for the PJ delivery", "heard": "Paid the lorry driver 450 cash for the PJ delivery.", "language": "zh", "seconds": 12.51, "items": [{"kind": "expense", "text": "Paid the lorry driver for the PJ delivery", "amount": 450.0, "currency": "MYR", "due": null, "topic": "pj-shipping"}], "tries": 1}
++{"id": "exp-pj-not-shipping", "model": "breeze-asr-25", "voice": "gtts-en-us", "source": "lunch at the nasi kandar place in PJ fourteen ringgit", "heard": "Lunch at the Nasi Kandar place in PJ 14 ring it.", "language": "zh", "seconds": 12.61, "items": [{"kind": "expense", "text": "Lunch at Nasi Kandar in PJ", "amount": 14.0, "currency": "MYR", "due": null, "topic": null}], "tries": 1}
++{"id": "note-fact", "model": "breeze-asr-25", "voice": "gtts-en-us", "source": "dentist says the wisdom tooth doesnt need to come out", "heard": "Dentist says the wisdom tooth doesn't need to come out.", "language": "zh", "seconds": 12.24, "items": [{"kind": "note", "text": "Wisdom tooth does not need to be extracted.", "amount": null, "currency": null, "due": null, "topic": null}], "tries": 1}
++{"id": "note-move", "model": "breeze-asr-25", "voice": "gtts-en-us", "source": "the movers said they dont take pianos or plants", "heard": "The movers said they don't take pianos or plants.", "language": "zh", "seconds": 12.32, "items": [{"kind": "note", "text": "The movers do not take pianos or plants", "amount": null, "currency": null, "due": null, "topic": "move"}], "tries": 1}
++{"id": "note-motorcycle-number-not-money", "model": "breeze-asr-25", "voice": "gtts-en-us", "source": "Honda RS150 seat height is 795 millimetres, should be okay for me", "heard": "Honda 150 rupees seat height is 795 millimeters, should be okay for me.", "language": "zh", "seconds": 12.81, "items": [{"kind": "note", "text": "Honda 150 seat height is 795 millimeters", "amount": null, "currency": null, "due": null, "topic": "motorcycle"}], "tries": 1}
++{"id": "quote-motorcycle", "model": "breeze-asr-25", "voice": "gtts-en-us", "source": "dealer quoted 9800 on the road for the Y15", "heard": "Dealer quoted 9800 on the road for the Y15.", "language": "zh", "seconds": 12.45, "items": [{"kind": "note", "text": "Dealer quoted 9800 MYR on the road for the Y15.", "amount": null, "currency": null, "due": null, "topic": "motorcycle"}], "tries": 1}
++{"id": "quote-move-words", "model": "breeze-asr-25", "voice": "gtts-en-us", "source": "mover quoted one thousand two hundred for the three ton lorry havent confirmed yet", "heard": "Mover quoted 1,200 for the three-ton lorry haven't confirmed yet.", "language": "zh", "seconds": 13.13, "items": [{"kind": "note", "text": "Mover quoted 1,200 MYR for the three-ton lorry", "amount": null, "currency": null, "due": null, "topic": "move"}], "tries": 1}
++{"id": "quote-shipping-k", "model": "breeze-asr-25", "voice": "gtts-en-us", "source": "shipping agent says it will be about 3.5k for the twenty footer to PJ, not paying yet", "heard": "Shipping agent says it will be about 3.5K for the 20-footer to PJ, not paying yet.", "language": "zh", "seconds": 13.7, "items": [{"kind": "note", "text": "Shipping agent quoted 3500 MYR for the 20-footer to PJ", "amount": null, "currency": null, "due": null, "topic": "pj-shipping"}], "tries": 1}
++{"id": "quote-retracted-payment", "model": "breeze-asr-25", "voice": "gtts-en-us", "source": "i paid 2000 for the no actually havent paid yet the mover wants 2000", "heard": "I paid two thousand for the no actually haven't paid yet the mover wants two thousand.", "language": "zh", "seconds": 12.72, "items": [{"kind": "note", "text": "Mover quoted two thousand MYR for the move", "amount": null, "currency": null, "due": null, "topic": "move"}], "tries": 1}
++{"id": "both-bike-deposit", "model": "breeze-asr-25", "voice": "gtts-en-us", "source": "paid 500 deposit for the bike have to collect it this Saturday", "heard": "Paid 500 deposit for the bike have to collect it this Saturday.", "language": "zh", "seconds": 12.44, "items": [{"kind": "expense", "text": "Paid 500 deposit for the motorcycle", "amount": 500.0, "currency": "MYR", "due": null, "topic": "motorcycle"}, {"kind": "task", "text": "Collect the motorcycle", "amount": null, "currency": null, "due": "2026-11-14", "topic": "motorcycle"}], "tries": 1}
++{"id": "both-booking-fee-sign", "model": "breeze-asr-25", "voice": "gtts-en-us", "source": "put down a booking fee of 1k for the new house need to sign the tenancy agreement by the 20th", "heard": "Put down a booking fee of one k for the new house need to sign the tenancy agreement by the twentieth.", "language": "zh", "seconds": 13.29, "items": [{"kind": "expense", "text": "Paid booking fee for the new house", "amount": 1000.0, "currency": "MYR", "due": null, "topic": "move"}, {"kind": "task", "text": "Sign tenancy agreement for the new house", "amount": null, "currency": null, "due": "2026-11-20", "topic": "move"}], "tries": 1}
++{"id": "both-malay-lori", "model": "breeze-asr-25", "voice": "gtts-en-us", "source": "dah bayar deposit lori pindah rumah tiga ratus, esok kena confirm masa dengan dia", "heard": "Da bayar deposit lori pinda rumah tiga ratus, isak kena confirm masa dengan dia.", "language": "zh", "seconds": 13.55, "items": [{"kind": "expense", "text": "Paid deposit for house moving lorry", "amount": 300.0, "currency": "MYR", "due": null, "topic": "move"}, {"kind": "task", "text": "Confirm time with the mover", "amount": null, "currency": null, "due": "2026-11-13", "topic": "move"}], "tries": 1}
++{"id": "multi-three-kinds", "model": "breeze-asr-25", "voice": "gtts-en-us", "source": "buy milk on the way home also paid 18 ringgit for parking at the hospital and note that Dr Lim's clinic closes at one on Saturdays", "heard": "Buy milk on the way home also paid 18 ringgit for parking at the hospital and note that Doctor Lim's clinic closes at one on Saturdays.", "language": "zh", "seconds": 14.74, "items": [{"kind": "task", "text": "Buy milk on the way home", "amount": null, "currency": null, "due": "2026-11-12", "topic": null}, {"kind": "expense", "text": "Parking at the hospital", "amount": 18.0, "currency": "MYR", "due": null, "topic": null}, {"kind": "note", "text": "Doctor Lim's clinic closes at one on Saturdays", "amount": null, "currency": null, "due": null, "topic": null}], "tries": 1}
++{"id": "multi-two-dated-tasks", "model": "breeze-asr-25", "voice": "gtts-en-us", "source": "tomorrow call the bank about the loan Friday send the signed form to HR", "heard": "Tomorrow call the bank about the loan Friday send the signed form to hr", "language": "zh", "seconds": 12.88, "items": [{"kind": "task", "text": "Call the bank about the loan", "amount": null, "currency": null, "due": "2026-11-17", "topic": null}, {"kind": "task", "text": "Send the signed form to HR", "amount": null, "currency": null, "due": "2026-11-20", "topic": null}], "tries": 2}
++{"id": "multi-bike-quotes", "model": "breeze-asr-25", "voice": "gtts-en-us", "source": "Y15 dealer in PJ quoted 9500 the Honda one quoted 10200 I paid 50 booking for the test ride need to decide by end of the month", "heard": "Y15 dealer in PJ quoted 9,500 the Honda One quoted 10,200 I paid 50 booking for the test ride need to decide by end of the month", "language": "zh", "seconds": 14.43, "items": [{"kind": "note", "text": "Y15 dealer in PJ quoted 9,500 MYR for the motorcycle", "amount": null, "currency": null, "due": null, "topic": "motorcycle"}, {"kind": "note", "text": "Honda quoted 10,200 MYR for the motorcycle", "amount": null, "currency": null, "due": null, "topic": "motorcycle"}, {"kind": "expense", "text": "Paid 50 MYR deposit for motorcycle test ride", "amount": 50.0, "currency": "MYR", "due": null, "topic": "motorcycle"}, {"kind": "task", "text": "Decide on motorcycle purchase", "amount": null, "currency": null, "due": "2026-11-30", "topic": "motorcycle"}], "tries": 1}
++{"id": "multi-five-across-topics", "model": "breeze-asr-25", "voice": "gtts-en-us", "source": "Okay update. Movers confirmed they can do it. Paid them 200 deposit. The PJ consignment is 14 pallets not 12. Need to tell the warehouse about the extra pallets. And remind me to top up Touch n Go.", "heard": "OK update, movers confirmed they can do it, paid them 200 depositThe PJ consignment is fourteen pallets not twelveneed to tell the warehouse about the extra palletsand remind me to top up touch and go", "language": "zh", "seconds": 17.43, "items": [{"kind": "expense", "text": "Paid deposit to movers", "amount": 200.0, "currency": "MYR", "due": null, "topic": "move"}, {"kind": "note", "text": "PJ consignment is 14 pallets", "amount": null, "currency": null, "due": null, "topic": "pj-shipping"}, {"kind": "task", "text": "Tell warehouse about the extra pallets", "amount": null, "currency": null, "due": null, "topic": "pj-shipping"}, {"kind": "task", "text": "Top up Touch 'n Go", "amount": null, "currency": null, "due": null, "topic": null}], "tries": 1}
++{"id": "multi-manglish-run-on", "model": "breeze-asr-25", "voice": "gtts-en-us", "source": "eh tadi bayar tol 12 ringgit then petrol 60 then kena call abang lori about the PJ delivery lah", "heard": "A toddy by are tall twelve ring it then petrol sixty then kenna call a bang lorry about the PJ delivery law.", "language": "zh", "seconds": 13.92, "items": [{"kind": "expense", "text": "Bought lunch", "amount": 12.0, "currency": "MYR", "due": null, "topic": null}, {"kind": "expense", "text": "Paid for petrol", "amount": 60.0, "currency": "MYR", "due": null, "topic": null}, {"kind": "task", "text": "Call the lorry company about the Petaling Jaya delivery", "amount": null, "currency": null, "due": null, "topic": "pj-shipping"}], "tries": 1}
++{"id": "date-this-saturday", "model": "breeze-asr-25", "voice": "gtts-en-us", "source": "pick up the keys for the new house this Saturday", "heard": "Pick up the keys for the new house this Saturday.", "language": "zh", "seconds": 12.27, "items": [{"kind": "task", "text": "Pick up the keys for the new house", "amount": null, "currency": null, "due": "2026-11-14", "topic": "move"}], "tries": 1}
++{"id": "date-next-friday-on-a-friday", "model": "breeze-asr-25", "voice": "gtts-en-us", "source": "next Friday send the customs form for the PJ shipment", "heard": "Next Friday send the customs form for the PJ shipment.", "language": "zh", "seconds": 11.94, "items": [{"kind": "task", "text": "Send the customs form for the PJ shipment", "amount": null, "currency": null, "due": "2026-11-20", "topic": "pj-shipping"}], "tries": 1}
++{"id": "date-end-of-month", "model": "breeze-asr-25", "voice": "gtts-en-us", "source": "must cancel the gym membership by end of the month", "heard": "Must cancel the gym membership by end of the month.", "language": "zh", "seconds": 11.77, "items": [{"kind": "task", "text": "Cancel gym membership", "amount": null, "currency": null, "due": "2026-11-30", "topic": null}], "tries": 1}
++{"id": "date-in-two-weeks", "model": "breeze-asr-25", "voice": "gtts-en-us", "source": "follow up with the bank on the bike loan in two weeks", "heard": "Follow up with the bank on the bike loan in two weeks.", "language": "zh", "seconds": 12.07, "items": [{"kind": "task", "text": "Follow up with the bank on the bike loan", "amount": null, "currency": null, "due": "2026-11-26", "topic": "motorcycle"}], "tries": 1}
++{"id": "date-month-rollover", "model": "breeze-asr-25", "voice": "gtts-en-us", "source": "tomorrow morning go to JPJ and ask about the B2 motorcycle licence", "heard": "Tomorrow morning go to JPJ and ask about the B2 motorcycle license.", "language": "zh", "seconds": 12.81, "items": [{"kind": "task", "text": "Go to JPJ to ask about the B2 motorcycle license", "amount": null, "currency": null, "due": "2026-12-01", "topic": "motorcycle"}], "tries": 1}
++{"id": "date-year-rollover", "model": "breeze-asr-25", "voice": "gtts-en-us", "source": "need to be at the new house by eight this Saturday for the movers", "heard": "Need to be at the new house by eight this Saturday for the movers.", "language": "zh", "seconds": 12.46, "items": [{"kind": "task", "text": "Be at the new house at 8 AM for the movers", "amount": null, "currency": null, "due": "2027-01-02", "topic": "move"}], "tries": 1}
++{"id": "date-lusa-malay", "model": "breeze-asr-25", "voice": "gtts-en-us", "source": "lusa kena hantar borang cukai ke pejabat LHDN", "heard": "Lusa kena hantar borang kukai ke pehabot lhdn", "language": "zh", "seconds": 12.78, "items": [{"kind": "task", "text": "Submit income tax form to the LHDN office", "amount": null, "currency": null, "due": "2026-11-14", "topic": null}], "tries": 1}
++{"id": "date-vague-no-due", "model": "breeze-asr-25", "voice": "gtts-en-us", "source": "sometime next month should get the aircond serviced", "heard": "Sometime next month should get the aircon serviced.", "language": "zh", "seconds": 11.7, "items": [{"kind": "task", "text": "Get air conditioning serviced", "amount": null, "currency": null, "due": "2026-12-31", "topic": null}], "tries": 1}
++{"id": "stt-self-correct-amount", "model": "breeze-asr-25", "voice": "gtts-en-us", "source": "paid the plumber 400 no wait make that 450", "heard": "paid the plumber four hundred no wait make that four hundred fifty", "language": "zh", "seconds": 11.92, "items": [{"kind": "expense", "text": "Paid the plumber", "amount": 450.0, "currency": "MYR", "due": null, "topic": null}], "tries": 1}
++{"id": "stt-filler", "model": "breeze-asr-25", "voice": "gtts-en-us", "source": "um so yeah uh I need to uh what was it oh ya renew my passport", "heard": "Um so yeah I need to uh what was it oh yeah renew my passport", "language": "zh", "seconds": 12.39, "items": [{"kind": "task", "text": "Renew passport", "amount": null, "currency": null, "due": null, "topic": null}], "tries": 1}
++{"id": "stt-misheard-ringgit-visor", "model": "breeze-asr-25", "voice": "gtts-en-us", "source": "paid 60 ring it for the bike helmet wiser", "heard": "Paid 60 ringgit for the bike helmet wiser.", "language": "zh", "seconds": 12.0, "items": [{"kind": "expense", "text": "Paid for the motorcycle helmet visor", "amount": 60.0, "currency": "MYR", "due": null, "topic": "motorcycle"}], "tries": 1}
++{"id": "stt-misheard-lading", "model": "breeze-asr-25", "voice": "gtts-en-us", "source": "need to check the bill of leading for the PJ shipment", "heard": "Need to check the bill of leading for the PJ shipment.", "language": "zh", "seconds": 12.14, "items": [{"kind": "task", "text": "Check the bill of lading for the PJ shipment", "amount": null, "currency": null, "due": null, "topic": "pj-shipping"}], "tries": 1}
++{"id": "stt-self-correct-day", "model": "breeze-asr-25", "voice": "gtts-en-us", "source": "send the quotation to the client on Thursday no sorry Friday", "heard": "Send the quotation to the client on Thursday no sorry Friday.", "language": "zh", "seconds": 11.93, "items": [{"kind": "task", "text": "Send the quotation to the client", "amount": null, "currency": null, "due": "2026-11-20", "topic": null}], "tries": 1}
++{"id": "amount-words-thousand", "model": "breeze-asr-25", "voice": "gtts-en-us", "source": "paid one thousand two hundred for the car insurance renewal", "heard": "Paid 1200 for the car insurance renewal.", "language": "zh", "seconds": 11.68, "items": [{"kind": "expense", "text": "Car insurance renewal", "amount": 1200.0, "currency": "MYR", "due": null, "topic": null}], "tries": 1}
++{"id": "amount-k-suffix", "model": "breeze-asr-25", "voice": "gtts-en-us", "source": "transferred 1.2k to the dealer as booking for the bike", "heard": "Transferred 1.2K to the dealer as booking for the bike.", "language": "zh", "seconds": 12.05, "items": [{"kind": "expense", "text": "Transferred booking deposit to the dealer for the motorcycle", "amount": 1200.0, "currency": "MYR", "due": null, "topic": "motorcycle"}], "tries": 1}
++{"id": "amount-malay-words", "model": "breeze-asr-25", "voice": "gtts-en-us", "source": "bayar seratus lima puluh ringgit untuk kotak pindah rumah", "heard": "Byar Saratis Lima pulo ringat untuk kotak pinda rumah.", "language": "zh", "seconds": 12.59, "items": [{"kind": "expense", "text": "Paid 50 MYR for moving boxes", "amount": 50.0, "currency": "MYR", "due": null, "topic": "move"}], "tries": 1}
++{"id": "empty-never-mind", "model": "breeze-asr-25", "voice": "gtts-en-us", "source": "um never mind", "heard": "um never mind", "language": "zh", "seconds": 10.88, "items": [], "tries": 1}
++{"id": "empty-testing", "model": "breeze-asr-25", "voice": "gtts-en-us", "source": "testing testing one two three", "heard": "Testing testing 123", "language": "zh", "seconds": 11.26, "items": [], "tries": 1}
++{"id": "empty-whisper-hallucination", "model": "breeze-asr-25", "voice": "gtts-en-us", "source": "Thank you. Thanks for watching!", "heard": "Thank you. Thanks for watching.", "language": "zh", "seconds": 11.52, "items": [], "tries": 1}
++{"id": "empty-retracted", "model": "breeze-asr-25", "voice": "gtts-en-us", "source": "remind me to actually no forget it I already did that", "heard": "Remind me to actually know forget it I already did that.", "language": "zh", "seconds": 12.18, "items": [], "tries": 1}
++{"id": "malay-esok-klinik", "model": "breeze-asr-25", "voice": "gtts-en-us", "source": "esok pagi kena pergi klinik ambil ubat mak", "heard": "Esak Pagi Kena Perji Clinic Ambul Ubat Mok.", "language": "zh", "seconds": 12.31, "items": [{"kind": "task", "text": "Go to the clinic to pick up mom's medicine", "amount": null, "currency": null, "due": "2026-11-17", "topic": null}], "tries": 1}
++{"id": "malay-lori-note", "model": "breeze-asr-25", "voice": "gtts-en-us", "source": "boss cakap lori sampai PJ warehouse pukul tiga", "heard": "Boss kakup lori sampai pj warehouse pukul tiga", "language": "zh", "seconds": 12.36, "items": [{"kind": "task", "text": "Ensure the lorry arrives at the PJ warehouse by 3 PM", "amount": null, "currency": null, "due": "2026-11-13", "topic": "pj-shipping"}], "tries": 1}
++{"id": "ambig-dollars", "model": "breeze-asr-25", "voice": "gtts-en-us", "source": "paid 30 dollars for the app subscription", "heard": "Paid $30 for the app subscription.", "language": "zh", "seconds": 11.51, "items": [{"kind": "expense", "text": "Paid for app subscription", "amount": 30.0, "currency": "MYR", "due": null, "topic": null}], "tries": 1}
++{"id": "ambig-twelve-fifty", "model": "breeze-asr-25", "voice": "gtts-en-us", "source": "paid twelve fifty for the bike accessories", "heard": "Paid 12.50 for the bike accessories.", "language": "zh", "seconds": 11.8, "items": [{"kind": "expense", "text": "Paid for bike accessories", "amount": 12.5, "currency": "MYR", "due": null, "topic": "motorcycle"}], "tries": 1}
++{"id": "ambig-next-friday-midweek", "model": "breeze-asr-25", "voice": "gtts-en-us", "source": "return the library books next Friday", "heard": "Return the library books next Friday.", "language": "zh", "seconds": 11.38, "items": [{"kind": "task", "text": "Return the library books", "amount": null, "currency": null, "due": "2026-11-27", "topic": null}], "tries": 1}
++{"id": "ambig-this-weekend", "model": "breeze-asr-25", "voice": "gtts-en-us", "source": "this weekend go and see the Kawasaki at the showroom", "heard": "This weekend go and see the Kawasaki at the showroom.", "language": "zh", "seconds": 12.11, "items": [{"kind": "task", "text": "Go and see the Kawasaki at the showroom", "amount": null, "currency": null, "due": "2026-11-15", "topic": "motorcycle"}], "tries": 1}
++{"id": "ambig-paid-yesterday", "model": "breeze-asr-25", "voice": "gtts-en-us", "source": "yesterday paid 150 for the lorry permit for the PJ job", "heard": "Yesterday paid 150 for the lorry permit for the PJ job.", "language": "zh", "seconds": 12.81, "items": [{"kind": "expense", "text": "Paid lorry permit for the PJ job", "amount": 150.0, "currency": "MYR", "due": null, "topic": "pj-shipping"}], "tries": 1}
++{"id": "ambig-balance-due", "model": "breeze-asr-25", "voice": "gtts-en-us", "source": "balance 800 for the movers due on Friday", "heard": "Balance 800 for the Movers due on Friday.", "language": "zh", "seconds": 12.02, "items": [{"kind": "task", "text": "Pay remaining balance of 800 for the movers", "amount": null, "currency": null, "due": "2026-11-20", "topic": "move"}], "tries": 1}
++{"id": "ambig-should-look", "model": "breeze-asr-25", "voice": "gtts-en-us", "source": "should probably look at the Yamaha NMAX as well", "heard": "Should probably look at the Yamaha NMAX as well.", "language": "zh", "seconds": 11.83, "items": [{"kind": "task", "text": "Look at the Yamaha NMAX", "amount": null, "currency": null, "due": null, "topic": "motorcycle"}], "tries": 1}
++{"id": "ambig-lorry-which-project", "model": "breeze-asr-25", "voice": "gtts-en-us", "source": "lorry is booked already can stop worrying", "heard": "Laurie is booked already can stop worrying.", "language": "zh", "seconds": 11.74, "items": [{"kind": "note", "text": "Laurie is booked", "amount": null, "currency": null, "due": null, "topic": null}], "tries": 1}
+diff --git a/evals/audio/results-large-v3-turbo-gtts-en-us-2026-11-20.jsonl b/evals/audio/results-large-v3-turbo-gtts-en-us-2026-11-20.jsonl
+new file mode 100644
+index 0000000..a34cd31
+--- /dev/null
++++ b/evals/audio/results-large-v3-turbo-gtts-en-us-2026-11-20.jsonl
+@@ -0,0 +1,59 @@
++{"id": "task-plain", "model": "large-v3-turbo", "voice": "gtts-en-us", "source": "remind me to call the dentist and book a cleaning", "heard": "Remind me to call the dentist and book a cleaning.", "language": "en", "seconds": 17.57, "items": [{"kind": "task", "text": "Call the dentist to book a cleaning", "amount": null, "currency": null, "due": null, "topic": null}], "tries": 1}
++{"id": "task-move", "model": "large-v3-turbo", "voice": "gtts-en-us", "source": "need to buy more boxes and bubble wrap for the move", "heard": "need to buy more boxes and bubble wrap for the move", "language": "en", "seconds": 16.53, "items": [{"kind": "task", "text": "Buy more boxes and bubble wrap", "amount": null, "currency": null, "due": null, "topic": "move"}], "tries": 1}
++{"id": "task-motorcycle", "model": "large-v3-turbo", "voice": "gtts-en-us", "source": "book a test ride for the Yamaha Y15 at the dealer in Sunway", "heard": "Book a test ride for the Yamaha Y15 at the dealer in Sunway.", "language": "en", "seconds": 16.9, "items": [{"kind": "task", "text": "Book a test ride for the Yamaha Y15 at the dealer in Sunway", "amount": null, "currency": null, "due": null, "topic": "motorcycle"}], "tries": 1}
++{"id": "task-shipping", "model": "large-v3-turbo", "voice": "gtts-en-us", "source": "got to email the forwarder the packing list for the PJ shipment", "heard": "Got to email the forwarder the packing list for the PJ shipment.", "language": "en", "seconds": 16.44, "items": [{"kind": "task", "text": "Email the forwarder the packing list for the PJ shipment.", "amount": null, "currency": null, "due": null, "topic": "pj-shipping"}], "tries": 1}
++{"id": "exp-ringgit", "model": "large-v3-turbo", "voice": "gtts-en-us", "source": "lunch nasi lemak twelve ringgit", "heard": "Lunch Nasi Lamach 12 Ringgit", "language": "en", "seconds": 16.37, "items": [{"kind": "expense", "text": "Lunch Nasi Lemak", "amount": 12.0, "currency": "MYR", "due": null, "topic": null}], "tries": 2}
++{"id": "exp-rm-prefix", "model": "large-v3-turbo", "voice": "gtts-en-us", "source": "Paid RM85 for petrol for the car.", "heard": "Paid RM85 for petrol for the car.", "language": "en", "seconds": 16.62, "items": [{"kind": "expense", "text": "Petrol for the car", "amount": 85.0, "currency": "MYR", "due": null, "topic": null}], "tries": 1}
++{"id": "exp-no-currency", "model": "large-v3-turbo", "voice": "gtts-en-us", "source": "grab ride to the office was twenty three", "heard": "Grab ride to the office was 23.", "language": "en", "seconds": 16.05, "items": [{"kind": "expense", "text": "Grab ride to the office", "amount": 23.0, "currency": "MYR", "due": null, "topic": null}], "tries": 1}
++{"id": "exp-bucks", "model": "large-v3-turbo", "voice": "gtts-en-us", "source": "spent fifty bucks on parking and toll", "heard": "Spent 50 bucks on parking and toll.", "language": "en", "seconds": 16.22, "items": [{"kind": "expense", "text": "Parking and toll", "amount": 50.0, "currency": "MYR", "due": null, "topic": null}], "tries": 1}
++{"id": "exp-us-dollars", "model": "large-v3-turbo", "voice": "gtts-en-us", "source": "paid forty US dollars for the VPN renewal", "heard": "paid 40 us dollars for the vpn renewal", "language": "en", "seconds": 16.2, "items": [{"kind": "expense", "text": "Renewed VPN subscription", "amount": 40.0, "currency": "USD", "due": null, "topic": null}], "tries": 1}
++{"id": "exp-sgd", "model": "large-v3-turbo", "voice": "gtts-en-us", "source": "paid 120 SGD for the hotel in Singapore", "heard": "paid 120 singapore dollars for the hotel in singapore", "language": "en", "seconds": 16.25, "items": [{"kind": "expense", "text": "Paid for hotel in Singapore", "amount": 120.0, "currency": "SGD", "due": null, "topic": null}], "tries": 1}
++{"id": "exp-sen", "model": "large-v3-turbo", "voice": "gtts-en-us", "source": "teh tarik and roti canai six ringgit fifty sen", "heard": "tay tarik and roti kanai 6 ringgit 50 sen", "language": "en", "seconds": 16.53, "items": [{"kind": "expense", "text": "Tay tarik and roti canai", "amount": 6.5, "currency": "MYR", "due": null, "topic": null}], "tries": 1}
++{"id": "exp-move", "model": "large-v3-turbo", "voice": "gtts-en-us", "source": "paid the movers 300 for the packing service", "heard": "Paid the movers $300 for the packing service.", "language": "en", "seconds": 16.23, "items": [{"kind": "expense", "text": "Paid movers for packing service", "amount": 300.0, "currency": "MYR", "due": null, "topic": "move"}], "tries": 1}
++{"id": "exp-shipping", "model": "large-v3-turbo", "voice": "gtts-en-us", "source": "paid the lorry driver 450 cash for the PJ delivery", "heard": "Paid the lorry driver $450 cash for the PJ delivery.", "language": "en", "seconds": 15.92, "items": [{"kind": "expense", "text": "Paid lorry driver for PJ delivery", "amount": 450.0, "currency": "MYR", "due": null, "topic": "pj-shipping"}], "tries": 1}
++{"id": "exp-pj-not-shipping", "model": "large-v3-turbo", "voice": "gtts-en-us", "source": "lunch at the nasi kandar place in PJ fourteen ringgit", "heard": "Lunch at the Nasi Kandar place in PJ14 Ringgit.", "language": "en", "seconds": 16.64, "items": [{"kind": "expense", "text": "Lunch at Nasi Kandar place", "amount": 14.0, "currency": "MYR", "due": null, "topic": null}], "tries": 1}
++{"id": "note-fact", "model": "large-v3-turbo", "voice": "gtts-en-us", "source": "dentist says the wisdom tooth doesnt need to come out", "heard": "Dentist says the wisdom tooth doesn't need to come out.", "language": "en", "seconds": 17.02, "items": [{"kind": "note", "text": "Wisdom tooth does not need to be extracted.", "amount": null, "currency": null, "due": null, "topic": null}], "tries": 1}
++{"id": "note-move", "model": "large-v3-turbo", "voice": "gtts-en-us", "source": "the movers said they dont take pianos or plants", "heard": "The movers said they don't take pianos or plants.", "language": "en", "seconds": 16.54, "items": [{"kind": "note", "text": "Movers do not transport pianos or plants", "amount": null, "currency": null, "due": null, "topic": "move"}], "tries": 1}
++{"id": "note-motorcycle-number-not-money", "model": "large-v3-turbo", "voice": "gtts-en-us", "source": "Honda RS150 seat height is 795 millimetres, should be okay for me", "heard": "Honda 150 rupees seat height is 795 millimeters, should be okay for me.", "language": "en", "seconds": 16.59, "items": [{"kind": "note", "text": "Honda 150 seat height is 795 millimeters", "amount": null, "currency": null, "due": null, "topic": "motorcycle"}], "tries": 1}
++{"id": "quote-motorcycle", "model": "large-v3-turbo", "voice": "gtts-en-us", "source": "dealer quoted 9800 on the road for the Y15", "heard": "Dealer quoted 9,800 on the road for the Y-15.", "language": "en", "seconds": 16.63, "items": [{"kind": "note", "text": "Dealer quoted 9,800 on the road for the Y-15", "amount": null, "currency": null, "due": null, "topic": "motorcycle"}], "tries": 1}
++{"id": "quote-move-words", "model": "large-v3-turbo", "voice": "gtts-en-us", "source": "mover quoted one thousand two hundred for the three ton lorry havent confirmed yet", "heard": "mover quoted 1200 for the three-ton lorry haven't confirmed yet", "language": "en", "seconds": 16.48, "items": [{"kind": "note", "text": "Mover quoted 1200 MYR for the three-ton lorry", "amount": null, "currency": null, "due": null, "topic": "move"}], "tries": 1}
++{"id": "quote-shipping-k", "model": "large-v3-turbo", "voice": "gtts-en-us", "source": "shipping agent says it will be about 3.5k for the twenty footer to PJ, not paying yet", "heard": "Shipping agent says it will be about 3.5k for the 20-footer to PJ, not paying yet.", "language": "en", "seconds": 17.1, "items": [{"kind": "note", "text": "Shipping agent quoted 3500 MYR for the 20-footer to PJ", "amount": null, "currency": null, "due": null, "topic": "pj-shipping"}], "tries": 1}
++{"id": "quote-retracted-payment", "model": "large-v3-turbo", "voice": "gtts-en-us", "source": "i paid 2000 for the no actually havent paid yet the mover wants 2000", "heard": "I paid 2,000 for the no actually haven't paid yet the mover wants 2,000.", "language": "en", "seconds": 16.38, "items": [{"kind": "note", "text": "Mover quoted 2,000 MYR", "amount": null, "currency": null, "due": null, "topic": "move"}], "tries": 1}
++{"id": "both-bike-deposit", "model": "large-v3-turbo", "voice": "gtts-en-us", "source": "paid 500 deposit for the bike have to collect it this Saturday", "heard": "Paid 500 deposit for the bike have to collect it this Saturday.", "language": "en", "seconds": 16.54, "items": [{"kind": "expense", "text": "Paid deposit for the motorcycle", "amount": 500.0, "currency": "MYR", "due": null, "topic": "motorcycle"}, {"kind": "task", "text": "Collect the motorcycle", "amount": null, "currency": null, "due": "2026-11-14", "topic": "motorcycle"}], "tries": 1}
++{"id": "both-booking-fee-sign", "model": "large-v3-turbo", "voice": "gtts-en-us", "source": "put down a booking fee of 1k for the new house need to sign the tenancy agreement by the 20th", "heard": "Put down a booking fee of 1K for the new house need to sign the tenancy agreement by the 20th.", "language": "en", "seconds": 16.77, "items": [{"kind": "expense", "text": "Paid booking fee for the new house", "amount": 1000.0, "currency": "MYR", "due": null, "topic": "move"}, {"kind": "task", "text": "Sign the tenancy agreement for the new house", "amount": null, "currency": null, "due": "2026-11-20", "topic": "move"}], "tries": 1}
++{"id": "both-malay-lori", "model": "large-v3-turbo", "voice": "gtts-en-us", "source": "dah bayar deposit lori pindah rumah tiga ratus, esok kena confirm masa dengan dia", "heard": "da bayar deposit lori pinda rooma tiga ratus isaq kenna confirm masa dengan dia", "language": "en", "seconds": 16.5, "items": [{"kind": "expense", "text": "Paid lorry deposit for house move", "amount": 300.0, "currency": "MYR", "due": null, "topic": "move"}, {"kind": "task", "text": "Confirm time with the lorry driver", "amount": null, "currency": null, "due": null, "topic": "move"}], "tries": 1}
++{"id": "multi-three-kinds", "model": "large-v3-turbo", "voice": "gtts-en-us", "source": "buy milk on the way home also paid 18 ringgit for parking at the hospital and note that Dr Lim's clinic closes at one on Saturdays", "heard": "buy milk on the way home also paid 18 ringgit for parking at the hospital and note that dr limbs clinic closes at 1 on saturdays", "language": "en", "seconds": 25.11, "items": [{"kind": "task", "text": "Buy milk on the way home", "amount": null, "currency": null, "due": null, "topic": null}, {"kind": "expense", "text": "Parking at the hospital", "amount": 18.0, "currency": "MYR", "due": null, "topic": null}, {"kind": "note", "text": "Dr. Lim's clinic closes at 1:00 PM on Saturdays", "amount": null, "currency": null, "due": null, "topic": null}], "tries": 1}
++{"id": "multi-two-dated-tasks", "model": "large-v3-turbo", "voice": "gtts-en-us", "source": "tomorrow call the bank about the loan Friday send the signed form to HR", "heard": "Tomorrow call the bank about the loan Friday. Send the signed form to HR.", "language": "en", "seconds": 16.35, "items": [{"kind": "task", "text": "Call the bank about the loan", "amount": null, "currency": null, "due": "2026-11-17", "topic": null}, {"kind": "task", "text": "Send the signed form to HR", "amount": null, "currency": null, "due": null, "topic": null}], "tries": 1}
++{"id": "multi-bike-quotes", "model": "large-v3-turbo", "voice": "gtts-en-us", "source": "Y15 dealer in PJ quoted 9500 the Honda one quoted 10200 I paid 50 booking for the test ride need to decide by end of the month", "heard": "Y15 dealer in PJ quoted 9,500 the Honda one quoted 10,200 I paid 50 booking for the test ride need to decide by end of the month.", "language": "en", "seconds": 17.52, "items": [{"kind": "note", "text": "Y15 dealer in PJ quoted 9,500", "amount": null, "currency": null, "due": null, "topic": "motorcycle"}, {"kind": "note", "text": "Honda dealer quoted 10,200", "amount": null, "currency": null, "due": null, "topic": "motorcycle"}, {"kind": "expense", "text": "Paid 50 booking for the test ride", "amount": 50.0, "currency": "MYR", "due": null, "topic": "motorcycle"}, {"kind": "task", "text": "Decide on motorcycle purchase", "amount": null, "currency": null, "due": "2026-11-30", "topic": "motorcycle"}], "tries": 1}
++{"id": "multi-five-across-topics", "model": "large-v3-turbo", "voice": "gtts-en-us", "source": "Okay update. Movers confirmed they can do it. Paid them 200 deposit. The PJ consignment is 14 pallets not 12. Need to tell the warehouse about the extra pallets. And remind me to top up Touch n Go.", "heard": "Okay update. Movers confirmed they can do it. Paid them 200 deposit. The PJ consignment is 14 pallets not 12. Need to tell the warehouse about the extra pallets. And remind me to top up touch and go.", "language": "en", "seconds": 18.18, "items": [{"kind": "expense", "text": "Paid deposit to movers", "amount": 200.0, "currency": "MYR", "due": null, "topic": "move"}, {"kind": "note", "text": "PJ consignment is 14 pallets", "amount": null, "currency": null, "due": null, "topic": "pj-shipping"}, {"kind": "task", "text": "Tell warehouse about the extra pallets", "amount": null, "currency": null, "due": null, "topic": "pj-shipping"}, {"kind": "task", "text": "Top up Touch 'n Go", "amount": null, "currency": null, "due": null, "topic": null}], "tries": 1}
++{"id": "multi-manglish-run-on", "model": "large-v3-turbo", "voice": "gtts-en-us", "source": "eh tadi bayar tol 12 ringgit then petrol 60 then kena call abang lori about the PJ delivery lah", "heard": "A toddy buy our tall 12 ringgit then petrol 60 then kena call a bang lori about the PJ delivery law.", "language": "en", "seconds": 16.81, "items": [{"kind": "expense", "text": "Bought lunch", "amount": 12.0, "currency": "MYR", "due": null, "topic": null}, {"kind": "expense", "text": "Paid for petrol", "amount": 60.0, "currency": "MYR", "due": null, "topic": null}, {"kind": "task", "text": "Call the lorry driver regarding the PJ delivery", "amount": null, "currency": null, "due": null, "topic": "pj-shipping"}], "tries": 2}
++{"id": "date-this-saturday", "model": "large-v3-turbo", "voice": "gtts-en-us", "source": "pick up the keys for the new house this Saturday", "heard": "Pick up the keys for the new house this Saturday.", "language": "en", "seconds": 16.27, "items": [{"kind": "task", "text": "Pick up the keys for the new house", "amount": null, "currency": null, "due": "2026-11-14", "topic": "move"}], "tries": 1}
++{"id": "date-next-friday-on-a-friday", "model": "large-v3-turbo", "voice": "gtts-en-us", "source": "next Friday send the customs form for the PJ shipment", "heard": "Next Friday send the customs form for the PJ shipment.", "language": "en", "seconds": 16.39, "items": [{"kind": "task", "text": "Send the customs form for the PJ shipment", "amount": null, "currency": null, "due": "2026-11-20", "topic": "pj-shipping"}], "tries": 1}
++{"id": "date-end-of-month", "model": "large-v3-turbo", "voice": "gtts-en-us", "source": "must cancel the gym membership by end of the month", "heard": "Must cancel the gym membership by end of the month.", "language": "en", "seconds": 16.47, "items": [{"kind": "task", "text": "Cancel the gym membership", "amount": null, "currency": null, "due": "2026-11-30", "topic": null}], "tries": 1}
++{"id": "date-in-two-weeks", "model": "large-v3-turbo", "voice": "gtts-en-us", "source": "follow up with the bank on the bike loan in two weeks", "heard": "Follow up with the bank on the bike loan in two weeks.", "language": "en", "seconds": 16.16, "items": [{"kind": "task", "text": "Follow up with the bank on the bike loan", "amount": null, "currency": null, "due": "2026-11-26", "topic": "motorcycle"}], "tries": 1}
++{"id": "date-month-rollover", "model": "large-v3-turbo", "voice": "gtts-en-us", "source": "tomorrow morning go to JPJ and ask about the B2 motorcycle licence", "heard": "Tomorrow morning go to JPJ and ask about the B2 motorcycle license.", "language": "en", "seconds": 16.58, "items": [{"kind": "task", "text": "Go to JPJ and ask about the B2 motorcycle license", "amount": null, "currency": null, "due": "2026-12-01", "topic": "motorcycle"}], "tries": 1}
++{"id": "date-year-rollover", "model": "large-v3-turbo", "voice": "gtts-en-us", "source": "need to be at the new house by eight this Saturday for the movers", "heard": "Need to be at the new house by 8 this Saturday for the movers.", "language": "en", "seconds": 16.5, "items": [{"kind": "task", "text": "Be at the new house for the movers", "amount": null, "currency": null, "due": "2026-01-03", "topic": "move"}], "tries": 1}
++{"id": "date-lusa-malay", "model": "large-v3-turbo", "voice": "gtts-en-us", "source": "lusa kena hantar borang cukai ke pejabat LHDN", "heard": "Lusa Kena Hantar Borang Kukai Kpehabot LHDN", "language": "en", "seconds": 16.52, "items": [{"kind": "task", "text": "Submit LHDN property tax form", "amount": null, "currency": null, "due": "2026-11-14", "topic": null}], "tries": 1}
++{"id": "date-vague-no-due", "model": "large-v3-turbo", "voice": "gtts-en-us", "source": "sometime next month should get the aircond serviced", "heard": "Sometime next month should get the aircon serviced.", "language": "en", "seconds": 16.75, "items": [{"kind": "task", "text": "Get the aircon serviced", "amount": null, "currency": null, "due": null, "topic": null}], "tries": 1}
++{"id": "stt-self-correct-amount", "model": "large-v3-turbo", "voice": "gtts-en-us", "source": "paid the plumber 400 no wait make that 450", "heard": "Paid the plumber 400 no wait make that 450.", "language": "en", "seconds": 16.48, "items": [{"kind": "expense", "text": "Paid the plumber", "amount": 450.0, "currency": "MYR", "due": null, "topic": null}], "tries": 1}
++{"id": "stt-filler", "model": "large-v3-turbo", "voice": "gtts-en-us", "source": "um so yeah uh I need to uh what was it oh ya renew my passport", "heard": "Um so yeah I need to uh what was it oh yeah renew my passport.", "language": "en", "seconds": 16.4, "items": [{"kind": "task", "text": "Renew my passport", "amount": null, "currency": null, "due": null, "topic": null}], "tries": 1}
++{"id": "stt-misheard-ringgit-visor", "model": "large-v3-turbo", "voice": "gtts-en-us", "source": "paid 60 ring it for the bike helmet wiser", "heard": "Paid 60 ringgit for the bike helmet Weiser.", "language": "en", "seconds": 16.21, "items": [{"kind": "expense", "text": "Paid 60 ringgit for the bike helmet", "amount": 60.0, "currency": "MYR", "due": null, "topic": "motorcycle"}], "tries": 1}
++{"id": "stt-misheard-lading", "model": "large-v3-turbo", "voice": "gtts-en-us", "source": "need to check the bill of leading for the PJ shipment", "heard": "Need to check the bill of leading for the PJ shipment.", "language": "en", "seconds": 16.22, "items": [{"kind": "task", "text": "Check the bill of lading for the PJ shipment", "amount": null, "currency": null, "due": null, "topic": "pj-shipping"}], "tries": 1}
++{"id": "stt-self-correct-day", "model": "large-v3-turbo", "voice": "gtts-en-us", "source": "send the quotation to the client on Thursday no sorry Friday", "heard": "Send the quotation to the client on Thursday No Sorry Friday.", "language": "en", "seconds": 16.21, "items": [{"kind": "task", "text": "Send the quotation to the client", "amount": null, "currency": null, "due": "2026-11-20", "topic": null}], "tries": 1}
++{"id": "amount-words-thousand", "model": "large-v3-turbo", "voice": "gtts-en-us", "source": "paid one thousand two hundred for the car insurance renewal", "heard": "Paid $1,200 for the car insurance renewal.", "language": "en", "seconds": 16.06, "items": [{"kind": "expense", "text": "Car insurance renewal payment", "amount": 1200.0, "currency": "MYR", "due": null, "topic": null}], "tries": 1}
++{"id": "amount-k-suffix", "model": "large-v3-turbo", "voice": "gtts-en-us", "source": "transferred 1.2k to the dealer as booking for the bike", "heard": "Transferred 1.2k to the dealer as booking for the bike.", "language": "en", "seconds": 16.23, "items": [{"kind": "expense", "text": "Transferred booking deposit for the bike", "amount": 1200.0, "currency": "MYR", "due": null, "topic": "motorcycle"}], "tries": 1}
++{"id": "amount-malay-words", "model": "large-v3-turbo", "voice": "gtts-en-us", "source": "bayar seratus lima puluh ringgit untuk kotak pindah rumah", "heard": "Bayar Serratis Lima Pulo Ringgit Untuk Kotak Pinda Rumah", "language": "en", "seconds": 16.09, "items": [{"kind": "expense", "text": "Paid 350 MYR for moving boxes", "amount": 350.0, "currency": "MYR", "due": null, "topic": "move"}], "tries": 1}
++{"id": "empty-never-mind", "model": "large-v3-turbo", "voice": "gtts-en-us", "source": "um never mind", "heard": "Um never mind.", "language": "en", "seconds": 15.89, "items": [], "tries": 1}
++{"id": "empty-testing", "model": "large-v3-turbo", "voice": "gtts-en-us", "source": "testing testing one two three", "heard": "Testing Testing 1 2 3", "language": "en", "seconds": 16.3, "items": [], "tries": 1}
++{"id": "empty-whisper-hallucination", "model": "large-v3-turbo", "voice": "gtts-en-us", "source": "Thank you. Thanks for watching!", "heard": "thank you thanks for watching", "language": "en", "seconds": 15.82, "items": [], "tries": 1}
++{"id": "empty-retracted", "model": "large-v3-turbo", "voice": "gtts-en-us", "source": "remind me to actually no forget it I already did that", "heard": "Remind me to actually no forget it I already did that.", "language": "en", "seconds": 16.19, "items": [], "tries": 1}
++{"id": "malay-esok-klinik", "model": "large-v3-turbo", "voice": "gtts-en-us", "source": "esok pagi kena pergi klinik ambil ubat mak", "heard": "Isak Pagi Kenna Pergi Clinic Ambil Ubat Mok", "language": "en", "seconds": 16.33, "items": [{"kind": "task", "text": "Go to the clinic to pick up mom's medication", "amount": null, "currency": null, "due": "2026-11-16", "topic": null}], "tries": 1}
++{"id": "malay-lori-note", "model": "large-v3-turbo", "voice": "gtts-en-us", "source": "boss cakap lori sampai PJ warehouse pukul tiga", "heard": "Boss Kakup Lori Sampai PJ Warehouse Pukul Tiga", "language": "en", "seconds": 16.51, "items": [{"kind": "task", "text": "Arrange for the lorry to reach the PJ warehouse by 3 PM", "amount": null, "currency": null, "due": "2026-11-13", "topic": "pj-shipping"}], "tries": 1}
++{"id": "ambig-dollars", "model": "large-v3-turbo", "voice": "gtts-en-us", "source": "paid 30 dollars for the app subscription", "heard": "Paid $30 for the app subscription.", "language": "en", "seconds": 15.92, "items": [{"kind": "expense", "text": "Paid for the app subscription", "amount": 30.0, "currency": "MYR", "due": null, "topic": null}], "tries": 1}
++{"id": "ambig-twelve-fifty", "model": "large-v3-turbo", "voice": "gtts-en-us", "source": "paid twelve fifty for the bike accessories", "heard": "paid 12.50 for the bike accessories", "language": "en", "seconds": 15.83, "items": [{"kind": "expense", "text": "Bought bike accessories", "amount": 12.5, "currency": "MYR", "due": null, "topic": "motorcycle"}], "tries": 1}
++{"id": "ambig-next-friday-midweek", "model": "large-v3-turbo", "voice": "gtts-en-us", "source": "return the library books next Friday", "heard": "Return the library books next Friday.", "language": "en", "seconds": 16.17, "items": [{"kind": "task", "text": "Return the library books", "amount": null, "currency": null, "due": "2026-11-27", "topic": null}], "tries": 1}
++{"id": "ambig-this-weekend", "model": "large-v3-turbo", "voice": "gtts-en-us", "source": "this weekend go and see the Kawasaki at the showroom", "heard": "This weekend go and see the Kawasaki at the showroom.", "language": "en", "seconds": 16.5, "items": [{"kind": "task", "text": "Go and see the Kawasaki at the showroom", "amount": null, "currency": null, "due": "2026-11-15", "topic": "motorcycle"}], "tries": 1}
++{"id": "ambig-paid-yesterday", "model": "large-v3-turbo", "voice": "gtts-en-us", "source": "yesterday paid 150 for the lorry permit for the PJ job", "heard": "Yesterday paid $150 for the lorry permit for the PJ job.", "language": "en", "seconds": 16.55, "items": [{"kind": "expense", "text": "Paid for the lorry permit for the PJ job", "amount": 150.0, "currency": "MYR", "due": null, "topic": "pj-shipping"}], "tries": 1}
++{"id": "ambig-balance-due", "model": "large-v3-turbo", "voice": "gtts-en-us", "source": "balance 800 for the movers due on Friday", "heard": "Balance 800 for the movers due on Friday.", "language": "en", "seconds": 16.2, "items": [{"kind": "task", "text": "Pay balance of 800 to movers", "amount": null, "currency": null, "due": "2026-11-20", "topic": "move"}, {"kind": "note", "text": "Quoted 800 for movers", "amount": null, "currency": null, "due": null, "topic": "move"}], "tries": 1}
++{"id": "ambig-should-look", "model": "large-v3-turbo", "voice": "gtts-en-us", "source": "should probably look at the Yamaha NMAX as well", "heard": "Should probably look at the Yamaha NMAX as well.", "language": "en", "seconds": 16.35, "items": [{"kind": "task", "text": "Look at the Yamaha NMAX", "amount": null, "currency": null, "due": null, "topic": "motorcycle"}], "tries": 1}
++{"id": "ambig-lorry-which-project", "model": "large-v3-turbo", "voice": "gtts-en-us", "source": "lorry is booked already can stop worrying", "heard": "Lori is booked already can stop worrying.", "language": "en", "seconds": 16.0, "items": [{"kind": "note", "text": "Lori is booked for the move.", "amount": null, "currency": null, "due": null, "topic": "move"}], "tries": 1}
+diff --git a/evals/audio/run_audio_eval.py b/evals/audio/run_audio_eval.py
+new file mode 100644
+index 0000000..4e8eb34
+--- /dev/null
++++ b/evals/audio/run_audio_eval.py
+@@ -0,0 +1,405 @@
++"""Capture accuracy from audio: speech to text, then the real sorter, then a report.
++
++    python evals/audio/run_audio_eval.py stt    --clips DIR --out RESULTS [--server URL] [--model NAME]
++    python evals/audio/run_audio_eval.py sort   --results RESULTS [--delay 5]
++    python evals/audio/run_audio_eval.py report --results RESULTS [--baseline PREDICTIONS]
++
++stt     posts DIR/<case id>.mp3 to POST /transcribe on a running server, the way the
++        iPhone Shortcut posts (raw body, Content-Type application/octet-stream), and
++        records what Whisper heard and the seconds each clip took.
++sort    feeds what Whisper heard (not the clean text) through CaptureService._classify,
++        using evals/run_eval.py, one call at a time. Needs GEMINI_API_KEY. Resumable:
++        rows that already have an answer are skipped.
++report  word error rate against the source text, the end-to-end score from
++        evals/score.py against the unchanged expected answers, and a case-by-case
++        comparison with a stored run on clean text.
++
++Standard library only, apart from what evals/run_eval.py needs for `sort`.
++"""
++
++from __future__ import annotations
++
++import argparse
++import asyncio
++import json
++import os
++import re
++import sys
++import time
++import urllib.request
++from pathlib import Path
++
++HERE = Path(__file__).resolve().parent
++EVALS = HERE.parent
++sys.path.insert(0, str(EVALS))
++import score  # noqa: E402
++
++CASES = EVALS / "capture_cases.jsonl"
++BASELINE = EVALS / "results-gemini-3.1-flash-lite-2026-11-12.jsonl"
++RATE_LIMIT_WAIT_S = 60.0
++OTHER_ERROR_WAIT_S = 10.0
++MAX_TRIES = 8
++
++
++class DailyQuota(Exception):
++    """The provider's per-day quota is spent. Retrying today cannot help."""
++
++
++# --------------------------------------------------------------------------- text
++
++_UNITS = {w: i for i, w in enumerate(
++    "zero one two three four five six seven eight nine ten eleven twelve thirteen fourteen "
++    "fifteen sixteen seventeen eighteen nineteen".split())}
++_TENS = {w: 10 * i for i, w in enumerate(
++    "twenty thirty forty fifty sixty seventy eighty ninety".split(), start=2)}
++_SCALES = {"hundred": 100, "thousand": 1000}
++
++
++def words(text: str) -> list[str]:
++    """Lowercase, punctuation stripped. '9,800' stays one word, 'doesn't' equals 'doesnt'."""
++    t = text.lower().replace(chr(0x2019), "'")
++    t = re.sub(r"(?<=\d),(?=\d{3})", "", t)
++    t = t.replace("'", "")
++    t = re.sub(r"(?<!\d)\.|\.(?!\d)", " ", t)  # keep the point only inside a number
++    return re.sub(r"[^a-z0-9.]+", " ", t).split()
++
++
++def _fmt(n: float) -> str:
++    return str(int(n)) if float(n).is_integer() else repr(round(n, 4))
++
++
++def number_words(tokens: list[str]) -> list[str]:
++    """Rewrite numbers to one spelling so 'five hundred', '500' and '0.5k' compare equal.
++
++    'rm85' -> 'rm 85'; '1.2k' -> '1200'; '20th' -> '20'; 'one thousand two hundred' ->
++    '1200'; 'twenty three' -> '23'. 'twelve fifty' stays two numbers ('12 50') because
++    nobody can tell 12.50 from 1250 by ear.
++    """
++    flat: list[str] = []
++    for tok in tokens:
++        m = re.fullmatch(r"(rm|usd|sgd|myr)(\d[\d.]*k?)", tok)
++        flat.extend([m.group(1), m.group(2)] if m else [tok])
++
++    out: list[str] = []
++    total = current = 0
++    last = None  # kind of the last number word folded in: units, teen, tens, scale
++
++    def flush():
++        nonlocal total, current, last
++        if last is not None:
++            out.append(_fmt(total + current))
++        total = current = 0
++        last = None
++
++    for tok in flat:
++        if tok in _UNITS:
++            kind = "units" if _UNITS[tok] < 10 else "teen"
++            if last in ("units", "teen") or (last == "tens" and kind == "teen"):
++                flush()
++            current += _UNITS[tok]
++            last = kind
++        elif tok in _TENS:
++            if last in ("units", "teen", "tens"):
++                flush()
++            current += _TENS[tok]
++            last = "tens"
++        elif tok in _SCALES and last is not None:
++            if tok == "hundred":
++                current *= 100
++            else:
++                total += current * 1000
++                current = 0
++            last = "scale"
++        else:
++            flush()
++            m = re.fullmatch(r"(\d+(?:\.\d+)?)(k|st|nd|rd|th)?", tok)
++            if m:
++                n = float(m.group(1)) * (1000 if m.group(2) == "k" else 1)
++                out.append(_fmt(n))
++            else:
++                out.append(tok)
++    flush()
++    return out
++
++
++def edits(ref: list[str], hyp: list[str]) -> int:
++    """Word-level Levenshtein distance: substitutions + deletions + insertions."""
++    prev = list(range(len(hyp) + 1))
++    for i, r in enumerate(ref, 1):
++        cur = [i]
++        for j, h in enumerate(hyp, 1):
++            cur.append(min(prev[j] + 1, cur[j - 1] + 1, prev[j - 1] + (r != h)))
++        prev = cur
++    return prev[-1]
++
++
++def wer(rows: list[dict]) -> dict:
++    """Corpus word error rate (all edits over all source words), raw and number-normalised."""
++    out = {"clips": len(rows), "ref_words": 0, "raw_edits": 0, "num_edits": 0,
++           "exact_raw": 0, "exact_num": 0, "per_clip": []}
++    for r in rows:
++        ref, hyp = words(r["source"]), words(r.get("heard") or "")
++        e_raw = edits(ref, hyp)
++        e_num = edits(number_words(ref), number_words(hyp))
++        out["ref_words"] += len(ref)
++        out["raw_edits"] += e_raw
++        out["num_edits"] += e_num
++        out["exact_raw"] += e_raw == 0
++        out["exact_num"] += e_num == 0
++        out["per_clip"].append({"id": r["id"], "ref_words": len(ref), "raw_edits": e_raw, "num_edits": e_num})
++    n = out["ref_words"] or 1
++    out["wer_raw"] = out["raw_edits"] / n
++    out["wer_num"] = out["num_edits"] / n
++    return out
++
++
++# ---------------------------------------------------------------------------- stt
++
++def http_post(url: str, body: bytes, timeout: float = 300.0) -> dict:
++    req = urllib.request.Request(url, data=body, method="POST",
++                                 headers={"Content-Type": "application/octet-stream"})
++    with urllib.request.urlopen(req, timeout=timeout) as resp:
++        return json.loads(resp.read().decode("utf-8"))
++
++
++def write_rows(path: str | Path, rows: list[dict]) -> None:
++    tmp = f"{path}.tmp"
++    with open(tmp, "w", encoding="utf-8") as f:
++        for r in rows:
++            f.write(json.dumps(r, ensure_ascii=True) + "\n")
++    os.replace(tmp, path)
++
++
++def run_stt(cases: list[dict], clips: Path, server: str, *, model: str = "", voice: str = "",
++            post=http_post, clock=time.perf_counter, log=print) -> list[dict]:
++    """One row per case. A missing clip or a failed request is recorded, never skipped."""
++    # log=false: do not store the eval clips in the server's session history.
++    url = server.rstrip("/") + "/transcribe?log=false"
++    rows = []
++    for case in cases:
++        row = {"id": case["id"], "model": model, "voice": voice, "source": case["transcript"]}
++        clip = clips / f"{case['id']}.mp3"
++        if not clip.is_file():
++            row["stt_error"] = f"no clip at {clip.name}"
++        else:
++            start = clock()
++            try:
++                reply = post(url, clip.read_bytes())
++                row["heard"] = str(reply.get("text", "")).strip()
++                row["language"] = reply.get("language")
++            except Exception as e:
++                row["stt_error"] = f"{type(e).__name__}: {e}"
++            row["seconds"] = round(clock() - start, 2)
++        log(f"  {case['id']}: {row.get('stt_error') or repr(row['heard'])}")
++        rows.append(row)
++    return rows
++
++
++# --------------------------------------------------------------------------- sort
++
++def _is_rate_limit(error: str) -> bool:
++    return "429" in error or "RESOURCE_EXHAUSTED" in error
++
++
++def _is_daily(error: str) -> bool:
++    return _is_rate_limit(error) and bool(re.search(r"per ?day", error, re.I))
++
++
++def classify_heard(case: dict, heard: str, *, predict, sleep=time.sleep, log=print) -> dict:
++    """Sort one heard transcript with the case's own date. Returns {"items"} or {"error"}.
++
++    `predict(case_with_heard_text) -> {"items": [...]} or {"error": "..."}`. A rate limit
++    waits 60 s, any other error 10 s, at most MAX_TRIES calls. A daily quota raises.
++    """
++    asked = {**case, "transcript": heard}
++    pred: dict = {}
++    for attempt in range(1, MAX_TRIES + 1):
++        pred = predict(asked)
++        error = pred.get("error")
++        if not error:
++            return {"items": pred["items"], "tries": attempt}
++        if _is_daily(error):
++            raise DailyQuota(error[:300])
++        if attempt < MAX_TRIES:
++            wait = RATE_LIMIT_WAIT_S if _is_rate_limit(error) else OTHER_ERROR_WAIT_S
++            log(f"  {case['id']}: try {attempt} failed ({error[:80]}), waiting {wait:.0f} s")
++            sleep(wait)
++    return {"error": pred["error"][:300], "tries": MAX_TRIES}
++
++
++def run_sort(rows: list[dict], cases: list[dict], *, predict, delay: float = 5.0, save=lambda rows: None,
++             sleep=time.sleep, log=print) -> bool:
++    """Fill `items` (or `error`) on every row that has a transcript and no answer yet.
++
++    An empty transcript is not sent: POST /capture answers "No speech detected" and files
++    nothing, so the row gets items [] and no_speech true. Returns False if the daily quota
++    stopped the run.
++    """
++    by_id = {c["id"]: c for c in cases}
++    first = True
++    for row in rows:
++        if "items" in row or "heard" not in row:
++            continue
++        if not row["heard"]:
++            row.update(items=[], no_speech=True)
++            row.pop("error", None)
++            save(rows)
++            continue
++        if not first and delay:
++            sleep(delay)
++        first = False
++        try:
++            answer = classify_heard(by_id[row["id"]], row["heard"], predict=predict, sleep=sleep, log=log)
++        except DailyQuota as e:
++            log(f"daily quota reached at {row['id']}: {e}")
++            return False
++        row.pop("error", None)
++        row.update(answer)
++        save(rows)
++        log(f"  {row['id']}: {row.get('error') or str(len(row['items'])) + ' item(s)'}")
++    return True
++
++
++def real_predict(model: str | None):
++    """predict() backed by evals/run_eval.py: the real CaptureService._classify on Gemini."""
++    import run_eval
++
++    key = os.environ.get("GEMINI_API_KEY")
++    if not key:
++        raise SystemExit("GEMINI_API_KEY is not set; `sort` calls the real Gemini API.")
++
++    def predict(case: dict) -> dict:
++        return asyncio.run(run_eval.predict([case], model=model, api_key=key, concurrency=1,
++                                            backend="gemini", log=lambda _line: None))[0]
++
++    return predict
++
++
++# ------------------------------------------------------------------------- report
++
++def report(rows: list[dict], cases: list[dict], baseline: list[dict] | None = None) -> dict:
++    heard_rows = [r for r in rows if "heard" in r]
++    answered = [r for r in rows if "items" in r]
++    answered_ids = {r["id"] for r in answered}
++    scored = score.score([c for c in cases if c["id"] in answered_ids],
++                         [{"id": r["id"], "items": r["items"]} for r in answered])
++    passed = {r["id"]: r["passed"] for r in scored["results"]}
++    why = {r["id"]: r["why"] for r in scored["results"]}
++    out = {
++        "cases": len(cases),
++        "transcribed": len(heard_rows),
++        "stt_errors": [r["id"] for r in rows if "stt_error" in r],
++        "wer": wer(heard_rows),
++        "seconds": sorted(r["seconds"] for r in heard_rows if "seconds" in r),
++        "answered": len(answered),
++        "correct": scored["passed"],
++        "sort_errors": [r["id"] for r in rows if "heard" in r and "items" not in r],
++        "no_speech": [r["id"] for r in rows if r.get("no_speech")],
++        "failed": {i: why[i] for i, ok in passed.items() if not ok},
++        "flips": [],
++    }
++    if baseline is not None:
++        base = {r["id"]: r["passed"] for r in score.score(cases, baseline)["results"]}
++        per_clip = {p["id"]: p for p in out["wer"]["per_clip"]}
++        by_id = {r["id"]: r for r in rows}
++        for cid, ok in passed.items():
++            if ok != base[cid]:
++                out["flips"].append({
++                    "id": cid, "text_run": "pass" if base[cid] else "fail", "audio_run": "pass" if ok else "fail",
++                    "why": why[cid], "words_differ": per_clip[cid]["num_edits"],
++                    "source": by_id[cid]["source"], "heard": by_id[cid]["heard"],
++                })
++        out["baseline_passed_among_answered"] = sum(base[i] for i in passed)
++    return out
++
++
++def format_report(rep: dict, rows: list[dict]) -> str:
++    w, secs = rep["wer"], rep["seconds"]
++    out = [
++        f"clips transcribed   {rep['transcribed']}/{rep['cases']}"
++        + (f"  (failed: {', '.join(rep['stt_errors'])})" if rep["stt_errors"] else ""),
++        f"word error rate     raw {100 * w['wer_raw']:.1f}% ({w['raw_edits']}/{w['ref_words']} words), "
++        f"numbers normalised {100 * w['wer_num']:.1f}% ({w['num_edits']}/{w['ref_words']})",
++        f"clips word-perfect  raw {w['exact_raw']}/{w['clips']}, numbers normalised {w['exact_num']}/{w['clips']}",
++    ]
++    if secs:
++        out.append(f"seconds per clip    median {secs[len(secs) // 2]:.2f}, mean {sum(secs) / len(secs):.2f}, "
++                   f"max {secs[-1]:.2f}")
++    if not rep["answered"]:
++        out.append("end to end          not run (no row has been sorted)")
++    else:
++        out.append(f"end to end          answered {rep['answered']} of {rep['cases']}, correct {rep['correct']}"
++                   + (f"  (no answer: {', '.join(rep['sort_errors'])})" if rep["sort_errors"] else ""))
++    if rep["answered"] and "baseline_passed_among_answered" in rep:
++        out.append(f"same cases, clean text (stored run): correct {rep['baseline_passed_among_answered']}")
++    if rep["no_speech"]:
++        out.append(f"heard nothing       {', '.join(rep['no_speech'])}")
++    if rep["flips"]:
++        out += ["", f"FLIPS against the clean-text run ({len(rep['flips'])})"]
++        for f in rep["flips"]:
++            out += [f"- {f['id']}: text {f['text_run']} -> audio {f['audio_run']}"
++                    + (f"  <- {f['why']}" if f["why"] else "")
++                    + f"  [{f['words_differ']} word edit(s) after number normalisation]",
++                    f"    said:  {f['source']}", f"    heard: {f['heard']}"]
++    by_id = {r["id"]: r for r in rows}
++    worst = sorted((p for p in w["per_clip"] if p["num_edits"]), key=lambda p: -p["num_edits"])
++    if worst:
++        out += ["", f"MIS-HEARD CLIPS ({len(worst)}), most word edits first"]
++        for p in worst:
++            mark = "" if p["id"] not in rep["failed"] else "  [end to end: FAIL]"
++            out += [f"- {p['id']}: {p['num_edits']}/{p['ref_words']}{mark}",
++                    f"    said:  {by_id[p['id']]['source']}", f"    heard: {by_id[p['id']]['heard']}"]
++    return "\n".join(out)
++
++
++# --------------------------------------------------------------------------- main
++
++def main(argv: list[str] | None = None, *, post=http_post, predict=None, sleep=time.sleep) -> int:
++    ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
++    ap.add_argument("--cases", default=str(CASES))
++    sub = ap.add_subparsers(dest="cmd", required=True)
++    p = sub.add_parser("stt")
++    p.add_argument("--clips", required=True, help="directory of <case id>.mp3")
++    p.add_argument("--out", required=True)
++    p.add_argument("--server", default="http://127.0.0.1:8000")
++    p.add_argument("--model", default="", help="label only: the MODEL_NAME the server was started with")
++    p.add_argument("--voice", default="", help="label only: what spoke the clips")
++    p = sub.add_parser("sort")
++    p.add_argument("--results", required=True)
++    p.add_argument("--delay", type=float, default=5.0, help="seconds between calls (free tier: 15 a minute)")
++    p.add_argument("--sorter-model", default=None, help="Gemini model id (default: the service default)")
++    p = sub.add_parser("report")
++    p.add_argument("--results", required=True)
++    p.add_argument("--baseline", default=str(BASELINE), help="predictions from a run on the clean text")
++    args = ap.parse_args(argv)
++
++    cases = score.load_jsonl(args.cases)
++    problems = score.validate_cases(cases)
++    if problems:
++        print("cases file is malformed:\n  " + "\n  ".join(problems), file=sys.stderr)
++        return 2
++
++    if args.cmd == "stt":
++        rows = run_stt(cases, Path(args.clips), args.server, model=args.model, voice=args.voice, post=post)
++        write_rows(args.out, rows)
++        failed = [r["id"] for r in rows if "stt_error" in r]
++        print(f"wrote {args.out}: {len(rows) - len(failed)} transcribed, {len(failed)} failed")
++        return 1 if failed else 0
++
++    rows = score.load_jsonl(args.results)
++    if args.cmd == "sort":
++        done = run_sort(rows, cases, predict=predict or real_predict(args.sorter_model), delay=args.delay,
++                        save=lambda rs: write_rows(args.results, rs), sleep=sleep)
++        write_rows(args.results, rows)
++        if not done:
++            print("stopped on the daily quota; run `sort` again tomorrow, it resumes.", file=sys.stderr)
++            return 3
++        return 0
++
++    baseline = score.load_jsonl(args.baseline) if args.baseline and Path(args.baseline).is_file() else None
++    print(format_report(report(rows, cases, baseline), rows))
++    return 0
++
++
++if __name__ == "__main__":
++    sys.exit(main())
+diff --git a/evals/audio/stt-only-breeze-asr-25-gtts-en-uk-2026-11-20.jsonl b/evals/audio/stt-only-breeze-asr-25-gtts-en-uk-2026-11-20.jsonl
+new file mode 100644
+index 0000000..c85e601
+--- /dev/null
++++ b/evals/audio/stt-only-breeze-asr-25-gtts-en-uk-2026-11-20.jsonl
+@@ -0,0 +1,59 @@
++{"id": "task-plain", "model": "breeze-asr-25", "voice": "gtts-en-uk", "source": "remind me to call the dentist and book a cleaning", "heard": "Remind me to call the dentist and book a cleaning.", "language": "zh", "seconds": 12.44}
++{"id": "task-move", "model": "breeze-asr-25", "voice": "gtts-en-uk", "source": "need to buy more boxes and bubble wrap for the move", "heard": "Need to buy more boxes and bubble wrap for the move.", "language": "zh", "seconds": 12.24}
++{"id": "task-motorcycle", "model": "breeze-asr-25", "voice": "gtts-en-uk", "source": "book a test ride for the Yamaha Y15 at the dealer in Sunway", "heard": "Book a test ride for the Yamaha Y15 at the dealer in Sunway.", "language": "zh", "seconds": 12.8}
++{"id": "task-shipping", "model": "breeze-asr-25", "voice": "gtts-en-uk", "source": "got to email the forwarder the packing list for the PJ shipment", "heard": "Got to email the forwarder the packing list for the PJ shipment.", "language": "zh", "seconds": 11.99}
++{"id": "exp-ringgit", "model": "breeze-asr-25", "voice": "gtts-en-uk", "source": "lunch nasi lemak twelve ringgit", "heard": "Lunch nasi lemak 12 ringgit", "language": "zh", "seconds": 11.55}
++{"id": "exp-rm-prefix", "model": "breeze-asr-25", "voice": "gtts-en-uk", "source": "Paid RM85 for petrol for the car.", "heard": "Paid RM85 for petrol for the car.", "language": "zh", "seconds": 11.58}
++{"id": "exp-no-currency", "model": "breeze-asr-25", "voice": "gtts-en-uk", "source": "grab ride to the office was twenty three", "heard": "Grab ride to the office was twenty three.", "language": "zh", "seconds": 11.67}
++{"id": "exp-bucks", "model": "breeze-asr-25", "voice": "gtts-en-uk", "source": "spent fifty bucks on parking and toll", "heard": "Spent fifty bucks on parking and toll.", "language": "zh", "seconds": 11.55}
++{"id": "exp-us-dollars", "model": "breeze-asr-25", "voice": "gtts-en-uk", "source": "paid forty US dollars for the VPN renewal", "heard": "Paid 40 US dollars for the VPN renewal.", "language": "zh", "seconds": 11.76}
++{"id": "exp-sgd", "model": "breeze-asr-25", "voice": "gtts-en-uk", "source": "paid 120 SGD for the hotel in Singapore", "heard": "Paid 120 Singapore dollars for the hotel in Singapore.", "language": "zh", "seconds": 11.93}
++{"id": "exp-sen", "model": "breeze-asr-25", "voice": "gtts-en-uk", "source": "teh tarik and roti canai six ringgit fifty sen", "heard": "Tay tarik and roti canai six ringgit fifty sen.", "language": "zh", "seconds": 12.82}
++{"id": "exp-move", "model": "breeze-asr-25", "voice": "gtts-en-uk", "source": "paid the movers 300 for the packing service", "heard": "Paid the movers three hundred for the packing service.", "language": "zh", "seconds": 12.1}
++{"id": "exp-shipping", "model": "breeze-asr-25", "voice": "gtts-en-uk", "source": "paid the lorry driver 450 cash for the PJ delivery", "heard": "Paid the lorry driver 450 cash for the PJ delivery.", "language": "zh", "seconds": 12.41}
++{"id": "exp-pj-not-shipping", "model": "breeze-asr-25", "voice": "gtts-en-uk", "source": "lunch at the nasi kandar place in PJ fourteen ringgit", "heard": "Lunch at the Nazi Kandah place in PJ 14 ringgit.", "language": "zh", "seconds": 12.77}
++{"id": "note-fact", "model": "breeze-asr-25", "voice": "gtts-en-uk", "source": "dentist says the wisdom tooth doesnt need to come out", "heard": "Dentist says the wisdom tooth doesn't need to come out.", "language": "zh", "seconds": 12.12}
++{"id": "note-move", "model": "breeze-asr-25", "voice": "gtts-en-uk", "source": "the movers said they dont take pianos or plants", "heard": "The movers said they don't take pianos or plants.", "language": "zh", "seconds": 12.32}
++{"id": "note-motorcycle-number-not-money", "model": "breeze-asr-25", "voice": "gtts-en-uk", "source": "Honda RS150 seat height is 795 millimetres, should be okay for me", "heard": "Honda 150 rupees seat height is 795 millimeters, should be okay for me.", "language": "zh", "seconds": 13.05}
++{"id": "quote-motorcycle", "model": "breeze-asr-25", "voice": "gtts-en-uk", "source": "dealer quoted 9800 on the road for the Y15", "heard": "Dealer quoted 9800 on the road for the Y15.", "language": "zh", "seconds": 12.04}
++{"id": "quote-move-words", "model": "breeze-asr-25", "voice": "gtts-en-uk", "source": "mover quoted one thousand two hundred for the three ton lorry havent confirmed yet", "heard": "Mover quoted 1,200 for the three-ton lorry haven't confirmed yet.", "language": "zh", "seconds": 12.79}
++{"id": "quote-shipping-k", "model": "breeze-asr-25", "voice": "gtts-en-uk", "source": "shipping agent says it will be about 3.5k for the twenty footer to PJ, not paying yet", "heard": "Shipping agent says it will be about 3.5K for the twenty-footer to PJ, not paying yet.", "language": "zh", "seconds": 13.89}
++{"id": "quote-retracted-payment", "model": "breeze-asr-25", "voice": "gtts-en-uk", "source": "i paid 2000 for the no actually havent paid yet the mover wants 2000", "heard": "I paid two thousand for the no actually haven't paid yet, the mover wants two thousand.", "language": "zh", "seconds": 12.97}
++{"id": "both-bike-deposit", "model": "breeze-asr-25", "voice": "gtts-en-uk", "source": "paid 500 deposit for the bike have to collect it this Saturday", "heard": "Paid 500 deposit for the bike have to collect it this Saturday.", "language": "zh", "seconds": 12.03}
++{"id": "both-booking-fee-sign", "model": "breeze-asr-25", "voice": "gtts-en-uk", "source": "put down a booking fee of 1k for the new house need to sign the tenancy agreement by the 20th", "heard": "Put down a booking fee of one k for the new house need to sign the tenancy agreement by the twentieth.", "language": "zh", "seconds": 13.86}
++{"id": "both-malay-lori", "model": "breeze-asr-25", "voice": "gtts-en-uk", "source": "dah bayar deposit lori pindah rumah tiga ratus, esok kena confirm masa dengan dia", "heard": "Darbaya deposit loripinda rumatiga ratis, isok kina confirm masa dengan daya.", "language": "zh", "seconds": 13.82}
++{"id": "multi-three-kinds", "model": "breeze-asr-25", "voice": "gtts-en-uk", "source": "buy milk on the way home also paid 18 ringgit for parking at the hospital and note that Dr Lim's clinic closes at one on Saturdays", "heard": "Buy Milk on the Way Home also paid 18 ringgit for parking at the hospital and note that Doctor Lim's clinic closes at one on Saturdays.", "language": "zh", "seconds": 14.17}
++{"id": "multi-two-dated-tasks", "model": "breeze-asr-25", "voice": "gtts-en-uk", "source": "tomorrow call the bank about the loan Friday send the signed form to HR", "heard": "Tomorrow call the bank about the loan Friday send the signed form to hr.", "language": "zh", "seconds": 12.63}
++{"id": "multi-bike-quotes", "model": "breeze-asr-25", "voice": "gtts-en-uk", "source": "Y15 dealer in PJ quoted 9500 the Honda one quoted 10200 I paid 50 booking for the test ride need to decide by end of the month", "heard": "Y15 dealer in PJ quoted 9,500 the Honda One quoted 10,200I paid fifty booking for the test ride need to decide by end of the month.", "language": "zh", "seconds": 14.94}
++{"id": "multi-five-across-topics", "model": "breeze-asr-25", "voice": "gtts-en-uk", "source": "Okay update. Movers confirmed they can do it. Paid them 200 deposit. The PJ consignment is 14 pallets not 12. Need to tell the warehouse about the extra pallets. And remind me to top up Touch n Go.", "heard": "OK, update.Movers confirmed they can do it.Paid them 200 deposit.The PJ consignment is fourteen pallets not twelve.Need to tell the warehouse about the extra pallets.And remind me to top up touch and go.", "language": "zh", "seconds": 18.38}
++{"id": "multi-manglish-run-on", "model": "breeze-asr-25", "voice": "gtts-en-uk", "source": "eh tadi bayar tol 12 ringgit then petrol 60 then kena call abang lori about the PJ delivery lah", "heard": "A taddy buyer toll twelve ringgit, then petrol sixty, then keener call a bang lorry about the PJ delivery lah.", "language": "zh", "seconds": 14.14}
++{"id": "date-this-saturday", "model": "breeze-asr-25", "voice": "gtts-en-uk", "source": "pick up the keys for the new house this Saturday", "heard": "Pick up the keys for the new house this Saturday.", "language": "zh", "seconds": 11.69}
++{"id": "date-next-friday-on-a-friday", "model": "breeze-asr-25", "voice": "gtts-en-uk", "source": "next Friday send the customs form for the PJ shipment", "heard": "Next Friday send the customs form for the PJ shipment.", "language": "zh", "seconds": 12.37}
++{"id": "date-end-of-month", "model": "breeze-asr-25", "voice": "gtts-en-uk", "source": "must cancel the gym membership by end of the month", "heard": "Must cancel the gym membership by end of the month.", "language": "zh", "seconds": 11.76}
++{"id": "date-in-two-weeks", "model": "breeze-asr-25", "voice": "gtts-en-uk", "source": "follow up with the bank on the bike loan in two weeks", "heard": "Follow up with the bank on the bike loan in two weeks.", "language": "zh", "seconds": 12.18}
++{"id": "date-month-rollover", "model": "breeze-asr-25", "voice": "gtts-en-uk", "source": "tomorrow morning go to JPJ and ask about the B2 motorcycle licence", "heard": "Tomorrow morning go to JPJ and ask about the B2 motorcycle license.", "language": "zh", "seconds": 12.31}
++{"id": "date-year-rollover", "model": "breeze-asr-25", "voice": "gtts-en-uk", "source": "need to be at the new house by eight this Saturday for the movers", "heard": "Need to be at the new house by eight this Saturday for the movers.", "language": "zh", "seconds": 12.67}
++{"id": "date-lusa-malay", "model": "breeze-asr-25", "voice": "gtts-en-uk", "source": "lusa kena hantar borang cukai ke pejabat LHDN", "heard": "Lusa kina hantar borang kukai ki pejabat lhdn", "language": "zh", "seconds": 13.23}
++{"id": "date-vague-no-due", "model": "breeze-asr-25", "voice": "gtts-en-uk", "source": "sometime next month should get the aircond serviced", "heard": "Sometime next month should get the aircon serviced.", "language": "zh", "seconds": 11.88}
++{"id": "stt-self-correct-amount", "model": "breeze-asr-25", "voice": "gtts-en-uk", "source": "paid the plumber 400 no wait make that 450", "heard": "paid the plumber 400 no wait make that 450", "language": "zh", "seconds": 11.7}
++{"id": "stt-filler", "model": "breeze-asr-25", "voice": "gtts-en-uk", "source": "um so yeah uh I need to uh what was it oh ya renew my passport", "heard": "Um, so yeah, uh, I need to uh what was it oh yeah renew my passport.", "language": "zh", "seconds": 13.21}
++{"id": "stt-misheard-ringgit-visor", "model": "breeze-asr-25", "voice": "gtts-en-uk", "source": "paid 60 ring it for the bike helmet wiser", "heard": "paid 60 ringgit for the bike helmet wiser", "language": "zh", "seconds": 11.97}
++{"id": "stt-misheard-lading", "model": "breeze-asr-25", "voice": "gtts-en-uk", "source": "need to check the bill of leading for the PJ shipment", "heard": "Need to check the bill of leading for the PJ shipment.", "language": "zh", "seconds": 11.86}
++{"id": "stt-self-correct-day", "model": "breeze-asr-25", "voice": "gtts-en-uk", "source": "send the quotation to the client on Thursday no sorry Friday", "heard": "Send the quotation to the client on Thursday, no sorry Friday.", "language": "zh", "seconds": 12.46}
++{"id": "amount-words-thousand", "model": "breeze-asr-25", "voice": "gtts-en-uk", "source": "paid one thousand two hundred for the car insurance renewal", "heard": "Paid 1200 for the car insurance renewal.", "language": "zh", "seconds": 11.62}
++{"id": "amount-k-suffix", "model": "breeze-asr-25", "voice": "gtts-en-uk", "source": "transferred 1.2k to the dealer as booking for the bike", "heard": "Transferred 1.2k to the dealer as booking for the bike.", "language": "zh", "seconds": 12.41}
++{"id": "amount-malay-words", "model": "breeze-asr-25", "voice": "gtts-en-uk", "source": "bayar seratus lima puluh ringgit untuk kotak pindah rumah", "heard": "By Arceratus, Limapulu ringet untook Kotak Pindaruma.", "language": "zh", "seconds": 12.53}
++{"id": "empty-never-mind", "model": "breeze-asr-25", "voice": "gtts-en-uk", "source": "um never mind", "heard": "Um, never mind.", "language": "zh", "seconds": 11.29}
++{"id": "empty-testing", "model": "breeze-asr-25", "voice": "gtts-en-uk", "source": "testing testing one two three", "heard": "Testing testing one two three", "language": "zh", "seconds": 11.0}
++{"id": "empty-whisper-hallucination", "model": "breeze-asr-25", "voice": "gtts-en-uk", "source": "Thank you. Thanks for watching!", "heard": "Thank you, thanks for watching.", "language": "zh", "seconds": 11.49}
++{"id": "empty-retracted", "model": "breeze-asr-25", "voice": "gtts-en-uk", "source": "remind me to actually no forget it I already did that", "heard": "Remind me to actually no forget it, I already did that.", "language": "zh", "seconds": 12.2}
++{"id": "malay-esok-klinik", "model": "breeze-asr-25", "voice": "gtts-en-uk", "source": "esok pagi kena pergi klinik ambil ubat mak", "heard": "Isok Pagi Kina Pergi Clinic Ambil Ubatmak.", "language": "zh", "seconds": 12.3}
++{"id": "malay-lori-note", "model": "breeze-asr-25", "voice": "gtts-en-uk", "source": "boss cakap lori sampai PJ warehouse pukul tiga", "heard": "Boss Kakap Lori Sampai PJ Warehouse Pukul Tiga", "language": "zh", "seconds": 12.21}
++{"id": "ambig-dollars", "model": "breeze-asr-25", "voice": "gtts-en-uk", "source": "paid 30 dollars for the app subscription", "heard": "Paid $30 for the app subscription.", "language": "zh", "seconds": 11.44}
++{"id": "ambig-twelve-fifty", "model": "breeze-asr-25", "voice": "gtts-en-uk", "source": "paid twelve fifty for the bike accessories", "heard": "Paid 12.50 for the bike accessories.", "language": "zh", "seconds": 11.69}
++{"id": "ambig-next-friday-midweek", "model": "breeze-asr-25", "voice": "gtts-en-uk", "source": "return the library books next Friday", "heard": "Return the library books next Friday.", "language": "zh", "seconds": 11.48}
++{"id": "ambig-this-weekend", "model": "breeze-asr-25", "voice": "gtts-en-uk", "source": "this weekend go and see the Kawasaki at the showroom", "heard": "This weekend go and see the Kawasaki at the showroom.", "language": "zh", "seconds": 11.86}
++{"id": "ambig-paid-yesterday", "model": "breeze-asr-25", "voice": "gtts-en-uk", "source": "yesterday paid 150 for the lorry permit for the PJ job", "heard": "Yesterday paid 150 for the lorry permit for the PJ job.", "language": "zh", "seconds": 12.46}
++{"id": "ambig-balance-due", "model": "breeze-asr-25", "voice": "gtts-en-uk", "source": "balance 800 for the movers due on Friday", "heard": "Balance 800 for the movers due on Friday.", "language": "zh", "seconds": 12.14}
++{"id": "ambig-should-look", "model": "breeze-asr-25", "voice": "gtts-en-uk", "source": "should probably look at the Yamaha NMAX as well", "heard": "Should probably look at the Yamaha N-Max as well.", "language": "zh", "seconds": 12.52}
++{"id": "ambig-lorry-which-project", "model": "breeze-asr-25", "voice": "gtts-en-uk", "source": "lorry is booked already can stop worrying", "heard": "Laurie is booked already can stop worrying.", "language": "zh", "seconds": 11.97}
+diff --git a/evals/audio/stt-only-large-v3-turbo-gtts-en-uk-2026-11-20.jsonl b/evals/audio/stt-only-large-v3-turbo-gtts-en-uk-2026-11-20.jsonl
+new file mode 100644
+index 0000000..913f204
+--- /dev/null
++++ b/evals/audio/stt-only-large-v3-turbo-gtts-en-uk-2026-11-20.jsonl
+@@ -0,0 +1,59 @@
++{"id": "task-plain", "model": "large-v3-turbo", "voice": "gtts-en-uk", "source": "remind me to call the dentist and book a cleaning", "heard": "Remind me to call the dentist and book a cleaning.", "language": "en", "seconds": 16.54}
++{"id": "task-move", "model": "large-v3-turbo", "voice": "gtts-en-uk", "source": "need to buy more boxes and bubble wrap for the move", "heard": "Need to buy more boxes and bubble wrap for the move.", "language": "en", "seconds": 16.43}
++{"id": "task-motorcycle", "model": "large-v3-turbo", "voice": "gtts-en-uk", "source": "book a test ride for the Yamaha Y15 at the dealer in Sunway", "heard": "Book a test ride for the Yamaha Y15 at the dealer in Sunway.", "language": "en", "seconds": 16.37}
++{"id": "task-shipping", "model": "large-v3-turbo", "voice": "gtts-en-uk", "source": "got to email the forwarder the packing list for the PJ shipment", "heard": "Got to email the forwarder the packing list for the PJ shipment.", "language": "en", "seconds": 16.65}
++{"id": "exp-ringgit", "model": "large-v3-turbo", "voice": "gtts-en-uk", "source": "lunch nasi lemak twelve ringgit", "heard": "Lunch Nazi lemak 12 ringgit", "language": "en", "seconds": 17.02}
++{"id": "exp-rm-prefix", "model": "large-v3-turbo", "voice": "gtts-en-uk", "source": "Paid RM85 for petrol for the car.", "heard": "Paid RM85 for petrol for the car.", "language": "en", "seconds": 16.82}
++{"id": "exp-no-currency", "model": "large-v3-turbo", "voice": "gtts-en-uk", "source": "grab ride to the office was twenty three", "heard": "Grab ride to the office was 23.", "language": "en", "seconds": 16.52}
++{"id": "exp-bucks", "model": "large-v3-turbo", "voice": "gtts-en-uk", "source": "spent fifty bucks on parking and toll", "heard": "Spent 50 bucks on parking and toll.", "language": "en", "seconds": 16.47}
++{"id": "exp-us-dollars", "model": "large-v3-turbo", "voice": "gtts-en-uk", "source": "paid forty US dollars for the VPN renewal", "heard": "Paid US$40 for the VPN renewal.", "language": "en", "seconds": 16.85}
++{"id": "exp-sgd", "model": "large-v3-turbo", "voice": "gtts-en-uk", "source": "paid 120 SGD for the hotel in Singapore", "heard": "Paid $120 Singapore dollars for the hotel in Singapore.", "language": "en", "seconds": 16.16}
++{"id": "exp-sen", "model": "large-v3-turbo", "voice": "gtts-en-uk", "source": "teh tarik and roti canai six ringgit fifty sen", "heard": "Tay Tarek and Roti can I 6 Ringgit 50 Sen", "language": "en", "seconds": 16.38}
++{"id": "exp-move", "model": "large-v3-turbo", "voice": "gtts-en-uk", "source": "paid the movers 300 for the packing service", "heard": "Paid the Movers $300 for the packing service.", "language": "en", "seconds": 16.93}
++{"id": "exp-shipping", "model": "large-v3-turbo", "voice": "gtts-en-uk", "source": "paid the lorry driver 450 cash for the PJ delivery", "heard": "Paid the lorry driver 450 cash for the PJ delivery.", "language": "en", "seconds": 16.16}
++{"id": "exp-pj-not-shipping", "model": "large-v3-turbo", "voice": "gtts-en-uk", "source": "lunch at the nasi kandar place in PJ fourteen ringgit", "heard": "Lunch at the Nazi Kandar place in PJ-14 Ringgit", "language": "en", "seconds": 16.61}
++{"id": "note-fact", "model": "large-v3-turbo", "voice": "gtts-en-uk", "source": "dentist says the wisdom tooth doesnt need to come out", "heard": "Dentist says the wisdom tooth doesn't need to come out.", "language": "en", "seconds": 16.56}
++{"id": "note-move", "model": "large-v3-turbo", "voice": "gtts-en-uk", "source": "the movers said they dont take pianos or plants", "heard": "The movers said they don't take pianos or plants.", "language": "en", "seconds": 16.25}
++{"id": "note-motorcycle-number-not-money", "model": "large-v3-turbo", "voice": "gtts-en-uk", "source": "Honda RS150 seat height is 795 millimetres, should be okay for me", "heard": "Honda 150 rupees seat height is 795 millimeters, should be okay for me.", "language": "en", "seconds": 16.89}
++{"id": "quote-motorcycle", "model": "large-v3-turbo", "voice": "gtts-en-uk", "source": "dealer quoted 9800 on the road for the Y15", "heard": "Dealer quoted 9,800 on the road for the Y-15.", "language": "en", "seconds": 16.21}
++{"id": "quote-move-words", "model": "large-v3-turbo", "voice": "gtts-en-uk", "source": "mover quoted one thousand two hundred for the three ton lorry havent confirmed yet", "heard": "Mover quoted 1,200 for the three-ton lorry haven't confirmed yet.", "language": "en", "seconds": 16.79}
++{"id": "quote-shipping-k", "model": "large-v3-turbo", "voice": "gtts-en-uk", "source": "shipping agent says it will be about 3.5k for the twenty footer to PJ, not paying yet", "heard": "Shipping agent says it will be about 3.5k for the 20-footer to PJ, not paying yet.", "language": "en", "seconds": 16.79}
++{"id": "quote-retracted-payment", "model": "large-v3-turbo", "voice": "gtts-en-uk", "source": "i paid 2000 for the no actually havent paid yet the mover wants 2000", "heard": "I paid $2000 for the no actually haven't paid yet, the mover wants $2000.", "language": "en", "seconds": 16.41}
++{"id": "both-bike-deposit", "model": "large-v3-turbo", "voice": "gtts-en-uk", "source": "paid 500 deposit for the bike have to collect it this Saturday", "heard": "Paid 500 deposit for the bike have to collect it this Saturday.", "language": "en", "seconds": 16.62}
++{"id": "both-booking-fee-sign", "model": "large-v3-turbo", "voice": "gtts-en-uk", "source": "put down a booking fee of 1k for the new house need to sign the tenancy agreement by the 20th", "heard": "Put down a booking fee of 1K for the new house need to sign the tenancy agreement by the 20th.", "language": "en", "seconds": 16.97}
++{"id": "both-malay-lori", "model": "large-v3-turbo", "voice": "gtts-en-uk", "source": "dah bayar deposit lori pindah rumah tiga ratus, esok kena confirm masa dengan dia", "heard": "Darbaya deposit lori pinda rheumatiga ratus, isok kina confirm masa dengan dia.", "language": "en", "seconds": 17.07}
++{"id": "multi-three-kinds", "model": "large-v3-turbo", "voice": "gtts-en-uk", "source": "buy milk on the way home also paid 18 ringgit for parking at the hospital and note that Dr Lim's clinic closes at one on Saturdays", "heard": "Buy milk on the way home also paid 18 ringgit for parking at the hospital and note that Dr. Lim's clinic closes at 1 on Saturdays.", "language": "en", "seconds": 17.12}
++{"id": "multi-two-dated-tasks", "model": "large-v3-turbo", "voice": "gtts-en-uk", "source": "tomorrow call the bank about the loan Friday send the signed form to HR", "heard": "Tomorrow call the bank about the loan Friday send the signed form to HR.", "language": "en", "seconds": 16.72}
++{"id": "multi-bike-quotes", "model": "large-v3-turbo", "voice": "gtts-en-uk", "source": "Y15 dealer in PJ quoted 9500 the Honda one quoted 10200 I paid 50 booking for the test ride need to decide by end of the month", "heard": "Y-15 dealer in PJ quoted 9,500 the Honda 1 quoted 10,200. I paid 50 booking for the test ride need to decide by end of the month.", "language": "en", "seconds": 17.03}
++{"id": "multi-five-across-topics", "model": "large-v3-turbo", "voice": "gtts-en-uk", "source": "Okay update. Movers confirmed they can do it. Paid them 200 deposit. The PJ consignment is 14 pallets not 12. Need to tell the warehouse about the extra pallets. And remind me to top up Touch n Go.", "heard": "Okay, update. Movers confirmed they can do it. Paid them 200 deposit. The PJ consignment is 14 pallets not 12. Need to tell the warehouse about the extra pallets. And remind me to top up touch and go.", "language": "en", "seconds": 17.88}
++{"id": "multi-manglish-run-on", "model": "large-v3-turbo", "voice": "gtts-en-uk", "source": "eh tadi bayar tol 12 ringgit then petrol 60 then kena call abang lori about the PJ delivery lah", "heard": "A Tadi buyer toll 12 ringgit, then petrol 60, then Kina call a bang lorry about the PJ delivery la.", "language": "en", "seconds": 17.29}
++{"id": "date-this-saturday", "model": "large-v3-turbo", "voice": "gtts-en-uk", "source": "pick up the keys for the new house this Saturday", "heard": "Pick up the keys for the new house this Saturday.", "language": "en", "seconds": 16.38}
++{"id": "date-next-friday-on-a-friday", "model": "large-v3-turbo", "voice": "gtts-en-uk", "source": "next Friday send the customs form for the PJ shipment", "heard": "Next Friday send the customs form for the PJ shipment.", "language": "en", "seconds": 16.97}
++{"id": "date-end-of-month", "model": "large-v3-turbo", "voice": "gtts-en-uk", "source": "must cancel the gym membership by end of the month", "heard": "Must cancel the gym membership by end of the month.", "language": "en", "seconds": 16.77}
++{"id": "date-in-two-weeks", "model": "large-v3-turbo", "voice": "gtts-en-uk", "source": "follow up with the bank on the bike loan in two weeks", "heard": "Follow up with the bank on the bike loan in two weeks.", "language": "en", "seconds": 16.43}
++{"id": "date-month-rollover", "model": "large-v3-turbo", "voice": "gtts-en-uk", "source": "tomorrow morning go to JPJ and ask about the B2 motorcycle licence", "heard": "Tomorrow morning go to JPJ and ask about the B2 motorcycle license.", "language": "en", "seconds": 17.09}
++{"id": "date-year-rollover", "model": "large-v3-turbo", "voice": "gtts-en-uk", "source": "need to be at the new house by eight this Saturday for the movers", "heard": "Need to be at the new house by 8 this Saturday for the movers.", "language": "en", "seconds": 16.35}
++{"id": "date-lusa-malay", "model": "large-v3-turbo", "voice": "gtts-en-uk", "source": "lusa kena hantar borang cukai ke pejabat LHDN", "heard": "Lusakina Hantar Borang Kukai Ki Pejabat LHDN", "language": "en", "seconds": 16.37}
++{"id": "date-vague-no-due", "model": "large-v3-turbo", "voice": "gtts-en-uk", "source": "sometime next month should get the aircond serviced", "heard": "Sometime next month should get the aircon serviced.", "language": "en", "seconds": 16.45}
++{"id": "stt-self-correct-amount", "model": "large-v3-turbo", "voice": "gtts-en-uk", "source": "paid the plumber 400 no wait make that 450", "heard": "Paid the plumber 400, no wait, make that 450.", "language": "en", "seconds": 16.27}
++{"id": "stt-filler", "model": "large-v3-turbo", "voice": "gtts-en-uk", "source": "um so yeah uh I need to uh what was it oh ya renew my passport", "heard": "Um, so yeah, uh, I need to, uh, what was it? Oh, you renew my passport.", "language": "en", "seconds": 16.7}
++{"id": "stt-misheard-ringgit-visor", "model": "large-v3-turbo", "voice": "gtts-en-uk", "source": "paid 60 ring it for the bike helmet wiser", "heard": "Paid 60 ringgit for the bike helmet wiser.", "language": "en", "seconds": 16.46}
++{"id": "stt-misheard-lading", "model": "large-v3-turbo", "voice": "gtts-en-uk", "source": "need to check the bill of leading for the PJ shipment", "heard": "Need to check the bill of leading for the PJ shipment.", "language": "en", "seconds": 16.09}
++{"id": "stt-self-correct-day", "model": "large-v3-turbo", "voice": "gtts-en-uk", "source": "send the quotation to the client on Thursday no sorry Friday", "heard": "Send the quotation to the client on Thursday, No Sorry Friday.", "language": "en", "seconds": 16.42}
++{"id": "amount-words-thousand", "model": "large-v3-turbo", "voice": "gtts-en-uk", "source": "paid one thousand two hundred for the car insurance renewal", "heard": "Paid $1,200 for the car insurance renewal.", "language": "en", "seconds": 16.3}
++{"id": "amount-k-suffix", "model": "large-v3-turbo", "voice": "gtts-en-uk", "source": "transferred 1.2k to the dealer as booking for the bike", "heard": "Transferred 1.2k to the dealer as booking for the bike.", "language": "en", "seconds": 16.55}
++{"id": "amount-malay-words", "model": "large-v3-turbo", "voice": "gtts-en-uk", "source": "bayar seratus lima puluh ringgit untuk kotak pindah rumah", "heard": "By Arceretus, Limapolu Ringgit untook Kotak Pindaruma.", "language": "en", "seconds": 16.61}
++{"id": "empty-never-mind", "model": "large-v3-turbo", "voice": "gtts-en-uk", "source": "um never mind", "heard": "Um, never mind.", "language": "en", "seconds": 15.82}
++{"id": "empty-testing", "model": "large-v3-turbo", "voice": "gtts-en-uk", "source": "testing testing one two three", "heard": "Testing Testing 1 2 3", "language": "en", "seconds": 15.98}
++{"id": "empty-whisper-hallucination", "model": "large-v3-turbo", "voice": "gtts-en-uk", "source": "Thank you. Thanks for watching!", "heard": "Thank you, thanks for watching", "language": "en", "seconds": 16.45}
++{"id": "empty-retracted", "model": "large-v3-turbo", "voice": "gtts-en-uk", "source": "remind me to actually no forget it I already did that", "heard": "Remind me to actually know forget it, I already did that.", "language": "en", "seconds": 15.99}
++{"id": "malay-esok-klinik", "model": "large-v3-turbo", "voice": "gtts-en-uk", "source": "esok pagi kena pergi klinik ambil ubat mak", "heard": "ESOC PAGI KINA PERGI CLINIC AMBIL UBAT MAC", "language": "en", "seconds": 16.4}
++{"id": "malay-lori-note", "model": "large-v3-turbo", "voice": "gtts-en-uk", "source": "boss cakap lori sampai PJ warehouse pukul tiga", "heard": "Boss Kakap Lori Sampai PJ Warehouse Pukul Tiga", "language": "en", "seconds": 16.65}
++{"id": "ambig-dollars", "model": "large-v3-turbo", "voice": "gtts-en-uk", "source": "paid 30 dollars for the app subscription", "heard": "Paid $30 for the app's subscription.", "language": "en", "seconds": 15.88}
++{"id": "ambig-twelve-fifty", "model": "large-v3-turbo", "voice": "gtts-en-uk", "source": "paid twelve fifty for the bike accessories", "heard": "Paid $12.50 for the bike accessories.", "language": "en", "seconds": 15.96}
++{"id": "ambig-next-friday-midweek", "model": "large-v3-turbo", "voice": "gtts-en-uk", "source": "return the library books next Friday", "heard": "Return the library books next Friday.", "language": "en", "seconds": 16.43}
++{"id": "ambig-this-weekend", "model": "large-v3-turbo", "voice": "gtts-en-uk", "source": "this weekend go and see the Kawasaki at the showroom", "heard": "This weekend go and see the Kawasaki at the showroom.", "language": "en", "seconds": 15.94}
++{"id": "ambig-paid-yesterday", "model": "large-v3-turbo", "voice": "gtts-en-uk", "source": "yesterday paid 150 for the lorry permit for the PJ job", "heard": "Yesterday paid $150 for the lorry permit for the PJ job.", "language": "en", "seconds": 16.64}
++{"id": "ambig-balance-due", "model": "large-v3-turbo", "voice": "gtts-en-uk", "source": "balance 800 for the movers due on Friday", "heard": "Balance 800 for the movers due on Friday.", "language": "en", "seconds": 16.13}
++{"id": "ambig-should-look", "model": "large-v3-turbo", "voice": "gtts-en-uk", "source": "should probably look at the Yamaha NMAX as well", "heard": "Should probably look at the Yamaha N-Max as well.", "language": "en", "seconds": 16.0}
++{"id": "ambig-lorry-which-project", "model": "large-v3-turbo", "voice": "gtts-en-uk", "source": "lorry is booked already can stop worrying", "heard": "Lori is booked already can stop worrying.", "language": "en", "seconds": 15.75}
+diff --git a/evals/audio/stt-only-large-v3-turbo-int8-gtts-en-us-2026-11-20.jsonl b/evals/audio/stt-only-large-v3-turbo-int8-gtts-en-us-2026-11-20.jsonl
+new file mode 100644
+index 0000000..ed0ecf9
+--- /dev/null
++++ b/evals/audio/stt-only-large-v3-turbo-int8-gtts-en-us-2026-11-20.jsonl
+@@ -0,0 +1,59 @@
++{"id": "task-plain", "model": "large-v3-turbo-int8", "voice": "gtts-en-us", "source": "remind me to call the dentist and book a cleaning", "heard": "Remind me to call the dentist and book a cleaning.", "language": "en", "seconds": 9.83}
++{"id": "task-move", "model": "large-v3-turbo-int8", "voice": "gtts-en-us", "source": "need to buy more boxes and bubble wrap for the move", "heard": "Need to buy more boxes and bubble wrap for the move.", "language": "en", "seconds": 9.98}
++{"id": "task-motorcycle", "model": "large-v3-turbo-int8", "voice": "gtts-en-us", "source": "book a test ride for the Yamaha Y15 at the dealer in Sunway", "heard": "Book a test ride for the Yamaha Y15 at the dealer in Sunway.", "language": "en", "seconds": 10.13}
++{"id": "task-shipping", "model": "large-v3-turbo-int8", "voice": "gtts-en-us", "source": "got to email the forwarder the packing list for the PJ shipment", "heard": "Got to email the forwarder the packing list for the PJ shipment.", "language": "en", "seconds": 9.81}
++{"id": "exp-ringgit", "model": "large-v3-turbo-int8", "voice": "gtts-en-us", "source": "lunch nasi lemak twelve ringgit", "heard": "Lunch Nasi Lamach 12 Ringgit", "language": "en", "seconds": 9.19}
++{"id": "exp-rm-prefix", "model": "large-v3-turbo-int8", "voice": "gtts-en-us", "source": "Paid RM85 for petrol for the car.", "heard": "Paid RM85 for petrol for the car.", "language": "en", "seconds": 9.88}
++{"id": "exp-no-currency", "model": "large-v3-turbo-int8", "voice": "gtts-en-us", "source": "grab ride to the office was twenty three", "heard": "Grab ride to the office was 23.", "language": "en", "seconds": 9.64}
++{"id": "exp-bucks", "model": "large-v3-turbo-int8", "voice": "gtts-en-us", "source": "spent fifty bucks on parking and toll", "heard": "Spent 50 bucks on parking and toll.", "language": "en", "seconds": 9.61}
++{"id": "exp-us-dollars", "model": "large-v3-turbo-int8", "voice": "gtts-en-us", "source": "paid forty US dollars for the VPN renewal", "heard": "paid 40 us dollars for the vpn renewal", "language": "en", "seconds": 9.91}
++{"id": "exp-sgd", "model": "large-v3-turbo-int8", "voice": "gtts-en-us", "source": "paid 120 SGD for the hotel in Singapore", "heard": "paid 120 singapore dollars for the hotel in singapore", "language": "en", "seconds": 9.73}
++{"id": "exp-sen", "model": "large-v3-turbo-int8", "voice": "gtts-en-us", "source": "teh tarik and roti canai six ringgit fifty sen", "heard": "tay tarik and roti kanai 6 ringgit 50 sen", "language": "en", "seconds": 9.87}
++{"id": "exp-move", "model": "large-v3-turbo-int8", "voice": "gtts-en-us", "source": "paid the movers 300 for the packing service", "heard": "Paid the movers $300 for the packing service.", "language": "en", "seconds": 10.13}
++{"id": "exp-shipping", "model": "large-v3-turbo-int8", "voice": "gtts-en-us", "source": "paid the lorry driver 450 cash for the PJ delivery", "heard": "Paid the lorry driver $450 cash for the PJ delivery.", "language": "en", "seconds": 9.81}
++{"id": "exp-pj-not-shipping", "model": "large-v3-turbo-int8", "voice": "gtts-en-us", "source": "lunch at the nasi kandar place in PJ fourteen ringgit", "heard": "Lunch at the Nasi Kandar place in PJ14 Ringgit.", "language": "en", "seconds": 9.84}
++{"id": "note-fact", "model": "large-v3-turbo-int8", "voice": "gtts-en-us", "source": "dentist says the wisdom tooth doesnt need to come out", "heard": "Dentist says the wisdom tooth doesn't need to come out.", "language": "en", "seconds": 9.72}
++{"id": "note-move", "model": "large-v3-turbo-int8", "voice": "gtts-en-us", "source": "the movers said they dont take pianos or plants", "heard": "The movers said they don't take pianos or plants.", "language": "en", "seconds": 9.87}
++{"id": "note-motorcycle-number-not-money", "model": "large-v3-turbo-int8", "voice": "gtts-en-us", "source": "Honda RS150 seat height is 795 millimetres, should be okay for me", "heard": "Honda 150 rupees seat height is 795 millimeters, should be okay for me.", "language": "en", "seconds": 10.09}
++{"id": "quote-motorcycle", "model": "large-v3-turbo-int8", "voice": "gtts-en-us", "source": "dealer quoted 9800 on the road for the Y15", "heard": "Dealer quoted 9,800 on the road for the Y-15.", "language": "en", "seconds": 9.83}
++{"id": "quote-move-words", "model": "large-v3-turbo-int8", "voice": "gtts-en-us", "source": "mover quoted one thousand two hundred for the three ton lorry havent confirmed yet", "heard": "mover quoted 1200 for the three-ton lorry haven't confirmed yet", "language": "en", "seconds": 10.03}
++{"id": "quote-shipping-k", "model": "large-v3-turbo-int8", "voice": "gtts-en-us", "source": "shipping agent says it will be about 3.5k for the twenty footer to PJ, not paying yet", "heard": "Shipping agent says it will be about 3.5k for the 20-footer to PJ, not paying yet.", "language": "en", "seconds": 10.27}
++{"id": "quote-retracted-payment", "model": "large-v3-turbo-int8", "voice": "gtts-en-us", "source": "i paid 2000 for the no actually havent paid yet the mover wants 2000", "heard": "I paid 2,000 for the no actually haven't paid yet the mover wants 2,000.", "language": "en", "seconds": 10.01}
++{"id": "both-bike-deposit", "model": "large-v3-turbo-int8", "voice": "gtts-en-us", "source": "paid 500 deposit for the bike have to collect it this Saturday", "heard": "Paid 500 deposit for the bike have to collect it this Saturday.", "language": "en", "seconds": 9.96}
++{"id": "both-booking-fee-sign", "model": "large-v3-turbo-int8", "voice": "gtts-en-us", "source": "put down a booking fee of 1k for the new house need to sign the tenancy agreement by the 20th", "heard": "Put down a booking fee of 1K for the new house need to sign the tenancy agreement by the 20th.", "language": "en", "seconds": 9.74}
++{"id": "both-malay-lori", "model": "large-v3-turbo-int8", "voice": "gtts-en-us", "source": "dah bayar deposit lori pindah rumah tiga ratus, esok kena confirm masa dengan dia", "heard": "da bayar deposit lori pinda rooma tiga ratus isaq kenna confirm masa dengan dia", "language": "en", "seconds": 9.95}
++{"id": "multi-three-kinds", "model": "large-v3-turbo-int8", "voice": "gtts-en-us", "source": "buy milk on the way home also paid 18 ringgit for parking at the hospital and note that Dr Lim's clinic closes at one on Saturdays", "heard": "buy milk on the way home also paid 18 ringgit for parking at the hospital and note that dr limbs clinic closes at one on saturdays", "language": "en", "seconds": 10.28}
++{"id": "multi-two-dated-tasks", "model": "large-v3-turbo-int8", "voice": "gtts-en-us", "source": "tomorrow call the bank about the loan Friday send the signed form to HR", "heard": "Tomorrow call the bank about the loan Friday. Send the signed form to HR.", "language": "en", "seconds": 9.72}
++{"id": "multi-bike-quotes", "model": "large-v3-turbo-int8", "voice": "gtts-en-us", "source": "Y15 dealer in PJ quoted 9500 the Honda one quoted 10200 I paid 50 booking for the test ride need to decide by end of the month", "heard": "Y15 dealer in PJ quoted 9,500 the Honda one quoted 10,200 I paid 50 booking for the test ride need to decide by end of the month.", "language": "en", "seconds": 10.04}
++{"id": "multi-five-across-topics", "model": "large-v3-turbo-int8", "voice": "gtts-en-us", "source": "Okay update. Movers confirmed they can do it. Paid them 200 deposit. The PJ consignment is 14 pallets not 12. Need to tell the warehouse about the extra pallets. And remind me to top up Touch n Go.", "heard": "Okay update. Movers confirmed they can do it. Paid them 200 deposit. The PJ consignment is 14 pallets not 12. Need to tell the warehouse about the extra pallets. And remind me to top up touch and go.", "language": "en", "seconds": 10.58}
++{"id": "multi-manglish-run-on", "model": "large-v3-turbo-int8", "voice": "gtts-en-us", "source": "eh tadi bayar tol 12 ringgit then petrol 60 then kena call abang lori about the PJ delivery lah", "heard": "A toddy buy our tall 12 ringgit then petrol 60 then kena call a bang lori about the PJ delivery law.", "language": "en", "seconds": 10.23}
++{"id": "date-this-saturday", "model": "large-v3-turbo-int8", "voice": "gtts-en-us", "source": "pick up the keys for the new house this Saturday", "heard": "Pick up the keys for the new house this Saturday.", "language": "en", "seconds": 9.8}
++{"id": "date-next-friday-on-a-friday", "model": "large-v3-turbo-int8", "voice": "gtts-en-us", "source": "next Friday send the customs form for the PJ shipment", "heard": "Next Friday send the customs form for the PJ shipment.", "language": "en", "seconds": 9.78}
++{"id": "date-end-of-month", "model": "large-v3-turbo-int8", "voice": "gtts-en-us", "source": "must cancel the gym membership by end of the month", "heard": "Must cancel the gym membership by end of the month.", "language": "en", "seconds": 10.0}
++{"id": "date-in-two-weeks", "model": "large-v3-turbo-int8", "voice": "gtts-en-us", "source": "follow up with the bank on the bike loan in two weeks", "heard": "Follow up with the bank on the bike loan in two weeks.", "language": "en", "seconds": 10.23}
++{"id": "date-month-rollover", "model": "large-v3-turbo-int8", "voice": "gtts-en-us", "source": "tomorrow morning go to JPJ and ask about the B2 motorcycle licence", "heard": "Tomorrow morning go to JPJ and ask about the B2 motorcycle license.", "language": "en", "seconds": 10.02}
++{"id": "date-year-rollover", "model": "large-v3-turbo-int8", "voice": "gtts-en-us", "source": "need to be at the new house by eight this Saturday for the movers", "heard": "Need to be at the new house by 8 this Saturday for the movers.", "language": "en", "seconds": 10.67}
++{"id": "date-lusa-malay", "model": "large-v3-turbo-int8", "voice": "gtts-en-us", "source": "lusa kena hantar borang cukai ke pejabat LHDN", "heard": "Lusa kena hantar borang kukai kpehabot lhdn.", "language": "en", "seconds": 11.01}
++{"id": "date-vague-no-due", "model": "large-v3-turbo-int8", "voice": "gtts-en-us", "source": "sometime next month should get the aircond serviced", "heard": "Sometime next month should get the aircon serviced.", "language": "en", "seconds": 9.9}
++{"id": "stt-self-correct-amount", "model": "large-v3-turbo-int8", "voice": "gtts-en-us", "source": "paid the plumber 400 no wait make that 450", "heard": "Paid the plumber 400 no wait make that 450.", "language": "en", "seconds": 10.1}
++{"id": "stt-filler", "model": "large-v3-turbo-int8", "voice": "gtts-en-us", "source": "um so yeah uh I need to uh what was it oh ya renew my passport", "heard": "Um so yeah I need to uh what was it oh yeah renew my passport.", "language": "en", "seconds": 10.3}
++{"id": "stt-misheard-ringgit-visor", "model": "large-v3-turbo-int8", "voice": "gtts-en-us", "source": "paid 60 ring it for the bike helmet wiser", "heard": "Paid 60 ringgit for the bike helmet Weiser.", "language": "en", "seconds": 10.36}
++{"id": "stt-misheard-lading", "model": "large-v3-turbo-int8", "voice": "gtts-en-us", "source": "need to check the bill of leading for the PJ shipment", "heard": "Need to check the bill of leading for the PJ shipment.", "language": "en", "seconds": 10.58}
++{"id": "stt-self-correct-day", "model": "large-v3-turbo-int8", "voice": "gtts-en-us", "source": "send the quotation to the client on Thursday no sorry Friday", "heard": "Send the quotation to the client on Thursday no sorry Friday.", "language": "en", "seconds": 10.44}
++{"id": "amount-words-thousand", "model": "large-v3-turbo-int8", "voice": "gtts-en-us", "source": "paid one thousand two hundred for the car insurance renewal", "heard": "Paid $1,200 for the car insurance renewal.", "language": "en", "seconds": 10.24}
++{"id": "amount-k-suffix", "model": "large-v3-turbo-int8", "voice": "gtts-en-us", "source": "transferred 1.2k to the dealer as booking for the bike", "heard": "Transferred 1.2k to the dealer as booking for the bike.", "language": "en", "seconds": 10.15}
++{"id": "amount-malay-words", "model": "large-v3-turbo-int8", "voice": "gtts-en-us", "source": "bayar seratus lima puluh ringgit untuk kotak pindah rumah", "heard": "Bayar Serratis Lima Pulo Ringgit Untuk Kotak Pinda Rumah", "language": "en", "seconds": 10.27}
++{"id": "empty-never-mind", "model": "large-v3-turbo-int8", "voice": "gtts-en-us", "source": "um never mind", "heard": "Um never mind.", "language": "en", "seconds": 9.88}
++{"id": "empty-testing", "model": "large-v3-turbo-int8", "voice": "gtts-en-us", "source": "testing testing one two three", "heard": "Testing Testing 1 2 3", "language": "en", "seconds": 10.17}
++{"id": "empty-whisper-hallucination", "model": "large-v3-turbo-int8", "voice": "gtts-en-us", "source": "Thank you. Thanks for watching!", "heard": "Thank you.", "language": "en", "seconds": 9.74}
++{"id": "empty-retracted", "model": "large-v3-turbo-int8", "voice": "gtts-en-us", "source": "remind me to actually no forget it I already did that", "heard": "Remind me to actually no forget it I already did that.", "language": "en", "seconds": 9.96}
++{"id": "malay-esok-klinik", "model": "large-v3-turbo-int8", "voice": "gtts-en-us", "source": "esok pagi kena pergi klinik ambil ubat mak", "heard": "Isak Pagi Kenna Pergi Clinic Ambil Ubat Mok", "language": "en", "seconds": 10.09}
++{"id": "malay-lori-note", "model": "large-v3-turbo-int8", "voice": "gtts-en-us", "source": "boss cakap lori sampai PJ warehouse pukul tiga", "heard": "Boss Kakup Lori Sampai PJ Warehouse Pukul Tiga", "language": "en", "seconds": 10.14}
++{"id": "ambig-dollars", "model": "large-v3-turbo-int8", "voice": "gtts-en-us", "source": "paid 30 dollars for the app subscription", "heard": "Paid $30 for the app subscription.", "language": "en", "seconds": 9.95}
++{"id": "ambig-twelve-fifty", "model": "large-v3-turbo-int8", "voice": "gtts-en-us", "source": "paid twelve fifty for the bike accessories", "heard": "paid 12.50 for the bike accessories", "language": "en", "seconds": 10.28}
++{"id": "ambig-next-friday-midweek", "model": "large-v3-turbo-int8", "voice": "gtts-en-us", "source": "return the library books next Friday", "heard": "Return the library books next Friday.", "language": "en", "seconds": 10.26}
++{"id": "ambig-this-weekend", "model": "large-v3-turbo-int8", "voice": "gtts-en-us", "source": "this weekend go and see the Kawasaki at the showroom", "heard": "This weekend go and see the Kawasaki at the showroom.", "language": "en", "seconds": 10.08}
++{"id": "ambig-paid-yesterday", "model": "large-v3-turbo-int8", "voice": "gtts-en-us", "source": "yesterday paid 150 for the lorry permit for the PJ job", "heard": "Yesterday paid $150 for the lorry permit for the PJ job.", "language": "en", "seconds": 10.33}
++{"id": "ambig-balance-due", "model": "large-v3-turbo-int8", "voice": "gtts-en-us", "source": "balance 800 for the movers due on Friday", "heard": "Balance 800 for the movers due on Friday.", "language": "en", "seconds": 10.26}
++{"id": "ambig-should-look", "model": "large-v3-turbo-int8", "voice": "gtts-en-us", "source": "should probably look at the Yamaha NMAX as well", "heard": "should probably look at the yamaha nmax as well", "language": "en", "seconds": 10.14}
++{"id": "ambig-lorry-which-project", "model": "large-v3-turbo-int8", "voice": "gtts-en-us", "source": "lorry is booked already can stop worrying", "heard": "Lori is booked already can stop worrying.", "language": "en", "seconds": 10.3}
+diff --git a/evals/audio/test_audio_eval.py b/evals/audio/test_audio_eval.py
+new file mode 100644
+index 0000000..0bfe7de
+--- /dev/null
++++ b/evals/audio/test_audio_eval.py
+@@ -0,0 +1,175 @@
++"""Tests for the audio eval runner. No network: the server and the model are stubbed.
++
++    python -m pytest evals/audio -c /dev/null
++"""
++
++import json
++import sys
++from pathlib import Path
++
++import pytest
++
++sys.path.insert(0, str(Path(__file__).resolve().parent))
++import run_audio_eval as a  # noqa: E402
++
++CASES = [
++    {"id": "t1", "today": "2026-11-12 Thursday", "transcript": "call the dentist", "why": "x",
++     "expected": [{"kind": "task", "must_contain": ["dentist"], "amount": None, "currency": None,
++                   "due": None, "topic": None}]},
++    {"id": "e1", "today": "2026-11-12 Thursday", "transcript": "um never mind", "why": "x", "expected": []},
++]
++TASK = {"kind": "task", "text": "Call the dentist", "amount": None, "currency": None, "due": None, "topic": None}
++
++
++def test_words_strip_case_and_punctuation():
++    assert a.words("Paid RM85, for Dr Lim's petrol.") == ["paid", "rm85", "for", "dr", "lims", "petrol"]
++    assert a.words("quoted 9,800 or 3.5k.") == ["quoted", "9800", "or", "3.5k"]
++
++
++@pytest.mark.parametrize("said, heard", [
++    ("five hundred", "500"),
++    ("one thousand two hundred", "1,200"),
++    ("1.2k", "1200"),
++    ("twenty three", "23"),
++    ("RM85", "RM 85"),
++    ("by the 20th", "by the 20"),
++    ("six ringgit fifty sen", "6 ringgit 50 sen"),
++    ("testing one two three", "testing 1 2 3"),
++])
++def test_number_spellings_compare_equal(said, heard):
++    assert a.number_words(a.words(said)) == a.number_words(a.words(heard))
++
++
++def test_number_normalising_does_not_hide_a_wrong_number():
++    assert a.number_words(a.words("fifty")) != a.number_words(a.words("fifteen"))
++    assert a.number_words(a.words("twelve fifty")) == ["12", "50"]  # not 62, not 1250
++    assert a.number_words(a.words("a hundred boxes")) == ["a", "hundred", "boxes"]
++
++
++def test_edit_distance_counts_sub_del_ins():
++    assert a.edits("collect it this saturday".split(), "collected this saturday".split()) == 2
++    assert a.edits([], ["thank", "you"]) == 2
++    assert a.edits(["a", "b"], ["a", "b"]) == 0
++
++
++def test_wer_raw_and_number_normalised():
++    rows = [{"id": "x", "source": "paid five hundred for the bike", "heard": "Paid 500 for the bike."},
++            {"id": "y", "source": "collect it this saturday", "heard": "collected this Saturday"}]
++    w = a.wer(rows)
++    assert (w["ref_words"], w["raw_edits"], w["num_edits"]) == (10, 4, 2)
++    assert (w["exact_raw"], w["exact_num"]) == (0, 1)
++
++
++def test_stt_posts_like_the_shortcut_and_records_failures(tmp_path):
++    (tmp_path / "t1.mp3").write_bytes(b"mp3-bytes")
++    seen = []
++
++    def post(url, body):
++        seen.append((url, body))
++        return {"text": " Call the dentist. ", "language": "en"}
++
++    ticks = iter([10.0, 12.5])
++    rows = a.run_stt(CASES, tmp_path, "http://h:8000/", model="m", post=post, clock=lambda: next(ticks),
++                     log=lambda _l: None)
++    assert seen == [("http://h:8000/transcribe?log=false", b"mp3-bytes")]
++    assert rows[0]["heard"] == "Call the dentist." and rows[0]["seconds"] == 2.5
++    assert "no clip" in rows[1]["stt_error"] and "heard" not in rows[1]  # missing clip is loud, not skipped
++
++
++def test_http_post_sends_raw_octet_stream(monkeypatch):
++    got = {}
++
++    class Reply:
++        def __enter__(self): return self
++        def __exit__(self, *_): return False
++        def read(self): return b'{"text": "ok"}'
++
++    def fake_urlopen(req, timeout):
++        got.update(method=req.get_method(), ct=req.get_header("Content-type"), data=req.data)
++        return Reply()
++
++    monkeypatch.setattr(a.urllib.request, "urlopen", fake_urlopen)
++    assert a.http_post("http://h/transcribe", b"abc") == {"text": "ok"}
++    assert got == {"method": "POST", "ct": "application/octet-stream", "data": b"abc"}
++
++
++def test_sort_uses_what_was_heard_and_the_case_date():
++    asked = []
++
++    def predict(case):
++        asked.append(case)
++        return {"id": case["id"], "items": [TASK]}
++
++    rows = [{"id": "t1", "source": "call the dentist", "heard": "Call the dentist."},
++            {"id": "e1", "source": "um never mind", "heard": ""}]
++    assert a.run_sort(rows, CASES, predict=predict, sleep=lambda _s: None, log=lambda _l: None)
++    assert [(c["transcript"], c["today"]) for c in asked] == [("Call the dentist.", "2026-11-12 Thursday")]
++    assert rows[0]["items"] == [TASK]
++    assert rows[1]["items"] == [] and rows[1]["no_speech"] is True  # empty transcript is never sent
++
++
++def test_rate_limit_waits_60s_and_retries():
++    replies = iter([{"error": "ClientError: 429 RESOURCE_EXHAUSTED per minute"}, {"items": [TASK]}])
++    slept = []
++    got = a.classify_heard(CASES[0], "x", predict=lambda _c: next(replies), sleep=slept.append, log=lambda _l: None)
++    assert got == {"items": [TASK], "tries": 2} and slept == [60.0]
++
++
++def test_an_api_error_is_an_unanswered_case_not_a_wrong_answer():
++    calls = []
++
++    def predict(case):
++        calls.append(1)
++        return {"error": "TimeoutError: "}
++
++    rows = [{"id": "t1", "source": "call the dentist", "heard": "call the dentist"}]
++    assert a.run_sort(rows, CASES, predict=predict, sleep=lambda _s: None, log=lambda _l: None)
++    assert len(calls) == a.MAX_TRIES and "items" not in rows[0] and rows[0]["error"]
++    rep = a.report(rows, CASES)
++    assert (rep["answered"], rep["correct"], rep["sort_errors"]) == (0, 0, ["t1"])
++
++
++def test_daily_quota_stops_the_run_and_a_second_run_resumes():
++    rows = [{"id": "t1", "source": "call the dentist", "heard": "call the dentist"},
++            {"id": "e1", "source": "um never mind", "heard": "never mind"}]
++    daily = {"error": "ClientError: 429 RESOURCE_EXHAUSTED GenerateRequestsPerDayPerProjectPerModel-FreeTier"}
++    calls = []
++    assert a.run_sort(rows, CASES, predict=lambda c: calls.append(c["id"]) or daily,
++                      sleep=lambda _s: None, log=lambda _l: None) is False
++    assert calls == ["t1"] and all("items" not in r for r in rows)
++
++    rows[0]["items"] = [TASK]
++    calls.clear()
++    assert a.run_sort(rows, CASES, predict=lambda c: calls.append(c["id"]) or {"items": []},
++                      sleep=lambda _s: None, log=lambda _l: None)
++    assert calls == ["e1"]  # the answered row was not asked again
++
++
++def test_report_scores_against_expected_and_finds_flips():
++    wrong = {**TASK, "kind": "note"}
++    rows = [{"id": "t1", "source": "call the dentist", "heard": "call the dentists", "seconds": 2.0, "items": [wrong]},
++            {"id": "e1", "source": "um never mind", "heard": "um never mind", "seconds": 4.0, "items": []}]
++    baseline = [{"id": "t1", "items": [TASK]}, {"id": "e1", "items": []}]
++    rep = a.report(rows, CASES, baseline)
++    assert (rep["answered"], rep["correct"], rep["baseline_passed_among_answered"]) == (2, 1, 2)
++    assert [(f["id"], f["text_run"], f["audio_run"], f["words_differ"]) for f in rep["flips"]] == [("t1", "pass", "fail", 1)]
++    text = a.format_report(rep, rows)
++    assert "answered 2 of 2, correct 1" in text and "t1: text pass -> audio fail" in text
++
++
++def test_main_end_to_end_with_stubs(tmp_path, capsys):
++    cases = tmp_path / "cases.jsonl"
++    cases.write_text("\n".join(json.dumps(c) for c in CASES) + "\n")
++    clips = tmp_path / "clips"
++    clips.mkdir()
++    for c in CASES:
++        (clips / f"{c['id']}.mp3").write_bytes(b"x")
++    heard = iter(["Call the dentist.", ""])
++    out = tmp_path / "r.jsonl"
++    common = ["--cases", str(cases)]
++    assert a.main([*common, "stt", "--clips", str(clips), "--out", str(out)],
++                  post=lambda _u, _b: {"text": next(heard)}) == 0
++    assert a.main([*common, "sort", "--results", str(out), "--delay", "0"],
++                  predict=lambda c: {"items": [TASK]}, sleep=lambda _s: None) == 0
++    assert a.main([*common, "report", "--results", str(out), "--baseline", ""]) == 0
++    assert "answered 2 of 2, correct 2" in capsys.readouterr().out
+diff --git a/registry/models.yaml b/registry/models.yaml
+index 144f883..02b1618 100644
+--- a/registry/models.yaml
++++ b/registry/models.yaml
+@@ -55,7 +55,7 @@ models:
+     size: "1.6 GB"
+     variants:
+       - format: ct2
+-        repo_id: "Systran/faster-whisper-large-v3-turbo"
++        repo_id: "dropbox-dash/faster-whisper-large-v3-turbo"
+         compute_type: int8_float16
+         local_dir: large-v3-turbo
+         default_on: [linux, darwin]
+-- 
+2.43.0
+
