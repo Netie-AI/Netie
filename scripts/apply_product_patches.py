@@ -180,9 +180,20 @@ STACKS: dict[str, Stack] = {
             [
                 "pytest",
                 "tests/test_netie_acl.py",
+                "tests/test_netie_acl_paths.py",
                 "tests/test_space_acl_boundary.py",
                 "tests/test_live_ask.py",
                 "-q",
+            ],
+            # dms CI (.github/workflows/ci.yml): the same two commands.
+            ["ruff", "check", "apps", "packages", "tests"],
+            [
+                "mypy",
+                "apps/api/dms_api",
+                "packages/core/dms_core",
+                "packages/cortex_client/cortex_client",
+                "packages/executor/dms_executor",
+                "packages/ledger/dms_ledger",
             ],
         ),
     ),

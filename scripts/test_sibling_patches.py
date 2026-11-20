@@ -431,6 +431,7 @@ class SiblingPatchTests(unittest.TestCase):
             self.assertEqual(probed.stdout.strip(), "ok")
 
     def test_dms_demo_acl_resolve_applies_on_head(self) -> None:
+        netie = PATCHES / "dms-netie-acl.patch"
         patch = PATCHES / "dms-demo-acl-resolve.patch"
         self.assertTrue(patch.is_file())
         with tempfile.TemporaryDirectory() as tmp:
@@ -441,6 +442,12 @@ class SiblingPatchTests(unittest.TestCase):
                 SIBLING_PINS["dms"],
             )
             self.assertEqual(clone.returncode, 0, clone.stderr)
+            # Independent of the access-guard patch: it applies on the bare pin ...
+            alone = _run(["git", "apply", "--check", str(patch)], cwd=dest)
+            self.assertEqual(alone.returncode, 0, alone.stderr)
+            # ... and still applies after it, which is the order the series ships in.
+            first = _run(["git", "apply", str(netie)], cwd=dest)
+            self.assertEqual(first.returncode, 0, first.stderr)
             applied = _run(["git", "apply", str(patch)], cwd=dest)
             self.assertEqual(applied.returncode, 0, applied.stderr)
             src = (
@@ -449,8 +456,12 @@ class SiblingPatchTests(unittest.TestCase):
             self.assertIn("return resolve_session_acl(", src)
             self.assertIn("acl = self.demo_acl(", src)
             self.assertNotIn('row_predicates={t: "TRUE" for t in readable}', src)
+            # The guard hooks from the first patch survive the second.
+            self.assertGreaterEqual(src.count("_apply_netie_acl("), 5)
 
     def test_dms_netie_acl_applies_on_main(self) -> None:
+        import ast
+
         patch = PATCHES / "dms-netie-acl.patch"
         self.assertTrue(patch.is_file())
         with tempfile.TemporaryDirectory() as tmp:
@@ -461,16 +472,83 @@ class SiblingPatchTests(unittest.TestCase):
                 SIBLING_PINS["dms"],
             )
             self.assertEqual(clone.returncode, 0, clone.stderr)
+            before = set(_run(["git", "ls-files", "tests"], cwd=dest).stdout.split())
+            self.assertGreater(len(before), 100, "pin clone has no tests/ listing")
             applied = _run(["git", "apply", str(patch)], cwd=dest)
             self.assertEqual(applied.returncode, 0, applied.stderr)
-            mod = dest / "packages" / "executor" / "dms_executor" / "netie_acl.py"
+            # R1 (docs/decisions/DR-PROPOSED-parked-patches-yield-to-sibling-tests.md):
+            # the patch may add test files. It never edits one the sibling wrote.
+            touched = re.findall(
+                r"^diff --git a/(\S+) b/", patch.read_text(encoding="utf-8"), re.M
+            )
+            tests_touched = [name for name in touched if name.startswith("tests/")]
+            self.assertTrue(tests_touched)
+            for name in tests_touched:
+                self.assertNotIn(name, before, f"patch edits a sibling test: {name}")
+            pkg = dest / "packages" / "executor" / "dms_executor"
+            mod = pkg / "netie_acl.py"
             self.assertTrue(mod.is_file())
             blob = mod.read_text(encoding="utf-8")
             self.assertIn("from netie.dms import", blob)
-            live = (
-                dest / "packages" / "executor" / "dms_executor" / "__init__.py"
-            ).read_text(encoding="utf-8")
+            live = (pkg / "__init__.py").read_text(encoding="utf-8")
             self.assertIn("_apply_netie_acl", live)
+            # Every executor path that returns source rows calls the one entry.
+            tree = ast.parse(live)
+            methods = {
+                node.name: node
+                for cls in tree.body
+                if isinstance(cls, ast.ClassDef) and cls.name == "Executor"
+                for node in cls.body
+                if isinstance(node, ast.FunctionDef)
+            }
+
+            def call_lines(fn: ast.AST, name: str) -> list[int]:
+                return [
+                    n.lineno
+                    for n in ast.walk(fn)
+                    if isinstance(n, ast.Call)
+                    and isinstance(n.func, ast.Name)
+                    and n.func.id == name
+                ]
+
+            for path in ("live_ask", "answer_user_sql", "_run_held_sql", "demo_ask"):
+                self.assertIn(path, methods)
+                self.assertTrue(
+                    call_lines(methods[path], "_apply_netie_acl"),
+                    f"Executor.{path} returns rows without the Netie Space gate",
+                )
+            # live_ask: beside dms's own ungranted-SQL refusal, before the envelope is stamped.
+            gate = call_lines(methods["live_ask"], "_apply_netie_acl")[0]
+            self.assertGreater(
+                gate, call_lines(methods["live_ask"], "refuse_ungranted_answer")[0]
+            )
+            self.assertLess(gate, call_lines(methods["live_ask"], "stamp_engine_clock")[0])
+            # The module has one gate: the envelope entry calls guard_live_answer,
+            # which calls answer_or_abstain. No second rule beside it.
+            acl_tree = ast.parse(blob)
+            funcs = {
+                node.name: node
+                for node in acl_tree.body
+                if isinstance(node, ast.FunctionDef)
+            }
+            self.assertTrue(call_lines(funcs["guard_envelope"], "guard_live_answer"))
+            self.assertTrue(call_lines(funcs["guard_live_answer"], "answer_or_abstain"))
+            self.assertTrue(call_lines(funcs["guard_live_answer"], "restate_relations"))
+            # The new test file names every path it proves.
+            paths_test = (dest / "tests" / "test_netie_acl_paths.py").read_text(
+                encoding="utf-8"
+            )
+            for needle in (
+                "test_every_live_ask_lane_is_gated_at_the_exit",
+                "test_answer_user_sql_netie_gate_stops_what_dms_gate_missed",
+                "test_held_sql_ungranted_abstains_even_if_the_held_grant_list_is_stale",
+                "test_demo_ask_in_a_space_without_the_table_abstains",
+                "test_hostile_or_malformed_sql_abstains",
+                "test_granted_spellings_stand",
+            ):
+                self.assertIn(needle, paths_test)
+            for added in (mod, dest / "tests" / "test_netie_acl_paths.py"):
+                compile(added.read_text(encoding="utf-8"), str(added), "exec")
             spec = importlib.util.spec_from_file_location("netie_acl", mod)
             self.assertIsNotNone(spec)
             loaded = importlib.util.module_from_spec(spec)
@@ -497,6 +575,19 @@ class SiblingPatchTests(unittest.TestCase):
                 chat_mode=True,
             )
             self.assertEqual(chat["status"], "ABSTAIN")
+            # Without dms installed the envelope gate cannot read the statement
+            # (no parser), so it refuses: a missing parser never lets rows through.
+            self.assertEqual(
+                loaded.guard_live_answer(
+                    space_id="space-ops",
+                    granted=frozenset({"inventory"}),
+                    warehouse_id="default",
+                    sql="SELECT sku FROM inventory",
+                    rows=[{"sku": "A"}],
+                    route="sql",
+                )["status"],
+                "ABSTAIN",
+            )
 
     def test_pointer_netie_hands_applies_on_main(self) -> None:
         hands = PATCHES / "pointer-netie-hands.patch"
