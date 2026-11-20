@@ -1,75 +1,41 @@
 diff --git a/OpenMW/openmw/openvault/app.py b/OpenMW/openmw/openvault/app.py
-index d292288..e370af8 100644
+index 4ff0a77e..8bb93f95 100644
 --- a/OpenMW/openmw/openvault/app.py
 +++ b/OpenMW/openmw/openvault/app.py
-@@ -49,7 +49,6 @@ from openmw.openvault.mesh.orchestration import (
- from openmw.openvault.mesh.slots import list_slots
- from openmw.openvault.observe.path import bottleneck_payload, observe_path_payload
- from openmw.openvault.route.access import (
--    ACCESS_KINDS,
-     AccessIntent,
-     AccessKind,
-     registry_payload,
-@@ -1250,28 +1249,18 @@ def create_app(
+@@ -2426,17 +2426,23 @@ def create_app(
+         """Parent-run ids only. Transcripts stay in Cortex."""
+         return await cortex.crew_index()
+ 
+-    _CREW_BODY_KEYS = ("skill_body", "prompt", "instructions", "transcript")
+-    _CREW_GATE_KINDS = frozenset({"memory", "api", "component", "runtime", "model", "service"})
+-
      @app.post("/api/crew/gate")
      def crew_gate(body: CrewGateBody) -> dict[str, Any]:
-         """Crew: may this child invoke? Location + allowed, never a skill body."""
--        if any(
--            getattr(body, key) is not None
--            for key in ("skill_body", "prompt", "instructions", "transcript")
--        ):
--            log.info(
--                "crew_gate",
+         """Cortex crew: may this child invoke? Location + verdict, no skill body."""
 +        from openmw.openvault.crew_netie import check_crew_gate
 +
+         refusal = ""
+-        if any(getattr(body, key) is not None for key in _CREW_BODY_KEYS):
+-            refusal = "skill_body must never go to the gate"
+-        elif body.kind not in _CREW_GATE_KINDS:
+-            refusal = f"no {body.kind} registered as '{body.id}'"
 +        try:
 +            check_crew_gate(
-                 kind=body.kind,
--                resource=body.id,
--                allowed=False,
--                reasons=["skill_body must never go to the gate"],
++                kind=body.kind,
 +                id=body.id,
 +                skill_body=body.skill_body,
 +                prompt=body.prompt,
 +                instructions=body.instructions,
 +                transcript=body.transcript,
-             )
--            return {
--                "allowed": False,
--                "found": False,
--                "kind": body.kind,
--                "id": body.id,
--                "intent": body.intent,
--                "parent_run_id": body.parent_run_id,
--                "child_id": body.child_id,
--                "reasons": ["skill_body must never go to the gate"],
--            }
--        if body.kind not in ACCESS_KINDS:
-+        except PermissionError as exc:
-             payload = {
-                 "allowed": False,
-                 "found": False,
-@@ -1280,9 +1269,15 @@ def create_app(
-                 "intent": body.intent,
-                 "parent_run_id": body.parent_run_id,
-                 "child_id": body.child_id,
--                "reasons": [f"no {body.kind} registered as '{body.id}'"],
-+                "reasons": [str(exc)],
-             }
--            log.info("crew_gate", **{k: payload[k] for k in ("kind", "id", "allowed")})
-+            log.info(
-+                "crew_gate",
-+                kind=body.kind,
-+                resource=body.id,
-+                allowed=False,
-+                reasons=payload["reasons"],
 +            )
-             return payload
-         if body.intent not in ("read", "write", "invoke", "deploy", "leave", "connect"):
-             return {
++        except PermissionError as exc:
++            refusal = str(exc)
+         result = resolve_access(
+             vault=state_vault,
+             kind=body.kind,
 diff --git a/OpenMW/openmw/openvault/crew_netie.py b/OpenMW/openmw/openvault/crew_netie.py
 new file mode 100644
-index 0000000..85783bc
+index 00000000..85783bc5
 --- /dev/null
 +++ b/OpenMW/openmw/openvault/crew_netie.py
 @@ -0,0 +1,47 @@
@@ -122,10 +88,10 @@ index 0000000..85783bc
 +    )
 diff --git a/OpenMW/tests/test_crew_netie_gate.py b/OpenMW/tests/test_crew_netie_gate.py
 new file mode 100644
-index 0000000..571e375
+index 00000000..5c8c42d2
 --- /dev/null
 +++ b/OpenMW/tests/test_crew_netie_gate.py
-@@ -0,0 +1,38 @@
+@@ -0,0 +1,65 @@
 +"""Crew gate bodies go through Netie refuse_crew_gate when installed."""
 +
 +from __future__ import annotations
@@ -164,3 +130,30 @@ index 0000000..571e375
 +
 +    src = inspect.getsource(crew_netie.check_crew_gate)
 +    assert "from netie.crew import refuse_crew_gate" in src
++
++
++def test_route_verdict_is_lowered_by_check_crew_gate(tmp_path, monkeypatch) -> None:
++    """POST /api/crew/gate asks check_crew_gate, then OpenVault's own resolver."""
++    from fastapi.testclient import TestClient
++
++    from openmw.openvault import crew_netie
++    from openmw.openvault.app import create_app
++
++    monkeypatch.setenv("OPENVAULT_HOME", str(tmp_path))
++    client = TestClient(
++        create_app(mock_health=True, enable_precheck_loop=False),
++        client=("127.0.0.1", 5555),
++    )
++    ask = {"kind": "service", "id": "service.freeroute", "intent": "invoke"}
++    before = client.post("/api/crew/gate", json=ask).json()
++    assert before["found"] is True
++
++    def refuse(**_kw: object) -> dict[str, str]:
++        raise PermissionError("netie says no")
++
++    monkeypatch.setattr(crew_netie, "check_crew_gate", refuse)
++    after = client.post("/api/crew/gate", json=ask).json()
++    assert after["allowed"] is False
++    assert after["reasons"][0] == "netie says no"
++    assert after["found"] is True
++    assert after["location"] == before["location"]

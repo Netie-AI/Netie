@@ -286,7 +286,7 @@ cd OpenMW && uv add git+https://github.com/Netie-AI/Netie.git
 uv run pytest tests/test_crew_gate.py tests/test_crew_netie_gate.py -q
 ```
 
-`POST /api/crew/gate` calls `check_crew_gate`, which uses `from netie.crew import refuse_crew_gate` when Netie is installed. Skill bodies and unknown kinds refuse. `kind=skill` is ok only when the POST carries ids-only `skill_ids` that include that id (`openvault-crew-skill-ids.patch`). Without Netie the same rule runs locally. Vault lookup stays in OpenVault. Wrap score stays **3/10**. Push 403.
+OpenVault's own `POST /api/crew/gate` calls `check_crew_gate` before its resolver. `check_crew_gate` uses `from netie.crew import refuse_crew_gate` when Netie is installed. Skill bodies and kinds Netie does not know (`skill` without ids, `mcp`) refuse. A refusal lowers `allowed` and goes first in `reasons`; OpenVault's signpost (`found`, `owner`, `location`) and the audit echo stay. `kind=skill` passes the check only when the POST carries ids-only `skill_ids` that include that id (`openvault-crew-skill-ids.patch`); OpenVault's registry still decides after that. Without Netie the same rule runs locally. Vault lookup stays in OpenVault. Wrap score stays **3/10**. Push 403.
 
 Then:
 
@@ -324,7 +324,13 @@ git apply docs/patches/openvault-crew-gate.patch
 cd OpenMW && uv run pytest tests/test_crew_gate.py tests/test_contract.py -q
 ```
 
-Adds `POST /api/crew/gate`: location + allowed, never a skill body. Unknown kinds (including `skill` until a registry row exists) refuse. This is not OpenVault PR #44 (that RFC also adds Netie-KB signposts). Measured 2026-08-27: 17 passed with contract tests.
+Re-cut 2026-11-20. OpenVault PR #44 is on the pin and owns `POST /api/crew/gate`. This patch no longer registers a second route (the old cut shadowed #44 and turned 2 of OpenVault's own tests red). It edits the one route, tighten only:
+
+- A request that carries `skill_body` / `prompt` / `instructions` / `transcript` is `allowed: false` (#44 dropped the field and answered as if it was not sent).
+- `kind=skill` and `kind=mcp` keep #44's signpost (`found`, `owner`, `location`) but are `allowed: false` (#44 says `allowed: true` for both Netie-KB rows). Open decision, see `docs/subagents_findings/2026-11-20-recut2-openvault.md`.
+- Every other kind gets the resolver verdict unchanged. Unknown kind or intent stays #44's 422.
+
+No OpenVault test is edited: the old `tests/test_contract.py` hunk is gone (the pin already lists the route). Measured 2026-11-20 on pin `3ba51cd`: `tests/test_crew_gate.py` 7 passed after this patch; full OpenMW suite with all 32 patches in the finding.
 
 ## Cortex (`Netie-AI/Cortex`)
 
