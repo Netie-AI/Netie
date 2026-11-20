@@ -1,0 +1,911 @@
+From 760b1ce6ecf7eef74ce6e6569317bb644a2e1c1d Mon Sep 17 00:00:00 2001
+From: Claude <noreply@anthropic.com>
+Date: Fri, 20 Nov 2026 03:35:15 +0000
+Subject: [PATCH] Eval: accuracy from audio, and the large-v3-turbo registry
+ repo
+
+evals/audio/ turns the 59 capture cases into speech, posts each clip to
+/transcribe, reports word error rate (raw and with number words folded), then
+sorts what Whisper heard with the real CaptureService._classify and scores it
+against the unchanged expected answers. Results for breeze-asr-25 and
+large-v3-turbo, a README with the numbers and their limits, and runner tests
+with the network stubbed.
+
+registry/models.yaml: large-v3-turbo pointed at Systran/faster-whisper-large-v3-turbo,
+which the Hugging Face API answers with 401. faster-whisper's own alias for the
+model is mobiuslabsgmbh/faster-whisper-large-v3-turbo, which Hugging Face now
+redirects to dropbox-dash/faster-whisper-large-v3-turbo. Point at that and pin
+the revision. The registry default is unchanged.
+
+Co-Authored-By: Claude Sonnet 5.5 <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_01N6JxFSe19mgswm8NxDVbZh
+---
+ evals/audio/README.md                         | 160 ++++++++
+ .../results-breeze-asr-25-2026-11-20.jsonl    |  59 +++
+ .../results-large-v3-turbo-2026-11-20.jsonl   |  59 +++
+ evals/audio/run_audio.py                      | 366 ++++++++++++++++++
+ evals/audio/test_run_audio.py                 | 185 +++++++++
+ registry/models.yaml                          |   3 +-
+ 6 files changed, 831 insertions(+), 1 deletion(-)
+ create mode 100644 evals/audio/README.md
+ create mode 100644 evals/audio/results-breeze-asr-25-2026-11-20.jsonl
+ create mode 100644 evals/audio/results-large-v3-turbo-2026-11-20.jsonl
+ create mode 100644 evals/audio/run_audio.py
+ create mode 100644 evals/audio/test_run_audio.py
+
+diff --git a/evals/audio/README.md b/evals/audio/README.md
+new file mode 100644
+index 0000000..ceb59ed
+--- /dev/null
++++ b/evals/audio/README.md
+@@ -0,0 +1,160 @@
++# Accuracy from audio, and the default speech model
++
++`evals/` measures the sorter on clean text. This folder measures the whole path a
++dictated note takes: speech, then Whisper, then the sorter. It answers two questions:
++how many words does each speech model get wrong, and how many of the 59 cases still
++come out right when the sorter only sees what Whisper heard.
++
++Run on 2026-11-20 on a 4-core CPU box, no GPU, in the project venv (not Docker).
++
++## What was run
++
++1. Each of the 59 case transcripts in `evals/capture_cases.jsonl` was turned into
++   speech with gTTS (Google text-to-speech, English voice, mp3). Clips are not in the
++   repo (about 2 MB; regenerate with `gTTS(text, lang="en")`).
++2. Each clip was POSTed to `/transcribe?log=false&language=auto` as raw
++   `application/octet-stream`, one at a time, the way the iPhone Shortcut posts.
++   Seconds are wall clock per request, memory is the server process RSS.
++3. Word error rate against the source text (stdlib, lowercase, punctuation stripped).
++   "Raw" compares words as written. "Numbers folded" turns number words into digits on
++   both sides ("fourteen" = "14", "one hundred and fifty" = "150").
++4. Each recovered transcript went through the real `CaptureService._classify`
++   (Gemini `gemini-3.1-flash-lite`, free tier, one call at a time about 5 s apart) with
++   that case's own "today", and was scored by `evals/score.py` against the unchanged
++   expected answers. Every run answered 59 of 59 cases once Gemini's transient errors
++   were re-run (see the table notes).
++
++Reproduce (server running with the model you want):
++
++    python evals/audio/run_audio.py transcribe --clips CLIPS --out t.jsonl --server-pid PID
++    python evals/audio/run_audio.py wer --transcripts t.jsonl
++    python evals/audio/run_audio.py sort --transcripts t.jsonl --out p.jsonl
++    python evals/audio/run_audio.py merge --transcripts t.jsonl --preds p.jsonl --out results.jsonl
++    python -m pytest evals/audio -c /dev/null          # runner tests, network stubbed
++
++## Numbers
++
++| | breeze-asr-25 (default) | large-v3-turbo |
++|---|---|---|
++| WER, raw | 14.0% (92 of 657 words) | 10.7% (70 of 657) |
++| WER, numbers folded | 10.6% (69 of 650) | 7.5% (49 of 650) |
++| Clips transcribed word for word (folded) | 36 of 59 | 38 of 59 |
++| End to end correct, run 1 | 53 of 59 | 49 of 59 |
++| End to end correct, run 2 (same transcripts, sorted again) | 54 of 59 | 50 of 59 |
++| Answered (sorter returned, no error) | 59 of 59 | 59 of 59 |
++| Seconds per clip, mean (median, max) | 12.0 (11.6, 16.9) | 15.6 (15.4, 23.5) |
++| Server memory, after load / after 59 clips | 2.4 GB / 3.0 GB | 4.0 GB / 4.1 GB |
++| Model on disk | 1.5 GB | 1.6 GB |
++
++Stored run on clean text (2026-11-12, same sorter): 57 of 59.
++
++Notes on the table:
++
++- Run 1 for breeze first read 52 of 59: two cases failed with a Gemini 503 "high demand"
++  error, not a wrong answer. They were sorted again (`--retry-errors-of`) and the rest kept
++  as they were. Run 2 had one classify timeout, handled the same way. Turbo had none.
++- Seconds: the 10 clips re-timed on a quiet machine gave 12.4 s (breeze) and 15.1 s (turbo),
++  the same as the full run. Clips are 2 to 8 seconds long; `language=auto` adds a detect pass.
++- The Malay-tagged cases (6, words like "esok", "lori", "bayar", "seratus") score far worse
++  than the rest: breeze 42.4% (28 of 66 words) against 7.0% on the other 53; turbo 36.4%
++  against 4.3%.
++- A WER of zero is not the goal in four cases: the `stt-misheard-*` sources contain the
++  mishearing on purpose ("ring it", "wiser"); a model that writes "ringgit" is scored wrong.
++
++## Which cases flip, and is it hearing or sorting
++
++Against the stored clean run (57): breeze lost 4 and gained 0; turbo lost 9 and gained 1.
++To tell hearing from sorting, the clean text of the 11 cases that lost in either model
++was sorted three more times:
++
++- Pass on clean text 3 of 3 times, fail from audio: the loss is hearing (or how Whisper
++  wrote the words). 8 cases.
++- Fail on clean text some of the time: the loss is the sorter's own noise. 3 cases:
++  `multi-three-kinds` (2 of 3), `ambig-lorry-which-project` (2 of 3),
++  `ambig-balance-due` (0 of 3 today, though the stored run passed it).
++
++| Case | breeze | turbo | Cause |
++|---|---|---|---|
++| amount-malay-words | lost | lost | hearing: "seratus lima puluh" heard as "Saratis Lima pulo", sorted as 50 (breeze) and 350 (turbo), not 150 |
++| malay-lori-note | lost | lost | hearing: "cakap" heard as "kakup"; sorted as a task with a due date, not a note |
++| multi-manglish-run-on | lost | lost | hearing: "tol" heard as "toddy" or "tall"; breeze filed it as "Parking fee" |
++| both-malay-lori | kept | lost | hearing: "esok" heard as "isaq", due date dropped |
++| malay-esok-klinik | kept | lost | hearing: "esok" heard as "Isak", due date wrong (2026-11-16, not 11-17) |
++| multi-two-dated-tasks | kept | lost | hearing: Whisper wrote "loan Friday. Send the form", so the form task lost its Friday |
++| quote-motorcycle | kept | lost | scorer artifact: "Y-15" does not contain the keyword "y15"; the sorted note was fine |
++| multi-three-kinds | lost run 1, kept run 2 | kept | sorter noise (due date invented for "buy milk"); the audio differs only by "Dr" vs "Doctor" |
++| ambig-balance-due | kept | lost run 1, kept run 2 | sorter noise |
++| date-year-rollover | kept | lost run 1, kept run 2 | sorter noise: due 2026-01-03, a year off |
++| ambig-lorry-which-project | lost | kept run 1, lost run 2 | also a stored clean-run miss; "lorry" heard as "Laurie" or "Lori" |
++
++`multi-five-across-topics` fails from audio in every run of both models. It is also one of the
++two misses in the stored clean run (a five-item note sorted as four), as is
++`ambig-lorry-which-project`.
++
++## Ten most damaging mishearings
++
++Damage means it changed a field the scorer checks, or would have changed what is filed.
++
++| Said | breeze heard | turbo heard | Effect |
++|---|---|---|---|
++| seratus lima puluh ringgit | Saratis Lima pulo ringat | Serratis Lima Pulo Ringgit | amount 50 / 350 instead of 150 |
++| bayar tol 12 ringgit | A toddy by are tall twelve ring it | A toddy buy our tall 12 ringgit | "tol" lost; breeze filed "Parking fee" |
++| boss cakap lori sampai | Boss kakup lori sampai | Boss Kakup Lori Sampai | note turned into a task with a due date |
++| esok pagi kena pergi klinik | Esak Pagi Kena Perji Clinic | Isak Pagi Kenna Pergi Clinic | turbo: due date wrong |
++| dah bayar ... esok kena confirm | isak kena confirm | isaq kenna confirm | turbo: due date dropped |
++| Friday send the signed form | Friday send the signed form | Friday. Send the signed form | turbo: Friday attached to the wrong task |
++| Honda RS150 | Honda 150 rupees | Honda 150 rupees | a currency word invented (the sorter ignored it) |
++| Movers confirmed ... Paid them 200 deposit | ok updatemovers confirmed ... itpaid them | correct | breeze: words run together, no spaces |
++| lorry is booked | Laurie is booked | Lori is booked | keyword check fails |
++| RM85 / Y15 / 9800 | RM 85 | RM 85 / Y-15 / 9,800 | formatting only, but trips crude keyword checks |
++
++## Recommendation
++
++Keep `breeze-asr-25` as the default; the registry default is unchanged.
++
++Turbo hears English better (7.5% against 10.6% numbers folded) but that did not turn into
++better filing: it was 4 cases behind in both end-to-end runs (49 and 50 against 53 and 54).
++Four of its extra losses (both-malay-lori, malay-esok-klinik, multi-two-dated-tasks,
++quote-motorcycle) failed in both runs. The evidence does not show turbo winning anywhere
++that matters for this speaker, so there is no reason to switch on accuracy.
++
++On cost, the table above is turbo at the default compute type (30% slower, 1.6 GB more
++memory). That is not the whole story. `COMPUTE_TYPE=int8` is the working control (the registry's
++`compute_type` does not decide what the server loads on this path, and without it the float16
++weights are converted to float32). With `COMPUTE_TYPE=int8`, on 15 of the clips, turbo took
++10.2 s per clip (float32 turbo 15.3 s on the same clips, breeze 12.0 s), server memory peaked
++at 1.8 GB (breeze 3.0 GB), and the text was identical to the float32 turbo text on all 15. An
++independent run of the same cases by another session on the same kind of CPU measured 10.0 s
++and 2.4 GB peak for all 59 clips, and 11.0% raw / 7.9% folded WER. So the cost argument against
++turbo only holds at the default compute type. The end-to-end filing count was not re-run for
++int8; the text is the same as float32 turbo, so expect the same 49 to 50.
++
++This is not proof that breeze is better, and turbo with `COMPUTE_TYPE=int8` is faster and
++lighter than breeze here, so it is worth a trial on real recordings. The gap is 4 cases of 59 and the sorter alone moves
++a case or two between runs. Try `MODEL_NAME=large-v3-turbo COMPUTE_TYPE=int8` on twenty or so
++real captures, corrected by hand, before changing the default. `large-v3-turbo` stays available (`MODEL_NAME=large-v3-turbo`)
++now that its registry entry points at a repo that exists.
++
++## Limits. Read before quoting a number.
++
++- **n is 59 cases, 657 reference words.** Per-group numbers (6 Malay cases, 66 words) are
++  hints. Below n = 300 do not read any of this as an error rate.
++- **The cases were written by a model.** The expected answers are one reading of the prompt.
++- **One synthetic voice.** gTTS has one clean American-English voice, no accent, no phone
++  microphone, no background noise, no hesitation. Real speech will do worse than these WERs.
++- **Malay words are read by an English voice.** gTTS (lang "en") says "esok" and "seratus" with
++  English sounds, so the 6 Malay cases test how models handle mispronounced Malay, not a
++  Malaysian speaker saying it. The Malay WER (42% and 36%) says nothing about which model is
++  better for a real Manglish speaker. The ranking on Malay is not measured.
++- **Sorter noise.** The sorter is not deterministic. Sorting the same transcripts a second time
++  changed the verdict of 1 case (breeze) and 3 cases (turbo); the clean-text re-sort moved 3 of 11. Differences
++  of one or two cases are noise.
++- **Timing is one 4-core CPU, `int8_float32`** (the CPU does not support `int8_float16`; ctranslate2
++  converts at load, see the server log). A GPU, or a different CPU, changes the ratio.
++- **Memory is the server process RSS** read from `/proc`, not a peak profile.
++- **Keyword checks are crude** (see `evals/README.md`); `quote-motorcycle` is lost to one.
++- **Only English was passed as `language=auto`.** The Shortcut does the same; setting
++  `language=ms` or `en` was not tried.
++
++Not measured: Claude as the sorter, a human voice, a phone microphone, a Windows host,
++`language=` hints, quantisations other than the registry defaults.
+diff --git a/evals/audio/results-breeze-asr-25-2026-11-20.jsonl b/evals/audio/results-breeze-asr-25-2026-11-20.jsonl
+new file mode 100644
+index 0000000..551426e
+--- /dev/null
++++ b/evals/audio/results-breeze-asr-25-2026-11-20.jsonl
+@@ -0,0 +1,59 @@
++{"id": "task-plain", "source": "remind me to call the dentist and book a cleaning", "heard": "Remind me to call the dentist and book a cleaning.", "seconds": 13.617, "server_rss_mb": 2894.4, "items": [{"kind": "task", "text": "Call the dentist and book a cleaning", "amount": null, "currency": null, "due": null, "topic": null}], "passed": true, "why": "", "passed_repeat": true}
++{"id": "task-move", "source": "need to buy more boxes and bubble wrap for the move", "heard": "Need to buy more boxes and bubble wrap for the move.", "seconds": 12.85, "server_rss_mb": 2901.2, "items": [{"kind": "task", "text": "Buy more boxes and bubble wrap for the move", "amount": null, "currency": null, "due": null, "topic": "move"}], "passed": true, "why": "", "passed_repeat": true}
++{"id": "task-motorcycle", "source": "book a test ride for the Yamaha Y15 at the dealer in Sunway", "heard": "Book a test ride for the Yamaha Y15 at the dealer in Sunway.", "seconds": 15.14, "server_rss_mb": 2916.9, "items": [{"kind": "task", "text": "Book a test ride for the Yamaha Y15 at the dealer in Sunway", "amount": null, "currency": null, "due": null, "topic": "motorcycle"}], "passed": true, "why": "", "passed_repeat": true}
++{"id": "task-shipping", "source": "got to email the forwarder the packing list for the PJ shipment", "heard": "Got to email the forwarder the packing list for the PJ shipment.", "seconds": 12.555, "server_rss_mb": 2917.0, "items": [{"kind": "task", "text": "Email the forwarder the packing list for the PJ shipment", "amount": null, "currency": null, "due": null, "topic": "pj-shipping"}], "passed": true, "why": "", "passed_repeat": true}
++{"id": "exp-ringgit", "source": "lunch nasi lemak twelve ringgit", "heard": "Lunch nasi lemak 12 ringgit", "seconds": 11.462, "server_rss_mb": 2917.0, "items": [{"kind": "expense", "text": "Lunch nasi lemak", "amount": 12.0, "currency": "MYR", "due": null, "topic": null}], "passed": true, "why": "", "passed_repeat": true}
++{"id": "exp-rm-prefix", "source": "Paid RM85 for petrol for the car.", "heard": "Paid RM 85 for petrol for the car.", "seconds": 11.545, "server_rss_mb": 2917.0, "items": [{"kind": "expense", "text": "Paid for petrol for the car", "amount": 85.0, "currency": "MYR", "due": null, "topic": null}], "passed": true, "why": "", "passed_repeat": true}
++{"id": "exp-no-currency", "source": "grab ride to the office was twenty three", "heard": "Grab ride to the office was twenty three.", "seconds": 11.443, "server_rss_mb": 2917.0, "items": [{"kind": "expense", "text": "Grab ride to the office", "amount": 23.0, "currency": "MYR", "due": null, "topic": null}], "passed": true, "why": "", "passed_repeat": true}
++{"id": "exp-bucks", "source": "spent fifty bucks on parking and toll", "heard": "Spent fifty bucks on parking and toll.", "seconds": 11.266, "server_rss_mb": 2917.0, "items": [{"kind": "expense", "text": "Parking and toll", "amount": 50.0, "currency": "MYR", "due": null, "topic": null}], "passed": true, "why": "", "passed_repeat": true}
++{"id": "exp-us-dollars", "source": "paid forty US dollars for the VPN renewal", "heard": "Paid 40 US dollars for the VPN renewal.", "seconds": 12.209, "server_rss_mb": 2917.0, "items": [{"kind": "expense", "text": "Paid for VPN renewal", "amount": 40.0, "currency": "USD", "due": null, "topic": null}], "passed": true, "why": "", "passed_repeat": true}
++{"id": "exp-sgd", "source": "paid 120 SGD for the hotel in Singapore", "heard": "Paid 120 Singapore dollars for the hotel in Singapore.", "seconds": 11.38, "server_rss_mb": 2917.0, "items": [{"kind": "expense", "text": "Paid for hotel in Singapore", "amount": 120.0, "currency": "SGD", "due": null, "topic": null}], "passed": true, "why": "", "passed_repeat": true}
++{"id": "exp-sen", "source": "teh tarik and roti canai six ringgit fifty sen", "heard": "Tay tarik and roti canai 6 ringgit 50 cent.", "seconds": 12.354, "server_rss_mb": 2917.0, "items": [{"kind": "expense", "text": "Paid for teh tarik and roti canai", "amount": 6.5, "currency": "MYR", "due": null, "topic": null}], "passed": true, "why": "", "passed_repeat": true}
++{"id": "exp-move", "source": "paid the movers 300 for the packing service", "heard": "Paid the movers three hundred for the packing service.", "seconds": 11.59, "server_rss_mb": 2917.0, "items": [{"kind": "expense", "text": "Paid movers for packing service", "amount": 300.0, "currency": "MYR", "due": null, "topic": "move"}], "passed": true, "why": "", "passed_repeat": true}
++{"id": "exp-shipping", "source": "paid the lorry driver 450 cash for the PJ delivery", "heard": "Paid the lorry driver 450 cash for the PJ delivery.", "seconds": 11.535, "server_rss_mb": 2917.0, "items": [{"kind": "expense", "text": "Paid lorry driver for PJ delivery", "amount": 450.0, "currency": "MYR", "due": null, "topic": "pj-shipping"}], "passed": true, "why": "", "passed_repeat": true}
++{"id": "exp-pj-not-shipping", "source": "lunch at the nasi kandar place in PJ fourteen ringgit", "heard": "Lunch at the Nasi Kandar place in PJ 14 ring it.", "seconds": 12.204, "server_rss_mb": 2917.0, "items": [{"kind": "expense", "text": "Lunch at Nasi Kandar place", "amount": 14.0, "currency": "MYR", "due": null, "topic": null}], "passed": true, "why": "", "passed_repeat": true}
++{"id": "note-fact", "source": "dentist says the wisdom tooth doesnt need to come out", "heard": "Dentist says the wisdom tooth doesn't need to come out.", "seconds": 11.546, "server_rss_mb": 2917.0, "items": [{"kind": "note", "text": "Dentist says wisdom tooth does not need to be removed", "amount": null, "currency": null, "due": null, "topic": null}], "passed": true, "why": "", "passed_repeat": true}
++{"id": "note-move", "source": "the movers said they dont take pianos or plants", "heard": "The movers said they don't take pianos or plants.", "seconds": 11.624, "server_rss_mb": 2921.6, "items": [{"kind": "note", "text": "The movers do not transport pianos or plants.", "amount": null, "currency": null, "due": null, "topic": "move"}], "passed": true, "why": "", "passed_repeat": true}
++{"id": "note-motorcycle-number-not-money", "source": "Honda RS150 seat height is 795 millimetres, should be okay for me", "heard": "Honda 150 rupees seat height is 795 millimeters, should be okay for me.", "seconds": 12.255, "server_rss_mb": 2918.2, "items": [{"kind": "note", "text": "Honda 150 seat height is 795 millimeters", "amount": null, "currency": null, "due": null, "topic": "motorcycle"}], "passed": true, "why": "", "passed_repeat": true}
++{"id": "quote-motorcycle", "source": "dealer quoted 9800 on the road for the Y15", "heard": "Dealer quoted 9800 on the road for the Y15.", "seconds": 11.987, "server_rss_mb": 2918.2, "items": [{"kind": "note", "text": "Dealer quoted 9800 MYR on the road for the Y15", "amount": null, "currency": null, "due": null, "topic": "motorcycle"}], "passed": true, "why": "", "passed_repeat": true}
++{"id": "quote-move-words", "source": "mover quoted one thousand two hundred for the three ton lorry havent confirmed yet", "heard": "Mover quoted 1,200 for the three-ton lorry haven't confirmed yet.", "seconds": 12.186, "server_rss_mb": 2918.2, "items": [{"kind": "note", "text": "Mover quoted 1,200 MYR for the three-ton lorry", "amount": null, "currency": null, "due": null, "topic": "move"}], "passed": true, "why": "", "passed_repeat": true}
++{"id": "quote-shipping-k", "source": "shipping agent says it will be about 3.5k for the twenty footer to PJ, not paying yet", "heard": "Shipping agent says it will be about 3.5K for the 20-footer to PJ, not paying yet.", "seconds": 13.39, "server_rss_mb": 2943.0, "items": [{"kind": "note", "text": "Shipping agent quoted 3500 MYR for the 20-footer to PJ", "amount": null, "currency": null, "due": null, "topic": "pj-shipping"}], "passed": true, "why": "", "passed_repeat": true}
++{"id": "quote-retracted-payment", "source": "i paid 2000 for the no actually havent paid yet the mover wants 2000", "heard": "I paid two thousand for the no actually haven't paid yet the mover wants two thousand.", "seconds": 12.387, "server_rss_mb": 2943.0, "items": [{"kind": "note", "text": "Mover quoted 2000 MYR", "amount": null, "currency": null, "due": null, "topic": "move"}], "passed": true, "why": "", "passed_repeat": true}
++{"id": "both-bike-deposit", "source": "paid 500 deposit for the bike have to collect it this Saturday", "heard": "Paid 500 deposit for the bike have to collect it this Saturday.", "seconds": 11.864, "server_rss_mb": 2943.0, "items": [{"kind": "expense", "text": "Paid 500 deposit for the bike", "amount": 500.0, "currency": "MYR", "due": null, "topic": "motorcycle"}, {"kind": "task", "text": "Collect the motorcycle", "amount": null, "currency": null, "due": "2026-11-14", "topic": "motorcycle"}], "passed": true, "why": "", "passed_repeat": true}
++{"id": "both-booking-fee-sign", "source": "put down a booking fee of 1k for the new house need to sign the tenancy agreement by the 20th", "heard": "Put down a booking fee of one k for the new house need to sign the tenancy agreement by the twentieth.", "seconds": 12.752, "server_rss_mb": 2947.3, "items": [{"kind": "expense", "text": "Paid booking fee for the new house", "amount": 1000.0, "currency": "MYR", "due": null, "topic": "move"}, {"kind": "task", "text": "Sign tenancy agreement for the new house", "amount": null, "currency": null, "due": "2026-11-20", "topic": "move"}], "passed": true, "why": "", "passed_repeat": true}
++{"id": "both-malay-lori", "source": "dah bayar deposit lori pindah rumah tiga ratus, esok kena confirm masa dengan dia", "heard": "Da bayar deposit lori pinda rumah tiga ratus, isak kena confirm masa dengan dia.", "seconds": 13.272, "server_rss_mb": 2951.1, "items": [{"kind": "expense", "text": "Paid deposit for house moving lorry", "amount": 300.0, "currency": "MYR", "due": null, "topic": "move"}, {"kind": "task", "text": "Confirm time with the mover", "amount": null, "currency": null, "due": "2026-11-13", "topic": "move"}], "passed": true, "why": "", "passed_repeat": true}
++{"id": "multi-three-kinds", "source": "buy milk on the way home also paid 18 ringgit for parking at the hospital and note that Dr Lim's clinic closes at one on Saturdays", "heard": "Buy milk on the way home also paid 18 ringgit for parking at the hospital and note that Doctor Lim's clinic closes at one on Saturdays.", "seconds": 13.864, "server_rss_mb": 2965.0, "items": [{"kind": "task", "text": "Buy milk on the way home", "amount": null, "currency": null, "due": "2026-11-12", "topic": null}, {"kind": "expense", "text": "Parking at the hospital", "amount": 18.0, "currency": "MYR", "due": null, "topic": null}, {"kind": "note", "text": "Doctor Lim's clinic closes at one on Saturdays", "amount": null, "currency": null, "due": null, "topic": null}], "passed": false, "why": "due", "passed_repeat": true}
++{"id": "multi-two-dated-tasks", "source": "tomorrow call the bank about the loan Friday send the signed form to HR", "heard": "Tomorrow call the bank about the loan Friday send the signed form to hr", "seconds": 11.923, "server_rss_mb": 2965.0, "items": [{"kind": "task", "text": "Call the bank about the loan", "amount": null, "currency": null, "due": "2026-11-17", "topic": null}, {"kind": "task", "text": "Send the signed form to HR", "amount": null, "currency": null, "due": "2026-11-20", "topic": null}], "passed": true, "why": "", "passed_repeat": true}
++{"id": "multi-bike-quotes", "source": "Y15 dealer in PJ quoted 9500 the Honda one quoted 10200 I paid 50 booking for the test ride need to decide by end of the month", "heard": "Y15 dealer in PJ quoted 9,500 the Honda one quoted 10,200 I paid 50 booking for the test ride need to decide by end of the month", "seconds": 14.06, "server_rss_mb": 2970.2, "items": [{"kind": "note", "text": "Y15 dealer in PJ quoted 9,500", "amount": null, "currency": null, "due": null, "topic": "motorcycle"}, {"kind": "note", "text": "Honda dealer quoted 10,200", "amount": null, "currency": null, "due": null, "topic": "motorcycle"}, {"kind": "expense", "text": "Paid 50 booking for the test ride", "amount": 50.0, "currency": "MYR", "due": null, "topic": "motorcycle"}, {"kind": "task", "text": "Decide on motorcycle purchase", "amount": null, "currency": null, "due": "2026-11-30", "topic": "motorcycle"}], "passed": true, "why": "", "passed_repeat": true}
++{"id": "multi-five-across-topics", "source": "Okay update. Movers confirmed they can do it. Paid them 200 deposit. The PJ consignment is 14 pallets not 12. Need to tell the warehouse about the extra pallets. And remind me to top up Touch n Go.", "heard": "ok updatemovers confirmed they can do itpaid them 200 depositthe pj consignment is fourteen pallets not twelveneed to tell the warehouse about the extra palletsand remind me to top up touch and go", "seconds": 16.866, "server_rss_mb": 2990.8, "items": [{"kind": "expense", "text": "Paid movers 200 MYR deposit", "amount": 200.0, "currency": "MYR", "due": null, "topic": "move"}, {"kind": "note", "text": "The PJ consignment is 14 pallets", "amount": null, "currency": null, "due": null, "topic": "pj-shipping"}, {"kind": "task", "text": "Tell the warehouse about the extra pallets", "amount": null, "currency": null, "due": null, "topic": "pj-shipping"}, {"kind": "task", "text": "Top up Touch 'n Go", "amount": null, "currency": null, "due": null, "topic": null}], "passed": false, "why": "count 4 != 5, due, kind, money, text, topic", "passed_repeat": false}
++{"id": "multi-manglish-run-on", "source": "eh tadi bayar tol 12 ringgit then petrol 60 then kena call abang lori about the PJ delivery lah", "heard": "A toddy by are tall twelve ring it then petrol sixty then kenna call a bang lorry about the PJ delivery law.", "seconds": 13.119, "server_rss_mb": 2990.8, "items": [{"kind": "expense", "text": "Parking fee", "amount": 12.0, "currency": "MYR", "due": null, "topic": null}, {"kind": "expense", "text": "Petrol", "amount": 60.0, "currency": "MYR", "due": null, "topic": null}, {"kind": "task", "text": "Call lorry for PJ delivery", "amount": null, "currency": null, "due": null, "topic": "pj-shipping"}], "passed": false, "why": "text", "passed_repeat": false}
++{"id": "date-this-saturday", "source": "pick up the keys for the new house this Saturday", "heard": "Pick up the keys for the new house this Saturday.", "seconds": 11.335, "server_rss_mb": 2990.8, "items": [{"kind": "task", "text": "Pick up keys for the new house", "amount": null, "currency": null, "due": "2026-11-14", "topic": "move"}], "passed": true, "why": "", "passed_repeat": true}
++{"id": "date-next-friday-on-a-friday", "source": "next Friday send the customs form for the PJ shipment", "heard": "Next Friday send the customs form for the PJ shipment.", "seconds": 11.324, "server_rss_mb": 2990.8, "items": [{"kind": "task", "text": "Send the customs form for the PJ shipment", "amount": null, "currency": null, "due": "2026-11-20", "topic": "pj-shipping"}], "passed": true, "why": "", "passed_repeat": true}
++{"id": "date-end-of-month", "source": "must cancel the gym membership by end of the month", "heard": "Must cancel the gym membership by end of the month.", "seconds": 11.247, "server_rss_mb": 2990.8, "items": [{"kind": "task", "text": "Cancel gym membership", "amount": null, "currency": null, "due": "2026-11-30", "topic": null}], "passed": true, "why": "", "passed_repeat": true}
++{"id": "date-in-two-weeks", "source": "follow up with the bank on the bike loan in two weeks", "heard": "Follow up with the bank on the bike loan in two weeks.", "seconds": 11.825, "server_rss_mb": 2990.8, "items": [{"kind": "task", "text": "Follow up with the bank on the bike loan", "amount": null, "currency": null, "due": "2026-11-26", "topic": "motorcycle"}], "passed": true, "why": "", "passed_repeat": true}
++{"id": "date-month-rollover", "source": "tomorrow morning go to JPJ and ask about the B2 motorcycle licence", "heard": "Tomorrow morning go to JPJ and ask about the B2 motorcycle license.", "seconds": 12.084, "server_rss_mb": 2990.8, "items": [{"kind": "task", "text": "Go to JPJ to ask about the B2 motorcycle license", "amount": null, "currency": null, "due": "2026-12-01", "topic": "motorcycle"}], "passed": true, "why": "", "passed_repeat": true}
++{"id": "date-year-rollover", "source": "need to be at the new house by eight this Saturday for the movers", "heard": "Need to be at the new house by eight this Saturday for the movers.", "seconds": 12.139, "server_rss_mb": 2990.8, "items": [{"kind": "task", "text": "Be at the new house by 8 AM for the movers", "amount": null, "currency": null, "due": "2027-01-02", "topic": "move"}], "passed": true, "why": "", "passed_repeat": true}
++{"id": "date-lusa-malay", "source": "lusa kena hantar borang cukai ke pejabat LHDN", "heard": "Lusa kena hantar borang kukai ke pehabot lhdn", "seconds": 12.315, "server_rss_mb": 2990.8, "items": [{"kind": "task", "text": "Submit tax form to LHDN office", "amount": null, "currency": null, "due": "2026-11-14", "topic": null}], "passed": true, "why": "", "passed_repeat": true}
++{"id": "date-vague-no-due", "source": "sometime next month should get the aircond serviced", "heard": "Sometime next month should get the aircon serviced.", "seconds": 11.21, "server_rss_mb": 2990.8, "items": [{"kind": "task", "text": "Get the aircon serviced", "amount": null, "currency": null, "due": null, "topic": null}], "passed": true, "why": "", "passed_repeat": true}
++{"id": "stt-self-correct-amount", "source": "paid the plumber 400 no wait make that 450", "heard": "Paid the plumber 400 no wait make that 450.", "seconds": 11.54, "server_rss_mb": 2990.8, "items": [{"kind": "expense", "text": "Paid the plumber", "amount": 450.0, "currency": "MYR", "due": null, "topic": null}], "passed": true, "why": "", "passed_repeat": true}
++{"id": "stt-filler", "source": "um so yeah uh I need to uh what was it oh ya renew my passport", "heard": "Um so yeah I need to uh what was it oh yeah renew my passport", "seconds": 11.706, "server_rss_mb": 2990.8, "items": [{"kind": "task", "text": "Renew passport", "amount": null, "currency": null, "due": null, "topic": null}], "passed": true, "why": "", "passed_repeat": true}
++{"id": "stt-misheard-ringgit-visor", "source": "paid 60 ring it for the bike helmet wiser", "heard": "Paid 60 ringgit for the bike helmet wiser.", "seconds": 11.221, "server_rss_mb": 2990.8, "items": [{"kind": "expense", "text": "Paid 60 MYR for bike helmet visor", "amount": 60.0, "currency": "MYR", "due": null, "topic": "motorcycle"}], "passed": true, "why": "", "passed_repeat": true}
++{"id": "stt-misheard-lading", "source": "need to check the bill of leading for the PJ shipment", "heard": "Need to check the bill of leading for the PJ shipment.", "seconds": 11.266, "server_rss_mb": 2990.8, "items": [{"kind": "task", "text": "Check the bill of lading for the PJ shipment", "amount": null, "currency": null, "due": null, "topic": "pj-shipping"}], "passed": true, "why": "", "passed_repeat": true}
++{"id": "stt-self-correct-day", "source": "send the quotation to the client on Thursday no sorry Friday", "heard": "Send the quotation to the client on Thursday no sorry Friday.", "seconds": 11.412, "server_rss_mb": 2990.8, "items": [{"kind": "task", "text": "Send the quotation to the client", "amount": null, "currency": null, "due": "2026-11-20", "topic": null}], "passed": true, "why": "", "passed_repeat": true}
++{"id": "amount-words-thousand", "source": "paid one thousand two hundred for the car insurance renewal", "heard": "Paid 1200 for the car insurance renewal.", "seconds": 11.228, "server_rss_mb": 2990.8, "items": [{"kind": "expense", "text": "Paid for car insurance renewal", "amount": 1200.0, "currency": "MYR", "due": null, "topic": null}], "passed": true, "why": "", "passed_repeat": true}
++{"id": "amount-k-suffix", "source": "transferred 1.2k to the dealer as booking for the bike", "heard": "Transferred 1.2K to the dealer as booking for the bike.", "seconds": 11.863, "server_rss_mb": 2990.8, "items": [{"kind": "expense", "text": "Transferred booking fee for motorcycle", "amount": 1200.0, "currency": "MYR", "due": null, "topic": "motorcycle"}], "passed": true, "why": "", "passed_repeat": true}
++{"id": "amount-malay-words", "source": "bayar seratus lima puluh ringgit untuk kotak pindah rumah", "heard": "Byar Saratis Lima pulo ringat untuk kotak pinda rumah.", "seconds": 11.979, "server_rss_mb": 2927.3, "items": [{"kind": "expense", "text": "Paid 50 ringgit for moving boxes", "amount": 50.0, "currency": "MYR", "due": null, "topic": "move"}], "passed": false, "why": "money", "passed_repeat": false}
++{"id": "empty-never-mind", "source": "um never mind", "heard": "um never mind", "seconds": 9.998, "server_rss_mb": 2941.9, "items": [], "passed": true, "why": "", "passed_repeat": true}
++{"id": "empty-testing", "source": "testing testing one two three", "heard": "Testing testing 123", "seconds": 10.898, "server_rss_mb": 2941.9, "items": [], "passed": true, "why": "", "passed_repeat": true}
++{"id": "empty-whisper-hallucination", "source": "Thank you. Thanks for watching!", "heard": "Thank you. Thanks for watching.", "seconds": 11.135, "server_rss_mb": 2941.9, "items": [], "passed": true, "why": "", "passed_repeat": true}
++{"id": "empty-retracted", "source": "remind me to actually no forget it I already did that", "heard": "Remind me to actually know forget it I already did that.", "seconds": 12.29, "server_rss_mb": 2941.9, "items": [], "passed": true, "why": "", "passed_repeat": true}
++{"id": "malay-esok-klinik", "source": "esok pagi kena pergi klinik ambil ubat mak", "heard": "Esak Pagi Kena Perji Clinic Ambul Ubat Mok.", "seconds": 12.644, "server_rss_mb": 2941.9, "items": [{"kind": "task", "text": "Pick up medicine for mom at the clinic", "amount": null, "currency": null, "due": "2026-11-17", "topic": null}], "passed": true, "why": "", "passed_repeat": true}
++{"id": "malay-lori-note", "source": "boss cakap lori sampai PJ warehouse pukul tiga", "heard": "Boss kakup lori sampai pj warehouse pukul tiga", "seconds": 11.557, "server_rss_mb": 2943.0, "items": [{"kind": "task", "text": "Coordinate the lorry arrival at the PJ warehouse at 3:00 PM", "amount": null, "currency": null, "due": "2026-11-13", "topic": "pj-shipping"}], "passed": false, "why": "due, kind", "passed_repeat": false}
++{"id": "ambig-dollars", "source": "paid 30 dollars for the app subscription", "heard": "Paid $30 for the app subscription.", "seconds": 10.893, "server_rss_mb": 2943.0, "items": [{"kind": "expense", "text": "Paid for the app subscription", "amount": 30.0, "currency": "MYR", "due": null, "topic": null}], "passed": true, "why": "", "passed_repeat": true}
++{"id": "ambig-twelve-fifty", "source": "paid twelve fifty for the bike accessories", "heard": "Paid 12.50 for the bike accessories.", "seconds": 10.67, "server_rss_mb": 2943.0, "items": [{"kind": "expense", "text": "Paid for bike accessories", "amount": 12.5, "currency": "MYR", "due": null, "topic": "motorcycle"}], "passed": true, "why": "", "passed_repeat": true}
++{"id": "ambig-next-friday-midweek", "source": "return the library books next Friday", "heard": "Return the library books next Friday.", "seconds": 11.294, "server_rss_mb": 2943.0, "items": [{"kind": "task", "text": "Return the library books", "amount": null, "currency": null, "due": "2026-11-27", "topic": null}], "passed": true, "why": "", "passed_repeat": true}
++{"id": "ambig-this-weekend", "source": "this weekend go and see the Kawasaki at the showroom", "heard": "This weekend go and see the Kawasaki at the showroom.", "seconds": 11.431, "server_rss_mb": 2943.0, "items": [{"kind": "task", "text": "Go and see the Kawasaki at the showroom", "amount": null, "currency": null, "due": "2026-11-14", "topic": "motorcycle"}], "passed": true, "why": "", "passed_repeat": true}
++{"id": "ambig-paid-yesterday", "source": "yesterday paid 150 for the lorry permit for the PJ job", "heard": "Yesterday paid 150 for the lorry permit for the PJ job.", "seconds": 11.566, "server_rss_mb": 2943.0, "items": [{"kind": "expense", "text": "Paid 150 for the lorry permit for the PJ shipping job", "amount": 150.0, "currency": "MYR", "due": null, "topic": "pj-shipping"}], "passed": true, "why": "", "passed_repeat": true}
++{"id": "ambig-balance-due", "source": "balance 800 for the movers due on Friday", "heard": "Balance 800 for the Movers due on Friday.", "seconds": 11.146, "server_rss_mb": 2943.0, "items": [{"kind": "task", "text": "Pay balance of 800 for movers", "amount": null, "currency": null, "due": "2026-11-20", "topic": "move"}], "passed": true, "why": "", "passed_repeat": true}
++{"id": "ambig-should-look", "source": "should probably look at the Yamaha NMAX as well", "heard": "Should probably look at the Yamaha NMAX as well.", "seconds": 11.403, "server_rss_mb": 2943.0, "items": [{"kind": "task", "text": "Look at the Yamaha NMAX", "amount": null, "currency": null, "due": null, "topic": "motorcycle"}], "passed": true, "why": "", "passed_repeat": true}
++{"id": "ambig-lorry-which-project", "source": "lorry is booked already can stop worrying", "heard": "Laurie is booked already can stop worrying.", "seconds": 10.956, "server_rss_mb": 2943.0, "items": [{"kind": "note", "text": "Laurie is booked", "amount": null, "currency": null, "due": null, "topic": null}], "passed": false, "why": "text", "passed_repeat": false}
+diff --git a/evals/audio/results-large-v3-turbo-2026-11-20.jsonl b/evals/audio/results-large-v3-turbo-2026-11-20.jsonl
+new file mode 100644
+index 0000000..4a7aa52
+--- /dev/null
++++ b/evals/audio/results-large-v3-turbo-2026-11-20.jsonl
+@@ -0,0 +1,59 @@
++{"id": "task-plain", "source": "remind me to call the dentist and book a cleaning", "heard": "Remind me to call the dentist and book a cleaning.", "seconds": 15.904, "server_rss_mb": 3962.7, "items": [{"kind": "task", "text": "Call the dentist and book a cleaning", "amount": null, "currency": null, "due": null, "topic": null}], "passed": true, "why": "", "passed_repeat": true}
++{"id": "task-move", "source": "need to buy more boxes and bubble wrap for the move", "heard": "Need to buy more boxes and bubble wrap for the move.", "seconds": 15.447, "server_rss_mb": 3964.9, "items": [{"kind": "task", "text": "Buy more boxes and bubble wrap for the move", "amount": null, "currency": null, "due": null, "topic": "move"}], "passed": true, "why": "", "passed_repeat": true}
++{"id": "task-motorcycle", "source": "book a test ride for the Yamaha Y15 at the dealer in Sunway", "heard": "Book a test ride for the Yamaha Y15 at the dealer in Sunway.", "seconds": 15.531, "server_rss_mb": 3967.0, "items": [{"kind": "task", "text": "Book a test ride for the Yamaha Y15 at the dealer in Sunway", "amount": null, "currency": null, "due": null, "topic": "motorcycle"}], "passed": true, "why": "", "passed_repeat": true}
++{"id": "task-shipping", "source": "got to email the forwarder the packing list for the PJ shipment", "heard": "Got to email the forwarder the packing list for the PJ shipment.", "seconds": 16.171, "server_rss_mb": 3967.0, "items": [{"kind": "task", "text": "Email the forwarder the packing list for the PJ shipment", "amount": null, "currency": null, "due": null, "topic": "pj-shipping"}], "passed": true, "why": "", "passed_repeat": true}
++{"id": "exp-ringgit", "source": "lunch nasi lemak twelve ringgit", "heard": "Lunch Nasi Lamach 12 Ringgit", "seconds": 15.781, "server_rss_mb": 3967.0, "items": [{"kind": "expense", "text": "Lunch Nasi Lemak", "amount": 12.0, "currency": "MYR", "due": null, "topic": null}], "passed": true, "why": "", "passed_repeat": true}
++{"id": "exp-rm-prefix", "source": "Paid RM85 for petrol for the car.", "heard": "Paid RM85 for petrol for the car.", "seconds": 15.111, "server_rss_mb": 3967.0, "items": [{"kind": "expense", "text": "Paid for petrol for the car", "amount": 85.0, "currency": "MYR", "due": null, "topic": null}], "passed": true, "why": "", "passed_repeat": true}
++{"id": "exp-no-currency", "source": "grab ride to the office was twenty three", "heard": "Grab ride to the office was 23.", "seconds": 15.65, "server_rss_mb": 3967.0, "items": [{"kind": "expense", "text": "Grab ride to the office", "amount": 23.0, "currency": "MYR", "due": null, "topic": null}], "passed": true, "why": "", "passed_repeat": true}
++{"id": "exp-bucks", "source": "spent fifty bucks on parking and toll", "heard": "Spent 50 bucks on parking and toll.", "seconds": 15.601, "server_rss_mb": 3967.0, "items": [{"kind": "expense", "text": "Spent 50 on parking and toll", "amount": 50.0, "currency": "MYR", "due": null, "topic": null}], "passed": true, "why": "", "passed_repeat": true}
++{"id": "exp-us-dollars", "source": "paid forty US dollars for the VPN renewal", "heard": "paid 40 us dollars for the vpn renewal", "seconds": 15.934, "server_rss_mb": 3967.0, "items": [{"kind": "expense", "text": "Renewed VPN subscription", "amount": 40.0, "currency": "USD", "due": null, "topic": null}], "passed": true, "why": "", "passed_repeat": true}
++{"id": "exp-sgd", "source": "paid 120 SGD for the hotel in Singapore", "heard": "paid 120 singapore dollars for the hotel in singapore", "seconds": 15.659, "server_rss_mb": 3967.0, "items": [{"kind": "expense", "text": "Paid for hotel in Singapore", "amount": 120.0, "currency": "SGD", "due": null, "topic": null}], "passed": true, "why": "", "passed_repeat": true}
++{"id": "exp-sen", "source": "teh tarik and roti canai six ringgit fifty sen", "heard": "tay tarik and roti kanai 6 ringgit 50 sen", "seconds": 15.658, "server_rss_mb": 3967.0, "items": [{"kind": "expense", "text": "Paid for teh tarik and roti canai", "amount": 6.5, "currency": "MYR", "due": null, "topic": null}], "passed": true, "why": "", "passed_repeat": true}
++{"id": "exp-move", "source": "paid the movers 300 for the packing service", "heard": "Paid the movers $300 for the packing service.", "seconds": 15.29, "server_rss_mb": 3967.0, "items": [{"kind": "expense", "text": "Paid movers for packing service", "amount": 300.0, "currency": "MYR", "due": null, "topic": "move"}], "passed": true, "why": "", "passed_repeat": true}
++{"id": "exp-shipping", "source": "paid the lorry driver 450 cash for the PJ delivery", "heard": "Paid the lorry driver $450 cash for the PJ delivery.", "seconds": 15.827, "server_rss_mb": 3967.0, "items": [{"kind": "expense", "text": "Paid the lorry driver cash for the PJ delivery", "amount": 450.0, "currency": "MYR", "due": null, "topic": "pj-shipping"}], "passed": true, "why": "", "passed_repeat": true}
++{"id": "exp-pj-not-shipping", "source": "lunch at the nasi kandar place in PJ fourteen ringgit", "heard": "Lunch at the Nasi Kandar place in PJ14 Ringgit.", "seconds": 15.307, "server_rss_mb": 3967.0, "items": [{"kind": "expense", "text": "Lunch at Nasi Kandar", "amount": 14.0, "currency": "MYR", "due": null, "topic": null}], "passed": true, "why": "", "passed_repeat": true}
++{"id": "note-fact", "source": "dentist says the wisdom tooth doesnt need to come out", "heard": "Dentist says the wisdom tooth doesn't need to come out.", "seconds": 15.353, "server_rss_mb": 3967.0, "items": [{"kind": "note", "text": "Wisdom tooth does not need to be removed according to dentist", "amount": null, "currency": null, "due": null, "topic": null}], "passed": true, "why": "", "passed_repeat": true}
++{"id": "note-move", "source": "the movers said they dont take pianos or plants", "heard": "The movers said they don't take pianos or plants.", "seconds": 15.378, "server_rss_mb": 3967.0, "items": [{"kind": "note", "text": "Movers do not take pianos or plants", "amount": null, "currency": null, "due": null, "topic": "move"}], "passed": true, "why": "", "passed_repeat": true}
++{"id": "note-motorcycle-number-not-money", "source": "Honda RS150 seat height is 795 millimetres, should be okay for me", "heard": "Honda 150 rupees seat height is 795 millimeters, should be okay for me.", "seconds": 15.544, "server_rss_mb": 3967.8, "items": [{"kind": "note", "text": "Honda 150 seat height is 795 millimeters", "amount": null, "currency": null, "due": null, "topic": "motorcycle"}], "passed": true, "why": "", "passed_repeat": true}
++{"id": "quote-motorcycle", "source": "dealer quoted 9800 on the road for the Y15", "heard": "Dealer quoted 9,800 on the road for the Y-15.", "seconds": 15.765, "server_rss_mb": 3967.8, "items": [{"kind": "note", "text": "Dealer quoted 9,800 MYR on the road for the Y-15", "amount": null, "currency": null, "due": null, "topic": "motorcycle"}], "passed": false, "why": "text", "passed_repeat": false}
++{"id": "quote-move-words", "source": "mover quoted one thousand two hundred for the three ton lorry havent confirmed yet", "heard": "mover quoted 1200 for the three-ton lorry haven't confirmed yet", "seconds": 15.942, "server_rss_mb": 3967.8, "items": [{"kind": "note", "text": "Mover quoted 1200 MYR for the three-ton lorry", "amount": null, "currency": null, "due": null, "topic": "move"}], "passed": true, "why": "", "passed_repeat": true}
++{"id": "quote-shipping-k", "source": "shipping agent says it will be about 3.5k for the twenty footer to PJ, not paying yet", "heard": "Shipping agent says it will be about 3.5k for the 20-footer to PJ, not paying yet.", "seconds": 15.834, "server_rss_mb": 3969.4, "items": [{"kind": "note", "text": "Quoted 3500 MYR for 20-footer container shipping to Petaling Jaya", "amount": null, "currency": null, "due": null, "topic": "pj-shipping"}], "passed": true, "why": "", "passed_repeat": true}
++{"id": "quote-retracted-payment", "source": "i paid 2000 for the no actually havent paid yet the mover wants 2000", "heard": "I paid 2,000 for the no actually haven't paid yet the mover wants 2,000.", "seconds": 15.394, "server_rss_mb": 3969.4, "items": [{"kind": "note", "text": "Mover quoted 2,000 MYR", "amount": null, "currency": null, "due": null, "topic": "move"}], "passed": true, "why": "", "passed_repeat": true}
++{"id": "both-bike-deposit", "source": "paid 500 deposit for the bike have to collect it this Saturday", "heard": "Paid 500 deposit for the bike have to collect it this Saturday.", "seconds": 15.158, "server_rss_mb": 3969.4, "items": [{"kind": "expense", "text": "Paid deposit for the motorcycle", "amount": 500.0, "currency": "MYR", "due": null, "topic": "motorcycle"}, {"kind": "task", "text": "Collect the motorcycle", "amount": null, "currency": null, "due": "2026-11-14", "topic": "motorcycle"}], "passed": true, "why": "", "passed_repeat": true}
++{"id": "both-booking-fee-sign", "source": "put down a booking fee of 1k for the new house need to sign the tenancy agreement by the 20th", "heard": "Put down a booking fee of 1K for the new house need to sign the tenancy agreement by the 20th.", "seconds": 15.84, "server_rss_mb": 3969.4, "items": [{"kind": "expense", "text": "Paid booking fee for new house", "amount": 1000.0, "currency": "MYR", "due": null, "topic": "move"}, {"kind": "task", "text": "Sign tenancy agreement", "amount": null, "currency": null, "due": "2026-11-20", "topic": "move"}], "passed": true, "why": "", "passed_repeat": true}
++{"id": "both-malay-lori", "source": "dah bayar deposit lori pindah rumah tiga ratus, esok kena confirm masa dengan dia", "heard": "da bayar deposit lori pinda rooma tiga ratus isaq kenna confirm masa dengan dia", "seconds": 15.559, "server_rss_mb": 3970.2, "items": [{"kind": "expense", "text": "Paid deposit for moving lorry", "amount": 300.0, "currency": "MYR", "due": null, "topic": "move"}, {"kind": "task", "text": "Confirm time with moving lorry driver", "amount": null, "currency": null, "due": null, "topic": "move"}], "passed": false, "why": "due", "passed_repeat": false}
++{"id": "multi-three-kinds", "source": "buy milk on the way home also paid 18 ringgit for parking at the hospital and note that Dr Lim's clinic closes at one on Saturdays", "heard": "buy milk on the way home also paid 18 ringgit for parking at the hospital and note that dr limbs clinic closes at 1 on saturdays", "seconds": 23.454, "server_rss_mb": 3978.6, "items": [{"kind": "task", "text": "Buy milk on the way home", "amount": null, "currency": null, "due": null, "topic": null}, {"kind": "expense", "text": "Parking at the hospital", "amount": 18.0, "currency": "MYR", "due": null, "topic": null}, {"kind": "note", "text": "Dr. Lim's clinic closes at 1 PM on Saturdays", "amount": null, "currency": null, "due": null, "topic": null}], "passed": true, "why": "", "passed_repeat": true}
++{"id": "multi-two-dated-tasks", "source": "tomorrow call the bank about the loan Friday send the signed form to HR", "heard": "Tomorrow call the bank about the loan Friday. Send the signed form to HR.", "seconds": 15.134, "server_rss_mb": 3971.2, "items": [{"kind": "task", "text": "Call the bank about the loan", "amount": null, "currency": null, "due": "2026-11-17", "topic": null}, {"kind": "task", "text": "Send the signed form to HR", "amount": null, "currency": null, "due": null, "topic": null}], "passed": false, "why": "due", "passed_repeat": false}
++{"id": "multi-bike-quotes", "source": "Y15 dealer in PJ quoted 9500 the Honda one quoted 10200 I paid 50 booking for the test ride need to decide by end of the month", "heard": "Y15 dealer in PJ quoted 9,500 the Honda one quoted 10,200 I paid 50 booking for the test ride need to decide by end of the month.", "seconds": 16.083, "server_rss_mb": 3974.2, "items": [{"kind": "note", "text": "Y15 dealer quoted 9,500 MYR", "amount": null, "currency": null, "due": null, "topic": "motorcycle"}, {"kind": "note", "text": "Honda dealer quoted 10,200 MYR", "amount": null, "currency": null, "due": null, "topic": "motorcycle"}, {"kind": "expense", "text": "Paid 50 booking for the motorcycle test ride", "amount": 50.0, "currency": "MYR", "due": null, "topic": "motorcycle"}, {"kind": "task", "text": "Decide on motorcycle purchase", "amount": null, "currency": null, "due": "2026-11-30", "topic": "motorcycle"}], "passed": true, "why": "", "passed_repeat": true}
++{"id": "multi-five-across-topics", "source": "Okay update. Movers confirmed they can do it. Paid them 200 deposit. The PJ consignment is 14 pallets not 12. Need to tell the warehouse about the extra pallets. And remind me to top up Touch n Go.", "heard": "Okay update. Movers confirmed they can do it. Paid them 200 deposit. The PJ consignment is 14 pallets not 12. Need to tell the warehouse about the extra pallets. And remind me to top up touch and go.", "seconds": 16.0, "server_rss_mb": 3978.9, "items": [{"kind": "expense", "text": "Paid deposit to movers", "amount": 200.0, "currency": "MYR", "due": null, "topic": "move"}, {"kind": "note", "text": "PJ consignment is 14 pallets", "amount": null, "currency": null, "due": null, "topic": "pj-shipping"}, {"kind": "task", "text": "Tell warehouse about the extra pallets", "amount": null, "currency": null, "due": null, "topic": "pj-shipping"}, {"kind": "task", "text": "Top up Touch 'n Go", "amount": null, "currency": null, "due": null, "topic": null}], "passed": false, "why": "count 4 != 5, due, kind, money, text, topic", "passed_repeat": false}
++{"id": "multi-manglish-run-on", "source": "eh tadi bayar tol 12 ringgit then petrol 60 then kena call abang lori about the PJ delivery lah", "heard": "A toddy buy our tall 12 ringgit then petrol 60 then kena call a bang lori about the PJ delivery law.", "seconds": 15.85, "server_rss_mb": 3978.9, "items": [{"kind": "expense", "text": "Paid for toddy", "amount": 12.0, "currency": "MYR", "due": null, "topic": null}, {"kind": "expense", "text": "Paid for petrol", "amount": 60.0, "currency": "MYR", "due": null, "topic": null}, {"kind": "task", "text": "Call lorry driver regarding PJ delivery", "amount": null, "currency": null, "due": null, "topic": "pj-shipping"}], "passed": false, "why": "text", "passed_repeat": false}
++{"id": "date-this-saturday", "source": "pick up the keys for the new house this Saturday", "heard": "Pick up the keys for the new house this Saturday.", "seconds": 18.785, "server_rss_mb": 3978.9, "items": [{"kind": "task", "text": "Pick up the keys for the new house", "amount": null, "currency": null, "due": "2026-11-14", "topic": "move"}], "passed": true, "why": "", "passed_repeat": true}
++{"id": "date-next-friday-on-a-friday", "source": "next Friday send the customs form for the PJ shipment", "heard": "Next Friday send the customs form for the PJ shipment.", "seconds": 16.058, "server_rss_mb": 3978.9, "items": [{"kind": "task", "text": "Send customs form for the PJ shipment", "amount": null, "currency": null, "due": "2026-11-20", "topic": "pj-shipping"}], "passed": true, "why": "", "passed_repeat": true}
++{"id": "date-end-of-month", "source": "must cancel the gym membership by end of the month", "heard": "Must cancel the gym membership by end of the month.", "seconds": 14.97, "server_rss_mb": 3978.9, "items": [{"kind": "task", "text": "Cancel gym membership", "amount": null, "currency": null, "due": "2026-11-30", "topic": null}], "passed": true, "why": "", "passed_repeat": true}
++{"id": "date-in-two-weeks", "source": "follow up with the bank on the bike loan in two weeks", "heard": "Follow up with the bank on the bike loan in two weeks.", "seconds": 15.408, "server_rss_mb": 3978.9, "items": [{"kind": "task", "text": "Follow up with the bank on the bike loan", "amount": null, "currency": null, "due": "2026-11-26", "topic": "motorcycle"}], "passed": true, "why": "", "passed_repeat": true}
++{"id": "date-month-rollover", "source": "tomorrow morning go to JPJ and ask about the B2 motorcycle licence", "heard": "Tomorrow morning go to JPJ and ask about the B2 motorcycle license.", "seconds": 15.481, "server_rss_mb": 3978.9, "items": [{"kind": "task", "text": "Go to JPJ and ask about the B2 motorcycle license", "amount": null, "currency": null, "due": "2026-12-01", "topic": "motorcycle"}], "passed": true, "why": "", "passed_repeat": true}
++{"id": "date-year-rollover", "source": "need to be at the new house by eight this Saturday for the movers", "heard": "Need to be at the new house by 8 this Saturday for the movers.", "seconds": 15.077, "server_rss_mb": 3978.9, "items": [{"kind": "task", "text": "Be at the new house for the movers", "amount": null, "currency": null, "due": "2026-01-03", "topic": "move"}], "passed": false, "why": "due", "passed_repeat": true}
++{"id": "date-lusa-malay", "source": "lusa kena hantar borang cukai ke pejabat LHDN", "heard": "Lusa Kena Hantar Borang Kukai Kpehabot LHDN", "seconds": 15.009, "server_rss_mb": 3978.9, "items": [{"kind": "task", "text": "Submit LHDN property tax form", "amount": null, "currency": null, "due": "2026-11-14", "topic": null}], "passed": true, "why": "", "passed_repeat": true}
++{"id": "date-vague-no-due", "source": "sometime next month should get the aircond serviced", "heard": "Sometime next month should get the aircon serviced.", "seconds": 15.092, "server_rss_mb": 3978.9, "items": [{"kind": "task", "text": "Get the aircon serviced", "amount": null, "currency": null, "due": null, "topic": null}], "passed": true, "why": "", "passed_repeat": true}
++{"id": "stt-self-correct-amount", "source": "paid the plumber 400 no wait make that 450", "heard": "Paid the plumber 400 no wait make that 450.", "seconds": 15.05, "server_rss_mb": 3978.9, "items": [{"kind": "expense", "text": "Paid the plumber", "amount": 450.0, "currency": "MYR", "due": null, "topic": null}], "passed": true, "why": "", "passed_repeat": true}
++{"id": "stt-filler", "source": "um so yeah uh I need to uh what was it oh ya renew my passport", "heard": "Um so yeah I need to uh what was it oh yeah renew my passport.", "seconds": 15.678, "server_rss_mb": 3978.9, "items": [{"kind": "task", "text": "Renew passport", "amount": null, "currency": null, "due": null, "topic": null}], "passed": true, "why": "", "passed_repeat": true}
++{"id": "stt-misheard-ringgit-visor", "source": "paid 60 ring it for the bike helmet wiser", "heard": "Paid 60 ringgit for the bike helmet Weiser.", "seconds": 14.943, "server_rss_mb": 3978.9, "items": [{"kind": "expense", "text": "Paid for bike helmet", "amount": 60.0, "currency": "MYR", "due": null, "topic": "motorcycle"}], "passed": true, "why": "", "passed_repeat": true}
++{"id": "stt-misheard-lading", "source": "need to check the bill of leading for the PJ shipment", "heard": "Need to check the bill of leading for the PJ shipment.", "seconds": 15.343, "server_rss_mb": 3978.9, "items": [{"kind": "task", "text": "Check the bill of lading for the PJ shipment", "amount": null, "currency": null, "due": null, "topic": "pj-shipping"}], "passed": true, "why": "", "passed_repeat": true}
++{"id": "stt-self-correct-day", "source": "send the quotation to the client on Thursday no sorry Friday", "heard": "Send the quotation to the client on Thursday No Sorry Friday.", "seconds": 15.571, "server_rss_mb": 3978.9, "items": [{"kind": "task", "text": "Send the quotation to the client", "amount": null, "currency": null, "due": "2026-11-20", "topic": null}], "passed": true, "why": "", "passed_repeat": true}
++{"id": "amount-words-thousand", "source": "paid one thousand two hundred for the car insurance renewal", "heard": "Paid $1,200 for the car insurance renewal.", "seconds": 15.573, "server_rss_mb": 3978.9, "items": [{"kind": "expense", "text": "Car insurance renewal payment", "amount": 1200.0, "currency": "MYR", "due": null, "topic": null}], "passed": true, "why": "", "passed_repeat": true}
++{"id": "amount-k-suffix", "source": "transferred 1.2k to the dealer as booking for the bike", "heard": "Transferred 1.2k to the dealer as booking for the bike.", "seconds": 15.355, "server_rss_mb": 3978.9, "items": [{"kind": "expense", "text": "Transferred booking deposit to the dealer for the bike", "amount": 1200.0, "currency": "MYR", "due": null, "topic": "motorcycle"}], "passed": true, "why": "", "passed_repeat": true}
++{"id": "amount-malay-words", "source": "bayar seratus lima puluh ringgit untuk kotak pindah rumah", "heard": "Bayar Serratis Lima Pulo Ringgit Untuk Kotak Pinda Rumah", "seconds": 15.418, "server_rss_mb": 3978.9, "items": [{"kind": "expense", "text": "Paid 350 Ringgit for moving boxes", "amount": 350.0, "currency": "MYR", "due": null, "topic": "move"}], "passed": false, "why": "money", "passed_repeat": false}
++{"id": "empty-never-mind", "source": "um never mind", "heard": "Um never mind.", "seconds": 15.263, "server_rss_mb": 3978.9, "items": [], "passed": true, "why": "", "passed_repeat": true}
++{"id": "empty-testing", "source": "testing testing one two three", "heard": "Testing Testing 1 2 3", "seconds": 14.952, "server_rss_mb": 3978.9, "items": [], "passed": true, "why": "", "passed_repeat": true}
++{"id": "empty-whisper-hallucination", "source": "Thank you. Thanks for watching!", "heard": "thank you thanks for watching", "seconds": 14.857, "server_rss_mb": 3978.9, "items": [], "passed": true, "why": "", "passed_repeat": true}
++{"id": "empty-retracted", "source": "remind me to actually no forget it I already did that", "heard": "Remind me to actually no forget it I already did that.", "seconds": 15.648, "server_rss_mb": 3978.9, "items": [], "passed": true, "why": "", "passed_repeat": true}
++{"id": "malay-esok-klinik", "source": "esok pagi kena pergi klinik ambil ubat mak", "heard": "Isak Pagi Kenna Pergi Clinic Ambil Ubat Mok", "seconds": 15.176, "server_rss_mb": 3978.9, "items": [{"kind": "task", "text": "Pick up medicine for mom from the clinic", "amount": null, "currency": null, "due": "2026-11-16", "topic": null}], "passed": false, "why": "due", "passed_repeat": false}
++{"id": "malay-lori-note", "source": "boss cakap lori sampai PJ warehouse pukul tiga", "heard": "Boss Kakup Lori Sampai PJ Warehouse Pukul Tiga", "seconds": 15.277, "server_rss_mb": 3978.9, "items": [{"kind": "task", "text": "Arrange for Boss Kakup lorry to arrive at PJ warehouse at 3 PM", "amount": null, "currency": null, "due": "2026-11-13", "topic": "pj-shipping"}], "passed": false, "why": "due, kind", "passed_repeat": false}
++{"id": "ambig-dollars", "source": "paid 30 dollars for the app subscription", "heard": "Paid $30 for the app subscription.", "seconds": 15.049, "server_rss_mb": 3978.9, "items": [{"kind": "expense", "text": "Paid for the app subscription", "amount": 30.0, "currency": "MYR", "due": null, "topic": null}], "passed": true, "why": "", "passed_repeat": true}
++{"id": "ambig-twelve-fifty", "source": "paid twelve fifty for the bike accessories", "heard": "paid 12.50 for the bike accessories", "seconds": 15.455, "server_rss_mb": 3978.9, "items": [{"kind": "expense", "text": "Paid for motorcycle accessories", "amount": 12.5, "currency": "MYR", "due": null, "topic": "motorcycle"}], "passed": true, "why": "", "passed_repeat": true}
++{"id": "ambig-next-friday-midweek", "source": "return the library books next Friday", "heard": "Return the library books next Friday.", "seconds": 14.886, "server_rss_mb": 3978.9, "items": [{"kind": "task", "text": "Return library books", "amount": null, "currency": null, "due": "2026-11-27", "topic": null}], "passed": true, "why": "", "passed_repeat": true}
++{"id": "ambig-this-weekend", "source": "this weekend go and see the Kawasaki at the showroom", "heard": "This weekend go and see the Kawasaki at the showroom.", "seconds": 15.261, "server_rss_mb": 3978.9, "items": [{"kind": "task", "text": "Go and see the Kawasaki at the showroom", "amount": null, "currency": null, "due": "2026-11-15", "topic": "motorcycle"}], "passed": true, "why": "", "passed_repeat": true}
++{"id": "ambig-paid-yesterday", "source": "yesterday paid 150 for the lorry permit for the PJ job", "heard": "Yesterday paid $150 for the lorry permit for the PJ job.", "seconds": 14.864, "server_rss_mb": 3978.9, "items": [{"kind": "expense", "text": "Paid for the lorry permit for the PJ shipping job", "amount": 150.0, "currency": "MYR", "due": null, "topic": "pj-shipping"}], "passed": true, "why": "", "passed_repeat": true}
++{"id": "ambig-balance-due", "source": "balance 800 for the movers due on Friday", "heard": "Balance 800 for the movers due on Friday.", "seconds": 15.164, "server_rss_mb": 3978.9, "items": [{"kind": "task", "text": "Pay balance of 800 for the movers", "amount": null, "currency": null, "due": "2026-11-20", "topic": "move"}, {"kind": "note", "text": "Balance of 800 for the movers", "amount": null, "currency": null, "due": null, "topic": "move"}], "passed": false, "why": "count 2 != 1", "passed_repeat": true}
++{"id": "ambig-should-look", "source": "should probably look at the Yamaha NMAX as well", "heard": "Should probably look at the Yamaha NMAX as well.", "seconds": 15.488, "server_rss_mb": 3978.9, "items": [{"kind": "task", "text": "Look at the Yamaha NMAX", "amount": null, "currency": null, "due": null, "topic": "motorcycle"}], "passed": true, "why": "", "passed_repeat": true}
++{"id": "ambig-lorry-which-project", "source": "lorry is booked already can stop worrying", "heard": "Lori is booked already can stop worrying.", "seconds": 14.824, "server_rss_mb": 3978.9, "items": [{"kind": "note", "text": "Lorry is booked for moving", "amount": null, "currency": null, "due": null, "topic": "move"}], "passed": true, "why": "", "passed_repeat": false}
+diff --git a/evals/audio/run_audio.py b/evals/audio/run_audio.py
+new file mode 100644
+index 0000000..4e51852
+--- /dev/null
++++ b/evals/audio/run_audio.py
+@@ -0,0 +1,366 @@
++"""Measure speech-to-text accuracy and end-to-end sorting from audio.
++
++Three steps, each usable alone:
++
++    python evals/audio/run_audio.py transcribe --clips DIR --out transcripts.jsonl [--url URL]
++    python evals/audio/run_audio.py wer --transcripts transcripts.jsonl
++    python evals/audio/run_audio.py merge --transcripts transcripts.jsonl --preds preds.jsonl --out results.jsonl
++    python evals/audio/run_audio.py sort --transcripts transcripts.jsonl --out preds.jsonl [--retry-errors-of OLD.jsonl]
++
++`transcribe` POSTs each `DIR/<case id>.<ext>` to the running server's /transcribe as
++raw application/octet-stream (what the iPhone Shortcut sends) and records the text and
++the wall-clock seconds. `wer` is word error rate against the case transcripts, stdlib
++only. `sort` feeds each recovered transcript through the real CaptureService._classify
++with the case's own "today" (the machinery in evals/run_eval.py) and scores it with
++evals/score.py against the unchanged expected answers.
++
++A transcript the server returns as empty is what /capture rejects as no_speech_detected:
++nothing is sorted, so it scores as zero items (right for the "empty" cases, a miss for
++any other case). The record keeps `dropped: true` so that is visible.
++"""
++
++from __future__ import annotations
++
++import argparse
++import asyncio
++import json
++import os
++import re
++import sys
++import time
++import urllib.error
++import urllib.request
++from pathlib import Path
++
++HERE = Path(__file__).resolve().parent
++sys.path.insert(0, str(HERE.parent))
++import run_eval  # noqa: E402
++import score  # noqa: E402
++
++CASES = HERE.parent / "capture_cases.jsonl"
++CLIP_EXTS = (".mp3", ".wav", ".m4a", ".ogg", ".flac")
++
++# ---------------------------------------------------------------- word error rate
++
++_ONES = {w: i for i, w in enumerate(
++    "zero one two three four five six seven eight nine ten eleven twelve thirteen fourteen "
++    "fifteen sixteen seventeen eighteen nineteen".split())}
++_TENS = {w: 10 * i for i, w in enumerate(
++    "_ _ twenty thirty forty fifty sixty seventy eighty ninety".split()) if w != "_"}
++_SCALE = {"hundred": 100, "thousand": 1000}
++_TEENS_AND_TEN = {w for w, n in _ONES.items() if n >= 10}
++
++
++def _tokens(text: str) -> list[str]:
++    text = text.lower().replace("'", "")
++    text = re.sub(r"(?<=\d),(?=\d{3})", "", text)  # 1,500 -> 1500
++    return re.findall(r"[a-z0-9]+(?:\.[0-9]+)?", text)
++
++
++def normalise(text: str) -> list[str]:
++    """Lowercase words, punctuation stripped, number words folded into digits.
++
++    "one hundred and fifty" -> "150", "twenty one" -> "21", but "one two three" stays three
++    numbers ("1 2 3"): a unit only joins the number before it after a tens word, "hundred",
++    "thousand" or "and".
++    """
++    toks = _tokens(text)
++    out: list[str] = []
++    i = 0
++    while i < len(toks):
++        if toks[i] not in _ONES and toks[i] not in _TENS:
++            out.append(toks[i])
++            i += 1
++            continue
++        total, cur, last, j = 0, 0, None, i
++        while j < len(toks):
++            w = toks[j]
++            joins = last in ("tens", "scale", "and")
++            if w in _ONES and (last is None or (joins and (w not in _TEENS_AND_TEN or last != "tens"))):
++                if last is None or last != "tens" or _ONES[w] < 10:
++                    cur += _ONES[w]
++                    last = "tens-unit" if last == "tens" else "unit"
++                else:
++                    break
++            elif w in _TENS and (last is None or last in ("scale", "and")):
++                cur += _TENS[w]
++                last = "tens"
++            elif w in _SCALE and last is not None and last != "and" and (cur or total):
++                if w == "hundred":
++                    cur = (cur or 1) * 100
++                else:
++                    total += (cur or 1) * 1000
++                    cur = 0
++                last = "scale"
++            elif w == "and" and last in ("scale",) and j + 1 < len(toks) and (toks[j + 1] in _ONES or toks[j + 1] in _TENS):
++                last = "and"
++            else:
++                break
++            j += 1
++        if last == "and":
++            j -= 1
++        out.append(str(total + cur))
++        i = max(j, i + 1)
++    return out
++
++
++def edit_distance(ref: list[str], hyp: list[str]) -> int:
++    prev = list(range(len(hyp) + 1))
++    for i, r in enumerate(ref, 1):
++        cur = [i]
++        for j, h in enumerate(hyp, 1):
++            cur.append(min(prev[j] + 1, cur[j - 1] + 1, prev[j - 1] + (r != h)))
++        prev = cur
++    return prev[-1]
++
++
++def wer(ref: str, hyp: str, *, fold_numbers: bool) -> tuple[int, int]:
++    """(errors, reference words). The caller sums both to get a corpus rate."""
++    if fold_numbers:
++        r, h = normalise(ref), normalise(hyp)
++    else:
++        r, h = _tokens(ref), _tokens(hyp)
++    return edit_distance(r, h), len(r)
++
++
++def wer_report(cases: list[dict], recs: list[dict]) -> dict:
++    by_id = {r["id"]: r for r in recs}
++    out = {"raw": [0, 0], "normalised": [0, 0], "per_case": []}
++    for c in cases:
++        hyp = by_id.get(c["id"], {}).get("transcript", "")
++        row = {"id": c["id"]}
++        for key, fold in (("raw", False), ("normalised", True)):
++            e, n = wer(c["transcript"], hyp, fold_numbers=fold)
++            out[key][0] += e
++            out[key][1] += n
++            row[key] = [e, n]
++        out["per_case"].append(row)
++    out["raw_wer"] = out["raw"][0] / max(out["raw"][1], 1)
++    out["normalised_wer"] = out["normalised"][0] / max(out["normalised"][1], 1)
++    return out
++
++
++# ------------------------------------------------------------------ transcribe
++
++def _rss_mb(pid: int | None) -> float | None:
++    if not pid:
++        return None
++    try:
++        for line in Path(f"/proc/{pid}/status").read_text().splitlines():
++            if line.startswith("VmRSS:"):
++                return round(int(line.split()[1]) / 1024, 1)
++    except OSError:
++        return None
++    return None
++
++
++def post_clip(url: str, path: Path, timeout: float = 300.0) -> dict:
++    """POST one clip as raw octet-stream. Returns the server JSON."""
++    req = urllib.request.Request(
++        url.rstrip("/") + "/transcribe?log=false&language=auto",
++        data=path.read_bytes(),
++        headers={"Content-Type": "application/octet-stream"},
++        method="POST",
++    )
++    with urllib.request.urlopen(req, timeout=timeout) as resp:
++        return json.loads(resp.read())
++
++
++def transcribe_all(cases: list[dict], clips: Path, url: str, *, server_pid: int | None = None,
++                   post=post_clip, log=print) -> list[dict]:
++    recs = []
++    for c in cases:
++        clip = next((clips / f"{c['id']}{e}" for e in CLIP_EXTS if (clips / f"{c['id']}{e}").exists()), None)
++        if clip is None:
++            recs.append({"id": c["id"], "transcript": "", "seconds": 0.0, "error": "clip missing"})
++            continue
++        t0 = time.perf_counter()
++        try:
++            text = (post(url, clip).get("text") or "").strip()
++            rec = {"id": c["id"], "transcript": text, "seconds": round(time.perf_counter() - t0, 3)}
++        except (urllib.error.URLError, OSError, ValueError) as e:
++            rec = {"id": c["id"], "transcript": "", "seconds": round(time.perf_counter() - t0, 3),
++                   "error": f"{type(e).__name__}: {e}"}
++        rss = _rss_mb(server_pid)
++        if rss is not None:
++            rec["server_rss_mb"] = rss
++        recs.append(rec)
++        log(f"  {c['id']}: {rec['seconds']}s {rec.get('error', '')}")
++    return recs
++
++
++# ------------------------------------------------------------------------ sort
++
++def is_rate_limit(e: BaseException) -> bool:
++    s = f"{type(e).__name__} {e}"
++    return "429" in s or "RESOURCE_EXHAUSTED" in s
++
++
++def is_overloaded(e: BaseException) -> bool:
++    """Gemini's 503 'high demand' and a classify timeout are transient and say nothing about the transcript."""
++    s = f"{type(e).__name__} {e}"
++    return "503" in s or "UNAVAILABLE" in s or isinstance(e, TimeoutError)
++
++
++def is_daily_quota(e: BaseException) -> bool:
++    s = str(e).lower()
++    return "perday" in s.replace(" ", "").replace("_", "") or "daily" in s
++
++
++async def sort_all(cases: list[dict], recs: list[dict], *, backend: str = "gemini", model: str | None = None,
++                   client=None, api_key: str | None = None, delay: float = 5.0, retry_wait: float = 60.0,
++                   max_retries: int = 8, previous: list[dict] | None = None, log=print) -> list[dict]:
++    """One sorter call at a time. A 429 or 503 waits and retries; a daily-quota error stops the run.
++
++    `previous` is an earlier predictions file: its answers are kept as they are and only the
++    cases that ended in an error (a failed call, not a wrong answer) are sorted again.
++    """
++    kept = {p["id"]: p for p in (previous or []) if "error" not in p}
++    capture = run_eval.load_capture_module()
++    service = capture.CaptureService(api_key=api_key, store=None, backend=backend, model=model,
++                                     topics=run_eval.TOPICS, default_currency=run_eval.DEFAULT_CURRENCY,
++                                     client=client)
++    by_id = {r["id"]: r for r in recs}
++    preds: list[dict] = []
++    stopped = False
++    for c in cases:
++        text = by_id.get(c["id"], {}).get("transcript", "")
++        if c["id"] in kept:
++            preds.append(kept[c["id"]])
++            continue
++        if stopped:
++            preds.append({"id": c["id"], "items": [], "error": "not sorted: daily quota reached"})
++            continue
++        if not text:
++            preds.append({"id": c["id"], "items": [], "dropped": True})
++            log(f"  {c['id']}: dropped (empty transcript, no sort call)")
++            continue
++        pred = None
++        for attempt in range(max_retries + 1):
++            if delay:
++                await asyncio.sleep(delay)
++            try:
++                items = await service._classify(text, run_eval.parse_today(c["today"]))
++                pred = {"id": c["id"], "items": [i.model_dump() for i in items]}
++                break
++            except Exception as e:  # noqa: BLE001 - recorded, and the scorer fails the case
++                if is_rate_limit(e) and is_daily_quota(e):
++                    stopped = True
++                    pred = {"id": c["id"], "items": [], "error": f"daily quota: {e}"[:300]}
++                    break
++                if (is_rate_limit(e) or is_overloaded(e)) and attempt < max_retries:
++                    log(f"  {c['id']}: 429/503, waiting {retry_wait:.0f}s (retry {attempt + 1}/{max_retries})")
++                    await asyncio.sleep(retry_wait)
++                    continue
++                pred = {"id": c["id"], "items": [], "error": f"{type(e).__name__}: {e}"[:300]}
++                break
++        preds.append(pred)
++        log(f"  {c['id']}: {pred.get('error') or str(len(pred['items'])) + ' item(s)'}")
++    return preds
++
++
++def merge(cases: list[dict], recs: list[dict], preds: list[dict], repeat: list[dict] | None = None) -> list[dict]:
++    """One row per case: what was heard, how long it took, what was sorted, whether it passed."""
++    r_by, p_by = {r["id"]: r for r in recs}, {p["id"]: p for p in preds}
++    res = {r["id"]: r for r in score.score(cases, preds)["results"]}
++    res2 = {r["id"]: r for r in score.score(cases, repeat)["results"]} if repeat else {}
++    rows = []
++    for c in cases:
++        r, p = r_by.get(c["id"], {}), p_by.get(c["id"], {})
++        row = {"id": c["id"], "source": c["transcript"], "heard": r.get("transcript", ""), "seconds": r.get("seconds"),
++               "server_rss_mb": r.get("server_rss_mb"), "items": p.get("items", []), "passed": res[c["id"]]["passed"],
++               "why": res[c["id"]]["why"]}
++        for k in ("error", "dropped"):
++            if k in p:
++                row[k] = p[k]
++        if repeat:  # same transcript sorted a second time: the sorter's own run-to-run noise
++            row["passed_repeat"] = res2[c["id"]]["passed"]
++        rows.append(row)
++    return rows
++
++
++def compare(cases: list[dict], clean_preds: list[dict], audio_preds: list[dict]) -> dict:
++    """Per case: pass on clean text vs pass from audio. Which flipped."""
++    def passed(preds):
++        rep = score.score(cases, preds)
++        return {r["id"]: r["passed"] for r in rep["results"]}
++    a, b = passed(clean_preds), passed(audio_preds)
++    return {
++        "clean_pass": sum(a.values()), "audio_pass": sum(b.values()),
++        "lost": sorted(i for i in a if a[i] and not b.get(i)),
++        "gained": sorted(i for i in a if not a[i] and b.get(i)),
++    }
++
++
++# ------------------------------------------------------------------------- cli
++
++def _write(path: str, rows: list[dict]) -> None:
++    with open(path, "w", encoding="utf-8") as f:
++        for r in rows:
++            f.write(json.dumps(r, ensure_ascii=False) + "\n")
++
++
++def main(argv: list[str] | None = None) -> int:
++    ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
++    sub = ap.add_subparsers(dest="cmd", required=True)
++    t = sub.add_parser("transcribe")
++    t.add_argument("--clips", required=True)
++    t.add_argument("--out", required=True)
++    t.add_argument("--url", default="http://127.0.0.1:8000")
++    t.add_argument("--server-pid", type=int, default=None, help="record this process's RSS after each clip")
++    t.add_argument("--cases", default=str(CASES))
++    w = sub.add_parser("wer")
++    w.add_argument("--transcripts", required=True)
++    w.add_argument("--cases", default=str(CASES))
++    m = sub.add_parser("merge")
++    m.add_argument("--transcripts", required=True)
++    m.add_argument("--preds", required=True)
++    m.add_argument("--out", required=True)
++    m.add_argument("--repeat", default=None, metavar="PREDS", help="a second sort of the same transcripts")
++    m.add_argument("--cases", default=str(CASES))
++    s = sub.add_parser("sort")
++    s.add_argument("--transcripts", required=True)
++    s.add_argument("--out", required=True)
++    s.add_argument("--cases", default=str(CASES))
++    s.add_argument("--backend", choices=("claude", "gemini"), default="gemini")
++    s.add_argument("--model", default=None)
++    s.add_argument("--delay", type=float, default=5.0)
++    s.add_argument("--retry-errors-of", default=None, metavar="PREDS",
++                   help="keep the answers in this earlier file; sort again only the cases that ended in an error")
++    args = ap.parse_args(argv)
++
++    cases = score.load_jsonl(args.cases)
++    if args.cmd == "transcribe":
++        recs = transcribe_all(cases, Path(args.clips), args.url, server_pid=args.server_pid)
++        _write(args.out, recs)
++        secs = [r["seconds"] for r in recs if not r.get("error")]
++        print(f"wrote {args.out}: {len(secs)} ok, {len(recs) - len(secs)} failed, "
++              f"mean {sum(secs) / max(len(secs), 1):.2f}s per clip")
++        return 0
++    recs = score.load_jsonl(args.transcripts)
++    if args.cmd == "merge":
++        rows = merge(cases, recs, score.load_jsonl(args.preds),
++                     score.load_jsonl(args.repeat) if args.repeat else None)
++        _write(args.out, rows)
++        print(f"wrote {args.out}: {sum(r['passed'] for r in rows)}/{len(rows)} passed")
++        return 0
++    if args.cmd == "wer":
++        rep = wer_report(cases, recs)
++        print(f"WER raw {rep['raw_wer']:.1%} ({rep['raw'][0]}/{rep['raw'][1]}), "
++              f"numbers folded {rep['normalised_wer']:.1%} ({rep['normalised'][0]}/{rep['normalised'][1]})")
++        return 0
++    key_name = "ANTHROPIC_API_KEY" if args.backend == "claude" else "GEMINI_API_KEY"
++    api_key = os.environ.get(key_name)
++    if not api_key:
++        print(f"{key_name} is not set", file=sys.stderr)
++        return 2
++    previous = score.load_jsonl(args.retry_errors_of) if args.retry_errors_of else None
++    preds = asyncio.run(sort_all(cases, recs, backend=args.backend, model=args.model, api_key=api_key,
++                                 delay=args.delay, previous=previous))
++    _write(args.out, preds)
++    print(score.format_report(score.score(cases, preds), cases))
++    return 0
++
++
++if __name__ == "__main__":
++    sys.exit(main())
+diff --git a/evals/audio/test_run_audio.py b/evals/audio/test_run_audio.py
+new file mode 100644
+index 0000000..216e016
+--- /dev/null
++++ b/evals/audio/test_run_audio.py
+@@ -0,0 +1,185 @@
++"""Runner tests with the network stubbed. Run: python -m pytest evals/audio -c /dev/null"""
++
++import asyncio
++import sys
++from pathlib import Path
++
++HERE = Path(__file__).resolve().parent
++sys.path.insert(0, str(HERE))
++sys.path.insert(0, str(HERE.parent))
++import run_audio as ra  # noqa: E402
++
++CASE = {"id": "a", "today": "2026-11-12 Thursday", "transcript": "paid sixty ringgit for the helmet",
++        "expected": [{"kind": "expense", "must_contain": ["helmet"], "amount": 60, "currency": "MYR",
++                      "due": None, "topic": None}]}
++
++
++def test_wer_exact_is_zero():
++    assert ra.wer("paid 60 ringgit", "Paid 60 ringgit.", fold_numbers=False) == (0, 3)
++
++
++def test_wer_counts_a_substitution():
++    assert ra.wer("paid 60 ringgit", "paid 60 ring it", fold_numbers=False) == (2, 3)
++
++
++def test_number_words_equal_digits_only_when_folded():
++    assert ra.wer("paid sixty ringgit", "paid 60 ringgit", fold_numbers=False)[0] == 1
++    assert ra.wer("paid sixty ringgit", "paid 60 ringgit", fold_numbers=True)[0] == 0
++
++
++def test_fold_compound_numbers():
++    assert ra.normalise("one hundred and fifty") == ["150"]
++    assert ra.normalise("two thousand five hundred") == ["2500"]
++    assert ra.normalise("fourteen pallets") == ["14", "pallets"]
++    assert ra.normalise("1,500 ringgit") == ["1500", "ringgit"]
++
++
++def test_wer_can_fail_on_a_real_mishearing():
++    errors, n = ra.wer("lorry arrives at three", "lorry arrives at tree", fold_numbers=True)
++    assert errors == 1 and n == 4
++
++
++def test_transcribe_all_records_text_and_seconds(tmp_path):
++    (tmp_path / "a.mp3").write_bytes(b"x")
++    recs = ra.transcribe_all([CASE], tmp_path, "http://x", post=lambda url, p: {"text": " hi there "}, log=lambda *_: None)
++    assert recs[0]["transcript"] == "hi there" and recs[0]["seconds"] >= 0 and "error" not in recs[0]
++
++
++def test_transcribe_all_missing_clip_and_server_error(tmp_path):
++    recs = ra.transcribe_all([CASE], tmp_path, "http://x", log=lambda *_: None)
++    assert recs[0]["error"] == "clip missing"
++    (tmp_path / "a.mp3").write_bytes(b"x")
++
++    def boom(url, p):
++        raise OSError("refused")
++
++    recs = ra.transcribe_all([CASE], tmp_path, "http://x", post=boom, log=lambda *_: None)
++    assert "OSError" in recs[0]["error"]
++
++
++class _Parsed:
++    def __init__(self, items):
++        self.items = items
++
++
++class StubClient:
++    """Stands in for google-genai: first N calls raise, then return one expense item."""
++
++    def __init__(self, fail_with=None, fail_times=0):
++        self.calls, self.fail_with, self.fail_times = 0, fail_with, fail_times
++        self.aio = self
++        self.models = self
++
++    async def generate_content(self, **kw):
++        self.calls += 1
++        if self.calls <= self.fail_times:
++            raise RuntimeError(self.fail_with)
++        capture = ra.run_eval.load_capture_module()
++        item = capture.CaptureItem(kind="expense", text="helmet", amount=60, currency="MYR", due=None, topic=None)
++
++        class R:
++            parsed = capture.CaptureItems(items=[item])
++
++        return R()
++
++
++def _sort(client, recs, **kw):
++    return asyncio.run(ra.sort_all([CASE], recs, client=client, api_key="k", delay=0, retry_wait=0, log=lambda *_: None, **kw))
++
++
++def test_sort_scores_against_unchanged_expected():
++    preds = _sort(StubClient(), [{"id": "a", "transcript": CASE["transcript"]}])
++    assert ra.score.score([CASE], preds)["passed"] == 1
++
++
++def test_sort_retries_a_429_then_succeeds():
++    client = StubClient(fail_with="429 RESOURCE_EXHAUSTED per minute", fail_times=2)
++    preds = _sort(client, [{"id": "a", "transcript": "x"}])
++    assert client.calls == 3 and "error" not in preds[0]
++
++
++def test_sort_gives_up_after_max_retries():
++    client = StubClient(fail_with="429 RESOURCE_EXHAUSTED", fail_times=99)
++    preds = _sort(client, [{"id": "a", "transcript": "x"}], max_retries=2)
++    assert client.calls == 3 and "error" in preds[0]
++    assert ra.score.score([CASE], preds)["passed"] == 0
++
++
++def test_sort_stops_on_daily_quota():
++    client = StubClient(fail_with="429 RESOURCE_EXHAUSTED PerDay quota", fail_times=99)
++    two = [CASE, {**CASE, "id": "b"}]
++    preds = asyncio.run(ra.sort_all(two, [{"id": "a", "transcript": "x"}, {"id": "b", "transcript": "y"}], client=client,
++                                    api_key="k", delay=0, retry_wait=0, log=lambda *_: None))
++    assert client.calls == 1 and "daily quota" in preds[1]["error"]
++
++
++def test_empty_transcript_is_dropped_without_a_call():
++    client = StubClient()
++    empty = {**CASE, "id": "e", "expected": []}
++    preds = asyncio.run(ra.sort_all([empty], [{"id": "e", "transcript": ""}], client=client, api_key="k", delay=0,
++                                    log=lambda *_: None))
++    assert client.calls == 0 and preds[0]["dropped"] and ra.score.score([empty], preds)["passed"] == 1
++
++
++def test_a_dropped_non_empty_case_still_fails():
++    preds = asyncio.run(ra.sort_all([CASE], [{"id": "a", "transcript": ""}], client=StubClient(), api_key="k", delay=0,
++                                    log=lambda *_: None))
++    assert ra.score.score([CASE], preds)["passed"] == 0
++
++
++def test_compare_names_the_case_that_flipped():
++    good = [{"id": "a", "items": [{"kind": "expense", "text": "helmet", "amount": 60, "currency": "MYR"}]}]
++    bad = [{"id": "a", "items": []}]
++    assert ra.compare([CASE], good, bad)["lost"] == ["a"]
++    assert ra.compare([CASE], bad, good)["gained"] == ["a"]
++
++
++def test_sort_retries_a_503_overload():
++    client = StubClient(fail_with="503 UNAVAILABLE. high demand", fail_times=1)
++    preds = _sort(client, [{"id": "a", "transcript": "x"}])
++    assert client.calls == 2 and "error" not in preds[0]
++
++
++def test_retry_errors_keeps_answers_and_redoes_only_errors():
++    two = [CASE, {**CASE, "id": "b"}]
++    recs = [{"id": "a", "transcript": "x"}, {"id": "b", "transcript": "y"}]
++    previous = [{"id": "a", "items": [{"kind": "note", "text": "kept as is"}]},
++                {"id": "b", "items": [], "error": "ServerError: 503"}]
++    client = StubClient()
++    preds = asyncio.run(ra.sort_all(two, recs, client=client, api_key="k", delay=0, previous=previous,
++                                    log=lambda *_: None))
++    assert client.calls == 1 and preds[0]["items"][0]["text"] == "kept as is" and "error" not in preds[1]
++
++
++def test_fold_does_not_add_spoken_digits():
++    assert ra.normalise("one two three") == ["1", "2", "3"]
++    assert ra.normalise("twenty one") == ["21"]
++    assert ra.normalise("six ringgit fifty sen") == ["6", "ringgit", "50", "sen"]
++    assert ra.wer("testing one two three", "testing 1 2 3", fold_numbers=True)[0] == 0
++
++
++def test_merge_keeps_heard_text_and_the_verdict():
++    recs = [{"id": "a", "transcript": "paid sixty ringgit for the helmet", "seconds": 1.5}]
++    preds = [{"id": "a", "items": [{"kind": "expense", "text": "helmet", "amount": 60, "currency": "MYR"}]}]
++    row = ra.merge([CASE], recs, preds)[0]
++    assert row["heard"].startswith("paid sixty") and row["seconds"] == 1.5 and row["passed"] is True
++
++
++def test_sort_retries_a_timeout():
++    class Once(StubClient):
++        async def generate_content(self, **kw):
++            if self.calls == 0:
++                self.calls += 1
++                raise TimeoutError()
++            return await super().generate_content(**kw)
++
++    client = Once()
++    preds = _sort(client, [{"id": "a", "transcript": "x"}])
++    assert client.calls == 2 and "error" not in preds[0]
++
++
++def test_merge_records_the_repeat_verdict():
++    recs = [{"id": "a", "transcript": "x"}]
++    good = [{"id": "a", "items": [{"kind": "expense", "text": "helmet", "amount": 60, "currency": "MYR"}]}]
++    row = ra.merge([CASE], recs, good, repeat=[{"id": "a", "items": []}])[0]
++    assert row["passed"] is True and row["passed_repeat"] is False
+diff --git a/registry/models.yaml b/registry/models.yaml
+index 144f883..53b4971 100644
+--- a/registry/models.yaml
++++ b/registry/models.yaml
+@@ -55,7 +55,8 @@ models:
+     size: "1.6 GB"
+     variants:
+       - format: ct2
+-        repo_id: "Systran/faster-whisper-large-v3-turbo"
++        repo_id: "dropbox-dash/faster-whisper-large-v3-turbo"
++        revision: "0a363e9161cbc7ed1431c9597a8ceaf0c4f78fcf"
+         compute_type: int8_float16
+         local_dir: large-v3-turbo
+         default_on: [linux, darwin]
+-- 
+2.43.0
+
